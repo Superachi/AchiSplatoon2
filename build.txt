@@ -1,0 +1,3 @@
+displayName = Achi&#39;s Splatoon Mod
+author = Achi
+version = 0.1
