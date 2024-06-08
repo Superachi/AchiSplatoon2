@@ -3,17 +3,17 @@
 Items: {
 	Splattershot: {
 		DisplayName: Splattershot
-		Tooltip: You're a kid, you're a squid
+		Tooltip: `You're a kid, you're a squid`
 	}
 
 	TentatekSplattershot: {
 		DisplayName: Tentatek Splattershot
-		Tooltip: And yes, this is also dating advice
+		Tooltip: `And yes, this is also dating advice`
 	}
 
 	OrderShot: {
 		DisplayName: Order Shot
-		Tooltip: Humble beginnings
+		Tooltip: `Humble beginnings`
 	}
 
 	LeTestSword: {
