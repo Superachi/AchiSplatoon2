@@ -16,11 +16,11 @@ namespace AchiSplatoon2.Content.Items
 		// The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
 		public override void SetDefaults()
 		{
-			Item.damage = 10;
+			Item.damage = 14;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 42;
 			Item.height = 26;
-			Item.useTime = 6;
+			Item.useTime = 8;
 			Item.useAnimation = 14;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 1;
