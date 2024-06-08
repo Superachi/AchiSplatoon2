@@ -1,0 +1,160 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\projectiles\\blasterprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\projectiles\\blasterprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\items\\blaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\items\\blaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\projectiles\\splattershotprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\projectiles\\splattershotprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\achisplatoon2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:achisplatoon2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\items\\tentateksplattershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\items\\tentateksplattershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\items\\splattershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\items\\splattershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\localization\\en-us_mods.achisplatoon2.hjson||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:localization\\en-us_mods.achisplatoon2.hjson||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|c:\\users\\psclk\\documents\\my games\\terraria\\tmodloader\\modsources\\achisplatoon2\\content\\items\\ordershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0863D34D-333F-4DF9-BDD7-A102025D6DBA}|AchiSplatoon2.csproj|solutionrelative:content\\items\\ordershot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BlasterProjectile.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Projectiles\\BlasterProjectile.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\BlasterProjectile.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Projectiles\\BlasterProjectile.cs",
+              "RelativeToolTip": "Content\\Projectiles\\BlasterProjectile.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAUwDYAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T18:06:02.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "OrderShot.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\OrderShot.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\OrderShot.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\OrderShot.cs",
+              "RelativeToolTip": "Content\\Items\\OrderShot.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T17:50:37.464Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Blaster.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\Blaster.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\Blaster.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\Blaster.cs",
+              "RelativeToolTip": "Content\\Items\\Blaster.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAowC0AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T17:29:47.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SplattershotProjectile.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Projectiles\\SplattershotProjectile.cs",
+              "RelativeDocumentMoniker": "Content\\Projectiles\\SplattershotProjectile.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Projectiles\\SplattershotProjectile.cs",
+              "RelativeToolTip": "Content\\Projectiles\\SplattershotProjectile.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAUwCsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T12:47:28.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "en-US_Mods.AchiSplatoon2.hjson",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Localization\\en-US_Mods.AchiSplatoon2.hjson",
+              "RelativeDocumentMoniker": "Localization\\en-US_Mods.AchiSplatoon2.hjson",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Localization\\en-US_Mods.AchiSplatoon2.hjson",
+              "RelativeToolTip": "Localization\\en-US_Mods.AchiSplatoon2.hjson",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-08T12:18:06.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Splattershot.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\Splattershot.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\Splattershot.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\Splattershot.cs",
+              "RelativeToolTip": "Content\\Items\\Splattershot.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAowC4AAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T12:14:12.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TentatekSplattershot.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\TentatekSplattershot.cs",
+              "RelativeDocumentMoniker": "Content\\Items\\TentatekSplattershot.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\Content\\Items\\TentatekSplattershot.cs",
+              "RelativeToolTip": "Content\\Items\\TentatekSplattershot.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABQAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T11:30:42.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AchiSplatoon2.cs",
+              "DocumentMoniker": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\AchiSplatoon2.cs",
+              "RelativeDocumentMoniker": "AchiSplatoon2.cs",
+              "ToolTip": "C:\\Users\\psclk\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\AchiSplatoon2\\AchiSplatoon2.cs",
+              "RelativeToolTip": "AchiSplatoon2.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-08T11:30:36.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
