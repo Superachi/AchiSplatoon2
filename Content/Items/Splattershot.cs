@@ -16,30 +16,38 @@ namespace AchiSplatoon2.Content.Items
 		// The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
 		public override void SetDefaults()
 		{
-			Item.damage = 8;
+			Item.damage = 10;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 42;
 			Item.height = 26;
 			Item.useTime = 6;
 			Item.useAnimation = 14;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.knockBack = 2;
-			Item.value = Item.buyPrice(silver: 50);
-			Item.rare = ItemRarityID.Blue;
+			Item.knockBack = 1;
+			Item.value = Item.buyPrice(gold: 1);
+			Item.rare = ItemRarityID.Orange;
 			Item.autoReuse = true;
 			Item.noMelee = true;
 			Item.shoot = ModContent.ProjectileType<SplattershotProjectile>();
-			Item.shootSpeed = 16;
+			Item.shootSpeed = 20;
 		}
 
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.FlintlockPistol, 1);
-            recipe.AddIngredient(ItemID.Gel, 50);
-            recipe.AddTile(TileID.WorkBenches);
-			recipe.Register();
-		}
+            recipe.AddIngredient(ModContent.ItemType<OrderShot>());
+            recipe.AddIngredient(ItemID.DemoniteBar, 10);
+            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.Register();
+
+            Recipe altRecipe = CreateRecipe();
+            altRecipe.AddIngredient(ModContent.ItemType<OrderShot>());
+            altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
+            altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            altRecipe.AddTile(TileID.Anvils);
+            altRecipe.Register();
+        }
 
         public override Vector2? HoldoutOffset()
         {

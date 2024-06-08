@@ -9,14 +9,15 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplattershotProjectile : ModProjectile
     {
+        private float delayUntilFall = 14f;
+        private float fallSpeed = 0.6f;
+        private float terminalVelocity = 8f;
+        
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
-
-        private float delayUntilFall = 6f;
-        private float terminalVelocity = 10f;
 
         public override void SetDefaults()
         {
@@ -32,8 +33,16 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(SoundID.Item39, Projectile.position);
-            SoundEngine.PlaySound(SoundID.Item118, Projectile.position);
+            var sample = new SoundStyle("AchiSplatoon2/Content/Items/SplattershotShoot");
+            var shootSound = sample with
+            {
+                Volume = 0.3f,
+                PitchVariance = 0.1f,
+                MaxInstances = 3
+            };
+            SoundEngine.PlaySound(shootSound);
+            //SoundEngine.PlaySound(SoundID.Item39, Projectile.position);
+            //SoundEngine.PlaySound(SoundID.Item118, Projectile.position);
             Projectile.velocity.X += Main.rand.Next(-1, 1);
             Projectile.velocity.Y += Main.rand.Next(-1, 1);
         }
@@ -46,7 +55,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Start falling eventually
             if (Projectile.ai[0] >= delayUntilFall)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y + 0.2f;
+                Projectile.velocity.Y = Projectile.velocity.Y + fallSpeed;
             } else
             {
                 Projectile.ai[0] += 1f;

@@ -11,28 +11,27 @@ namespace AchiSplatoon2.Content.Items
 	// This is a basic item template.
 	// Please see tModLoader's ExampleMod for every other example:
 	// https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-	public class TentatekSplattershot : Splattershot
+	public class OrderShot : Splattershot
     {
 		// The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			Item.damage = 36;
-			Item.knockBack = 3;
-			Item.value = Item.buyPrice(gold: 5);
-			Item.rare = ItemRarityID.LightRed;
+			Item.damage = 8;
+            Item.useTime = 10;
+			Item.knockBack = 0.5f;
+			Item.value = Item.buyPrice(silver: 10);
+            Item.rare = ItemRarityID.Blue;
 		}
 
 		public override void AddRecipes()
 		{
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<Splattershot>());
-            recipe.AddIngredient(ItemID.PinkGel, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
+			Recipe recipe = CreateRecipe();
+			recipe.AddRecipeGroup("IronBar", 5);
+            recipe.AddIngredient(ItemID.Gel, 15);
             recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-        }
+			recipe.Register();
+		}
 
         public override Vector2? HoldoutOffset()
         {
