@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private float delayUntilFall = 14f;
         private float fallSpeed = 0.6f;
-        private float terminalVelocity = 8f;
+        private float terminalVelocity = 20f;
         
         public override void SetStaticDefaults()
         {
@@ -36,19 +36,19 @@ namespace AchiSplatoon2.Content.Projectiles
             var sample = new SoundStyle("AchiSplatoon2/Content/Items/SplattershotShoot");
             var shootSound = sample with
             {
-                Volume = 0.3f,
+                Volume = 0.2f,
                 PitchVariance = 0.1f,
                 MaxInstances = 3
             };
             SoundEngine.PlaySound(shootSound);
-            //SoundEngine.PlaySound(SoundID.Item39, Projectile.position);
-            //SoundEngine.PlaySound(SoundID.Item118, Projectile.position);
             Projectile.velocity.X += Main.rand.Next(-1, 1);
             Projectile.velocity.Y += Main.rand.Next(-1, 1);
         }
 
         public override void AI()
         {
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water);
+
             // Face direction
             Projectile.rotation = Projectile.velocity.ToRotation();
 
@@ -58,6 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity.Y = Projectile.velocity.Y + fallSpeed;
             } else
             {
+                Projectile.velocity.Y = Projectile.velocity.Y + fallSpeed / 4;
                 Projectile.ai[0] += 1f;
             }
             if (Projectile.velocity.Y > terminalVelocity)
@@ -78,6 +79,16 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)
         {
             target.AddBuff(103, 180); //On Fire! debuff for 3 seconds
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                float velX = (Projectile.velocity.X + Main.rand.Next(-2, 2)) * -0.5f;
+                float velY = (Projectile.velocity.Y + Main.rand.Next(-2, 2)) * -0.5f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, velX, velY);
+            }
         }
     }
 }
