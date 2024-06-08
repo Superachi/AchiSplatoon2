@@ -21,10 +21,23 @@ Items: {
 		Tooltip: `TEST PASS!`
 	}
 
+	Blaster: {
+		DisplayName: Blaster
+		Tooltip: `Don't hit the walls`
+	}
+
 	LeTestSword: {
 		DisplayName: Le Test Sword
 		Tooltip: ""
 	}
+
+	GrimBlaster: {
+		DisplayName: Grim Blaster
+		Tooltip: ""
+	}
 }
 
-Projectiles.SplattershotProjectile.DisplayName: Splattershot Projectile
+Projectiles: {
+	SplattershotProjectile.DisplayName: Splattershot Projectile
+	BlasterProjectile.DisplayName: Blaster Projectile
+}

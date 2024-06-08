@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            var sample = new SoundStyle("AchiSplatoon2/Content/Items/SplattershotShoot");
+            var sample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplattershotShoot");
             var shootSound = sample with
             {
                 Volume = 0.2f,
