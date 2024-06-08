@@ -16,6 +16,11 @@ Items: {
 		Tooltip: `Humble beginnings`
 	}
 
+	OctoShot: {
+		DisplayName: Octo Shot
+		Tooltip: `TEST PASS!`
+	}
+
 	LeTestSword: {
 		DisplayName: Le Test Sword
 		Tooltip: ""
