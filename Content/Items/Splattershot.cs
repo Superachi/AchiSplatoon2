@@ -21,8 +21,8 @@ namespace AchiSplatoon2.Content.Items
 			Item.width = 42;
 			Item.height = 26;
 			Item.useTime = 8;
-			Item.useAnimation = 14;
-			Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = Item.useTime;
+            Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 1;
 			Item.value = Item.buyPrice(gold: 1);
 			Item.rare = ItemRarityID.Orange;

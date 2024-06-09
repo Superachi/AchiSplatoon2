@@ -19,7 +19,8 @@ namespace AchiSplatoon2.Content.Items
 			base.SetDefaults();
 			Item.damage = 8;
             Item.useTime = 10;
-			Item.knockBack = 0.5f;
+            Item.useAnimation = Item.useTime;
+            Item.knockBack = 0.5f;
 			Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
 		}

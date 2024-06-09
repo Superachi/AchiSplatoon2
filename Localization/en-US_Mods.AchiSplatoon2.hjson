@@ -31,13 +31,14 @@ Items: {
 		Tooltip: ""
 	}
 
-	GrimBlaster: {
-		DisplayName: Grim Blaster
-		Tooltip: ""
+	RangeBlaster: {
+		DisplayName: Range Blaster
+		Tooltip: `Featuring a brand new design!`
 	}
 }
 
 Projectiles: {
 	SplattershotProjectile.DisplayName: Splattershot Projectile
 	BlasterProjectile.DisplayName: Blaster Projectile
+	RangeBlasterProjectile.DisplayName: Range Blaster Projectile
 }
