@@ -11,18 +11,19 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class RapidBlasterPro : RapidBlaster
+    public class RapidBlasterPro : Blaster
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.damage = 100;
+            Item.knockBack = 4f;
             Item.width = 72;
             Item.height = 42;
             Item.useTime = 40;
             Item.useAnimation = Item.useTime;
-            Item.value = Item.buyPrice(gold: 20);
+            Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
             Item.shootSpeed = 18;
         }

@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 80;
+            Item.damage = 74;
             Item.useTime = 5;
             Item.useAnimation = Item.useTime;
             Item.knockBack = 6;

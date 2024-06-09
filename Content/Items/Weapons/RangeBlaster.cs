@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Item.height = 34;
             Item.useTime = 60;
             Item.useAnimation = Item.useTime;
-            Item.value = Item.buyPrice(gold: 20);
+            Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
             Item.shootSpeed = 14;
         }
