@@ -11,34 +11,31 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class TentatekSplattershot : Splattershot
+    public class ZFSplatCharger : SplatCharger
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 36;
-            Item.useTime = 6;
-            Item.useAnimation = Item.useTime;
-            Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.LightRed;
+            Item.damage = 420;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 20);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<Splattershot>());
-            recipe.AddIngredient(ItemID.PinkGel, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ModContent.ItemType<SplatCharger>());
+            recipe.AddIngredient(ItemID.BlackLens);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-4, 2);
+            return new Vector2(-20, 2);
         }
     }
 }

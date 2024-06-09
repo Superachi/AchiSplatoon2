@@ -45,10 +45,21 @@ Items: {
 		DisplayName: Rapid Blaster Pro
 		Tooltip: `Has more range than the Range Blaster`
 	}
+
+	SplatCharger: {
+		DisplayName: Splat Charger
+		Tooltip: `I was behind a wall!`
+	}
+
+	ZFSplatCharger: {
+		DisplayName: Z+F Splat Charger
+		Tooltip: `I am the wall.`
+	}
 }
 
 Projectiles: {
 	SplattershotProjectile.DisplayName: Splattershot Projectile
 	BlasterProjectile.DisplayName: Blaster Projectile
 	RapidBlasterProjectile.DisplayName: Rapid Blaster Projectile
+	SplatChargerProjectile.DisplayName: Splat Charger Projectile
 }

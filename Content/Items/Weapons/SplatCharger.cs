@@ -11,38 +11,33 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class Splattershot : ModItem
+    public class SplatCharger : ModItem
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.damage = 14;
-            Item.DamageType = DamageClass.Ranged;
-            Item.width = 42;
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 40, 12f);
+            Item.damage = 80;
+            Item.width = 82;
             Item.height = 26;
-            Item.useTime = 8;
-            Item.useAnimation = Item.useTime;
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 1;
+            Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
-            Item.autoReuse = true;
             Item.noMelee = true;
-            Item.shoot = ModContent.ProjectileType<SplattershotProjectile>();
-            Item.shootSpeed = 20;
+            Item.channel = true;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<OrderShot>());
+            recipe.AddIngredient(ItemID.Lens, 6);
             recipe.AddIngredient(ItemID.DemoniteBar, 10);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
 
             Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ModContent.ItemType<OrderShot>());
+            altRecipe.AddIngredient(ItemID.Lens, 6);
             altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
             altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
             altRecipe.AddTile(TileID.Anvils);
@@ -51,7 +46,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-4, 2);
+            return new Vector2(-20, 2);
         }
     }
 }
