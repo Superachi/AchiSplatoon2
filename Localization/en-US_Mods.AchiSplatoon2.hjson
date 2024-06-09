@@ -35,10 +35,20 @@ Items: {
 		DisplayName: Range Blaster
 		Tooltip: `Featuring a brand new design!`
 	}
+
+	RapidBlaster: {
+		DisplayName: Rapid Blaster
+		Tooltip: `In case the regular Blaster is too slow`
+	}
+
+	RapidBlasterPro: {
+		DisplayName: Rapid Blaster Pro
+		Tooltip: `Has more range than the Range Blaster`
+	}
 }
 
 Projectiles: {
 	SplattershotProjectile.DisplayName: Splattershot Projectile
 	BlasterProjectile.DisplayName: Blaster Projectile
-	RangeBlasterProjectile.DisplayName: Range Blaster Projectile
+	RapidBlasterProjectile.DisplayName: Rapid Blaster Projectile
 }

@@ -10,11 +10,11 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class RangeBlasterProjectile : BlasterProjectile
+    internal class RapidBlasterProjectile : BlasterProjectile
     {
         private const int addedUpdate = 2;
-        private const int explosionRadiusAir = 180;
-        private const int explosionRadiusTile = 90;
+        private const int explosionRadiusAir = 120;
+        private const int explosionRadiusTile = 60;
         private const float explosionTime = 6f;
         private const float explosionDelay = 20f * addedUpdate;
     }
