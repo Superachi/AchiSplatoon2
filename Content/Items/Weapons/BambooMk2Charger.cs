@@ -11,26 +11,24 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class BambooCharger : SplatCharger
+    public class BambooMk2Charger : BambooMk1Charger
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 10, 12f);
-            Item.damage = 38;
-            Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.damage = 102;
+            Item.value = Item.buyPrice(gold: 15);
+            Item.rare = ItemRarityID.LightPurple;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Lens, 6);
-            recipe.AddIngredient(ItemID.JungleSpores, 10);
-            recipe.AddIngredient(ItemID.Vine, 3);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>());
+            recipe.AddIngredient(ItemID.MythrilBar, 10);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
 

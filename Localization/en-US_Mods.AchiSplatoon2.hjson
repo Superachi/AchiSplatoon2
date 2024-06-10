@@ -56,9 +56,14 @@ Items: {
 		Tooltip: `I love hallways!`
 	}
 
-	BambooCharger: {
+	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
 		Tooltip: `Where's Main Power Up?`
+	}
+
+	BambooMk2Charger: {
+		DisplayName: Bamboozler 14 Mk II
+		Tooltip: `Craig's favourite`
 	}
 }
 
