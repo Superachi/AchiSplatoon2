@@ -8,6 +8,7 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Projectiles\EliterChargerProjectile.png" />
 	</ItemGroup>
 	<ItemGroup>

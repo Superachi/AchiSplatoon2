@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<SplattershotProjectile>();
-            Item.shootSpeed = 20;
+            Item.shootSpeed = 30;
         }
 
         public override void AddRecipes()

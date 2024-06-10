@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Helpers
             Color finalColor;
             switch (enumVal) {
                 case InkColor.Orange:
-                    finalColor = Color.Lerp(Color.OrangeRed, Color.Yellow, Main.rand.NextFloat() * 0.5f);
+                    finalColor = Color.Lerp(Color.Crimson, Color.Orange, Main.rand.NextFloat() * 0.5f);
                     break;
                 case InkColor.Pink:
                     finalColor = Color.Lerp(Color.MediumPurple, Color.Magenta, Main.rand.NextFloat() * 0.5f);
@@ -36,10 +36,10 @@ namespace AchiSplatoon2.Helpers
                     finalColor = Color.Lerp(Color.SeaGreen, Color.LimeGreen, Main.rand.NextFloat() * 0.5f);
                     break;
                 case InkColor.Yellow:
-                    finalColor = Color.Lerp(Color.Orange, Color.LightYellow, Main.rand.NextFloat() * 0.5f);
+                    finalColor = Color.Lerp(Color.Orange, Color.Yellow, Main.rand.NextFloat() * 0.5f);
                     break;
                 case InkColor.Red:
-                    finalColor = Color.Lerp(Color.Crimson, Color.Pink, Main.rand.NextFloat() * 0.5f);
+                    finalColor = Color.Lerp(Color.Crimson, Color.HotPink, Main.rand.NextFloat() * 0.5f);
                     break;
                 default:
                     finalColor = Color.Lerp(Color.Aqua, Color.Blue, Main.rand.NextFloat() * 0.5f);

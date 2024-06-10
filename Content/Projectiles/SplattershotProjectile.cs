@@ -1,3 +1,5 @@
+using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -9,23 +11,20 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplattershotProjectile : ModProjectile
     {
-        private float delayUntilFall = 14f;
-        private float fallSpeed = 0.6f;
-        private float terminalVelocity = 20f;
-        
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-        }
+        private InkColor inkColor = InkColor.Blue;
 
+        private bool visible = false;
+        private float delayUntilVisible = 4f;
+        private float delayUntilFall = 12f;
+        private float fallSpeed = 0.3f;
+        private float terminalVelocity = 12f;
+        
         public override void SetDefaults()
         {
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = true;
-            Projectile.hostile = false;
+            Projectile.friendly = false;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
@@ -41,33 +40,56 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxInstances = 3
             };
             SoundEngine.PlaySound(shootSound);
-            Projectile.velocity.X += Main.rand.Next(-1, 1);
-            Projectile.velocity.Y += Main.rand.Next(-1, 1);
+
+            var spreadOffset = 0.5f;
+            Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+            Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
         }
 
         public override void AI()
         {
-            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water);
-
-            // Face direction
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.ai[0] += 1f;
 
             // Start falling eventually
             if (Projectile.ai[0] >= delayUntilFall)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y + fallSpeed;
-            } else
-            {
-                Projectile.velocity.Y = Projectile.velocity.Y + fallSpeed / 4;
-                Projectile.ai[0] += 1f;
+                Projectile.velocity.Y += fallSpeed;
+
+                if (Projectile.velocity.Y >= 0)
+                {
+                    Projectile.velocity.X *= 0.98f;
+                }
             }
+
             if (Projectile.velocity.Y > terminalVelocity)
             {
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            // Wind resistance
-            Projectile.velocity.X = Projectile.velocity.X * 0.99f;
+            if (Projectile.ai[0] >= delayUntilVisible)
+            {
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+
+                if (!visible)
+                {
+                    visible = true;
+                    Projectile.friendly = true;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        float random = Main.rand.NextFloat(-5, 5);
+                        float velX = ((Projectile.velocity.X + random) * 0.5f);
+                        float velY = ((Projectile.velocity.Y + random) * 0.5f);
+                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                    }
+                }
+
+                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
+                    Dust.NewDustPerfect(Position: spawnPosition, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+                }
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -85,9 +107,10 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             for (int i = 0; i < 15; i++)
             {
-                float velX = (Projectile.velocity.X + Main.rand.Next(-2, 2)) * -0.5f;
-                float velY = (Projectile.velocity.Y + Main.rand.Next(-2, 2)) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, velX, velY);
+                float random = Main.rand.NextFloat(-5, 5);
+                float velX = ((Projectile.velocity.X + random) * -0.5f);
+                float velY = ((Projectile.velocity.Y + random) * -0.5f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
         }
     }
