@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<EliterChargerProjectile>(), AmmoID.None, 15, 12f);
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<EliterChargerProjectile>(), AmmoID.None, 20, 12f);
             Item.damage = 480;
             Item.knockBack = 9;
             Item.value = Item.buyPrice(gold: 25);

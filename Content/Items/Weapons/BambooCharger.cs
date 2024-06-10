@@ -11,38 +11,27 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class SplatCharger : ModItem
+    public class BambooCharger : SplatCharger
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 15, 12f);
-            Item.damage = 60;
-            Item.width = 82;
-            Item.height = 26;
-            Item.knockBack = 7;
-            Item.value = Item.buyPrice(gold: 3);
+            base.SetDefaults();
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 10, 12f);
+            Item.damage = 38;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
-            Item.noMelee = true;
-            Item.channel = true;
-            Item.crit = 10;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Lens, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 10);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddIngredient(ItemID.JungleSpores, 10);
+            recipe.AddIngredient(ItemID.Vine, 3);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.Lens, 6);
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
-            altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
         }
 
         public override Vector2? HoldoutOffset()

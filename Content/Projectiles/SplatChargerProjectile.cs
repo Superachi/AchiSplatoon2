@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual float RequiredChargeTime { get => 55f; }
         protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot"); }
         protected virtual SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShootWeak"); }
+        protected virtual bool ShakeScreenOnChargeShot { get => true; }
 
         private float FlightTimer
         {
@@ -64,26 +65,33 @@ namespace AchiSplatoon2.Content.Projectiles
             SoundEngine.PlaySound(chargeSound);
         }
 
+        private void cancelChargeSound()
+        {
+            // TODO: fix this scuffed way of cancelling the charge sound
+            var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
+            var chargeSound = chargeSample with
+            {
+                Volume = 0.0f,
+                MaxInstances = 1
+            };
+            SoundEngine.PlaySound(chargeSound);
+        }
+
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
 
             if (owner.channel && !hasFired)
             {
-                if (ChargeTime == 0)
-                {
-                    // Main.NewText($"Owner started channeling. (Req. charge time = {RequiredChargeTime})");
-                }
-
                 // This weapon uses extra updates, so timers go extra fast!
                 if (ChargeTime >= RequiredChargeTime * Projectile.extraUpdates)
                 {
                     // Charge is ready!
                     if (!chargeReady)
                     {
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < 10; i++)
                         {
-                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 2);
+                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
                         }
 
                         chargeReady = true;
@@ -95,6 +103,13 @@ namespace AchiSplatoon2.Content.Projectiles
                             MaxInstances = 1
                         };
                         SoundEngine.PlaySound(readySound);
+                        cancelChargeSound();
+                    } else
+                    {
+                        if (Main.rand.NextBool(400))
+                        {
+                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+                        }
                     }
                 }
 
@@ -142,13 +157,16 @@ namespace AchiSplatoon2.Content.Projectiles
                         MaxInstances = 1
                     };
 
-                    PunchCameraModifier modifier = new PunchCameraModifier(
-                        startPosition: owner.Center,
-                        direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
-                        strength: 4f,
-                        vibrationCyclesPerSecond: 8f,
-                        frames: 10, 80f, FullName);
-                    Main.instance.CameraModifiers.Add(modifier);
+                    if (ShakeScreenOnChargeShot)
+                    {
+                        PunchCameraModifier modifier = new PunchCameraModifier(
+                            startPosition: owner.Center,
+                            direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
+                            strength: 4f,
+                            vibrationCyclesPerSecond: 8f,
+                            frames: 10, 80f, FullName);
+                        Main.instance.CameraModifiers.Add(modifier);
+                    }
                 }
                 else
                 {
@@ -176,16 +194,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
                 Projectile.tileCollide = true;
                 SoundEngine.PlaySound(shootSound);
-
-                // TODO: fix this scuffed way of cancelling the charge sound
-                var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
-                var chargeSound = chargeSample with
-                {
-                    Volume = 0.0f,
-                    MaxInstances = 1
-                };
-                SoundEngine.PlaySound(chargeSound);
-
+                cancelChargeSound();
                 return;
             }
 

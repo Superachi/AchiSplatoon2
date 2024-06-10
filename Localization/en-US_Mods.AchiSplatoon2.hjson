@@ -55,6 +55,11 @@ Items: {
 		DisplayName: E-liter 4K
 		Tooltip: `I love hallways!`
 	}
+
+	BambooCharger: {
+		DisplayName: Bamboozler 14 Mk I
+		Tooltip: `Where's Main Power Up?`
+	}
 }
 
 Projectiles: {
@@ -63,4 +68,5 @@ Projectiles: {
 	RapidBlasterProjectile.DisplayName: Rapid Blaster Projectile
 	SplatChargerProjectile.DisplayName: Splat Charger Projectile
 	EliterChargerProjectile.DisplayName: Eliter Charger Projectile
+	BambooChargerProjectile.DisplayName: Bamboo Charger Projectile
 }
