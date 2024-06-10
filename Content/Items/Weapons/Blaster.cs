@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.damage = 52;
+            Item.damage = 56;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 64;
             Item.height = 34;
