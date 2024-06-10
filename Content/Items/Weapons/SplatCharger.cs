@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 40, 12f);
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 15, 12f);
             Item.damage = 80;
             Item.width = 82;
             Item.height = 26;

@@ -17,11 +17,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 540;
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<EliterChargerProjectile>(), AmmoID.None, 15, 12f);
+            Item.damage = 480;
             Item.knockBack = 9;
             Item.value = Item.buyPrice(gold: 25);
             Item.rare = ItemRarityID.LightPurple;
-            Item.shoot = ModContent.ProjectileType<EliterChargerProjectile>();
         }
 
         public override void AddRecipes()

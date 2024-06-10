@@ -23,7 +23,7 @@ Items: {
 
 	Blaster: {
 		DisplayName: Blaster
-		Tooltip: `Don't hit the walls`
+		Tooltip: Has a smaller blast when hitting a wall
 	}
 
 	LeTestSword: {
@@ -48,7 +48,7 @@ Items: {
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		Tooltip: `But I was behind a wall!`
+		Tooltip: Hold the fire button to charge up a shot
 	}
 
 	EliterCharger: {

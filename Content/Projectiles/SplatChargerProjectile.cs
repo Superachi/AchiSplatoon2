@@ -15,9 +15,11 @@ namespace AchiSplatoon2.Content.Projectiles
         private bool chargeReady = false;
         private bool hasFired = false;
         private int dustTrailRadiusMult = 2;
+        private int timeLeftAfterFiring = 120;
 
         protected virtual float RequiredChargeTime { get => 55f; }
         protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot"); }
+        protected virtual SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShootWeak"); }
 
         private float Timer
         {
@@ -38,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.height = 8;
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 36000;
-            Projectile.penetrate = 5;
+            Projectile.penetrate = 10;
             AIType = ProjectileID.Bullet;
         }
 
@@ -116,39 +118,68 @@ namespace AchiSplatoon2.Content.Projectiles
                 return;
             }
 
-            // Exit if charge isn't ready, otherwise, release attack
-            if (!chargeReady)
-            {
-                // Main.NewText($"Owner stopped channeling. (Charge Time = {ChargeTime})");
-                Projectile.Kill();
-                return;
-            }
-
             if (!hasFired)
             {
+                // Main.NewText("Owner attacked.");
                 // Release the attack
                 hasFired = true;
+
+                // Adjust behaviour depending on the charge amount
+                SoundStyle shootSound;
+                if (chargeReady)
+                {
+                    Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
+                    shootSound = ShootSample with
+                    {
+                        Volume = 0.4f,
+                        PitchVariance = 0.1f,
+                        MaxInstances = 1
+                    };
+
+                    PunchCameraModifier modifier = new PunchCameraModifier(owner.Center, (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(), 3f, 8f, 20, 80f, FullName);
+                    Main.instance.CameraModifiers.Add(modifier);
+                }
+                else
+                {
+                    Projectile.penetrate = 1;
+                    int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
+
+                    // Deal a min. of 10% damage and a max. of 40% damage
+                    Projectile.damage = Convert.ToInt32(
+                        (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / RequiredChargeTime)
+                    );
+
+                    // Similar for the range (min. 3% range, max. 20%)
+                    Projectile.timeLeft = Convert.ToInt32(
+                        (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / RequiredChargeTime)
+                    ) * Projectile.extraUpdates;
+
+                    shootSound = ShootWeakSample with
+                    {
+                        Volume = 0.2f,
+                        PitchVariance = 0.1f,
+                        MaxInstances = 1
+                    };
+                }
+
                 Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
-                Projectile.timeLeft = 120 * Projectile.extraUpdates;
                 Projectile.friendly = true;
                 Projectile.tileCollide = true;
-
-                // Main.NewText("Owner attacked.");
-
-                var shootSound = ShootSample with
-                {
-                    Volume = 0.3f,
-                    PitchVariance = 0.1f,
-                    MaxInstances = 1
-                };
                 SoundEngine.PlaySound(shootSound);
 
-                PunchCameraModifier modifier = new PunchCameraModifier(owner.Center, (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(), 5f, 8f, 20, 80f, FullName);
-                Main.instance.CameraModifiers.Add(modifier);
+                // TODO: fix this scuffed way of cancelling the charge sound
+                var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
+                var chargeSound = chargeSample with
+                {
+                    Volume = 0.0f,
+                    MaxInstances = 1
+                };
+                SoundEngine.PlaySound(chargeSound);
+
                 return;
             }
 
-            Dust.NewDust(Projectile.position, Projectile.width * dustTrailRadiusMult, Projectile.height * dustTrailRadiusMult, DustID.Clentaminator_Blue,
+            Dust.NewDust(Projectile.position, Projectile.width * dustTrailRadiusMult, Projectile.height * dustTrailRadiusMult, DustID.BlueFairy,
                 SpeedX: 0, SpeedY: 0, Scale: 1);
         }
 
@@ -165,7 +196,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 float velX = (Projectile.velocity.X + Main.rand.Next(-2, 2)) * -0.5f;
                 float velY = (Projectile.velocity.Y + Main.rand.Next(-2, 2)) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, velX, velY);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueFairy, velX, velY);
             }
         }
     }
