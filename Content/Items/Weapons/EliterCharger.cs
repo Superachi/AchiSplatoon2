@@ -11,16 +11,17 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class ZFSplatCharger : SplatCharger
+    public class EliterCharger : SplatCharger
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 420;
-            Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Pink;
+            Item.damage = 540;
+            Item.knockBack = 9;
+            Item.value = Item.buyPrice(gold: 25);
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<EliterChargerProjectile>();
         }
 
         public override void AddRecipes()
@@ -28,8 +29,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<SplatCharger>());
             recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
 

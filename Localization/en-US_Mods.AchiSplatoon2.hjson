@@ -48,12 +48,12 @@ Items: {
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		Tooltip: `I was behind a wall!`
+		Tooltip: `But I was behind a wall!`
 	}
 
-	ZFSplatCharger: {
-		DisplayName: Z+F Splat Charger
-		Tooltip: `I am the wall.`
+	EliterCharger: {
+		DisplayName: E-liter 4K
+		Tooltip: `I love hallways!`
 	}
 }
 
@@ -62,4 +62,5 @@ Projectiles: {
 	BlasterProjectile.DisplayName: Blaster Projectile
 	RapidBlasterProjectile.DisplayName: Rapid Blaster Projectile
 	SplatChargerProjectile.DisplayName: Splat Charger Projectile
+	EliterChargerProjectile.DisplayName: Eliter Charger Projectile
 }

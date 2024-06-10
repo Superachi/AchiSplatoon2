@@ -1,7 +1,10 @@
+using AchiSplatoon2.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,8 +14,10 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private bool chargeReady = false;
         private bool hasFired = false;
-        private const float requiredChargeTime = 55f;
         private int dustTrailRadiusMult = 2;
+
+        protected virtual float RequiredChargeTime { get => 55f; }
+        protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot"); }
 
         private float Timer
         {
@@ -28,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 24;
+            Projectile.extraUpdates = 32;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
@@ -59,11 +64,11 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 if (ChargeTime == 0)
                 {
-                    // Main.NewText($"Owner started channeling. (Charge Time = {ChargeTime})");
+                    // Main.NewText($"Owner started channeling. (Req. charge time = {RequiredChargeTime})");
                 }
 
                 // This weapon uses extra updates, so timers go extra fast!
-                if (ChargeTime >= requiredChargeTime * Projectile.extraUpdates)
+                if (ChargeTime >= RequiredChargeTime * Projectile.extraUpdates)
                 {
                     // Charge is ready!
                     if (!chargeReady)
@@ -130,14 +135,16 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 // Main.NewText("Owner attacked.");
 
-                var shootSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot");
-                var shootSound = shootSample with
+                var shootSound = ShootSample with
                 {
                     Volume = 0.3f,
                     PitchVariance = 0.1f,
                     MaxInstances = 1
                 };
                 SoundEngine.PlaySound(shootSound);
+
+                PunchCameraModifier modifier = new PunchCameraModifier(owner.Center, (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(), 5f, 8f, 20, 80f, FullName);
+                Main.instance.CameraModifiers.Add(modifier);
                 return;
             }
 

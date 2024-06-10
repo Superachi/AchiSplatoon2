@@ -20,11 +20,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Item.damage = 80;
             Item.width = 82;
             Item.height = 26;
-            Item.knockBack = 4;
+            Item.knockBack = 7;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
             Item.noMelee = true;
             Item.channel = true;
+            Item.crit = 10;
         }
 
         public override void AddRecipes()
