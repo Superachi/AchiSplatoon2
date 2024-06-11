@@ -12,12 +12,8 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class SplatChargerProjectile : ModProjectile
+    internal class SplatChargerProjectile : BaseProjectile
     {
-        private InkColor inkColor = InkColor.Yellow;
-        private bool visible = false;
-        private float delayUntilVisible = 24f;
-
         private bool chargeReady = false;
         private bool hasFired = false;
         private int dustTrailRadiusMult = 2;
@@ -42,6 +38,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
+            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 24f);
+
             Projectile.extraUpdates = 32;
             Projectile.width = 8;
             Projectile.height = 8;
@@ -201,9 +199,9 @@ namespace AchiSplatoon2.Content.Projectiles
             FlightTimer++;
             if (FlightTimer > delayUntilVisible)
             {
-                if (!visible)
+                if (!isVisible)
                 {
-                    visible = true;
+                    isVisible = true;
                     Projectile.friendly = true;
 
                     for (int i = 0; i < 5; i++)
@@ -216,7 +214,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
 
-            if (visible)
+            if (isVisible)
             {
                 Color dustColor = ColorHelper.GenerateInkColor(inkColor);
                 var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));

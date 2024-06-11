@@ -1,3 +1,5 @@
+using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -10,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class BlasterProjectile : ModProjectile
+    internal class BlasterProjectile : BaseProjectile
     {
         private const int addedUpdate = 2;
         private const int explosionRadiusAir = 160;
@@ -21,8 +23,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.light = 1f;
-            Projectile.penetrate = -1;
+            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 24f);
+
             Projectile.extraUpdates = addedUpdate;
             Projectile.width = 8;
             Projectile.height = 8;
@@ -45,6 +47,29 @@ namespace AchiSplatoon2.Content.Projectiles
             SoundEngine.PlaySound(shootSound);
         }
 
+        private void EmitRandomInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SplatterBulletDust>(),
+                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
+                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+            }
+        }
+
+        private void EmitFireDust(int amount = 1)
+        {
+            var pos = Projectile.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
+            var speedRand = 5;
+            for (int i = 0; i < amount; i++)
+            {
+                Dust.NewDust(pos, Projectile.width, Projectile.height, DustID.Torch,
+                    Main.rand.NextFloat(-speedRand, speedRand), Main.rand.NextFloat(-speedRand, speedRand));
+            }
+        }
+
         private void ExplodeBig()
         {
             // Audio
@@ -57,14 +82,6 @@ namespace AchiSplatoon2.Content.Projectiles
             };
             SoundEngine.PlaySound(explosionSound);
 
-            // Visual
-            int dustMaxVelocity = 10;
-            for (int i = 0; i < 30; i++)
-            {
-                int explosionDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Firework_Pink,
-                    Main.rand.Next(-dustMaxVelocity, dustMaxVelocity), Main.rand.Next(-dustMaxVelocity, dustMaxVelocity));
-            }
-
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
             {
@@ -72,6 +89,10 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.Resize(explosionRadiusAir, explosionRadiusAir);
                 Projectile.velocity = Vector2.Zero;
             }
+
+            // Visual
+            EmitRandomInkDust(dustMaxVelocity: 5, amount: 30, minScale: 1, maxScale: 2);
+            EmitFireDust(amount: 15);
         }
 
         private void ExplodeSmall()
@@ -86,14 +107,6 @@ namespace AchiSplatoon2.Content.Projectiles
             };
             SoundEngine.PlaySound(explosionSound);
 
-            // Visual
-            int dustMaxVelocity = 5;
-            for (int i = 0; i < 15; i++)
-            {
-                int explosionDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Firework_Pink,
-                    Main.rand.Next(-dustMaxVelocity, dustMaxVelocity), Main.rand.Next(-dustMaxVelocity, dustMaxVelocity));
-            }
-
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
             {
@@ -102,6 +115,10 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.Resize(explosionRadiusTile, explosionRadiusTile);
                 Projectile.velocity = Vector2.Zero;
             }
+
+            // Visual
+            EmitRandomInkDust(dustMaxVelocity: 5, amount: 15, minScale: 1, maxScale: 2);
+            EmitFireDust(amount: 5);
         }
 
         private void AdvanceState()
@@ -124,7 +141,8 @@ namespace AchiSplatoon2.Content.Projectiles
             switch (state)
             {
                 case 0:
-                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Firework_Pink, Projectile.velocity.X / 2, Projectile.velocity.Y / 2);
+                    EmitRandomInkDust(dustMaxVelocity: 0.2f, amount: 2, minScale: 1, maxScale: 2);
+
                     if (Projectile.ai[0] >= explosionDelay)
                     {
                         ExplodeBig();

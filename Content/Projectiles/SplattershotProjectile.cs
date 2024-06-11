@@ -9,18 +9,16 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class SplattershotProjectile : ModProjectile
+    internal class SplattershotProjectile : BaseProjectile
     {
-        private InkColor inkColor = InkColor.Blue;
-
-        private bool visible = false;
-        private float delayUntilVisible = 4f;
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.3f;
         private float terminalVelocity = 12f;
         
         public override void SetDefaults()
         {
+            Initialize(color: InkColor.Blue, visible: false, visibleDelay: 4f);
+
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
@@ -70,9 +68,9 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Color dustColor = ColorHelper.GenerateInkColor(inkColor);
 
-                if (!visible)
+                if (!isVisible)
                 {
-                    visible = true;
+                    isVisible = true;
                     Projectile.friendly = true;
                     for (int i = 0; i < 10; i++)
                     {
