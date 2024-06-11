@@ -7,23 +7,27 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using System.Threading;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BlasterProjectile : BaseProjectile
     {
         private const int addedUpdate = 2;
-        protected virtual int explosionRadiusAir { get => 240; }
-        protected virtual int explosionRadiusTile { get => 160; }
-
-        private const float explosionTime = 6f;
-        private const float explosionDelay = 20f * addedUpdate;
         private int state = 0;
+
+        protected virtual int ExplosionRadiusAir { get => 240; }
+        protected virtual int ExplosionRadiusTile { get => 160; }
+
+        protected virtual float ExplosionDelayInit { get => 20f; }
+        private float explosionDelay = 0f;
+        private const float explosionTime = 6f;
 
         public override void SetDefaults()
         {
             Initialize(color: ColorHelper.GetRandomInkColor(), visible: false, visibleDelay: 24f);
 
+            explosionDelay = ExplosionDelayInit * addedUpdate;
             Projectile.extraUpdates = addedUpdate;
             Projectile.width = 8;
             Projectile.height = 8;
@@ -116,12 +120,12 @@ namespace AchiSplatoon2.Content.Projectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.tileCollide = false;
-                Projectile.Resize(explosionRadiusAir, explosionRadiusAir);
+                Projectile.Resize(ExplosionRadiusAir, ExplosionRadiusAir);
                 Projectile.velocity = Vector2.Zero;
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: explosionRadiusAir);
+            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: ExplosionRadiusAir);
         }
 
         private void ExplodeSmall()
@@ -141,12 +145,12 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Projectile.damage /= 2;
                 Projectile.tileCollide = false;
-                Projectile.Resize(explosionRadiusTile, explosionRadiusTile);
+                Projectile.Resize(ExplosionRadiusTile, ExplosionRadiusTile);
                 Projectile.velocity = Vector2.Zero;
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: explosionRadiusTile);
+            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadiusTile);
         }
 
         private void AdvanceState()

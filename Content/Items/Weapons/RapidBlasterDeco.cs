@@ -11,44 +11,25 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class RapidBlasterPro : Blaster
+    public class RapidBlasterDeco : RapidBlaster
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 100;
-            Item.knockBack = 4f;
-            Item.width = 72;
-            Item.height = 42;
-            Item.useTime = 40;
-            Item.useAnimation = Item.useTime;
+            Item.damage = 120;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
-            Item.shootSpeed = 18;
-            Item.shoot = ModContent.ProjectileType<RapidBlasterProjectile>();
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<RapidBlaster>());
-            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 12);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ModContent.ItemType<RapidBlaster>());
-            altRecipe.AddIngredient(ItemID.TitaniumBar, 10);
-            altRecipe.AddIngredient(ItemID.SoulofLight, 5);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-8, 4);
         }
     }
 }

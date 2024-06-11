@@ -10,10 +10,10 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class RapidBlasterProjectile : BlasterProjectile
+    internal class LunaBlasterProjectile : BlasterProjectile
     {
-        protected override int ExplosionRadiusAir { get => 160; }
-        protected override int ExplosionRadiusTile { get => 120; }
-        protected override float ExplosionDelayInit { get => 15f; }
+        protected override int ExplosionRadiusAir { get => 280; }
+        protected override int ExplosionRadiusTile { get => 150; }
+        protected override float ExplosionDelayInit { get => 12f; }
     }
 }
