@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class EliterChargerProjectile : SplatChargerProjectile
     {
         protected override float RequiredChargeTime { get => 75f; }
-        protected override SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/EliterChargerShoot"); }
-        protected override SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/EliterChargerShootWeak"); }
+        protected override string ShootSample { get => "EliterChargerShoot"; }
+        protected override string ShootWeakSample { get => "EliterChargerShootWeak"; }
     }
 }

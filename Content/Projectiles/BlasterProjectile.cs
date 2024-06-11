@@ -16,10 +16,14 @@ namespace AchiSplatoon2.Content.Projectiles
         private const int addedUpdate = 2;
         private int state = 0;
 
+        protected virtual string ShootSample { get => "BlasterShoot"; }
+        protected virtual string ExplosionBigSample { get => "BlasterExplosion"; }
+        protected virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
+
         protected virtual int ExplosionRadiusAir { get => 240; }
         protected virtual int ExplosionRadiusTile { get => 160; }
-
         protected virtual float ExplosionDelayInit { get => 20f; }
+
         private float explosionDelay = 0f;
         private const float explosionTime = 6f;
 
@@ -41,14 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            var sample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BlasterShoot"); 
-            var shootSound = sample with
-            {
-                Volume = 0.2f,
-                PitchVariance = 0.1f,
-                MaxInstances = 3
-            };
-            SoundEngine.PlaySound(shootSound);
+            PlayAudio(ShootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             EmitShotBurstDust();
         }
 
@@ -107,14 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private void ExplodeBig()
         {
             // Audio
-            var soundStyle = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BlasterExplosion");
-            var explosionSound = soundStyle with
-            {
-                Volume = 0.2f,
-                PitchVariance = 0.1f,
-                MaxInstances = 3
-            };
-            SoundEngine.PlaySound(explosionSound);
+            PlayAudio(ExplosionBigSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 3);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
@@ -131,14 +121,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private void ExplodeSmall()
         {
             // Audio
-            var soundStyle = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BlasterExplosionLight");
-            var explosionSound = soundStyle with
-            {
-                Volume = 0.1f,
-                PitchVariance = 0.1f,
-                MaxInstances = 3
-            };
-            SoundEngine.PlaySound(explosionSound);
+            PlayAudio(ExplosionSmallSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 3);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)

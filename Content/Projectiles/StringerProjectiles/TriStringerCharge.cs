@@ -22,8 +22,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private bool hasFired = false;
         private int timeLeftAfterFiring = 120;
 
-        protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/TriStringerShoot"); }
-        protected virtual SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BambooChargerShootWeak"); }
+        protected virtual string ShootSample { get => "TriStringerShoot"; }
+        protected virtual string ShootWeakSample { get => "BambooChargerShootWeak"; }
         protected virtual float[] ChargeTimeThresholds { get => [36f, 72f]; }
         private int chargeLevel = 0;
         private float maxChargeTime;
@@ -39,64 +39,19 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public override void SetDefaults()
         {
             maxChargeTime = ChargeTimeThresholds.Last();
+
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.aiStyle = 1;
             Projectile.timeLeft = 36000;
-        }
-
-        private void startChargeSound()
-        {
-            var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
-            var chargeSound = chargeSample with
-            {
-                Volume = 0.2f,
-                PitchVariance = 0.1f,
-                MaxInstances = 1
-            };
-            SoundEngine.PlaySound(chargeSound);
-        }
-
-        private void cancelChargeSound()
-        {
-            // TODO: fix this scuffed way of cancelling the charge sound
-            var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
-            var chargeSound = chargeSample with
-            {
-                Volume = 0.0f,
-                MaxInstances = 1
-            };
-            SoundEngine.PlaySound(chargeSound);
-        }
-
-        private void playShootSound(SoundStyle sample)
-        {
-            var chargeSound = sample with
-            {
-                Volume = 0.3f,
-                PitchVariance = 0.1f,
-                MaxInstances = 3
-            };
-            SoundEngine.PlaySound(chargeSound);
+            Projectile.penetrate = 10;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.velocity = Vector2.Zero;
-            startChargeSound();
-        }
-
-        private void syncProjectilePosWithPlayer(Player owner)
-        {
-            Projectile.position = owner.Center;
-        }
-
-        private void syncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, TriStringer weaponData)
-        {
-            Vector2 weaponOffset = weaponData.HoldoutOffset() ?? new Vector2(0, 0);
-            Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffsetPx;
-
-            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-            {
-                Projectile.position += muzzleOffset;
-            }
+            PlayAudio(soundPath: "ChargeStart");
         }
 
         public override void AI()
@@ -118,18 +73,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                             Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
                         }
 
-                        var readySample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeReady");
-                        var readySound = readySample with
-                        {
-                            Pitch = (chargeLevel - 1) * 0.2f,
-                            Volume = 0.4f,
-                            MaxInstances = 1
-                        };
-                        SoundEngine.PlaySound(readySound);
+                        PlayAudio(soundPath: "ChargeReady", volume: 0.3f, maxInstances: 1);
 
                         if (chargeLevel == len)
                         {
-                            cancelChargeSound();
+                            PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
                         }
                     }
                 } else
@@ -140,32 +88,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     }
                 }
 
-                syncProjectilePosWithPlayer(owner);
-
-                // Change player direction depending on what direction the charger is held when charging
-                var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
-                var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
-
-                if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
-                {
-                    owner.direction = 1;
-                    owner.itemRotation = mouseDirRadians;
-                }
-                else
-                {
-                    owner.direction = -1;
-                    owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees + 180) % 360);
-                }
-
-                owner.itemAnimation = owner.itemAnimationMax;
-                owner.itemTime = owner.itemTimeMax;
+                SyncProjectilePosWithPlayer(owner);
+                PlayerItemAnimationFaceCursor(owner);
                 return;
             }
 
             if (!hasFired)
             {
                 hasFired = true;
-                syncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new TriStringer());
+                SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new TriStringer());
 
                 // Adjust damage and velocity based on charge level
                 float velocityModifier = 1;
@@ -173,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (chargeLevel == 0)
                 {
                     Projectile.damage /= 3;
-                    playShootSound(ShootWeakSample);
+                    PlayAudio("BambooChargerShootWeak");
                 } else {
                     if (chargeLevel == 1)
                     {
@@ -184,7 +115,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                         velocityModifier = 2f;
                     }
                     projectileType = ModContent.ProjectileType<TriStringerProjectile>();
-                    playShootSound(ShootSample);
+                    PlayAudio("TriStringerShoot");
                 }
 
                 // The angle that the player aims at (player-to-cursor)
@@ -236,7 +167,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Dust.NewDust(Projectile.position, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
                 }
 
-                cancelChargeSound();
+                PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
                 Projectile.Kill();
                 return;
             }

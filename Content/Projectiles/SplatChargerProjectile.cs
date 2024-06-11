@@ -21,8 +21,8 @@ namespace AchiSplatoon2.Content.Projectiles
         private int timeLeftAfterFiring = 120;
 
         protected virtual float RequiredChargeTime { get => 55f; }
-        protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot"); }
-        protected virtual SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShootWeak"); }
+        protected virtual string ShootSample { get => "SplatChargerShoot"; }
+        protected virtual string ShootWeakSample { get => "SplatChargerShootWeak"; }
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
 
         private float ChargeTime
@@ -47,43 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.velocity = Vector2.Zero;
-
-            var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
-            var chargeSound = chargeSample with
-            {
-                Volume = 0.2f,
-                PitchVariance = 0.1f,
-                MaxInstances = 1
-            };
-            SoundEngine.PlaySound(chargeSound);
-        }
-
-        private void cancelChargeSound()
-        {
-            // TODO: fix this scuffed way of cancelling the charge sound
-            var chargeSample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeStart");
-            var chargeSound = chargeSample with
-            {
-                Volume = 0.0f,
-                MaxInstances = 1
-            };
-            SoundEngine.PlaySound(chargeSound);
-        }
-
-        private void syncProjectilePosWithPlayer(Player owner)
-        {
-            Projectile.position = owner.Center;
-        }
-
-        private void syncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, SplatCharger weaponData)
-        {
-            Vector2 weaponOffset = weaponData.HoldoutOffset() ?? new Vector2(0, 0);
-            Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffsetPx;
-
-            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-            {
-                Projectile.position += muzzleOffset;
-            }
+            PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
         public override void AI()
@@ -104,15 +68,8 @@ namespace AchiSplatoon2.Content.Projectiles
                         }
 
                         chargeReady = true;
-
-                        var readySample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/ChargeReady");
-                        var readySound = readySample with
-                        {
-                            Volume = 0.4f,
-                            MaxInstances = 1
-                        };
-                        SoundEngine.PlaySound(readySound);
-                        cancelChargeSound();
+                        PlayAudio("ChargeReady", volume: 0.4f, maxInstances: 1);
+                        PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
                     } else
                     {
                         if (Main.rand.NextBool(400))
@@ -123,25 +80,8 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
 
                 ++ChargeTime;
-                syncProjectilePosWithPlayer(owner);
-
-                // Change player direction depending on what direction the charger is held when charging
-                var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
-                var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
-
-                if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
-                {
-                    owner.direction = 1;
-                    owner.itemRotation = mouseDirRadians;
-                }
-                else
-                {
-                    owner.direction = -1;
-                    owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees + 180) % 360);
-                }
-
-                owner.itemAnimation = owner.itemAnimationMax;
-                owner.itemTime = owner.itemTimeMax;
+                SyncProjectilePosWithPlayer(owner);
+                PlayerItemAnimationFaceCursor(owner);
                 return;
             }
 
@@ -152,16 +92,10 @@ namespace AchiSplatoon2.Content.Projectiles
                 hasFired = true;
 
                 // Adjust behaviour depending on the charge amount
-                SoundStyle shootSound;
                 if (chargeReady)
                 {
                     Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
-                    shootSound = ShootSample with
-                    {
-                        Volume = 0.4f,
-                        PitchVariance = 0.1f,
-                        MaxInstances = 1
-                    };
+                    PlayAudio(ShootSample, volume: 0.4f, maxInstances: 1);
 
                     if (ShakeScreenOnChargeShot)
                     {
@@ -189,21 +123,12 @@ namespace AchiSplatoon2.Content.Projectiles
                         (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / RequiredChargeTime)
                     ) * Projectile.extraUpdates;
 
-                    shootSound = ShootWeakSample with
-                    {
-                        Volume = 0.2f,
-                        PitchVariance = 0.1f,
-                        MaxInstances = 1
-                    };
+                    PlayAudio(ShootWeakSample, volume: 0.4f, maxInstances: 1);
                 }
 
                 Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
-                syncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
-
-                Projectile.tileCollide = true;
-                Projectile.friendly = true;
-                SoundEngine.PlaySound(shootSound);
-                cancelChargeSound();
+                SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
+                PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
                 return;
             }
 

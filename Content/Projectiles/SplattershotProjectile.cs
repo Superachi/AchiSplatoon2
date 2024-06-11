@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplattershotProjectile : BaseProjectile
     {
+        protected virtual string ShootSample { get => "SplattershotShoot"; }
+
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.3f;
         private float terminalVelocity = 12f;
@@ -30,14 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            var sample = new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplattershotShoot");
-            var shootSound = sample with
-            {
-                Volume = 0.2f,
-                PitchVariance = 0.1f,
-                MaxInstances = 3
-            };
-            SoundEngine.PlaySound(shootSound);
+            PlayAudio(ShootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
 
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
@@ -76,17 +71,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.Kill();
-            return false;
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)
-        {
-            target.AddBuff(103, 180); //On Fire! debuff for 3 seconds
-        }
-
-        public override void OnKill(int timeLeft)
-        {
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
@@ -94,6 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
+            return true;
         }
     }
 }

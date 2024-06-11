@@ -11,8 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BambooChargerProjectile : SplatChargerProjectile
     {
         protected override float RequiredChargeTime { get => 20f; }
-        protected override SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BambooChargerShoot"); }
-        protected override SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BambooChargerShootWeak"); }
+        protected override string ShootSample { get => "BambooChargerShoot"; }
+        protected override string ShootWeakSample { get => "BambooChargerShootWeak"; }
         protected override bool ShakeScreenOnChargeShot { get => false; }
 
         public override void SetDefaults()

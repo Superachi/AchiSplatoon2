@@ -91,6 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             } else
             {
+                Projectile.velocity = Projectile.velocity * 0.1f;
                 if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExpldoded)
                 {
                     hasExpldoded = true;
@@ -98,15 +99,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         Projectile.alpha = 255;
                         Projectile.Resize(ExplosionRadius, ExplosionRadius);
-                        EmitBurstDust(dustMaxVelocity: 15f, amount: 20, radiusModifier: ExplosionRadius);
-
-                        SoundEngine.PlaySound(
-                            new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/BlasterExplosionLight")
-                            with {
-                                Volume = 0.1f,
-                                PitchVariance = 0.1f,
-                                MaxInstances = 10
-                            });
+                        EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadius);
+                        PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
                     }
                 }
             }
@@ -121,7 +115,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     sticking = true;
                     Projectile.tileCollide = false;
                     Projectile.position = Projectile.oldPosition;
-                    Projectile.velocity = Projectile.velocity * 0.0001f;
                     Projectile.timeLeft = ExtraUpdatesTime(115 + (int)Projectile.ai[2] * 5);
                 }
             } else
