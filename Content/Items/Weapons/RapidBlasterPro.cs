@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
             Item.shootSpeed = 18;
+            Item.shoot = ModContent.ProjectileType<RapidBlasterProjectile>();
         }
 
         public override void AddRecipes()

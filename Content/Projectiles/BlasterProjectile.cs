@@ -3,27 +3,26 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI.Chat;
-using static System.Net.Mime.MediaTypeNames;
+using System;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BlasterProjectile : BaseProjectile
     {
         private const int addedUpdate = 2;
-        private const int explosionRadiusAir = 160;
-        private const int explosionRadiusTile = 80;
+        protected virtual int explosionRadiusAir { get => 240; }
+        protected virtual int explosionRadiusTile { get => 160; }
+
         private const float explosionTime = 6f;
         private const float explosionDelay = 20f * addedUpdate;
         private int state = 0;
 
         public override void SetDefaults()
         {
-            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 24f);
+            Initialize(color: ColorHelper.GetRandomInkColor(), visible: false, visibleDelay: 24f);
 
             Projectile.extraUpdates = addedUpdate;
             Projectile.width = 8;
@@ -32,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.hostile = false;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
+            Projectile.penetrate = -1; // Required for the 'AoE' to be able to hit multiple enemies
             AIType = ProjectileID.Bullet;
         }
 
@@ -45,28 +45,58 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxInstances = 3
             };
             SoundEngine.PlaySound(shootSound);
+            EmitShotBurstDust();
         }
 
-        private void EmitRandomInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
+        private void EmitShotBurstDust()
         {
+            for (int i = 0; i < 15; i++)
+            {
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+
+                float random = Main.rand.NextFloat(-5, 5);
+                float velX = ((Projectile.velocity.X + random) * 0.5f);
+                float velY = ((Projectile.velocity.Y + random) * 0.5f);
+
+                Dust.NewDust(Projectile.position, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            }
+        }
+
+        private void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
+        {
+            float radiusMult = radiusModifier / 160;
+            amount = Convert.ToInt32(amount * radiusMult);
+
+            // Ink
             for (int i = 0; i < amount; i++)
             {
                 Color dustColor = ColorHelper.GenerateInkColor(inkColor);
 
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SplatterBulletDust>(),
+                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                dust.velocity *= radiusMult;
+            }
+
+            // Firework
+            for (int i = 0; i < amount / 2; i++)
+            {
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
+                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
+                    255, dustColor);
+                dust.velocity *= radiusMult / 2;
             }
         }
 
-        private void EmitFireDust(int amount = 1)
+        private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
         {
-            var pos = Projectile.Center - new Vector2(Projectile.width / 2, Projectile.height / 2);
-            var speedRand = 5;
             for (int i = 0; i < amount; i++)
             {
-                Dust.NewDust(pos, Projectile.width, Projectile.height, DustID.Torch,
-                    Main.rand.NextFloat(-speedRand, speedRand), Main.rand.NextFloat(-speedRand, speedRand));
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Dust.NewDustPerfect(Projectile.position, ModContent.DustType<BlasterTrailDust>(),
+                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
+                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
             }
         }
 
@@ -91,8 +121,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             // Visual
-            EmitRandomInkDust(dustMaxVelocity: 5, amount: 30, minScale: 1, maxScale: 2);
-            EmitFireDust(amount: 15);
+            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: explosionRadiusAir);
         }
 
         private void ExplodeSmall()
@@ -117,8 +146,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             // Visual
-            EmitRandomInkDust(dustMaxVelocity: 5, amount: 15, minScale: 1, maxScale: 2);
-            EmitFireDust(amount: 5);
+            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: explosionRadiusTile);
         }
 
         private void AdvanceState()
@@ -141,7 +169,7 @@ namespace AchiSplatoon2.Content.Projectiles
             switch (state)
             {
                 case 0:
-                    EmitRandomInkDust(dustMaxVelocity: 0.2f, amount: 2, minScale: 1, maxScale: 2);
+                    EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 4, minScale: 1, maxScale: 3);
 
                     if (Projectile.ai[0] >= explosionDelay)
                     {

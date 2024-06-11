@@ -39,15 +39,6 @@ namespace AchiSplatoon2.Content.Projectiles
             };
             SoundEngine.PlaySound(shootSound);
 
-            for (int i = 0; i < 10; i++)
-            {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
-                float random = Main.rand.NextFloat(-5, 5);
-                float velX = ((Projectile.velocity.X + random) * 0.5f);
-                float velY = ((Projectile.velocity.Y + random) * 0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            }
-
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
             Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
@@ -77,8 +68,9 @@ namespace AchiSplatoon2.Content.Projectiles
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             for (int i = 0; i < 3; i++)
             {
-                Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                Dust.NewDustPerfect(Position: spawnPosition, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+                // Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
+                var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+                dust.alpha = 64;
             }
         }
 
@@ -95,9 +87,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 5; i++)
             {
-                float random = Main.rand.NextFloat(-5, 5);
+                float random = Main.rand.NextFloat(-2, 2);
                 float velX = ((Projectile.velocity.X + random) * -0.5f);
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));

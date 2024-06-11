@@ -25,7 +25,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
 			Item.useTime = 35;
             Item.useAnimation = Item.useTime;
 			Item.shootSpeed = 14;
-		}
+            Item.shoot = ModContent.ProjectileType<RapidBlasterProjectile>();
+        }
 
         public override void AddRecipes()
         {

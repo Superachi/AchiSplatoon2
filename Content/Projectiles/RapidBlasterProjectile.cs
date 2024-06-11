@@ -12,10 +12,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class RapidBlasterProjectile : BlasterProjectile
     {
-        private const int addedUpdate = 2;
-        private const int explosionRadiusAir = 120;
-        private const int explosionRadiusTile = 60;
-        private const float explosionTime = 6f;
-        private const float explosionDelay = 20f * addedUpdate;
+        protected override int explosionRadiusAir { get => 160; }
+        protected override int explosionRadiusTile { get => 120; }
+
     }
 }
