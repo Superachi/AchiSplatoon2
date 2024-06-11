@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 124;
+            Item.damage = 140;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
@@ -26,9 +26,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>());
-            recipe.AddIngredient(ItemID.MythrilBar, 10);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.MythrilBar, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 12);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

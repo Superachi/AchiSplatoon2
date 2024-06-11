@@ -41,9 +41,9 @@ Items: {
 		Tooltip: `In case the regular Blaster is too slow`
 	}
 
-	RapidBlasterPro: {
-		DisplayName: Rapid Blaster Pro
-		Tooltip: `Has more range than the Range Blaster`
+	RapidBlasterDeco: {
+		DisplayName: Rapid Blaster Deco
+		Tooltip: `You're [c/64aaff:blue] now. That's my attack!`
 	}
 
 	SplatCharger: {
@@ -58,17 +58,22 @@ Items: {
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
-		Tooltip: `Where's Main Power Up?`
+		Tooltip: `Cuttlefish approved!`
 	}
 
 	BambooMk2Charger: {
 		DisplayName: Bamboozler 14 Mk II
-		Tooltip: `Craig's favourite`
+		Tooltip: `Now with Main Power Up!`
 	}
 
 	BaseWeapon: {
 		DisplayName: Pearlinaean Splattershot
 		Tooltip: Programmer item (you're not meant to see this)
+	}
+
+	LunaBlaster: {
+		DisplayName: Luna Blaster
+		Tooltip: ""
 	}
 }
 
@@ -80,4 +85,5 @@ Projectiles: {
 	EliterChargerProjectile.DisplayName: Eliter Charger Projectile
 	BambooChargerProjectile.DisplayName: Bamboo Charger Projectile
 	BaseProjectile.DisplayName: Base Projectile
+	LunaBlasterProjectile.DisplayName: Luna Blaster Projectile
 }
