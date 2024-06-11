@@ -23,7 +23,7 @@ Items: {
 
 	Blaster: {
 		DisplayName: Blaster
-		Tooltip: '''[c/ff8e2c:Has a smaller blast when hitting a wall]'''
+		Tooltip: "[c/ff8e2c:Has a smaller blast when hitting a wall]"
 	}
 
 	LeTestSword: {
@@ -48,7 +48,7 @@ Items: {
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		Tooltip: '''[c/ff8e2c:Hold the fire button to charge up a piercing shot]'''
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a piercing shot]"
 	}
 
 	EliterCharger: {
@@ -58,7 +58,7 @@ Items: {
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
-		Tooltip: '''[c/ff8e2c:Charges faster, but doesn't pierce]'''
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a quick shot]"
 	}
 
 	BambooMk2Charger: {
@@ -68,17 +68,22 @@ Items: {
 
 	BaseWeapon: {
 		DisplayName: Pearlinaean Splattershot
-		Tooltip: '''[c/ff2c5d:Programmer item (you're not meant to see this)]'''
+		Tooltip: "[c/ff2c5d:Programmer item (you're not meant to see this)]"
 	}
 
 	LunaBlaster: {
 		DisplayName: Luna Blaster
-		Tooltip: '''[c/64aaff:"Fire up the Zipcaster!"]'''
+		Tooltip: '''[c/64aaff:"Zip to the moon!"]'''
 	}
 
 	TriStringer: {
-		DisplayName: Tri Stringer
-		Tooltip: '''[c/64aaff:"VeronIKA!"]'''
+		DisplayName: Tri-Stringer
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of explosive arrows]"
+	}
+
+	TriStringerInkline: {
+		DisplayName: Inkline Tri-Stringer
+		Tooltip: ""
 	}
 }
 
@@ -92,4 +97,6 @@ Projectiles: {
 	BaseProjectile.DisplayName: Base Projectile
 	LunaBlasterProjectile.DisplayName: Luna Blaster Projectile
 	TriStringerCharge.DisplayName: Tri Stringer Charge
+	TriStringerProjectile.DisplayName: Tri Stringer Projectile
+	TriStringerProjectileWeak.DisplayName: Tri Stringer Projectile Weak
 }
