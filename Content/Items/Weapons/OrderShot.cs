@@ -33,10 +33,5 @@ namespace AchiSplatoon2.Content.Items.Weapons
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-4, 2);
-        }
     }
 }

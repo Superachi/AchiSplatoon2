@@ -13,6 +13,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     public class OctoShot : Splattershot
     {
+        public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
+        protected override float MuzzleOffsetPx { get; set; } = 50f;
+
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
@@ -33,11 +36,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             recipe.AddIngredient(ItemID.BlackInk, 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-4, 2);
         }
     }
 }

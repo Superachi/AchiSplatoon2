@@ -11,8 +11,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class Blaster : ModItem
+    public class Blaster : BaseWeapon
     {
+        public override Vector2? HoldoutOffset() { return new Vector2(-12, -2); }
+        protected override float MuzzleOffsetPx { get; set; } = 64f;
+
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
@@ -39,11 +42,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-8, 4);
         }
     }
 }

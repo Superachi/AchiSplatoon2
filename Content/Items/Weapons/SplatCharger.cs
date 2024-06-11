@@ -13,6 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     public class SplatCharger : ModItem
     {
+        public override Vector2? HoldoutOffset() { return new Vector2(-20, 2); }
+
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
@@ -43,11 +45,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
             altRecipe.AddTile(TileID.Anvils);
             altRecipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-20, 2);
         }
     }
 }

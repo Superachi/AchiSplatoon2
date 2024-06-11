@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = false;
+            Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
@@ -38,6 +38,15 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxInstances = 3
             };
             SoundEngine.PlaySound(shootSound);
+
+            for (int i = 0; i < 10; i++)
+            {
+                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                float random = Main.rand.NextFloat(-5, 5);
+                float velX = ((Projectile.velocity.X + random) * 0.5f);
+                float velY = ((Projectile.velocity.Y + random) * 0.5f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            }
 
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
@@ -64,29 +73,12 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            if (Projectile.ai[0] >= delayUntilVisible)
+            Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            for (int i = 0; i < 3; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
-
-                if (!isVisible)
-                {
-                    isVisible = true;
-                    Projectile.friendly = true;
-                    for (int i = 0; i < 10; i++)
-                    {
-                        float random = Main.rand.NextFloat(-5, 5);
-                        float velX = ((Projectile.velocity.X + random) * 0.5f);
-                        float velY = ((Projectile.velocity.Y + random) * 0.5f);
-                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                    }
-                }
-
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                for (int i = 0; i < 3; i++)
-                {
-                    Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                    Dust.NewDustPerfect(Position: spawnPosition, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                }
+                Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
+                Dust.NewDustPerfect(Position: spawnPosition, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
             }
         }
 

@@ -65,6 +65,11 @@ Items: {
 		DisplayName: Bamboozler 14 Mk II
 		Tooltip: `Craig's favourite`
 	}
+
+	BaseWeapon: {
+		DisplayName: Pearlinaean Splattershot
+		Tooltip: Programmer item (you're not meant to see this)
+	}
 }
 
 Projectiles: {
