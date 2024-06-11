@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
@@ -18,16 +19,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
         public override float MuzzleOffsetPx { get; set; } = 20f;
 
-        // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 15, 12f);
-            Item.damage = 60;
-            Item.width = 82;
-            Item.height = 26;
-            Item.knockBack = 7;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Orange;
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<TriStringerCharge>(), AmmoID.None, 15, 12f);
+            Item.damage = 32;
+            Item.width = 34;
+            Item.height = 74;
+            Item.knockBack = 6;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.Green;
             Item.noMelee = true;
             Item.channel = true;
             Item.crit = 10;
@@ -36,16 +36,16 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Lens, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 10);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddIngredient(ItemID.DemonBow, 8);
+            recipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
+            recipe.AddIngredient(ItemID.SharkFin, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
 
             Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.Lens, 6);
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
-            altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            altRecipe.AddIngredient(ItemID.TendonBow, 8);
+            altRecipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
+            altRecipe.AddIngredient(ItemID.SharkFin, 1);
             altRecipe.AddTile(TileID.Anvils);
             altRecipe.Register();
         }
