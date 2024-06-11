@@ -74,4 +74,5 @@ Projectiles: {
 	SplatChargerProjectile.DisplayName: Splat Charger Projectile
 	EliterChargerProjectile.DisplayName: Eliter Charger Projectile
 	BambooChargerProjectile.DisplayName: Bamboo Charger Projectile
+	BaseProjectile.DisplayName: Base Projectile
 }
