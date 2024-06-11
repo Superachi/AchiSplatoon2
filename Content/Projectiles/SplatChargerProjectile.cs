@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using rail;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -16,19 +17,12 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private bool chargeReady = false;
         private bool hasFired = false;
-        private int dustTrailRadiusMult = 2;
         private int timeLeftAfterFiring = 120;
 
         protected virtual float RequiredChargeTime { get => 55f; }
         protected virtual SoundStyle ShootSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShoot"); }
         protected virtual SoundStyle ShootWeakSample { get => new SoundStyle("AchiSplatoon2/Content/Assets/Sounds/SplatChargerShootWeak"); }
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
-
-        private float FlightTimer
-        {
-            get => Projectile.ai[2];
-            set => Projectile.ai[2] = value;
-        }
 
         private float ChargeTime
         {
@@ -75,6 +69,22 @@ namespace AchiSplatoon2.Content.Projectiles
             SoundEngine.PlaySound(chargeSound);
         }
 
+        private void syncProjectilePosWithPlayer(Player owner)
+        {
+            Projectile.position = owner.Center;
+        }
+
+        private void syncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, SplatCharger weaponData)
+        {
+            Vector2 weaponOffset = weaponData.HoldoutOffset() ?? new Vector2(0, 0);
+            Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffsetPx;
+
+            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            {
+                Projectile.position += muzzleOffset;
+            }
+        }
+
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
@@ -112,9 +122,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
 
                 ++ChargeTime;
-                // Reset the animation and item timer while charging.
-                Projectile.position.X = owner.position.X;
-                Projectile.position.Y = owner.position.Y + 16; // Y + 16 to align better with the barrel of the weapon
+                syncProjectilePosWithPlayer(owner);
 
                 // Change player direction depending on what direction the charger is held when charging
                 var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
@@ -130,7 +138,6 @@ namespace AchiSplatoon2.Content.Projectiles
                     owner.direction = -1;
                     owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees + 180) % 360);
                 }
-                // Main.NewText($"{MathHelper.ToDegrees(owner.itemRotation)}");
 
                 owner.itemAnimation = owner.itemAnimationMax;
                 owner.itemTime = owner.itemTimeMax;
@@ -190,37 +197,19 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
 
                 Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
+                syncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
+
                 Projectile.tileCollide = true;
+                Projectile.friendly = true;
                 SoundEngine.PlaySound(shootSound);
                 cancelChargeSound();
                 return;
             }
 
-            FlightTimer++;
-            if (FlightTimer > delayUntilVisible)
-            {
-                if (!isVisible)
-                {
-                    isVisible = true;
-                    Projectile.friendly = true;
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        float random = Main.rand.NextFloat(-5, 5);
-                        float velX = ((Projectile.velocity.X + random) * 0.5f);
-                        float velY = ((Projectile.velocity.Y + random) * 0.5f);
-                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-                    }
-                }
-            }
-
-            if (isVisible)
-            {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
-                var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+            var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)

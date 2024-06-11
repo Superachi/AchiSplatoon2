@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
     public class Splattershot : BaseWeapon
     {
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        protected override float MuzzleOffsetPx { get; set; } = 44f;
+        public override float MuzzleOffsetPx { get; set; } = 44f;
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()

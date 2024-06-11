@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     public class BaseWeapon : ModItem
     {
-        protected virtual float MuzzleOffsetPx { get; set; } = 0f;
+        public virtual float MuzzleOffsetPx { get; set; } = 0f;
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {

@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
     public class OctoShot : Splattershot
     {
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
-        protected override float MuzzleOffsetPx { get; set; } = 50f;
+        public override float MuzzleOffsetPx { get; set; } = 50f;
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
