@@ -3,27 +3,27 @@
 Items: {
 	Splattershot: {
 		DisplayName: Splattershot
-		Tooltip: `You're a kid, you're a squid`
+		Tooltip: '''[c/64aaff:"You're a kid, you're a squid"]'''
 	}
 
 	TentatekSplattershot: {
 		DisplayName: Tentatek Splattershot
-		Tooltip: `And yes, this is also dating advice`
+		Tooltip: '''[c/64aaff:"And yes, this is also dating advice"]'''
 	}
 
 	OrderShot: {
 		DisplayName: Order Shot
-		Tooltip: `Humble beginnings`
+		Tooltip: '''[c/64aaff:"Humble beginnings"]'''
 	}
 
 	OctoShot: {
 		DisplayName: Octo Shot
-		Tooltip: `TEST PASS!`
+		Tooltip: '''[c/64aaff:"TEST PASS!"]'''
 	}
 
 	Blaster: {
 		DisplayName: Blaster
-		Tooltip: Has a smaller blast when hitting a wall
+		Tooltip: '''[c/ff8e2c:Has a smaller blast when hitting a wall]'''
 	}
 
 	LeTestSword: {
@@ -33,52 +33,52 @@ Items: {
 
 	RangeBlaster: {
 		DisplayName: Range Blaster
-		Tooltip: `Featuring a brand new design!`
+		Tooltip: '''[c/64aaff:"Featuring a brand new design!"]'''
 	}
 
 	RapidBlaster: {
 		DisplayName: Rapid Blaster
-		Tooltip: `In case the regular Blaster is too slow`
+		Tooltip: '''[c/64aaff:"In case the regular Blaster is too slow"]'''
 	}
 
 	RapidBlasterDeco: {
 		DisplayName: Rapid Blaster Deco
-		Tooltip: `You're [c/64aaff:blue] now. That's my attack!`
+		Tooltip: '''[c/64aaff:"You're blue now. That's my attack!"]'''
 	}
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		Tooltip: Hold the fire button to charge up a shot
+		Tooltip: '''[c/ff8e2c:Hold the fire button to charge up a piercing shot]'''
 	}
 
 	EliterCharger: {
 		DisplayName: E-liter 4K
-		Tooltip: `I love hallways!`
+		Tooltip: '''[c/64aaff:"I love hallways!"]'''
 	}
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
-		Tooltip: `Cuttlefish approved!`
+		Tooltip: '''[c/ff8e2c:Charges faster, but doesn't pierce]'''
 	}
 
 	BambooMk2Charger: {
 		DisplayName: Bamboozler 14 Mk II
-		Tooltip: `Now with Main Power Up!`
+		Tooltip: '''[c/64aaff:"Now with Main Power Up!"]'''
 	}
 
 	BaseWeapon: {
 		DisplayName: Pearlinaean Splattershot
-		Tooltip: Programmer item (you're not meant to see this)
+		Tooltip: '''[c/ff2c5d:Programmer item (you're not meant to see this)]'''
 	}
 
 	LunaBlaster: {
 		DisplayName: Luna Blaster
-		Tooltip: ""
+		Tooltip: '''[c/64aaff:"Fire up the Zipcaster!"]'''
 	}
 
 	TriStringer: {
 		DisplayName: Tri Stringer
-		Tooltip: ""
+		Tooltip: '''[c/64aaff:"VeronIKA!"]'''
 	}
 }
 
@@ -91,4 +91,5 @@ Projectiles: {
 	BambooChargerProjectile.DisplayName: Bamboo Charger Projectile
 	BaseProjectile.DisplayName: Base Projectile
 	LunaBlasterProjectile.DisplayName: Luna Blaster Projectile
+	TriStringerCharge.DisplayName: Tri Stringer Charge
 }
