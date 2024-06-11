@@ -13,6 +13,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     public class BambooMk1Charger : SplatCharger
     {
+        public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
+        public override float MuzzleOffsetPx { get; set; } = 48f;
+
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
@@ -32,11 +35,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             recipe.AddIngredient(ItemID.BambooBlock, 30);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-20, 2);
         }
     }
 }

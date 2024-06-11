@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 102;
+            Item.damage = 124;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
@@ -30,11 +30,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
-        }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-20, 2);
         }
     }
 }
