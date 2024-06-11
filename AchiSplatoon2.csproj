@@ -8,12 +8,15 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Content\Dusts\BlasterExplosionDust.png" />
+	  <None Remove="Content\Dusts\BlasterTrailDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\EliterChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\LunaBlasterProjectile.png" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Content\Items\Accessories\" />
+	  <Folder Include="Content\Items\Weapons\" />
 	</ItemGroup>
 
 	<!-- References -->

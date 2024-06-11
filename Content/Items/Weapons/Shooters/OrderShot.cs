@@ -6,28 +6,30 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Weapons
+namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class BambooMk2Charger : BambooMk1Charger
+    public class OrderShot : Splattershot
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 140;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.damage = 8;
+            Item.useTime = 10;
+            Item.useAnimation = Item.useTime;
+            Item.knockBack = 0.5f;
+            Item.value = Item.buyPrice(silver: 10);
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>());
-            recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 12);
+            recipe.AddRecipeGroup("IronBar", 5);
+            recipe.AddIngredient(ItemID.Gel, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

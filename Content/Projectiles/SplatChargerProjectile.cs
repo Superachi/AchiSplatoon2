@@ -1,5 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using rail;
@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Weapons;
 
 namespace AchiSplatoon2.Content.Projectiles
 {

@@ -75,6 +75,11 @@ Items: {
 		DisplayName: Luna Blaster
 		Tooltip: ""
 	}
+
+	TriStringer: {
+		DisplayName: Tri Stringer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

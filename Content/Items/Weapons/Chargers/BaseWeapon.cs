@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Weapons
+namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
