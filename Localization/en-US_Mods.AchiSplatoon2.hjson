@@ -73,7 +73,7 @@ Items: {
 
 	LunaBlaster: {
 		DisplayName: Luna Blaster
-		Tooltip: '''[c/64aaff:"Zip to the moon!"]'''
+		Tooltip: '''[c/64aaff:"Zip me to the moon!"]'''
 	}
 
 	TriStringer: {
@@ -96,13 +96,13 @@ Items: {
 	}
 
 	ReefluxStringer: {
-		DisplayName: REEFLUX-320
+		DisplayName: REEF-LUX 450
 		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of shots]"
 	}
 
 	ReefluxDecoStringer: {
-		DisplayName: Reeflux Deco Stringer
-		Tooltip: ""
+		DisplayName: REEF-LUX 450 Deco
+		Tooltip: '''[c/64aaff:"That's how it feels to drive a Reefslider F-150."]'''
 	}
 }
 
