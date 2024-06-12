@@ -73,7 +73,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                             Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
                         }
 
-                        PlayAudio(soundPath: "ChargeReady", volume: 0.3f, maxInstances: 1);
+                        PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
 
                         if (chargeLevel == len)
                         {
@@ -99,20 +99,23 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new TriStringer());
 
                 // Adjust damage and velocity based on charge level
-                float velocityModifier = 1;
+                float arcModifier = 2f;
+                float velocityModifier = 0.75f;
                 int projectileType = ModContent.ProjectileType<TriStringerProjectileWeak>();
                 if (chargeLevel == 0)
                 {
-                    Projectile.damage /= 3;
+                    Projectile.damage /= 2;
                     PlayAudio("BambooChargerShootWeak");
                 } else {
                     if (chargeLevel == 1)
                     {
-                        Projectile.damage /= 2;
-                        velocityModifier = 1.25f;
+                        Projectile.damage = (int)(Projectile.damage * 0.75);
+                        velocityModifier = 1f;
+                        arcModifier = 1.5f;
                     } else
                     {
-                        velocityModifier = 2f;
+                        velocityModifier = 1.5f;
+                        arcModifier = 1f;
                     }
                     projectileType = ModContent.ProjectileType<TriStringerProjectile>();
                     PlayAudio("TriStringerShoot");
@@ -125,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
                 if (ChargeTime == 0) return; // Prevent division by 0, though we shouldn't end up with this anyway
 
-                float finalArc = Math.Clamp(ShotgunArc * (maxChargeTime / ChargeTime), ShotgunArc, ShotgunArc * 10);
+                float finalArc = Math.Clamp(ShotgunArc * (maxChargeTime / ChargeTime) * arcModifier, ShotgunArc, ShotgunArc * 5);
                 float degreesPerProjectile = finalArc / ProjectileCount;
                 int middleProjectile = ProjectileCount / 2;
                 float degreesOffset = -(middleProjectile * degreesPerProjectile);
@@ -136,7 +139,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     float degrees = aimAngle + degreesOffset;
                     float radians = MathHelper.ToRadians(degrees);
                     Vector2 angleVector = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
-                    Vector2 velocity = angleVector * velocityModifier * (0.95f + i * 0.05f);
+                    Vector2 velocity = angleVector * velocityModifier; // * (0.95f + i * 0.05f);
 
                     // Spawn projectile
                     int proj = Projectile.NewProjectile(
@@ -154,17 +157,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
                     // Adjust the angle for the next projectile
                     degreesOffset += degreesPerProjectile;
-                }
-
-                for (int i = 0; i < 15; i++)
-                {
-                    Color dustColor = ColorHelper.GenerateInkColor(inkColor);
-
-                    float random = Main.rand.NextFloat(-5, 5);
-                    float velX = ((Projectile.velocity.X + random) * 0.5f);
-                    float velY = ((Projectile.velocity.Y + random) * 0.5f);
-
-                    Dust.NewDust(Projectile.position, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
                 }
 
                 PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);

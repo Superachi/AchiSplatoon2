@@ -12,24 +12,24 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerProjectile : BaseProjectile
     {
-        private float delayUntilFall = 5f;
-        private float fallSpeed = 0.001f;
+        private float delayUntilFall = 12f;
+        private float fallSpeed = 0.002f;
         private float terminalVelocity = 1f;
         private bool sticking = false;
-        private bool hasExpldoded = false;
+        private bool hasExploded = false;
         protected virtual bool CanStick { get => true; }
         protected virtual int ExplosionRadius { get => 120; }
 
         public override void SetDefaults()
         {
-            Initialize(color: InkColor.Blue, visible: false, visibleDelay: 4f);
+            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 4f);
 
-            Projectile.light = 0.2f;
+            Projectile.alpha = 255;
             Projectile.extraUpdates = 30;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = ExtraUpdatesTime(240);
+            Projectile.timeLeft = ExtraUpdatesTime(60);
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
@@ -64,20 +64,32 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             for (int i = 0; i < amount / 2; i++)
             {
                 Color dustColor = ColorHelper.GenerateInkColor(inkColor);
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
+                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     0, dustColor);
                 dust.velocity *= radiusMult / 2;
             }
         }
 
+        private void Explode()
+        {
+            hasExploded = true;
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Projectile.alpha = 255;
+                Projectile.Resize(ExplosionRadius, ExplosionRadius);
+                EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadius);
+                PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
+            }
+        }
+
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.ai[0] += 1f;
 
             if (!sticking)
             {
+                Projectile.rotation = Projectile.velocity.ToRotation();
                 if (Projectile.ai[0] >= ExtraUpdatesTime(delayUntilFall))
                 {
                     Projectile.velocity.Y += fallSpeed;
@@ -91,17 +103,16 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             } else
             {
-                Projectile.velocity = Projectile.velocity * 0.1f;
-                if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExpldoded)
+                if (Math.Abs(Projectile.velocity.X) > 0.0001f || Math.Abs(Projectile.velocity.Y) > 0.0001f)
                 {
-                    hasExpldoded = true;
-                    if (Projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.alpha = 255;
-                        Projectile.Resize(ExplosionRadius, ExplosionRadius);
-                        EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadius);
-                        PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
-                    }
+                    Projectile.velocity = Projectile.velocity * 0.9f;
+                }
+
+                Lighting.AddLight(Projectile.Center, ColorHelper.GenerateInkColor(inkColor).ToVector3());
+
+                if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExploded)
+                {
+                    Explode();
                 }
             }
         }
@@ -112,10 +123,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 if (!sticking)
                 {
+                    Projectile.alpha = 0;
+                    PlayAudio("InkHitSplash00", volume: 0.2f, pitchVariance: 0.3f, maxInstances: 9);
                     sticking = true;
                     Projectile.tileCollide = false;
-                    Projectile.position = Projectile.oldPosition;
-                    Projectile.timeLeft = ExtraUpdatesTime(115 + (int)Projectile.ai[2] * 5);
+                    Projectile.velocity = oldVelocity;
+                    Projectile.timeLeft = ExtraUpdatesTime(60 + (int)Projectile.ai[2] * 5);
                 }
             } else
             {
@@ -130,6 +143,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             return false;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (sticking && !hasExploded)
+            {
+                Explode();
+            }
+            base.OnHitNPC(target, hit, damageDone);
         }
     }
 }
