@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class ReefluxStringer : TriStringer
     {
+        public override Vector2? HoldoutOffset() { return new Vector2(-4, 2); }
         public override void SetDefaults()
         {
             base.SetDefaults();

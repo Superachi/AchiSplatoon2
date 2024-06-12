@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     public class TriStringer : BaseWeapon
     {
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
-        public override float MuzzleOffsetPx { get; set; } = 20f;
+        public override float MuzzleOffsetPx { get; set; } = 50f;
 
         public override void SetDefaults()
         {

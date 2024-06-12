@@ -26,6 +26,17 @@ namespace AchiSplatoon2.Content.Projectiles
             delayUntilVisible = visibleDelay;
         }
 
+        /// <summary>
+        /// This check makes sure that the current player (aka client) is the owner of the projectile
+        /// This is used for example to make sure not all clients/server spawns ammo when the projectile is destroyed
+        /// See OnKill method here: http://docs.tmodloader.net/docs/stable/class_mod_projectile.html
+        /// </summary>
+        /// <returns></returns>
+        public bool IsThisClientTheProjectileOwner()
+        {
+            return Main.myPlayer == Projectile.owner;
+        }
+
         protected void SyncProjectilePosWithPlayer(Player owner)
         {
             Projectile.position = owner.Center;
