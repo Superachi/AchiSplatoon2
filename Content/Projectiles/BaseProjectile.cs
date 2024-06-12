@@ -63,14 +63,15 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemTime = owner.itemTimeMax;
         }
 
-        protected static void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0.1f, int maxInstances = 1)
+        protected static void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f)
         {
             var sample = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
             var chargeSound = sample with
             {
                 Volume = volume,
                 PitchVariance = pitchVariance,
-                MaxInstances = maxInstances
+                MaxInstances = maxInstances,
+                Pitch = pitch,
             };
             SoundEngine.PlaySound(chargeSound);
         }
