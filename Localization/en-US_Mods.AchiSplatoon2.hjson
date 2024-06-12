@@ -99,6 +99,11 @@ Items: {
 		DisplayName: REEFLUX-320
 		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of shots]"
 	}
+
+	ReefluxDecoStringer: {
+		DisplayName: Reeflux Deco Stringer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
