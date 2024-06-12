@@ -85,6 +85,15 @@ Items: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
 	}
+
+	GrizzcoStringer: {
+		DisplayName: Grizzco Stringer
+		Tooltip:
+			'''
+			[c/64aaff:"That fancy weapon you have there?]
+			[c/64aaff:That's one of my special models."]
+			'''
+	}
 }
 
 Projectiles: {
@@ -99,4 +108,5 @@ Projectiles: {
 	TriStringerCharge.DisplayName: Tri Stringer Charge
 	TriStringerProjectile.DisplayName: Tri Stringer Projectile
 	TriStringerProjectileWeak.DisplayName: Tri Stringer Projectile Weak
+	GrizzcoStringerCharge.DisplayName: Grizzco Stringer Charge
 }
