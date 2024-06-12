@@ -87,9 +87,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (!hasFired)
             {
-                // Main.NewText("Owner attacked.");
                 // Release the attack
                 hasFired = true;
+                Projectile.friendly = true;
 
                 // Adjust behaviour depending on the charge amount
                 if (chargeReady)
