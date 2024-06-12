@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 10, 12f);
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 12, 12f);
             Item.damage = 38;
             Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 5);

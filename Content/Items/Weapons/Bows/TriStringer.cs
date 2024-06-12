@@ -30,20 +30,20 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.rare = ItemRarityID.Green;
             Item.noMelee = true;
             Item.channel = true;
-            Item.crit = 10;
+            Item.crit = 8;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.DemonBow, 8);
+            recipe.AddIngredient(ItemID.DemonBow, 1);
             recipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
             recipe.AddIngredient(ItemID.SharkFin, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
 
             Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.TendonBow, 8);
+            altRecipe.AddIngredient(ItemID.TendonBow, 1);
             altRecipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
             altRecipe.AddIngredient(ItemID.SharkFin, 1);
             altRecipe.AddTile(TileID.Anvils);

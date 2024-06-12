@@ -29,6 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private float maxChargeTime;
         protected virtual float ShotgunArc { get => 4f; }
         protected virtual int ProjectileCount { get => 3; }
+        protected virtual bool AllowStickyProjectiles { get => true; }
 
         private float ChargeTime
         {
@@ -117,7 +118,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                         velocityModifier = 1.5f;
                         arcModifier = 1f;
                     }
-                    projectileType = ModContent.ProjectileType<TriStringerProjectile>();
+
+                    if (AllowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
                     PlayAudio("TriStringerShoot");
                 }
 

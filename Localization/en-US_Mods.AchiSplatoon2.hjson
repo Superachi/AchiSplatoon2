@@ -78,7 +78,7 @@ Items: {
 
 	TriStringer: {
 		DisplayName: Tri-Stringer
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of explosive arrows]"
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of explosive shots]"
 	}
 
 	TriStringerInkline: {
@@ -93,6 +93,11 @@ Items: {
 			[c/64aaff:"That fancy weapon you have there?]
 			[c/64aaff:That's one of my special models."]
 			'''
+	}
+
+	ReefluxStringer: {
+		DisplayName: REEFLUX-320
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of shots]"
 	}
 }
 
@@ -109,4 +114,5 @@ Projectiles: {
 	TriStringerProjectile.DisplayName: Tri Stringer Projectile
 	TriStringerProjectileWeak.DisplayName: Tri Stringer Projectile Weak
 	GrizzcoStringerCharge.DisplayName: Grizzco Stringer Charge
+	ReefluxStringerCharge.DisplayName: Reeflux Stringer Charge
 }

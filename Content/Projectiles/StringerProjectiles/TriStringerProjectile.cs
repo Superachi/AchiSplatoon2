@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = ExtraUpdatesTime(60);
+            Projectile.timeLeft = ExtraUpdatesTime(120);
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
