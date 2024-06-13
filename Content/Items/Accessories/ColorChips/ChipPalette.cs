@@ -12,6 +12,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
     internal class ChipPalette : BaseAccessory
     {
+        protected virtual int PaletteCapacity { get => 8; }
+
         public override void SetDefaults()
         {
             Item.width = 32;
@@ -25,6 +27,11 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             modPlayer.isPaletteEquipped = true;
+            modPlayer.paletteCapacity = PaletteCapacity;
+
+            // Note that disabling the buffs here doesn't disable ALL the buffs
+            // See also the calculations in BaseProjectile.cs
+            if (modPlayer.DoesPlayerHaveTooManyChips()) return;
 
             var chips = modPlayer.ColorChipAmounts;
             player.GetAttackSpeed(DamageClass.Generic) +=
@@ -42,12 +49,26 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            var textColorEffect = "c/ff8e2c:";
+            var textColorGray = "c/a8a8a8:";
+            var textColorWarn = "c/ed3a4a:";
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             int index = tooltips.FindIndex(l => l.Name == "ItemName");
             if (index != -1)
             {
+                var t = tooltips[index];
                 if (modPlayer.isPaletteEquipped)
                 {
+                    int chipCount = modPlayer.CalculateColorChipTotal();
+                    if (modPlayer.DoesPlayerHaveTooManyChips())
+                    {
+                        t.Text = $"{Item.Name}" +
+                            $"\n[{textColorWarn}ERROR! Palette inactive!]" +
+                            $"\n[{textColorGray}Remove Color Chips from your inventory until you have {PaletteCapacity} or less.]" +
+                            $"\n[{textColorGray}Currently you have {chipCount} Color Chips in your inventory.]";
+                        return;
+                    }
+
                     var chips = modPlayer.ColorChipAmounts;
                     var red = (float)chips[(int)InkWeaponPlayer.ChipColor.Red];
                     var blue = (float)chips[(int)InkWeaponPlayer.ChipColor.Blue];
@@ -56,39 +77,36 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     var green = (float)chips[(int)InkWeaponPlayer.ChipColor.Green];
                     var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
 
-                    var t = tooltips[index];
                     t.Text = $"{Item.Name}" +
-                        $"\n[c/ff8e2c:Activates the effects of Color Chips]" +
-                        $"\n[c/ff8e2c:held in your inventory (up to 8)]" +
+                        $"\n[{textColorEffect}Activates the effects of Color Chips]" +
+                        $"\n[{textColorEffect}held in your inventory ({chipCount}/{PaletteCapacity})]" +
                         $"\n[c/ffffff:Currently active:]";
                     if (red > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Power ({red}) > Attack speed bonus: {(int)(red * modPlayer.RedChipBaseAttackSpeedBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Power ({red}) > Attack speed bonus: {(int)(red * modPlayer.RedChipBaseAttackSpeedBonus * 100)}%]";
                     }
                     if (blue > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Mobility ({blue}) > Move speed bonus: {(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Mobility ({blue}) > Move speed bonus: {(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]";
                     }
                     if (yellow > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Range ({yellow}) > Explosion radius bonus: {(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Range ({yellow}) > Explosion radius bonus: {(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]";
                     }
                     if (purple > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Support ({purple}) >]" +
-                            $"\n[c/a8a8a8:Knockback bonus: {(int)(purple * modPlayer.PurpleChipBaseKnockbackBonus)} unit(s)]" +
-                            $"\n[c/a8a8a8:Weapon charge speed bonus: {(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Support ({purple}) >]" +
+                            $"\n[{textColorGray}Knockback bonus: {(int)(purple * modPlayer.PurpleChipBaseKnockbackBonus)} unit(s)]" +
+                            $"\n[{textColorGray}Weapon charge speed bonus: {(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Lucky ({green}) > Critical strike bonus: {(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
+                        t.Text += $"\n[{textColorGray}Lucky ({green}) > Critical strike bonus: {(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
                     }
                 } else
                 {
-                    var t = tooltips[index];
                     t.Text = $"{Item.Name}" +
-                        $"\n[c/ff8e2c:When worn, it activates the effects of Color Chips held in your inventory (up to 8)]" +
-                        $"\n[c/a8a8a8:Currently inactive]";
+                        $"\n[{textColorEffect}When equipped, it activates the effects of Color Chips held in your inventory (up to {PaletteCapacity})]";
                 }
             }
         }

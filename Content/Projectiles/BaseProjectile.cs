@@ -67,6 +67,10 @@ namespace AchiSplatoon2.Content.Projectiles
                         }
                     }
 
+                    // Apply color chip buffs
+                    // See also the calculations in InkWeaponPlayer.cs
+                    if (modPlayer.DoesPlayerHaveTooManyChips()) return;
+
                     // Purple chips > faster charge speed
                     if (i == (int)InkWeaponPlayer.ChipColor.Purple)
                     {
@@ -79,10 +83,6 @@ namespace AchiSplatoon2.Content.Projectiles
                         explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
                     }
                 }
-
-                //Main.NewText($"Chips: {t}");
-                //Main.NewText($"Primary: {primaryColor}, Chips: {primaryHighest}");
-                //Main.NewText($"Secondary: {secondaryColor}, Chips: {secondaryHighest}");
             }
         }
 

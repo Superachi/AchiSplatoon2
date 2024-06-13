@@ -46,6 +46,11 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue;
         }
 
+        private string StatIncreaseDisplayString(string textColor, string stat, string amount)
+        {
+            return $"[{textColor}:Increases {stat} by {amount} per chip]";
+        }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
@@ -56,32 +61,38 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 t.Text = $"{Item.Name}";
                 if (modPlayer.isPaletteEquipped)
                 {
+                    if (modPlayer.DoesPlayerHaveTooManyChips())
+                    {
+                        t.Text += $"\n[c/a8a8a8:Currently inactive. You have too many Color Chips equipped.]";
+                        return;
+                    }
+
                     var textColor = "c/ffffff";
                     t.Text += $"\n[c/ff8e2c:Palette effect: ]";
                     if (RedValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased attack speed]";
+                        t.Text += StatIncreaseDisplayString(textColor, "attack speed", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
                     }
                     else if (BlueValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased movement speed]";
+                        t.Text += StatIncreaseDisplayString(textColor, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
                     }
                     else if (YellowValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased explosion radius]";
+                        t.Text += StatIncreaseDisplayString(textColor, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
                     }
                     else if (PurpleValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased weapon knockback]";
-                        t.Text += $"\n[{textColor}:and weapon charge speed]";
+                        t.Text += StatIncreaseDisplayString(textColor, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
+                        t.Text += "\n"+StatIncreaseDisplayString(textColor, "knockback", modPlayer.PurpleChipBaseKnockbackBonusDisplay);
                     }
                     else if (GreenValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased critical strike chance]";
+                        t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
                     }
                     else if (AquaValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased ...]";
+                        t.Text += StatIncreaseDisplayString(textColor, "vibes", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
                     }
                 }
                 else
