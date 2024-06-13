@@ -9,16 +9,14 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
-    internal class ColorChipYellow : ColorChipBase
+    internal class ColorChipEmpty : ModItem
     {
-        protected override int YellowValue => 1;
-
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.YellowDye);
-            recipe.AddIngredient(ModContent.ItemType<ColorChipEmpty>());
-            recipe.AddTile(TileID.Bottles);
+            recipe.AddIngredient(ItemID.Glass, 10);
+            recipe.AddIngredient(ItemID.Gel, 10);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.Register();
         }
     }

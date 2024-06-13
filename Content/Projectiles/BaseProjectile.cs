@@ -69,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     // Apply color chip buffs
                     // See also the calculations in InkWeaponPlayer.cs
-                    if (modPlayer.DoesPlayerHaveTooManyChips()) return;
+                    if (!modPlayer.IsPaletteValid()) return;
 
                     // Purple chips > faster charge speed
                     if (i == (int)InkWeaponPlayer.ChipColor.Purple)

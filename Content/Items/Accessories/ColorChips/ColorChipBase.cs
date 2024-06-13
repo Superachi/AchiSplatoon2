@@ -8,19 +8,10 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
     internal class ColorChipBase : ModItem
     {
-        // Damage
         protected virtual int RedValue { get => 0; }
-
-        // Move speed
         protected virtual int BlueValue { get => 0; }
-
-        // Pierce? or proj velocity
         protected virtual int YellowValue { get => 0; }
-
-        // Knockback
         protected virtual int PurpleValue { get => 0; }
-
-        // Crit and lucky bomb?
         protected virtual int GreenValue { get => 0; }
         protected virtual int AquaValue { get => 0; }
 
@@ -97,7 +88,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 }
                 else
                 {
-                    t.Text += $"\n[c/a8a8a8:Currently inactive. Requires an Order Palette to activate!]";
+                    t.Text += $"\n[c/a8a8a8:Currently inactive. Requires a Color Palette accessory to activate!]";
                 }
             }
         }

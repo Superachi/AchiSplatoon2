@@ -13,8 +13,11 @@ namespace AchiSplatoon2.Content.Players
     {
         public bool isPaletteEquipped;
         public int paletteCapacity;
+        public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
+
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
+
         public float RedChipBaseAttackSpeedBonus { get => 0.03f; }
         public string RedChipBaseAttackSpeedBonusDisplay { get => $"{(int)(RedChipBaseAttackSpeedBonus * 100)}%"; }
         public float PurpleChipBaseKnockbackBonus { get => 1f; }
@@ -40,6 +43,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void ResetEffects()
         {
+            conflictingPalettes = false;
             isPaletteEquipped = false;
             paletteCapacity = 0;
             ColorChipAmounts = [0, 0, 0, 0, 0, 0];
@@ -51,6 +55,10 @@ namespace AchiSplatoon2.Content.Players
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             int chipCount = modPlayer.CalculateColorChipTotal();
             return (chipCount > paletteCapacity);
+        }
+
+        public bool IsPaletteValid() {
+            return !conflictingPalettes && !DoesPlayerHaveTooManyChips();
         }
 
         public int CalculateColorChipTotal()

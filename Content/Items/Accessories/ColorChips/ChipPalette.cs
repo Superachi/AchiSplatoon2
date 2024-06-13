@@ -12,26 +12,45 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
     internal class ChipPalette : BaseAccessory
     {
-        protected virtual int PaletteCapacity { get => 8; }
+        protected virtual int PaletteCapacity { get => 4; }
 
         public override void SetDefaults()
         {
             Item.width = 32;
-            Item.height = 28;
+            Item.height = 20;
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.LightRed;
             Item.accessory = true;
         }
 
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ItemID.DemoniteBar, 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.Register();
+
+            Recipe altRecipe = CreateRecipe();
+            altRecipe.AddIngredient(ItemID.CrimtaneBar, 8);
+            altRecipe.AddTile(TileID.Anvils);
+            altRecipe.Register();
+        }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            if (modPlayer.isPaletteEquipped)
+            {
+                modPlayer.conflictingPalettes = true;
+                return;
+            }
+
             modPlayer.isPaletteEquipped = true;
             modPlayer.paletteCapacity = PaletteCapacity;
 
             // Note that disabling the buffs here doesn't disable ALL the buffs
             // See also the calculations in BaseProjectile.cs
-            if (modPlayer.DoesPlayerHaveTooManyChips()) return;
+            if (!modPlayer.IsPaletteValid()) return;
 
             var chips = modPlayer.ColorChipAmounts;
             player.GetAttackSpeed(DamageClass.Generic) +=
@@ -59,6 +78,14 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 var t = tooltips[index];
                 if (modPlayer.isPaletteEquipped)
                 {
+                    if (modPlayer.conflictingPalettes)
+                    {
+                        t.Text = $"{Item.Name}" +
+                            $"\n[{textColorWarn}ERROR! Palette inactive!]" +
+                            $"\n[{textColorGray}You cannot equip multiple palettes at the same time.]";
+                        return;
+                    }
+
                     int chipCount = modPlayer.CalculateColorChipTotal();
                     if (modPlayer.DoesPlayerHaveTooManyChips())
                     {

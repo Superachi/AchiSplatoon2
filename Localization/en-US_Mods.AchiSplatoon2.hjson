@@ -146,7 +146,22 @@ Items: {
 	}
 
 	ChipPalette: {
-		DisplayName: Order Palette
+		DisplayName: Smoll Color Palette
+		Tooltip: ""
+	}
+
+	HyperfreshPalette: {
+		DisplayName: Hyperfresh Color Palette
+		Tooltip: ""
+	}
+
+	PrincessPalette: {
+		DisplayName: Princess Color Palette
+		Tooltip: ""
+	}
+
+	ColorChipEmpty: {
+		DisplayName: Color Chip Empty
 		Tooltip: ""
 	}
 }
