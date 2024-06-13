@@ -19,8 +19,6 @@ namespace AchiSplatoon2.Content.Projectiles
         
         public override void SetDefaults()
         {
-            Initialize(color: InkColor.Blue, visible: false, visibleDelay: 4f);
-
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
@@ -32,6 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
+            Initialize();
             PlayAudio(ShootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
 
             var spreadOffset = 0.5f;

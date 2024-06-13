@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Bows;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -10,20 +11,50 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseProjectile : ModProjectile
     {
-        protected InkColor inkColor = InkColor.Blue;
-        protected bool isVisible = false;
-        protected float delayUntilVisible = 0f;
+        public InkColor inkColor = InkColor.Blue;
 
-        public void Initialize(InkColor color, bool visible, float visibleDelay)
+        public void Initialize()
         {
-            inkColor = color;
-            isVisible = visible;
-            delayUntilVisible = visibleDelay;
+            // Check the highest color chip amount, set the ink color to match it
+            var highest = 0;
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            if (IsThisClientTheProjectileOwner()) {
+                if (modPlayer.ColorChipRedAmount > highest)
+                {
+                    highest = modPlayer.ColorChipRedAmount;
+                    inkColor = InkColor.Red;
+                }
+                if (modPlayer.ColorChipBlueAmount > highest)
+                {
+                    highest = modPlayer.ColorChipBlueAmount;
+                    inkColor = InkColor.Blue;
+                }
+                if (modPlayer.ColorChipYellowAmount > highest)
+                {
+                    highest = modPlayer.ColorChipYellowAmount;
+                    inkColor = InkColor.Yellow;
+                }
+                if (modPlayer.ColorChipPurpleAmount > highest)
+                {
+                    highest = modPlayer.ColorChipPurpleAmount;
+                    inkColor = InkColor.Purple;
+                }
+                if (modPlayer.ColorChipGreenAmount > highest)
+                {
+                    highest = modPlayer.ColorChipGreenAmount;
+                    inkColor = InkColor.Green;
+                }
+                if (modPlayer.ColorChipAquaAmount > highest)
+                {
+                    inkColor = InkColor.Aqua;
+                }
+            }
         }
 
         /// <summary>

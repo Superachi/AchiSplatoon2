@@ -29,8 +29,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Initialize(color: ColorHelper.GetRandomInkColor(), visible: false, visibleDelay: 24f);
-
             explosionDelay = ExplosionDelayInit * addedUpdate;
             Projectile.extraUpdates = addedUpdate;
             Projectile.width = 8;
@@ -45,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
+            Initialize();
             PlayAudio(ShootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             EmitShotBurstDust();
         }

@@ -104,6 +104,58 @@ Items: {
 		DisplayName: REEF-LUX 450 Deco
 		Tooltip: '''[c/64aaff:"That's how it feels to drive a Reefslider F-150."]'''
 	}
+
+	BaseAccessory: {
+		DisplayName: Base Accessory
+		Tooltip: ""
+	}
+
+	ColorChipBase: {
+		DisplayName: Color Chip Base
+		Tooltip: ""
+	}
+
+	ColorChipRed: {
+		DisplayName: Power Color Chip
+		Tooltip:
+			'''
+			Requires a palette accessory to be worn
+			[c/ff8e2c:Passive: carry in inventory to increase damage by 5% per chip"]
+			'''
+	}
+
+	ColorChipAqua: {
+		DisplayName: Drone Color Chip
+		Tooltip: ""
+	}
+
+	ColorChipBlue: {
+		DisplayName: Mobility Color Chip
+		Tooltip:
+			'''
+			Requires a palette accessory to be worn
+			[c/ff8e2c:Passive: carry in inventory to increase movement speed by 20% per chip"]
+			'''
+	}
+
+	ColorChipGreen: {
+		DisplayName: Lucky Color Chip
+		Tooltip:
+			'''
+			Requires a palette accessory to be worn
+			[c/ff8e2c:Passive: carry in inventory to increase critical strike chance by 3% per chip"]
+			'''
+	}
+
+	ColorChipPurple: {
+		DisplayName: Support Color Chip
+		Tooltip: ""
+	}
+
+	ColorChipYellow: {
+		DisplayName: Range Color Chip
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

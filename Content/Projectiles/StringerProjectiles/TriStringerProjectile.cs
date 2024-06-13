@@ -22,8 +22,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override void SetDefaults()
         {
-            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 4f);
-
             Projectile.alpha = 255;
             Projectile.extraUpdates = 30;
             Projectile.width = 8;
@@ -32,6 +30,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.timeLeft = ExtraUpdatesTime(120);
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
+        }
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            Initialize();
         }
 
         private float ExtraUpdatesTime(float input)

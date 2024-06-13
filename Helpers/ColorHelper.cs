@@ -12,12 +12,12 @@ namespace AchiSplatoon2.Helpers
 {
     public enum InkColor
     {
-        Blue,
-        Orange,
-        Pink,
-        Green,
-        Yellow,
         Red,
+        Blue,
+        Yellow,
+        Purple,
+        Green,
+        Aqua,
     }
 
     internal static class ColorHelper
@@ -31,10 +31,10 @@ namespace AchiSplatoon2.Helpers
         {
             Color finalColor;
             switch (enumVal) {
-                case InkColor.Orange:
+                case InkColor.Red:
                     finalColor = Color.Lerp(new Color(255, 93, 82), new Color(255, 190, 79), Main.rand.NextFloat());
                     break;
-                case InkColor.Pink:
+                case InkColor.Purple:
                     finalColor = Color.Lerp(new Color(255, 107, 169), new Color(210, 74, 255), Main.rand.NextFloat());
                     break;
                 case InkColor.Green:
@@ -42,6 +42,9 @@ namespace AchiSplatoon2.Helpers
                     break;
                 case InkColor.Yellow:
                     finalColor = Color.Lerp(new Color(255, 190, 59), new Color(255, 228, 122), Main.rand.NextFloat());
+                    break;
+                case InkColor.Aqua:
+                    finalColor = Color.Lerp(new Color(92, 227, 207), new Color(199, 78, 95), Main.rand.NextFloat());
                     break;
                 default:
                     finalColor = Color.Lerp(new Color(64, 118, 255), new Color(64, 223, 255), Main.rand.NextFloat());

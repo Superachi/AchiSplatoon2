@@ -33,8 +33,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Initialize(color: InkColor.Pink, visible: false, visibleDelay: 24f);
-
             Projectile.extraUpdates = 32;
             Projectile.width = 8;
             Projectile.height = 8;
@@ -46,6 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
+            Initialize();
             Projectile.velocity = Vector2.Zero;
             PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
