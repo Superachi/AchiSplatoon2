@@ -5,7 +5,6 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Weapons;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {

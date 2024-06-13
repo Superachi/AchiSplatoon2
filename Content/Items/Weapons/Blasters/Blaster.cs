@@ -1,4 +1,3 @@
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;

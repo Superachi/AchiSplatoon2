@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -12,7 +11,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Weapons;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
