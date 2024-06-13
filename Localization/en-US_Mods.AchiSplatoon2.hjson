@@ -68,7 +68,7 @@ Items: {
 
 	BaseWeapon: {
 		DisplayName: Pearlinaean Splattershot
-		Tooltip: "[c/ff2c5d:Programmer item (you're not meant to see this)]"
+		Tooltip: Developer item.
 	}
 
 	LunaBlaster: {
@@ -107,21 +107,17 @@ Items: {
 
 	BaseAccessory: {
 		DisplayName: Base Accessory
-		Tooltip: ""
+		Tooltip: Developer item.
 	}
 
 	ColorChipBase: {
 		DisplayName: Color Chip Base
-		Tooltip: ""
+		Tooltip: Developer item.
 	}
 
 	ColorChipRed: {
 		DisplayName: Power Color Chip
-		Tooltip:
-			'''
-			Requires a palette accessory to be worn
-			[c/ff8e2c:Passive: carry in inventory to increase damage by 5% per chip"]
-			'''
+		Tooltip: ""
 	}
 
 	ColorChipAqua: {
@@ -131,20 +127,12 @@ Items: {
 
 	ColorChipBlue: {
 		DisplayName: Mobility Color Chip
-		Tooltip:
-			'''
-			Requires a palette accessory to be worn
-			[c/ff8e2c:Passive: carry in inventory to increase movement speed by 20% per chip"]
-			'''
+		Tooltip: ""
 	}
 
 	ColorChipGreen: {
 		DisplayName: Lucky Color Chip
-		Tooltip:
-			'''
-			Requires a palette accessory to be worn
-			[c/ff8e2c:Passive: carry in inventory to increase critical strike chance by 3% per chip"]
-			'''
+		Tooltip: ""
 	}
 
 	ColorChipPurple: {
@@ -154,6 +142,11 @@ Items: {
 
 	ColorChipYellow: {
 		DisplayName: Range Color Chip
+		Tooltip: ""
+	}
+
+	ChipPalette: {
+		DisplayName: Order Palette
 		Tooltip: ""
 	}
 }

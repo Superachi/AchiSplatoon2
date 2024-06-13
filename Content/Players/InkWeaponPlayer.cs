@@ -11,29 +11,46 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkWeaponPlayer : ModPlayer
     {
-        public int ColorChipRedAmount;
-        public int ColorChipBlueAmount;
-        public int ColorChipYellowAmount;
-        public int ColorChipPurpleAmount;
-        public int ColorChipGreenAmount;
-        public int ColorChipAquaAmount;
+        public bool isPaletteEquipped;
+        public int[] ColorChipAmounts;
+        public int ColorChipTotal;
+        public float RedChipBaseDamageBonus { get => 0.05f; }
+        public float PurpleChipBaseKnockbackBonus { get => 2f; }
+        public float GreenChipBaseCritBonus { get => 5f; }
+        public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
+
+        public enum ChipColor
+        {
+            Red,
+            Blue,
+            Yellow,
+            Purple,
+            Green,
+            Aqua,
+        }
 
         public override void ResetEffects()
         {
-            ColorChipRedAmount = 0;
-            ColorChipBlueAmount = 0;
-            ColorChipYellowAmount = 0;
-            ColorChipPurpleAmount = 0;
-            ColorChipGreenAmount = 0;
-            ColorChipAquaAmount = 0;
+            isPaletteEquipped = false;
+            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
+            ColorChipTotal = 0;
         }
 
-        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
+        public void CalculateColorChipTotal()
         {
-            if (Main.myPlayer == proj.owner)
+            ColorChipTotal = 0;
+            for (int i = 0; i < ColorChipAmounts.Length; i++)
             {
-                modifiers.SourceDamage *= 1 + (ColorChipRedAmount / 10);
+                ColorChipTotal += ColorChipAmounts[i];
             }
         }
+
+        //public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
+        //{
+        //    if (Main.myPlayer == proj.owner)
+        //    {
+        //        modifiers.SourceDamage *= 1 + (ColorChipRedAmount / 10);
+        //    }
+        //}
     }
 }

@@ -24,33 +24,34 @@ namespace AchiSplatoon2.Content.Projectiles
             // Check the highest color chip amount, set the ink color to match it
             var highest = 0;
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            int[] colorChipAmounts = modPlayer.ColorChipAmounts;
             if (IsThisClientTheProjectileOwner()) {
-                if (modPlayer.ColorChipRedAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] > highest)
                 {
-                    highest = modPlayer.ColorChipRedAmount;
+                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red];
                     inkColor = InkColor.Red;
                 }
-                if (modPlayer.ColorChipBlueAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] > highest)
                 {
-                    highest = modPlayer.ColorChipBlueAmount;
+                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue];
                     inkColor = InkColor.Blue;
                 }
-                if (modPlayer.ColorChipYellowAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] > highest)
                 {
-                    highest = modPlayer.ColorChipYellowAmount;
+                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow];
                     inkColor = InkColor.Yellow;
                 }
-                if (modPlayer.ColorChipPurpleAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] > highest)
                 {
-                    highest = modPlayer.ColorChipPurpleAmount;
+                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple];
                     inkColor = InkColor.Purple;
                 }
-                if (modPlayer.ColorChipGreenAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] > highest)
                 {
-                    highest = modPlayer.ColorChipGreenAmount;
+                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green];
                     inkColor = InkColor.Green;
                 }
-                if (modPlayer.ColorChipAquaAmount > highest)
+                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] > highest)
                 {
                     inkColor = InkColor.Aqua;
                 }
