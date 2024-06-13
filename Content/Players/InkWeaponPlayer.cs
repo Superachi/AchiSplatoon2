@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float RedChipBaseAttackSpeedBonus { get => 0.03f; }
         public string RedChipBaseAttackSpeedBonusDisplay { get => $"{(int)(RedChipBaseAttackSpeedBonus * 100)}%"; }
-        public float PurpleChipBaseKnockbackBonus { get => 1f; }
+        public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
         public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
         public float PurpleChipBaseChargeSpeedBonus { get => 0.06f; }
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
