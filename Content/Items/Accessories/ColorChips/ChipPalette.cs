@@ -69,9 +69,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     {
                         t.Text += $"\n[c/a8a8a8:Mobility ({blue}) > Move speed bonus: {(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]";
                     }
+                    if (yellow > 0)
+                    {
+                        t.Text += $"\n[c/a8a8a8:Range ({yellow}) > Explosion radius bonus: {(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]";
+                    }
                     if (purple > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Support ({purple}) > Knockback bonus: {(int)(purple * modPlayer.PurpleChipBaseKnockbackBonus)} units]";
+                        t.Text += $"\n[c/a8a8a8:Support ({purple}) >]" +
+                            $"\n[c/a8a8a8:Knockback bonus: {(int)(purple * modPlayer.PurpleChipBaseKnockbackBonus)} unit(s)]" +
+                            $"\n[c/a8a8a8:Weapon charge speed bonus: {(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)
                     {

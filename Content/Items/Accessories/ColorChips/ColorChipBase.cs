@@ -68,16 +68,16 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     }
                     else if (YellowValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased ...]";
+                        t.Text += $"[{textColor}:Increased explosion radius]";
                     }
                     else if (PurpleValue > 0)
                     {
                         t.Text += $"[{textColor}:Increased weapon knockback]";
+                        t.Text += $"\n[{textColor}:and weapon charge speed]";
                     }
                     else if (GreenValue > 0)
                     {
                         t.Text += $"[{textColor}:Increased critical strike chance]";
-                        t.Text += $"\n[{textColor}:and enemy lucky bomb drop chance]";
                     }
                     else if (AquaValue > 0)
                     {

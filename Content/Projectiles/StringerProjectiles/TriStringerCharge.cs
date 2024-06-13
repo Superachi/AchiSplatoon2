@@ -45,9 +45,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
+            Initialize();
             maxChargeTime = ChargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
             PlayAudio(soundPath: "ChargeStart");
+        }
+
+        private void IncrementChargeTime()
+        {
+            ChargeTime += 1f * chargeSpeedModifier;
         }
 
         public override void AI()
@@ -62,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     var len = ChargeTimeThresholds.Length;
                     if (chargeLevel < len)
                     {
-                        ++ChargeTime;
+                        IncrementChargeTime();
                         if (ChargeTime >= ChargeTimeThresholds[chargeLevel])
                         {
                             chargeLevel++;

@@ -18,6 +18,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private bool sticking = false;
         private bool hasExploded = false;
         protected virtual bool CanStick { get => true; }
+
+        private int finalExplosionRadius = 0;
         protected virtual int ExplosionRadius { get => 120; }
 
         public override void SetDefaults()
@@ -35,6 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
+            finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);
         }
 
         private float ExtraUpdatesTime(float input)
@@ -80,8 +83,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.alpha = 255;
-                Projectile.Resize(ExplosionRadius, ExplosionRadius);
-                EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadius);
+                Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
+                EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: finalExplosionRadius);
                 PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
             }
         }

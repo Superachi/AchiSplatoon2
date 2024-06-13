@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -22,13 +23,16 @@ namespace AchiSplatoon2.Content.Projectiles
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
+        // See <InkWeaponPlayer.cs>
+        protected float chargeSpeedModifier = 1f;  
+        protected float explosionRadiusModifier = 1f;
+
         public void Initialize()
         {
             // Check the highest color chip amounts, set the ink color to match the top 2
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
 
             if (IsThisClientTheProjectileOwner()) {
-                var t = "";
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
                     int value = modPlayer.ColorChipAmounts[i];
@@ -62,8 +66,20 @@ namespace AchiSplatoon2.Content.Projectiles
                             secondaryHighest = value;
                         }
                     }
-                    t += $"{modPlayer.ColorChipAmounts[i]},";
+
+                    // Purple chips > faster charge speed
+                    if (i == (int)InkWeaponPlayer.ChipColor.Purple)
+                    {
+                        chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
+                    }
+
+                    // Yellow chips > more explosion radius
+                    if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
+                    {
+                        explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
+                    }
                 }
+
                 //Main.NewText($"Chips: {t}");
                 //Main.NewText($"Primary: {primaryColor}, Chips: {primaryHighest}");
                 //Main.NewText($"Secondary: {secondaryColor}, Chips: {secondaryHighest}");

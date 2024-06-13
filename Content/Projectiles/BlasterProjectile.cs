@@ -20,7 +20,10 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual string ExplosionBigSample { get => "BlasterExplosion"; }
         protected virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
 
+        private int finalExplosionRadiusAir = 0;
         protected virtual int ExplosionRadiusAir { get => 240; }
+
+        private int finalExplosionRadiusTile = 0;
         protected virtual int ExplosionRadiusTile { get => 160; }
         protected virtual float ExplosionDelayInit { get => 20f; }
 
@@ -44,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
+            finalExplosionRadiusAir = (int)(ExplosionRadiusAir * explosionRadiusModifier);
+            finalExplosionRadiusTile = (int)(ExplosionRadiusTile * explosionRadiusModifier);
             PlayAudio(ShootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             EmitShotBurstDust();
         }
@@ -109,12 +114,12 @@ namespace AchiSplatoon2.Content.Projectiles
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.tileCollide = false;
-                Projectile.Resize(ExplosionRadiusAir, ExplosionRadiusAir);
+                Projectile.Resize(finalExplosionRadiusAir, finalExplosionRadiusAir);
                 Projectile.velocity = Vector2.Zero;
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: ExplosionRadiusAir);
+            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: finalExplosionRadiusAir);
         }
 
         private void ExplodeSmall()
@@ -127,12 +132,12 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Projectile.damage /= 2;
                 Projectile.tileCollide = false;
-                Projectile.Resize(ExplosionRadiusTile, ExplosionRadiusTile);
+                Projectile.Resize(finalExplosionRadiusTile, finalExplosionRadiusTile);
                 Projectile.velocity = Vector2.Zero;
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: ExplosionRadiusTile);
+            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: finalExplosionRadiusTile);
         }
 
         private void AdvanceState()

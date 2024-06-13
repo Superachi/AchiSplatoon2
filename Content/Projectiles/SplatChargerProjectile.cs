@@ -49,6 +49,11 @@ namespace AchiSplatoon2.Content.Projectiles
             PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
+        private void IncrementChargeTime()
+        {
+            ChargeTime += 1f * chargeSpeedModifier;
+        }
+
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
@@ -78,7 +83,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
 
-                ++ChargeTime;
+                IncrementChargeTime();
                 SyncProjectilePosWithPlayer(owner);
                 PlayerItemAnimationFaceCursor(owner);
                 return;
