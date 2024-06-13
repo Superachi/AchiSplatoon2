@@ -27,30 +27,99 @@ namespace AchiSplatoon2.Helpers
             return (InkColor)Main.rand.Next(0, 6);
         }
 
-        public static Color GenerateInkColor(InkColor enumVal)
+        public static Color GetInkColor(InkColor enumVal)
         {
             Color finalColor;
-            switch (enumVal) {
-                case InkColor.Red:
-                    finalColor = Color.Lerp(new Color(255, 93, 82), new Color(255, 190, 79), Main.rand.NextFloat());
-                    break;
-                case InkColor.Purple:
-                    finalColor = Color.Lerp(new Color(255, 107, 169), new Color(210, 74, 255), Main.rand.NextFloat());
-                    break;
-                case InkColor.Green:
-                    finalColor = Color.Lerp(new Color(75, 219, 101), new Color(23, 212, 155), Main.rand.NextFloat());
+            switch (enumVal)
+            {
+                case InkColor.Blue:
+                    finalColor = new Color(0, 103, 255);
                     break;
                 case InkColor.Yellow:
-                    finalColor = Color.Lerp(new Color(255, 190, 59), new Color(255, 228, 122), Main.rand.NextFloat());
+                    finalColor = new Color(255, 198, 0);
+                    break;
+                case InkColor.Purple:
+                    finalColor = new Color(196, 0, 255);
+                    break;
+                case InkColor.Green:
+                    finalColor = new Color(78, 255, 43);
                     break;
                 case InkColor.Aqua:
-                    finalColor = Color.Lerp(new Color(92, 227, 207), new Color(199, 78, 95), Main.rand.NextFloat());
+                    finalColor = new Color(0, 255, 238);
                     break;
+                case InkColor.Red:
                 default:
-                    finalColor = Color.Lerp(new Color(64, 118, 255), new Color(64, 223, 255), Main.rand.NextFloat());
+                    finalColor = new Color(255, 41, 0);
                     break;
             }
             return finalColor;
+        }
+
+        public static Color LerpBetweenInkColors(InkColor primaryColor, InkColor secondaryColor, float amount)
+        {
+            // Exceptions to make certain blends look nicer
+            // Red & Blue
+            if (primaryColor == InkColor.Red && secondaryColor == InkColor.Blue)
+            {
+                return new Color(199, 65, 228);
+            }
+
+            if (primaryColor == InkColor.Blue && secondaryColor == InkColor.Red)
+            {
+                return new Color(150, 88, 255);
+            }
+
+            // Red & Aqua
+            if (primaryColor == InkColor.Red && secondaryColor == InkColor.Aqua)
+            {
+                return new Color(255, 143, 248);
+            }
+
+            if (primaryColor == InkColor.Aqua && secondaryColor == InkColor.Red)
+            {
+                return new Color(196, 143, 255);
+            }
+
+
+            // Red & Green
+            if (primaryColor == InkColor.Red && secondaryColor == InkColor.Green)
+            {
+                return new Color(244, 210, 77);
+            }
+
+            if (primaryColor == InkColor.Green && secondaryColor == InkColor.Red)
+            {
+                return new Color(211, 228, 65);
+            }
+
+            // Blue & Yellow
+            if (primaryColor == InkColor.Blue && secondaryColor == InkColor.Yellow)
+            {
+                return new Color(72, 229, 64);
+            }
+
+            if (primaryColor == InkColor.Yellow && secondaryColor == InkColor.Blue)
+            {
+                return new Color(107, 231, 61);
+            }
+
+            // Purple & Green
+            if (primaryColor == InkColor.Purple && secondaryColor == InkColor.Green)
+            {
+                return new Color(44, 167, 255);
+            }
+
+            if (primaryColor == InkColor.Green && secondaryColor == InkColor.Purple)
+            {
+                return new Color(0, 203, 184);
+            }
+
+            return LerpBetweenColors(GetInkColor(primaryColor), GetInkColor(secondaryColor), amount);
+        }
+
+        public static Color LerpBetweenColors(Color primaryColor, Color secondaryColor, float amount)
+        {
+            return Color.Lerp(primaryColor, secondaryColor, amount + Main.rand.NextFloat(-0.1f, 0.1f));
         }
     }
 }

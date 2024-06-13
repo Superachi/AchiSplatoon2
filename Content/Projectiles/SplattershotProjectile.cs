@@ -58,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+            Color dustColor = GenerateInkColor();
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             for (int i = 0; i < 3; i++)
             {
@@ -75,7 +75,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 float random = Main.rand.NextFloat(-2, 2);
                 float velX = ((Projectile.velocity.X + random) * -0.5f);
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
         }

@@ -17,45 +17,65 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseProjectile : ModProjectile
     {
-        public InkColor inkColor = InkColor.Blue;
+        private InkColor primaryColor = InkColor.Red;
+        private InkColor secondaryColor = InkColor.Red;
+        private int primaryHighest = 0;
+        private int secondaryHighest = 0;
 
         public void Initialize()
         {
-            // Check the highest color chip amount, set the ink color to match it
-            var highest = 0;
+            // Check the highest color chip amounts, set the ink color to match the top 2
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            int[] colorChipAmounts = modPlayer.ColorChipAmounts;
+
             if (IsThisClientTheProjectileOwner()) {
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] > highest)
+                var t = "";
+                for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
-                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red];
-                    inkColor = InkColor.Red;
+                    int value = modPlayer.ColorChipAmounts[i];
+
+                    // Only consider the color if we have any chips for it
+                    if (value > 0)
+                    {
+                        // Change the primary color if we see a new highest count
+                        if (value > primaryHighest)
+                        {
+                            // If we've no other colors, make the secondary color match the primary one
+                            if (secondaryHighest == 0)
+                            {
+                                secondaryColor = (InkColor)i;
+                                secondaryHighest = value;
+                            }
+                            // If we do, mark the previous primary color as the secondary color
+                            else
+                            {
+                                secondaryColor = primaryColor;
+                                secondaryHighest = primaryHighest;
+                            }
+
+                            primaryColor = (InkColor)i;
+                            primaryHighest = value;
+                        }
+                        // What if we don't have the highest count?
+                        else if (primaryColor == secondaryColor || value > secondaryHighest)
+                        {
+                            secondaryColor = (InkColor)i;
+                            secondaryHighest = value;
+                        }
+                    }
+                    t += $"{modPlayer.ColorChipAmounts[i]},";
                 }
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] > highest)
-                {
-                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue];
-                    inkColor = InkColor.Blue;
-                }
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] > highest)
-                {
-                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow];
-                    inkColor = InkColor.Yellow;
-                }
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] > highest)
-                {
-                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple];
-                    inkColor = InkColor.Purple;
-                }
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] > highest)
-                {
-                    highest = colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green];
-                    inkColor = InkColor.Green;
-                }
-                if (colorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] > highest)
-                {
-                    inkColor = InkColor.Aqua;
-                }
+                //Main.NewText($"Chips: {t}");
+                //Main.NewText($"Primary: {primaryColor}, Chips: {primaryHighest}");
+                //Main.NewText($"Secondary: {secondaryColor}, Chips: {secondaryHighest}");
             }
+        }
+
+        public Color GenerateInkColor()
+        {
+            // If there are two color chips being considered, add a bias towards the color that we have more chips of
+            var amount = 0.5f;
+            if (primaryHighest != secondaryHighest) { amount = 0.35f; }
+            return ColorHelper.LerpBetweenInkColors(primaryColor, secondaryColor, amount);
         }
 
         /// <summary>

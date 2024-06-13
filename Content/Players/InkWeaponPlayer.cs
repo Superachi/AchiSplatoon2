@@ -14,7 +14,8 @@ namespace AchiSplatoon2.Content.Players
         public bool isPaletteEquipped;
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
-        public float RedChipBaseDamageBonus { get => 0.05f; }
+        public float RedChipBaseDamageBonus { get => 0.03f; }
+        public float RedChipBaseAttackSpeedBonus { get => 0.03f; }
         public float PurpleChipBaseKnockbackBonus { get => 2f; }
         public float GreenChipBaseCritBonus { get => 5f; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
@@ -44,13 +45,5 @@ namespace AchiSplatoon2.Content.Players
                 ColorChipTotal += ColorChipAmounts[i];
             }
         }
-
-        //public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
-        //{
-        //    if (Main.myPlayer == proj.owner)
-        //    {
-        //        modifiers.SourceDamage *= 1 + (ColorChipRedAmount / 10);
-        //    }
-        //}
     }
 }

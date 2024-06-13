@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
 
                 float random = Main.rand.NextFloat(-5, 5);
                 float velX = ((Projectile.velocity.X + random) * 0.5f);
@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Ink
             for (int i = 0; i < amount; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
 
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Firework
             for (int i = 0; i < amount / 2; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
                 var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     255, dustColor);
@@ -93,7 +93,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             for (int i = 0; i < amount; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(Projectile.position, ModContent.DustType<BlasterTrailDust>(),
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     255, dustColor, Main.rand.NextFloat(minScale, maxScale));

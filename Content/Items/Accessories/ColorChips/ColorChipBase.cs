@@ -60,7 +60,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     t.Text += $"\n[c/ff8e2c:Palette effect: ]";
                     if (RedValue > 0)
                     {
-                        t.Text += $"[{textColor}:Increased weapon damage]";
+                        t.Text += $"[{textColor}:Increased attack speed]";
                     }
                     else if (BlueValue > 0)
                     {

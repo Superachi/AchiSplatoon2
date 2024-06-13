@@ -55,7 +55,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             // Ink
             for (int i = 0; i < amount; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
 
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
@@ -66,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             // Firework
             for (int i = 0; i < amount / 2; i++)
             {
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
                 var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     0, dustColor);
@@ -102,7 +102,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity.Y = terminalVelocity;
                 }
 
-                Color dustColor = ColorHelper.GenerateInkColor(inkColor);
+                Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             } else
             {
@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = Projectile.velocity * 0.9f;
                 }
 
-                Lighting.AddLight(Projectile.Center, ColorHelper.GenerateInkColor(inkColor).ToVector3());
+                Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
 
                 if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExploded)
                 {
@@ -140,7 +140,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     float random = Main.rand.NextFloat(-2, 2);
                     float velX = (Projectile.velocity.X + random) * -0.5f;
                     float velY = (Projectile.velocity.Y + random) * -0.5f;
-                    int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: ColorHelper.GenerateInkColor(inkColor), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                    int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
                 }
                 Projectile.Kill();
             }

@@ -27,8 +27,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             modPlayer.isPaletteEquipped = true;
 
             var chips = modPlayer.ColorChipAmounts;
-            player.GetDamage(DamageClass.Generic) +=
-                (float)chips[(int)InkWeaponPlayer.ChipColor.Red] * modPlayer.RedChipBaseDamageBonus;
+            player.GetAttackSpeed(DamageClass.Generic) +=
+                (float)chips[(int)InkWeaponPlayer.ChipColor.Red] * modPlayer.RedChipBaseAttackSpeedBonus;
 
             player.GetKnockback(DamageClass.Generic) +=
                 (float)chips[(int)InkWeaponPlayer.ChipColor.Purple] * modPlayer.PurpleChipBaseKnockbackBonus;
@@ -63,7 +63,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                         $"\n[c/ffffff:Currently active:]";
                     if (red > 0)
                     {
-                        t.Text += $"\n[c/a8a8a8:Power ({red}) > Damage bonus: {(int)(red * modPlayer.RedChipBaseDamageBonus * 100)}%]";
+                        t.Text += $"\n[c/a8a8a8:Power ({red}) > Attack speed bonus: {(int)(red * modPlayer.RedChipBaseAttackSpeedBonus * 100)}%]";
                     }
                     if (blue > 0)
                     {
