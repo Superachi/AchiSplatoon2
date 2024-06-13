@@ -164,6 +164,11 @@ Items: {
 		DisplayName: Color Chip Empty
 		Tooltip: ""
 	}
+
+	HeavySplatling: {
+		DisplayName: Heavy Splatling
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -180,4 +185,6 @@ Projectiles: {
 	TriStringerProjectileWeak.DisplayName: Tri Stringer Projectile Weak
 	GrizzcoStringerCharge.DisplayName: Grizzco Stringer Charge
 	ReefluxStringerCharge.DisplayName: Reeflux Stringer Charge
+	BaseChargeProjectile.DisplayName: Base Charge Projectile
+	HeavySplatlingCharge.DisplayName: Heavy Splatling Charge
 }

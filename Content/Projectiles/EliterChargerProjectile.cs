@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class EliterChargerProjectile : SplatChargerProjectile
     {
-        protected override float RequiredChargeTime { get => 75f; }
+        protected override float[] ChargeTimeThresholds { get => [75f]; }
         protected override string ShootSample { get => "EliterChargerShoot"; }
         protected override string ShootWeakSample { get => "EliterChargerShootWeak"; }
     }

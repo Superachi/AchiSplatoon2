@@ -14,32 +14,20 @@ using AchiSplatoon2.Content.Items.Weapons;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class SplatChargerProjectile : BaseProjectile
+    internal class SplatChargerProjectile : BaseChargeProjectile
     {
-        private bool chargeReady = false;
-        private bool hasFired = false;
-        private int timeLeftAfterFiring = 120;
+        private const int timeLeftAfterFiring = 120;
 
-        protected virtual float RequiredChargeTime { get => 55f; }
-        protected virtual string ShootSample { get => "SplatChargerShoot"; }
-        protected virtual string ShootWeakSample { get => "SplatChargerShootWeak"; }
+        protected override float[] ChargeTimeThresholds { get => [55f]; }
+        protected override string ShootSample { get => "SplatChargerShoot"; }
+        protected override string ShootWeakSample { get => "SplatChargerShootWeak"; }
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
-
-        private float ChargeTime
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Projectile.extraUpdates = 32;
-            Projectile.width = 8;
-            Projectile.height = 8;
-            Projectile.aiStyle = 1;
-            Projectile.timeLeft = 36000;
             Projectile.penetrate = 10;
-            AIType = ProjectileID.Bullet;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -49,91 +37,70 @@ namespace AchiSplatoon2.Content.Projectiles
             PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
-        private void IncrementChargeTime()
+        protected override void ReleaseCharge(Player owner)
         {
-            ChargeTime += 1f * chargeSpeedModifier;
+            // Release the attack
+            hasFired = true;
+            Projectile.friendly = true;
+
+            // Adjust behaviour depending on the charge amount
+            if (chargeLevel > 0)
+            {
+                Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
+                PlayAudio(ShootSample, volume: 0.4f, maxInstances: 1);
+
+                if (ShakeScreenOnChargeShot)
+                {
+                    PunchCameraModifier modifier = new PunchCameraModifier(
+                        startPosition: owner.Center,
+                        direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
+                        strength: 4f,
+                        vibrationCyclesPerSecond: 8f,
+                        frames: 10, 80f, FullName);
+                    Main.instance.CameraModifiers.Add(modifier);
+                }
+            }
+            else
+            {
+                Projectile.penetrate = 1;
+                int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
+
+                // Deal a min. of 10% damage and a max. of 40% damage
+                Projectile.damage = Convert.ToInt32(
+                    (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / ChargeTimeThresholds[0])
+                );
+
+                // Similar for the range (min. 3% range, max. 20%)
+                Projectile.timeLeft = Convert.ToInt32(
+                    (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / ChargeTimeThresholds[0])
+                ) * Projectile.extraUpdates;
+
+                PlayAudio(ShootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+
+            Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
+            SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
+            PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
+            return;
         }
 
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
 
-            if (owner.channel && !hasFired)
+            if (IsThisClientTheProjectileOwner())
             {
-                // This weapon uses extra updates, so timers go extra fast!
-                if (ChargeTime >= RequiredChargeTime * Projectile.extraUpdates)
+                if (owner.channel && !hasFired)
                 {
-                    // Charge is ready!
-                    if (!chargeReady)
-                    {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                        }
-
-                        chargeReady = true;
-                        PlayAudio("ChargeReady", volume: 0.4f, maxInstances: 1);
-                        PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
-                    } else
-                    {
-                        if (Main.rand.NextBool(400))
-                        {
-                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                        }
-                    }
+                    UpdateCharge(owner);
+                    return;
                 }
 
-                IncrementChargeTime();
-                SyncProjectilePosWithPlayer(owner);
-                PlayerItemAnimationFaceCursor(owner);
-                return;
-            }
-
-            if (!hasFired)
-            {
-                // Release the attack
-                hasFired = true;
-                Projectile.friendly = true;
-
-                // Adjust behaviour depending on the charge amount
-                if (chargeReady)
+                if (!hasFired)
                 {
-                    Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
-                    PlayAudio(ShootSample, volume: 0.4f, maxInstances: 1);
-
-                    if (ShakeScreenOnChargeShot)
-                    {
-                        PunchCameraModifier modifier = new PunchCameraModifier(
-                            startPosition: owner.Center,
-                            direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
-                            strength: 4f,
-                            vibrationCyclesPerSecond: 8f,
-                            frames: 10, 80f, FullName);
-                        Main.instance.CameraModifiers.Add(modifier);
-                    }
+                    ReleaseCharge(owner);
+                    return;
                 }
-                else
-                {
-                    Projectile.penetrate = 1;
-                    int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
-
-                    // Deal a min. of 10% damage and a max. of 40% damage
-                    Projectile.damage = Convert.ToInt32(
-                        (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / RequiredChargeTime)
-                    );
-
-                    // Similar for the range (min. 3% range, max. 20%)
-                    Projectile.timeLeft = Convert.ToInt32(
-                        (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / RequiredChargeTime)
-                    ) * Projectile.extraUpdates;
-
-                    PlayAudio(ShootWeakSample, volume: 0.4f, maxInstances: 1);
-                }
-
-                Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
-                SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
-                PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
-                return;
             }
 
             Color dustColor = GenerateInkColor();
@@ -142,15 +109,9 @@ namespace AchiSplatoon2.Content.Projectiles
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)
-        {
-            target.AddBuff(103, 180);
-        }
-
         public override void OnKill(int timeLeft)
         {
-            if (!hasFired) return;
-
+            if (chargeLevel == 0) return;
             for (int i = 0; i < 15; i++)
             {
                 float random = Main.rand.NextFloat(-5, 5);
