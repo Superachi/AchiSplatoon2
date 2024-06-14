@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         {
             base.SetDefaults();
             Item.damage = 76;
-            Item.knockBack = 6;
+            Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 15);
         }
 

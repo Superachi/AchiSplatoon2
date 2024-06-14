@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             Item.damage = 32;
-            Item.knockBack = 4f;
+            Item.knockBack = 3;
             Item.width = 58;
             Item.height = 38;
             Item.useTime = 35;

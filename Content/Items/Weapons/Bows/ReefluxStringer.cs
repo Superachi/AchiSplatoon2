@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.width = 36;
             Item.height = 62;
             Item.damage = 12;
-            Item.knockBack = 4;
+            Item.knockBack = 1.5f;
             Item.value = Item.buyPrice(gold: 3);
             Item.crit = 16;
         }

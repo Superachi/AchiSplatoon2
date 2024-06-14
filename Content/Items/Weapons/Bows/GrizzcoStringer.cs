@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 92;
             Item.width = 34;
             Item.height = 74;
-            Item.knockBack = 6;
+            Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 40);
             Item.rare = ItemRarityID.Lime;
             Item.crit = 15;

@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 32;
             Item.width = 34;
             Item.height = 74;
-            Item.knockBack = 6;
+            Item.knockBack = 3;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Green;
             Item.noMelee = true;

@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.damage = 60;
             Item.width = 82;
             Item.height = 26;
-            Item.knockBack = 7;
+            Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
             Item.noMelee = true;

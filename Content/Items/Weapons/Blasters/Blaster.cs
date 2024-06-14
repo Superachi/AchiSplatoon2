@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.useTime = 50;
             Item.useAnimation = 50;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.knockBack = 8f;
+            Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
             Item.autoReuse = true;
