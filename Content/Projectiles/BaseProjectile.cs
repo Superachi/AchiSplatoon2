@@ -17,11 +17,19 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseProjectile : ModProjectile
     {
+        protected BaseWeapon weaponSource;
+
+        // Audio
+        protected string shootSample = "SplattershotShoot";
+        protected string shootWeakSample = "SplattershotShoot";
+
+        // Colors
         private InkColor primaryColor = InkColor.Red;
         private InkColor secondaryColor = InkColor.Red;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
+        // Modifiers
         // See <InkWeaponPlayer.cs>
         protected float chargeSpeedModifier = 1f;  
         protected float explosionRadiusModifier = 1f;
@@ -29,9 +37,12 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public void Initialize()
         {
-            // Check the highest color chip amounts, set the ink color to match the top 2
+            // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
+            // This object is then referenced by child classes to get alter certain mechanics
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
 
+            // Check the highest color chip amounts, set the ink color to match the top 2
             if (IsThisClientTheProjectileOwner()) {
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
