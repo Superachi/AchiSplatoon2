@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             recipe.AddIngredient(ModContent.ItemType<TriStringer>(), 1);
             recipe.AddIngredient(ItemID.SoulofSight, 5);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 8);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

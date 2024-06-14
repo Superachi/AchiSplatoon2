@@ -13,10 +13,12 @@
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
+	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\EliterChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\LunaBlasterProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
+	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\GrizzcoStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\ReefluxStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />

@@ -169,6 +169,16 @@ Items: {
 		DisplayName: Heavy Splatling
 		Tooltip: ""
 	}
+
+	GrizzcoCharger: {
+		DisplayName: Grizzco Charger
+		Tooltip:
+			'''
+			[c/ff8e2c:Instantly charges]
+			[c/64aaff:"If that doesn't make you Eggsecutive VP material,]
+			[c/64aaff:I don't know what does!"]
+			'''
+	}
 }
 
 Projectiles: {
@@ -187,4 +197,5 @@ Projectiles: {
 	ReefluxStringerCharge.DisplayName: Reeflux Stringer Charge
 	BaseChargeProjectile.DisplayName: Base Charge Projectile
 	HeavySplatlingCharge.DisplayName: Heavy Splatling Charge
+	GrizzcoChargerProjectile.DisplayName: Grizzco Charger Projectile
 }

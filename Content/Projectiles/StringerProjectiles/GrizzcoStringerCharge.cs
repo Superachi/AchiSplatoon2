@@ -8,8 +8,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class GrizzcoStringerCharge : TriStringerCharge
     {
-        protected override float[] ChargeTimeThresholds { get => [30f, 90f]; }
-        protected override float ShotgunArc { get => 15f; }
+        protected override float[] ChargeTimeThresholds { get => [40f, 80f]; }
+        protected override float ShotgunArc { get => 12f; }
         protected override int ProjectileCount { get => 9; }
     }
 }
