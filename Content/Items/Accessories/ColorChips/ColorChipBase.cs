@@ -52,13 +52,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 t.Text = $"{Item.Name}";
                 if (modPlayer.isPaletteEquipped)
                 {
-                    if (modPlayer.DoesPlayerHaveTooManyChips())
-                    {
-                        t.Text += $"\n[c/a8a8a8:Currently inactive. You have too many Color Chips equipped.]";
-                        return;
-                    }
-
                     var textColor = "c/ffffff";
+
                     t.Text += $"\n[c/ff8e2c:Palette effect: ]";
                     if (RedValue > 0)
                     {
@@ -84,6 +79,11 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     else if (AquaValue > 0)
                     {
                         t.Text += StatIncreaseDisplayString(textColor, "vibes", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
+                    }
+
+                    if (modPlayer.DoesPlayerHaveTooManyChips())
+                    {
+                        t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
                     }
                 }
                 else
