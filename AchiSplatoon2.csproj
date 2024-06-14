@@ -16,6 +16,7 @@
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\EliterChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\LunaBlasterProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />

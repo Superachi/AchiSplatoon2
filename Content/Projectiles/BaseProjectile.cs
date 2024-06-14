@@ -25,6 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // See <InkWeaponPlayer.cs>
         protected float chargeSpeedModifier = 1f;  
         protected float explosionRadiusModifier = 1f;
+        protected float attackSpeedModifier = 1f;
 
         public void Initialize()
         {
@@ -70,6 +71,12 @@ namespace AchiSplatoon2.Content.Projectiles
                     // See also the calculations in InkWeaponPlayer.cs
                     if (!modPlayer.IsPaletteValid()) return;
 
+                    // Red chips > faster attack speed (mainly for splatlings in this case)
+                    if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                    {
+                        attackSpeedModifier += modPlayer.CalculateAttackSpeedBonus();
+                    }
+
                     // Purple chips > faster charge speed
                     if (i == (int)InkWeaponPlayer.ChipColor.Purple)
                     {
@@ -83,6 +90,11 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
             }
+        }
+
+        protected int FrameSpeed()
+        {
+            return 1 + Projectile.extraUpdates;
         }
 
         public Color GenerateInkColor()
@@ -104,9 +116,9 @@ namespace AchiSplatoon2.Content.Projectiles
             return Main.myPlayer == Projectile.owner;
         }
 
-        protected void SyncProjectilePosWithPlayer(Player owner)
+        protected void SyncProjectilePosWithPlayer(Player owner, float offsetX = 0, float offsetY = 0)
         {
-            Projectile.position = owner.Center;
+            Projectile.position = owner.Center + new Vector2(offsetX, offsetY);
         }
 
         protected void SyncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, BaseWeapon weaponData)

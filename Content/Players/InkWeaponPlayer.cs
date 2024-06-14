@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Players
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
 
-        public float RedChipBaseAttackSpeedBonus { get => 0.03f; }
+        public float RedChipBaseAttackSpeedBonus { get => 0.04f; }
         public string RedChipBaseAttackSpeedBonusDisplay { get => $"{(int)(RedChipBaseAttackSpeedBonus * 100)}%"; }
         public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
         public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Players
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
         public float YellowChipExplosionRadiusBonus { get => 0.1f; }
         public string YellowChipExplosionRadiusBonusDisplay { get => $"{(int)(YellowChipExplosionRadiusBonus * 100)}%"; }
-        public float GreenChipBaseCritBonus { get => 5f; }
+        public float GreenChipBaseCritBonus { get => 4f; }
         public string GreenChipBaseCritBonusDisplay { get => $"{GreenChipBaseCritBonus}%"; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
@@ -69,6 +69,11 @@ namespace AchiSplatoon2.Content.Players
                 total += ColorChipAmounts[i];
             }
             return total;
+        }
+
+        public float CalculateAttackSpeedBonus()
+        {
+            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackSpeedBonus;
         }
 
         public float CalculateChargeSpeedBonus()

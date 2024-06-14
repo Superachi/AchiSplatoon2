@@ -54,15 +54,15 @@ namespace AchiSplatoon2.Content.Projectiles
             ChargeTime += 1f * chargeSpeedModifier;
         }
 
+        protected float MaxChargeTime()
+        {
+            return ChargeTimeThresholds[ChargeTimeThresholds.Length - 1] * FrameSpeed();
+        }
+
         protected virtual void ReleaseCharge(Player owner)
         {
             hasFired = true;
             Projectile.Kill();
-        }
-
-        private int FrameSpeed()
-        {
-            return 1 + Projectile.extraUpdates;
         }
 
         protected virtual void UpdateCharge(Player owner)
@@ -99,7 +99,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             SyncProjectilePosWithPlayer(owner);
             PlayerItemAnimationFaceCursor(owner);
-            return;
         }
 
         public override void AI()
