@@ -164,8 +164,13 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemTime = owner.itemTimeMax;
         }
 
-        protected static void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f)
+        protected void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
+            if (position == null)
+            {
+                position = Projectile.position;
+            }
+
             var sample = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
             var chargeSound = sample with
             {
