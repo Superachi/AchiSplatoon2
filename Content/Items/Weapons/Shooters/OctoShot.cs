@@ -20,20 +20,21 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 74;
+            Item.damage = 70;
             Item.useTime = 5;
             Item.useAnimation = Item.useTime;
             Item.knockBack = 6;
             Item.value = Item.buyPrice(gold: 40);
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.LightPurple;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<TentatekSplattershot>());
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 20);
-            recipe.AddIngredient(ItemID.BlackInk, 1);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.BlackInk);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
