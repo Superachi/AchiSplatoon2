@@ -10,6 +10,8 @@ using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons;
 using Terraria.DataStructures;
+using AchiSplatoon2.Content.Dusts;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 {
@@ -22,6 +24,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         private float barrageShotTime;
         private float damageChargeMod = 1f;
         private float velocityChargeMod = 1f;
+        private int soundDelayInterval = 5;
 
         protected float ChargedAmmo
         {
@@ -38,6 +41,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
+
+            Projectile.soundDelay = 30;
+        }
+
+        protected override void StartCharge()
+        {
+            PlayAudio(soundPath: "SplatlingChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
         protected override void ReleaseCharge(Player owner)
@@ -45,7 +55,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             hasFired = true;
             ChargedAmmo = Convert.ToInt32(barrageMaxAmmo * (ChargeTime / MaxChargeTime()));
             ChargeTime = 0;
-            PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
+            StopAudio(soundPath: "ChargeStart");
+            StopAudio(soundPath: "SplatlingChargeStart");
+            StopAudio(soundPath: "SplatlingChargeLoop");
 
             // Set the damage modifier
             switch (chargeLevel)
@@ -63,6 +75,19 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     damageChargeMod = 1f;
                     velocityChargeMod = 1f;
                     break;
+            }
+        }
+
+        protected override void UpdateCharge(Player owner)
+        {
+            base.UpdateCharge(owner);
+
+            if (Projectile.soundDelay == 0)
+            {
+                Projectile.soundDelay = (int)(soundDelayInterval * (MaxChargeTime() / ChargeTime));
+                var pitchValue = 0.6f + (ChargeTime / MaxChargeTime()) * 0.5f;
+
+                PlayAudio(soundPath: "SplatlingChargeLoop", volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
             }
         }
 
@@ -94,7 +119,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         // If ChargeTime were directly set to 0, it would not work nicely with non-decimal values (eg. when attack speed is increased)
                         ChargeTime -= barrageShotTime;
                         ChargedAmmo--;
-                        PlayerItemAnimationFaceCursor(owner);
+                        var recoilVector = owner.DirectionTo(Main.MouseWorld) * -3;
+                        PlayerItemAnimationFaceCursor(owner, recoilVector);
 
                         // Calculate angle/velocity
                         float aimAngle = MathHelper.ToDegrees(
@@ -121,6 +147,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         Damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
                         KnockBack: Projectile.knockBack,
                         Owner: Main.myPlayer);
+
+                        for (int i = 0; i < 15; i++)
+                        {
+                            Color dustColor = GenerateInkColor();
+
+                            float random = Main.rand.NextFloat(-5, 5);
+                            float velX = ((velocity.X + random) * 0.5f);
+                            float velY = ((velocity.Y + random) * 0.5f);
+
+                            Dust.NewDust(Projectile.position + spawnPositionOffset, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                        }
                     }
 
                     return;

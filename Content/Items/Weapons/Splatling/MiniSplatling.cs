@@ -13,9 +13,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class MiniSplatling : BaseSplatling
     {
-        public override Vector2? HoldoutOffset() { return new Vector2(-46, 6); }
-        public override float MuzzleOffsetPx { get; set; } = 32f;
-        public override float BarrageVelocity { get; set; } = 6f;
+        public override Vector2? HoldoutOffset() { return new Vector2(-20, 12); }
+        public override float MuzzleOffsetPx { get; set; } = 48f;
+        public override float[] ChargeTimeThresholds { get => [22f, 34f]; }
+        public override float BarrageVelocity { get; set; } = 8f;
         public override int BarrageShotTime { get; set; } = 4;
         public override int BarrageMaxAmmo { get; set; } = 24;
 

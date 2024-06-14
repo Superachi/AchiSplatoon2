@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -143,7 +143,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void PlayerItemAnimationFaceCursor(Player owner)
+        protected void PlayerItemAnimationFaceCursor(Player owner, Vector2? offset)
         {
             // Change player direction depending on what direction the charger is held when charging
             var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
@@ -160,6 +160,10 @@ namespace AchiSplatoon2.Content.Projectiles
                 owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees + 180) % 360);
             }
 
+            if (offset != null)
+            {
+                owner.itemLocation += (Vector2)offset;
+            }
             owner.itemAnimation = owner.itemAnimationMax;
             owner.itemTime = owner.itemTimeMax;
         }

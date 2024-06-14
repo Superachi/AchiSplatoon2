@@ -61,8 +61,18 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.Kill();
         }
 
+        protected virtual void StartCharge()
+        {
+            // You can do something like playing a sound effect here
+        }
+
         protected virtual void UpdateCharge(Player owner)
         {
+            if (ChargeTime == 0)
+            {
+                StartCharge();
+            }
+
             // Charge up mechanic
             var len = chargeTimeThresholds.Length;
             if (chargeLevel < len)
@@ -81,7 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     if (chargeLevel == len)
                     {
-                        PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
+                        StopAudio(soundPath: "ChargeStart");
                     }
                 }
             }
@@ -94,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             SyncProjectilePosWithPlayer(owner);
-            PlayerItemAnimationFaceCursor(owner);
+            PlayerItemAnimationFaceCursor(owner, null);
         }
 
         public override void AI()
