@@ -41,14 +41,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<OrderShot>());
             recipe.AddIngredient(ItemID.DemoniteBar, 10);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
 
             Recipe altRecipe = CreateRecipe();
             altRecipe.AddIngredient(ModContent.ItemType<OrderShot>());
             altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
-            altRecipe.AddIngredient(ItemID.IllegalGunParts, 1);
             altRecipe.AddTile(TileID.Anvils);
             altRecipe.Register();
         }
