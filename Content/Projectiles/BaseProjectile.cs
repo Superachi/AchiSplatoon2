@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -173,6 +173,17 @@ namespace AchiSplatoon2.Content.Projectiles
                 PitchVariance = pitchVariance,
                 MaxInstances = maxInstances,
                 Pitch = pitch,
+            };
+            SoundEngine.PlaySound(chargeSound, position);
+        }
+
+        protected static void StopAudio(string soundPath)
+        {
+            var sample = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
+            var chargeSound = sample with
+            {
+                Volume = 0f,
+                MaxInstances = 1,
             };
             SoundEngine.PlaySound(chargeSound);
         }
