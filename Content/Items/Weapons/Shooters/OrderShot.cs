@@ -11,15 +11,19 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class OrderShot : Splattershot
+    internal class OrderShot : Splattershot
     {
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.DefaultToRangedWeapon(
+                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
+                ammoID: AmmoID.None,
+                singleShotTime: 10,
+                shotVelocity: 30f);
+
             Item.damage = 8;
-            Item.useTime = 10;
-            Item.useAnimation = Item.useTime;
             Item.knockBack = 0.5f;
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;

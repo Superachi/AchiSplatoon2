@@ -11,8 +11,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class LunaBlaster : Blaster
+    internal class LunaBlaster : Blaster
     {
+        // Explosion radius and delay
+        public override int ExplosionRadiusAir { get => 280; }
+        public override int ExplosionRadiusTile { get => 150; }
+        public override float ExplosionDelayInit { get => 12f; }
+
         public override Vector2? HoldoutOffset() { return new Vector2(-10, -10); }
         public override float MuzzleOffsetPx { get; set; } = 46f;
 
@@ -21,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<LunaBlasterProjectile>(),
+                baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
                 ammoID: AmmoID.None,
                 singleShotTime: 40,
                 shotVelocity: 10f);

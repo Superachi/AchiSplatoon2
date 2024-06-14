@@ -11,6 +11,8 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -18,9 +20,6 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private const int timeLeftAfterFiring = 120;
 
-        protected override float[] ChargeTimeThresholds { get => [55f]; }
-        protected override string ShootSample { get => "SplatChargerShoot"; }
-        protected override string ShootWeakSample { get => "SplatChargerShootWeak"; }
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
 
         public override void SetDefaults()
@@ -35,6 +34,12 @@ namespace AchiSplatoon2.Content.Projectiles
             Initialize();
             Projectile.velocity = Vector2.Zero;
             PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+
+            BaseCharger weaponData = (BaseCharger)weaponSource;
+
+            chargeTimeThresholds = weaponData.ChargeTimeThresholds;
+            shootSample = weaponData.ShootSample;
+            shootWeakSample = weaponData.ShootWeakSample;
         }
 
         protected override void ReleaseCharge(Player owner)
@@ -47,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles
             if (chargeLevel > 0)
             {
                 Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
-                PlayAudio(ShootSample, volume: 0.4f, maxInstances: 1);
+                PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
 
                 if (ShakeScreenOnChargeShot)
                 {
@@ -67,15 +72,15 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 // Deal a min. of 10% damage and a max. of 40% damage
                 Projectile.damage = Convert.ToInt32(
-                    (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / ChargeTimeThresholds[0])
+                    (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / chargeTimeThresholds[0])
                 );
 
                 // Similar for the range (min. 3% range, max. 20%)
                 Projectile.timeLeft = Convert.ToInt32(
-                    (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / ChargeTimeThresholds[0])
+                    (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / chargeTimeThresholds[0])
                 ) * Projectile.extraUpdates;
 
-                PlayAudio(ShootWeakSample, volume: 0.4f, maxInstances: 1);
+                PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
             }
 
             Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;

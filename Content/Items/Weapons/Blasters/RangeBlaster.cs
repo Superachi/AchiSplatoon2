@@ -11,8 +11,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class RangeBlaster : Blaster
+    internal class RangeBlaster : Blaster
     {
+        // Explosion radius and delay
+        public override int ExplosionRadiusAir { get => 240; }
+        public override int ExplosionRadiusTile { get => 160; }
+        public override float ExplosionDelayInit { get => 20f; }
+
         public override Vector2? HoldoutOffset() { return new Vector2(-12, -2); }
         public override float MuzzleOffsetPx { get; set; } = 70f;
 
@@ -20,14 +25,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.DefaultToRangedWeapon(
+                baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
+                ammoID: AmmoID.None,
+                singleShotTime: 60,
+                shotVelocity: 12f);
+
             Item.damage = 240;
             Item.width = 64;
             Item.height = 34;
-            Item.useTime = 60;
-            Item.useAnimation = Item.useTime;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
-            Item.shootSpeed = 14;
         }
 
         public override void AddRecipes()

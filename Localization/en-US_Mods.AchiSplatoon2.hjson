@@ -179,6 +179,36 @@ Items: {
 			[c/64aaff:I don't know what does!"]
 			'''
 	}
+
+	MiniSplatling: {
+		DisplayName: Mini Splatling
+		Tooltip: ""
+	}
+
+	BaseStringer: {
+		DisplayName: Base Stringer
+		Tooltip: ""
+	}
+
+	BaseCharger: {
+		DisplayName: Base Charger
+		Tooltip: ""
+	}
+
+	BaseSplattershot: {
+		DisplayName: Base Splattershot
+		Tooltip: ""
+	}
+
+	BaseSplatling: {
+		DisplayName: Base Splatling
+		Tooltip: ""
+	}
+
+	BaseBlaster: {
+		DisplayName: Base Blaster
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

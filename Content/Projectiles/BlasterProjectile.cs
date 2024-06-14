@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Threading;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -16,23 +17,21 @@ namespace AchiSplatoon2.Content.Projectiles
         private const int addedUpdate = 2;
         private int state = 0;
 
-        protected virtual string ShootSample { get => "BlasterShoot"; }
-        protected virtual string ExplosionBigSample { get => "BlasterExplosion"; }
-        protected virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
+        protected string explosionBigSample;
+        protected string explosionSmallSample;
 
-        private int finalExplosionRadiusAir = 0;
-        protected virtual int ExplosionRadiusAir { get => 240; }
+        protected int explosionRadiusAir;
+        private int finalExplosionRadiusAir;
 
-        private int finalExplosionRadiusTile = 0;
-        protected virtual int ExplosionRadiusTile { get => 160; }
-        protected virtual float ExplosionDelayInit { get => 20f; }
+        protected int explosionRadiusTile;
+        private int finalExplosionRadiusTile;
 
-        private float explosionDelay = 0f;
+        private float explosionDelay;
         private const float explosionTime = 6f;
+        protected float explosionDelayInit;
 
         public override void SetDefaults()
         {
-            explosionDelay = ExplosionDelayInit * addedUpdate;
             Projectile.extraUpdates = addedUpdate;
             Projectile.width = 8;
             Projectile.height = 8;
@@ -47,9 +46,19 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
-            finalExplosionRadiusAir = (int)(ExplosionRadiusAir * explosionRadiusModifier);
-            finalExplosionRadiusTile = (int)(ExplosionRadiusTile * explosionRadiusModifier);
-            PlayAudio(ShootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+            Blaster weaponData = (Blaster)weaponSource;
+
+            explosionRadiusAir = weaponData.ExplosionRadiusAir;
+            explosionRadiusTile = weaponData.ExplosionRadiusTile;
+            explosionDelayInit = weaponData.ExplosionDelayInit;
+            explosionBigSample = weaponData.ExplosionBigSample;
+            explosionSmallSample = weaponData.ExplosionSmallSample;
+
+            explosionDelay = explosionDelayInit * addedUpdate;
+            finalExplosionRadiusAir = (int)(explosionRadiusAir * explosionRadiusModifier);
+            finalExplosionRadiusTile = (int)(explosionRadiusTile * explosionRadiusModifier);
+
+            PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             EmitShotBurstDust();
         }
 
@@ -108,7 +117,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private void ExplodeBig()
         {
             // Audio
-            PlayAudio(ExplosionBigSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 3);
+            PlayAudio(explosionBigSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 3);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
@@ -125,7 +134,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private void ExplodeSmall()
         {
             // Audio
-            PlayAudio(ExplosionSmallSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 3);
+            PlayAudio(explosionSmallSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 3);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)

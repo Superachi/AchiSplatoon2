@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +8,16 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
-using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
-    internal class HeavySplatling : BaseSplatling
+    internal class MiniSplatling : BaseSplatling
     {
         public override Vector2? HoldoutOffset() { return new Vector2(-46, 6); }
-        public override float MuzzleOffsetPx { get; set; } = 50f;
-        public override float[] ChargeTimeThresholds { get => [50f, 75f]; }
-        public override float BarrageVelocity { get; set; } = 12f;
+        public override float MuzzleOffsetPx { get; set; } = 32f;
+        public override float BarrageVelocity { get; set; } = 6f;
         public override int BarrageShotTime { get; set; } = 4;
-        public override int BarrageMaxAmmo { get; set; } = 32;
+        public override int BarrageMaxAmmo { get; set; } = 24;
 
         public override void SetDefaults()
         {
@@ -30,19 +27,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
                 ammoID: AmmoID.None,
                 singleShotTime: BarrageShotTime + 10,
                 shotVelocity: BarrageVelocity);
-            Item.damage = 18;
-            Item.width = 92;
-            Item.height = 50;
-            Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.damage = 10;
+            Item.width = 72;
+            Item.height = 28;
+            Item.knockBack = 1;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Minishark, 1);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
+            recipe.AddIngredient(ItemID.DemoniteBar, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

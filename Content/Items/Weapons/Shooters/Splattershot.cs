@@ -12,28 +12,23 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class Splattershot : BaseWeapon
+    internal class Splattershot : BaseSplattershot
     {
-        public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
-
-        // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
+            base.SetDefaults();
+            Item.DefaultToRangedWeapon(
+                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
+                ammoID: AmmoID.None,
+                singleShotTime: 8,
+                shotVelocity: 30f);
+
             Item.damage = 14;
-            Item.DamageType = DamageClass.Ranged;
             Item.width = 42;
             Item.height = 26;
-            Item.useTime = 8;
-            Item.useAnimation = Item.useTime;
-            Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 1;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
-            Item.autoReuse = true;
-            Item.noMelee = true;
-            Item.shoot = ModContent.ProjectileType<SplattershotProjectile>();
-            Item.shootSpeed = 30;
         }
 
         public override void AddRecipes()

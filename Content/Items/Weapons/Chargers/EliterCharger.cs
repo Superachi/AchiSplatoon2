@@ -11,13 +11,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class EliterCharger : SplatCharger
+    internal class EliterCharger : BaseCharger
     {
-        // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
+        public override string ShootSample { get => "EliterChargerShoot"; }
+        public override string ShootWeakSample { get => "EliterChargerShootWeak"; }
+        public override float[] ChargeTimeThresholds { get => [75f]; }
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<EliterChargerProjectile>(), AmmoID.None, 20, 12f);
+            Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 20, 12f);
+            Item.width = 92;
+            Item.height = 32;
             Item.damage = 480;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 25);

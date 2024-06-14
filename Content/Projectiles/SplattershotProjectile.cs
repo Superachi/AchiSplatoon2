@@ -1,4 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,8 +13,6 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplattershotProjectile : BaseProjectile
     {
-        protected virtual string ShootSample { get => "SplattershotShoot"; }
-
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.3f;
         private float terminalVelocity = 12f;
@@ -31,7 +31,10 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
-            PlayAudio(ShootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+
+            var weaponData = new BaseSplattershot();
+            shootSample = weaponData.ShootSample;
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
 
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);

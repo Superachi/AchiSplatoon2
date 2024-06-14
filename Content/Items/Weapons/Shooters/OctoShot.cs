@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class OctoShot : Splattershot
+    internal class OctoShot : Splattershot
     {
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
@@ -20,11 +20,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.DefaultToRangedWeapon(
+                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
+                ammoID: AmmoID.None,
+                singleShotTime: 5,
+                shotVelocity: 30f);
+
             Item.damage = 70;
-            Item.useTime = 5;
-            Item.useAnimation = Item.useTime;
-            Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 40);
+            Item.knockBack = 5;
+            Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.LightPurple;
         }
 

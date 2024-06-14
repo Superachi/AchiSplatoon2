@@ -14,10 +14,6 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseChargeProjectile : BaseProjectile
     {
-        // Audio
-        protected virtual string ShootSample { get => "SplattershotShoot"; }
-        protected virtual string ShootWeakSample { get => "SplattershotShoot"; }
-
         // Charge mechanic
         protected int chargeLevel = 0;
         protected float ChargeTime
@@ -26,7 +22,7 @@ namespace AchiSplatoon2.Content.Projectiles
             set => Projectile.ai[1] = value;
         }
         protected float maxChargeTime;
-        protected virtual float[] ChargeTimeThresholds { get => [60f]; }
+        protected float[] chargeTimeThresholds = { 60f };
 
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
@@ -44,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
-            maxChargeTime = ChargeTimeThresholds.Last();
+            maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
             PlayAudio(soundPath: "ChargeStart");
         }
@@ -56,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected float MaxChargeTime()
         {
-            return ChargeTimeThresholds[ChargeTimeThresholds.Length - 1] * FrameSpeed();
+            return chargeTimeThresholds[chargeTimeThresholds.Length - 1] * FrameSpeed();
         }
 
         protected virtual void ReleaseCharge(Player owner)
@@ -68,11 +64,11 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual void UpdateCharge(Player owner)
         {
             // Charge up mechanic
-            var len = ChargeTimeThresholds.Length;
+            var len = chargeTimeThresholds.Length;
             if (chargeLevel < len)
             {
                 IncrementChargeTime();
-                if (ChargeTime >= ChargeTimeThresholds[chargeLevel] * FrameSpeed())
+                if (ChargeTime >= chargeTimeThresholds[chargeLevel] * FrameSpeed())
                 {
                     chargeLevel++;
 

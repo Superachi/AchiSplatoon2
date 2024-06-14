@@ -12,17 +12,28 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.Weapons;
 using System.Linq;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerCharge : BaseChargeProjectile
     {
-        protected override float[] ChargeTimeThresholds { get => [36f, 72f]; }
-        protected override string ShootSample { get => "TriStringerShoot"; }
-        protected override string ShootWeakSample { get => "BambooChargerShootWeak"; }
-        protected virtual float ShotgunArc { get => 4f; }
-        protected virtual int ProjectileCount { get => 3; }
-        protected virtual bool AllowStickyProjectiles { get => true; }
+        protected float shotgunArc;
+        protected int projectileCount;
+        protected bool allowStickyProjectiles;
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            base.OnSpawn(source);
+
+            BaseStringer weaponData = (BaseStringer)weaponSource;
+            chargeTimeThresholds = weaponData.ChargeTimeThresholds;
+            shootSample = weaponData.ShootSample;
+            shootWeakSample = weaponData.ShootWeakSample;
+            shotgunArc = weaponData.ShotgunArc;
+            projectileCount = weaponData.ProjectileCount;
+            allowStickyProjectiles = weaponData.AllowStickyProjectiles;
+        }
 
         protected override void ReleaseCharge(Player owner)
         {
@@ -58,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     arcModifier = 1f;
                 }
 
-                if (AllowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
+                if (allowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
                 PlayAudio("TriStringerShoot");
             }
 
@@ -67,12 +78,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 owner.DirectionTo(Main.MouseWorld).ToRotation()
             );
 
-            float finalArc = Math.Clamp(ShotgunArc * (maxChargeTime / ChargeTime) * arcModifier, ShotgunArc, ShotgunArc * 5);
-            float degreesPerProjectile = finalArc / ProjectileCount;
-            int middleProjectile = ProjectileCount / 2;
+            float finalArc = Math.Clamp(shotgunArc * (maxChargeTime / ChargeTime) * arcModifier, shotgunArc, shotgunArc * 5);
+            float degreesPerProjectile = finalArc / projectileCount;
+            int middleProjectile = projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
 
-            for (int i = 0; i < ProjectileCount; i++)
+            for (int i = 0; i < projectileCount; i++)
             {
                 // Convert angle: degrees -> radians -> vector
                 float degrees = aimAngle + degreesOffset;

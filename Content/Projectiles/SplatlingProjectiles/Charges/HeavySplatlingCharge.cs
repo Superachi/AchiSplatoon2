@@ -15,13 +15,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 {
     internal class HeavySplatlingCharge : BaseChargeProjectile
     {
-        protected override string ShootSample { get => "SplattershotShoot"; }
-        protected override float[] ChargeTimeThresholds { get => [50f, 75f]; }
         protected virtual int ProjectileType { get => ModContent.ProjectileType<HeavySplatlingProjectile>(); }
+        private float muzzleDistance;
         private float barrageMaxAmmo;
         private float barrageVelocity;
         private float barrageShotTime;
-        private float muzzleDistance;
         private float damageChargeMod = 1f;
         private float velocityChargeMod = 1f;
 
@@ -34,8 +32,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         public override void OnSpawn(IEntitySource source)
         {
             base.OnSpawn(source);
-            HeavySplatling weaponData = new HeavySplatling();
+            BaseSplatling weaponData = (BaseSplatling)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
+            chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
@@ -54,6 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 case 0:
                     damageChargeMod = 0.6f;
                     velocityChargeMod = 0.6f;
+                    barrageShotTime++;
                     break;
                 case 1:
                     damageChargeMod = 0.8f;

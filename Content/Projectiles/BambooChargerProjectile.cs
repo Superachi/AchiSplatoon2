@@ -10,9 +10,6 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BambooChargerProjectile : SplatChargerProjectile
     {
-        protected override float[] ChargeTimeThresholds { get => [20f]; }
-        protected override string ShootSample { get => "BambooChargerShoot"; }
-        protected override string ShootWeakSample { get => "BambooChargerShootWeak"; }
         protected override bool ShakeScreenOnChargeShot { get => false; }
 
         public override void SetDefaults()

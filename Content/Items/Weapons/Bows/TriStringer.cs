@@ -12,23 +12,20 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     // This is a basic item template.
     // Please see tModLoader's ExampleMod for every other example:
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-    public class TriStringer : BaseWeapon
+    internal class TriStringer : BaseStringer
     {
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
 
         public override void SetDefaults()
         {
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<TriStringerCharge>(), AmmoID.None, 15, 12f);
+            base.SetDefaults();
             Item.damage = 32;
             Item.width = 34;
             Item.height = 74;
             Item.knockBack = 3;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Green;
-            Item.noMelee = true;
-            Item.channel = true;
-            Item.crit = 8;
         }
 
         public override void AddRecipes()

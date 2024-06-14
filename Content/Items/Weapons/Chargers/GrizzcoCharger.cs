@@ -15,6 +15,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class GrizzcoCharger : BaseWeapon
     {
+        public override string ShootSample { get => "BambooChargerShoot"; }
+        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
         public override float MuzzleOffsetPx { get; set; } = 80f;
         public override void SetDefaults()
         {
