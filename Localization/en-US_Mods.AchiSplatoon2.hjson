@@ -58,7 +58,7 @@ Items: {
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a quick shot]"
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a high velocity shot]"
 	}
 
 	BambooMk2Charger: {
@@ -167,7 +167,7 @@ Items: {
 
 	HeavySplatling: {
 		DisplayName: Heavy Splatling
-		Tooltip: ""
+		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a lasting barrage of shots]"
 	}
 
 	GrizzcoCharger: {
@@ -198,4 +198,5 @@ Projectiles: {
 	BaseChargeProjectile.DisplayName: Base Charge Projectile
 	HeavySplatlingCharge.DisplayName: Heavy Splatling Charge
 	GrizzcoChargerProjectile.DisplayName: Grizzco Charger Projectile
+	HeavySplatlingProjectile.DisplayName: Heavy Splatling Projectile
 }
