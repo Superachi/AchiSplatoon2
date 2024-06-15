@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 56;
+            Item.damage = 48;
             Item.width = 92;
             Item.height = 50;
             Item.knockBack = 2;
