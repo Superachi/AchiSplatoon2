@@ -32,6 +32,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             set => Projectile.ai[1] = value;
         }
 
+        public override bool? CanCutTiles()
+        {
+            return hasExploded;
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (!hasExploded)
@@ -59,6 +64,9 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (!hasExploded)
             {
+                Lighting.AddLight(Projectile.position, lightColor.R * brightness, lightColor.G * brightness, lightColor.B * brightness);
+
+                // Apply air friction
                 Projectile.velocity.X = Projectile.velocity.X * airFriction;
 
                 // Rotation increased by velocity.X 

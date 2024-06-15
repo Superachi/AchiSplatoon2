@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             // If the projectile hits a wall horizontally, bounce off of it
             if (Projectile.velocity.X == 0f)
             {
-                Projectile.velocity.X = -xVelocityBeforeBump * 0.8f;
+                Projectile.velocity.X = -xVelocityBeforeBump * 0.7f;
             }
             else
             {
