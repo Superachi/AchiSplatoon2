@@ -219,6 +219,11 @@ Items: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
 	}
+
+	SplatBomb: {
+		Tooltip: ""
+		DisplayName: Splat Bomb
+	}
 }
 
 Projectiles: {
@@ -239,4 +244,5 @@ Projectiles: {
 	HeavySplatlingCharge.DisplayName: Heavy Splatling Charge
 	GrizzcoChargerProjectile.DisplayName: Grizzco Charger Projectile
 	HeavySplatlingProjectile.DisplayName: Heavy Splatling Projectile
+	SplatBombProjectile.DisplayName: Splat Bomb Projectile
 }

@@ -12,6 +12,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Items.Weapons;
+using ReLogic.Utilities;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -184,7 +185,7 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemTime = owner.itemTimeMax;
         }
 
-        protected void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        protected SlotId PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)
             {
@@ -199,7 +200,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxInstances = maxInstances,
                 Pitch = pitch,
             };
-            SoundEngine.PlaySound(chargeSound, position);
+            return SoundEngine.PlaySound(chargeSound, position);
         }
 
         protected static void StopAudio(string soundPath)
