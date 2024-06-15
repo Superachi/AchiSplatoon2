@@ -50,46 +50,44 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             {
                 var t = tooltips[index];
                 t.Text = $"{Item.Name}";
-                if (modPlayer.isPaletteEquipped)
-                {
-                    var textColor = "c/ffffff";
 
-                    t.Text += $"\n[c/ff8e2c:Palette effect: ]";
-                    if (RedValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "attack speed", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
-                    }
-                    else if (BlueValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
-                    }
-                    else if (YellowValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
-                    }
-                    else if (PurpleValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
-                        t.Text += "\n"+StatIncreaseDisplayString(textColor, "knockback", modPlayer.PurpleChipBaseKnockbackBonusDisplay);
-                    }
-                    else if (GreenValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
-                    }
-                    else if (AquaValue > 0)
-                    {
-                        t.Text += StatIncreaseDisplayString(textColor, "vibes", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
-                    }
+                var textColor = "c/ffffff";
 
-                    if (modPlayer.DoesPlayerHaveTooManyChips())
-                    {
-                        t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
-                    }
-                }
-                else
+                t.Text += $"\n[c/ff8e2c:Effect when active:]\n";
+                if (RedValue > 0)
                 {
-                    t.Text += $"\n[c/a8a8a8:Currently inactive. Requires a Color Palette accessory to activate!]";
+                    t.Text += StatIncreaseDisplayString(textColor, "attack speed", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
                 }
+                else if (BlueValue > 0)
+                {
+                    t.Text += StatIncreaseDisplayString(textColor, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
+                }
+                else if (YellowValue > 0)
+                {
+                    t.Text += StatIncreaseDisplayString(textColor, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
+                }
+                else if (PurpleValue > 0)
+                {
+                    t.Text += StatIncreaseDisplayString(textColor, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
+                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "knockback", modPlayer.PurpleChipBaseKnockbackBonusDisplay);
+                }
+                else if (GreenValue > 0)
+                {
+                    t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
+                }
+                else if (AquaValue > 0)
+                {
+                    t.Text += StatIncreaseDisplayString(textColor, "vibes", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
+                }
+
+                if (!modPlayer.isPaletteEquipped)
+                {
+                    t.Text += $"\n[c/ed3a4a:Currently inactive. Requires a Color Palette accessory to activate!]";
+                }
+                else if (modPlayer.DoesPlayerHaveTooManyChips())
+                {
+                    t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
+                } 
             }
         }
     }
