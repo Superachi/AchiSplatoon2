@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.HallowedBar, 10);
             recipe.AddIngredient(ItemID.BlackInk);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

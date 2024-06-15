@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,27 +7,26 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
 
-namespace AchiSplatoon2.Content.Items.Weapons.Bows
+namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
-    internal class TriStringerInkline : TriStringer
+    internal class ZinkMiniSplatling : MiniSplatling
     {
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 104;
-            Item.knockBack = 6;
+            Item.damage = 44;
+            Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<TriStringer>());
-            recipe.AddIngredient(ItemID.CobaltBar, 12);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
+            recipe.AddIngredient(ModContent.ItemType<MiniSplatling>());
+            recipe.AddIngredient(ItemID.CobaltBar, 10);
+            recipe.AddIngredient(ItemID.SoulofNight, 6);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

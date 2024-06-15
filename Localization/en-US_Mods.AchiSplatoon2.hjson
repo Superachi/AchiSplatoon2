@@ -209,6 +209,16 @@ Items: {
 		DisplayName: Base Blaster
 		Tooltip: ""
 	}
+
+	RoyalHeavySplatling: {
+		DisplayName: Royal Heavy Splatling
+		Tooltip: ""
+	}
+
+	ZinkMiniSplatling: {
+		DisplayName: Zink Mini Splatling
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

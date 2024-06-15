@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             recipe.AddIngredient(ItemID.BlackLens);
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
 

@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>());
             recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 12);
+            recipe.AddIngredient(ItemID.SoulofNight, 12);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
