@@ -221,8 +221,13 @@ Items: {
 	}
 
 	SplatBomb: {
-		Tooltip: ""
 		DisplayName: Splat Bomb
+		Tooltip: "[c/ff8e2c:Detonates soon after hitting the ground]"
+	}
+
+	BaseBomb: {
+		DisplayName: Base Bomb
+		Tooltip: ""
 	}
 }
 
@@ -245,4 +250,5 @@ Projectiles: {
 	GrizzcoChargerProjectile.DisplayName: Grizzco Charger Projectile
 	HeavySplatlingProjectile.DisplayName: Heavy Splatling Projectile
 	SplatBombProjectile.DisplayName: Splat Bomb Projectile
+	BaseBombProjectile.DisplayName: Base Bomb Projectile
 }

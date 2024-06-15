@@ -78,33 +78,6 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        private void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
-        {
-            float radiusMult = radiusModifier / 160;
-            amount = Convert.ToInt32(amount * radiusMult);
-
-            // Ink
-            for (int i = 0; i < amount; i++)
-            {
-                Color dustColor = GenerateInkColor();
-
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
-                dust.velocity *= radiusMult;
-            }
-
-            // Firework
-            for (int i = 0; i < amount / 2; i++)
-            {
-                Color dustColor = GenerateInkColor();
-                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor);
-                dust.velocity *= radiusMult / 2;
-            }
-        }
-
         private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
         {
             for (int i = 0; i < amount; i++)

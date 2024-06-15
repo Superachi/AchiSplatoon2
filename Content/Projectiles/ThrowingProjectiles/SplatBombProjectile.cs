@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using System;
@@ -12,33 +13,42 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles
+namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
-    internal class SplatBombProjectile : BaseProjectile
+    internal class SplatBombProjectile : BaseBombProjectile
     {
         private int maxFuseTime = 180;
-        private bool applyGravity = false;
-        private float terminalVelocity = 10f;
         private bool hasCollided = false;
         private bool hasExploded = false;
-        private int explosionRadius = 300;
+        private int explosionRadius;
         private int finalExplosionRadius;
+
+        private float airFriction = 0.995f;
+        private float groundFriction = 0.95f;
+        private bool applyGravity = false;
+        private float terminalVelocity = 10f;
+        private float xVelocityBeforeBump;
 
         private int state = 0;
         private const int stateFly = 0;
         private const int stateRoll = 1;
-        private const int stateRollFuse= 2;
+        private const int stateRollFuse = 2;
         private const int stateExplode = 3;
         private const int stateDespawn = 4;
 
         private Color lightColor;
         private float brightness = 0.001f;
 
+        protected float FuseTime
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+
         public override void SetDefaults()
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
@@ -47,58 +57,17 @@ namespace AchiSplatoon2.Content.Projectiles
             DrawOriginOffsetY = -12;
         }
 
-        protected float FuseTime
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
-
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
+            BaseBomb weaponData = (BaseBomb)weaponSource;
+            explosionRadius = weaponData.ExplosionRadius;
+
             PlayAudio("Throwables/SplatBombThrow");
             lightColor = GenerateInkColor();
 
             FuseTime = maxFuseTime;
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
-        }
-
-        private void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
-        {
-            float radiusMult = radiusModifier / 160;
-            amount = Convert.ToInt32(amount * radiusMult);
-
-            // Ink
-            for (int i = 0; i < amount; i++)
-            {
-                Color dustColor = GenerateInkColor();
-
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
-                dust.velocity *= radiusMult;
-            }
-
-            // Firework
-            for (int i = 0; i < amount / 2; i++)
-            {
-                Color dustColor = GenerateInkColor();
-                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor);
-                dust.velocity *= radiusMult / 2;
-            }
-        }
-
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (Main.expertMode)
-            {
-                if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
-                {
-                    modifiers.FinalDamage /= 3;
-                }
-            }
         }
 
         public override void SetStaticDefaults()
@@ -107,30 +76,13 @@ namespace AchiSplatoon2.Content.Projectiles
             ProjectileID.Sets.CanDistortWater[Type] = true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (Projectile.velocity.Y == 0 && state == 0)
-            {
-                AdvanceState();
-            }
-
-            return false;
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (!hasExploded)
-            {
-                SetState(3);
-            }
-        }
-
         private void AllowMovement()
         {
-            // Reduce horizontal speed when grounded
+            // Reduce horizontal speed (more when grounded)
+            var frictionMod = airFriction;
             if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
             {
-                Projectile.velocity.X = Projectile.velocity.X * 0.95f;
+                frictionMod = groundFriction;
 
                 if (Projectile.velocity.X > -0.01 && Projectile.velocity.X < 0.01)
                 {
@@ -139,6 +91,18 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
 
+            // If the projectile hits a wall horizontally, bounce off of it
+            if (Projectile.velocity.X == 0f)
+            {
+                Projectile.velocity.X = -xVelocityBeforeBump * 0.8f;
+            }
+            else
+            {
+                xVelocityBeforeBump = Projectile.velocity.X;
+            }
+
+            Projectile.velocity.X = Projectile.velocity.X * frictionMod;
+
             // Rotation increased by velocity.X 
             Projectile.rotation += Projectile.velocity.X * 0.05f;
 
@@ -146,6 +110,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + 0.3f, -terminalVelocity, terminalVelocity);
         }
 
+        #region State machine
         private void SetState(int target)
         {
             state = target;
@@ -167,10 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles
                 case stateExplode:
                     maxFuseTime = 6;
                     FuseTime = maxFuseTime;
-
                     hasExploded = true;
+
                     Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
                     Projectile.alpha = 255;
+                    Projectile.friendly = true;
                     Projectile.tileCollide = false;
                     EmitBurstDust(dustMaxVelocity: 30, amount: 15, minScale: 2, maxScale: 3, radiusModifier: finalExplosionRadius);
                     StopAudio("Throwables/SplatBombFuse");
@@ -216,6 +182,30 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 AllowMovement();
             }
+        }
+
+        #endregion
+
+        // Deal less damage against the eater of worlds on expert
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Main.expertMode)
+            {
+                if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
+                {
+                    modifiers.FinalDamage /= 3;
+                }
+            }
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.velocity.Y == 0 && state == 0)
+            {
+                AdvanceState();
+            }
+
+            return false;
         }
     }
 }
