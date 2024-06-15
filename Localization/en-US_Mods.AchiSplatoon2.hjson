@@ -222,12 +222,21 @@ Items: {
 
 	SplatBomb: {
 		DisplayName: Splat Bomb
-		Tooltip: "[c/ff8e2c:Detonates soon after hitting the ground]"
+		Tooltip: "[c/ff8e2c:Detonates shortly after hitting the ground]"
 	}
 
 	BaseBomb: {
 		DisplayName: Base Bomb
 		Tooltip: ""
+	}
+
+	BurstBomb: {
+		DisplayName: Burst Bomb
+		Tooltip:
+			'''
+			[c/ff8e2c:Detonates instantly on contact]
+			[c/ff8e2c:Deals less damage if it hits a wall first]
+			'''
 	}
 }
 
@@ -251,4 +260,5 @@ Projectiles: {
 	HeavySplatlingProjectile.DisplayName: Heavy Splatling Projectile
 	SplatBombProjectile.DisplayName: Splat Bomb Projectile
 	BaseBombProjectile.DisplayName: Base Bomb Projectile
+	BurstBombProjectile.DisplayName: Burst Bomb Projectile
 }
