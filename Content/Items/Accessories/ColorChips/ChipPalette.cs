@@ -118,12 +118,14 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     }
                     if (yellow > 0)
                     {
-                        t.Text += $"\n[{textColorGray}Range ({yellow}) > Explosion radius bonus: {(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Range ({yellow}) >]" +
+                            $"\n[{textColorGray}Explosion radius bonus: {(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]" +
+                            $"\n[{textColorGray}Projectile piercing bonus: {(int)(yellow * modPlayer.YellowChipPiercingBonus)}]";
                     }
                     if (purple > 0)
                     {
                         t.Text += $"\n[{textColorGray}Support ({purple}) >]" +
-                            $"\n[{textColorGray}Knockback bonus: {(int)(purple * modPlayer.PurpleChipBaseKnockbackBonus)} unit(s)]" +
+                            $"\n[{textColorGray}Knockback bonus: {purple * modPlayer.PurpleChipBaseKnockbackBonus} unit(s)]" +
                             $"\n[{textColorGray}Weapon charge speed bonus: {(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)

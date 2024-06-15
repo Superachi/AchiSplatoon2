@@ -34,6 +34,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float chargeSpeedModifier = 1f;  
         protected float explosionRadiusModifier = 1f;
         protected float attackSpeedModifier = 1f;
+        protected int piercingModifier = 0;
+        protected float damageModifierAfterPierce = 0.8f;
 
         public void Initialize()
         {
@@ -94,13 +96,27 @@ namespace AchiSplatoon2.Content.Projectiles
                         chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
                     }
 
-                    // Yellow chips > more explosion radius
+                    // Yellow chips > bigger explosions + projectile piercing
                     if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
                     {
                         explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
+                        piercingModifier += modPlayer.CalculatePiercingBonus();
+
+                        if (Projectile.penetrate != -1)
+                        {
+                            Projectile.maxPenetrate += piercingModifier;
+                            Projectile.penetrate += piercingModifier;
+                            Projectile.usesLocalNPCImmunity = true;
+                            Projectile.localNPCHitCooldown = 20;
+                        }
                     }
                 }
             }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
         }
 
         protected int FrameSpeed()

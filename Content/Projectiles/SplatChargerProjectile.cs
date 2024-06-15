@@ -21,12 +21,12 @@ namespace AchiSplatoon2.Content.Projectiles
         private const int timeLeftAfterFiring = 120;
 
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
+        protected virtual int MaxPenetrate { get => 10; }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             Projectile.extraUpdates = 32;
-            Projectile.penetrate = 10;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -51,6 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Adjust behaviour depending on the charge amount
             if (chargeLevel > 0)
             {
+                Projectile.penetrate = MaxPenetrate + piercingModifier;
                 Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
                 PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
 
@@ -67,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             else
             {
-                Projectile.penetrate = 1;
+                Projectile.penetrate = 1 + piercingModifier;
                 int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
 
                 // Deal a min. of 10% damage and a max. of 40% damage

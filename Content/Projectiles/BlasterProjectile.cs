@@ -30,6 +30,8 @@ namespace AchiSplatoon2.Content.Projectiles
         private const float explosionTime = 6f;
         protected float explosionDelayInit;
 
+        protected int damageBeforePiercing;
+
         public override void SetDefaults()
         {
             Projectile.extraUpdates = addedUpdate;
@@ -39,13 +41,13 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.hostile = false;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
-            Projectile.penetrate = -1; // Required for the 'AoE' to be able to hit multiple enemies
             AIType = ProjectileID.Bullet;
         }
 
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
+            damageBeforePiercing = Projectile.damage;
             Blaster weaponData = (Blaster)weaponSource;
 
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
@@ -116,6 +118,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void ExplodeBig()
         {
+            Projectile.penetrate = -1;
+            Projectile.damage = damageBeforePiercing;
+
             // Audio
             PlayAudio(explosionBigSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 3);
 
@@ -133,6 +138,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void ExplodeSmall()
         {
+            Projectile.penetrate = -1;
+            Projectile.damage = damageBeforePiercing;
+
             // Audio
             PlayAudio(explosionSmallSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 3);
 
@@ -196,7 +204,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)
         {
-            if (state == 0)
+            if (state == 0 && Projectile.penetrate <= 1)
             {
                 ExplodeBig();
                 AdvanceState();

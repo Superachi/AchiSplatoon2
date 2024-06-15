@@ -26,6 +26,8 @@ namespace AchiSplatoon2.Content.Players
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
         public float YellowChipExplosionRadiusBonus { get => 0.1f; }
         public string YellowChipExplosionRadiusBonusDisplay { get => $"{(int)(YellowChipExplosionRadiusBonus * 100)}%"; }
+        public int YellowChipPiercingBonus { get => 1; }
+        public string YellowChipPiercingBonusDisplay { get => $"{YellowChipPiercingBonus}"; }
         public float GreenChipBaseCritBonus { get => 4f; }
         public string GreenChipBaseCritBonusDisplay { get => $"{GreenChipBaseCritBonus}%"; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
@@ -84,6 +86,11 @@ namespace AchiSplatoon2.Content.Players
         public float CalculateExplosionRadiusBonus()
         {
             return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipExplosionRadiusBonus;
+        }
+
+        public int CalculatePiercingBonus()
+        {
+            return ColorChipAmounts[(int)ChipColor.Yellow];
         }
     }
 }

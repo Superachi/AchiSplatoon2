@@ -11,11 +11,6 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BambooChargerProjectile : SplatChargerProjectile
     {
         protected override bool ShakeScreenOnChargeShot { get => false; }
-
-        public override void SetDefaults()
-        {
-            base.SetDefaults();
-            Projectile.penetrate = 1;
-        }
+        protected override int MaxPenetrate { get => 1; }
     }
 }
