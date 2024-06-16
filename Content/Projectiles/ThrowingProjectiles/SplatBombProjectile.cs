@@ -12,6 +12,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
@@ -97,6 +99,16 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + 0.3f, -terminalVelocity, terminalVelocity);
         }
 
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.velocity.Y == 0 && state == 0)
+            {
+                AdvanceState();
+            }
+
+            return false;
+        }
+
         #region State machine
         private void SetState(int target)
         {
@@ -147,10 +159,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
                 case stateRollFuse:
                     brightness += 0.0001f * (1 - FuseTime / maxFuseTime);
+                    if (FuseTime < 6)
+                    {
+                        drawScale *= 1.2f;
+                    }
                     break;
             }
 
-            Lighting.AddLight(Projectile.position, lightColor.R * brightness, lightColor.G * brightness, lightColor.B * brightness);
+            Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
 
             if (FuseTime <= 0)
             {
@@ -165,15 +181,5 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         }
 
         #endregion
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (Projectile.velocity.Y == 0 && state == 0)
-            {
-                AdvanceState();
-            }
-
-            return false;
-        }
     }
 }

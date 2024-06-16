@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class BurstBombProjectile : BaseBombProjectile
     {
-        private float indirectHitDamageFalloff = 0.7f;
+        private float indirectHitDamageFalloff = 0.5f;
         public override void SetDefaults()
         {
             Projectile.width = 14;
@@ -64,7 +64,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (!hasExploded)
             {
-                Lighting.AddLight(Projectile.position, lightColor.R * brightness, lightColor.G * brightness, lightColor.B * brightness);
+                Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
 
                 // Apply air friction
                 Projectile.velocity.X = Projectile.velocity.X * airFriction;
