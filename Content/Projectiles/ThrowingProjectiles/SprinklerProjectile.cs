@@ -16,6 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class SprinklerProjectile : BaseProjectile
     {
         private float delayUntilFall = 12f;
+        private float delayUntilDust = 2f;
         private float fallSpeed = 0.3f;
         private float terminalVelocity = 12f;
 
@@ -69,13 +70,15 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            for (int i = 0; i < 3; i++)
+            if (Projectile.ai[0] >= delayUntilDust)
             {
-                // Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                dust.alpha = 64;
+                Color dustColor = GenerateInkColor();
+                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                for (int i = 0; i < 3; i++)
+                {
+                    var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+                    dust.alpha = 64;
+                }
             }
         }
     }

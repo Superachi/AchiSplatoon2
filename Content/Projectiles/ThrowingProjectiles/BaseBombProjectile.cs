@@ -67,7 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             {
                 Vector2 position = Projectile.Center - Main.screenPosition;
                 Texture2D texture = TextureAssets.Projectile[Type].Value;
-                Rectangle sourceRectangle = texture.Frame(); // The sourceRectangle says which frame to use.
+                Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
                 Vector2 origin = sourceRectangle.Size() / 2f;
 
                 // The light value in the world

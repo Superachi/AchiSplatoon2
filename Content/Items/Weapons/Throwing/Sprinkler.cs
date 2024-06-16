@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Throwing
@@ -19,6 +20,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.knockBack = 0.5f;
             Item.width = 28;
             Item.height = 28;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[Item.shoot] < 1;
         }
     }
 }

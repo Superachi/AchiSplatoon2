@@ -34,13 +34,18 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateFire = 4;
         private const int baseAttackTime = 5;
 
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+        }
+
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 12;
+            Projectile.extraUpdates = 10;
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600 * FrameSpeed();
+            Projectile.timeLeft = 300 * FrameSpeed();
             Projectile.tileCollide = true;
 
             DrawOffsetX = -2;
@@ -191,6 +196,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
                     if (Timer <= 0)
                     {
+                        Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
+
                         ShotsFired++;
                         var cone = 150;
                         var a = (ShotsFired * 18) % 360;
@@ -225,7 +232,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             Projectile.NewProjectile(
                 spawnSource: Projectile.GetSource_FromThis(),
-                position: Projectile.Center - stickingDirection * 3f,
+                position: Projectile.Center - stickingDirection * 6f,
                 velocity: angleVector * 9f,
                 Type: ModContent.ProjectileType<SprinklerProjectile>(),
                 Damage: Convert.ToInt32(Projectile.damage),
