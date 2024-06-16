@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles
                             Projectile.maxPenetrate += piercingModifier;
                             Projectile.penetrate += piercingModifier;
                             Projectile.usesLocalNPCImmunity = true;
-                            Projectile.localNPCHitCooldown = 20;
+                            Projectile.localNPCHitCooldown = 20 * FrameSpeed();
                         }
                     }
                 }

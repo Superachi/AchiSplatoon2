@@ -238,6 +238,16 @@ Items: {
 			[c/ff8e2c:Deals less damage if it hits a wall first]
 			'''
 	}
+
+	AngleShooter: {
+		DisplayName: Angle Shooter
+		Tooltip:
+			'''
+			[c/ff8e2c:Fires off a bouncing projectile]
+			[c/ff8e2c:Greatly increases damage after every bounce]
+			[c/64aaff:"AKA the mark applier."]
+			'''
+	}
 }
 
 Projectiles: {
@@ -261,4 +271,5 @@ Projectiles: {
 	SplatBombProjectile.DisplayName: Splat Bomb Projectile
 	BaseBombProjectile.DisplayName: Base Bomb Projectile
 	BurstBombProjectile.DisplayName: Burst Bomb Projectile
+	AngleShooterProjectile.DisplayName: Angle Shooter Projectile
 }

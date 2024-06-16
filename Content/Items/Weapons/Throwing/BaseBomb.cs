@@ -13,6 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
     internal class BaseBomb : BaseWeapon
     {
         public virtual int ExplosionRadius { get => 100; }
+        public virtual int MaxBounces { get => 10; }
 
         public override void SetDefaults()
         {
