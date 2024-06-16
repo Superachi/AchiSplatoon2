@@ -32,7 +32,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateGetStickDirection = 2;
         private const int stateWait = 3;
         private const int stateFire = 4;
+        private const int stateShrink = 5;
+
         private const int baseAttackTime = 5;
+        private int shotsLeft = 75;
 
         public override void SetStaticDefaults()
         {
@@ -45,7 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 300 * FrameSpeed();
+            Projectile.timeLeft = 600 * FrameSpeed();
             Projectile.tileCollide = true;
 
             DrawOffsetX = -2;
@@ -199,6 +202,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
 
                         ShotsFired++;
+                        shotsLeft--;
                         var cone = 150;
                         var a = (ShotsFired * 18) % 360;
                         var sinVal = Math.Sin(MathHelper.ToRadians(a));
@@ -216,6 +220,19 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     }
 
                     Timer--;
+
+                    if (shotsLeft <= 0)
+                    {
+                        AdvanceState();
+                    }
+                    break;
+                case stateShrink:
+                    drawScale *= 0.98f;
+                    if (drawScale < 0.05f)
+                    {
+                        EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2);
+                        Projectile.Kill();
+                    }
                     break;
             }
         }
