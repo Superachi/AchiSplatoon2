@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Helpers
                     finalColor = new Color(255, 198, 0);
                     break;
                 case InkColor.Purple:
-                    finalColor = new Color(196, 0, 255);
+                    finalColor = new Color(185, 0, 255);
                     break;
                 case InkColor.Green:
                     finalColor = new Color(78, 255, 43);

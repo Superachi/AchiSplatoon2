@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected float terminalVelocity = 10f;
 
         protected Color glowColor;
-        protected float brightness = 0.001f;
+        protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
         public override void OnSpawn(IEntitySource source)

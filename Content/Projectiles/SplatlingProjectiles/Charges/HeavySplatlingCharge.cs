@@ -128,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         );
 
                         float radians = MathHelper.ToRadians(aimAngle);
-                        Vector2 angleVector = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+                        Vector2 angleVector = radians.ToRotationVector2();
                         Vector2 velocity = angleVector * barrageVelocity * velocityChargeMod;
 
                         // Spawn the projectile

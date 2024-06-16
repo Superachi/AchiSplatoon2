@@ -190,22 +190,33 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemTime = owner.itemTimeMax;
         }
 
-        protected SlotId PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        private SlotId PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)
             {
                 position = Projectile.position;
             }
 
-            var sample = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
-            var chargeSound = sample with
+            var sound = soundStyle with
             {
                 Volume = volume,
                 PitchVariance = pitchVariance,
                 MaxInstances = maxInstances,
                 Pitch = pitch,
             };
-            return SoundEngine.PlaySound(chargeSound, position);
+
+            return SoundEngine.PlaySound(sound, position);
+        }
+
+        protected SlotId PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        {
+            var style = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
+            return PlaySoundFinal(style, volume, pitchVariance, maxInstances, pitch, position);
+        }
+
+        protected SlotId PlayAudio(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        {
+            return PlaySoundFinal(soundStyle, volume, pitchVariance, maxInstances, pitch, position);
         }
 
         protected static void StopAudio(string soundPath)
@@ -217,6 +228,11 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxInstances = 1,
             };
             SoundEngine.PlaySound(chargeSound);
+        }
+
+        protected void debugMessage(bool isDebug, string message)
+        {
+            if (isDebug) Main.NewText(message);
         }
 
         #region DustEffects

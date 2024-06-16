@@ -6,21 +6,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class SprinklerSentry : BaseBombProjectile
     {
+        private Vector2 lockedPosition;
         private float previousVelocityX;
         private float previousVelocityY;
         private float prevX;
         private float prevY;
         private float prevXdiff;
         private float prevYdiff;
-        private bool sticking = false;
-        private bool isStickingHorizontally;
-        private Vector2 stickingDirection = new Vector2(0, 0);
+
         private bool hasCollided = false;
+        private bool sticking = false;
+        private bool isStickingVertically;
+        private bool fallback = false;
+        private Vector2 stickingDirection = new Vector2(0, 0);
+
+        private int state = 0;
+        private const int stateFly = 0;
+        private const int stateGetStickAxis = 1;
+        private const int stateGetStickDirection = 2;
+        private const int stateWait = 3;
+        private const int stateFire = 4;
+        private const int baseAttackTime = 5;
 
         public override void SetDefaults()
         {
@@ -28,11 +40,24 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 60 * FrameSpeed();
+            Projectile.timeLeft = 600 * FrameSpeed();
             Projectile.tileCollide = true;
 
             DrawOffsetX = -2;
             DrawOriginOffsetY = -12;
+        }
+
+
+        protected float Timer
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+
+        protected float ShotsFired
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         public override bool? CanCutTiles()
@@ -47,24 +72,38 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             airFriction = 0.999f;
         }
 
+        private void SetState(int target)
+        {
+            state = target;
+        }
+
+        private void AdvanceState()
+        {
+            state++;
+            SetState(state);
+        }
+
         public override void AI()
         {
+            bool debug = false;
             Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
-
-            if (!hasCollided)
+            
+            // Apply gravity
+            if (state == stateFly || fallback)
             {
-                // Apply air friction
-                Projectile.velocity.X = Projectile.velocity.X * airFriction;
-
-                // Rotation increased by velocity.X 
-                Projectile.rotation += Projectile.velocity.X * 0.04f;
-
-                // Apply gravity
                 Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + (0.05f / FrameSpeed()), -terminalVelocity, terminalVelocity);
-            } else
+            }
+
+            switch (state)
             {
-                if (!sticking)
-                {
+                case stateFly:
+                    // Apply air friction
+                    Projectile.velocity.X = Projectile.velocity.X * airFriction;
+
+                    // Rotation increased by velocity.X 
+                    Projectile.rotation += Projectile.velocity.X * 0.04f;
+                    break;
+                case stateGetStickAxis:
                     // When sticking to a wall, we'll stop moving along one axis, but keep moving slightly along the other
                     // We can use this information to check from which direction we hit a wall
                     // That will then decide what direction the sprinkler will face towards
@@ -72,25 +111,43 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     prevYdiff = Projectile.oldPosition.Y - prevY;
                     var xDiff = Projectile.position.X - prevX;
                     var yDiff = Projectile.position.Y - prevY;
+                    //debugMessage(debug, $"xDiff: {xDiff}, yDiff: {yDiff}, prevXdiff: {prevXdiff}, prevYdiff: {prevYdiff}");
 
+                    bool foundAxis = false;
                     if (xDiff == prevXdiff)
                     {
-                        isStickingHorizontally = true;
-                        sticking = true;
+                        foundAxis = true;
+                        isStickingVertically = true;
                     }
                     else if (yDiff == prevYdiff)
                     {
-                        isStickingHorizontally = false;
-                        sticking = true;
+                        foundAxis = true;
+                        isStickingVertically = false;
                     }
 
-                    Main.NewText($"isStickingHorizontally: {isStickingHorizontally}");
-
-                } else
-                {
-                    if (stickingDirection.Equals(Vector2.Zero))
+                    if (foundAxis)
                     {
-                        if (isStickingHorizontally)
+                        debugMessage(debug, $"isStickingVertically: {isStickingVertically}");
+                        AdvanceState();
+                    }
+
+                    // Fallback if we can't find a sticking axis
+                    Timer--;
+                    if (Timer <= 0)
+                    {
+                        fallback = true;
+                        isStickingVertically = false;
+                        stickingDirection = new Vector2(0, 1);
+                        AdvanceState();
+                        debugMessage(debug, $"Couldn't find stick axis (is this a slope?) Stick dir: {stickingDirection}");
+                    }
+                    break;
+                case stateGetStickDirection:
+                    // Say we know the axis is vertical
+                    // Check whether we approached it from the left or the right
+                    if (!fallback)
+                    {
+                        if (isStickingVertically)
                         {
                             if (prevXdiff < 0)
                             {
@@ -103,31 +160,90 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         }
                         else
                         {
-                            if (prevYdiff < 0)
-                            {
-                                stickingDirection = new Vector2(0, -1);
-                            }
-                            else
-                            {
-                                stickingDirection = new Vector2(0, 1);
-                            }
+                            fallback = true;
+                            stickingDirection = new Vector2(0, 1);
                         }
-
-                        Main.NewText($"Sticking direction vector: {stickingDirection.X}, {stickingDirection.Y}");
-                        Projectile.velocity = Vector2.Zero;
                     }
-                }
+
+                    debugMessage(debug, $"Sticking direction vector: {stickingDirection.X}, {stickingDirection.Y}");
+                    var degrees = MathHelper.ToDegrees(stickingDirection.ToRotation()) - 90;
+                    var finalRotation = MathHelper.ToRadians(degrees);
+                    Projectile.rotation = finalRotation;
+                    Projectile.velocity = Vector2.Zero;
+                    Projectile.position.X = prevX;
+                    Projectile.position.Y = prevY;
+                    Projectile.netUpdate = true;
+
+                    StopAudio("Throwables/SplatBombThrow");
+                    PlayAudio("Throwables/SprinklerDeploy", volume: 0.5f, pitchVariance: 0.2f);
+                    Timer = 30 * FrameSpeed();
+                    AdvanceState();
+                    break;
+                case stateWait:
+                    Timer--;
+                    if (Timer <= 0)
+                    {
+                        AdvanceState();
+                    }
+                    break;
+                case stateFire:
+                    var baseDegrees = MathHelper.ToDegrees(stickingDirection.ToRotation());
+
+                    if (Timer <= 0)
+                    {
+                        ShotsFired++;
+                        var cone = 150;
+                        var a = (ShotsFired * 18) % 360;
+                        var sinVal = Math.Sin(MathHelper.ToRadians(a));
+                        Vector2 angleVector = CalculateShotAngle(cone, a, baseDegrees);
+
+                        // Bullet spawn/timer
+                        ShootSprinkler(angleVector);
+                        if (sinVal != 0)
+                        {
+                            angleVector = CalculateShotAngle(cone, -a, baseDegrees);
+                            ShootSprinkler(angleVector);
+                        }
+                        
+                        Timer = baseAttackTime * FrameSpeed();
+                    }
+
+                    Timer--;
+                    break;
             }
+        }
+
+        private Vector2 CalculateShotAngle(float cone, float offsetDegrees, float startingDegrees)
+        {
+            var sinVal = Math.Sin(MathHelper.ToRadians(offsetDegrees));
+            var angle = (float)(sinVal * cone / 2) + startingDegrees + 180;
+            var angleRadians = MathHelper.ToRadians(angle);
+            return angleRadians.ToRotationVector2();
+        }
+
+        private void ShootSprinkler(Vector2 angleVector)
+        {
+            Projectile.NewProjectile(
+                spawnSource: Projectile.GetSource_FromThis(),
+                position: Projectile.Center - stickingDirection * 3f,
+                velocity: angleVector * 9f,
+                Type: ModContent.ProjectileType<SprinklerProjectile>(),
+                Damage: Convert.ToInt32(Projectile.damage),
+                KnockBack: Projectile.knockBack,
+                Owner: Main.myPlayer);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (!hasCollided)
+            if (state == stateFly)
             {
                 // Set the previous position as we collide with a wall
                 prevX = Projectile.position.X;
                 prevY = Projectile.position.Y;
                 hasCollided = true;
+
+                Timer = 2 * FrameSpeed();
+                AdvanceState();
             }
 
             return false;

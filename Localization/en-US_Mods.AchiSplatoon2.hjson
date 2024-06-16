@@ -248,6 +248,11 @@ Items: {
 			[c/64aaff:"AKA the mark applier."]
 			'''
 	}
+
+	Sprinkler: {
+		DisplayName: Sprinkler
+		Tooltip: "[c/ff8e2c:Deploys a sprinkler to continuously shoot projectiles]"
+	}
 }
 
 Projectiles: {
@@ -272,4 +277,6 @@ Projectiles: {
 	BaseBombProjectile.DisplayName: Base Bomb Projectile
 	BurstBombProjectile.DisplayName: Burst Bomb Projectile
 	AngleShooterProjectile.DisplayName: Angle Shooter Projectile
+	SprinklerSentry.DisplayName: Sprinkler Sentry
+	SprinklerProjectile.DisplayName: Sprinkler Projectile
 }
