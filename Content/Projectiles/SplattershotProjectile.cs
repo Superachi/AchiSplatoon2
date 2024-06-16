@@ -13,12 +13,13 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplattershotProjectile : BaseProjectile
     {
-        private float delayUntilFall = 12f;
-        private float fallSpeed = 0.3f;
-        private float terminalVelocity = 12f;
+        private float delayUntilFall = 3f;
+        private float fallSpeed = 0.01f;
+        private float terminalVelocity = 6f;
         
         public override void SetDefaults()
         {
+            Projectile.extraUpdates = 2;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
@@ -46,13 +47,13 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.ai[0] += 1f;
 
             // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall)
+            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
             {
                 Projectile.velocity.Y += fallSpeed;
 
                 if (Projectile.velocity.Y >= 0)
                 {
-                    Projectile.velocity.X *= 0.98f;
+                    Projectile.velocity.X *= 0.99f;
                 }
             }
 
