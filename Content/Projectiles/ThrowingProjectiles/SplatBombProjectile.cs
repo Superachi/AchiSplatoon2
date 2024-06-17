@@ -1,19 +1,8 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using Microsoft.Xna.Framework;
-using ReLogic.Utilities;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {

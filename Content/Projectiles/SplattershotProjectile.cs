@@ -1,10 +1,7 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private float delayUntilFall = 3f;
         private float fallSpeed = 0.01f;
         private float terminalVelocity = 6f;
-        
+
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 2;

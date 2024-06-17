@@ -1,8 +1,8 @@
-﻿using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
@@ -88,7 +88,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 else if (modPlayer.DoesPlayerHaveTooManyChips())
                 {
                     t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
-                } 
+                }
             }
         }
     }

@@ -1,8 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;

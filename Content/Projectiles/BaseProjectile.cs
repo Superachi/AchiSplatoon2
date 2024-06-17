@@ -1,20 +1,14 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Items.Weapons;
-using ReLogic.Utilities;
-using AchiSplatoon2.Content.Dusts;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -34,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // Modifiers
         // See <InkWeaponPlayer.cs>
-        protected float chargeSpeedModifier = 1f;  
+        protected float chargeSpeedModifier = 1f;
         protected float explosionRadiusModifier = 1f;
         protected float attackSpeedModifier = 1f;
         protected int piercingModifier = 0;
@@ -49,7 +43,8 @@ namespace AchiSplatoon2.Content.Projectiles
             weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
 
             // Check the highest color chip amounts, set the ink color to match the top 2
-            if (IsThisClientTheProjectileOwner()) {
+            if (IsThisClientTheProjectileOwner())
+            {
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
                     int value = modPlayer.ColorChipAmounts[i];
@@ -120,7 +115,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (EnablePierceDamageFalloff) {
+            if (EnablePierceDamageFalloff)
+            {
                 Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
             }
         }

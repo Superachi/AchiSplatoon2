@@ -1,14 +1,10 @@
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using System.Dynamic;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons

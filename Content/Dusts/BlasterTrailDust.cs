@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-
-namespace AchiSplatoon2.Content.Dusts
+﻿namespace AchiSplatoon2.Content.Dusts
 {
     internal class BlasterTrailDust : SplatterBulletDust
     {

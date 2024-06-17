@@ -1,12 +1,8 @@
 ﻿using AchiSplatoon2.Content.Players;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
@@ -132,7 +128,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     {
                         t.Text += $"\n[{textColorGray}Lucky ({green}) > Critical strike bonus: {(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
                     }
-                } else
+                }
+                else
                 {
                     t.Text = $"{Item.Name}" +
                         $"\n[{textColorEffect}When equipped, it activates the effects of Color Chips held in your inventory (up to {PaletteCapacity})]";

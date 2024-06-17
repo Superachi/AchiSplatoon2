@@ -1,12 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

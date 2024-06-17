@@ -1,17 +1,10 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons;
 using Terraria.DataStructures;
-using AchiSplatoon2.Content.Dusts;
-using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 {

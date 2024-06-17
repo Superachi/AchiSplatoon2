@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -95,7 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             bool debug = false;
             Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
-            
+
             // Apply gravity
             if (state == stateFly || fallback)
             {
@@ -215,7 +211,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                             angleVector = CalculateShotAngle(cone, -a, baseDegrees);
                             ShootSprinkler(angleVector);
                         }
-                        
+
                         Timer = baseAttackTime * FrameSpeed();
                     }
 

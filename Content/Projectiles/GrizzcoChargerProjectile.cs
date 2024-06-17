@@ -1,15 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Graphics.CameraModifiers;
+﻿using AchiSplatoon2.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using AchiSplatoon2.Content.Dusts;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles

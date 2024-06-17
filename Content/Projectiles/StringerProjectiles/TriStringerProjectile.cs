@@ -1,9 +1,7 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -107,7 +105,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
                 Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            } else
+            }
+            else
             {
                 if (Math.Abs(Projectile.velocity.X) > 0.0001f || Math.Abs(Projectile.velocity.Y) > 0.0001f)
                 {
@@ -136,7 +135,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = oldVelocity;
                     Projectile.timeLeft = ExtraUpdatesTime(60 + (int)Projectile.ai[2] * 5);
                 }
-            } else
+            }
+            else
             {
                 for (int i = 0; i < 5; i++)
                 {

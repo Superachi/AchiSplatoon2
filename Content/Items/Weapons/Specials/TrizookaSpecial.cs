@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Items.Weapons.Shooters
+namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
-    internal class BaseSplattershot : BaseWeapon
+    internal class TrizookaSpecial : BaseSpecial
     {
         public override string ShootSample { get => "SplattershotShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
