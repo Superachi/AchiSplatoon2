@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Throwing
 {
@@ -14,6 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
     {
         public virtual int ExplosionRadius { get => 100; }
         public virtual int MaxBounces { get => 10; }
+        public override bool AllowSubWeaponUsage { get => false; }
 
         public override void SetDefaults()
         {
@@ -27,6 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.noMelee = true;
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
+            Item.ammo = Item.type;
         }
     }
 }
