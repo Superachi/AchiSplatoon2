@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 32;
+            Item.damage = 24;
             Item.width = 34;
             Item.height = 74;
             Item.knockBack = 3;

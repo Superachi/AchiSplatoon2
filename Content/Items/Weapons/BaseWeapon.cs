@@ -1,6 +1,7 @@
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Dynamic;
@@ -38,7 +39,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            if (player.whoAmI != Main.myPlayer) return true;
+            if (player.whoAmI != Main.myPlayer) return false;
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 
@@ -70,6 +71,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
                         if (item.type == idsToCheck[j])
                         {
                             item.stack--;
+                            if (item.stack == 0)
+                            {
+                                CombatTextHelper.DisplayText($"Used last {item.Name}!", player.Center);
+                            }
 
                             // Calculate angle/velocity
                             float aimAngle = MathHelper.ToDegrees(
@@ -83,12 +88,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                             var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
                             modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(subWeaponData[j].GetType());
-                            modPlayer.subWeaponTimeStamp = DateTime.UtcNow;
 
                             // Specifically for the sprinkler, prevent usage if one is already active
                             if (item.type == ModContent.ItemType<Sprinkler>() && player.ownedProjectileCounts[item.shoot] >= 1)
                             {
-                                return true;
+                                CombatTextHelper.DisplayText("Sprinkler already active!", player.Center);
+                                return false;
                             }
 
                             Projectile.NewProjectile(
@@ -106,6 +111,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
                         }
                     }
                 }
+            }
+
+            if (!doneSearching)
+            {
+                CombatTextHelper.DisplayText("No sub weapon equipped!", player.Center);
+                return false;
             }
 
             return true;
