@@ -1,15 +1,16 @@
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Projectiles;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
-    // This is a basic item template.
-    // Please see tModLoader's ExampleMod for every other example:
-    // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class Splattershot : BaseSplattershot
     {
+        public override SubWeaponType BonusSub { get => SubWeaponType.SplatBomb; }
+        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Discount; }
         public override void SetDefaults()
         {
             base.SetDefaults();
