@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Helpers;
+using System;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
@@ -11,6 +13,12 @@ namespace AchiSplatoon2.Content.Players
 
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
+
+        public float SpecialPoints;
+        public float SpecialPointsMax = 100;
+        public bool SpecialReady;
+        public bool IsSpecialActive;
+        public float SpecialDrain;
 
         public float RedChipBaseAttackSpeedBonus { get => 0.04f; }
         public string RedChipBaseAttackSpeedBonusDisplay { get => $"{(int)(RedChipBaseAttackSpeedBonus * 100)}%"; }
@@ -35,6 +43,11 @@ namespace AchiSplatoon2.Content.Players
             Purple,
             Green,
             Aqua,
+        }
+
+        public override void PreUpdate()
+        {
+            DrainSpecial();
         }
 
         public override void ResetEffects()
@@ -86,6 +99,52 @@ namespace AchiSplatoon2.Content.Players
         public int CalculatePiercingBonus()
         {
             return ColorChipAmounts[(int)ChipColor.Yellow];
+        }
+
+        public void AddSpecialPoints(int damage)
+        {
+            // Clamp the amount of points gained between 1 and the max divided by 10 (meaning at least 10 hits)
+            float increment = Math.Clamp(damage / 10, 0.2f, SpecialPointsMax / 10);
+            SpecialPoints += increment;
+
+            if (SpecialPoints > SpecialPointsMax)
+            {
+                SpecialPoints = SpecialPointsMax;
+                if (!SpecialReady) { SpecialReady = true; }
+            }
+        }
+
+        public void ActivateSpecial(float drainSpeed)
+        {
+            if (!IsSpecialActive)
+            {
+                CombatTextHelper.DisplayText("Activating special!", Main.LocalPlayer.Center);
+                IsSpecialActive = true;
+                SpecialDrain = drainSpeed;
+            }
+        }
+
+        public void DrainSpecial(float drainAmount = 0f)
+        {
+            if (IsSpecialActive)
+            {
+                if (drainAmount == 0f)
+                {
+                    SpecialPoints -= SpecialDrain;
+                } else
+                {
+                    SpecialPoints -= drainAmount;
+                }
+
+                if (SpecialPoints <= 0)
+                {
+                    CombatTextHelper.DisplayText("Special is finished", Main.LocalPlayer.Center);
+                    IsSpecialActive = false;
+                    SpecialPoints = 0;
+                    SpecialDrain = 0;
+                    SpecialReady = false;
+                }
+            }
         }
     }
 }

@@ -38,6 +38,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual SubWeaponType BonusSub { get => SubWeaponType.None; }
         public virtual SubWeaponBonusType BonusType { get => SubWeaponBonusType.None; }
 
+        // Special weapon stats
+        public virtual bool IsSpecialWeapon { get => false; }
+        public virtual float SpecialDrainPerUse { get => 0f; }
+        public virtual float SpecialDrainPerTick { get => 0f; }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (BonusType == SubWeaponBonusType.None || BonusSub == SubWeaponType.None)
@@ -95,6 +100,22 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 position += muzzleOffset;
             }
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (!IsSpecialWeapon) { return base.CanUseItem(player); }
+            if (!modPlayer.SpecialReady)
+            {
+                player.itemTime = 30;
+                CombatTextHelper.DisplayText("Need special charge!", player.Center);
+                return false;
+            }
+            modPlayer.DrainSpecial(SpecialDrainPerUse);
+            modPlayer.ActivateSpecial(SpecialDrainPerTick);
+            CombatTextHelper.DisplayText($"{modPlayer.SpecialPoints}", player.Center);
+            return true;
         }
 
         public override bool AltFunctionUse(Player player)

@@ -171,13 +171,15 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.ai[0] += 1f;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, System.Int32 damageDone)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (state == 0 && Projectile.penetrate <= 1)
             {
                 ExplodeBig();
                 AdvanceState();
             }
+
+            base.OnHitNPC(target, hit, damageDone);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

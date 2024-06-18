@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Bson;
 using ReLogic.Utilities;
 using System;
 using Terraria;
@@ -35,16 +36,18 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float damageModifierAfterPierce = 0.8f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
 
+        protected virtual bool CountDamageForSpecialCharge { get => true; }
+
         public void Initialize()
         {
-            // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
-            // This object is then referenced by child classes to get alter certain mechanics
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
-
             // Check the highest color chip amounts, set the ink color to match the top 2
             if (IsThisClientTheProjectileOwner())
             {
+                // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
+                // This object is then referenced by child classes to get alter certain mechanics
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
+
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
                     int value = modPlayer.ColorChipAmounts[i];
@@ -115,10 +118,24 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (EnablePierceDamageFalloff)
+            if (IsThisClientTheProjectileOwner())
             {
-                Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
+                if (EnablePierceDamageFalloff)
+                {
+                    Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
+                }
+
+                DamageToSpecialCharge(damageDone);
             }
+        }
+
+        public void DamageToSpecialCharge(int damage)
+        {
+            if (!CountDamageForSpecialCharge) { return; }
+
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            modPlayer.AddSpecialPoints(damage);
+            CombatTextHelper.DisplayText($"{(int)modPlayer.SpecialPoints}", Main.LocalPlayer.Center);
         }
 
         protected int FrameSpeed()

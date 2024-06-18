@@ -14,6 +14,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public static readonly int ProjPerShot = 3;
         public static readonly int MaxBursts = 3;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ProjPerShot, MaxBursts);
+        public override bool IsSpecialWeapon => true;
+        public override float SpecialDrainPerTick => 0.2f;
+        public override float SpecialDrainPerUse => 60f;
 
         public override void SetDefaults()
         {
@@ -24,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
                 singleShotTime: 50,
                 shotVelocity: 20f);
 
-            Item.damage = 200;
+            Item.damage = 120;
             Item.width = 90;
             Item.height = 44;
             Item.knockBack = 10;

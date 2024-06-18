@@ -18,6 +18,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaProjectile : BaseProjectile
     {
+        protected override bool CountDamageForSpecialCharge { get => false; }
+
         private int state = 0;
 
         private const float explosionRadius = 200;
@@ -125,6 +127,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (state == 0 && Projectile.penetrate <= 1) { Explode(); }
+            base.OnHitNPC(target, hit, damageDone);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
