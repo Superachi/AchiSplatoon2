@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         private const float delayUntilFall = 12f;
         private const float fallSpeed = 0.3f;
-        private const float terminalVelocity = 10f;
+        private const float terminalVelocity = 12f;
 
         private const float recoilAmount = 5f;
 
@@ -129,7 +129,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            CombatTextHelper.DisplayText("b", Projectile.Center);
             if (state == 0) { Explode(); }
             return false;
         }

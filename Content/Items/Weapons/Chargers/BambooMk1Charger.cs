@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 12, 12f);
             Item.width = 74;
             Item.height = 24;
-            Item.damage = 38;
+            Item.damage = 32;
             Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
