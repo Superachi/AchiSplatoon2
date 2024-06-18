@@ -1,21 +1,34 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using Microsoft.Xna.Framework;
 using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class TrizookaSpecial : BaseSpecial
     {
-        public override string ShootSample { get => "SplattershotShoot"; }
-        public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override string ShootSample { get => "Specials/TrizookaLaunch"; }
+        public override Vector2? HoldoutOffset() { return new Vector2(-40, -8); }
+        public override float MuzzleOffsetPx { get; set; } = 80f;
+        public static readonly int ProjPerShot = 3;
+        public static readonly int MaxBursts = 3;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ProjPerShot, MaxBursts);
 
-        // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
-            Item.useAnimation = Item.useTime;
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.autoReuse = true;
-            Item.noMelee = true;
+            base.SetDefaults();
+            Item.DefaultToRangedWeapon(
+                baseProjType: ModContent.ProjectileType<TrizookaShooter>(),
+                ammoID: AmmoID.None,
+                singleShotTime: 50,
+                shotVelocity: 20f);
+
+            Item.damage = 200;
+            Item.width = 90;
+            Item.height = 44;
+            Item.knockBack = 10;
+            Item.rare = ItemRarityID.Expert;
         }
     }
 }

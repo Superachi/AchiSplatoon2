@@ -1,5 +1,10 @@
 # This file will automatically update with entries for new content after a build and reload.
 
+TrizookaTooltip: {
+	ProjPerShot: "Fires {0} explosive shots, "
+	MaxBursts: "{0} times"
+}
+
 Items: {
 	Splattershot: {
 		DisplayName: Splattershot
@@ -253,6 +258,20 @@ Items: {
 		DisplayName: Sprinkler
 		Tooltip: "[c/ff8e2c:Deploys a sprinkler to continuously shoot projectiles]"
 	}
+
+	BaseSpecial: {
+		DisplayName: Base Special
+		Tooltip: ""
+	}
+
+	TrizookaSpecial: {
+		DisplayName: Trizooka
+		Tooltip:
+			'''
+			[c/ff8e2c:{$TrizookaTooltip.ProjPerShot}{$TrizookaTooltip.MaxBursts}]
+			[c/64aaff:"Go ahead, try and react to it."]
+			'''
+	}
 }
 
 Projectiles: {
@@ -279,4 +298,6 @@ Projectiles: {
 	AngleShooterProjectile.DisplayName: Angle Shooter Projectile
 	SprinklerSentry.DisplayName: Sprinkler Sentry
 	SprinklerProjectile.DisplayName: Sprinkler Projectile
+	TrizookaProjectile.DisplayName: Trizooka Projectile
+	TrizookaShooter.DisplayName: Trizooka Shooter
 }

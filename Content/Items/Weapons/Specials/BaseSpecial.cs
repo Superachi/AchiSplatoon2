@@ -2,5 +2,6 @@
 {
     internal class BaseSpecial : BaseWeapon
     {
+        public override bool AllowSubWeaponUsage { get => false; }
     }
 }
