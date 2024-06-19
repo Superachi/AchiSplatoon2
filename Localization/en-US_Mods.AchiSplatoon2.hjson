@@ -274,8 +274,8 @@ Items: {
 	}
 
 	ChargePotion: {
-		Tooltip: ""
-		DisplayName: Charge Potion
+		DisplayName: Special Potion
+		Tooltip: '''[c/ff8e2c:"Instantly maxes out your special gauge."]'''
 	}
 }
 

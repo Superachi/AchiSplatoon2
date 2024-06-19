@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
     {
         public override void SetDefaults()
         {
-            Item.width = 24;
+            Item.width = 20;
             Item.height = 28;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.useAnimation = 17;
@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
             if (player.whoAmI == Main.myPlayer)
             {
                 var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
-                modPlayer.SpecialPoints = modPlayer.SpecialPointsMax;
+                modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
                 return true;
             }
             return false;

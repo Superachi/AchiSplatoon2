@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Players
 
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
+        public Color ColorFromChips;
 
         public float SpecialPoints;
         public float SpecialPointsMax = 100;
@@ -105,7 +106,7 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Yellow];
         }
 
-        private void IncrementSpecialPoints(float amount)
+        public void IncrementSpecialPoints(float amount)
         {
             var player = Main.LocalPlayer;
 
@@ -126,8 +127,8 @@ namespace AchiSplatoon2.Content.Players
 
         public void AddSpecialPointsForDamage(float amount)
         {
-            // Increment at least 0.1%, but at most 10%
-            float increment = Math.Clamp(amount, 0.1f, SpecialPointsMax / 10);
+            // Increment at least 0.5%, but at most 10%
+            float increment = Math.Clamp(amount, 0.5f, SpecialPointsMax / 10);
             IncrementSpecialPoints(increment);
         }
 
