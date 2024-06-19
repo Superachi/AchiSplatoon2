@@ -179,7 +179,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.netUpdate = true;
 
                     StopAudio("Throwables/SplatBombThrow");
-                    PlayAudio("Throwables/SprinklerDeploy", volume: 0.5f, pitchVariance: 0.2f);
+                    PlayAudio("Throwables/SprinklerDeployNew", volume: 0.3f, pitchVariance: 0.2f);
                     Timer = 30 * FrameSpeed();
                     AdvanceState();
                     break;
