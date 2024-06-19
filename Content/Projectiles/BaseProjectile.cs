@@ -114,6 +114,22 @@ namespace AchiSplatoon2.Content.Projectiles
                         }
                     }
                 }
+
+                modPlayer.ColorFromChips = GenerateInkColor();
+
+                if (weaponSource.AimDeviation != 0)
+                {
+                    var vel = Projectile.velocity;
+                    var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
+
+                    var dev = weaponSource.AimDeviation;
+                    float startRad = vel.ToRotation();
+                    float startDeg = MathHelper.ToDegrees(startRad);
+                    float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
+                    float endRad = MathHelper.ToRadians(endDeg);
+                    Vector2 angleVec = endRad.ToRotationVector2();
+                    Projectile.velocity = angleVec * projSpeed;
+                }
             }
         }
 

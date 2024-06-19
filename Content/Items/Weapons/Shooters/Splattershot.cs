@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
                 ammoID: AmmoID.None,
                 singleShotTime: 8,
-                shotVelocity: 8f);
+                shotVelocity: 9f);
 
             Item.damage = 14;
             Item.width = 42;

@@ -29,9 +29,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
     internal class BaseWeapon : ModItem
     {
+        // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
         public virtual string ShootWeakSample { get => "SplattershotShoot"; }
         public virtual float MuzzleOffsetPx { get; set; } = 0f;
+
+        // Main weapon stats
+        public virtual float AimDeviation { get => 0f; }
 
         // Sub weapon stats
         public virtual bool AllowSubWeaponUsage { get => true; }

@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
                 ammoID: AmmoID.None,
                 singleShotTime: 6,
-                shotVelocity: 8f);
+                shotVelocity: 9f);
 
             Item.damage = 36;
             Item.knockBack = 3;

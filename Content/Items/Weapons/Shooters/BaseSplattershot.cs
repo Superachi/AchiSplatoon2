@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class BaseSplattershot : BaseWeapon
     {
+        public virtual float ShotGravity { get => 0.01f; }
+        public override float AimDeviation { get => 6f; }
         public override string ShootSample { get => "SplattershotShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
         public override float MuzzleOffsetPx { get; set; } = 44f;

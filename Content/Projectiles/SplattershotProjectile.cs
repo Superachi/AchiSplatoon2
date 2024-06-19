@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class SplattershotProjectile : BaseProjectile
     {
         private float delayUntilFall = 3f;
-        private float fallSpeed = 0.01f;
+        private float fallSpeed;
         private float terminalVelocity = 6f;
 
         public override void SetDefaults()
@@ -30,13 +30,10 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             Initialize();
 
-            var weaponData = new BaseSplattershot();
+            BaseSplattershot weaponData = (BaseSplattershot)weaponSource;
             shootSample = weaponData.ShootSample;
+            fallSpeed = weaponData.ShotGravity;
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
-
-            var spreadOffset = 0.5f;
-            Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-            Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
         }
 
         public override void AI()
