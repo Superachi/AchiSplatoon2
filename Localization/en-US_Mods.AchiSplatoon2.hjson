@@ -277,6 +277,21 @@ Items: {
 		DisplayName: Special Potion
 		Tooltip: '''[c/ff8e2c:"Instantly maxes out your special gauge."]'''
 	}
+
+	Dot52Gal: {
+		DisplayName: .52 Gal
+		Tooltip: '''[c/64aaff:"leTS GO GAMBLING!1"]'''
+	}
+
+	SplooshOMatic: {
+		DisplayName: Sploosh-O-Matic
+		Tooltip: '''[c/64aaff:"Rats, we're rats. We're the rats."]'''
+	}
+
+	SplashOMatic: {
+		DisplayName: Splash-O-Matic
+		Tooltip: '''[c/64aaff:"Return to crab"]'''
+	}
 }
 
 Projectiles: {
@@ -305,4 +320,5 @@ Projectiles: {
 	SprinklerProjectile.DisplayName: Sprinkler Projectile
 	TrizookaProjectile.DisplayName: Trizooka Projectile
 	TrizookaShooter.DisplayName: Trizooka Shooter
+	Dot52GalProjectile.DisplayName: Dot52 Gal Projectile
 }
