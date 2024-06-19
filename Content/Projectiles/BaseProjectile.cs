@@ -50,6 +50,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
+                    Projectile.usesLocalNPCImmunity = true;
+                    Projectile.localNPCHitCooldown = 20 * FrameSpeed();
+
                     // Apply color chip buffs
                     // See also the calculations in InkWeaponPlayer.cs
                     if (!modPlayer.IsPaletteValid()) return;
@@ -108,8 +111,6 @@ namespace AchiSplatoon2.Content.Projectiles
                         {
                             Projectile.maxPenetrate += piercingModifier;
                             Projectile.penetrate += piercingModifier;
-                            Projectile.usesLocalNPCImmunity = true;
-                            Projectile.localNPCHitCooldown = 20 * FrameSpeed();
                         }
                     }
                 }
