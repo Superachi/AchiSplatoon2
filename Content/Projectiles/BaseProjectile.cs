@@ -50,6 +50,10 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
+                    // Apply color chip buffs
+                    // See also the calculations in InkWeaponPlayer.cs
+                    if (!modPlayer.IsPaletteValid()) return;
+
                     int value = modPlayer.ColorChipAmounts[i];
 
                     // Only consider the color if we have any chips for it
@@ -81,10 +85,6 @@ namespace AchiSplatoon2.Content.Projectiles
                             secondaryHighest = value;
                         }
                     }
-
-                    // Apply color chip buffs
-                    // See also the calculations in InkWeaponPlayer.cs
-                    if (!modPlayer.IsPaletteValid()) return;
 
                     // Red chips > faster attack speed (mainly for splatlings in this case)
                     if (i == (int)InkWeaponPlayer.ChipColor.Red)
@@ -125,17 +125,18 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
                 }
 
-                DamageToSpecialCharge(damageDone);
+                DamageToSpecialCharge(damageDone, target.lifeMax);
             }
         }
 
-        public void DamageToSpecialCharge(int damage)
+        public void DamageToSpecialCharge(float damage, float targetMaxLife)
         {
             if (!CountDamageForSpecialCharge) { return; }
-
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            modPlayer.AddSpecialPoints(damage);
-            CombatTextHelper.DisplayText($"{(int)modPlayer.SpecialPoints}", Main.LocalPlayer.Center);
+
+            // The increment is a % of the target's max life, up to 5%
+            float increment = Math.Min(damage * 2 / targetMaxLife, targetMaxLife / 20);
+            modPlayer.AddSpecialPointsForDamage(increment);
         }
 
         protected int FrameSpeed()

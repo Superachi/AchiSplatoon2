@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -34,6 +35,8 @@ namespace AchiSplatoon2.Content.Players
         public string GreenChipBaseCritBonusDisplay { get => $"{GreenChipBaseCritBonus}%"; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
+        public float BlueChipBaseChargeBonus { get => 0.5f; }
+        public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
 
         public enum ChipColor
         {
@@ -47,6 +50,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            AddSpecialPointsOnMovement();
             DrainSpecial();
         }
 
@@ -101,16 +105,43 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Yellow];
         }
 
-        public void AddSpecialPoints(int damage)
+        private void IncrementSpecialPoints(float amount)
         {
-            // Clamp the amount of points gained between 1 and the max divided by 10 (meaning at least 10 hits)
-            float increment = Math.Clamp(damage / 10, 0.2f, SpecialPointsMax / 10);
-            SpecialPoints += increment;
+            var player = Main.LocalPlayer;
+
+            if (!IsSpecialActive)
+            {
+                SpecialPoints += amount;
+            }
 
             if (SpecialPoints > SpecialPointsMax)
             {
                 SpecialPoints = SpecialPointsMax;
-                if (!SpecialReady) { SpecialReady = true; }
+                if (!SpecialReady) {
+                    CombatTextHelper.DisplayText("Special is ready!", player.Center, color: new Color(255, 155, 0));
+                    SpecialReady = true;
+                }
+            }
+        }
+
+        public void AddSpecialPointsForDamage(float amount)
+        {
+            // Increment at least 0.1%, but at most 10%
+            float increment = Math.Clamp(amount, 0.1f, SpecialPointsMax / 10);
+            IncrementSpecialPoints(increment);
+        }
+
+        private void AddSpecialPointsOnKill()
+        {
+            IncrementSpecialPoints(SpecialPointsMax/5);
+        }
+
+        private void AddSpecialPointsOnMovement()
+        {
+            var player = Main.LocalPlayer;
+            if (Math.Abs(player.velocity.X) > 1f) {
+                float increment = 0.002f * Math.Abs(player.velocity.X) * (1 + ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
+                IncrementSpecialPoints(increment);
             }
         }
 

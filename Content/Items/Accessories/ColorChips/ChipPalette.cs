@@ -110,7 +110,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     }
                     if (blue > 0)
                     {
-                        t.Text += $"\n[{textColorGray}Mobility ({blue}) > Move speed bonus: {(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]";
+                        t.Text += $"\n[{textColorGray}Mobility ({blue}) >]" +
+                            $"\n[{textColorGray}Move speed bonus: {(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]" +
+                            $"\n[{textColorGray}Special charge while moving bonus: {(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
                     }
                     if (yellow > 0)
                     {
