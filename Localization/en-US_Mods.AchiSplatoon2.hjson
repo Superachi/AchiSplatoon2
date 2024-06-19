@@ -272,6 +272,11 @@ Items: {
 			[c/64aaff:"Go ahead, try and react to it."]
 			'''
 	}
+
+	ChargePotion: {
+		Tooltip: ""
+		DisplayName: Charge Potion
+	}
 }
 
 Projectiles: {
