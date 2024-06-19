@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
 
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
