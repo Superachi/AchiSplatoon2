@@ -15,6 +15,7 @@
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
+	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />

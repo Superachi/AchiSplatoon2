@@ -35,10 +35,25 @@ namespace AchiSplatoon2.Content.Projectiles
         protected int piercingModifier = 0;
         protected float damageModifierAfterPierce = 0.8f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
-
         protected virtual bool CountDamageForSpecialCharge { get => true; }
 
-        public void Initialize()
+        // State machine
+        protected int state = 0;
+
+        protected virtual void SetState(int targetState)
+        {
+            // In this method, you can do something different per changed state
+            state = targetState;
+            Projectile.netUpdate = true;
+        }
+
+        protected virtual void AdvanceState()
+        {
+            state++;
+            SetState(state);
+        }
+
+        public void Initialize(bool ignoreAimDeviation = false)
         {
             // Check the highest color chip amounts, set the ink color to match the top 2
             if (IsThisClientTheProjectileOwner())
@@ -117,7 +132,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 modPlayer.ColorFromChips = GenerateInkColor();
 
-                if (weaponSource.AimDeviation != 0)
+                if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
                 {
                     var vel = Projectile.velocity;
                     var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);

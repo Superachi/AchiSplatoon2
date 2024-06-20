@@ -1,9 +1,4 @@
-# This file will automatically update with entries for new content after a build and reload.
-
-TrizookaTooltip: {
-	ProjPerShot: "Fires {0} explosive shots, "
-	MaxBursts: "{0} times"
-}
+TrizookaTooltip.ArmorPierce: Ignores {0} points of enemy Defense
 
 Items: {
 	Splattershot: {
@@ -292,6 +287,16 @@ Items: {
 		DisplayName: Splash-O-Matic
 		Tooltip: '''[c/64aaff:"Return to crab"]'''
 	}
+
+	KillerWail: {
+		DisplayName: Killer Wail
+		Tooltip:
+			'''
+			{$KillerWailTooltip.ArmorPierce}
+			[c/ff8e2c:Rapidly fires sound waves that pierce through enemies and blocks]
+			[c/64aaff:"#$@%* Dudes Be #$@%* Sleepin"]
+			'''
+	}
 }
 
 Projectiles: {
@@ -321,4 +326,7 @@ Projectiles: {
 	TrizookaProjectile.DisplayName: Trizooka Projectile
 	TrizookaShooter.DisplayName: Trizooka Shooter
 	Dot52GalProjectile.DisplayName: Dot52 Gal Projectile
+	KillerWailShooter.DisplayName: Killer Wail Shooter
+	KillerWailProjectile.DisplayName: Killer Wail Projectile
+	KillerWailTelegraph.DisplayName: Killer Wail Telegraph
 }

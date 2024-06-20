@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -20,6 +21,7 @@ namespace AchiSplatoon2.Content.Players
         public float SpecialPointsMax = 100;
         public bool SpecialReady;
         public bool IsSpecialActive;
+        public string SpecialName = null;
         public float SpecialDrain;
 
         public float RedChipBaseAttackSpeedBonus { get => 0.04f; }
@@ -112,16 +114,13 @@ namespace AchiSplatoon2.Content.Players
 
             if (!IsSpecialActive)
             {
-                SpecialPoints += amount;
+                SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
             }
 
-            if (SpecialPoints > SpecialPointsMax)
+            if (SpecialPoints == SpecialPointsMax && !SpecialReady)
             {
-                SpecialPoints = SpecialPointsMax;
-                if (!SpecialReady) {
-                    CombatTextHelper.DisplayText("Special is ready!", player.Center, color: new Color(255, 155, 0));
-                    SpecialReady = true;
-                }
+                CombatTextHelper.DisplayText("Special is ready!", player.Center, color: new Color(255, 155, 0));
+                SpecialReady = true;
             }
         }
 
@@ -146,11 +145,11 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        public void ActivateSpecial(float drainSpeed)
+        public void ActivateSpecial(float drainSpeed, string specialName)
         {
             if (!IsSpecialActive)
             {
-                CombatTextHelper.DisplayText("Activating special!", Main.LocalPlayer.Center);
+                SpecialName = specialName;
                 IsSpecialActive = true;
                 SpecialDrain = drainSpeed;
             }
@@ -175,6 +174,7 @@ namespace AchiSplatoon2.Content.Players
                     SpecialPoints = 0;
                     SpecialDrain = 0;
                     SpecialReady = false;
+                    SpecialName = null;
                 }
             }
         }

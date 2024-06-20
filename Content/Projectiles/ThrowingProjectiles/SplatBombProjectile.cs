@@ -127,6 +127,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.Kill();
                     break;
             }
+
+            Projectile.netUpdate = true;
         }
 
         private void AdvanceState()

@@ -44,6 +44,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         // Special weapon stats
         public virtual bool IsSpecialWeapon { get => false; }
+        public virtual bool IsDurationSpecial { get => false; }
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
@@ -110,15 +111,15 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
-            if (!modPlayer.SpecialReady)
+            if (!modPlayer.SpecialReady
+                || (modPlayer.IsSpecialActive && IsDurationSpecial)
+                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name))
             {
                 player.itemTime = 30;
-                CombatTextHelper.DisplayText("Need special charge!", player.Center);
                 return false;
             }
             modPlayer.DrainSpecial(SpecialDrainPerUse);
-            modPlayer.ActivateSpecial(SpecialDrainPerTick);
-            CombatTextHelper.DisplayText($"{modPlayer.SpecialPoints}", player.Center);
+            modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem.Name);
             return true;
         }
 
