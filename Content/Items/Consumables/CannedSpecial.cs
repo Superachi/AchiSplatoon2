@@ -11,7 +11,7 @@ using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {
-    internal class ChargePotion : ModItem
+    internal class CannedSpecial : ModItem
     {
         public override void SetDefaults()
         {

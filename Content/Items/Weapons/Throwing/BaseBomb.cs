@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.shootSpeed = 15f;
+            Item.shootSpeed = 18f;
             Item.maxStack = 9999;
             Item.consumable = true;
             Item.useTime = 30;

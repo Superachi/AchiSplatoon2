@@ -83,7 +83,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             // Apply gravity
             if (state == stateFly || fallback)
             {
-                Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + (0.05f / FrameSpeed()), -terminalVelocity, terminalVelocity);
+                Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + (0.03f / FrameSpeed()), -terminalVelocity, terminalVelocity);
             }
 
             switch (state)

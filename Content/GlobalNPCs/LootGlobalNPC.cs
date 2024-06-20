@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             // Every enemy has a chance to just a special charge up potion
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ChargePotion>(), chanceDenominator: 200));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CannedSpecial>(), chanceDenominator: 200));
 
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
             switch (npc.type)
