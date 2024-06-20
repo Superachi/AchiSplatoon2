@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float AimDeviation { get => 0f; }
 
         // Sub weapon stats
+        public virtual bool IsSubWeapon { get => false; }
         public virtual bool AllowSubWeaponUsage { get => true; }
         public virtual SubWeaponType BonusSub { get => SubWeaponType.None; }
         public virtual SubWeaponBonusType BonusType { get => SubWeaponBonusType.None; }

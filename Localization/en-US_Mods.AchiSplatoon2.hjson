@@ -1,4 +1,14 @@
-TrizookaTooltip.ArmorPierce: Ignores {0} points of enemy Defense
+# This file will automatically update with entries for new content after a build and reload.
+
+TrizookaTooltip: {
+	ProjPerShot: "Fires {0} explosive shots, "
+	MaxBursts: "{0} times"
+}
+
+KillerWailTooltip.ArmorPierce: Ignores {0} points of enemy Defense
+SubPowerEmblem.Multiplier: Increases sub weapon damage by {0}%
+SpecialPowerEmblem.Multiplier: Increases special weapon damage by {0}%
+SpecialChargeEmblem.Multiplier: Increases special weapon charge up rate by {0}%
 
 Items: {
 	Splattershot: {
@@ -270,7 +280,7 @@ Items: {
 
 	ChargePotion: {
 		DisplayName: Special Potion
-		Tooltip: '''[c/ff8e2c:"Instantly maxes out your special gauge."]'''
+		Tooltip: "[c/ff8e2c:Allows you to use your special weapon immediately]"
 	}
 
 	Dot52Gal: {
@@ -296,6 +306,21 @@ Items: {
 			[c/ff8e2c:Rapidly fires sound waves that pierce through enemies and blocks]
 			[c/64aaff:"#$@%* Dudes Be #$@%* Sleepin"]
 			'''
+	}
+
+	SpecialChargeEmblem: {
+		DisplayName: Special Charge Emblem
+		Tooltip: "{$SpecialChargeEmblem.Multiplier}"
+	}
+
+	SpecialPowerEmblem: {
+		DisplayName: Special Power Emblem
+		Tooltip: "{$SpecialPowerEmblem.Multiplier}"
+	}
+
+	SubPowerEmblem: {
+		DisplayName: Sub Power Emblem
+		Tooltip: "{$SubPowerEmblem.Multiplier}"
 	}
 }
 

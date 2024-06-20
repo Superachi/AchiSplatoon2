@@ -13,16 +13,26 @@ namespace AchiSplatoon2.Content.Players
         public int paletteCapacity;
         public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
 
+        // Color chip
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
         public Color ColorFromChips;
 
+        // Special gauge
         public float SpecialPoints;
         public float SpecialPointsMax = 100;
         public bool SpecialReady;
         public bool IsSpecialActive;
         public string SpecialName = null;
         public float SpecialDrain;
+
+        // Accessories
+        public bool hasSpecialPowerEmblem;
+        public bool hasSpecialChargeEmblem;
+        public bool hasSubPowerEmblem;
+        public static float specialChargeMultiplier = 1.5f;
+        public static float subPowerMultiplier = 2.5f;
+        public static float specialPowerMultiplier = 2f;
 
         public float RedChipBaseAttackDamageBonus { get => 0.03f; }
         public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
@@ -66,6 +76,9 @@ namespace AchiSplatoon2.Content.Players
             paletteCapacity = 0;
             ColorChipAmounts = [0, 0, 0, 0, 0, 0];
             ColorChipTotal = 0;
+            hasSpecialPowerEmblem = false;
+            hasSpecialChargeEmblem = false;
+            hasSubPowerEmblem = false;
         }
 
         public bool DoesPlayerHaveTooManyChips()
@@ -121,6 +134,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (!IsSpecialActive)
             {
+                if (hasSpecialChargeEmblem) { amount *= specialChargeMultiplier; }
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
             }
 

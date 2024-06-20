@@ -53,7 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
-        public void Initialize(bool ignoreAimDeviation = false)
+        public void Initialize(bool ignoreAimDeviation = false, bool ignoreDamageMods = false)
         {
             // Check the highest color chip amounts, set the ink color to match the top 2
             if (IsThisClientTheProjectileOwner())
@@ -105,7 +105,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
 
                     // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
-                    if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                    if (i == (int)InkWeaponPlayer.ChipColor.Red && !ignoreDamageMods)
                     {
                         armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
                         Projectile.ArmorPenetration += armorPierceModifier;
@@ -145,6 +145,20 @@ namespace AchiSplatoon2.Content.Projectiles
                     float endRad = MathHelper.ToRadians(endDeg);
                     Vector2 angleVec = endRad.ToRotationVector2();
                     Projectile.velocity = angleVec * projSpeed;
+                }
+
+                // Check for weapon powering emblems (specifically sub- and special weapons)
+                if (!ignoreDamageMods)
+                {
+                    if (weaponSource.IsSpecialWeapon && modPlayer.hasSpecialPowerEmblem)
+                    {
+                        Projectile.damage = (int)(Projectile.damage * InkWeaponPlayer.specialPowerMultiplier);
+                    }
+
+                    if (weaponSource.IsSubWeapon && modPlayer.hasSubPowerEmblem)
+                    {
+                        Projectile.damage = (int)(Projectile.damage * InkWeaponPlayer.subPowerMultiplier);
+                    }
                 }
             }
         }

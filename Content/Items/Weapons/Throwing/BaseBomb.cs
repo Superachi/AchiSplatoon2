@@ -7,6 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
     {
         public virtual int ExplosionRadius { get => 100; }
         public virtual int MaxBounces { get => 10; }
+        public override bool IsSubWeapon => true;
         public override bool AllowSubWeaponUsage { get => false; }
 
         public override void SetDefaults()
