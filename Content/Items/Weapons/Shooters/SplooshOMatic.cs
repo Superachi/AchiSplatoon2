@@ -24,10 +24,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 5,
                 shotVelocity: 5f);
 
-            Item.damage = 40;
+            Item.damage = 26;
             Item.width = 60;
             Item.height = 32;
-            Item.knockBack = 4;
+            Item.knockBack = 3;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
         }
