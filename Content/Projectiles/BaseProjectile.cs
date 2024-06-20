@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // See <InkWeaponPlayer.cs>
         protected float chargeSpeedModifier = 1f;
         protected float explosionRadiusModifier = 1f;
-        protected float attackSpeedModifier = 1f;
+        protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
         protected float damageModifierAfterPierce = 0.8f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
@@ -104,10 +104,11 @@ namespace AchiSplatoon2.Content.Projectiles
                         }
                     }
 
-                    // Red chips > faster attack speed (mainly for splatlings in this case)
+                    // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
                     if (i == (int)InkWeaponPlayer.ChipColor.Red)
                     {
-                        attackSpeedModifier += modPlayer.CalculateAttackSpeedBonus();
+                        armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
+                        Projectile.ArmorPenetration += armorPierceModifier;
                     }
 
                     // Purple chips > faster charge speed

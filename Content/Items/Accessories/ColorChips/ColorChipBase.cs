@@ -56,7 +56,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 t.Text += $"\n[c/ff8e2c:Effect when active:]\n";
                 if (RedValue > 0)
                 {
-                    t.Text += StatIncreaseDisplayString(textColor, "attack speed", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
+                    t.Text += StatIncreaseDisplayString(textColor, "weapon damage", modPlayer.RedChipBaseAttackDamageBonusDisplay);
+                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "armor penetration", modPlayer.RedChipBaseArmorPierceBonusDisplay);
                 }
                 else if (BlueValue > 0)
                 {
@@ -79,7 +80,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 }
                 else if (AquaValue > 0)
                 {
-                    t.Text += StatIncreaseDisplayString(textColor, "vibes", modPlayer.RedChipBaseAttackSpeedBonusDisplay);
+                    //
                 }
 
                 if (!modPlayer.isPaletteEquipped)

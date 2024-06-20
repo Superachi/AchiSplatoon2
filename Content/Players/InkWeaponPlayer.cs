@@ -24,8 +24,10 @@ namespace AchiSplatoon2.Content.Players
         public string SpecialName = null;
         public float SpecialDrain;
 
-        public float RedChipBaseAttackSpeedBonus { get => 0.04f; }
-        public string RedChipBaseAttackSpeedBonusDisplay { get => $"{(int)(RedChipBaseAttackSpeedBonus * 100)}%"; }
+        public float RedChipBaseAttackDamageBonus { get => 0.03f; }
+        public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
+        public int RedChipBaseArmorPierceBonus { get => 2; }
+        public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
         public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
         public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
         public float PurpleChipBaseChargeSpeedBonus { get => 0.06f; }
@@ -36,7 +38,7 @@ namespace AchiSplatoon2.Content.Players
         public string YellowChipPiercingBonusDisplay { get => $"{YellowChipPiercingBonus}"; }
         public float GreenChipBaseCritBonus { get => 4f; }
         public string GreenChipBaseCritBonusDisplay { get => $"{GreenChipBaseCritBonus}%"; }
-        public float BlueChipBaseMoveSpeedBonus { get => 0.2f; }
+        public float BlueChipBaseMoveSpeedBonus { get => 0.15f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
         public float BlueChipBaseChargeBonus { get => 0.5f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
@@ -88,9 +90,14 @@ namespace AchiSplatoon2.Content.Players
             return total;
         }
 
-        public float CalculateAttackSpeedBonus()
+        public float CalculateAttackDamageBonus()
         {
-            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackSpeedBonus;
+            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackDamageBonus;
+        }
+
+        public int CalculateArmorPierceBonus()
+        {
+            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseArmorPierceBonus;
         }
 
         public float CalculateChargeSpeedBonus()
@@ -119,7 +126,8 @@ namespace AchiSplatoon2.Content.Players
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
             {
-                CombatTextHelper.DisplayText("Special is ready!", player.Center, color: new Color(255, 155, 0));
+                CombatTextHelper.DisplayText("SPECIAL CHARGED!", player.Center, color: new Color(255, 155, 0));
+                SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
             }
         }
@@ -169,7 +177,6 @@ namespace AchiSplatoon2.Content.Players
 
                 if (SpecialPoints <= 0)
                 {
-                    CombatTextHelper.DisplayText("Special is finished", Main.LocalPlayer.Center);
                     IsSpecialActive = false;
                     SpecialPoints = 0;
                     SpecialDrain = 0;

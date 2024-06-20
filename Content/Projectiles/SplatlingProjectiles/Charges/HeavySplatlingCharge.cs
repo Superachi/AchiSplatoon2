@@ -106,7 +106,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 {
                     SyncProjectilePosWithPlayer(owner, 0, 8);
 
-                    ChargeTime += 1f * attackSpeedModifier;
+                    ChargeTime++;
                     if (ChargeTime >= barrageShotTime)
                     {
                         // If ChargeTime were directly set to 0, it would not work nicely with non-decimal values (eg. when attack speed is increased)
