@@ -5,6 +5,7 @@ TrizookaTooltip: {
 	MaxBursts: "{0} times"
 }
 
+SpecialWeaponTooltip.Mechanic: Special weapon: can only be used when your special guage is full
 KillerWailTooltip.ArmorPierce: Ignores {0} points of enemy Defense
 SubPowerEmblem.Multiplier: Increases sub weapon damage by {0}%
 SpecialPowerEmblem.Multiplier: Increases special weapon damage by {0}%
@@ -273,6 +274,7 @@ Items: {
 		DisplayName: Trizooka
 		Tooltip:
 			'''
+			{$SpecialWeaponTooltip.Mechanic}
 			[c/ff8e2c:{$TrizookaTooltip.ProjPerShot}{$TrizookaTooltip.MaxBursts}]
 			[c/64aaff:"Go ahead, try and react to it."]
 			'''
@@ -302,6 +304,7 @@ Items: {
 		DisplayName: Killer Wail
 		Tooltip:
 			'''
+			{$SpecialWeaponTooltip.Mechanic}
 			{$KillerWailTooltip.ArmorPierce}
 			[c/ff8e2c:Rapidly fires sound waves that pierce through enemies and blocks]
 			[c/64aaff:"#$@%* Dudes Be #$@%* Sleepin"]
@@ -332,7 +335,7 @@ Items: {
 		DisplayName: Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Obtained from bosses. Used to craft basic Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			[c/64aaff:"U got a loicense fer that?"]
 			'''
@@ -342,7 +345,7 @@ Items: {
 		DisplayName: Sheldon License Gold
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Obtained from bosses. Used to craft some of the best Splatlandian gear available.
 			Show it to the Guide and see what you can make!
 			'''
 	}
@@ -351,7 +354,7 @@ Items: {
 		DisplayName: Sheldon License Silver
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Obtained from bosses (and large mimics). Used to craft higher quality Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 	}
