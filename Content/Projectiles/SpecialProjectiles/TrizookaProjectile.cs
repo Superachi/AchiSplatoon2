@@ -59,8 +59,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             damageBeforePiercing = Projectile.damage;
 
             // Randomize trajectory
-            Projectile.velocity += Main.rand.NextVector2Circular(3, 3);
-            Projectile.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
+            Projectile.velocity += Main.rand.NextVector2Circular(2, 2);
+            Projectile.velocity *= Main.rand.NextFloat(1f, 1.5f);
         }
 
         private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
