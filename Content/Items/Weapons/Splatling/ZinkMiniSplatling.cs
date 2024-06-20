@@ -17,11 +17,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<MiniSplatling>());
-            recipe.AddIngredient(ItemID.CobaltBar, 10);
-            recipe.AddIngredient(ItemID.SoulofNight, 6);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.CobaltBar, 5);
             recipe.Register();
         }
     }

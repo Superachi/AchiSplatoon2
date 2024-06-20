@@ -20,11 +20,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>());
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 12);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

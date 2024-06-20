@@ -16,11 +16,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<ReefluxStringer>());
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 12);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

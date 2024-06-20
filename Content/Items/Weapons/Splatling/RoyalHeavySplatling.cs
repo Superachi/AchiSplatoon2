@@ -19,11 +19,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<HeavySplatling>());
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 12);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

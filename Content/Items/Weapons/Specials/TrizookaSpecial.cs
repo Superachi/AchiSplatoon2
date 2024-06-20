@@ -31,7 +31,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.width = 90;
             Item.height = 44;
             Item.knockBack = 10;
-            Item.rare = ItemRarityID.Expert;
+        }
+
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
+            recipe.Register();
         }
     }
 }

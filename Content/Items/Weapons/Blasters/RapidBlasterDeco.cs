@@ -20,11 +20,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<RapidBlaster>());
-            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 12);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
             recipe.Register();
         }
     }

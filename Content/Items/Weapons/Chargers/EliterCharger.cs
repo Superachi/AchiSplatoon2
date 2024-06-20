@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 20, 12f);
             Item.width = 92;
             Item.height = 32;
-            Item.damage = 480;
+            Item.damage = 500;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 25);
             Item.rare = ItemRarityID.LightPurple;
@@ -28,12 +28,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<SplatCharger>());
-            recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.Register();
         }
 

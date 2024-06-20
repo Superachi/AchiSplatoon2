@@ -36,11 +36,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.MeteoriteBar, 12);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+            base.AddRecipes();
         }
     }
 }

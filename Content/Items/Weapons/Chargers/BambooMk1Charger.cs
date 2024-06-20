@@ -32,6 +32,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
         public override void AddRecipes()
         {
+            AddRecipeWithSheldonLicenseBasic();
+
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.Lens, 6);
             recipe.AddIngredient(ItemID.JungleSpores, 10);

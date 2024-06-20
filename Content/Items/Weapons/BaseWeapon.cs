@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -234,6 +236,30 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
 
             return true;
+        }
+
+        private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(itemType);
+            recipe.AddTile(TileID.Anvils);
+            if (registerNow) { recipe.Register(); }
+            return recipe;
+        }
+
+        protected Recipe AddRecipeWithSheldonLicenseBasic(bool registerNow = true)
+        {
+            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicense>(), registerNow);
+        }
+
+        protected Recipe AddRecipeWithSheldonLicenseSilver(bool registerNow = true)
+        {
+            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicenseSilver>(), registerNow);
+        }
+
+        protected Recipe AddRecipeWithSheldonLicenseGold(bool registerNow = true)
+        {
+            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicenseGold>(), registerNow);
         }
     }
 }

@@ -38,19 +38,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<Blaster>());
-            recipe.AddIngredient(ItemID.AdamantiteBar, 10);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.TitaniumBar, 5);
             recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ModContent.ItemType<Blaster>());
-            altRecipe.AddIngredient(ItemID.TitaniumBar, 10);
-            altRecipe.AddIngredient(ItemID.SoulofNight, 5);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
         }
     }
 }

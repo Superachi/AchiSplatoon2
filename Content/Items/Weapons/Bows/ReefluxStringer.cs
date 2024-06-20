@@ -32,11 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.GoldBow);
-            recipe.AddIngredient(ItemID.Coral, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+            AddRecipeWithSheldonLicenseBasic();
 
             Recipe altRecipe = CreateRecipe();
             altRecipe.AddIngredient(ItemID.PlatinumBow);

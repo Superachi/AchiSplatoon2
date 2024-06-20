@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -32,17 +33,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Lens, 6);
-            recipe.AddIngredient(ItemID.DemoniteBar, 10);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
             recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.Lens, 6);
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 10);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             Recipe recipe = CreateRecipe();
             recipe.AddRecipeGroup("IronBar", 5);
-            recipe.AddIngredient(ItemID.Gel, 15);
+            recipe.AddIngredient(ItemID.Gel, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }

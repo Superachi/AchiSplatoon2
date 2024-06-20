@@ -26,12 +26,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<Splattershot>());
-            recipe.AddIngredient(ItemID.PinkGel, 10);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

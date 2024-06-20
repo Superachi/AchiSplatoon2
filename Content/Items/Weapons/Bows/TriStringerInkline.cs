@@ -17,11 +17,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<TriStringer>());
-            recipe.AddIngredient(ItemID.CobaltBar, 12);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.CobaltBar, 5);
             recipe.Register();
         }
     }

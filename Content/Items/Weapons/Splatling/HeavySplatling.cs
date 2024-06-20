@@ -33,10 +33,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Minishark, 1);
-            recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.Register();
         }
     }

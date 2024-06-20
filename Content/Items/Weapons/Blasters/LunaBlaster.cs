@@ -38,12 +38,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.AddIngredient(ItemID.SunplateBlock, 30);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

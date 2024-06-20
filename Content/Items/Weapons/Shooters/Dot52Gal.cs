@@ -35,10 +35,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.OrichalcumBar, 10);
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.CursedFlame, 10);
-            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
     }

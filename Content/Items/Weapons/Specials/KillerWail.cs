@@ -17,6 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.DefaultToRangedWeapon(
                 baseProjType: ModContent.ProjectileType<KillerWailShooter>(),
                 ammoID: AmmoID.None,
@@ -30,8 +31,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.height = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.useTurn = true;
+        }
 
-            Item.rare = ItemRarityID.Expert;
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
+            recipe.Register();
         }
     }
 }

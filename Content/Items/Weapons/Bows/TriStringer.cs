@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
@@ -25,19 +26,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.DemonBow, 1);
-            recipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
-            recipe.AddIngredient(ItemID.SharkFin, 1);
-            recipe.AddTile(TileID.Anvils);
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.DemoniteBar, 5);
             recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.TendonBow, 1);
-            altRecipe.AddIngredient(ItemID.ReinforcedFishingPole, 1);
-            altRecipe.AddIngredient(ItemID.SharkFin, 1);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
         }
     }
 }
