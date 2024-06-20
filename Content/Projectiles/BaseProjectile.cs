@@ -157,7 +157,10 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
                 }
 
-                DamageToSpecialCharge(damageDone, target.lifeMax);
+                if (target.type != NPCID.TargetDummy)
+                {
+                    DamageToSpecialCharge(damageDone, target.lifeMax);
+                }
             }
         }
 
