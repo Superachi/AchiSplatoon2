@@ -322,6 +322,39 @@ Items: {
 		DisplayName: Sub Power Emblem
 		Tooltip: "{$SubPowerEmblem.Multiplier}"
 	}
+
+	BaseItem: {
+		DisplayName: Base Item
+		Tooltip: ""
+	}
+
+	SheldonLicense: {
+		DisplayName: Sheldon License
+		Tooltip:
+			'''
+			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Show it to the Guide and see what you can make!
+			[c/64aaff:"U got a loicense fer that?"]
+			'''
+	}
+
+	SheldonLicenseGold: {
+		DisplayName: Sheldon License Gold
+		Tooltip:
+			'''
+			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Show it to the Guide and see what you can make!
+			'''
+	}
+
+	SheldonLicenseSilver: {
+		DisplayName: Sheldon License Silver
+		Tooltip:
+			'''
+			Obtained from bosses. Used to craft Splatoon-themed gear.
+			Show it to the Guide and see what you can make!
+			'''
+	}
 }
 
 Projectiles: {
