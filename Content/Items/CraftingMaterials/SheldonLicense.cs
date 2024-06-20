@@ -18,6 +18,7 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
         {
             Item.width = 30;
             Item.height = 18;
+            Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.Green;
         }
