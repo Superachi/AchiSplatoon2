@@ -22,7 +22,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private bool fallback = false;
         private Vector2 stickingDirection = new Vector2(0, 0);
 
-        private int state = 0;
         private const int stateFly = 0;
         private const int stateGetStickAxis = 1;
         private const int stateGetStickDirection = 2;
@@ -74,17 +73,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             base.OnSpawn(source);
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
-        }
-
-        private void SetState(int target)
-        {
-            state = target;
-        }
-
-        private void AdvanceState()
-        {
-            state++;
-            SetState(state);
         }
 
         public override void AI()
@@ -248,7 +236,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 position: Projectile.Center - stickingDirection * 6f,
                 velocity: angleVector * 9f,
                 Type: ModContent.ProjectileType<SprinklerProjectile>(),
-                Damage: Convert.ToInt32(Projectile.damage),
+                Damage: Projectile.damage,
                 KnockBack: Projectile.knockBack,
                 Owner: Main.myPlayer);
         }

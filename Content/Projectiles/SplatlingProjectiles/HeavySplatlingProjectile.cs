@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            Initialize();
+            Initialize(ignoreDamageMods: true);
             PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
 
             var spreadOffset = 0.5f;

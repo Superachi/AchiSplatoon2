@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            Initialize();
+            Initialize(ignoreDamageMods: true);
 
             TrizookaSpecial weaponData = (TrizookaSpecial)weaponSource;
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
