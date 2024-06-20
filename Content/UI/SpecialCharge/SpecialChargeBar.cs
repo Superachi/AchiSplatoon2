@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
         private UIText text;
         private UIElement area;
         private UIImage barFrame;
-        private Color gradientB;
+        private Color barColor;
 
         public override void OnInitialize()
         {
@@ -44,7 +44,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             text.Top.Set(40, 0f);
             text.Left.Set(0, 0f);
 
-            gradientB = new Color(187, 91, 201); // A light purple
+            barColor = new Color(255, 255, 255);
 
             area.Append(text);
             area.Append(barFrame);
@@ -73,14 +73,15 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
 
             Rectangle hitbox = barFrame.GetInnerDimensions().ToRectangle();
             hitbox.X += 12;
-            hitbox.Width -= 24;
+            hitbox.Width -= 52;
             hitbox.Y += 8;
-            hitbox.Height -= 16;
+            hitbox.Height -= 18;
 
             int left = hitbox.Left;
             int right = hitbox.Right;
             int steps = (int)((right - left) * quotient);
-            spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.Left, hitbox.Y, (int)(hitbox.Width * quotient), hitbox.Height), gradientB);
+            barColor = modPlayer.ColorFromChips;
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.Left, hitbox.Y, (int)(hitbox.Width * quotient), hitbox.Height), barColor);
         }
 
         public override void Update(GameTime gameTime)
