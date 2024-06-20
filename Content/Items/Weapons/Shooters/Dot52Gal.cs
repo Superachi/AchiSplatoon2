@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
         public override SubWeaponType BonusSub { get => SubWeaponType.Sprinkler; }
         public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Discount; }
-        public override float AimDeviation { get => 10f; }
+        public override float AimDeviation { get => 8f; }
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 4;
-            Item.crit = 10;
+            Item.crit = 8;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
         }
