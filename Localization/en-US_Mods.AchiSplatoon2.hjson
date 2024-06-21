@@ -358,6 +358,16 @@ Items: {
 			Show it to the Guide and see what you can make!
 			'''
 	}
+
+	UltraStamp: {
+		DisplayName: Ultra Stamp
+		Tooltip:
+			'''
+			{$SpecialWeaponTooltip.Mechanic}
+			[c/ff8e2c:Reduces enemy damage while swinging, but forces forward momentum]
+			[c/64aaff:"Ay, por dios, he's got hammerspace!!"]
+			'''
+	}
 }
 
 Projectiles: {
@@ -390,4 +400,12 @@ Projectiles: {
 	KillerWailShooter.DisplayName: Killer Wail Shooter
 	KillerWailProjectile.DisplayName: Killer Wail Projectile
 	KillerWailTelegraph.DisplayName: Killer Wail Telegraph
+	UltraStampProjectile.DisplayName: Ultra Stamp Projectile
+}
+
+Buffs: {
+	UltraStampBuff: {
+		DisplayName: Can't stop, won't stop
+		Description: "{0}% enemy damage reduction while swinging the Ultra Stamp"
+	}
 }
