@@ -1,5 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
+using AchiSplatoon2.Content.Players;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
@@ -22,6 +24,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override bool AllowPrefix(int pre)
         {
             return false;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            if (player.whoAmI == Main.myPlayer)
+            {
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                if (modPlayer.hasSpecialPowerEmblem)
+                {
+                    damage *= InkWeaponPlayer.specialPowerMultiplier;
+                }
+            }
         }
     }
 }

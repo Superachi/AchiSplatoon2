@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            Initialize(ignoreAimDeviation: true, ignoreDamageMods: true);
+            Initialize(ignoreAimDeviation: true);
             Projectile.alpha = 255;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.scale = 0;

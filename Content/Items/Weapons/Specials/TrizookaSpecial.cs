@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public static readonly int MaxBursts = 3;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ProjPerShot, MaxBursts);
         public override bool IsSpecialWeapon => true;
-        public override float SpecialDrainPerTick => 0.2f;
+        public override float SpecialDrainPerTick => 0.1f;
         public override float SpecialDrainPerUse => 55f;
 
         public override void SetDefaults()

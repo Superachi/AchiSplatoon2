@@ -44,9 +44,17 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual bool AllowSubWeaponUsage { get => true; }
         public virtual SubWeaponType BonusSub { get => SubWeaponType.None; }
         public virtual SubWeaponBonusType BonusType { get => SubWeaponBonusType.None; }
+        protected const float subDiscountChance = 0.5f;
+        protected const float subDamageBonus = 0.5f;
+        protected static int[] subWeaponItemIDs = {
+            ModContent.ItemType<SplatBomb>(),
+            ModContent.ItemType<BurstBomb>(),
+            ModContent.ItemType<AngleShooter>(),
+            ModContent.ItemType<Sprinkler>(),
+        };
 
-        // Special weapon stats
-        public virtual bool IsSpecialWeapon { get => false; }
+    // Special weapon stats
+    public virtual bool IsSpecialWeapon { get => false; }
         public virtual bool IsDurationSpecial { get => false; }
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
@@ -61,13 +69,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
             if (BonusType == SubWeaponBonusType.Discount)
             {
                 
-                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"33% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{(int)(subDiscountChance * 100f)}% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
                 tooltips.Add(tooltip);
             }
 
             if (BonusType == SubWeaponBonusType.Damage)
             {
-                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"20% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{(int)(subDamageBonus * 100f)}% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
                 tooltips.Add(tooltip);
             }
         }
@@ -133,12 +141,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             if (!AllowSubWeaponUsage) return false;
 
             bool doneSearching = false;
-            int[] idsToCheck = {
-                ModContent.ItemType<SplatBomb>(),
-                ModContent.ItemType<BurstBomb>(),
-                ModContent.ItemType<AngleShooter>(),
-                ModContent.ItemType<Sprinkler>(),
-            };
 
             Type[] subWeaponType = {
                 typeof(SplatBomb),
@@ -150,14 +152,14 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // We use 4 here, as there are 4 ammo slots
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < idsToCheck.Length; j++)
+                for (int j = 0; j < subWeaponItemIDs.Length; j++)
                 {
                     if (!doneSearching)
                     {
                         var item = player.inventory[54 + i];
                         // Ammo slots range from 54-57
                         // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
-                        if (item.type == idsToCheck[j])
+                        if (item.type == subWeaponItemIDs[j])
                         {
                             // Check if the main weapon has a bonus that discounts sub weapons of a matching type
                             // Eg. Splattershot has a chance to not consume burst bombs
@@ -169,11 +171,20 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
                                 if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
                                 {
-                                    luckyDiscount = Main.rand.NextBool(3);
+                                    luckyDiscount = Main.rand.NextBool((int)(1f/subDiscountChance));
                                 }
                                 if (BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub)
                                 {
-                                    damageBonus = 1.2f;
+                                    damageBonus *= (1 + subDamageBonus);
+                                }
+                            }
+
+                            if (player.whoAmI == Main.myPlayer)
+                            {
+                                var mp = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                                if (mp.hasSubPowerEmblem)
+                                {
+                                    damageBonus *= InkWeaponPlayer.subPowerMultiplier;
                                 }
                             }
 

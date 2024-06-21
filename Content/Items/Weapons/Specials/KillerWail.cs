@@ -11,7 +11,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override bool IsSpecialWeapon => true;
         public override bool IsDurationSpecial => true;
         public override float SpecialDrainPerTick => 0.2f;
-        public override float SpecialDrainPerUse => 0f;
         private static readonly int ArmorPierce = 10;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);
 

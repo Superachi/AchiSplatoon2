@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            Initialize(ignoreDamageMods: true);
+            Initialize();
 
             PlayAudio(SoundID.SplashWeak, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
             if (Main.rand.NextBool(2))

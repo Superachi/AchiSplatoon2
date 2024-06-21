@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Players
         public bool hasSpecialChargeEmblem;
         public bool hasSubPowerEmblem;
         public static float specialChargeMultiplier = 1.5f;
-        public static float subPowerMultiplier = 2.5f;
+        public static float subPowerMultiplier = 2f;
         public static float specialPowerMultiplier = 2f;
 
         public float RedChipBaseAttackDamageBonus { get => 0.03f; }
