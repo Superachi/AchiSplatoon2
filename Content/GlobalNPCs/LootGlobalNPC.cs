@@ -11,6 +11,8 @@ using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Consumables;
+using AchiSplatoon2.Content.Players;
+using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
 
 namespace AchiSplatoon2.Content.GlobalNPCs
 {
@@ -22,11 +24,42 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             expertRule.OnFailedConditions(ItemDropRule.BossBag(itemID));
         }
 
+        public override void OnKill(NPC npc)
+        {
+            // Lucky drops, affected by lucky color chips
+            if (Main.LocalPlayer.whoAmI == Main.myPlayer) // TODO: Might be a non-sensical if statement, needs testing
+            {
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                float chipCount = modPlayer.ColorChipAmounts[(int)ChipColor.Green];
+
+                if (chipCount <= 0) { return; }
+                float chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
+
+                if (Main.rand.NextBool((int)(200f * chanceModifier)))
+                {
+                    Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
+                }
+
+                if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                {
+                    if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)
+                    {
+                        Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Heart);
+                    }
+                }
+
+                if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                {
+                    if (Main.LocalPlayer.statMana < Main.LocalPlayer.statManaMax2)
+                    {
+                        Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Star);
+                    }
+                }
+            }
+        }
+
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            // Every enemy has a chance to just a special charge up potion
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CannedSpecial>(), chanceDenominator: 200));
-
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
             switch (npc.type)
             {
@@ -39,8 +72,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicense>());
                     break;
                 case NPCID.Mimic:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SheldonLicense>()));
-                    break;
                 case NPCID.WallofFlesh:
                 case NPCID.BigMimicHallow:
                 case NPCID.BigMimicCrimson:
