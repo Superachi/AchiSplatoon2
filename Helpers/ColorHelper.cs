@@ -20,6 +20,26 @@ namespace AchiSplatoon2.Helpers
             return (InkColor)Main.rand.Next(0, 6);
         }
 
+        public static string TextWithNeutralColor(string input)
+        {
+            return $"[c/ffffff:{input}]";
+        }
+
+        public static string TextWithFlavorColor(string input)
+        {
+            return $"[c/64aaff:{input}]";
+        }
+
+        public static string TextWithFlavorColorAndQuotes(string input)
+        {
+            return $"[c/64aaff:\"{input}\"]";
+        }
+
+        public static string TextWithFunctionalColor(string input)
+        {
+            return $"[c/ff8e2c:{input}]";
+        }
+
         public static Color GetInkColor(InkColor enumVal)
         {
             Color finalColor;

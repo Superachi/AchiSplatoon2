@@ -53,30 +53,63 @@ namespace AchiSplatoon2.Content.Items.Weapons
             ModContent.ItemType<Sprinkler>(),
         };
 
-    // Special weapon stats
-    public virtual bool IsSpecialWeapon { get => false; }
+        // Special weapon stats
+        public virtual bool IsSpecialWeapon { get => false; }
         public virtual bool IsDurationSpecial { get => false; }
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
+        public static LocalizedText UsageHint { get; private set; }
+        public static LocalizedText Flavor { get; private set; }
+
+        public override void SetStaticDefaults()
+        {
+            UsageHint = this.GetLocalization(nameof(UsageHint));
+            Flavor = this.GetLocalization(nameof(Flavor));
+        }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            if (BonusType == SubWeaponBonusType.None || BonusSub == SubWeaponType.None)
+            // Functional descriptions
+            if (IsSubWeapon)
             {
-                return;
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithFunctionalColor("Sub weapon:")} equip in ammo slot to be used by main weapon") { OverrideColor = null });
+            }
+            else if (IsSpecialWeapon)
+            {
+                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithFunctionalColor("Special weapon:")} only usable when special guage is full") { OverrideColor = null });
+            }
+            else
+            {
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintMain", $"{ColorHelper.TextWithFunctionalColor("Main weapon:")} allows for sub weapons to be used with right-click") { OverrideColor = null });
             }
 
             if (BonusType == SubWeaponBonusType.Discount)
             {
-                
-                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{(int)(subDiscountChance * 100f)}% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{(int)(subDiscountChance * 100f)}% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
                 tooltips.Add(tooltip);
             }
 
             if (BonusType == SubWeaponBonusType.Damage)
             {
-                TooltipLine tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{(int)(subDamageBonus * 100f)}% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{(int)(subDamageBonus * 100f)}% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
                 tooltips.Add(tooltip);
+            }
+
+            // Functional description
+            string usageVal = this.GetLocalizedValue("UsageHint");
+            if (usageVal != this.GetLocalizationKey("UsageHint"))
+            {
+                var usageHint = new TooltipLine(Mod, "UsageHint", ColorHelper.TextWithFunctionalColor(usageVal)) { OverrideColor = null };
+                tooltips.Add(usageHint);
+            }
+
+            // Flavor text
+            string flavorVal = this.GetLocalizedValue("Flavor");
+            if (flavorVal != this.GetLocalizationKey("Flavor"))
+            {
+                var flavor = new TooltipLine(Mod, "Flavor", $"{ColorHelper.TextWithFlavorColorAndQuotes(flavorVal)}") { OverrideColor = null };
+                tooltips.Add(flavor);
             }
         }
 

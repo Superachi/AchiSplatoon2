@@ -5,7 +5,6 @@ TrizookaTooltip: {
 	MaxBursts: "{0} times"
 }
 
-SpecialWeaponTooltip.Mechanic: Special weapon: can only be used when your special guage is full
 KillerWailTooltip.ArmorPierce: Ignores {0} points of enemy Defense
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
@@ -14,116 +13,145 @@ SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
 Items: {
 	Splattershot: {
 		DisplayName: Splattershot
-		Tooltip: '''[c/64aaff:"You're a kid, you're a squid"]'''
+		Flavor: You're a kid, you're a squid
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.Splattershot.UsageHint
 	}
 
 	TentatekSplattershot: {
 		DisplayName: Tentatek Splattershot
-		Tooltip: '''[c/64aaff:"And yes, this is also dating advice"]'''
+		Flavor: And yes, this is also dating advice
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.TentatekSplattershot.UsageHint
 	}
 
 	OrderShot: {
 		DisplayName: Order Shot
-		Tooltip: '''[c/64aaff:"Humble beginnings"]'''
+		Flavor: Humble beginnings
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.OrderShot.UsageHint
 	}
 
 	OctoShot: {
 		DisplayName: Octo Shot
-		Tooltip: '''[c/64aaff:"TEST PASS!"]'''
+		Flavor: Test pass!
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.OctoShot.UsageHint
 	}
 
 	Blaster: {
 		DisplayName: Blaster
-		Tooltip: "[c/ff8e2c:Has a smaller blast when hitting a wall]"
-	}
-
-	LeTestSword: {
-		DisplayName: Le Test Sword
+		UsageHint: Has a smaller blast when hitting a wall
 		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.Blaster.Flavor
 	}
 
 	RangeBlaster: {
 		DisplayName: Range Blaster
-		Tooltip: '''[c/64aaff:"Featuring a brand new design!"]'''
+		Flavor: Featuring a brand new design!
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.RangeBlaster.UsageHint
 	}
 
 	RapidBlaster: {
 		DisplayName: Rapid Blaster
-		Tooltip: '''[c/64aaff:"In case the regular Blaster is too slow"]'''
+		Flavor: In case the regular Blaster is too slow
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.RapidBlaster.UsageHint
 	}
 
 	RapidBlasterDeco: {
 		DisplayName: Rapid Blaster Deco
-		Tooltip: '''[c/64aaff:"You're blue now. That's my attack!"]'''
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.RapidBlasterDeco.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.RapidBlasterDeco.UsageHint
 	}
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a piercing shot]"
+		UsageHint: Hold the fire button to charge up a piercing shot
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.SplatCharger.Flavor
 	}
 
 	EliterCharger: {
 		DisplayName: E-liter 4K
-		Tooltip: '''[c/64aaff:"I love hallways!"]'''
+		Flavor: I love hallways!
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.EliterCharger.UsageHint
 	}
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a high velocity shot]"
+		Tooltip: ""
+		UsageHint: Hold the fire button to charge up a high velocity shot
+		Flavor: Mods.AchiSplatoon2.Items.BambooMk1Charger.Flavor
 	}
 
 	BambooMk2Charger: {
 		DisplayName: Bamboozler 14 Mk II
-		Tooltip: '''[c/64aaff:"Now with Main Power Up!"]'''
+		Flavor: Now with Main Power Up!
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BambooMk2Charger.UsageHint
 	}
 
 	BaseWeapon: {
 		DisplayName: Pearlinaean Splattershot
-		Tooltip: Developer item.
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseWeapon.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseWeapon.Flavor
 	}
 
 	LunaBlaster: {
 		DisplayName: Luna Blaster
-		Tooltip: '''[c/64aaff:"Zip me to the moon!"]'''
+		Flavor: Zip me to the moon!
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.LunaBlaster.UsageHint
 	}
 
 	TriStringer: {
 		DisplayName: Tri-Stringer
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of explosive shots]"
+		UsageHint: Hold the fire button to charge up a volley of explosive shots
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.TriStringer.Flavor
 	}
 
 	TriStringerInkline: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.TriStringerInkline.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.TriStringerInkline.Flavor
 	}
 
 	GrizzcoStringer: {
 		DisplayName: Grizzco Stringer
-		Tooltip:
-			'''
-			[c/64aaff:"That fancy weapon you have there?]
-			[c/64aaff:That's one of my special models."]
-			'''
+		Flavor: That fancy weapon you have there? That's one of my special models.
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.GrizzcoStringer.UsageHint
 	}
 
 	ReefluxStringer: {
 		DisplayName: REEF-LUX 450
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a volley of shots]"
+		UsageHint: Hold the fire button to charge up a volley of shots
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.ReefluxStringer.Flavor
 	}
 
 	ReefluxDecoStringer: {
 		DisplayName: REEF-LUX 450 Deco
-		Tooltip: '''[c/64aaff:"That's how it feels to drive a Reefslider F-150."]'''
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.Flavor
 	}
 
 	BaseAccessory: {
 		DisplayName: Base Accessory
-		Tooltip: Developer item.
+		Tooltip: ""
 	}
 
 	ColorChipBase: {
 		DisplayName: Color Chip Base
-		Tooltip: Developer item.
+		Tooltip: ""
 	}
 
 	ColorChipRed: {
@@ -178,137 +206,155 @@ Items: {
 
 	HeavySplatling: {
 		DisplayName: Heavy Splatling
-		Tooltip: "[c/ff8e2c:Hold the fire button to charge up a lasting barrage of shots]"
+		UsageHint: Hold the fire button to charge up a lasting barrage of shots
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.HeavySplatling.Flavor
 	}
 
 	GrizzcoCharger: {
 		DisplayName: Grizzco Charger
-		Tooltip:
-			'''
-			[c/ff8e2c:Instantly charges]
-			[c/64aaff:"If that doesn't make you Eggsecutive VP material,]
-			[c/64aaff:I don't know what does!"]
-			'''
+		UsageHint: Instantly charges
+		Flavor: If that doesn't make you Eggsecutive VP material, I don't know what does!
+		Tooltip: ""
 	}
 
 	MiniSplatling: {
 		DisplayName: Mini Splatling
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.MiniSplatling.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MiniSplatling.Flavor
 	}
 
 	BaseStringer: {
 		DisplayName: Base Stringer
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseStringer.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseStringer.Flavor
 	}
 
 	BaseCharger: {
 		DisplayName: Base Charger
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseCharger.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseCharger.Flavor
 	}
 
 	BaseSplattershot: {
 		DisplayName: Base Splattershot
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSplattershot.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSplattershot.Flavor
 	}
 
 	BaseSplatling: {
 		DisplayName: Base Splatling
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSplatling.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSplatling.Flavor
 	}
 
 	BaseBlaster: {
 		DisplayName: Base Blaster
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseBlaster.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseBlaster.Flavor
 	}
 
 	RoyalHeavySplatling: {
 		DisplayName: Royal Heavy Splatling
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.Flavor
 	}
 
 	ZinkMiniSplatling: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.Flavor
 	}
 
 	SplatBomb: {
 		DisplayName: Splat Bomb
-		Tooltip: "[c/ff8e2c:Detonates shortly after hitting the ground]"
+		UsageHint: Detonates shortly after hitting the ground
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.SplatBomb.Flavor
 	}
 
 	BaseBomb: {
 		DisplayName: Base Bomb
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseBomb.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseBomb.Flavor
 	}
 
 	BurstBomb: {
 		DisplayName: Burst Bomb
-		Tooltip:
-			'''
-			[c/ff8e2c:Detonates instantly on contact]
-			[c/ff8e2c:Deals less damage if it hits a wall first]
-			'''
+		UsageHint: Detonates instantly on contact, deals less damage if it hits a wall first
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.BurstBomb.Flavor
 	}
 
 	AngleShooter: {
 		DisplayName: Angle Shooter
-		Tooltip:
-			'''
-			[c/ff8e2c:Fires off a bouncing projectile]
-			[c/ff8e2c:Greatly increases damage after every bounce]
-			[c/64aaff:"AKA the mark applier."]
-			'''
+		UsageHint: Fires off a bouncing projectile, greatly increases damage after every bounce
+		Flavor: AKA the mark applier.
+		Tooltip: ""
 	}
 
 	Sprinkler: {
 		DisplayName: Sprinkler
-		Tooltip: "[c/ff8e2c:Deploys a sprinkler to continuously shoot projectiles]"
+		UsageHint: Deploys a sprinkler to continuously shoot projectiles
+		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.Sprinkler.Flavor
 	}
 
 	BaseSpecial: {
 		DisplayName: Base Special
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSpecial.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSpecial.Flavor
 	}
 
 	TrizookaSpecial: {
 		DisplayName: Trizooka
-		Tooltip:
-			'''
-			{$SpecialWeaponTooltip.Mechanic}
-			[c/ff8e2c:{$TrizookaTooltip.ProjPerShot}{$TrizookaTooltip.MaxBursts}]
-			[c/64aaff:"Go ahead, try and react to it."]
-			'''
+		UsageHint: "{$TrizookaTooltip.ProjPerShot}{$TrizookaTooltip.MaxBursts}"
+		Flavor: Go ahead, try and react to it.
+		Tooltip: ""
 	}
 
 	CannedSpecial: {
 		DisplayName: Canned Special
-		Tooltip: "[c/ff8e2c:Allows you to use your special weapon immediately!]"
+		UsageHint: Allows you to use your special weapon immediately!
+		Tooltip: ""
 	}
 
 	Dot52Gal: {
 		DisplayName: .52 Gal
-		Tooltip: '''[c/64aaff:"leTS GO GAMBLING!1"]'''
+		Flavor: leTS GO GAMBLING!1
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.Dot52Gal.UsageHint
 	}
 
 	SplooshOMatic: {
 		DisplayName: Sploosh-O-Matic
-		Tooltip: '''[c/64aaff:"Rats, we're rats. We're the rats."]'''
+		Flavor: Rats, we're rats. We're the rats.
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.SplooshOMatic.UsageHint
 	}
 
 	SplashOMatic: {
 		DisplayName: Splash-O-Matic
-		Tooltip: '''[c/64aaff:"Return to crab"]'''
+		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.SplashOMatic.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplashOMatic.Flavor
 	}
 
 	KillerWail: {
 		DisplayName: Killer Wail
-		Tooltip:
-			'''
-			{$SpecialWeaponTooltip.Mechanic}
-			{$KillerWailTooltip.ArmorPierce}
-			[c/ff8e2c:Rapidly fires sound waves that pierce through enemies and blocks]
-			[c/64aaff:"#$@%* Dudes Be #$@%* Sleepin"]
-			'''
+		Tooltip: "{$KillerWailTooltip.ArmorPierce}"
+		UsageHint: Rapidly fires sound waves that pierce through enemies and blocks
+		Flavor: "#$@%* Dudes Be #$@%* Sleepin"
 	}
 
 	SpecialChargeEmblem: {
@@ -332,17 +378,17 @@ Items: {
 	}
 
 	SheldonLicense: {
-		DisplayName: Sheldon License
+		DisplayName: Basic Sheldon License
 		Tooltip:
 			'''
 			Obtained from bosses. Used to craft basic Splatlandian gear.
 			Show it to the Guide and see what you can make!
-			[c/64aaff:"U got a loicense fer that?"]
 			'''
+		Flavor: U got a loicense fer that?
 	}
 
 	SheldonLicenseGold: {
-		DisplayName: Sheldon License Gold
+		DisplayName: Golden Sheldon License
 		Tooltip:
 			'''
 			Obtained from bosses. Used to craft some of the best Splatlandian gear available.
@@ -351,22 +397,19 @@ Items: {
 	}
 
 	SheldonLicenseSilver: {
-		DisplayName: Sheldon License Silver
+		DisplayName: Silver Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses (and large mimics). Used to craft higher quality Splatlandian gear.
+			Obtained from bosses (and mimics). Used to craft higher quality Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 	}
 
 	UltraStamp: {
 		DisplayName: Ultra Stamp
-		Tooltip:
-			'''
-			{$SpecialWeaponTooltip.Mechanic}
-			[c/ff8e2c:Reduces enemy damage while swinging, but forces forward momentum]
-			[c/64aaff:"Ay, por dios, he's got hammerspace!!"]
-			'''
+		UsageHint: Reduces enemy damage while swinging, but forces forward momentum
+		Flavor: Ay, por dios, he's got hammerspace!!
+		Tooltip: ""
 	}
 }
 
