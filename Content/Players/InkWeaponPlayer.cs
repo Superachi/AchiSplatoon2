@@ -3,6 +3,7 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
@@ -132,6 +133,7 @@ namespace AchiSplatoon2.Content.Players
         public void IncrementSpecialPoints(float amount)
         {
             var player = Main.LocalPlayer;
+            if (player.dead) return;
 
             if (!IsSpecialActive)
             {
@@ -180,6 +182,9 @@ namespace AchiSplatoon2.Content.Players
 
         public void DrainSpecial(float drainAmount = 0f)
         {
+            var player = Main.LocalPlayer;
+            if (player.dead) return;
+
             if (IsSpecialActive)
             {
                 if (drainAmount == 0f)
@@ -192,13 +197,22 @@ namespace AchiSplatoon2.Content.Players
 
                 if (SpecialPoints <= 0)
                 {
-                    IsSpecialActive = false;
-                    SpecialPoints = 0;
-                    SpecialDrain = 0;
-                    SpecialReady = false;
-                    SpecialName = null;
+                    ResetSpecialStats();
                 }
             }
+        }
+
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            ResetSpecialStats();
+        }
+
+        private void ResetSpecialStats() {
+            IsSpecialActive = false;
+            SpecialPoints = 0;
+            SpecialDrain = 0;
+            SpecialReady = false;
+            SpecialName = null;
         }
     }
 }

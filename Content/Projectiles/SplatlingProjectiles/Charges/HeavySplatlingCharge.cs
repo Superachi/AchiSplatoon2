@@ -90,6 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner())
             {
+                if (owner.dead) { Projectile.Kill(); return; }
                 if (owner.channel)
                 {
                     UpdateCharge(owner);
