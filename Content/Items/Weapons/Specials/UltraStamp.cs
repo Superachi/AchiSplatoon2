@@ -24,8 +24,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 80;
-            Item.knockBack = 10;
+            Item.damage = 90;
+            Item.knockBack = 8;
             Item.scale = 2;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 15;
@@ -36,6 +36,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.height = 80;
 
             Item.value = Item.buyPrice(gold: 5);
+        }
+
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.Bone, 30);
+            recipe.Register();
         }
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
