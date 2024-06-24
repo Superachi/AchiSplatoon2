@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
+using Humanizer;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -62,8 +63,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
-        public static LocalizedText UsageHint { get; private set; }
-        public static LocalizedText Flavor { get; private set; }
+        public virtual LocalizedText UsageHint { get; set; }
+        public virtual LocalizedText Flavor { get; set; }
+        protected virtual string UsageHintParamA => "";
+        protected virtual string UsageHintParamB => "";
 
         public override void SetStaticDefaults()
         {
@@ -109,7 +112,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
 
             // Functional description
-            string usageVal = this.GetLocalizedValue("UsageHint");
+            string usageVal = this.GetLocalizedValue("UsageHint").FormatWith(UsageHintParamA, UsageHintParamB);
             if (usageVal != this.GetLocalizationKey("UsageHint"))
             {
                 var usageHint = new TooltipLine(Mod, "UsageHint", ColorHelper.TextWithFunctionalColor(usageVal)) { OverrideColor = null };

@@ -13,7 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override float MuzzleOffsetPx { get; set; } = 80f;
         public static readonly int ProjPerShot = 3;
         public static readonly int MaxBursts = 3;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ProjPerShot, MaxBursts);
+        protected override string UsageHintParamA => ProjPerShot.ToString();
+        protected override string UsageHintParamB => MaxBursts.ToString();
         public override bool IsSpecialWeapon => true;
         public override float SpecialDrainPerTick => 0.1f;
         public override float SpecialDrainPerUse => 55f;
