@@ -406,6 +406,27 @@ Items: {
 		Flavor: Ay, por dios, he's got hammerspace!!
 		Tooltip: ""
 	}
+
+	Slosher: {
+		Flavor: I barely know her!
+		UsageHint: Throws a stream of projectiles that cover a wide area
+		DisplayName: Slosher
+		Tooltip: ""
+	}
+
+	BaseSlosher: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSlosher.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSlosher.Flavor
+		DisplayName: Base Slosher
+		Tooltip: ""
+	}
+
+	SlosherDeco: {
+		UsageHint: Mods.AchiSplatoon2.Items.SlosherDeco.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SlosherDeco.Flavor
+		DisplayName: Slosher Deco
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -439,6 +460,9 @@ Projectiles: {
 	KillerWailProjectile.DisplayName: Killer Wail Projectile
 	KillerWailTelegraph.DisplayName: Killer Wail Telegraph
 	UltraStampProjectile.DisplayName: Ultra Stamp Projectile
+	SlosherProjectile.DisplayName: Slosher Projectile
+	SlosherChildProjectile.DisplayName: Slosher Child Projectile
+	SlosherMainProjectile.DisplayName: Slosher Main Projectile
 }
 
 Buffs: {

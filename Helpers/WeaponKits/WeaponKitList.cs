@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Bows;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 
 namespace AchiSplatoon2.Helpers.WeaponKits
 {
@@ -45,11 +46,15 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(RangeBlaster),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RapidBlasterDeco),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
 
-            // Splatling
+            // Splatlings
             { typeof(MiniSplatling),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(HeavySplatling),       new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(ZinkMiniSplatling),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RoyalHeavySplatling),  new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+
+            // Sloshers
+            { typeof(Slosher),              new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(SlosherDeco),          new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
         };
 
         public static SubWeaponType GetWeaponKitSubType(Type weaponType)
