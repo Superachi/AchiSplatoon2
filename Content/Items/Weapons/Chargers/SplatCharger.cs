@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             base.SetDefaults();
             Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 15, 12f);
-            Item.damage = 60;
+            Item.damage = 66;
             Item.width = 82;
             Item.height = 26;
             Item.knockBack = 5;
