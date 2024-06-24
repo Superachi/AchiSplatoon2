@@ -10,8 +10,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Splattershot : BaseSplattershot
     {
-        public override SubWeaponType BonusSub { get => SubWeaponType.SplatBomb; }
-        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Discount; }
         public override void SetDefaults()
         {
             base.SetDefaults();

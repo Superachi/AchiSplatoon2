@@ -7,8 +7,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class OrderShot : Splattershot
     {
-        public override SubWeaponType BonusSub { get => SubWeaponType.None; }
-        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.None; }
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -11,6 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.noMelee = true;
             Item.channel = true;
         }

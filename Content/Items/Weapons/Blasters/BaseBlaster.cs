@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.DefaultToRangedWeapon(
                 baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
                 ammoID: AmmoID.None,

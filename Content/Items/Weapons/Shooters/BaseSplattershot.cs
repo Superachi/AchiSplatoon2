@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Reflection.Metadata;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
@@ -14,6 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.useAnimation = Item.useTime;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.autoReuse = true;

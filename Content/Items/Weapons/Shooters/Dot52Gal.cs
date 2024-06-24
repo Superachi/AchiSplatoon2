@@ -11,9 +11,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override string ShootSample { get => "Dot52GalShoot"; }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
-
-        public override SubWeaponType BonusSub { get => SubWeaponType.Sprinkler; }
-        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Discount; }
         public override float AimDeviation { get => 8f; }
         public override void SetDefaults()
         {

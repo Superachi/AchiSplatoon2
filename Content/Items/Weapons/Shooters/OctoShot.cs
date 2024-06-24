@@ -10,8 +10,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class OctoShot : Splattershot
     {
-        public override SubWeaponType BonusSub { get => SubWeaponType.SplatBomb; }
-        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Damage; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
 

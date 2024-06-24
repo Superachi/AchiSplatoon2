@@ -2,9 +2,11 @@ using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Helpers.WeaponKits;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -42,8 +44,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
         // Sub weapon stats
         public virtual bool IsSubWeapon { get => false; }
         public virtual bool AllowSubWeaponUsage { get => true; }
-        public virtual SubWeaponType BonusSub { get => SubWeaponType.None; }
-        public virtual SubWeaponBonusType BonusType { get => SubWeaponBonusType.None; }
+        public SubWeaponType BonusSub { get; private set; }
+        public SubWeaponBonusType BonusType { get; private set; }
+
         protected const float subDiscountChance = 0.5f;
         protected const float subDamageBonus = 0.5f;
         protected static int[] subWeaponItemIDs = {
@@ -68,6 +71,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
             Flavor = this.GetLocalization(nameof(Flavor));
         }
 
+        public override void SetDefaults()
+        {
+            BonusSub = WeaponKitList.GetWeaponKitSubType(this.GetType());
+            BonusType = WeaponKitList.GetWeaponKitSubBonusType(this.GetType());
+        }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             // Functional descriptions
@@ -84,16 +93,19 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintMain", $"{ColorHelper.TextWithFunctionalColor("Main weapon:")} allows for sub weapons to be used with right-click") { OverrideColor = null });
             }
 
-            if (BonusType == SubWeaponBonusType.Discount)
+            if (BonusSub != SubWeaponType.None)
             {
-                var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{(int)(subDiscountChance * 100f)}% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
-                tooltips.Add(tooltip);
-            }
+                if (BonusType == SubWeaponBonusType.Discount)
+                {
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{(int)(subDiscountChance * 100f)}% chance not to consume {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                    tooltips.Add(tooltip);
+                }
 
-            if (BonusType == SubWeaponBonusType.Damage)
-            {
-                var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{(int)(subDamageBonus * 100f)}% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
-                tooltips.Add(tooltip);
+                if (BonusType == SubWeaponBonusType.Damage)
+                {
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{(int)(subDamageBonus * 100f)}% increased damage for {GetSubWeaponName(BonusSub)}") { OverrideColor = null };
+                    tooltips.Add(tooltip);
+                }
             }
 
             // Functional description

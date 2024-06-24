@@ -7,8 +7,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplashOMatic : SplooshOMatic
     {
-        public override SubWeaponType BonusSub { get => SubWeaponType.BurstBomb; }
-        public override SubWeaponBonusType BonusType { get => SubWeaponBonusType.Damage; }
         public override float ShotGravity => 0.02f;
         public override float AimDeviation { get => 0f; }
         public override void SetDefaults()
