@@ -28,6 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
             recipe.AddIngredient(ItemID.CrystalShard, 10);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.Register();
         }
     }

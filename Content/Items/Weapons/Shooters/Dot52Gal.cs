@@ -33,7 +33,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.CursedFlame, 10);
+            recipe.AddIngredient(ItemID.GelBalloon, 15);
+            recipe.AddIngredient(ItemID.PinkGel, 5);
             recipe.Register();
         }
     }

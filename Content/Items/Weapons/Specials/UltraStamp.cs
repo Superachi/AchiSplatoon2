@@ -19,13 +19,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
     {
         public override Vector2? HoldoutOffset() { return new Vector2(20, 40); }
         public override bool IsSpecialWeapon => true;
-        public override float SpecialDrainPerTick => 0.1f;
+        public override float SpecialDrainPerTick => 0.12f;
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 90;
-            Item.knockBack = 12;
+            Item.damage = 80;
+            Item.knockBack = 10;
             Item.scale = 2;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 15;
