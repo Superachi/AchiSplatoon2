@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // Audio
         protected string shootSample = "SplattershotShoot";
         protected string shootWeakSample = "SplattershotShoot";
+        protected string shootAltSample = "SplattershotShoot";
 
         // Colors
         private InkColor primaryColor = InkColor.Red;

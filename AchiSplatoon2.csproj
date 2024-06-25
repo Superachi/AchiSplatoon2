@@ -10,6 +10,7 @@
 	<ItemGroup>
 	  <None Remove="Content\Dusts\BlasterExplosionDust.png" />
 	  <None Remove="Content\Dusts\BlasterTrailDust.png" />
+	  <None Remove="Content\Dusts\SlosherProjectileDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Items\BaseItem.png" />
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
@@ -19,6 +20,7 @@
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\UltraStampProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />

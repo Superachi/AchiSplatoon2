@@ -37,6 +37,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
         public virtual string ShootWeakSample { get => "SplattershotShoot"; }
+        public virtual string ShootAltSample { get => "SplattershotShoot"; }
         public virtual float MuzzleOffsetPx { get; set; } = 0f;
 
         // Main weapon stats

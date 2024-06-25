@@ -1,6 +1,6 @@
 # This file will automatically update with entries for new content after a build and reload.
 
-KillerWailTooltip.ArmorPierce: Ignores {0} points of enemy Defense
+ArmorPierce.Display: Ignores {0} points of enemy Defense
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
@@ -347,7 +347,7 @@ Items: {
 
 	KillerWail: {
 		DisplayName: Killer Wail
-		Tooltip: "{$KillerWailTooltip.ArmorPierce}"
+		Tooltip: "{$ArmorPierce.Display}"
 		UsageHint: Rapidly fires sound waves that pierce through enemies and blocks
 		Flavor: "#$@%* Dudes Be #$@%* Sleepin"
 	}
@@ -427,6 +427,27 @@ Items: {
 		DisplayName: Slosher Deco
 		Tooltip: ""
 	}
+
+	Inkbrush: {
+		UsageHint: Rapidly attacks, but slows down movement while attacking
+		Flavor: I can brush the base all by myself!
+		DisplayName: Inkbrush
+		Tooltip: "{$ArmorPierce.Display}"
+	}
+
+	InkbrushNouveau: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkbrushNouveau.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkbrushNouveau.Flavor
+		DisplayName: Inkbrush Nouveau
+		Tooltip: "{$ArmorPierce.Display}"
+	}
+
+	BaseBrush: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseBrush.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseBrush.Flavor
+		DisplayName: Base Brush
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -463,6 +484,7 @@ Projectiles: {
 	SlosherProjectile.DisplayName: Slosher Projectile
 	SlosherChildProjectile.DisplayName: Slosher Child Projectile
 	SlosherMainProjectile.DisplayName: Slosher Main Projectile
+	InkbrushProjectile.DisplayName: Inkbrush Projectile
 }
 
 Buffs: {
