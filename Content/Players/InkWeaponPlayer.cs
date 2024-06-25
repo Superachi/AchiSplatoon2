@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Specials;
+﻿using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -67,6 +68,16 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            Player player = Main.LocalPlayer;
+            if (player.HeldItem.ModItem is Inkbrush && player.ItemTimeIsZero)
+            {
+                player.maxRunSpeed *= 1.5f;
+                player.runAcceleration *= 5f;
+            } else if (player.HeldItem.ModItem is Octobrush && player.ItemTimeIsZero)
+            {
+                player.runAcceleration *= 3f;
+            }
+
             AddSpecialPointsOnMovement();
             DrainSpecial();
         }

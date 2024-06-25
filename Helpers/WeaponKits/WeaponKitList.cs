@@ -60,6 +60,8 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             // Brushes
             { typeof(Inkbrush),             new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(InkbrushNouveau),      new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(Octobrush),            new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(OctobrushNouveau),     new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
         };
 
         public static SubWeaponType GetWeaponKitSubType(Type weaponType)

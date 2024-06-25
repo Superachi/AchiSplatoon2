@@ -1,18 +1,22 @@
-﻿using Terraria.ID;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
-    internal class InkbrushNouveau : Inkbrush
+    internal class OctobrushNouveau : Octobrush
     {
-        protected override int ArmorPierce => 10;
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 28;
-            Item.knockBack = 4;
+            Item.damage = 40;
+            Item.knockBack = 5;
 
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
@@ -21,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.PalladiumBar, 5);
+            recipe.AddIngredient(ItemID.MythrilBar, 5);
             recipe.Register();
         }
     }

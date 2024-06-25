@@ -429,7 +429,7 @@ Items: {
 	}
 
 	Inkbrush: {
-		UsageHint: Rapidly attacks, but slows down movement while attacking
+		UsageHint: Decreases mobility while attacking, but drastically improves it when not
 		Flavor: I can brush the base all by myself!
 		DisplayName: Inkbrush
 		Tooltip: "{$ArmorPierce.Display}"
@@ -446,6 +446,20 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.BaseBrush.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.BaseBrush.Flavor
 		DisplayName: Base Brush
+		Tooltip: ""
+	}
+
+	Octobrush: {
+		UsageHint: Mods.AchiSplatoon2.Items.Octobrush.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
+		DisplayName: Octobrush
+		Tooltip: ""
+	}
+
+	OctobrushNouveau: {
+		UsageHint: Mods.AchiSplatoon2.Items.OctobrushNouveau.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
+		DisplayName: Octobrush Nouveau
 		Tooltip: ""
 	}
 }

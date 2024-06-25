@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.DataStructures;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class BaseBrush : BaseWeapon
     {
-        public override float AimDeviation { get => 16f; }
+        public override float AimDeviation { get => 12f; }
         public override string ShootSample { get => "BrushShoot"; }
         public override string ShootAltSample { get => "BrushShootAlt"; }
-        protected virtual int ArmorPierce => 10;
+        protected virtual int ArmorPierce => 0;
+        public virtual float DelayUntilFall => 3f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);
 
         public override void SetDefaults()
@@ -27,6 +31,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InkbrushProjectile>();
             Item.shootSpeed = 8f;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            // Occasionally, shoot an extra projectile
+            if (Main.rand.NextBool(5))
+            {
+                Projectile.NewProjectile(
+                    spawnSource: source,
+                    position: player.Center,
+                    velocity: velocity + Main.rand.NextVector2Circular(-2, 2),
+                    Type: this.Item.shoot,
+                    Damage: damage,
+                    KnockBack: knockback,
+                    Owner: player.whoAmI);
+            }
+
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
     }
 }
