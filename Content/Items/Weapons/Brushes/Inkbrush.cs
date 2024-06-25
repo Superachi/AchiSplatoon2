@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 9;
+            Item.damage = 6;
             Item.knockBack = 3;
 
             Item.scale = 1;
@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.Meteorite, 5);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.Register();
         }
 
