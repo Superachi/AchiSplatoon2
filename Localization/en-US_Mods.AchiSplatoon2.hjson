@@ -503,6 +503,13 @@ Items: {
 		DisplayName: Order Charger
 		Tooltip: ""
 	}
+
+	JetSquelcher: {
+		UsageHint: Has extraordinary range
+		Flavor: Mods.AchiSplatoon2.Items.JetSquelcher.Flavor
+		DisplayName: Jet Squelcher
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
