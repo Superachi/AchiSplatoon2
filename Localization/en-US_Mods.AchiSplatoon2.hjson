@@ -462,6 +462,13 @@ Items: {
 		DisplayName: Octobrush Nouveau
 		Tooltip: ""
 	}
+
+	ZFSplatCharger: {
+		UsageHint: Mods.AchiSplatoon2.Items.ZFSplatCharger.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ZFSplatCharger.Flavor
+		DisplayName: Z+F Splat Charger
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -507,3 +514,5 @@ Buffs: {
 		Description: "{0}% enemy damage reduction while swinging the Ultra Stamp"
 	}
 }
+
+NPCs.BrellaShield.DisplayName: Brella Shield

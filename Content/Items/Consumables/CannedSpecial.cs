@@ -11,7 +11,7 @@ using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {
-    internal class CannedSpecial : ModItem
+    internal class CannedSpecial : BaseItem
     {
         public override void SetDefaults()
         {

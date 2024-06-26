@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -32,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         Damage
     }
 
-    internal class BaseWeapon : ModItem
+    internal class BaseWeapon : BaseItem
     {
         // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
@@ -71,6 +72,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override void SetStaticDefaults()
         {
+            base.SetStaticDefaults();
+
             UsageHint = this.GetLocalization(nameof(UsageHint));
             Flavor = this.GetLocalization(nameof(Flavor));
         }

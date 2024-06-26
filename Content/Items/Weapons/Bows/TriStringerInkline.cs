@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.CobaltBar, 5);
+            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
             recipe.Register();
         }
     }

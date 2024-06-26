@@ -7,6 +7,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class OrderShot : Splattershot
     {
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            ItemID.Sets.ShimmerTransformToItem[Item.type] = ModContent.ItemType<Splattershot>();
+        }
         public override void SetDefaults()
         {
             base.SetDefaults();

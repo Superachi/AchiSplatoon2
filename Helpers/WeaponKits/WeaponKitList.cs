@@ -14,8 +14,6 @@ namespace AchiSplatoon2.Helpers.WeaponKits
 {
     internal static class WeaponKitList
     {
-        public static string testString = "Hello!";
-
         public static Dictionary<Type, WeaponKit> WeaponKitDictionary = new Dictionary<Type, WeaponKit>
         {
             // Shooters

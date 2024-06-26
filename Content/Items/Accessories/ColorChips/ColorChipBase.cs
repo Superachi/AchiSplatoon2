@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
-    internal class ColorChipBase : ModItem
+    internal class ColorChipBase : BaseItem
     {
         protected virtual int RedValue { get => 0; }
         protected virtual int BlueValue { get => 0; }

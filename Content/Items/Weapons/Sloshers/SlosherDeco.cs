@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 114;
+            Item.damage = 100;
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 4;
@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.PalladiumBar, 5);
+            recipe.AddIngredient(ItemID.MythrilBar, 5);
             recipe.Register();
         }
     }

@@ -2,7 +2,7 @@
 
 namespace AchiSplatoon2.Content.Items.Accessories
 {
-    internal class BaseAccessory : ModItem
+    internal class BaseAccessory : BaseItem
     {
     }
 }
