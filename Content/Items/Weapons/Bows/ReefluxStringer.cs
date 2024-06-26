@@ -24,21 +24,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
             Item.width = 36;
             Item.height = 62;
-            Item.damage = 12;
+            Item.damage = 16;
             Item.knockBack = 1.5f;
             Item.value = Item.buyPrice(gold: 3);
-            Item.crit = 16;
+            Item.crit = 10;
         }
 
         public override void AddRecipes()
         {
             AddRecipeWithSheldonLicenseBasic();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.PlatinumBow);
-            altRecipe.AddIngredient(ItemID.Coral, 3);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
         }
     }
 }

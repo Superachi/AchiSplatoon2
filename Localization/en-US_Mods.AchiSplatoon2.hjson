@@ -5,6 +5,19 @@ SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
 
+Hint: {
+	SplatCharger: Hold the fire button to charge up a piercing shot
+	BambooCharger: Hold the fire button to charge up a high velocity shot
+	Blaster: Has a smaller blast when hitting a wall
+	TriStringer: Hold the fire button to charge up a volley of explosive shots
+	Reeflux: Hold the fire button to charge up a volley of shots
+	Splatling: Hold the fire button to charge up a long barrage of shots
+	MiniSplatling: Hold the fire button to charge up a short barrage of shots
+	Slosher: Throws a stream of projectiles that cover a wide area
+	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
+	Octobrush: Decreases mobility while attacking, but slightly improves it when not
+}
+
 Items: {
 	Splattershot: {
 		DisplayName: Splattershot
@@ -36,7 +49,7 @@ Items: {
 
 	Blaster: {
 		DisplayName: Blaster
-		UsageHint: Has a smaller blast when hitting a wall
+		UsageHint: "{$Hint.Blaster}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.Blaster.Flavor
 	}
@@ -45,26 +58,26 @@ Items: {
 		DisplayName: Range Blaster
 		Flavor: Featuring a brand new design!
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.RangeBlaster.UsageHint
+		UsageHint: "{$Hint.Blaster}"
 	}
 
 	RapidBlaster: {
 		DisplayName: Rapid Blaster
 		Flavor: In case the regular Blaster is too slow
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.RapidBlaster.UsageHint
+		UsageHint: "{$Hint.Blaster}"
 	}
 
 	RapidBlasterDeco: {
 		DisplayName: Rapid Blaster Deco
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.RapidBlasterDeco.Flavor
-		UsageHint: Mods.AchiSplatoon2.Items.RapidBlasterDeco.UsageHint
+		UsageHint: "{$Hint.Blaster}"
 	}
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		UsageHint: Hold the fire button to charge up a piercing shot
+		UsageHint: "{$Hint.SplatCharger}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.SplatCharger.Flavor
 	}
@@ -73,13 +86,13 @@ Items: {
 		DisplayName: E-liter 4K
 		Flavor: I love hallways!
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.EliterCharger.UsageHint
+		UsageHint: "{$Hint.SplatCharger}"
 	}
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
 		Tooltip: ""
-		UsageHint: Hold the fire button to charge up a high velocity shot
+		UsageHint: "{$Hint.BambooCharger}"
 		Flavor: Mods.AchiSplatoon2.Items.BambooMk1Charger.Flavor
 	}
 
@@ -87,7 +100,7 @@ Items: {
 		DisplayName: Bamboozler 14 Mk II
 		Flavor: Now with Main Power Up!
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.BambooMk2Charger.UsageHint
+		UsageHint: "{$Hint.BambooCharger}"
 	}
 
 	BaseWeapon: {
@@ -101,12 +114,12 @@ Items: {
 		DisplayName: Luna Blaster
 		Flavor: Zip me to the moon!
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.LunaBlaster.UsageHint
+		UsageHint: "{$Hint.Blaster}"
 	}
 
 	TriStringer: {
 		DisplayName: Tri-Stringer
-		UsageHint: Hold the fire button to charge up a volley of explosive shots
+		UsageHint: "{$Hint.TriStringer}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.TriStringer.Flavor
 	}
@@ -114,7 +127,7 @@ Items: {
 	TriStringerInkline: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.TriStringerInkline.UsageHint
+		UsageHint: "{$Hint.TriStringer}"
 		Flavor: Mods.AchiSplatoon2.Items.TriStringerInkline.Flavor
 	}
 
@@ -127,7 +140,7 @@ Items: {
 
 	ReefluxStringer: {
 		DisplayName: REEF-LUX 450
-		UsageHint: Hold the fire button to charge up a volley of shots
+		UsageHint: "{$Hint.Reeflux}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxStringer.Flavor
 	}
@@ -135,7 +148,7 @@ Items: {
 	ReefluxDecoStringer: {
 		DisplayName: REEF-LUX 450 Deco
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.UsageHint
+		UsageHint: "{$Hint.Reeflux}"
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.Flavor
 	}
 
@@ -201,7 +214,7 @@ Items: {
 
 	HeavySplatling: {
 		DisplayName: Heavy Splatling
-		UsageHint: Hold the fire button to charge up a lasting barrage of shots
+		UsageHint: "{$Hint.Splatling}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.HeavySplatling.Flavor
 	}
@@ -216,7 +229,7 @@ Items: {
 	MiniSplatling: {
 		DisplayName: Mini Splatling
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.MiniSplatling.UsageHint
+		UsageHint: "{$Hint.MiniSplatling}"
 		Flavor: Mods.AchiSplatoon2.Items.MiniSplatling.Flavor
 	}
 
@@ -258,14 +271,14 @@ Items: {
 	RoyalHeavySplatling: {
 		DisplayName: Royal Heavy Splatling
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.UsageHint
+		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.Flavor
 	}
 
 	ZinkMiniSplatling: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.UsageHint
+		UsageHint: "{$Hint.MiniSplatling}"
 		Flavor: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.Flavor
 	}
 
@@ -409,7 +422,7 @@ Items: {
 
 	Slosher: {
 		Flavor: I barely know her!
-		UsageHint: Throws a stream of projectiles that cover a wide area
+		UsageHint: "{$Hint.Slosher}"
 		DisplayName: Slosher
 		Tooltip: ""
 	}
@@ -422,21 +435,21 @@ Items: {
 	}
 
 	SlosherDeco: {
-		UsageHint: Mods.AchiSplatoon2.Items.SlosherDeco.UsageHint
+		UsageHint: "{$Hint.Slosher}"
 		Flavor: Mods.AchiSplatoon2.Items.SlosherDeco.Flavor
 		DisplayName: Slosher Deco
 		Tooltip: ""
 	}
 
 	Inkbrush: {
-		UsageHint: Decreases mobility while attacking, but drastically improves it when not
+		UsageHint: "{$Hint.Inkbrush}"
 		Flavor: I can brush the base all by myself!
 		DisplayName: Inkbrush
 		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	InkbrushNouveau: {
-		UsageHint: Mods.AchiSplatoon2.Items.InkbrushNouveau.UsageHint
+		UsageHint: "{$Hint.Inkbrush}"
 		Flavor: Mods.AchiSplatoon2.Items.InkbrushNouveau.Flavor
 		DisplayName: Inkbrush Nouveau
 		Tooltip: "{$ArmorPierce.Display}"
@@ -450,23 +463,44 @@ Items: {
 	}
 
 	Octobrush: {
-		UsageHint: Mods.AchiSplatoon2.Items.Octobrush.UsageHint
+		UsageHint: "{$Hint.Octobrush}"
 		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
 		DisplayName: Octobrush
 		Tooltip: ""
 	}
 
 	OctobrushNouveau: {
-		UsageHint: Mods.AchiSplatoon2.Items.OctobrushNouveau.UsageHint
+		UsageHint: "{$Hint.Octobrush}"
 		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
 		DisplayName: Octobrush Nouveau
 		Tooltip: ""
 	}
 
 	ZFSplatCharger: {
-		UsageHint: Mods.AchiSplatoon2.Items.ZFSplatCharger.UsageHint
+		UsageHint: "{$Hint.SplatCharger}"
 		Flavor: Mods.AchiSplatoon2.Items.ZFSplatCharger.Flavor
 		DisplayName: Z+F Splat Charger
+		Tooltip: ""
+	}
+
+	OrderStringer: {
+		UsageHint: "{$Hint.Reeflux}"
+		Flavor: Humble beginnings
+		DisplayName: Order Stringer
+		Tooltip: ""
+	}
+
+	OrderBrush: {
+		UsageHint: Decreases mobility while attacking
+		Flavor: Humble beginnings
+		DisplayName: Order Brush
+		Tooltip: ""
+	}
+
+	OrderCharger: {
+		UsageHint: "{$Hint.SplatCharger}"
+		Flavor: Humble beginnings
+		DisplayName: Order Charger
 		Tooltip: ""
 	}
 }

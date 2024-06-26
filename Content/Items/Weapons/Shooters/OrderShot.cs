@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 shotVelocity: 9f);
 
             Item.damage = 8;
-            Item.knockBack = 0.5f;
+            Item.knockBack = 0.8f;
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
         }
