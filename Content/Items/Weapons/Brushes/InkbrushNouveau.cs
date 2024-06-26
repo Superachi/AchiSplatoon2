@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 28;
+            Item.damage = 24;
             Item.knockBack = 4;
 
             Item.value = Item.buyPrice(gold: 10);
