@@ -60,18 +60,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (!hasExploded)
             {
-                Vector2 position = Projectile.Center - Main.screenPosition;
-                Texture2D texture = TextureAssets.Projectile[Type].Value;
-                Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
-                Vector2 origin = sourceRectangle.Size() / 2f;
-
-                // The light value in the world
-                var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
-
-                // Keep the ink color (glowColor), but reduce its brightness if the environment is dark
-                var finalColor = new Color(glowColor.R * lightInWorld.R / 255, glowColor.G * lightInWorld.G / 255, glowColor.B * lightInWorld.G / 255);
-
-                Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, Projectile.rotation, origin, drawScale, new SpriteEffects(), 0f);
+                DrawProjectile(lightColor, Projectile.rotation, drawScale);
                 return false;
             }
             return true;

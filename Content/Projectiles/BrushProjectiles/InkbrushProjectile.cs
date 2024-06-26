@@ -119,18 +119,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 position = Projectile.Center - Main.screenPosition;
-            Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
-            Vector2 origin = sourceRectangle.Size() / 2f;
-
-            // The light value in the world
-            var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
-
-            // Keep the ink color (glowColor), but reduce its brightness if the environment is dark
-            var finalColor = new Color(bulletColor.R * lightInWorld.R / 255, bulletColor.G * lightInWorld.G / 255, bulletColor.B * lightInWorld.G / 255);
-
-            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, drawRotation, origin, drawScale, new SpriteEffects(), 0f);
+            DrawProjectile(lightColor, drawRotation, drawScale);
             return false;
         }
     }

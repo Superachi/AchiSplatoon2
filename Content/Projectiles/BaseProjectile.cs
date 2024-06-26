@@ -3,11 +3,13 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Bson;
 using ReLogic.Utilities;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -313,5 +315,21 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
         #endregion
+
+        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f)
+        {
+            Vector2 position = Projectile.Center - Main.screenPosition;
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+            Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
+            Vector2 origin = sourceRectangle.Size() / 2f;
+
+            // The light value in the world
+            var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
+
+            // Keep the ink color (glowColor), but reduce its brightness if the environment is dark
+            var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
+
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, rotation, origin, scale, new SpriteEffects(), 0f);
+        }
     }
 }
