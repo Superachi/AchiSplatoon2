@@ -10,14 +10,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Splattershot : BaseSplattershot
     {
+        public override float ShotGravity { get => 0.4f; }
+        public override int ShotGravityDelay => 20;
+        public override int ShotExtraUpdates { get => 4; }
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
-                ammoID: AmmoID.None,
-                singleShotTime: 8,
-                shotVelocity: 9f);
 
             Item.damage = 14;
             Item.width = 42;

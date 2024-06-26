@@ -8,11 +8,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplooshOMatic : BaseSplattershot
     {
+
         public override string ShootSample => "SplatlingShoot";
         public override float MuzzleOffsetPx { get; set; } = 62f;
         public override Vector2? HoldoutOffset() { return new Vector2(-10, 0); }
-        public override float ShotGravity => 0.03f;
-        public override float AimDeviation { get => 8f; }
+        public override float ShotGravity { get => 0.5f; }
+        public override int ShotGravityDelay => 4;
+        public override int ShotExtraUpdates { get => 4; }
+        public override float AimDeviation { get => 10f; }
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -20,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
                 ammoID: AmmoID.None,
                 singleShotTime: 5,
-                shotVelocity: 5f);
+                shotVelocity: 4f);
 
             Item.damage = 26;
             Item.width = 60;

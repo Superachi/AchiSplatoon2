@@ -15,12 +15,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
-                ammoID: AmmoID.None,
-                singleShotTime: 10,
-                shotVelocity: 9f);
 
+            Item.useTime = 9;
+            Item.useAnimation = Item.useTime;
             Item.damage = 8;
             Item.knockBack = 0.8f;
             Item.value = Item.buyPrice(silver: 10);

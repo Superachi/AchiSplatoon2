@@ -7,7 +7,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplashOMatic : SplooshOMatic
     {
-        public override float ShotGravity => 0.02f;
+        public override float ShotGravity { get => 0.4f; }
+        public override int ShotGravityDelay => 10;
+        public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 0f; }
         public override void SetDefaults()
         {
@@ -16,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
                 ammoID: AmmoID.None,
                 singleShotTime: 5,
-                shotVelocity: 9f);
+                shotVelocity: 6f);
 
             Item.damage = 18;
             Item.width = 60;

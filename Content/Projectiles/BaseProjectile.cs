@@ -185,9 +185,14 @@ namespace AchiSplatoon2.Content.Projectiles
             modPlayer.AddSpecialPointsForDamage(increment);
         }
 
-        protected int FrameSpeed()
+        protected int FrameSpeed(int frames = 1)
         {
-            return 1 + Projectile.extraUpdates;
+            return frames + Projectile.extraUpdates;
+        }
+
+        protected float FrameSpeedDivide(float input)
+        {
+            return input / (1 + Projectile.extraUpdates);
         }
 
         public Color GenerateInkColor()

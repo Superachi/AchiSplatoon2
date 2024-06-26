@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             base.SetDefaults();
             Item.DefaultToRangedWeapon(ModContent.ProjectileType<SplatChargerProjectile>(), AmmoID.None, 15, 12f);
-            Item.damage = 360;
+            Item.damage = 300;
             Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
