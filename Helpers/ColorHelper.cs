@@ -11,6 +11,7 @@ namespace AchiSplatoon2.Helpers
         Purple,
         Green,
         Aqua,
+        Order,
     }
 
     internal static class ColorHelper
@@ -61,8 +62,11 @@ namespace AchiSplatoon2.Helpers
                     finalColor = new Color(0, 255, 238);
                     break;
                 case InkColor.Red:
-                default:
                     finalColor = new Color(255, 41, 0);
+                    break;
+                case InkColor.Order:
+                default:
+                    finalColor = new Color(228, 203, 178);
                     break;
             }
             return finalColor;

@@ -26,8 +26,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected string shootAltSample = "SplattershotShoot";
 
         // Colors
-        private InkColor primaryColor = InkColor.Red;
-        private InkColor secondaryColor = InkColor.Red;
+        private InkColor primaryColor = InkColor.Order;
+        private InkColor secondaryColor = InkColor.Order;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
@@ -331,7 +331,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         #endregion
 
-        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f)
+        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
         {
             Vector2 position = Projectile.Center - Main.screenPosition;
             Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -341,8 +341,11 @@ namespace AchiSplatoon2.Content.Projectiles
             // The light value in the world
             var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
 
-            // Keep the ink color (glowColor), but reduce its brightness if the environment is dark
-            var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
+            var finalColor = new Color(inkColor.R, inkColor.G, inkColor.B);
+            if (considerWorldLight)
+            {
+                finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
+            }
 
             Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, rotation, origin, scale, new SpriteEffects(), 0f);
         }
