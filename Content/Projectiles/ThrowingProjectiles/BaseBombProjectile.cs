@@ -10,6 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class BaseBombProjectile : BaseProjectile
     {
+        protected override bool FallThroughPlatforms => false;
         protected override bool EnablePierceDamageFalloff { get => false; }
         protected bool hasExploded = false;
         protected int explosionRadius;

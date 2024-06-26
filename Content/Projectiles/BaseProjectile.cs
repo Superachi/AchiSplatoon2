@@ -18,6 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BaseProjectile : ModProjectile
     {
         protected BaseWeapon weaponSource;
+        protected virtual bool FallThroughPlatforms => true;
 
         // Audio
         protected string shootSample = "SplattershotShoot";
@@ -150,6 +151,12 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.velocity = angleVec * projSpeed;
                 }
             }
+        }
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            fallThrough = FallThroughPlatforms;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

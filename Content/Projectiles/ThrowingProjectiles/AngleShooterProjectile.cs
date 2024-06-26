@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class AngleShooterProjectile : BaseProjectile
     {
+        protected override bool FallThroughPlatforms => true;
+
         private float previousVelocityX;
         private float previousVelocityY;
         private int maxBounces;

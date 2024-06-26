@@ -6,7 +6,9 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class BurstBombProjectile : BaseBombProjectile
     {
-        private float indirectHitDamageFalloff = 0.5f;
+        protected override bool FallThroughPlatforms => true;
+
+        private float indirectHitDamageFalloff = 0.6f;
         public override void SetDefaults()
         {
             Projectile.width = 14;
