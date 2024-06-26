@@ -119,7 +119,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(lightColor, drawRotation, drawScale);
+            DrawProjectile(bulletColor, drawRotation, drawScale);
             return false;
         }
     }
