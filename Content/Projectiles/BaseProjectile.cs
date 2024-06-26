@@ -230,7 +230,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Change player direction depending on what direction the charger is held when charging
             var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
-
+            
             if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
             {
                 owner.direction = 1;
@@ -239,7 +239,15 @@ namespace AchiSplatoon2.Content.Projectiles
             else
             {
                 owner.direction = -1;
-                owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees + 180) % 360);
+                var sign = Math.Sign(mouseDirDegrees);
+                if (sign > 0)
+                {
+                    owner.itemRotation = MathHelper.ToRadians((mouseDirDegrees - 180));
+                }
+                else
+                {
+                    owner.itemRotation = MathHelper.ToRadians(mouseDirDegrees + 180);
+                }
             }
 
             if (offset != null)
