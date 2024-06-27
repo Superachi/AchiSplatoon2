@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Dusts
     {
         public virtual Vector2 RotationSpeedRange { get; set; } = new Vector2(-0.05f, 0.05f);
         private float RotationSpeed = 0f;
-        public virtual float ScaleSpeed { get; set; } = -0.05f;
+        public virtual float ScaleSpeed { get; set; } = -0.1f;
         public virtual float Friction { get; set; } = 0.2f;
         public override void OnSpawn(Dust dust)
         {
