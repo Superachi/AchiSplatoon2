@@ -13,6 +13,8 @@ using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Players;
 using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
+using Microsoft.Xna.Framework;
+using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.GlobalNPCs
 {
@@ -33,11 +35,30 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chipCount = modPlayer.ColorChipAmounts[(int)ChipColor.Green];
 
                 if (chipCount <= 0) { return; }
+                if (npc.friendly) { return; }
+                if (Main.npcCatchable[npc.type]) { return; }
+
                 float chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
+                chanceModifier = Math.Max(1f, chanceModifier);
 
                 if (Main.rand.NextBool((int)(200f * chanceModifier)))
                 {
+                    // Display feedback if a canned special container drops
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
+
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Dust dust;
+                        Vector2 position = npc.Center;
+                        Vector2 velocity = Main.rand.NextVector2Circular(15, 15);
+                        dust = Main.dust[
+                            Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, modPlayer.ColorFromChips, Main.rand.NextFloat(0.5f, 1.5f))
+                            ];
+                        dust.noGravity = true;
+                        dust.fadeIn = 1.5f;
+                    }
+
+                    SoundHelper.PlayAudio("ItemGet", volume: 0.6f, maxInstances: 1, position: npc.position);
                 }
 
                 if (Main.rand.NextBool((int)(50f * chanceModifier)))
