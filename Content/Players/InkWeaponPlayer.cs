@@ -107,6 +107,24 @@ namespace AchiSplatoon2.Content.Players
                     dustInst.fadeIn = 1.05f;
                 }
 
+                if (Main.rand.NextBool(10))
+                {
+                    dustId = Dust.NewDust(Position: pos,
+                        Width: w,
+                        Height: h,
+                        Type: DustID.ShadowbeamStaff,
+                        SpeedX: 0f,
+                        SpeedY: 0f,
+                        newColor: new Color(255, 255, 255),
+                        Scale: Main.rand.NextFloat(1f, 2f));
+
+                    dustInst = Main.dust[dustId];
+                    dustInst.noLight = true;
+                    dustInst.noLightEmittence = true;
+                    dustInst.noGravity = true;
+                    dustInst.fadeIn = 0f;
+                }
+
                 if (Main.rand.NextBool(4))
                 {
                     h = 20;
