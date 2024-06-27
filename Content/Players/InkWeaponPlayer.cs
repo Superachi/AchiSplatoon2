@@ -1,10 +1,13 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Brushes;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
@@ -18,7 +21,7 @@ namespace AchiSplatoon2.Content.Players
         // Color chip
         public int[] ColorChipAmounts;
         public int ColorChipTotal;
-        public Color ColorFromChips;
+        public Color ColorFromChips = ColorHelper.GetInkColor(InkColor.Order);
 
         // Special gauge
         public float SpecialPoints;
@@ -71,11 +74,56 @@ namespace AchiSplatoon2.Content.Players
             Player player = Main.LocalPlayer;
             if (player.HeldItem.ModItem is Inkbrush && player.ItemTimeIsZero)
             {
-                player.maxRunSpeed *= 1.5f;
+                player.maxRunSpeed *= 1.1f;
                 player.runAcceleration *= 5f;
             } else if (player.HeldItem.ModItem is Octobrush && player.ItemTimeIsZero)
             {
                 player.runAcceleration *= 3f;
+            }
+
+            // Emit dusts when special is ready
+            if (SpecialReady)
+            {
+                var w = 40;
+                var h = 60;
+                var pos = Player.position - new Vector2(w / 2, 0);
+                int dustId;
+                Dust dustInst;
+
+                if (Main.rand.NextBool(2))
+                {
+                    dustId = Dust.NewDust(Position: pos,
+                        Width: w,
+                        Height: h,
+                        Type: DustID.AncientLight,
+                        SpeedX: 0f,
+                        SpeedY: -2.5f,
+                        newColor: ColorFromChips,
+                        Scale: Main.rand.NextFloat(1f, 2f));
+
+                    dustInst = Main.dust[dustId];
+                    dustInst.noGravity = true;
+                    dustInst.fadeIn = 1.05f;
+                }
+
+                if (Main.rand.NextBool(4))
+                {
+                    h = 20;
+                    pos = Player.position - new Vector2(w / 2, h);
+                    dustId = Dust.NewDust(Position: pos,
+                    Width: w,
+                    Height: h,
+                    Type: ModContent.DustType<SplatterBulletDust>(),
+                    SpeedX: Main.rand.NextFloat(-2f, 2f),
+                    SpeedY: -5f,
+                    Alpha: 40,
+                    newColor: ColorFromChips,
+                    Scale: 2f);
+
+                    dustInst = Main.dust[dustId];
+                    dustInst.noGravity = true;
+                    dustInst.fadeIn = 1.35f;
+                }
             }
 
             AddSpecialPointsOnMovement();
