@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
     {
         public override Vector2? HoldoutOffset() { return new Vector2(20, 40); }
         public override bool IsSpecialWeapon => true;
-        public override float SpecialDrainPerTick => 0.12f;
+        public override float SpecialDrainPerTick => 0.15f;
         public override void SetDefaults()
         {
             base.SetDefaults();

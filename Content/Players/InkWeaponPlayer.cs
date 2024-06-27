@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
@@ -124,6 +125,12 @@ namespace AchiSplatoon2.Content.Players
                     dustInst.noGravity = true;
                     dustInst.fadeIn = 1.35f;
                 }
+            } else
+            {
+                if (player.HasBuff<SpecialReadyBuff>())
+                {
+                    player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
+                }
             }
 
             AddSpecialPointsOnMovement();
@@ -202,6 +209,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
             {
+                player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
                 CombatTextHelper.DisplayText("SPECIAL CHARGED!", player.Center, color: new Color(255, 155, 0));
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
@@ -266,7 +274,7 @@ namespace AchiSplatoon2.Content.Players
             ResetSpecialStats();
         }
 
-        private void ResetSpecialStats() {
+        public void ResetSpecialStats() {
             IsSpecialActive = false;
             SpecialPoints = 0;
             SpecialDrain = 0;

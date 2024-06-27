@@ -554,6 +554,11 @@ Buffs: {
 		DisplayName: Can't stop, won't stop
 		Description: "{0}% enemy damage reduction while swinging the Ultra Stamp"
 	}
+
+	SpecialReadyBuff: {
+		DisplayName: Special charged!
+		Description: If you have a special-type weapon, you can now use it!
+	}
 }
 
 NPCs.BrellaShield.DisplayName: Brella Shield
