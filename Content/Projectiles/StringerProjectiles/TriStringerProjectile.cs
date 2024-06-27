@@ -157,7 +157,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 Explode();
             }
-            base.OnHitNPC(target, hit, damageDone);
         }
     }
 }

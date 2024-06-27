@@ -1,10 +1,13 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -27,6 +30,9 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float explosionDelayInit;
 
         protected int damageBeforePiercing;
+        private bool hasHadDirectHit = false;
+        private bool hasExploded = false;
+        private float directDamageModifier = 1f;
 
         public override void SetDefaults()
         {
@@ -87,6 +93,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void ExplodeBig()
         {
+            hasExploded = true;
             Projectile.penetrate = -1;
             Projectile.damage = damageBeforePiercing;
 
@@ -96,6 +103,10 @@ namespace AchiSplatoon2.Content.Projectiles
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
             {
+                if (!hasHadDirectHit)
+                {
+                    Projectile.damage /= 2;
+                }
                 Projectile.tileCollide = false;
                 Projectile.Resize(finalExplosionRadiusAir, finalExplosionRadiusAir);
                 Projectile.velocity = Vector2.Zero;
@@ -107,6 +118,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void ExplodeSmall()
         {
+            hasExploded = true;
             Projectile.penetrate = -1;
             Projectile.damage = damageBeforePiercing;
 
@@ -126,13 +138,13 @@ namespace AchiSplatoon2.Content.Projectiles
             EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: finalExplosionRadiusTile);
         }
 
-        private void AdvanceState()
+        protected override void AdvanceState()
         {
             state++;
             Projectile.ai[0] = 0;
         }
 
-        private void SetState(int stateId)
+        protected override void SetState(int stateId)
         {
             state = stateId;
             Projectile.ai[0] = 0;
@@ -155,11 +167,6 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                     break;
                 case 1:
-                    if (Projectile.ai[0] >= explosionTime)
-                    {
-                        Projectile.Kill();
-                    }
-                    break;
                 case 2:
                     if (Projectile.ai[0] >= explosionTime)
                     {
@@ -173,14 +180,26 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            if (!hasExploded && !hasHadDirectHit)
+            {
+                hasHadDirectHit = true;
+                DirectHitDustBurst(target.Center);
+            }
+
+            Projectile.damage = (int)(Projectile.damage * directDamageModifier);
+
             if (state == 0 && Projectile.penetrate <= 1)
             {
                 ExplodeBig();
                 AdvanceState();
             }
-
-            base.OnHitNPC(target, hit, damageDone);
         }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (state == 0)

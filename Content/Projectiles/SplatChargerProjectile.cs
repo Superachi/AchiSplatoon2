@@ -12,6 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class SplatChargerProjectile : BaseChargeProjectile
     {
         private const int timeLeftAfterFiring = 120;
+        private bool firstHit = false;
 
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
         protected virtual int MaxPenetrate { get => 10; }
@@ -117,6 +118,15 @@ namespace AchiSplatoon2.Content.Projectiles
                 float velX = ((Projectile.velocity.X + random) * -0.5f);
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (!firstHit && IsChargeMaxedOut())
+            {
+                firstHit = true;
+                DirectHitDustBurst(target.Center);
             }
         }
     }

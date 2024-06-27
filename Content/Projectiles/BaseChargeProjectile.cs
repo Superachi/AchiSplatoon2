@@ -39,6 +39,11 @@ namespace AchiSplatoon2.Content.Projectiles
             PlayAudio(soundPath: "ChargeStart");
         }
 
+        protected bool IsChargeMaxedOut()
+        {
+            return (chargeLevel >= chargeTimeThresholds.Length);
+        }
+
         protected virtual void IncrementChargeTime()
         {
             ChargeTime += 1f * chargeSpeedModifier;

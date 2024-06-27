@@ -354,5 +354,55 @@ namespace AchiSplatoon2.Content.Projectiles
 
             Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, rotation, origin, scale, new SpriteEffects(), 0f);
         }
+
+        protected void DirectHitDustBurst(Vector2? position = null)
+        {
+            if (position == null)
+            {
+                position = Projectile.Center;
+            }
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                void spawnDust(Vector2 velocity, float scale, Color? newColor = null)
+                {
+                    Color color;
+                    if (newColor == null)
+                    {
+                        color = new Color(255, 255, 255);
+                    }
+                    else
+                    {
+                        color = ColorHelper.LerpBetweenColors((Color)newColor, new Color(255, 255, 255), 0.8f);
+                    }
+
+                    var dust = Dust.NewDustPerfect((Vector2)position, 306,
+                        velocity,
+                        0, color, scale);
+                    dust.noGravity = true;
+                    dust.fadeIn = 1f;
+                    dust.noLight = true;
+                    dust.noLightEmittence = true;
+                    dust.rotation = Main.rand.NextFloatDirection();
+                }
+
+                PlayAudio("DirectHit", pitchVariance: 0.1f);
+
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                Color inkColor = modPlayer.ColorFromChips;
+
+                for (int i = 0; i < 10; i++)
+                {
+                    float hspeed = i * 1.5f;
+                    float vspeed = i / 1.5f;
+                    float scale = 2 - (i / 10) * 2;
+                    spawnDust(new Vector2(hspeed, 0), scale, inkColor);
+                    spawnDust(new Vector2(-hspeed, 0), scale, inkColor);
+                    spawnDust(new Vector2(0, vspeed), scale, inkColor);
+                    spawnDust(new Vector2(0, -vspeed), scale, inkColor);
+                    spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
+                }
+            }
+        }
     }
 }
