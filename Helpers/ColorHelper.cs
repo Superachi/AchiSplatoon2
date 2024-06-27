@@ -16,30 +16,21 @@ namespace AchiSplatoon2.Helpers
 
     internal static class ColorHelper
     {
-        public static InkColor GetRandomInkColor()
+        public static InkColor GetRandomInkColor() => (InkColor)Main.rand.Next(0, 6);
+
+        private static string TextWithColor(string input, string rgb)
         {
-            return (InkColor)Main.rand.Next(0, 6);
+            return $"[c/{rgb}:{input}]";
         }
 
-        public static string TextWithNeutralColor(string input)
-        {
-            return $"[c/ffffff:{input}]";
-        }
-
-        public static string TextWithFlavorColor(string input)
-        {
-            return $"[c/64aaff:{input}]";
-        }
-
-        public static string TextWithFlavorColorAndQuotes(string input)
-        {
-            return $"[c/64aaff:\"{input}\"]";
-        }
-
-        public static string TextWithFunctionalColor(string input)
-        {
-            return $"[c/ff8e2c:{input}]";
-        }
+        public static string TextWithNeutralColor(string input) => TextWithColor(input, "ffffff");
+        public static string TextWithFlavorColor(string input) => TextWithColor(input, "a69e9a");
+        public static string TextWithFlavorColorAndQuotes(string input) => TextWithColor($"\"{input}\"", "a69e9a");
+        public static string TextWithFunctionalColor(string input) => TextWithColor(input, "ff8e2c");
+        public static string TextWithMainWeaponColor(string input) => TextWithColor(input, "f23b55");
+        public static string TextWithSubWeaponColor(string input) => TextWithColor(input, "3479de");
+        public static string TextWithSpecialWeaponColor(string input) => TextWithColor(input, "7d45ff");
+        public static string TextWithBonusColor(string input) => TextWithColor(input, "63a864");
 
         public static Color GetInkColor(InkColor enumVal)
         {
