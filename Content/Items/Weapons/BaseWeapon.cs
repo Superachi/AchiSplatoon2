@@ -1,6 +1,7 @@
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using Humanizer;
@@ -82,6 +83,16 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             BonusSub = WeaponKitList.GetWeaponKitSubType(this.GetType());
             BonusType = WeaponKitList.GetWeaponKitSubBonusType(this.GetType());
+        }
+
+        public void RangedWeaponDefaults(int projectileType, int singleShotTime, float shotVelocity)
+        {
+            Item.DefaultToRangedWeapon(
+                baseProjType: projectileType,
+                ammoID: AmmoID.None,
+                singleShotTime: singleShotTime,
+                shotVelocity: shotVelocity,
+                hasAutoReuse: true);
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
