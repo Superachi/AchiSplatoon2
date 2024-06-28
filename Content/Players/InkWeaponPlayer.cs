@@ -5,16 +5,21 @@ using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using Terraria;
+using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static System.Reflection.MethodBase;
 
 namespace AchiSplatoon2.Content.Players
 {
     internal class InkWeaponPlayer : ModPlayer
     {
+        public int playerID;
         public bool isPaletteEquipped;
         public int paletteCapacity;
         public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
@@ -68,6 +73,29 @@ namespace AchiSplatoon2.Content.Players
             Purple,
             Green,
             Aqua,
+        }
+
+        public override void OnEnterWorld()
+        {
+            var player = Main.LocalPlayer;
+            playerID = player.whoAmI;
+        }
+
+        public override void PlayerConnect()
+        {
+
+            if (NetHelper.IsThisTheServer())
+            {
+                Player player = Main.player.Last();
+                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                string message = $"SERVER: ({GetCurrentMethod().Name}) Player {player.name} just joined! Their ID is {modPlayer.playerID}";
+                NetHelper.BroadcastAndLogMessage(message, Mod.Logger);
+            } else
+            {
+                Player player = Main.LocalPlayer;
+                string message = $"CLIENT: ({GetCurrentMethod().Name}) Hello from {player.name}! My ID is {playerID}";
+                NetHelper.BroadcastAndLogMessage(message, Mod.Logger);
+            }
         }
 
         public override void PreUpdate()
