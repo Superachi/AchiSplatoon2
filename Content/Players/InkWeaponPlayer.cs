@@ -78,21 +78,6 @@ namespace AchiSplatoon2.Content.Players
             playerID = player.whoAmI;
         }
 
-        #region NETCODE
-
-        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
-        {
-            base.SyncPlayer(toWho, fromWho, newPlayer);
-        }
-
-        // See also this snippet in ExampleMod: https://github.com/tModLoader/tModLoader/blob/110721b34970b0ef3776307273db550fc3947670/ExampleMod/Old/ExamplePlayer.cs#L98
-        //public override void CopyClientState(ModPlayer clientClone)
-        //{
-        //    InkWeaponPlayer clone = clientClone as InkWeaponPlayer;
-        //    clone.SpecialReady = SpecialReady;
-        //}
-        #endregion
-
         public override void PreUpdate()
         {
             Player player = Main.LocalPlayer;
@@ -254,6 +239,8 @@ namespace AchiSplatoon2.Content.Players
                 CombatTextHelper.DisplayText("SPECIAL CHARGED!", player.Center, color: new Color(255, 155, 0));
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
+
+                NetHelper.SendPlayerIsSpecialReady(player.whoAmI, true);
             }
         }
 
@@ -321,6 +308,18 @@ namespace AchiSplatoon2.Content.Players
             SpecialDrain = 0;
             SpecialReady = false;
             SpecialName = null;
+
+            // Worth noting that, due to how special drain is applied every update + every time the special is used,
+            // This packet may get sent twice
+            // Haven't been able to fix it yet (TODO)
+            NetHelper.SendPlayerIsSpecialReady(Main.LocalPlayer.whoAmI, false);
         }
+
+        // See also this snippet in ExampleMod: https://github.com/tModLoader/tModLoader/blob/110721b34970b0ef3776307273db550fc3947670/ExampleMod/Old/ExamplePlayer.cs#L98
+        //public override void CopyClientState(ModPlayer clientClone)
+        //{
+        //    InkWeaponPlayer clone = clientClone as InkWeaponPlayer;
+        //    clone.SpecialReady = SpecialReady;
+        //}
     }
 }

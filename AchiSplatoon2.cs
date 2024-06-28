@@ -1,5 +1,6 @@
 using AchiSplatoon2.Helpers;
 using System;
+using System.Diagnostics;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -12,22 +13,29 @@ namespace AchiSplatoon2
     {
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            Logger.Info($"({DateTime.Now}) Packet incoming...");
-
             byte msgType = reader.ReadByte();
+
+            if (IsThisAClient() && EnableNetDebug)
+            {
+                Main.NewText($"({DateTime.Now}) Packet of type ({msgType}), from user ({whoAmI}) incoming...");
+                Logger.Info($"({DateTime.Now}) Packet of type ({msgType}), from user ({whoAmI}) incoming...");
+            }
+
             switch (msgType)
             {
-                case 0:
+                case (int)PacketType.TestRequest:
                     ReceiveRequestTestPacket(reader, whoAmI);
                     Logger.Info($"Received test request packet");
                     break;
-                case 1:
+                case (int)PacketType.TestResponse:
                     ReceiveResponseTestPacket(reader, whoAmI);
                     Logger.Info($"Received test response packet");
                     break;
-                case 2:
+                case (int)PacketType.PublicMessage:
                     string message = ReceiveMessage(reader, whoAmI);
-                    Logger.Info(message);
+                    break;
+                case (int)PacketType.SpecialReadyDust:
+                    ReceivePlayerIsSpecialReady(reader, whoAmI);
                     break;
                 default:
                     Logger.WarnFormat("MyMod: Unknown Message type: {0}", msgType);

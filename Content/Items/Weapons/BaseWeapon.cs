@@ -183,7 +183,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (!NetHelper.DoesMethodCallerMatchLocalPlayer(player)) return true;
+
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
             if (!modPlayer.SpecialReady
                 || (modPlayer.IsSpecialActive && IsDurationSpecial)
@@ -199,11 +201,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            if (player.whoAmI != Main.myPlayer) return false;
+            if (!NetHelper.DoesMethodCallerMatchLocalPlayer(player)) return false;
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 
-            NetHelper.SendPublicMessage(player.whoAmI, "Threw a bomb!");
             bool doneSearching = false;
 
             Type[] subWeaponType = {

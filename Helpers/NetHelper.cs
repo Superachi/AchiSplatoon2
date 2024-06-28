@@ -8,11 +8,21 @@ using Terraria.ModLoader;
 using System.IO;
 using NVorbis.Contracts;
 using System;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Helpers
 {
+    enum PacketType
+    {
+        TestRequest,
+        TestResponse,
+        PublicMessage,
+        SpecialReadyDust,
+    }
+
     internal static class NetHelper
     {
+        public const bool EnableNetDebug = true;
         public static bool IsThisTheServer()
         {
             return Main.netMode == NetmodeID.Server;
@@ -23,29 +33,65 @@ namespace AchiSplatoon2.Helpers
             return Main.netMode == NetmodeID.MultiplayerClient;
         }
 
-        private static ModPacket GetNewPacket()
+        public static ModPacket GetNewPacket()
         {
             return ModContent.GetInstance<AchiSplatoon2>().GetPacket();
         }
 
-        private static void WritePacketID(ModPacket packet, int id)
+        public static void WritePacketID(ModPacket packet, int id)
         {
             packet.Write((byte)id);
         }
 
-        private static void WritePacketIsFromServer(ModPacket packet)
+        public static void WritePacketIsFromServer(ModPacket packet)
         {
             packet.Write(IsThisTheServer());
         }
 
-        private static void WritePacketFromWhoID(ModPacket packet, int fromWho)
+        public static void WritePacketFromWhoID(ModPacket packet, int fromWho)
         {
             packet.Write(fromWho);
         }
 
-        private static void WritePacketMessage(ModPacket packet, string message)
+        public static void WritePacketMessage(ModPacket packet, string message)
         {
             packet.Write(message);
+        }
+
+        public static void SendPacket(ModPacket packet, int toClient = -1, int ignoreClient = -1)
+        {
+            if (EnableNetDebug && IsThisAClient())
+            {
+                Main.NewText($"Sending packet. My ID is {Main.LocalPlayer.whoAmI}.");
+            }
+
+            packet.Send(toClient: toClient, ignoreClient: ignoreClient);
+        }
+
+        public static bool DoesMethodCallerMatchLocalPlayer(Player caller)
+        {
+            return caller.whoAmI == Main.LocalPlayer.whoAmI;
+        }
+
+        private static Player GetPlayerFromPacket(int fromWho)
+        {
+            return Main.player[fromWho];
+        }
+
+        private static string GetPlayerNameFromPacket(int fromWho)
+        {
+            return Main.player[fromWho].name;
+        }
+
+        private static string GetPlayerNameAndIDFromPacket(int fromWho)
+        {
+            return $"{Main.player[fromWho].name} (#{fromWho})";
+        }
+
+        private static InkWeaponPlayer GetModPlayerFromPacket(int fromWho)
+        {
+            Player p = GetPlayerFromPacket(fromWho);
+            return p.GetModPlayer<InkWeaponPlayer>();
         }
 
         #region Net code packet testing
@@ -163,5 +209,39 @@ namespace AchiSplatoon2.Helpers
         }
 
         #endregion
+
+        public static void SendPlayerIsSpecialReady(int fromWho, bool isSpecialReady)
+        {
+            // Prepare data
+            Player player = Main.LocalPlayer;
+            ModPacket packet = GetNewPacket();
+
+            // Write
+            WritePacketID(packet, (int)PacketType.SpecialReadyDust);
+            WritePacketFromWhoID(packet, fromWho);
+            packet.Write(isSpecialReady);
+
+            // Send
+            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
+        }
+
+        public static void ReceivePlayerIsSpecialReady(BinaryReader reader, int fromWho)
+        {
+            // Read data
+            fromWho = reader.ReadInt32();
+            bool isSpecialReady = reader.ReadBoolean();
+
+            // Respond
+            if (IsThisTheServer())
+            {
+                // Forward
+                SendPlayerIsSpecialReady(fromWho, isSpecialReady);
+            }
+            else
+            {
+                var modPlayer = GetModPlayerFromPacket(fromWho);
+                modPlayer.SpecialReady = isSpecialReady;
+            }
+        }
     }
 }
