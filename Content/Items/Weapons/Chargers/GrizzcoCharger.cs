@@ -16,9 +16,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             base.SetDefaults();
             Item.channel = false;   // It instantly charges, so as a QoL it can just automatically fire without channeling
 
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<GrizzcoChargerProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<GrizzcoChargerProjectile>(),
                 singleShotTime: 15,
                 shotVelocity: 2f);
 

@@ -23,9 +23,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 40,
                 shotVelocity: 10f);
 

@@ -12,11 +12,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<SlosherMainProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<SlosherMainProjectile>(),
                 singleShotTime: 30,
-                shotVelocity: 8f);
+                shotVelocity: 8f
+            );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
         }
     }

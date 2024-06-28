@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,9 +22,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 15,
                 shotVelocity: 4f);
 

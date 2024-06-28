@@ -16,10 +16,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<TriStringerCharge>(),
-                ammoID: AmmoID.None,
-                singleShotTime: 15,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<TriStringerCharge>(),
+                singleShotTime: 18,
                 shotVelocity: 0);
 
             Item.noMelee = true;

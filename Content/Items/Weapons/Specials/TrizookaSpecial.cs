@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.Localization;
@@ -22,11 +23,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<TrizookaShooter>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<TrizookaShooter>(),
                 singleShotTime: 50,
-                shotVelocity: 20f);
+                shotVelocity: 20f
+            );
 
             Item.damage = 150;
             Item.width = 90;

@@ -21,7 +21,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 12, 12f);
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BambooChargerProjectile>(),
+                singleShotTime: 12,
+                shotVelocity: 12f);
+
             Item.width = 74;
             Item.height = 24;
             Item.damage = 40;

@@ -17,11 +17,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<KillerWailShooter>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<KillerWailShooter>(),
                 singleShotTime: 30,
                 shotVelocity: -10f);
+
             Item.damage = 50;
             Item.knockBack = 1;
             Item.ArmorPenetration = ArmorPierce;
