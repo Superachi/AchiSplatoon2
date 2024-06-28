@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
@@ -240,7 +241,7 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
 
-                NetHelper.SendPlayerIsSpecialReady(player.whoAmI, true);
+                ModPlayerPacketHandler.SendPlayerIsSpecialReady(player.whoAmI, true);
             }
         }
 
@@ -312,14 +313,7 @@ namespace AchiSplatoon2.Content.Players
             // Worth noting that, due to how special drain is applied every update + every time the special is used,
             // This packet may get sent twice
             // Haven't been able to fix it yet (TODO)
-            NetHelper.SendPlayerIsSpecialReady(Main.LocalPlayer.whoAmI, false);
+            ModPlayerPacketHandler.SendPlayerIsSpecialReady(Main.LocalPlayer.whoAmI, false);
         }
-
-        // See also this snippet in ExampleMod: https://github.com/tModLoader/tModLoader/blob/110721b34970b0ef3776307273db550fc3947670/ExampleMod/Old/ExamplePlayer.cs#L98
-        //public override void CopyClientState(ModPlayer clientClone)
-        //{
-        //    InkWeaponPlayer clone = clientClone as InkWeaponPlayer;
-        //    clone.SpecialReady = SpecialReady;
-        //}
     }
 }
