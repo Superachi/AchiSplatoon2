@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkWeaponPlayer : ModPlayer
     {
-        public int playerID;
         public bool isPaletteEquipped;
         public int paletteCapacity;
         public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
@@ -71,12 +71,6 @@ namespace AchiSplatoon2.Content.Players
             Purple,
             Green,
             Aqua,
-        }
-
-        public override void OnEnterWorld()
-        {
-            var player = Main.LocalPlayer;
-            playerID = player.whoAmI;
         }
 
         public override void PreUpdate()
@@ -241,7 +235,7 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
 
-                ModPlayerPacketHandler.SendPlayerIsSpecialReady(player.whoAmI, true);
+                SyncModPlayerData();
             }
         }
 
@@ -313,7 +307,22 @@ namespace AchiSplatoon2.Content.Players
             // Worth noting that, due to how special drain is applied every update + every time the special is used,
             // This packet may get sent twice
             // Haven't been able to fix it yet (TODO)
-            ModPlayerPacketHandler.SendPlayerIsSpecialReady(Main.LocalPlayer.whoAmI, false);
+            SyncModPlayerData();
+        }
+
+        private void SyncModPlayerData()
+        {
+            var dto = new InkWeaponPlayerDTO(SpecialReady, ColorFromChips);
+            ModPlayerPacketHandler.SendSyncPlayer(Main.LocalPlayer.whoAmI, dto, Mod.Logger);
+        }
+
+        public void UpdateInkColor(Color newColor)
+        {
+            if (ColorFromChips != newColor)
+            {
+                ColorFromChips = newColor;
+                SyncModPlayerData();
+            }
         }
     }
 }

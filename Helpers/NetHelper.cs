@@ -57,17 +57,12 @@ namespace AchiSplatoon2.Helpers
 
         public static void SendPacket(ModPacket packet, int toClient = -1, int ignoreClient = -1)
         {
-            if (EnableNetDebug && IsThisAClient())
-            {
-                Main.NewText($"Sending packet. My ID is {Main.LocalPlayer.whoAmI}.");
-            }
-
             packet.Send(toClient: toClient, ignoreClient: ignoreClient);
         }
 
-        public static bool DoesMethodCallerMatchLocalPlayer(Player caller)
+        public static bool IsPlayerSameAsLocalPlayer(Player remotePlayer)
         {
-            return caller.whoAmI == Main.LocalPlayer.whoAmI;
+            return remotePlayer.whoAmI == Main.LocalPlayer.whoAmI;
         }
 
         public static Player GetPlayerFromPacket(int fromWho)

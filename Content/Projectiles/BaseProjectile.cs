@@ -135,7 +135,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
 
-                modPlayer.ColorFromChips = GenerateInkColor();
+                modPlayer.UpdateInkColor(GenerateInkColor());
 
                 if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
                 {

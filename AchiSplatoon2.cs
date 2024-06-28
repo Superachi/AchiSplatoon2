@@ -32,7 +32,7 @@ namespace AchiSplatoon2
                     new ModPlayerPacketHandler(reader, whoAmI, this.Logger).HandlePacket();
                     break;
                 default:
-                    Logger.WarnFormat("MyMod: Unknown Packet Handler type: {0}", handlerType);
+                    Logger.WarnFormat("Unknown Packet Handler type: {0}", handlerType);
                     break;
             }
         }

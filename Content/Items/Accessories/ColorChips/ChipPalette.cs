@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -34,6 +35,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
+
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             if (modPlayer.isPaletteEquipped)
             {

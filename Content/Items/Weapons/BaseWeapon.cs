@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
+using AchiSplatoon2.Netcode;
 using Humanizer;
 using Microsoft.Xna.Framework;
 using System;
@@ -183,7 +184,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            if (!NetHelper.DoesMethodCallerMatchLocalPlayer(player)) return true;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return true;
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
@@ -201,7 +202,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            if (!NetHelper.DoesMethodCallerMatchLocalPlayer(player)) return false;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 

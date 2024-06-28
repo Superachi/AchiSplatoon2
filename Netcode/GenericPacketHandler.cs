@@ -17,7 +17,6 @@ namespace AchiSplatoon2.Netcode
         TestRequest,
         TestResponse,
         PublicMessage,
-        SpecialReadyDust,
     }
 
     internal class GenericPacketHandler
@@ -51,7 +50,7 @@ namespace AchiSplatoon2.Netcode
                     string message = ReceiveMessage(_reader, _whoAmI);
                     break;
                 default:
-                    _logger.WarnFormat("MyMod: Unknown Message type: {0}", msgType);
+                    _logger.WarnFormat("Unknown Message type: {0}", msgType);
                     break;
             }
         }

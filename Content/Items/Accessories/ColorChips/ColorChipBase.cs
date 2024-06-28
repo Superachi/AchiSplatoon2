@@ -1,8 +1,11 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using log4net;
+using log4net.Repository.Hierarchy;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
@@ -27,6 +30,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         // Order of code -> reseteffects -> update inventory -> update accessory
         public override void UpdateInventory(Player player)
         {
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
 
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] += RedValue;

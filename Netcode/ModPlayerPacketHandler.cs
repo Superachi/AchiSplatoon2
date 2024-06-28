@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 using static AchiSplatoon2.Helpers.NetHelper;
+using log4net.Repository.Hierarchy;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 
 namespace AchiSplatoon2.Netcode
 {
     enum PlayerPacketType : byte
     {
         SpecialReady,
-        UpdateInkColor
+        UpdateInkColor,
+        SyncModPlayer,
     }
 
     internal class ModPlayerPacketHandler
@@ -34,51 +39,65 @@ namespace AchiSplatoon2.Netcode
         public void HandlePacket()
         {
             byte msgType = _reader.ReadByte();
+            _logger.Info($"Received '{msgType}' packet.");
 
             switch (msgType)
             {
-                case (int)PlayerPacketType.SpecialReady:
-                    ReceivePlayerIsSpecialReady(_reader, _whoAmI);
+                case (int)PlayerPacketType.SyncModPlayer:
+                    ReceiveSyncPlayer(_reader, _whoAmI, _logger);
                     break;
                 default:
-                    _logger.WarnFormat("MyMod: Unknown Message type: {0}", msgType);
+                    _logger.WarnFormat("Unknown Message type: {0}", msgType);
                     break;
             }
         }
 
-        public static void SendPlayerIsSpecialReady(int fromWho, bool isSpecialReady)
+        public static void SendSyncPlayer(int fromWho, InkWeaponPlayerDTO dto, ILog logger)
         {
             // Prepare data
             Player player = Main.LocalPlayer;
             ModPacket packet = GetNewPacket();
 
             // Write
+            // 'Headers'
             WritePacketHandlerType(packet, (int)PacketHandlerType.Player);
-            WritePacketType(packet, (int)PlayerPacketType.SpecialReady);
+            WritePacketType(packet, (int)PlayerPacketType.SyncModPlayer);
             WritePacketFromWhoID(packet, fromWho);
-            packet.Write(isSpecialReady);
+
+            // 'Payload'
+            packet.Write(dto.SpecialReady);
+            packet.WriteRGB(dto.InkColor);
+            logger.Info($"sPacket info: {dto.CreateDTOSummary()}");
 
             // Send
             SendPacket(packet, toClient: -1, ignoreClient: fromWho);
         }
 
-        public static void ReceivePlayerIsSpecialReady(BinaryReader reader, int fromWho)
+        public static void ReceiveSyncPlayer(BinaryReader reader, int fromWho, ILog logger)
         {
             // Read data
+            // 'Headers'
             fromWho = reader.ReadInt32();
-            bool isSpecialReady = reader.ReadBoolean();
+
+            // 'Payload'
+            bool specialReady = reader.ReadBoolean();
+            Color colorFromChips = reader.ReadRGB();
+            var dto = new InkWeaponPlayerDTO(specialReady, colorFromChips);
 
             // Respond
             if (IsThisTheServer())
             {
                 // Forward
-                SendPlayerIsSpecialReady(fromWho, isSpecialReady);
+                SendSyncPlayer(fromWho, dto, logger);
             }
             else
             {
                 var modPlayer = GetModPlayerFromPacket(fromWho);
-                modPlayer.SpecialReady = isSpecialReady;
+                modPlayer.SpecialReady = specialReady;
+                modPlayer.ColorFromChips = colorFromChips;
             }
+
+            logger.Info($"rPacket info: {dto.CreateDTOSummary()}");
         }
     }
 }
