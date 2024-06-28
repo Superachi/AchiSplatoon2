@@ -1,19 +1,16 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 using Terraria;
-using Terraria.Chat;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using static System.Reflection.MethodBase;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -81,22 +78,20 @@ namespace AchiSplatoon2.Content.Players
             playerID = player.whoAmI;
         }
 
-        public override void PlayerConnect()
-        {
+        #region NETCODE
 
-            if (NetHelper.IsThisTheServer())
-            {
-                Player player = Main.player.Last();
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
-                string message = $"SERVER: ({GetCurrentMethod().Name}) Player {player.name} just joined! Their ID is {modPlayer.playerID}";
-                NetHelper.BroadcastAndLogMessage(message, Mod.Logger);
-            } else
-            {
-                Player player = Main.LocalPlayer;
-                string message = $"CLIENT: ({GetCurrentMethod().Name}) Hello from {player.name}! My ID is {playerID}";
-                NetHelper.BroadcastAndLogMessage(message, Mod.Logger);
-            }
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            base.SyncPlayer(toWho, fromWho, newPlayer);
         }
+
+        // See also this snippet in ExampleMod: https://github.com/tModLoader/tModLoader/blob/110721b34970b0ef3776307273db550fc3947670/ExampleMod/Old/ExamplePlayer.cs#L98
+        //public override void CopyClientState(ModPlayer clientClone)
+        //{
+        //    InkWeaponPlayer clone = clientClone as InkWeaponPlayer;
+        //    clone.SpecialReady = SpecialReady;
+        //}
+        #endregion
 
         public override void PreUpdate()
         {

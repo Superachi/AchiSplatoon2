@@ -203,6 +203,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 
+            NetHelper.SendPublicMessage(player.whoAmI, "Threw a bomb!");
             bool doneSearching = false;
 
             Type[] subWeaponType = {
