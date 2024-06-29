@@ -18,8 +18,10 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     enum ProjNetUpdateType : byte
     {
+        None,
         Initialize,
         SyncMovement,
+        DustExplosion
     }
 
     internal class BaseProjectile : ModProjectile
@@ -50,6 +52,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // State machine
         protected int state = 0;
+
+        protected byte netUpdateType = 0;
 
         protected virtual void SetState(int targetState)
         {
@@ -156,25 +160,12 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity = angleVec * projSpeed;
             }
 
+            netUpdateType = 1;
             Projectile.netUpdate = true;
             if (NetHelper.IsPlayerSameAsLocalPlayer(owner))
             {
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
-        }
-
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write((byte)primaryColor);
-            writer.Write((byte)secondaryColor);
-            writer.Write((byte)Projectile.extraUpdates);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            primaryColor = (InkColor)reader.ReadByte();
-            secondaryColor = (InkColor)reader.ReadByte();
-            Projectile.extraUpdates = reader.ReadByte();
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -427,6 +418,57 @@ namespace AchiSplatoon2.Content.Projectiles
                     spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
                 }
             }
+        }
+
+        // Netcode
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(netUpdateType);
+
+            switch (netUpdateType)
+            {
+                case (byte)ProjNetUpdateType.Initialize:
+                    NetSendInitialize(writer);
+                    break;
+                case (byte)ProjNetUpdateType.DustExplosion:
+                    //
+                    break;
+            }
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            netUpdateType = reader.ReadByte();
+            Main.NewText(netUpdateType);
+
+            switch (netUpdateType)
+            {
+                case (byte)ProjNetUpdateType.Initialize:
+                    NetReceiveInitialize(reader);
+                    break;
+                case (byte)ProjNetUpdateType.DustExplosion:
+                    NetReceiveDustExplosion(reader);
+                    break;
+            }
+        }
+
+        protected virtual void NetSendInitialize(BinaryWriter writer)
+        {
+            writer.Write((byte)primaryColor);
+            writer.Write((byte)secondaryColor);
+            writer.Write((byte)Projectile.extraUpdates);
+        }
+
+        protected virtual void NetReceiveInitialize(BinaryReader reader)
+        {
+            primaryColor = (InkColor)reader.ReadByte();
+            secondaryColor = (InkColor)reader.ReadByte();
+            Projectile.extraUpdates = reader.ReadByte();
+        }
+
+        protected virtual void NetReceiveDustExplosion(BinaryReader reader)
+        {
+            Main.NewText("Kabuuum!");
         }
     }
 }

@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Netcode
         public void HandlePacket()
         {
             byte msgType = _reader.ReadByte();
-            _logger.Info($"Received '{msgType}' packet.");
+            _logger.Info($"Received '{(PlayerPacketType)msgType}' packet.");
 
             switch (msgType)
             {
