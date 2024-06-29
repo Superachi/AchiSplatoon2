@@ -190,7 +190,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
             if (!modPlayer.SpecialReady
                 || (modPlayer.IsSpecialActive && IsDurationSpecial)
-                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name))
+                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
+                || player.altFunctionUse == 2)
             {
                 player.itemTime = 30;
                 return false;
@@ -312,7 +313,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 return false;
             }
 
-            return true;
+            return false;
         }
 
         private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)
