@@ -48,33 +48,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             return input * Projectile.extraUpdates;
         }
 
-        private void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
-        {
-            float radiusMult = radiusModifier / 100;
-            amount = Convert.ToInt32(amount * radiusMult);
-
-            // Ink
-            for (int i = 0; i < amount; i++)
-            {
-                Color dustColor = GenerateInkColor();
-
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    0, dustColor, Main.rand.NextFloat(minScale, maxScale));
-                dust.velocity *= radiusMult;
-            }
-
-            // Firework
-            for (int i = 0; i < amount / 2; i++)
-            {
-                Color dustColor = GenerateInkColor();
-                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    0, dustColor);
-                dust.velocity *= radiusMult / 2;
-            }
-        }
-
         private void Explode()
         {
             hasExploded = true;

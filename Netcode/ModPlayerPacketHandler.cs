@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using static AchiSplatoon2.Helpers.NetHelper;
 using log4net.Repository.Hierarchy;
 using AchiSplatoon2.Netcode.DataTransferObjects;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Netcode
 {
@@ -54,6 +55,8 @@ namespace AchiSplatoon2.Netcode
 
         public static void SendSyncPlayer(int fromWho, InkWeaponPlayerDTO dto, ILog logger)
         {
+            if (IsSinglePlayer()) { return; }
+
             // Prepare data
             Player player = Main.LocalPlayer;
             ModPacket packet = GetNewPacket();
@@ -67,7 +70,6 @@ namespace AchiSplatoon2.Netcode
             // 'Payload'
             packet.Write(dto.SpecialReady);
             packet.WriteRGB(dto.InkColor);
-            logger.Info($"sPacket info: {dto.CreateDTOSummary()}");
 
             // Send
             SendPacket(packet, toClient: -1, ignoreClient: fromWho);
@@ -96,8 +98,6 @@ namespace AchiSplatoon2.Netcode
                 modPlayer.SpecialReady = specialReady;
                 modPlayer.ColorFromChips = colorFromChips;
             }
-
-            logger.Info($"rPacket info: {dto.CreateDTOSummary()}");
         }
     }
 }

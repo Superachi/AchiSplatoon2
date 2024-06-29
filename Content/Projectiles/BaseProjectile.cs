@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Bson;
 using ReLogic.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -15,6 +16,12 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
+    enum ProjNetUpdateType : byte
+    {
+        Initialize,
+        SyncMovement,
+    }
+
     internal class BaseProjectile : ModProjectile
     {
         protected BaseWeapon weaponSource;
@@ -60,13 +67,14 @@ namespace AchiSplatoon2.Content.Projectiles
         public void Initialize(bool ignoreAimDeviation = false)
         {
             // Check the highest color chip amounts, set the ink color to match the top 2
-            if (IsThisClientTheProjectileOwner())
-            {
-                // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
-                // This object is then referenced by child classes to get alter certain mechanics
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
+            // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
+            // This object is then referenced by child classes to get alter certain mechanics
+            var owner = Main.player[Projectile.owner];
+            var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+            weaponSource = owner.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
 
+            if (modPlayer.IsPaletteValid())
+            {
                 for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                 {
                     Projectile.usesLocalNPCImmunity = true;
@@ -74,8 +82,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     // Apply color chip buffs
                     // See also the calculations in InkWeaponPlayer.cs
-                    if (!modPlayer.IsPaletteValid()) return;
-
                     int value = modPlayer.ColorChipAmounts[i];
 
                     // Only consider the color if we have any chips for it
@@ -134,23 +140,41 @@ namespace AchiSplatoon2.Content.Projectiles
                         }
                     }
                 }
-
-                modPlayer.UpdateInkColor(GenerateInkColor());
-
-                if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
-                {
-                    var vel = Projectile.velocity;
-                    var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
-
-                    var dev = weaponSource.AimDeviation;
-                    float startRad = vel.ToRotation();
-                    float startDeg = MathHelper.ToDegrees(startRad);
-                    float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
-                    float endRad = MathHelper.ToRadians(endDeg);
-                    Vector2 angleVec = endRad.ToRotationVector2();
-                    Projectile.velocity = angleVec * projSpeed;
-                }
             }
+
+            if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
+            {
+                var vel = Projectile.velocity;
+                var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
+
+                var dev = weaponSource.AimDeviation;
+                float startRad = vel.ToRotation();
+                float startDeg = MathHelper.ToDegrees(startRad);
+                float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
+                float endRad = MathHelper.ToRadians(endDeg);
+                Vector2 angleVec = endRad.ToRotationVector2();
+                Projectile.velocity = angleVec * projSpeed;
+            }
+
+            Projectile.netUpdate = true;
+            if (NetHelper.IsPlayerSameAsLocalPlayer(owner))
+            {
+                modPlayer.UpdateInkColor(GenerateInkColor());
+            }
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write((byte)primaryColor);
+            writer.Write((byte)secondaryColor);
+            writer.Write((byte)Projectile.extraUpdates);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            primaryColor = (InkColor)reader.ReadByte();
+            secondaryColor = (InkColor)reader.ReadByte();
+            Projectile.extraUpdates = reader.ReadByte();
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

@@ -77,17 +77,21 @@ namespace AchiSplatoon2.Netcode
             }
 
             WritePacketMessage(packet, message);
-            packet.Send(toClient: toWho, ignoreClient: fromWho);
+            SendPacket(packet, toClient: toWho, ignoreClient: fromWho);
         }
 
         public static void SendRequestTestPacket(int fromWho, int toWho = -1)
         {
+            if (IsSinglePlayer()) { return; }
+
             SendTestPacket(0, fromWho, toWho);
             Main.NewText($"Sent request test packet!");
         }
 
         public static void SendResponseTestPacket(int fromWho, int toWho = -1)
         {
+            if (IsSinglePlayer()) { return; }
+
             SendTestPacket(1, fromWho, toWho);
             Main.NewText($"Sent response test packet!");
         }
@@ -137,6 +141,8 @@ namespace AchiSplatoon2.Netcode
         #region Chat functions
         public static void SendPublicMessage(int fromWho, string message, bool appendName = true)
         {
+            if (IsSinglePlayer()) { return; }
+
             ModPacket packet = GetNewPacket();
             WritePacketHandlerType(packet, (int)PacketHandlerType.Generic);
             WritePacketType(packet, 2);
@@ -150,7 +156,7 @@ namespace AchiSplatoon2.Netcode
             }
 
             WritePacketMessage(packet, finalMessage);
-            packet.Send(toClient: -1, ignoreClient: fromWho);
+            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
         }
 
         public static string ReceiveMessage(BinaryReader reader, int fromWho)
