@@ -1,6 +1,8 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -44,7 +46,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             if (chargeLevel == 0)
             {
                 Projectile.damage /= 2;
-                PlayAudio("BambooChargerShootWeak");
             }
             else
             {
@@ -61,8 +62,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 }
 
                 if (allowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
-                PlayAudio("TriStringerShoot");
             }
+
+            PlayShootSample();
 
             // The angle that the player aims at (player-to-cursor)
             float aimAngle = MathHelper.ToDegrees(
@@ -109,7 +111,45 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
-            Projectile.Kill();
+            if (NetHelper.IsSinglePlayer())
+            {
+                Projectile.Kill();
+            } else
+            {
+                NetUpdate(ProjNetUpdateType.ReleaseCharge);
+            }
+        }
+
+        private void PlayShootSample()
+        {
+            if (chargeLevel > 0)
+            {
+                PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
+            }
+            else
+            {
+                PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+        }
+
+        protected override void NetSendReleaseCharge(BinaryWriter writer)
+        {
+            Main.NewText("SendReleaseCharge");
+            writer.Write((byte)chargeLevel);
+            writer.Write((string)shootSample);
+            writer.Write((string)shootWeakSample);
+            Projectile.timeLeft = 12;
+        }
+
+        protected override void NetReceiveReleaseCharge(BinaryReader reader)
+        {
+            Main.NewText("ReceiveReleaseCharge");
+            chargeLevel = reader.ReadByte();
+            shootSample = reader.ReadString();
+            shootWeakSample = reader.ReadString();
+
+            PlayShootSample();
+            hasFired = true;
         }
     }
 }
