@@ -53,6 +53,8 @@ namespace AchiSplatoon2.Content.Projectiles
             Color dustColor = GenerateInkColor();
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+
+            NetUpdate(ProjNetUpdateType.EveryFrame);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
