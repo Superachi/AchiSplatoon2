@@ -1,10 +1,13 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.CameraModifiers;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -47,7 +50,6 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Projectile.penetrate = MaxPenetrate + piercingModifier;
                 Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
-                PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
 
                 if (ShakeScreenOnChargeShot)
                 {
@@ -74,13 +76,14 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.timeLeft = Convert.ToInt32(
                     (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / chargeTimeThresholds[0])
                 ) * Projectile.extraUpdates;
-
-                PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
             }
+
+            PlayShootSample();
 
             Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
             SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
             PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
+            NetUpdate(ProjNetUpdateType.ReleaseCharge);
             return;
         }
 
@@ -103,6 +106,14 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
 
+            if (hasFired)
+            {
+                DustTrail();
+            }
+        }
+
+        private void DustTrail()
+        {
             Color dustColor = GenerateInkColor();
             var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
@@ -127,6 +138,75 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 firstHit = true;
                 DirectHitDustBurst(target.Center);
+            }
+        }
+
+        private void PlayShootSample()
+        {
+            if (chargeLevel > 0)
+            {
+                PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
+            }
+            else
+            {
+                PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+        }
+
+        protected override void NetSendReleaseCharge(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.velocity);
+            writer.WriteVector2(Projectile.position);
+            writer.Write((byte)chargeLevel);
+            writer.Write((string)shootSample);
+            writer.Write((string)shootWeakSample);
+        }
+
+        protected override void NetReceiveReleaseCharge(BinaryReader reader)
+        {
+            Projectile.velocity = reader.ReadVector2();
+            Projectile.position = reader.ReadVector2();
+            chargeLevel = reader.ReadByte();
+            shootSample = reader.ReadString();
+            shootWeakSample = reader.ReadString();
+
+            PlayShootSample();
+            hasFired = true;
+        }
+
+        protected override void NetSendUpdateCharge(BinaryWriter writer)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            writer.Write((double)   owner.itemRotation);
+            writer.WriteVector2(    owner.itemLocation);
+            writer.Write((Int16)    owner.itemAnimationMax);
+            writer.Write((Int16)    owner.itemTimeMax);
+            writer.Write((byte)     chargeLevel);
+        }
+
+        protected override void NetReceiveUpdateCharge(BinaryReader reader)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            owner.itemRotation      = (float)reader.ReadDouble();
+            owner.itemLocation      = reader.ReadVector2();
+            owner.itemAnimationMax  = reader.ReadInt16();
+            owner.itemTimeMax       = reader.ReadInt16();
+            var newChargeLevel      = reader.ReadByte();
+
+            CombatTextHelper.DisplayText($"{chargeLevel}", owner.Center);
+            if (chargeLevel != newChargeLevel)
+            {
+                chargeLevel = newChargeLevel;
+                CombatTextHelper.DisplayText($"BURST", owner.Center, Color.LimeGreen);
+                ChargeLevelDustBurst();
+            }
+
+            if (IsChargeMaxedOut())
+            {
+                CombatTextHelper.DisplayText($"STREAM", owner.Center, Color.Cyan);
+                MaxChargeDustStream();
             }
         }
     }

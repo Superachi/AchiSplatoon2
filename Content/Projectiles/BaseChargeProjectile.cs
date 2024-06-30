@@ -80,11 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (ChargeTime >= chargeTimeThresholds[chargeLevel] * FrameSpeed())
                 {
                     chargeLevel++;
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                    }
+                    ChargeLevelDustBurst();
 
                     PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
 
@@ -96,14 +92,28 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             else
             {
-                if (Main.rand.NextBool(50 * FrameSpeed()))
-                {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                }
+                MaxChargeDustStream();
             }
 
             SyncProjectilePosWithPlayer(owner);
             PlayerItemAnimationFaceCursor(owner, null);
+            NetUpdate(ProjNetUpdateType.UpdateCharge);
+        }
+
+        protected void ChargeLevelDustBurst()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+            }
+        }
+
+        protected void MaxChargeDustStream()
+        {
+            if (Main.rand.NextBool(50 * FrameSpeed()))
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+            }
         }
 
         public override void AI()

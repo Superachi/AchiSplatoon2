@@ -21,8 +21,11 @@ namespace AchiSplatoon2.Content.Projectiles
         None,
         Initialize,
         EveryFrame,
-        SyncMovement,
-        DustExplosion
+        DustExplosion,
+        UpdateCharge,
+        ChargeLevelUp,
+        ReleaseCharge,
+        PlayAudio,
     }
 
     internal class BaseProjectile : ModProjectile
@@ -458,6 +461,12 @@ namespace AchiSplatoon2.Content.Projectiles
                 case (byte)ProjNetUpdateType.DustExplosion:
                     NetSendDustExplosion(writer);
                     break;
+                case (byte)ProjNetUpdateType.ReleaseCharge:
+                    NetSendReleaseCharge(writer);
+                    break;
+                case (byte)ProjNetUpdateType.UpdateCharge:
+                    NetSendUpdateCharge(writer);
+                    break;
             }
         }
 
@@ -478,6 +487,12 @@ namespace AchiSplatoon2.Content.Projectiles
                     break;
                 case (byte)ProjNetUpdateType.DustExplosion:
                     NetReceiveDustExplosion(reader);
+                    break;
+                case (byte)ProjNetUpdateType.ReleaseCharge:
+                    NetReceiveReleaseCharge(reader);
+                    break;
+                case (byte)ProjNetUpdateType.UpdateCharge:
+                    NetReceiveUpdateCharge(reader);
                     break;
             }
         }
@@ -519,6 +534,22 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         protected virtual void NetReceiveDustExplosion(BinaryReader reader)
+        {
+        }
+
+        // Charge mechanics
+        protected virtual void NetSendUpdateCharge(BinaryWriter writer)
+        {
+        }
+        protected virtual void NetReceiveUpdateCharge(BinaryReader reader)
+        {
+        }
+
+        protected virtual void NetSendReleaseCharge(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveReleaseCharge(BinaryReader reader)
         {
         }
         #endregion
