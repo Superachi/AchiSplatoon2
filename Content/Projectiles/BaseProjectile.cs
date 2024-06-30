@@ -2,9 +2,9 @@
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json.Bson;
 using ReLogic.Utilities;
 using System;
 using System.IO;
@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         None,
         Initialize,
+        EveryFrame,
         SyncMovement,
         DustExplosion
     }
@@ -35,8 +36,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected string shootAltSample = "SplattershotShoot";
 
         // Colors
-        private InkColor primaryColor = InkColor.Order;
-        private InkColor secondaryColor = InkColor.Order;
+        protected InkColor primaryColor = InkColor.Order;
+        protected InkColor secondaryColor = InkColor.Order;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
@@ -160,8 +161,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity = angleVec * projSpeed;
             }
 
-            netUpdateType = 1;
-            Projectile.netUpdate = true;
+            NetUpdate(ProjNetUpdateType.Initialize);
             if (NetHelper.IsPlayerSameAsLocalPlayer(owner))
             {
                 modPlayer.UpdateInkColor(GenerateInkColor());
@@ -215,6 +215,15 @@ namespace AchiSplatoon2.Content.Projectiles
             // If there are two color chips being considered, add a bias towards the color that we have more chips of
             var amount = 0.5f;
             if (primaryHighest != secondaryHighest) { amount = 0.35f; }
+
+            if (primaryHighest == 0 && secondaryHighest == 0 && NetHelper.IsThisAClient())
+            {
+                // Failsave for if the bullet color data is missing during online play
+                var owner = Main.player[Projectile.owner];
+                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+                return modPlayer.ColorFromChips;
+            }
+
             return ColorHelper.LerpBetweenInkColors(primaryColor, secondaryColor, amount);
         }
 
@@ -351,6 +360,11 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         #endregion
 
+        protected void EmitBurstDust(ExplosionDustModel dustModel)
+        {
+            EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);
+        }
+
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
         {
             Vector2 position = Projectile.Center - Main.screenPosition;
@@ -420,9 +434,17 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        // Netcode
+        #region NetCode
+        public virtual void NetUpdate(ProjNetUpdateType type)
+        {
+            netUpdateType = (byte)type;
+            Projectile.netUpdate = true;
+        }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
+            if (NetHelper.IsSinglePlayer()) return;
+
             writer.Write(netUpdateType);
 
             switch (netUpdateType)
@@ -430,21 +452,29 @@ namespace AchiSplatoon2.Content.Projectiles
                 case (byte)ProjNetUpdateType.Initialize:
                     NetSendInitialize(writer);
                     break;
+                case (byte)ProjNetUpdateType.EveryFrame:
+                    NetSendEveryFrame(writer);
+                    break;
                 case (byte)ProjNetUpdateType.DustExplosion:
-                    //
+                    NetSendDustExplosion(writer);
                     break;
             }
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            if (NetHelper.IsSinglePlayer()) return;
+
             netUpdateType = reader.ReadByte();
-            Main.NewText(netUpdateType);
+            Main.NewText((ProjNetUpdateType)netUpdateType);
 
             switch (netUpdateType)
             {
                 case (byte)ProjNetUpdateType.Initialize:
                     NetReceiveInitialize(reader);
+                    break;
+                case (byte)ProjNetUpdateType.EveryFrame:
+                    NetReceiveEveryFrame(reader);
                     break;
                 case (byte)ProjNetUpdateType.DustExplosion:
                     NetReceiveDustExplosion(reader);
@@ -454,21 +484,43 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetSendInitialize(BinaryWriter writer)
         {
-            writer.Write((byte)primaryColor);
-            writer.Write((byte)secondaryColor);
-            writer.Write((byte)Projectile.extraUpdates);
+            writer.Write((byte)     primaryColor);
+            writer.Write((byte)     secondaryColor);
+            writer.Write((byte)     primaryHighest);
+            writer.Write((byte)     secondaryHighest);
+            writer.Write((byte)     Projectile.extraUpdates);
         }
 
         protected virtual void NetReceiveInitialize(BinaryReader reader)
         {
             primaryColor = (InkColor)reader.ReadByte();
             secondaryColor = (InkColor)reader.ReadByte();
+            primaryHighest = (int)reader.ReadByte();
+            secondaryHighest = (int)reader.ReadByte();
             Projectile.extraUpdates = reader.ReadByte();
+        }
+
+        private void NotImplementedWarning()
+        {
+            Main.NewText($"{System.Reflection.MethodBase.GetCurrentMethod().Name} Error: No implementation for this projectile packet type yet.");
+        }
+
+        protected virtual void NetSendEveryFrame(BinaryWriter writer)
+        {
+            // Given that this method will be called very often, try not to make the packet size too large
+        }
+
+        protected virtual void NetReceiveEveryFrame(BinaryReader reader)
+        {
+        }
+
+        protected virtual void NetSendDustExplosion(BinaryWriter writer)
+        {
         }
 
         protected virtual void NetReceiveDustExplosion(BinaryReader reader)
         {
-            Main.NewText("Kabuuum!");
         }
+        #endregion
     }
 }

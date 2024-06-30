@@ -2,12 +2,17 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
+using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Microsoft.Xna.Framework;
+using System;
+using System.ComponentModel;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.GameContent.Animations.IL_Actions.Sprites;
+using Newtonsoft.Json;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -15,6 +20,8 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private const int addedUpdate = 2;
         private int state = 0;
+
+        private ExplosionDustModel explosionDustModel;
 
         protected string explosionBigSample;
         protected string explosionSmallSample;
@@ -113,7 +120,9 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 20, amount: 40, minScale: 2, maxScale: 4, radiusModifier: finalExplosionRadiusAir);
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalExplosionRadiusAir);
+            EmitBurstDust(explosionDustModel);
+            NetUpdate(ProjNetUpdateType.DustExplosion);
         }
 
         private void ExplodeSmall()
@@ -135,7 +144,9 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             // Visual
-            EmitBurstDust(dustMaxVelocity: 10, amount: 15, minScale: 1, maxScale: 2, radiusModifier: finalExplosionRadiusTile);
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadiusTile);
+            EmitBurstDust(explosionDustModel);
+            NetUpdate(ProjNetUpdateType.DustExplosion);
         }
 
         protected override void AdvanceState()
@@ -152,13 +163,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AI()
         {
-            // Face direction
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
             switch (state)
             {
                 case 0:
                     EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 4, minScale: 1, maxScale: 3);
+                    NetUpdate(ProjNetUpdateType.EveryFrame);
 
                     if (Projectile.ai[0] >= explosionDelay)
                     {
@@ -208,6 +217,53 @@ namespace AchiSplatoon2.Content.Projectiles
                 SetState(2);
             }
             return false;
+        }
+
+        // Netcode
+        protected override void NetReceiveEveryFrame(BinaryReader reader)
+        {
+            EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 4, minScale: 1, maxScale: 3);
+        }
+
+        protected override void NetSendDustExplosion(BinaryWriter writer)
+        {
+            // Dust information
+            writer.Write((double)   explosionDustModel.dustMaxVelocity);
+            writer.Write((Int16)    explosionDustModel.dustAmount);
+            writer.Write((double)   explosionDustModel.minScale);
+            writer.Write((double)   explosionDustModel.maxScale);
+            writer.Write((Int16)    explosionDustModel.radiusModifier);
+
+            // Size/position information
+            writer.Write((Int16) Projectile.width);
+            writer.Write((Int16) Projectile.height);
+            writer.WriteVector2(Projectile.velocity);
+            writer.WriteVector2(Projectile.position);
+        }
+
+        protected override void NetReceiveDustExplosion(BinaryReader reader)
+        {
+            // Override in child class to spawn dusts, play sound, etc.
+            explosionDustModel = new ExplosionDustModel(
+                (float)reader.ReadDouble(),
+                (int)reader.ReadInt16(),
+                (float)reader.ReadDouble(),
+                (float)reader.ReadDouble(),
+                (int)reader.ReadInt16()
+            );
+
+            var w = (int)reader.ReadInt16();
+            var h = (int)reader.ReadInt16();
+            var vel = (Vector2)reader.ReadVector2();
+            var pos = (Vector2)reader.ReadVector2();
+
+            Projectile.width = w;
+            Projectile.height = h;
+            Projectile.velocity = vel;
+            Projectile.position = pos;
+
+            // Main.NewText(JsonConvert.SerializeObject(explosionDustModel));
+            EmitBurstDust(explosionDustModel);
         }
     }
 }
