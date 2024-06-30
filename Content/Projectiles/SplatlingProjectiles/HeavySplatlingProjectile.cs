@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -28,7 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             Initialize();
-            PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayShootSound();
 
             var spreadOffset = 0.5f;
             Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
@@ -75,6 +76,18 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
+        }
+
+        private void PlayShootSound()
+        {
+            PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
+        // Netcode
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            base.NetReceiveInitialize(reader);
+            PlayShootSound();
         }
     }
 }

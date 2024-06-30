@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -39,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
 
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayShootSound();
         }
 
         public override void AI()
@@ -67,6 +68,18 @@ namespace AchiSplatoon2.Content.Projectiles
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
+        }
+
+        private void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
+        // Netcode
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            base.NetReceiveInitialize(reader);
+            PlayShootSound();
         }
     }
 }

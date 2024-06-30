@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System.IO;
+using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,6 +10,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseChargeProjectile : BaseProjectile
     {
+        protected float lastShotRadians; // Used for networking
+
         // Charge mechanic
         protected int chargeLevel = 0;
         protected float ChargeTime
@@ -95,8 +99,9 @@ namespace AchiSplatoon2.Content.Projectiles
                 MaxChargeDustStream();
             }
 
+            lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             SyncProjectilePosWithPlayer(owner);
-            PlayerItemAnimationFaceCursor(owner, null);
+            PlayerItemAnimationFaceCursor(owner);
             NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
@@ -135,5 +140,42 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
         }
+
+        #region Netcode
+        protected override void NetSendUpdateCharge(BinaryWriter writer)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            writer.Write((double)lastShotRadians);
+            writer.Write((Int16)owner.itemAnimationMax);
+            writer.Write((byte)chargeLevel);
+        }
+
+        protected override void NetReceiveUpdateCharge(BinaryReader reader)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            // Make weapon face client's cursor
+            lastShotRadians = (float)reader.ReadDouble();
+            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
+            PlayerItemAnimationFaceCursor(owner, null, lastShotRadians);
+
+            // Set the animation time
+            owner.itemAnimationMax = reader.ReadInt16();
+            owner.itemTimeMax = owner.itemAnimationMax;
+
+            // Render dusts based on charge level
+            var newChargeLevel = reader.ReadByte();
+            if (chargeLevel != newChargeLevel)
+            {
+                chargeLevel = newChargeLevel;
+                ChargeLevelDustBurst();
+            }
+            if (IsChargeMaxedOut())
+            {
+                MaxChargeDustStream();
+            }
+        }
+        #endregion
     }
 }

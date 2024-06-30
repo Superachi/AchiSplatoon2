@@ -173,41 +173,5 @@ namespace AchiSplatoon2.Content.Projectiles
             PlayShootSample();
             hasFired = true;
         }
-
-        protected override void NetSendUpdateCharge(BinaryWriter writer)
-        {
-            Player owner = Main.player[Projectile.owner];
-
-            writer.Write((double)   owner.itemRotation);
-            writer.WriteVector2(    owner.itemLocation);
-            writer.Write((Int16)    owner.itemAnimationMax);
-            writer.Write((Int16)    owner.itemTimeMax);
-            writer.Write((byte)     chargeLevel);
-        }
-
-        protected override void NetReceiveUpdateCharge(BinaryReader reader)
-        {
-            Player owner = Main.player[Projectile.owner];
-
-            owner.itemRotation      = (float)reader.ReadDouble();
-            owner.itemLocation      = reader.ReadVector2();
-            owner.itemAnimationMax  = reader.ReadInt16();
-            owner.itemTimeMax       = reader.ReadInt16();
-            var newChargeLevel      = reader.ReadByte();
-
-            CombatTextHelper.DisplayText($"{chargeLevel}", owner.Center);
-            if (chargeLevel != newChargeLevel)
-            {
-                chargeLevel = newChargeLevel;
-                CombatTextHelper.DisplayText($"BURST", owner.Center, Color.LimeGreen);
-                ChargeLevelDustBurst();
-            }
-
-            if (IsChargeMaxedOut())
-            {
-                CombatTextHelper.DisplayText($"STREAM", owner.Center, Color.Cyan);
-                MaxChargeDustStream();
-            }
-        }
     }
 }

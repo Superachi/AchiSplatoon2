@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -117,9 +118,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         PlayerItemAnimationFaceCursor(owner, recoilVector);
 
                         // Calculate angle/velocity
-                        float aimAngle = MathHelper.ToDegrees(
-                            owner.DirectionTo(Main.MouseWorld).ToRotation()
-                        );
+                        lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+                        float aimAngle = MathHelper.ToDegrees(lastShotRadians);
 
                         float radians = MathHelper.ToRadians(aimAngle);
                         Vector2 angleVector = radians.ToRotationVector2();
@@ -152,6 +152,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
                             Dust.NewDust(Projectile.position + spawnPositionOffset, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
                         }
+
+                        // Sync shoot animation
+                        // Set item use animation and angle
+                        NetUpdate(ProjNetUpdateType.ShootAnimation);
                     }
 
                     return;
@@ -159,6 +163,28 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
                 Projectile.Kill();
             }
+        }
+
+        protected override void NetSendShootAnimation(BinaryWriter writer)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            writer.Write((double)lastShotRadians);
+            writer.Write((Int16)owner.itemAnimationMax);
+        }
+
+        protected override void NetReceiveShootAnimation(BinaryReader reader)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            // Make weapon face client's cursor
+            lastShotRadians = (float)reader.ReadDouble();
+            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
+            PlayerItemAnimationFaceCursor(owner, rotationVector * -3, lastShotRadians);
+
+            // Set the animation time
+            owner.itemAnimation = reader.ReadInt16();
+            owner.itemTime = owner.itemAnimation;
         }
     }
 }

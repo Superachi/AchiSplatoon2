@@ -23,9 +23,8 @@ namespace AchiSplatoon2.Content.Projectiles
         EveryFrame,
         DustExplosion,
         UpdateCharge,
-        ChargeLevelUp,
         ReleaseCharge,
-        PlayAudio,
+        ShootAnimation,
     }
 
     internal class BaseProjectile : ModProjectile
@@ -257,10 +256,18 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void PlayerItemAnimationFaceCursor(Player owner, Vector2? offset)
+        protected void PlayerItemAnimationFaceCursor(Player owner, Vector2? offset = null, float? radiansOverride = null)
         {
             // Change player direction depending on what direction the charger is held when charging
-            var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+            float mouseDirRadians;
+            if (radiansOverride == null)
+            {
+                mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+            } else
+            {
+                mouseDirRadians = (float)radiansOverride;
+            }
+
             var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
             
             if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
@@ -467,6 +474,9 @@ namespace AchiSplatoon2.Content.Projectiles
                 case (byte)ProjNetUpdateType.UpdateCharge:
                     NetSendUpdateCharge(writer);
                     break;
+                case (byte)ProjNetUpdateType.ShootAnimation:
+                    NetSendShootAnimation(writer);
+                    break;
             }
         }
 
@@ -475,7 +485,7 @@ namespace AchiSplatoon2.Content.Projectiles
             if (NetHelper.IsSinglePlayer()) return;
 
             netUpdateType = reader.ReadByte();
-            Main.NewText((ProjNetUpdateType)netUpdateType);
+            // Main.NewText((ProjNetUpdateType)netUpdateType);
 
             switch (netUpdateType)
             {
@@ -493,6 +503,9 @@ namespace AchiSplatoon2.Content.Projectiles
                     break;
                 case (byte)ProjNetUpdateType.UpdateCharge:
                     NetReceiveUpdateCharge(reader);
+                    break;
+                case (byte)ProjNetUpdateType.ShootAnimation:
+                    NetReceiveShootAnimation(reader);
                     break;
             }
         }
@@ -534,6 +547,15 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         protected virtual void NetReceiveDustExplosion(BinaryReader reader)
+        {
+        }
+
+        // Shoot animation (for cases where it doesn't manually show)
+        protected virtual void NetSendShootAnimation(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveShootAnimation(BinaryReader reader)
         {
         }
 
