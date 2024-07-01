@@ -19,7 +19,6 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BlasterProjectile : BaseProjectile
     {
         private const int addedUpdate = 2;
-        private int state = 0;
 
         private ExplosionDustModel explosionDustModel;
 
@@ -64,12 +63,13 @@ namespace AchiSplatoon2.Content.Projectiles
             explosionDelayInit = weaponData.ExplosionDelayInit;
             explosionBigSample = weaponData.ExplosionBigSample;
             explosionSmallSample = weaponData.ExplosionSmallSample;
+            shootSample = weaponData.ShootSample;
 
             explosionDelay = explosionDelayInit * addedUpdate;
             finalExplosionRadiusAir = (int)(explosionRadiusAir * explosionRadiusModifier);
             finalExplosionRadiusTile = (int)(explosionRadiusTile * explosionRadiusModifier);
 
-            PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+            PlayShootSound();
             EmitShotBurstDust();
         }
 
@@ -98,14 +98,19 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        private void ExplodeBig()
+        private void Explode(PlayAudioModel audio)
         {
             hasExploded = true;
             Projectile.penetrate = -1;
             Projectile.damage = damageBeforePiercing;
+            CreateExplosionVisual(explosionDustModel, audio);
+        }
 
-            // Audio
-            PlayAudio(explosionBigSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 3);
+        private void ExplodeBig()
+        {
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalExplosionRadiusAir);
+            var audio = new PlayAudioModel(_soundPath: explosionBigSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
+            Explode(audio);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
@@ -118,21 +123,13 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.Resize(finalExplosionRadiusAir, finalExplosionRadiusAir);
                 Projectile.velocity = Vector2.Zero;
             }
-
-            // Visual
-            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalExplosionRadiusAir);
-            EmitBurstDust(explosionDustModel);
-            NetUpdate(ProjNetUpdateType.DustExplosion);
         }
 
         private void ExplodeSmall()
         {
-            hasExploded = true;
-            Projectile.penetrate = -1;
-            Projectile.damage = damageBeforePiercing;
-
-            // Audio
-            PlayAudio(explosionSmallSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 3);
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadiusTile);
+            var audio = new PlayAudioModel(_soundPath: explosionSmallSample, _volume: 0.1f, _pitchVariance: 0.1f, _maxInstances: 3);
+            Explode(audio);
 
             // Gameplay
             if (Projectile.owner == Main.myPlayer)
@@ -142,11 +139,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.Resize(finalExplosionRadiusTile, finalExplosionRadiusTile);
                 Projectile.velocity = Vector2.Zero;
             }
-
-            // Visual
-            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadiusTile);
-            EmitBurstDust(explosionDustModel);
-            NetUpdate(ProjNetUpdateType.DustExplosion);
         }
 
         protected override void AdvanceState()
@@ -219,51 +211,22 @@ namespace AchiSplatoon2.Content.Projectiles
             return false;
         }
 
+        private void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
         // Netcode
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            base.NetReceiveInitialize(reader);
+            PlayShootSound();
+        }
+
         protected override void NetReceiveEveryFrame(BinaryReader reader)
         {
+            if (state != 0) return;
             EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 4, minScale: 1, maxScale: 3);
-        }
-
-        protected override void NetSendDustExplosion(BinaryWriter writer)
-        {
-            // Dust information
-            writer.Write((double)   explosionDustModel.dustMaxVelocity);
-            writer.Write((Int16)    explosionDustModel.dustAmount);
-            writer.Write((double)   explosionDustModel.minScale);
-            writer.Write((double)   explosionDustModel.maxScale);
-            writer.Write((Int16)    explosionDustModel.radiusModifier);
-
-            // Size/position information
-            writer.Write((Int16) Projectile.width);
-            writer.Write((Int16) Projectile.height);
-            writer.WriteVector2(Projectile.velocity);
-            writer.WriteVector2(Projectile.position);
-        }
-
-        protected override void NetReceiveDustExplosion(BinaryReader reader)
-        {
-            // Override in child class to spawn dusts, play sound, etc.
-            explosionDustModel = new ExplosionDustModel(
-                (float)reader.ReadDouble(),
-                (int)reader.ReadInt16(),
-                (float)reader.ReadDouble(),
-                (float)reader.ReadDouble(),
-                (int)reader.ReadInt16()
-            );
-
-            var w = (int)reader.ReadInt16();
-            var h = (int)reader.ReadInt16();
-            var vel = (Vector2)reader.ReadVector2();
-            var pos = (Vector2)reader.ReadVector2();
-
-            Projectile.width = w;
-            Projectile.height = h;
-            Projectile.velocity = vel;
-            Projectile.position = pos;
-
-            // Main.NewText(JsonConvert.SerializeObject(explosionDustModel));
-            EmitBurstDust(explosionDustModel);
         }
     }
 }

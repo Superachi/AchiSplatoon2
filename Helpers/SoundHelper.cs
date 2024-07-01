@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Terraria.Audio;
 using Terraria;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Netcode.DataModels;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AchiSplatoon2.Helpers
 {
@@ -40,6 +42,11 @@ namespace AchiSplatoon2.Helpers
         public static void PlayAudio(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             PlaySoundFinal(soundStyle, volume, pitchVariance, maxInstances, pitch, position);
+        }
+
+        public static void PlayAudio(PlayAudioModel m)
+        {
+            PlayAudio(soundPath: m.soundPath, volume: m.volume, pitchVariance: m.pitchVariance, maxInstances: m.maxInstances, pitch: m.pitch, position: m.position);
         }
     }
 }

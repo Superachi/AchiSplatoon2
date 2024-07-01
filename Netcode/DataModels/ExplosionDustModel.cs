@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Netcode.DataModels
         [JsonProperty]
         internal readonly int radiusModifier;
 
-        internal ExplosionDustModel(float _dustMaxVelocity, int _dustAmount, float _minScale, float _maxScale, int _radiusModifier)
+        public ExplosionDustModel(float _dustMaxVelocity, int _dustAmount, float _minScale, float _maxScale, int _radiusModifier)
         {
             dustMaxVelocity = _dustMaxVelocity;
             dustAmount = _dustAmount;

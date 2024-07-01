@@ -1,13 +1,18 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
+using log4net;
+using log4net.Repository.Hierarchy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using ReLogic.Utilities;
 using System;
 using System.IO;
+using System.Text;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -29,6 +34,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
     internal class BaseProjectile : ModProjectile
     {
+        public string jsonData;
+
         protected BaseWeapon weaponSource;
         protected virtual bool FallThroughPlatforms => true;
 
@@ -56,6 +63,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // State machine
         protected int state = 0;
 
+        // Netcode
         protected byte netUpdateType = 0;
 
         protected virtual void SetState(int targetState)
@@ -368,12 +376,32 @@ namespace AchiSplatoon2.Content.Projectiles
                 dust.velocity *= radiusMult / 2;
             }
         }
-        #endregion
-
         protected void EmitBurstDust(ExplosionDustModel dustModel)
         {
             EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);
         }
+
+        protected void CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
+        {
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: Projectile.GetSource_FromThis(),
+                position: Projectile.Center,
+                velocity: Vector2.Zero,
+                type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
+                damage: 0,
+                knockback: 0,
+                owner: Main.myPlayer);
+            var proj = p.ModProjectile as ExplosionProjectileVisual;
+
+            proj.explosionDustModel = expModel;
+            proj.playAudioModel = audioModel;
+            proj.primaryColor = primaryColor;
+            proj.secondaryColor = secondaryColor;
+            p.netUpdate = true;
+        }
+        #endregion
+
+
 
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
         {

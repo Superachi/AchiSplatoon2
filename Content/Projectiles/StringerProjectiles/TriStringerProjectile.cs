@@ -58,9 +58,10 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 Projectile.alpha = 255;
                 Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
+
                 explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 15f, _dustAmount: 20, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadius);
-                EmitBurstDust(explosionDustModel);
-                PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
+                var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
+                CreateExplosionVisual(explosionDustModel, audioModel);
             }
             NetUpdate(ProjNetUpdateType.DustExplosion);
         }
@@ -96,7 +97,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExploded)
                 {
                     Explode();
-                    NetUpdate(ProjNetUpdateType.DustExplosion);
                 }
             }
         }
@@ -135,49 +135,16 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             if (sticking && !hasExploded)
             {
                 Explode();
-                NetUpdate(ProjNetUpdateType.DustExplosion);
             }
         }
 
         protected override void NetSendDustExplosion(BinaryWriter writer)
         {
-            // Dust information
-            writer.Write((double)explosionDustModel.dustMaxVelocity);
-            writer.Write((Int16)explosionDustModel.dustAmount);
-            writer.Write((double)explosionDustModel.minScale);
-            writer.Write((double)explosionDustModel.maxScale);
-            writer.Write((Int16)explosionDustModel.radiusModifier);
-
-            // Size/position information
-            writer.Write((Int16)Projectile.width);
-            writer.Write((Int16)Projectile.height);
-            writer.WriteVector2(Projectile.velocity);
-            writer.WriteVector2(Projectile.position);
         }
 
         protected override void NetReceiveDustExplosion(BinaryReader reader)
         {
-            // Override in child class to spawn dusts, play sound, etc.
-            explosionDustModel = new ExplosionDustModel(
-                (float)reader.ReadDouble(),
-                (int)reader.ReadInt16(),
-                (float)reader.ReadDouble(),
-                (float)reader.ReadDouble(),
-                (int)reader.ReadInt16()
-            );
-
-            var w = (int)reader.ReadInt16();
-            var h = (int)reader.ReadInt16();
-            var vel = (Vector2)reader.ReadVector2();
-            var pos = (Vector2)reader.ReadVector2();
-
-            Projectile.Resize(w, h);
-            Projectile.velocity = vel;
-            Projectile.position = pos;
-
             Projectile.alpha = 255;
-            EmitBurstDust(explosionDustModel);
-            PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
         }
     }
 }

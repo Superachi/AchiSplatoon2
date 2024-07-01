@@ -13,6 +13,7 @@ using AchiSplatoon2.Content.Items.Weapons.Specials;
 using Microsoft.Xna.Framework;
 using Terraria.Graphics.CameraModifiers;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
@@ -80,8 +81,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
             Projectile.tileCollide = false;
             Projectile.velocity = Vector2.Zero;
-            EmitBurstDust(dustMaxVelocity: 25, amount: 20, minScale: 1.5f, maxScale: 3, radiusModifier: finalExplosionRadius);
-            PlayAudio("BlasterExplosion", volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.25f);
+            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
+            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.3f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: 0.25f, _position: Projectile.Center);
+            CreateExplosionVisual(e, s);
             AdvanceState();
         }
 
