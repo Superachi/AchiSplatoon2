@@ -421,9 +421,17 @@ namespace AchiSplatoon2.Content.Projectiles
                 proj.secondaryColor = secondaryColor;
             }
         }
-        #endregion
 
-
+        protected void VisualizeRadius()
+        {
+            if (!IsThisClientTheProjectileOwner()) return;
+            for (int i = 0; i < 30; i++)
+            {
+                int id = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 2, Projectile.height / 2), Projectile.width, Projectile.height, DustID.BlueFairy, 0, 0);
+                Dust d = Main.dust[id];
+                d.velocity = Vector2.Zero;
+            }
+        }
 
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
         {
@@ -493,6 +501,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
         }
+        #endregion
 
         #region NetCode
         public virtual void NetUpdate(ProjNetUpdateType type)

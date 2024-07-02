@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -12,6 +13,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerProjectile : BaseProjectile
     {
+        private int networkExplodeDelayBuffer = 120;
+
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.002f;
         private float terminalVelocity = 1f;
@@ -30,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = ExtraUpdatesTime(120);
+            Projectile.timeLeft = ExtraUpdatesTime(120 + networkExplodeDelayBuffer);
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
@@ -54,20 +57,26 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private void Explode()
         {
             hasExploded = true;
-            if (Projectile.owner == Main.myPlayer)
-            {
-                Projectile.alpha = 255;
-                Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
 
-                explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 15f, _dustAmount: 20, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadius);
-                var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+
+            Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
+
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 15f, _dustAmount: 20, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadius);
+            var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
+
+            // Will result in endless back-and-forth if we do not check for the owner here
+            if (IsThisClientTheProjectileOwner())
+            {
                 CreateExplosionVisual(explosionDustModel, audioModel);
+                NetUpdate(ProjNetUpdateType.DustExplosion);
             }
-            NetUpdate(ProjNetUpdateType.DustExplosion);
         }
 
         public override void AI()
         {
+            if (isFakeDestroyed) return;
             Projectile.ai[0] += 1f;
 
             if (!sticking)
@@ -92,11 +101,14 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = Projectile.velocity * 0.9f;
                 }
 
-                Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
-
-                if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExploded)
+                if (!hasExploded)
                 {
-                    Explode();
+                    Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
+                }
+
+                if (Projectile.timeLeft < ExtraUpdatesTime(networkExplodeDelayBuffer) && !hasExploded)
+                {
+                    if (IsThisClientTheProjectileOwner()) Explode();
                 }
             }
         }
@@ -112,7 +124,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     sticking = true;
                     Projectile.tileCollide = false;
                     Projectile.velocity = oldVelocity;
-                    Projectile.timeLeft = ExtraUpdatesTime(60 + (int)Projectile.ai[2] * 5);
+                    Projectile.timeLeft = ExtraUpdatesTime(60 + networkExplodeDelayBuffer + (int)Projectile.ai[2] * 5);
                 }
             }
             else
@@ -134,17 +146,27 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             if (sticking && !hasExploded)
             {
-                Explode();
+                if (IsThisClientTheProjectileOwner()) Explode();
+                return;
+            }
+
+            if (hasExploded)
+            {
+                FakeDestroy();
             }
         }
 
         protected override void NetSendDustExplosion(BinaryWriter writer)
         {
+            writer.WriteVector2(Projectile.position);
         }
 
         protected override void NetReceiveDustExplosion(BinaryReader reader)
         {
-            Projectile.alpha = 255;
+            Projectile.position = reader.ReadVector2();
+            Explode();
+            fallSpeed = 0;
+            sticking = true;
         }
     }
 }
