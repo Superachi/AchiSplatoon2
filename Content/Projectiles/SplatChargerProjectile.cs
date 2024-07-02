@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.extraUpdates = 32;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             Projectile.velocity = Vector2.Zero;

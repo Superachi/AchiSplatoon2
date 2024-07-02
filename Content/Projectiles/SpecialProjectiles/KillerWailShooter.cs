@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             PlayAudio("Specials/KillerWailSpawn", volume: 0.5f, pitchVariance: 0f, maxInstances: 3);
@@ -97,14 +97,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         // Telegraph the attack
                         if (Timer % 7 == 0 && Timer < 60)
                         {
-                            var proj = Projectile.NewProjectile(
-                            spawnSource: Projectile.GetSource_FromThis(),
+                            CreateChildProjectile(
                             position: Projectile.Center,
                             velocity: aimVector * 8f,
-                            Type: ModContent.ProjectileType<KillerWailTelegraph>(),
-                            Damage: 0,
-                            KnockBack: 0,
-                            Owner: Main.myPlayer);
+                            type: ModContent.ProjectileType<KillerWailTelegraph>(),
+                            damage: 0);
                         }
 
                         if (Timer > 60) { Projectile.scale -= 0.08f; }
@@ -131,14 +128,14 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                                 knockbackMult = 5f;
                             }
 
-                            var proj = Projectile.NewProjectile(
-                            spawnSource: Projectile.GetSource_FromThis(),
-                            position: Projectile.Center,
-                            velocity: aimVector * Main.rand.NextFloat(7, 8),
-                            Type: ModContent.ProjectileType<KillerWailProjectile>(),
-                            Damage: Projectile.damage,
-                            KnockBack: Projectile.knockBack * knockbackMult,
-                            Owner: Main.myPlayer);
+                            var p = CreateChildProjectile(
+                                position: Projectile.Center,
+                                velocity: aimVector * Main.rand.NextFloat(7, 8),
+                                type: ModContent.ProjectileType<KillerWailProjectile>(),
+                                damage: Projectile.damage,
+                                false);
+                            p.Projectile.knockBack = Projectile.knockBack* knockbackMult;
+                            p.AfterSpawn();
 
                             PlayAudio(SoundID.Item73, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.4f);
                         }

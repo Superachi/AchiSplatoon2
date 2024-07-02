@@ -15,9 +15,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected int projectileCount;
         protected bool allowStickyProjectiles;
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
-            base.OnSpawn(source);
+            Initialize();
 
             BaseStringer weaponData = (BaseStringer)weaponSource;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
@@ -93,18 +93,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 }
 
                 // Spawn projectile
-                int proj = Projectile.NewProjectile(
-                spawnSource: Projectile.GetSource_FromThis(),
-                position: Projectile.position + spawnPositionOffset,
-                velocity: velocity,
-                Type: projectileType,
-                Damage: Projectile.damage,
-                KnockBack: Projectile.knockBack,
-                Owner: Main.myPlayer);
+                var proj = CreateChildProjectile(position: Projectile.position + spawnPositionOffset, velocity: velocity, type: projectileType, Projectile.damage, true);
 
                 // Set a number in the arrow
                 // Can be used to make them explode in sequence
-                Main.projectile[proj].ai[2] = i;
+                proj.Projectile.ai[2] = i;
 
                 // Adjust the angle for the next projectile
                 degreesOffset += degreesPerProjectile;

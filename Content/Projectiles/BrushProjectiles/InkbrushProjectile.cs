@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             BaseBrush weaponData = (BaseBrush)weaponSource;

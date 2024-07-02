@@ -1,12 +1,16 @@
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
 using Humanizer;
 using Microsoft.Xna.Framework;
+using Mono.Cecil;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -182,6 +186,36 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
         }
 
+        public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
+        {
+            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
+            if (weaponType == null) weaponType = this;
+
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: source,
+                position: player.Center,
+                velocity: velocity,
+                type: weaponType.Item.shoot,
+                damage: weaponType.Item.damage,
+                knockback: weaponType.Item.knockBack,
+                owner: player.whoAmI);
+            var proj = p.ModProjectile as BaseProjectile;
+
+            proj.weaponSource = modPlayer.lastUsedWeapon;
+            if (triggerAfterSpawn) proj.AfterSpawn();
+            return proj;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CreateProjectileWithWeaponProperties(
+                player: player,
+                source: source,
+                velocity: velocity);
+
+            return false;
+        }
+
         public override bool CanUseItem(Player player)
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return true;
@@ -290,14 +324,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
                             modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(subWeaponType[j]);
 
-                            Projectile.NewProjectile(
-                                spawnSource: source,
-                                position: player.Center,
+                            CreateProjectileWithWeaponProperties(
+                                player: player,
+                                source: source,
                                 velocity: velocity * item.shootSpeed,
-                                Type: item.shoot,
-                                Damage: (int)(item.damage * damageBonus),
-                                KnockBack: item.knockBack,
-                                Owner: Main.myPlayer);
+                                weaponType: (BaseWeapon)item.ModItem,
+                                triggerAfterSpawn: true
+                                );
 
                             player.itemTime = item.useTime;
                             doneSearching = true;

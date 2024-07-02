@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -30,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = true;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
@@ -80,6 +81,10 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.NetReceiveInitialize(reader);
             PlayShootSound();
+        }
+
+        protected override void NetReceiveEveryFrame(BinaryReader reader)
+        {
         }
     }
 }

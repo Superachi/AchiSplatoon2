@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);

@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             BaseBomb weaponData = (BaseBomb)weaponSource;
@@ -43,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool PreAI()
         {
+            base.PreAI();
             previousVelocityX = Projectile.velocity.X;
             previousVelocityY = Projectile.velocity.Y;
             return true;

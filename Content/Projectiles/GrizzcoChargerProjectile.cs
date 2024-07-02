@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             PlayAudio(ShootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 1);

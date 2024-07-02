@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
@@ -52,14 +52,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
                 for (int i = 0; i < 3; i++)
                 {
-                    int proj = Projectile.NewProjectile(
-                        spawnSource: Projectile.GetSource_FromThis(),
+                    CreateChildProjectile(
                         position: Projectile.Center,
                         velocity: Projectile.velocity,
-                        Type: ModContent.ProjectileType<TrizookaProjectile>(),
-                        Damage: Projectile.damage,
-                        KnockBack: Projectile.knockBack,
-                        Owner: Main.myPlayer);
+                        type: ModContent.ProjectileType<TrizookaProjectile>(),
+                        damage: Projectile.damage);
                 }
             }
 

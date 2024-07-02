@@ -36,7 +36,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
@@ -75,14 +75,14 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 float childVelX = Projectile.velocity.X * 0.5f;
                 float childVelY = Projectile.velocity.Y * 0.25f;
 
-                Projectile.NewProjectile(
-                spawnSource: Projectile.GetSource_FromThis(),
-                position: Projectile.Center,
-                velocity: new Vector2(childVelX, childVelY),
-                Type: ModContent.ProjectileType<SlosherChildProjectile>(),
-                Damage: weaponDamage,
-                KnockBack: Projectile.knockBack,
-                Owner: Main.myPlayer);
+                if (IsThisClientTheProjectileOwner())
+                {
+                    CreateChildProjectile(
+                        position: Projectile.Center,
+                        velocity: new Vector2(childVelX, childVelY),
+                        type: ModContent.ProjectileType<SlosherChildProjectile>(),
+                        damage: weaponDamage);
+                }
             }
 
             // Start falling eventually

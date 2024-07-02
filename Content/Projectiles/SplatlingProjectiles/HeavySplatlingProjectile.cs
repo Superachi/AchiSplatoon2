@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -26,14 +27,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             PlayShootSound();
-
-            var spreadOffset = 0.5f;
-            Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-            Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
         }
 
         public override void AI()
@@ -84,9 +81,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         }
 
         // Netcode
+        protected override void NetSendInitialize(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.velocity);
+        }
         protected override void NetReceiveInitialize(BinaryReader reader)
         {
             base.NetReceiveInitialize(reader);
+            Projectile.velocity = reader.ReadVector2();
+
             PlayShootSound();
         }
     }

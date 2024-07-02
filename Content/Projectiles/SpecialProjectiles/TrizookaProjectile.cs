@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             set => Projectile.ai[0] = value;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 

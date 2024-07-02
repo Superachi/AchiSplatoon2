@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 

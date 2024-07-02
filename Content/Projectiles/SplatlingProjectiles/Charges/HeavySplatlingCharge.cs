@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -26,9 +27,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             set => Projectile.ai[2] = value;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
-            base.OnSpawn(source);
+            Initialize();
+
             BaseSplatling weaponData = (BaseSplatling)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
@@ -133,14 +135,18 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             spawnPositionOffset = Vector2.Zero;
                         }
 
-                        int proj = Projectile.NewProjectile(
-                        spawnSource: Projectile.GetSource_FromThis(),
-                        position: Projectile.position + spawnPositionOffset,
-                        velocity: velocity,
-                        Type: ProjectileType,
-                        Damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
-                        KnockBack: Projectile.knockBack,
-                        Owner: Main.myPlayer);
+                        var p = CreateChildProjectile(
+                            position: Projectile.position + spawnPositionOffset,
+                            velocity: velocity,
+                            type: ProjectileType,
+                            damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
+                            triggerAfterSpawn: false);
+
+                        var spreadOffset = 0.5f;
+                        p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        p.AfterSpawn();
+                        DebugHelper.PrintInfo($"generating: {p.Projectile.velocity}");
 
                         for (int i = 0; i < 15; i++)
                         {

@@ -31,12 +31,6 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
             Projectile.timeLeft = 6;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
-            // Note to self: OnSpawn runs DIRECTLY after calling Projectile.NewProjectile()
-            // This means you cannot create a projectile, set a variable, and then expect those variables to be ready when OnSpawn is running
-        }
-
         private void PlayEffect()
         {
             hasActivated = true;

@@ -53,7 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = true;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             // Mechanics
             Initialize();

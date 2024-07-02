@@ -29,14 +29,14 @@ namespace AchiSplatoon2.Content.Projectiles
         DustExplosion,
         UpdateCharge,
         ReleaseCharge,
-        ShootAnimation
+        ShootAnimation,
+        SyncMovement,
     }
 
     internal class BaseProjectile : ModProjectile
     {
-        public string jsonData;
-
-        protected BaseWeapon weaponSource;
+        public BaseWeapon weaponSource;
+        public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
 
         // Audio
@@ -64,7 +64,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected int state = 0;
 
         // Netcode
-        protected byte netUpdateType = 0;
+        protected byte netUpdateType = (byte)ProjNetUpdateType.None;
+        protected int afterInitializeDelay = 1;
 
         /// <summary>
         /// Used to declare a projectile destroyed locally, without invoking the Projectile.Kill() method
@@ -95,14 +96,32 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
-        public void Initialize(bool ignoreAimDeviation = false)
+        public virtual void AfterSpawn()
         {
+            // Do something after spawning
+            // Using this, rather than OnSpawn, provides time to set properties of the projectile after its spawned into the world
+        }
+
+        public virtual void AfterInitialize()
+        {
+            NetUpdate(ProjNetUpdateType.Initialize);
+        }
+
+        public bool Initialize(bool ignoreAimDeviation = false)
+        {
+            if (weaponSource == null)
+            {
+                PrintStackTrace(3);
+                DebugHelper.PrintWarning("Data for this projectile is not ready yet!");
+                Projectile.Kill();
+                return false;
+            }
+
             // Check the highest color chip amounts, set the ink color to match the top 2
             // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
             // This object is then referenced by child classes to get alter certain mechanics
             var owner = Main.player[Projectile.owner];
             var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
-            weaponSource = owner.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
 
             if (modPlayer.IsPaletteValid())
             {
@@ -187,11 +206,31 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity = angleVec * projSpeed;
             }
 
-            NetUpdate(ProjNetUpdateType.Initialize);
             if (NetHelper.IsPlayerSameAsLocalPlayer(owner))
             {
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
+
+            return true;
+        }
+
+        protected virtual BaseProjectile CreateChildProjectile(Vector2 position, Vector2 velocity, int type, int damage, bool triggerAfterSpawn = true)
+        {
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: Projectile.GetSource_FromThis(),
+                position: position,
+                velocity: velocity,
+                type: type,
+                damage: damage,
+                knockback: Projectile.knockBack,
+                owner: Projectile.owner);
+
+            var proj = p.ModProjectile as BaseProjectile;
+            proj.weaponSource = weaponSource;
+            proj.primaryColor = primaryColor;
+            proj.secondaryColor = secondaryColor;
+            if (triggerAfterSpawn) proj.AfterSpawn();
+            return proj;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -264,6 +303,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return Main.myPlayer == Projectile.owner;
         }
 
+        #region Item animation
         protected void SyncProjectilePosWithPlayer(Player owner, float offsetX = 0, float offsetY = 0)
         {
             Projectile.position = owner.Center + new Vector2(offsetX, offsetY);
@@ -320,7 +360,9 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemAnimation = owner.itemAnimationMax;
             owner.itemTime = owner.itemTimeMax;
         }
+        #endregion
 
+        #region Audio
         private SlotId PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)
@@ -360,6 +402,7 @@ namespace AchiSplatoon2.Content.Projectiles
             };
             SoundEngine.PlaySound(chargeSound);
         }
+        #endregion
 
         protected void debugMessage(bool isDebug, string message)
         {
@@ -403,22 +446,15 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 if (expModel == null) return;
 
-                var p = Projectile.NewProjectileDirect(
-                    spawnSource: Projectile.GetSource_FromThis(),
+                var p = CreateChildProjectile(
                     position: Projectile.Center,
                     velocity: Vector2.Zero,
                     type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
-                    damage: 0,
-                    knockback: 0,
-                    owner: Main.myPlayer);
-                var proj = p.ModProjectile as ExplosionProjectileVisual;
+                    damage: 0);
+                var proj = p as ExplosionProjectileVisual;
 
                 proj.explosionDustModel = expModel;
-                string json = JsonConvert.SerializeObject(proj.explosionDustModel);
-
                 proj.playAudioModel = audioModel;
-                proj.primaryColor = primaryColor;
-                proj.secondaryColor = secondaryColor;
             }
         }
 
@@ -503,6 +539,16 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         #endregion
 
+        public override bool PreAI()
+        {
+            afterInitializeDelay--;
+            if (afterInitializeDelay == 0)
+            {
+                AfterInitialize();
+            }
+            return true;
+        }
+
         #region NetCode
         public virtual void NetUpdate(ProjNetUpdateType type)
         {
@@ -515,7 +561,6 @@ namespace AchiSplatoon2.Content.Projectiles
             if (NetHelper.IsSinglePlayer()) return;
 
             writer.Write(netUpdateType);
-
             switch (netUpdateType)
             {
                 case (byte)ProjNetUpdateType.Initialize:
@@ -535,6 +580,9 @@ namespace AchiSplatoon2.Content.Projectiles
                     break;
                 case (byte)ProjNetUpdateType.ShootAnimation:
                     NetSendShootAnimation(writer);
+                    break;
+                case (byte)ProjNetUpdateType.SyncMovement:
+                    NetSendSyncMovement(writer);
                     break;
             }
         }
@@ -566,30 +614,32 @@ namespace AchiSplatoon2.Content.Projectiles
                 case (byte)ProjNetUpdateType.ShootAnimation:
                     NetReceiveShootAnimation(reader);
                     break;
+                case (byte)ProjNetUpdateType.SyncMovement:
+                    NetReceiveSyncMovement(reader);
+                    break;
             }
         }
 
         protected virtual void NetSendInitialize(BinaryWriter writer)
         {
-            writer.Write((byte)     primaryColor);
-            writer.Write((byte)     secondaryColor);
-            writer.Write((byte)     primaryHighest);
-            writer.Write((byte)     secondaryHighest);
-            writer.Write((byte)     Projectile.extraUpdates);
         }
 
         protected virtual void NetReceiveInitialize(BinaryReader reader)
         {
-            primaryColor = (InkColor)reader.ReadByte();
-            secondaryColor = (InkColor)reader.ReadByte();
-            primaryHighest = (int)reader.ReadByte();
-            secondaryHighest = (int)reader.ReadByte();
-            Projectile.extraUpdates = reader.ReadByte();
         }
 
-        private void NotImplementedWarning()
+        private string NotImplementedWarning()
         {
-            Main.NewText($"{System.Reflection.MethodBase.GetCurrentMethod().Name} Error: No implementation for this projectile packet type yet.");
+            return $"{System.Reflection.MethodBase.GetCurrentMethod().Name} - No implementation for this projectile packet type yet.";
+        }
+
+        protected virtual void NetSendSyncMovement(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
 
         protected virtual void NetSendEveryFrame(BinaryWriter writer)
@@ -599,6 +649,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveEveryFrame(BinaryReader reader)
         {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
 
         protected virtual void NetSendDustExplosion(BinaryWriter writer)
@@ -607,6 +658,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveDustExplosion(BinaryReader reader)
         {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
 
         // Shoot animation (for cases where it doesn't manually show)
@@ -616,6 +668,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveShootAnimation(BinaryReader reader)
         {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
 
         // Charge mechanics
@@ -624,6 +677,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         protected virtual void NetReceiveUpdateCharge(BinaryReader reader)
         {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
 
         protected virtual void NetSendReleaseCharge(BinaryWriter writer)
@@ -632,9 +686,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveReleaseCharge(BinaryReader reader)
         {
+            DebugHelper.PrintWarning(NotImplementedWarning());
         }
         #endregion
 
+        #region Debug
         public void PrintAndLog(string message, Color? color = null)
         {
             if (color == null) color = Color.White;
@@ -661,5 +717,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 PrintAndLog($"{i}>{(new System.Diagnostics.StackTrace()).GetFrame(i + 2).GetMethod().Name}", Color.Yellow);
             }
         }
+        #endregion
     }
 }

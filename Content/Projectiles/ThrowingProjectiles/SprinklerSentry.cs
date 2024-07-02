@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -68,9 +69,9 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
-            base.OnSpawn(source);
+            Initialize();
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
         }
@@ -231,14 +232,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private void ShootSprinkler(Vector2 angleVector)
         {
-            Projectile.NewProjectile(
-                spawnSource: Projectile.GetSource_FromThis(),
+            if (!IsThisClientTheProjectileOwner()) return;
+            CreateChildProjectile(
                 position: Projectile.Center - stickingDirection * 6f,
                 velocity: angleVector * 9f,
-                Type: ModContent.ProjectileType<SprinklerProjectile>(),
-                Damage: Projectile.damage,
-                KnockBack: Projectile.knockBack,
-                Owner: Main.myPlayer);
+                type: ModContent.ProjectileType<SprinklerProjectile>(),
+                damage: Projectile.damage);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
