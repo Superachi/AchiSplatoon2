@@ -34,19 +34,19 @@ namespace AchiSplatoon2.Helpers
 
         public static void PrintError(string message, ILog logger = null)
         {
-            Main.NewText($"<Error> {message}", ColorHelper.GetInkColor(InkColor.Red));
+            Main.NewText($"<Error - {DateTime.Now.TimeOfDay}> {message}", ColorHelper.GetInkColor(InkColor.Red));
             if (logger != null) LogMessage(message, logger, LogMessageType.Error);
         }
 
         public static void PrintWarning(string message, ILog logger = null)
         {
-            Main.NewText($"<Warning> {message}", ColorHelper.GetInkColor(InkColor.Yellow));
+            Main.NewText($"<Warning - {DateTime.Now.TimeOfDay}> {message}", ColorHelper.GetInkColor(InkColor.Yellow));
             if (logger != null) LogMessage(message, logger, LogMessageType.Warn);
         }
 
         public static void PrintInfo(string message, ILog logger = null)
         {
-            Main.NewText($"<Info> {message}", ColorHelper.GetInkColor(InkColor.Aqua));
+            Main.NewText($"<Info - {DateTime.Now.TimeOfDay}> {message}", ColorHelper.GetInkColor(InkColor.Aqua));
             if (logger != null) LogMessage(message, logger, LogMessageType.Info);
         }
     }
