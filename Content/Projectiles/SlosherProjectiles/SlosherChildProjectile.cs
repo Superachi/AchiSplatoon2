@@ -10,6 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Helpers;
+using System.IO;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -41,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override void AI()
         {
+            if (isFakeDestroyed) return;
             Projectile.ai[0] += 1f;
 
             // Start falling eventually
@@ -65,12 +68,19 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (isFakeDestroyed) return false;
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
                 float velX = ((Projectile.velocity.X + random) * -0.5f);
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+            }
+
+            if (IsThisClientTheProjectileOwner() && !NetHelper.IsSinglePlayer())
+            {
+                FakeDestroy();
+                return false;
             }
             return true;
         }

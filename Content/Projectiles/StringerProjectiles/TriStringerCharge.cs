@@ -134,7 +134,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         protected override void NetSendReleaseCharge(BinaryWriter writer)
         {
-            Main.NewText("SendReleaseCharge");
             writer.Write((byte)chargeLevel);
             writer.Write((string)shootSample);
             writer.Write((string)shootWeakSample);
@@ -143,7 +142,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         protected override void NetReceiveReleaseCharge(BinaryReader reader)
         {
-            Main.NewText("ReceiveReleaseCharge");
             chargeLevel = reader.ReadByte();
             shootSample = reader.ReadString();
             shootWeakSample = reader.ReadString();

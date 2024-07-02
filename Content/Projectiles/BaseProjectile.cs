@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles
         DustExplosion,
         UpdateCharge,
         ReleaseCharge,
-        ShootAnimation,
+        ShootAnimation
     }
 
     internal class BaseProjectile : ModProjectile
@@ -65,6 +65,22 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // Netcode
         protected byte netUpdateType = 0;
+
+        /// <summary>
+        /// Used to declare a projectile destroyed locally, without invoking the Projectile.Kill() method
+        /// Example use-case: makes slosher projectiles go 'inactive' on the owner client, so that other clients have time to show the projectile hitting the target/ground
+        /// </summary>
+        protected bool isFakeDestroyed = false;
+
+        /// <summary>
+        /// Declare a projectile destroyed locally. This sets its damage to 0, and sets Projectile.friendly to false
+        /// </summary>
+        protected virtual void FakeDestroy()
+        {
+            isFakeDestroyed = true;
+            Projectile.damage = 0;
+            Projectile.friendly = false;
+        }
 
         protected virtual void SetState(int targetState)
         {
