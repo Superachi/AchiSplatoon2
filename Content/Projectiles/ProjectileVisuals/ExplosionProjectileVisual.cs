@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Newtonsoft.Json;
 using AchiSplatoon2.Helpers;
+using System;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 {
@@ -27,18 +28,19 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
             Projectile.height = 1;
             Projectile.friendly = false;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 30;
+            Projectile.timeLeft = 6;
         }
 
         public override void OnSpawn(IEntitySource source)
         {
-            Timer = 3;
             // Note to self: OnSpawn runs DIRECTLY after calling Projectile.NewProjectile()
             // This means you cannot create a projectile, set a variable, and then expect those variables to be ready when OnSpawn is running
         }
 
         private void PlayEffect()
         {
+            hasActivated = true;
+
             if (playAudioModel != null)
             {
                 SoundHelper.PlayAudio(playAudioModel);
@@ -46,7 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
             if (explosionDustModel == null)
             {
-                Main.NewText("ExplosionDustModel is missing");
+                DebugHelper.PrintError("ExplosionDustModel is missing (is the data formatted, sent and received correctly?)", Mod.Logger);
             }
 
             EmitBurstDust(explosionDustModel);
@@ -54,18 +56,17 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
         public override void AI()
         {
-            Timer--;
+            if (hasActivated) return;
 
-            if (Timer <= 0 && !hasActivated)
+            if (IsThisClientTheProjectileOwner())
             {
-                hasActivated = true;
                 PlayEffect();
 
                 if (NetHelper.IsThisAClient())
                 {
                     NetUpdate(ProjNetUpdateType.DustExplosion);
                 }
-            }
+            } 
         }
 
         protected override void NetSendDustExplosion(BinaryWriter writer)

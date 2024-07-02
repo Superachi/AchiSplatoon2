@@ -18,6 +18,7 @@
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
+	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />

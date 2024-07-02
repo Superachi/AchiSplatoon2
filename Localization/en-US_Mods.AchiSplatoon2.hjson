@@ -548,6 +548,7 @@ Projectiles: {
 	SlosherMainProjectile.DisplayName: Slosher Main Projectile
 	InkbrushProjectile.DisplayName: Inkbrush Projectile
 	ExplosionProjectileVisual.DisplayName: Explosion Projectile Visual
+	BlasterProjectileV2.DisplayName: Blaster Projectile V2
 }
 
 Buffs: {

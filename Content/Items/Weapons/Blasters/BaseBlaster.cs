@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     internal class BaseBlaster : BaseWeapon
     {
         // Audio
-        public override string ShootSample { get => "BlasterShoot"; }
+        public override string ShootSample { get => "BlasterFire"; }
         public virtual string ExplosionBigSample { get => "BlasterExplosion"; }
         public virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
 
@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
                 singleShotTime: 15,
                 shotVelocity: 4f);
 

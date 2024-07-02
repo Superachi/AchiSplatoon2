@@ -9,6 +9,8 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using AchiSplatoon2.Netcode.DataModels;
 using System.Security.Cryptography.X509Certificates;
+using ReLogic.Content;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {

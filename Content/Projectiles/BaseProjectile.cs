@@ -45,8 +45,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected string shootAltSample = "SplattershotShoot";
 
         // Colors
-        protected InkColor primaryColor = InkColor.Order;
-        protected InkColor secondaryColor = InkColor.Order;
+        public InkColor primaryColor = InkColor.Order;
+        public InkColor secondaryColor = InkColor.Order;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
@@ -353,7 +353,7 @@ namespace AchiSplatoon2.Content.Projectiles
         #region DustEffects
         protected void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
         {
-            float radiusMult = radiusModifier / 160;
+            float radiusMult = radiusModifier / 140;
             amount = Convert.ToInt32(amount * radiusMult);
 
             // Ink
@@ -383,21 +383,27 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected void CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
         {
-            var p = Projectile.NewProjectileDirect(
-                spawnSource: Projectile.GetSource_FromThis(),
-                position: Projectile.Center,
-                velocity: Vector2.Zero,
-                type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
-                damage: 0,
-                knockback: 0,
-                owner: Main.myPlayer);
-            var proj = p.ModProjectile as ExplosionProjectileVisual;
+            if (IsThisClientTheProjectileOwner())
+            {
+                if (expModel == null) return;
 
-            proj.explosionDustModel = expModel;
-            proj.playAudioModel = audioModel;
-            proj.primaryColor = primaryColor;
-            proj.secondaryColor = secondaryColor;
-            p.netUpdate = true;
+                var p = Projectile.NewProjectileDirect(
+                    spawnSource: Projectile.GetSource_FromThis(),
+                    position: Projectile.Center,
+                    velocity: Vector2.Zero,
+                    type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
+                    damage: 0,
+                    knockback: 0,
+                    owner: Main.myPlayer);
+                var proj = p.ModProjectile as ExplosionProjectileVisual;
+
+                proj.explosionDustModel = expModel;
+                string json = JsonConvert.SerializeObject(proj.explosionDustModel);
+
+                proj.playAudioModel = audioModel;
+                proj.primaryColor = primaryColor;
+                proj.secondaryColor = secondaryColor;
+            }
         }
         #endregion
 
@@ -603,5 +609,32 @@ namespace AchiSplatoon2.Content.Projectiles
         {
         }
         #endregion
+
+        public void PrintAndLog(string message, Color? color = null)
+        {
+            if (color == null) color = Color.White;
+
+            Main.NewText(message, color);
+            Mod.Logger.Info(message);
+        }
+
+        public void PrintStackTrace(int amount, Color? color = null)
+        {
+            if (color == null) color = Color.White;
+
+            string currentClass = "";
+            PrintAndLog($"{DateTime.Now.TimeOfDay} ==========", color);
+
+            if (currentClass != this.GetType().Name)
+            {
+                currentClass = this.GetType().Name;
+                PrintAndLog($"Class: {currentClass}", Color.Orange);
+            }
+
+            for (var i = 0; i < amount; i++)
+            {
+                PrintAndLog($"{i}>{(new System.Diagnostics.StackTrace()).GetFrame(i + 2).GetMethod().Name}", Color.Yellow);
+            }
+        }
     }
 }
