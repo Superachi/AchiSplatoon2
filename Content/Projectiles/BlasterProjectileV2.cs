@@ -146,7 +146,6 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 case stateFly:
                     EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 1, minScale: 1, maxScale: 3);
-                    NetUpdate(ProjNetUpdateType.EveryFrame);
 
                     if (Timer >= explosionDelay * FrameSpeed())
                     {
@@ -185,28 +184,6 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             return false;
-        }
-
-        protected override void NetSendEveryFrame(BinaryWriter writer)
-        {
-            writer.WriteVector2(Projectile.position);
-            writer.WriteVector2(Projectile.velocity);
-        }
-
-        protected override void NetReceiveEveryFrame(BinaryReader reader)
-        {
-            Vector2 spawnPosition = Vector2.Lerp(Projectile.position, Projectile.oldPosition, 0.5f);
-            EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 1, minScale: 1, maxScale: 3, position: spawnPosition);
-
-            Projectile.position = reader.ReadVector2();
-            Projectile.velocity = reader.ReadVector2();
-            state = stateFly;
-        }
-
-        protected override void NetReceiveInitialize(BinaryReader reader)
-        {
-            base.NetReceiveInitialize(reader);
-            PlayShootSound();
         }
     }
 }

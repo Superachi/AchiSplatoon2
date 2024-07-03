@@ -672,7 +672,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private string NotImplementedWarning()
         {
-            return $"{System.Reflection.MethodBase.GetCurrentMethod().Name} - No implementation for this projectile packet type yet.";
+            PrintStackTrace(3);
+            return $"No implementation for this projectile packet type yet.";
         }
 
         protected virtual void NetSendSyncMovement(BinaryWriter writer)
