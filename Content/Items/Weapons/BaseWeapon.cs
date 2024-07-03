@@ -169,31 +169,25 @@ namespace AchiSplatoon2.Content.Items.Weapons
             return subname;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            // Track the item that is being used as the player is about to shoot
-            // In BaseProjectile.cs -> Initialize(), this value is referenced in order to get information relevant to a weapon
-            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
-            modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(this.GetType());
-
-            // Adjust the position of the projectile (that is about to spawn) to better match the weapon sprite
-            Vector2 weaponOffset = HoldoutOffset() ?? new Vector2(0, 0);
-            Vector2 muzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
-
-            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
-            {
-                position += muzzleOffset;
-            }
-        }
-
         public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
         {
             var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
             if (weaponType == null) weaponType = this;
 
+            // Offset the projectile's position to match the weapon
+            Vector2 weaponOffset = HoldoutOffset() ?? new Vector2(0, 0);
+            Vector2 muzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
+            Vector2 position = player.Center;
+            bool canHit = Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0);
+            if (canHit)
+            {
+                position += muzzleOffset;
+            }
+
+            // Spawn the projectile
             var p = Projectile.NewProjectileDirect(
                 spawnSource: source,
-                position: player.Center,
+                position: position,
                 velocity: velocity,
                 type: weaponType.Item.shoot,
                 damage: weaponType.Item.damage,
@@ -201,7 +195,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 owner: player.whoAmI);
             var proj = p.ModProjectile as BaseProjectile;
 
-            proj.weaponSource = modPlayer.lastUsedWeapon;
+            // Config variables after spawning
+            proj.weaponSource = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
         }
@@ -320,9 +315,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             Vector2 angleVector = radians.ToRotationVector2();
                             Vector2 velocity = angleVector;
                             var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
-
-                            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
-                            modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(subWeaponType[j]);
 
                             CreateProjectileWithWeaponProperties(
                                 player: player,
