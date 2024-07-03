@@ -146,7 +146,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         p.AfterSpawn();
-                        DebugHelper.PrintInfo($"generating: {p.Projectile.velocity}");
 
                         for (int i = 0; i < 15; i++)
                         {
