@@ -60,9 +60,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
             player.GetCritChance(DamageClass.Generic) +=
                 (float)chips[(int)InkWeaponPlayer.ChipColor.Green] * modPlayer.GreenChipBaseCritBonus;
-
-            player.moveSpeed +=
-                (float)chips[(int)InkWeaponPlayer.ChipColor.Blue] * modPlayer.BlueChipBaseMoveSpeedBonus;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

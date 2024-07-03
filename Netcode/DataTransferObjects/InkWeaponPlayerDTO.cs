@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Netcode.DataTransferObjects
     internal class InkWeaponPlayerDTO
     {
         public bool SpecialReady;
-        public Color InkColor; 
+        public Color InkColor;
 
         public InkWeaponPlayerDTO(bool specialReady, Color inkColor)
         {

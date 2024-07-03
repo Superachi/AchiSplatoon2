@@ -5,6 +5,7 @@ using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using Terraria;
@@ -18,6 +19,7 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkWeaponPlayer : ModPlayer
     {
+        public int playerId = -1;
         public bool isPaletteEquipped;
         public int paletteCapacity;
         public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
@@ -73,16 +75,21 @@ namespace AchiSplatoon2.Content.Players
             Aqua,
         }
 
+        public float moveSpeedModifier = 1f;
+        public float moveAccelModifier = 1f;
+        public bool brushMoveSpeedCap = true;
+
+        private bool DoesModPlayerBelongToLocalClient()
+        {
+            return Player.whoAmI == Main.LocalPlayer.whoAmI;
+        }
+
         public override void PreUpdate()
         {
-            Player player = Main.LocalPlayer;
-            if (player.HeldItem.ModItem is Inkbrush && player.ItemTimeIsZero)
+            if (playerId == -1 && DoesModPlayerBelongToLocalClient())
             {
-                player.maxRunSpeed *= 1.1f;
-                player.runAcceleration *= 5f;
-            } else if (player.HeldItem.ModItem is Octobrush && player.ItemTimeIsZero)
-            {
-                player.runAcceleration *= 3f;
+                playerId = Player.whoAmI;
+                Main.NewText($"Woomy! Hi {Player.name}!", Color.Orange);
             }
 
             // Emit dusts when special is ready
@@ -148,14 +155,67 @@ namespace AchiSplatoon2.Content.Players
                 }
             } else
             {
-                if (player.HasBuff<SpecialReadyBuff>())
+                if (Player.HasBuff<SpecialReadyBuff>())
                 {
-                    player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
+                    Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
                 }
             }
 
             AddSpecialPointsOnMovement();
             DrainSpecial();
+        }
+
+        public override void PostUpdateMiscEffects()
+        {
+            if (!DoesModPlayerBelongToLocalClient()) return;
+
+            var oldMoveSpeedMod = moveSpeedModifier;
+            var oldMoveAccelMod = moveAccelModifier;
+            moveSpeedModifier = 1f;
+            moveAccelModifier = 1f;
+            brushMoveSpeedCap = false;
+
+            // Move speed bonus from holding a brush
+            if (Player.HeldItem.ModItem is Inkbrush)
+            {
+                if (Player.ItemTimeIsZero)
+                {
+                    moveSpeedModifier = 1.1f;
+                    moveAccelModifier = 5f;
+                } else
+                {
+                    brushMoveSpeedCap = true;
+                }
+            }
+            else if (Player.HeldItem.ModItem is Octobrush)
+            {
+                if (Player.ItemTimeIsZero)
+                {
+                    moveAccelModifier = 3f;
+                }
+                else
+                {
+                    brushMoveSpeedCap = true;
+                }
+            }
+
+            // Move speed bonus from holding blue color chips
+            if (IsPaletteValid() && !brushMoveSpeedCap)
+            {
+                int blueChipCount = ColorChipAmounts[(int)ChipColor.Blue];
+                moveSpeedModifier += blueChipCount * BlueChipBaseMoveSpeedBonus;
+            }
+
+            if (oldMoveSpeedMod != moveSpeedModifier || oldMoveAccelMod != moveAccelModifier)
+            {
+                SyncMoveSpeedData();
+            }
+        }
+
+        public override void PostUpdateRunSpeeds()
+        {
+            Player.maxRunSpeed *= moveSpeedModifier;
+            Player.runAcceleration *= moveAccelModifier;
         }
 
         public override void ResetEffects()
@@ -172,8 +232,7 @@ namespace AchiSplatoon2.Content.Players
 
         public bool DoesPlayerHaveTooManyChips()
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            int chipCount = modPlayer.CalculateColorChipTotal();
+            int chipCount = CalculateColorChipTotal();
             return (chipCount > paletteCapacity);
         }
 
@@ -219,8 +278,8 @@ namespace AchiSplatoon2.Content.Players
 
         public void IncrementSpecialPoints(float amount)
         {
-            var player = Main.LocalPlayer;
-            if (player.dead) return;
+            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (Player.dead) return;
 
             if (!IsSpecialActive)
             {
@@ -230,8 +289,8 @@ namespace AchiSplatoon2.Content.Players
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
             {
-                player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
-                CombatTextHelper.DisplayText("SPECIAL CHARGED!", player.Center, color: new Color(255, 155, 0));
+                Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
+                CombatTextHelper.DisplayText("SPECIAL CHARGED!", Player.Center, color: new Color(255, 155, 0));
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
 
@@ -253,15 +312,15 @@ namespace AchiSplatoon2.Content.Players
 
         private void AddSpecialPointsOnMovement()
         {
-            var player = Main.LocalPlayer;
-            if (Math.Abs(player.velocity.X) > 1f) {
-                float increment = 0.002f * Math.Abs(player.velocity.X) * (1 + ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
+            if (Math.Abs(Player.velocity.X) > 1f) {
+                float increment = 0.003f * Math.Abs(Player.velocity.X) * (ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
                 IncrementSpecialPoints(increment);
             }
         }
 
         public void ActivateSpecial(float drainSpeed, string specialName)
         {
+            if (!DoesModPlayerBelongToLocalClient()) return;
             if (!IsSpecialActive)
             {
                 SpecialName = specialName;
@@ -272,8 +331,8 @@ namespace AchiSplatoon2.Content.Players
 
         public void DrainSpecial(float drainAmount = 0f)
         {
-            var player = Main.LocalPlayer;
-            if (player.dead) return;
+            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (Player.dead) return;
 
             if (IsSpecialActive)
             {
@@ -298,6 +357,8 @@ namespace AchiSplatoon2.Content.Players
         }
 
         public void ResetSpecialStats() {
+            if (!DoesModPlayerBelongToLocalClient()) return;
+
             IsSpecialActive = false;
             SpecialPoints = 0;
             SpecialDrain = 0;
@@ -310,10 +371,34 @@ namespace AchiSplatoon2.Content.Players
             SyncModPlayerData();
         }
 
+        private void SendPacket(PlayerPacketType msgType, object dto = null)
+        {
+            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (NetHelper.IsSinglePlayer()) return;
+
+            string json = "";
+            if (dto != null)
+            {
+                json = JsonConvert.SerializeObject(dto);
+            }
+
+            ModPlayerPacketHandler.SendModPlayerPacket(
+                    msgType: msgType,
+                    fromWho: Main.LocalPlayer.whoAmI,
+                    json: json,
+                    logger: Mod.Logger);
+        }
+
         private void SyncModPlayerData()
         {
             var dto = new InkWeaponPlayerDTO(SpecialReady, ColorFromChips);
-            ModPlayerPacketHandler.SendSyncPlayer(Main.LocalPlayer.whoAmI, dto, Mod.Logger);
+            SendPacket(PlayerPacketType.SyncModPlayer, dto);
+        }
+
+        private void SyncMoveSpeedData()
+        {
+            var dto = new PlayerMoveSpeedDTO(moveSpeedModifier, moveAccelModifier);
+            SendPacket(PlayerPacketType.SyncMoveSpeed, dto);
         }
 
         public void UpdateInkColor(Color newColor)

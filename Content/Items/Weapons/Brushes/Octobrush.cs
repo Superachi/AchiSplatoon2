@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
@@ -39,18 +40,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.Register();
-        }
-
-        public override void UseAnimation(Player player)
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                // Slow down movement while attacking (similar to how the player slows down in Splatoon when attacking with a brush)
-                if (Math.Abs(player.velocity.X) > 2f)
-                {
-                    player.velocity.X *= 0.8f;
-                }
-            }
         }
     }
 }

@@ -14,14 +14,15 @@ using static AchiSplatoon2.Helpers.NetHelper;
 using log4net.Repository.Hierarchy;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Terraria.ID;
+using Newtonsoft.Json;
+using System.Runtime.InteropServices.JavaScript;
 
 namespace AchiSplatoon2.Netcode
 {
     enum PlayerPacketType : byte
     {
-        SpecialReady,
-        UpdateInkColor,
         SyncModPlayer,
+        SyncMoveSpeed,
     }
 
     internal class ModPlayerPacketHandler
@@ -42,10 +43,15 @@ namespace AchiSplatoon2.Netcode
             byte msgType = _reader.ReadByte();
             _logger.Info($"Received '{(PlayerPacketType)msgType}' packet.");
 
+            int fromWho = _reader.ReadInt32();
+
             switch (msgType)
             {
-                case (int)PlayerPacketType.SyncModPlayer:
-                    ReceiveSyncPlayer(_reader, _whoAmI, _logger);
+                case (byte)PlayerPacketType.SyncModPlayer:
+                    ReceiveSyncPlayer(_reader, fromWho, _logger);
+                    break;
+                case (byte)PlayerPacketType.SyncMoveSpeed:
+                    ReceiveSyncMoveSpeed(_reader, fromWho, _logger);
                     break;
                 default:
                     _logger.WarnFormat("Unknown Message type: {0}", msgType);
@@ -53,50 +59,98 @@ namespace AchiSplatoon2.Netcode
             }
         }
 
-        public static void SendSyncPlayer(int fromWho, InkWeaponPlayerDTO dto, ILog logger)
+        public static void SendModPlayerPacket(PlayerPacketType msgType, int fromWho, string json = "", ILog logger = null)
         {
-            if (IsSinglePlayer()) { return; }
+            if (IsSinglePlayer()) return;
 
             // Prepare data
             Player player = Main.LocalPlayer;
             ModPacket packet = GetNewPacket();
 
-            // Write
-            // 'Headers'
             WritePacketHandlerType(packet, (int)PacketHandlerType.Player);
-            WritePacketType(packet, (int)PlayerPacketType.SyncModPlayer);
+            WritePacketType(packet, (int)msgType);
             WritePacketFromWhoID(packet, fromWho);
 
-            // 'Payload'
+            switch (msgType)
+            {
+                case PlayerPacketType.SyncModPlayer:
+                    SendSyncPlayer(
+                        packet: packet,
+                        dto: JsonConvert.DeserializeObject<InkWeaponPlayerDTO>(json));
+                    break;
+                case PlayerPacketType.SyncMoveSpeed:
+                    SendSyncMoveSpeed(
+                        packet: packet,
+                        dto: JsonConvert.DeserializeObject<PlayerMoveSpeedDTO>(json));
+                    break;
+            }
+
+            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
+        }
+
+        public static void SendSyncPlayer(ModPacket packet, InkWeaponPlayerDTO dto)
+        {
             packet.Write(dto.SpecialReady);
             packet.WriteRGB(dto.InkColor);
-
-            // Send
-            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
         }
 
         public static void ReceiveSyncPlayer(BinaryReader reader, int fromWho, ILog logger)
         {
-            // Read data
-            // 'Headers'
-            fromWho = reader.ReadInt32();
-
             // 'Payload'
             bool specialReady = reader.ReadBoolean();
             Color colorFromChips = reader.ReadRGB();
-            var dto = new InkWeaponPlayerDTO(specialReady, colorFromChips);
 
             // Respond
             if (IsThisTheServer())
             {
+                var dto = new InkWeaponPlayerDTO(specialReady, colorFromChips);
+                var json = JsonConvert.SerializeObject(dto);
+
                 // Forward
-                SendSyncPlayer(fromWho, dto, logger);
+                SendModPlayerPacket(
+                    msgType: PlayerPacketType.SyncModPlayer,
+                    fromWho: fromWho,
+                    json: json,
+                    logger: logger);
             }
             else
             {
                 var modPlayer = GetModPlayerFromPacket(fromWho);
                 modPlayer.SpecialReady = specialReady;
                 modPlayer.ColorFromChips = colorFromChips;
+            }
+        }
+
+        public static void SendSyncMoveSpeed(ModPacket packet, PlayerMoveSpeedDTO dto)
+        {
+            packet.Write((double)dto.moveSpeedMod);
+            packet.Write((double)dto.moveAccelMod);
+        }
+
+        public static void ReceiveSyncMoveSpeed(BinaryReader reader, int fromWho, ILog logger)
+        {
+            // 'Payload'
+            float moveSpeedMod      = (float)reader.ReadDouble();
+            float moveAccelMod      = (float)reader.ReadDouble();
+
+            // Respond
+            if (IsThisTheServer())
+            {
+                var dto = new PlayerMoveSpeedDTO(moveSpeedMod, moveAccelMod);
+                var json = JsonConvert.SerializeObject(dto);
+
+                // Forward
+                SendModPlayerPacket(
+                    msgType: PlayerPacketType.SyncMoveSpeed,
+                    fromWho: fromWho,
+                    json: json,
+                    logger: logger);
+            }
+            else
+            {
+                InkWeaponPlayer modPlayer = GetModPlayerFromPacket(fromWho);
+                modPlayer.moveSpeedModifier = moveSpeedMod;
+                modPlayer.moveAccelModifier = moveAccelMod;
             }
         }
     }
