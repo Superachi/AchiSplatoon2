@@ -26,6 +26,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             shotgunArc = weaponData.ShotgunArc;
             projectileCount = weaponData.ProjectileCount;
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
         }
 
         protected override void ReleaseCharge(Player owner)

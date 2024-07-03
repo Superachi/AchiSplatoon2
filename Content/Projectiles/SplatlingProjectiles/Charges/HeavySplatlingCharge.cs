@@ -38,6 +38,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
 
+            if (IsThisClientTheProjectileOwner())
+            {
+                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
             Projectile.soundDelay = 30;
         }
 

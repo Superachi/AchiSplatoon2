@@ -30,7 +30,11 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             Initialize();
             Projectile.velocity = Vector2.Zero;
-            PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
 
             BaseCharger weaponData = (BaseCharger)weaponSource;
 
@@ -44,6 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Release the attack
             hasFired = true;
             Projectile.friendly = true;
+            Projectile.tileCollide = true;
 
             // Adjust behaviour depending on the charge amount
             if (chargeLevel > 0)

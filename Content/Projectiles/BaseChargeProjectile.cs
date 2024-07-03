@@ -33,6 +33,10 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.timeLeft = 36000;
             Projectile.penetrate = -1;
             AIType = ProjectileID.Bullet;
+
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
         }
 
         public override void AfterSpawn()
@@ -60,6 +64,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void ReleaseCharge(Player owner)
         {
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
             hasFired = true;
             Projectile.Kill();
         }
