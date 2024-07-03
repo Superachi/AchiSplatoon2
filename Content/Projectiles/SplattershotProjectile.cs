@@ -15,6 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private int delayUntilFall;
         private float fallSpeed;
+        private bool canFall = false;
         private float terminalVelocity = 6f;
         protected float Timer
         {
@@ -49,14 +50,21 @@ namespace AchiSplatoon2.Content.Projectiles
             Timer ++;
             if (Timer >= FrameSpeed(delayUntilFall))
             {
+                if (!canFall)
+                {
+                    canFall = true;
+                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
+                }
+            }
+
+            if (canFall)
+            {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
             Color dustColor = GenerateInkColor();
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-
-            NetUpdate(ProjNetUpdateType.EveryFrame);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -77,14 +85,14 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         // Netcode
-        protected override void NetReceiveInitialize(BinaryReader reader)
+        protected override void NetSendSyncMovement(BinaryWriter writer)
         {
-            base.NetReceiveInitialize(reader);
-            PlayShootSound();
+            writer.Write((bool)canFall);
         }
 
-        protected override void NetReceiveEveryFrame(BinaryReader reader)
+        protected override void NetReceiveSyncMovement(BinaryReader reader)
         {
+            canFall = reader.ReadBoolean();
         }
     }
 }

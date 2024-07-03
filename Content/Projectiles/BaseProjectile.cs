@@ -35,6 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
     internal class BaseProjectile : ModProjectile
     {
+        public int itemIdentifier = -1;
         public BaseWeapon weaponSource;
         public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
@@ -104,110 +105,120 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public virtual void AfterInitialize()
         {
-            NetUpdate(ProjNetUpdateType.Initialize);
+            NetUpdate(ProjNetUpdateType.Initialize, true);
         }
 
         public bool Initialize(bool ignoreAimDeviation = false)
         {
             if (weaponSource == null)
             {
-                PrintStackTrace(3);
-                DebugHelper.PrintWarning("Data for this projectile is not ready yet!");
-                Projectile.Kill();
-                return false;
+                // Attempt to get the source via the itemIdentifier
+                if (itemIdentifier != -1)
+                {
+                    ModItem modItem = ModContent.GetModItem(itemIdentifier);
+                    weaponSource = (BaseWeapon)modItem;
+                }
+
+                if (weaponSource == null)
+                {
+                    PrintStackTrace(3);
+                    DebugHelper.PrintWarning($"Data for this projectile is not ready yet! (weaponSource: {weaponSource}, itemIdentifier: {itemIdentifier})");
+                    Projectile.Kill();
+                    return false;
+                }
             }
 
             // Check the highest color chip amounts, set the ink color to match the top 2
             // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
             // This object is then referenced by child classes to get alter certain mechanics
-            var owner = Main.player[Projectile.owner];
-            var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
-
-            if (modPlayer.IsPaletteValid())
+            if (IsThisClientTheProjectileOwner())
             {
-                for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
+                var owner = Main.player[Projectile.owner];
+                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+
+                if (modPlayer.IsPaletteValid())
                 {
-                    Projectile.usesLocalNPCImmunity = true;
-                    Projectile.localNPCHitCooldown = 20 * FrameSpeed();
-
-                    // Apply color chip buffs
-                    // See also the calculations in InkWeaponPlayer.cs
-                    int value = modPlayer.ColorChipAmounts[i];
-
-                    // Only consider the color if we have any chips for it
-                    if (value > 0)
+                    for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                     {
-                        // Change the primary color if we see a new highest count
-                        if (value > primaryHighest)
+                        Projectile.usesLocalNPCImmunity = true;
+                        Projectile.localNPCHitCooldown = 20 * FrameSpeed();
+
+                        // Apply color chip buffs
+                        // See also the calculations in InkWeaponPlayer.cs
+                        int value = modPlayer.ColorChipAmounts[i];
+
+                        // Only consider the color if we have any chips for it
+                        if (value > 0)
                         {
-                            // If we've no other colors, make the secondary color match the primary one
-                            if (secondaryHighest == 0)
+                            // Change the primary color if we see a new highest count
+                            if (value > primaryHighest)
+                            {
+                                // If we've no other colors, make the secondary color match the primary one
+                                if (secondaryHighest == 0)
+                                {
+                                    secondaryColor = (InkColor)i;
+                                    secondaryHighest = value;
+                                }
+                                // If we do, mark the previous primary color as the secondary color
+                                else
+                                {
+                                    secondaryColor = primaryColor;
+                                    secondaryHighest = primaryHighest;
+                                }
+
+                                primaryColor = (InkColor)i;
+                                primaryHighest = value;
+                            }
+                            // What if we don't have the highest count?
+                            else if (primaryColor == secondaryColor || value > secondaryHighest)
                             {
                                 secondaryColor = (InkColor)i;
                                 secondaryHighest = value;
                             }
-                            // If we do, mark the previous primary color as the secondary color
-                            else
+                        }
+
+                        // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
+                        if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                        {
+                            armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
+                            Projectile.ArmorPenetration += armorPierceModifier;
+                        }
+
+                        // Purple chips > faster charge speed
+                        if (i == (int)InkWeaponPlayer.ChipColor.Purple)
+                        {
+                            chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
+                        }
+
+                        // Yellow chips > bigger explosions + projectile piercing
+                        if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
+                        {
+                            explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
+                            piercingModifier += modPlayer.CalculatePiercingBonus();
+
+                            if (Projectile.penetrate != -1)
                             {
-                                secondaryColor = primaryColor;
-                                secondaryHighest = primaryHighest;
+                                Projectile.maxPenetrate += piercingModifier;
+                                Projectile.penetrate += piercingModifier;
                             }
-
-                            primaryColor = (InkColor)i;
-                            primaryHighest = value;
-                        }
-                        // What if we don't have the highest count?
-                        else if (primaryColor == secondaryColor || value > secondaryHighest)
-                        {
-                            secondaryColor = (InkColor)i;
-                            secondaryHighest = value;
-                        }
-                    }
-
-                    // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
-                    if (i == (int)InkWeaponPlayer.ChipColor.Red)
-                    {
-                        armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
-                        Projectile.ArmorPenetration += armorPierceModifier;
-                    }
-
-                    // Purple chips > faster charge speed
-                    if (i == (int)InkWeaponPlayer.ChipColor.Purple)
-                    {
-                        chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
-                    }
-
-                    // Yellow chips > bigger explosions + projectile piercing
-                    if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
-                    {
-                        explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
-                        piercingModifier += modPlayer.CalculatePiercingBonus();
-
-                        if (Projectile.penetrate != -1)
-                        {
-                            Projectile.maxPenetrate += piercingModifier;
-                            Projectile.penetrate += piercingModifier;
                         }
                     }
                 }
-            }
 
-            if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
-            {
-                var vel = Projectile.velocity;
-                var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
+                if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
+                {
+                    var vel = Projectile.velocity;
+                    var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
 
-                var dev = weaponSource.AimDeviation;
-                float startRad = vel.ToRotation();
-                float startDeg = MathHelper.ToDegrees(startRad);
-                float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
-                float endRad = MathHelper.ToRadians(endDeg);
-                Vector2 angleVec = endRad.ToRotationVector2();
-                Projectile.velocity = angleVec * projSpeed;
-            }
-
-            if (NetHelper.IsPlayerSameAsLocalPlayer(owner))
-            {
+                    var dev = weaponSource.AimDeviation;
+                    float startRad = vel.ToRotation();
+                    float startDeg = MathHelper.ToDegrees(startRad);
+                    float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
+                    float endRad = MathHelper.ToRadians(endDeg);
+                    Vector2 angleVec = endRad.ToRotationVector2();
+                    Projectile.velocity = angleVec * projSpeed;
+                }
+            
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
 
@@ -227,6 +238,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             var proj = p.ModProjectile as BaseProjectile;
             proj.weaponSource = weaponSource;
+            proj.itemIdentifier = itemIdentifier;
             proj.primaryColor = primaryColor;
             proj.secondaryColor = secondaryColor;
             if (triggerAfterSpawn) proj.AfterSpawn();
@@ -550,8 +562,17 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         #region NetCode
-        public virtual void NetUpdate(ProjNetUpdateType type)
+        public virtual void NetUpdate(ProjNetUpdateType type, bool ownerOnly = false)
         {
+            // By default, perform the netUpdate
+            // If ownerOnly is true, then we check if this client owns the projectile first
+            bool willUpdate = true;
+            if (ownerOnly)
+            {
+                willUpdate = IsThisClientTheProjectileOwner();
+            }
+            if (!willUpdate) return;
+
             netUpdateType = (byte)type;
             Projectile.netUpdate = true;
         }
@@ -560,7 +581,25 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             if (NetHelper.IsSinglePlayer()) return;
 
+            // DebugHelper.PrintInfo($"Sending packet of type {(ProjNetUpdateType)netUpdateType}");
             writer.Write(netUpdateType);
+
+            // Fallbacks for getting the associated item data
+            if (itemIdentifier == -1)
+            {
+                if (weaponSource != null)
+                {
+                    itemIdentifier = weaponSource.ItemIdentifier;
+                } else
+                {
+                    weaponSource = (BaseWeapon)Main.LocalPlayer.HeldItem.ModItem;
+                    itemIdentifier = weaponSource.ItemIdentifier;
+                }
+            }
+
+            // DebugHelper.PrintInfo($"With item identifier of {(Int16)itemIdentifier}");
+            writer.Write((Int16)itemIdentifier);
+
             switch (netUpdateType)
             {
                 case (byte)ProjNetUpdateType.Initialize:
@@ -592,7 +631,9 @@ namespace AchiSplatoon2.Content.Projectiles
             if (NetHelper.IsSinglePlayer()) return;
 
             netUpdateType = reader.ReadByte();
-            // Main.NewText((ProjNetUpdateType)netUpdateType);
+            // DebugHelper.PrintInfo($"Receiving packet of type {(ProjNetUpdateType)netUpdateType}");
+            itemIdentifier = reader.ReadInt16();
+            // DebugHelper.PrintInfo($"With item identifier of {itemIdentifier}");
 
             switch (netUpdateType)
             {
@@ -626,6 +667,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveInitialize(BinaryReader reader)
         {
+            AfterSpawn();
         }
 
         private string NotImplementedWarning()

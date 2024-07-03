@@ -41,6 +41,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
     internal class BaseWeapon : BaseItem
     {
+        public int ItemIdentifier { get; private set; }
         // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
         public virtual string ShootWeakSample { get => "SplattershotShoot"; }
@@ -86,6 +87,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override void SetDefaults()
         {
+            ItemIdentifier = Item.type;
             BonusSub = WeaponKitList.GetWeaponKitSubType(this.GetType());
             BonusType = WeaponKitList.GetWeaponKitSubBonusType(this.GetType());
         }
@@ -197,6 +199,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             // Config variables after spawning
             proj.weaponSource = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
+            proj.itemIdentifier = ItemIdentifier;
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
         }
