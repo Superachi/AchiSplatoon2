@@ -17,6 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float previousVelocityY;
         private int maxBounces;
         private float bounceDamageMod = 1f;
+        private float bounceDamageModMax = 10f;
         private int baseDamage;
 
         public override void SetDefaults()
@@ -56,6 +57,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             dust.alpha = 64;
         }
 
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (bounceDamageMod > 5f)
+            {
+                DirectHitDustBurst(target.Center);
+            }
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             var bounced = false;
@@ -75,8 +84,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (bounced)
             {
                 maxBounces--;
-                bounceDamageMod++;
-                bounceDamageMod = Math.Clamp(bounceDamageMod, 1, 5);
+                bounceDamageMod *= 2f;
+                bounceDamageMod = Math.Clamp(bounceDamageMod, 1, bounceDamageModMax);
                 Projectile.damage = (int)(baseDamage * bounceDamageMod);
             }
 
