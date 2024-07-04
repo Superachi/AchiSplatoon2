@@ -16,6 +16,7 @@ Hint: {
 	Slosher: Throws a stream of projectiles that cover a wide area
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
+	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
 }
 
 Items: {
@@ -510,6 +511,20 @@ Items: {
 		DisplayName: Jet Squelcher
 		Tooltip: ""
 	}
+
+	L3Nozzlenose: {
+		UsageHint: "{$Hint.Nozzlenose}"
+		Flavor: Mods.AchiSplatoon2.Items.L3Nozzlenose.Flavor
+		DisplayName: L-3 Nozzlenose
+		Tooltip: ""
+	}
+
+	H3Nozzlenose: {
+		UsageHint: "{$Hint.Nozzlenose}"
+		Flavor: L-3's big brother
+		DisplayName: H-3 Nozzlenose
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -549,6 +564,8 @@ Projectiles: {
 	InkbrushProjectile.DisplayName: Inkbrush Projectile
 	ExplosionProjectileVisual.DisplayName: Explosion Projectile Visual
 	BlasterProjectileV2.DisplayName: Blaster Projectile V2
+	NozzlenoseProjectile.DisplayName: Nozzlenose Projectile
+	NozzlenoseShooter.DisplayName: Nozzlenose Shooter
 }
 
 Buffs: {
