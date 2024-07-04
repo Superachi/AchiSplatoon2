@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
@@ -371,6 +372,22 @@ namespace AchiSplatoon2.Content.Players
             SyncModPlayerData();
         }
 
+        public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
+        {
+            float damageMod = 1f;
+            if (hasSubPowerEmblem) damageMod *= subPowerMultiplier;
+            if (hasMainWeaponBonus) damageMod *= (1 + BaseWeapon.subDamageBonus);
+            return damageMod;
+        }
+
+        public float CalculateSpecialDamageBonusModifier()
+        {
+            float damageMod = 1f;
+            if (hasSpecialPowerEmblem) damageMod *= specialPowerMultiplier;
+            return damageMod;
+        }
+
+        // NetCode
         private void SendPacket(PlayerPacketType msgType, object dto = null)
         {
             if (!DoesModPlayerBelongToLocalClient()) return;

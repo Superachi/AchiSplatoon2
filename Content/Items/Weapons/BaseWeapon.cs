@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
@@ -57,8 +58,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponType BonusSub { get; private set; }
         public SubWeaponBonusType BonusType { get; private set; }
 
-        protected const float subDiscountChance = 0.5f;
-        protected const float subDamageBonus = 0.5f;
+        public const float subDiscountChance = 0.5f;
+        public const float subDamageBonus = 0.5f;
         protected static int[] subWeaponItemIDs = {
             ModContent.ItemType<SplatBomb>(),
             ModContent.ItemType<BurstBomb>(),
@@ -173,7 +174,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
         {
-            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
             if (weaponType == null) weaponType = this;
 
             // Offset the projectile's position to match the weapon
@@ -200,6 +201,20 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // Config variables after spawning
             proj.weaponSource = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
+
+            // If throwing a sub weapon directly, apply damage modifiers
+            if (this is BaseBomb)
+            {
+                BaseBomb bomb = (BaseBomb)this;
+                proj.Projectile.damage = (int)(proj.Projectile.damage * bomb.CalculateDamageMod(player));
+            }
+
+            if (this is BaseSpecial)
+            {
+                BaseSpecial special = (BaseSpecial)this;
+                proj.Projectile.damage = (int)(proj.Projectile.damage * modPlayer.CalculateSpecialDamageBonusModifier());
+            }
+
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
         }
@@ -272,19 +287,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 {
                                     luckyDiscount = Main.rand.NextBool((int)(1f/subDiscountChance));
                                 }
-                                if (BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub)
-                                {
-                                    damageBonus *= (1 + subDamageBonus);
-                                }
-                            }
 
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                var mp = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                                if (mp.hasSubPowerEmblem)
-                                {
-                                    damageBonus *= InkWeaponPlayer.subPowerMultiplier;
-                                }
+                                var mp = player.GetModPlayer<InkWeaponPlayer>();
+                                bool hasMainWeaponBonus = BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub;
+                                damageBonus = mp.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
                             }
 
                             if (!luckyDiscount)
@@ -319,13 +325,15 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             Vector2 velocity = angleVector;
                             var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
 
-                            CreateProjectileWithWeaponProperties(
+                            var p = CreateProjectileWithWeaponProperties(
                                 player: player,
                                 source: source,
                                 velocity: velocity * item.shootSpeed,
                                 weaponType: (BaseWeapon)item.ModItem,
-                                triggerAfterSpawn: true
+                                triggerAfterSpawn: false
                                 );
+                            p.Projectile.damage = (int)(p.Projectile.damage * damageBonus);
+                            p.AfterSpawn();
 
                             player.itemTime = item.useTime;
                             doneSearching = true;
