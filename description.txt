@@ -1,1 +1,41 @@
-This mod adds Splatoon related items. Still a work in progress.
+[c/ff8e2c:Note: Still a work in progress!]
+
+Programming & art by Achi. Thanks to MrBraadworst and Isey for playtesting with me.
+SFX and Splatoon as a franchise belong to Nintendo!
+
+[c/ff8e2c:= = = = = Premise = = = = =]
+This mod adds gear based on the Splatoon games. Head out into the world with main, sub and special weapons of your choice!
+You can craft your first items by using Iron Bars and Gel.
+Defeat bosses to earn Sheldon Licenses, which can be converted at an anvil to powerful weapons.
+Can you defeat the Moon Lord using only Splatoon-themed weaponry?
+
+[c/ff8e2c:= = = = = Gear instructions = = = = =]
+[c/3479de:Main weapons]
+These are weapons most similar to what you're used to in Terraria.
+By default, [c/ff8e2c:left-click] fires them. Some weapons require you to charge them, by holding down the button, before firing.
+[c/ff8e2c:Right-click] will consume the first sub weapon equipped in your ammo slot.
+Some main weapons provide a bonus to sub weapons this way!
+
+[c/3479de:Sub weapons]
+Mostly bombs, though some sub weapons are different.
+They can be used from your hotbar directly, or used via [c/ff8e2c:right-click] with a main weapon.
+
+[c/3479de:Special weapons]
+Special weapons are a lot stronger than main or sub weapons, but are limited in use.
+By attacking enemies (and through other means), you can fill
+your [c/ff8e2c:special gauge].
+When full, your character starts glowing, showing that your special weapon is ready for use!
+
+[c/3479de:Color Chip palettes]
+Like in Splatoon 3's Side Order DLC, you can equip a [c/ff8e2c:palette accessory] to boost your stats.
+The palette is powered by [c/ff8e2c:color chips] held in your inventory (this includes the Piggy Bank, Void Bag, etc.)
+Empty color chips can be crafted using glass and sand, and can be combined with dyes to gain an effect.
+A palette only works with up to a certain number of carried color chips.
+
+[c/ff8e2c:= = = = = Known issues/bugs = = = = =]
+Multiplayer issues:
+- Killer Wail visuals don't sync properly
+- Some projectiles (eg. sub weapons) are not drawn correctly
+- Trizooka projectiles are invisible for other players
+- Special charge points/visuals between players may go out of sync
+- Sprinkler visuals don't sync properly
