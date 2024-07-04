@@ -3,6 +3,7 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -14,6 +15,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected float shotgunArc;
         protected int projectileCount;
         protected bool allowStickyProjectiles;
+        public int burstHitCount = 0;
+        public int burstNPCTarget = -1;
+        public int burstRequiredHits;
 
         public override void AfterSpawn()
         {
@@ -26,6 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             shotgunArc = weaponData.ShotgunArc;
             projectileCount = weaponData.ProjectileCount;
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
+            burstRequiredHits = weaponData.ProjectileCount;
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -35,6 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         protected override void ReleaseCharge(Player owner)
         {
+            if (isFakeDestroyed) return;
             hasFired = true;
 
             // Prevent division by 0, though we shouldn't end up with this anyway
@@ -45,7 +51,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             // Set shot modifiers
-            float arcModifier = 2f;
             float velocityModifier = 0.75f;
             int projectileType = ModContent.ProjectileType<TriStringerProjectileWeak>();
             if (chargeLevel == 0)
@@ -58,12 +63,10 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 {
                     Projectile.damage = (int)(Projectile.damage * 0.75);
                     velocityModifier = 1f;
-                    arcModifier = 1.5f;
                 }
                 else
                 {
                     velocityModifier = 1.5f;
-                    arcModifier = 1f;
                 }
 
                 if (allowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
@@ -76,7 +79,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 owner.DirectionTo(Main.MouseWorld).ToRotation()
             );
 
-            float finalArc = Math.Clamp(shotgunArc * (maxChargeTime / ChargeTime) * arcModifier, shotgunArc, shotgunArc * 5);
+            float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f , 1f);
+            float finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
+
             float degreesPerProjectile = finalArc / projectileCount;
             int middleProjectile = projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
@@ -98,23 +103,30 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 }
 
                 // Spawn projectile
-                var proj = CreateChildProjectile(position: Projectile.position + spawnPositionOffset, velocity: velocity, type: projectileType, Projectile.damage, true);
+                var p = CreateChildProjectile(position: Projectile.position + spawnPositionOffset, velocity: velocity, type: projectileType, Projectile.damage, false);
+                var modProj = p as TriStringerProjectile;
+                modProj.parentFullyCharged = IsChargeMaxedOut();
 
                 // Set a number in the arrow
                 // Can be used to make them explode in sequence
-                proj.Projectile.ai[2] = i;
+                p.Projectile.ai[2] = i;
+                p.AfterSpawn();
 
                 // Adjust the angle for the next projectile
                 degreesOffset += degreesPerProjectile;
             }
 
             PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
-            if (NetHelper.IsSinglePlayer())
+            Projectile.timeLeft = 60;
+            FakeDestroy();
+            NetUpdate(ProjNetUpdateType.ReleaseCharge);
+        }
+
+        public override void AI()
+        {
+            if (!isFakeDestroyed)
             {
-                Projectile.Kill();
-            } else
-            {
-                NetUpdate(ProjNetUpdateType.ReleaseCharge);
+                base.AI();
             }
         }
 
@@ -135,7 +147,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             writer.Write((byte)chargeLevel);
             writer.Write((string)shootSample);
             writer.Write((string)shootWeakSample);
-            Projectile.timeLeft = 12;
         }
 
         protected override void NetReceiveReleaseCharge(BinaryReader reader)

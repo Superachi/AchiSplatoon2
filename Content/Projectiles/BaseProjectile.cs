@@ -40,6 +40,8 @@ namespace AchiSplatoon2.Content.Projectiles
         public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
 
+        public int parentIdentity = -1;
+
         // Audio
         protected string shootSample = "SplattershotShoot";
         protected string shootWeakSample = "SplattershotShoot";
@@ -239,10 +241,16 @@ namespace AchiSplatoon2.Content.Projectiles
             var proj = p.ModProjectile as BaseProjectile;
             proj.weaponSource = weaponSource;
             proj.itemIdentifier = itemIdentifier;
+            proj.parentIdentity = Projectile.identity;
             proj.primaryColor = primaryColor;
             proj.secondaryColor = secondaryColor;
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
+        }
+
+        protected Projectile GetParentProjectile(int projectileId)
+        {
+            return Main.projectile[parentIdentity];
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

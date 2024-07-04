@@ -129,11 +129,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AI()
         {
-            Player owner = Main.player[Projectile.owner];
-            if (owner.dead) { Projectile.Kill(); return; }
-
             if (IsThisClientTheProjectileOwner())
             {
+                Player owner = Main.player[Projectile.owner];
+                if (owner.dead) { Projectile.Kill(); return; }
+
                 if (owner.channel)
                 {
                     UpdateCharge(owner);

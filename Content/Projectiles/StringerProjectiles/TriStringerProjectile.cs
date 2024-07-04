@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -16,8 +17,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private int networkExplodeDelayBuffer = 120;
 
         private float delayUntilFall = 12f;
-        private float fallSpeed = 0.002f;
+        private float fallSpeed = 0.001f;
         private float terminalVelocity = 1f;
+
         private bool sticking = false;
         private bool hasExploded = false;
         protected virtual bool CanStick { get => true; }
@@ -25,6 +27,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private int finalExplosionRadius = 0;
         protected virtual int ExplosionRadius { get => 120; }
         private ExplosionDustModel explosionDustModel;
+
+        private bool countedForBurst = false;
+        public bool parentFullyCharged = false;
 
         public override void SetDefaults()
         {
@@ -144,6 +149,35 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            // Apply visual effect when hitting all of the burst's projectiles on the same target
+            if (!sticking && !countedForBurst && parentFullyCharged)
+            {
+                countedForBurst = true;
+                var parentProj = GetParentProjectile(parentIdentity);
+
+                if (parentProj.ModProjectile is TriStringerCharge)
+                {
+                    var parentModProj = parentProj.ModProjectile as TriStringerCharge;
+                    if (parentModProj.burstNPCTarget == -1)
+                    {
+                        parentModProj.burstNPCTarget = target.whoAmI;
+                    }
+
+                    if (parentModProj.burstNPCTarget == target.whoAmI)
+                    {
+                        parentModProj.burstHitCount++;
+                    }
+                    
+                    if (parentModProj.burstHitCount == parentModProj.burstRequiredHits)
+                    {
+                        TripleHitDustBurst(target.Center);
+                        parentProj.Kill();
+                    }
+                }
+
+                return;
+            }
+
             if (sticking && !hasExploded)
             {
                 if (IsThisClientTheProjectileOwner()) Explode();
