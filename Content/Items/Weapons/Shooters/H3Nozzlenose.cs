@@ -8,10 +8,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class H3Nozzlenose : L3Nozzlenose
     {
+        public override float ShotVelocity { get => 10f; }
         public override int BurstShotTime { get => 5; }
         public override float DamageIncreasePerHit { get => 1.5f; }
 
-        public override int ShotGravityDelay { get => 45; }
+        public override int ShotGravityDelay { get => 30; }
         public override float AimDeviation { get => 1f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;

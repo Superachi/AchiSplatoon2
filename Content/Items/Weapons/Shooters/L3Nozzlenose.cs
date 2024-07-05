@@ -14,12 +14,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class L3Nozzlenose : BaseSplattershot
     {
-        public virtual float ShotVelocity { get => 10f; }
+        public virtual float ShotVelocity { get => 8f; }
         public virtual int BurstShotTime { get => 4; }
         public virtual float DamageIncreasePerHit { get => 0.5f; }
 
         public override float ShotGravity { get => 0.4f; }
-        public override int ShotGravityDelay { get => 30; }
+        public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 2f; }
         public override string ShootSample { get => "SplattershotShoot"; }
