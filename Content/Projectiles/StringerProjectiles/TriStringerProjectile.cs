@@ -1,4 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
@@ -18,7 +20,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.001f;
-        private float terminalVelocity = 1f;
 
         private bool sticking = false;
         private bool hasExploded = false;
@@ -30,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         private bool countedForBurst = false;
         public bool parentFullyCharged = false;
+        public bool firedWithFreshQuiver = false;
 
         public override void SetDefaults()
         {
@@ -90,10 +92,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (Projectile.ai[0] >= ExtraUpdatesTime(delayUntilFall))
                 {
                     Projectile.velocity.Y += fallSpeed;
-                }
-                if (Projectile.velocity.Y > terminalVelocity)
-                {
-                    Projectile.velocity.Y = terminalVelocity;
                 }
 
                 Color dustColor = GenerateInkColor();
@@ -172,6 +170,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         TripleHitDustBurst(target.Center);
                         parentProj.Kill();
+
+                        if (firedWithFreshQuiver)
+                        {
+                            CreateChildProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FreshQuiverBlast>(), Projectile.damage, true);
+                        }
                     }
                 }
 

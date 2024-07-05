@@ -73,19 +73,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
-        public virtual LocalizedText UsageHint { get; set; }
-        public virtual LocalizedText Flavor { get; set; }
-        protected virtual string UsageHintParamA => "";
-        protected virtual string UsageHintParamB => "";
-
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-
-            UsageHint = this.GetLocalization(nameof(UsageHint));
-            Flavor = this.GetLocalization(nameof(Flavor));
-        }
-
         public override void SetDefaults()
         {
             ItemIdentifier = Item.type;

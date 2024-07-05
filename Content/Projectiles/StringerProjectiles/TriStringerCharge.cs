@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -18,17 +19,20 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public int burstHitCount = 0;
         public int burstNPCTarget = -1;
         public int burstRequiredHits;
+        private float muzzleDistance;
 
         public override void AfterSpawn()
         {
             Initialize();
 
             BaseStringer weaponData = (BaseStringer)weaponSource;
+            muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
             shotgunArc = weaponData.ShotgunArc;
             projectileCount = weaponData.ProjectileCount;
+
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
             burstRequiredHits = weaponData.ProjectileCount;
 
@@ -74,29 +78,33 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             PlayShootSample();
 
-            // The angle that the player aims at (player-to-cursor)
-            float aimAngle = MathHelper.ToDegrees(
-                owner.DirectionTo(Main.MouseWorld).ToRotation()
-            );
-
             float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f , 1f);
             float finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
+
+            var mP = owner.GetModPlayer<InkWeaponPlayer>();
+            if (mP.hasFreshQuiver && IsChargeMaxedOut())
+            {
+                finalArc *= mP.freshQuiverArcMod;
+                velocityModifier *= mP.freshQuiverVelocityMod;
+            }
 
             float degreesPerProjectile = finalArc / projectileCount;
             int middleProjectile = projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
 
+            // Convert angle: degrees -> radians -> vector
+            float aimAngle = MathHelper.ToDegrees(
+                owner.DirectionTo(Main.MouseWorld).ToRotation()
+            );
+
             for (int i = 0; i < projectileCount; i++)
             {
-                // Convert angle: degrees -> radians -> vector
                 float degrees = aimAngle + degreesOffset;
                 float radians = MathHelper.ToRadians(degrees);
-                Vector2 angleVector = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
-                Vector2 velocity = angleVector * velocityModifier; // * (0.95f + i * 0.05f);
+                Vector2 angleVector = radians.ToRotationVector2();
+                Vector2 velocity = angleVector * velocityModifier;
 
-                var muzzleDistance = 50f;
                 var spawnPositionOffset = Vector2.Normalize(velocity) * muzzleDistance;
-
                 if (!Collision.CanHitLine(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
                 {
                     spawnPositionOffset = Vector2.Zero;
@@ -106,6 +114,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 var p = CreateChildProjectile(position: Projectile.position + spawnPositionOffset, velocity: velocity, type: projectileType, Projectile.damage, false);
                 var modProj = p as TriStringerProjectile;
                 modProj.parentFullyCharged = IsChargeMaxedOut();
+                modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
 
                 // Set a number in the arrow
                 // Can be used to make them explode in sequence

@@ -17,6 +17,7 @@ Hint: {
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
+	FreshQuiver: Fully charged shots with stringers have improved performance. Creates an explosion when all shots hit
 }
 
 Items: {
@@ -156,56 +157,78 @@ Items: {
 	BaseAccessory: {
 		DisplayName: Base Accessory
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseAccessory.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseAccessory.Flavor
 	}
 
 	ColorChipBase: {
 		DisplayName: Color Chip Base
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipBase.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipBase.Flavor
 	}
 
 	ColorChipRed: {
 		DisplayName: Power Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipRed.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipRed.Flavor
 	}
 
 	ColorChipAqua: {
 		DisplayName: Drone Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipAqua.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipAqua.Flavor
 	}
 
 	ColorChipBlue: {
 		DisplayName: Mobility Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipBlue.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipBlue.Flavor
 	}
 
 	ColorChipGreen: {
 		DisplayName: Lucky Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipGreen.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipGreen.Flavor
 	}
 
 	ColorChipPurple: {
 		DisplayName: Support Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipPurple.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipPurple.Flavor
 	}
 
 	ColorChipYellow: {
 		DisplayName: Range Color Chip
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ColorChipYellow.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ColorChipYellow.Flavor
 	}
 
 	ChipPalette: {
 		DisplayName: Smoll Color Palette
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.ChipPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ChipPalette.Flavor
 	}
 
 	HyperfreshPalette: {
 		DisplayName: Hyperfresh Color Palette
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.HyperfreshPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.HyperfreshPalette.Flavor
 	}
 
 	PrincessPalette: {
 		DisplayName: Princess Color Palette
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.PrincessPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PrincessPalette.Flavor
 	}
 
 	ColorChipEmpty: {
@@ -336,6 +359,7 @@ Items: {
 		DisplayName: Canned Special
 		UsageHint: Allows you to use your special weapon immediately!
 		Tooltip: ""
+		Flavor: Mods.AchiSplatoon2.Items.CannedSpecial.Flavor
 	}
 
 	Dot52Gal: {
@@ -369,21 +393,29 @@ Items: {
 	SpecialChargeEmblem: {
 		DisplayName: Special Charge Emblem
 		Tooltip: "{$SpecialChargeEmblem.Multiplier}"
+		UsageHint: Mods.AchiSplatoon2.Items.SpecialChargeEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SpecialChargeEmblem.Flavor
 	}
 
 	SpecialPowerEmblem: {
 		DisplayName: Special Power Emblem
 		Tooltip: "{$SpecialPowerEmblem.Multiplier}"
+		UsageHint: Mods.AchiSplatoon2.Items.SpecialPowerEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SpecialPowerEmblem.Flavor
 	}
 
 	SubPowerEmblem: {
 		DisplayName: Sub Power Emblem
 		Tooltip: "{$SubPowerEmblem.Multiplier}"
+		UsageHint: Mods.AchiSplatoon2.Items.SubPowerEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SubPowerEmblem.Flavor
 	}
 
 	BaseItem: {
 		DisplayName: Base Item
 		Tooltip: ""
+		UsageHint: Mods.AchiSplatoon2.Items.BaseItem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseItem.Flavor
 	}
 
 	SheldonLicense: {
@@ -394,6 +426,7 @@ Items: {
 			Show it to the Guide and see what you can make!
 			'''
 		Flavor: U got a loicense fer that?
+		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicense.UsageHint
 	}
 
 	SheldonLicenseGold: {
@@ -403,6 +436,8 @@ Items: {
 			Obtained from bosses. Used to craft some of the best Splatlandian gear available.
 			Show it to the Guide and see what you can make!
 			'''
+		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseGold.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SheldonLicenseGold.Flavor
 	}
 
 	SheldonLicenseSilver: {
@@ -412,6 +447,8 @@ Items: {
 			Obtained from bosses (and mimics). Used to craft higher quality Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
+		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseSilver.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SheldonLicenseSilver.Flavor
 	}
 
 	UltraStamp: {
@@ -525,6 +562,13 @@ Items: {
 		DisplayName: H-3 Nozzlenose
 		Tooltip: ""
 	}
+
+	FreshQuiver: {
+		DisplayName: Fresh Quiver
+		Tooltip: ""
+		UsageHint: "{$Hint.FreshQuiver}"
+		Flavor: Mods.AchiSplatoon2.Items.FreshQuiver.Flavor
+	}
 }
 
 Projectiles: {
@@ -566,6 +610,7 @@ Projectiles: {
 	BlasterProjectileV2.DisplayName: Blaster Projectile V2
 	NozzlenoseProjectile.DisplayName: Nozzlenose Projectile
 	NozzlenoseShooter.DisplayName: Nozzlenose Shooter
+	FreshQuiverBlast.DisplayName: Fresh Quiver Blast
 }
 
 Buffs: {

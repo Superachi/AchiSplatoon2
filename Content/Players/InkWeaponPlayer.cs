@@ -46,6 +46,10 @@ namespace AchiSplatoon2.Content.Players
         public static float subPowerMultiplier = 2f;
         public static float specialPowerMultiplier = 2f;
 
+        public bool hasFreshQuiver;
+        public float freshQuiverArcMod = 0.5f;
+        public float freshQuiverVelocityMod = 1.5f;
+
         public float RedChipBaseAttackDamageBonus { get => 0.03f; }
         public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
         public int RedChipBaseArmorPierceBonus { get => 2; }
@@ -226,9 +230,11 @@ namespace AchiSplatoon2.Content.Players
             paletteCapacity = 0;
             ColorChipAmounts = [0, 0, 0, 0, 0, 0];
             ColorChipTotal = 0;
+
             hasSpecialPowerEmblem = false;
             hasSpecialChargeEmblem = false;
             hasSubPowerEmblem = false;
+            hasFreshQuiver = false;
         }
 
         public bool DoesPlayerHaveTooManyChips()
