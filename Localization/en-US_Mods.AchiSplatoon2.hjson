@@ -17,8 +17,9 @@ Hint: {
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
-	FreshQuiver: Fully charged shots with stringers have improved performance and explode when all shots hit
+	FreshQuiver: Fully charged shots with Stringers have improved performance and explode when all shots hit
 	CrayonBox: Splatling barrage lasts longer and ignores {0} points of enemy Defense
+	SteelCoil: Deal {0} LESS damage with Sloshers, but the same target can be hit multiple times
 }
 
 Items: {
@@ -575,6 +576,27 @@ Items: {
 		UsageHint: "{$Hint.CrayonBox}"
 		Flavor: Yummy yummy!
 		DisplayName: Crayon Box
+		Tooltip: ""
+	}
+
+	AdamantiteCoil: {
+		UsageHint: "{$Hint.SteelCoil}"
+		Flavor: Why does a bucket need a coil anyway?
+		DisplayName: Adamantite Coil
+		Tooltip: ""
+	}
+
+	BaseWeaponBoosterAccessory: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseWeaponBoosterAccessory.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseWeaponBoosterAccessory.Flavor
+		DisplayName: Base Weapon Booster Accessory
+		Tooltip: ""
+	}
+
+	TitaniumCoil: {
+		UsageHint: "{$Hint.SteelCoil}"
+		Flavor: Why does a bucket need a coil anyway?
+		DisplayName: Titanium Coil
 		Tooltip: ""
 	}
 }

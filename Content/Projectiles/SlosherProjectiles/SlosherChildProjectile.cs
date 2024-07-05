@@ -12,6 +12,9 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using AchiSplatoon2.Helpers;
 using System.IO;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -39,6 +42,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             BaseSlosher weaponData = (BaseSlosher)weaponSource;
             fallSpeed = weaponData.ShotGravity;
+
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasSteelCoil)
+            {
+                Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
+            }
         }
 
         public override void AI()
@@ -87,8 +96,14 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.immune[Projectile.owner] = 18;
-            base.OnHitNPC(target, hit, damageDone);
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasSteelCoil)
+            {
+                target.immune[Projectile.owner] = 4;
+            } else
+            {
+                target.immune[Projectile.owner] = 18;
+            }
         }
     }
 }

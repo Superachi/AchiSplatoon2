@@ -275,6 +275,11 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        protected Player GetOwner()
+        {
+            return Main.player[Projectile.owner];
+        }
+
         public void DamageToSpecialCharge(float damage, float targetMaxLife)
         {
             if (!CountDamageForSpecialCharge) { return; }

@@ -1,5 +1,10 @@
 ﻿using Terraria.ID;
 using Terraria;
+using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using Terraria.WorldBuilding;
+using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
@@ -14,6 +19,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.knockBack = 2;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Green;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasSteelCoil)
+                {
+                    damage *= AdamantiteCoil.DamageReductionMod;
+                }
+            }
         }
 
         public override void AddRecipes()

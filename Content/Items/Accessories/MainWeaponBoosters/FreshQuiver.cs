@@ -11,7 +11,7 @@ using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
-    internal class FreshQuiver : BaseAccessory
+    internal class FreshQuiver : BaseWeaponBoosterAccessory
     {
         public override void SetDefaults()
         {
@@ -19,8 +19,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 
             Item.width = 32;
             Item.height = 32;
-            Item.value = Item.buyPrice(gold: 7, silver: 50);
-            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

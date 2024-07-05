@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = true;
+            Projectile.friendly = false;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;

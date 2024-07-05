@@ -30,6 +30,7 @@
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectileWeak.png" />
 	</ItemGroup>

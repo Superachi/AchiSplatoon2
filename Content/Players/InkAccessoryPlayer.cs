@@ -21,6 +21,7 @@ namespace AchiSplatoon2.Content.Players
         public float freshQuiverVelocityMod = 1.5f;
 
         public bool hasCrayonBox;
+        public bool hasSteelCoil;
 
         public override void ResetEffects()
         {
@@ -29,6 +30,7 @@ namespace AchiSplatoon2.Content.Players
             hasSubPowerEmblem = false;
             hasFreshQuiver = false;
             hasCrayonBox = false;
+            hasSteelCoil = false;
         }
     }
 }

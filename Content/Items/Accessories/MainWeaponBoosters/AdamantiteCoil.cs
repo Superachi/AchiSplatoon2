@@ -2,22 +2,21 @@
 using AchiSplatoon2.Helpers;
 using Terraria.ID;
 using Terraria;
+using System;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
-    internal class CrayonBox : BaseWeaponBoosterAccessory
+    internal class AdamantiteCoil : BaseWeaponBoosterAccessory
     {
-        public static float BarrageLengthMod = 2f;
-        public static float SpreadOffsetMod = 0.5f;
-        public static int ArmorPenetration = 8;
-        protected override string UsageHintParamA => ArmorPenetration.ToString();
+        public static float DamageReductionMod = 0.6f;
+        protected override string UsageHintParamA => $"{Math.Ceiling((1 - DamageReductionMod) * 100)}%";
 
         public override void SetDefaults()
         {
             base.SetDefaults();
 
-            Item.width = 28;
-            Item.height = 28;
+            Item.width = 20;
+            Item.height = 32;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -25,8 +24,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
-                modPlayer.hasCrayonBox = true;
+                modPlayer.hasSteelCoil = true;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
+            recipe.Register();
         }
     }
 }
