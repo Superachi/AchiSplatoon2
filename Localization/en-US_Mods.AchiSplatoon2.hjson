@@ -17,7 +17,8 @@ Hint: {
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
-	FreshQuiver: Fully charged shots with stringers have improved performance. Creates an explosion when all shots hit
+	FreshQuiver: Fully charged shots with stringers have improved performance and explode when all shots hit
+	CrayonBox: Splatling barrage lasts longer and ignores {0} points of enemy Defense
 }
 
 Items: {
@@ -567,7 +568,14 @@ Items: {
 		DisplayName: Fresh Quiver
 		Tooltip: ""
 		UsageHint: "{$Hint.FreshQuiver}"
-		Flavor: Mods.AchiSplatoon2.Items.FreshQuiver.Flavor
+		Flavor: Stay fresh!
+	}
+
+	CrayonBox: {
+		UsageHint: "{$Hint.CrayonBox}"
+		Flavor: Yummy yummy!
+		DisplayName: Crayon Box
+		Tooltip: ""
 	}
 }
 

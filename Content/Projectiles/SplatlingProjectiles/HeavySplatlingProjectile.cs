@@ -1,4 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -13,7 +15,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
     {
         private float delayUntilFall = 20f;
         private float fallSpeed = 0.1f;
-        private float terminalVelocity = 10f;
 
         public override void SetDefaults()
         {
@@ -30,6 +31,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         public override void AfterSpawn()
         {
             Initialize();
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                var accMP = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasCrayonBox)
+                {
+                    Projectile.ArmorPenetration += CrayonBox.ArmorPenetration;
+                    // fallSpeed *= CrayonBox.ShotGravityMod;
+                }
+            }
+
             PlayShootSound();
         }
 
@@ -46,11 +58,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 {
                     Projectile.velocity.X *= 0.98f;
                 }
-            }
-
-            if (Projectile.velocity.Y > terminalVelocity)
-            {
-                Projectile.velocity.Y = terminalVelocity;
             }
 
             Color dustColor = GenerateInkColor();

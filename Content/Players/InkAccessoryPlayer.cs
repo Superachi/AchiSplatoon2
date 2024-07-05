@@ -21,8 +21,6 @@ namespace AchiSplatoon2.Content.Players
         public float freshQuiverVelocityMod = 1.5f;
 
         public bool hasCrayonBox;
-        public float crayonBoxBarrageLengthMod = 1.5f;
-        public float crayonBoxVelocityMod = 1.5f;
 
         public override void ResetEffects()
         {

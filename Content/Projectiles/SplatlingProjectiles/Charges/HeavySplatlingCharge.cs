@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -19,6 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         private float barrageShotTime;
         private float damageChargeMod = 1f;
         private float velocityChargeMod = 1f;
+        private float spreadOffset = 0.5f;
         private int soundDelayInterval = 5;
 
         protected float ChargedAmmo
@@ -75,6 +78,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     damageChargeMod = 1f;
                     velocityChargeMod = 1f;
                     break;
+            }
+
+            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasCrayonBox)
+            {
+                // velocityChargeMod *= CrayonBox.ShotVelocityMod;
+                ChargedAmmo = (int)(ChargedAmmo * CrayonBox.BarrageLengthMod);
+                spreadOffset *= CrayonBox.SpreadOffsetMod;
             }
         }
 
@@ -146,7 +157,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
                             triggerAfterSpawn: false);
 
-                        var spreadOffset = 0.5f;
                         p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         p.AfterSpawn();
