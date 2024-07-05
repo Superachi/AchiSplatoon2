@@ -333,6 +333,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 triggerAfterSpawn: false
                                 );
                             p.Projectile.damage = (int)(p.Projectile.damage * damageBonus);
+                            p.Projectile.position = player.Center;
                             p.AfterSpawn();
 
                             player.itemTime = item.useTime;
