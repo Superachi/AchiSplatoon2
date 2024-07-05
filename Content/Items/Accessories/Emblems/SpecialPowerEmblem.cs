@@ -3,11 +3,11 @@ using Terraria.ID;
 using Terraria;
 using Terraria.Localization;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {
     internal class SpecialPowerEmblem : BaseAccessory
     {
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)((InkWeaponPlayer.specialPowerMultiplier  -1) * 100));
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)((InkAccessoryPlayer.specialPowerMultiplier - 1) * 100));
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
             modPlayer.hasSpecialPowerEmblem = true;
         }
     }

@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f , 1f);
             float finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
 
-            var mP = owner.GetModPlayer<InkWeaponPlayer>();
+            var mP = owner.GetModPlayer<InkAccessoryPlayer>();
             if (mP.hasFreshQuiver && IsChargeMaxedOut())
             {
                 finalArc *= mP.freshQuiverArcMod;

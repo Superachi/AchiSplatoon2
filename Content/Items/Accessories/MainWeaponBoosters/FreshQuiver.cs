@@ -9,7 +9,7 @@ using Terraria;
 using AchiSplatoon2.Helpers;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class FreshQuiver : BaseAccessory
     {
@@ -27,9 +27,17 @@ namespace AchiSplatoon2.Content.Items.Accessories
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
                 modPlayer.hasFreshQuiver = true;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ItemID.MagicQuiver, 1);
+            recipe.AddIngredient(ItemID.SharkFin, 1);
+            recipe.Register();
         }
     }
 }

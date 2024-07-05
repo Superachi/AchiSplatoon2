@@ -38,18 +38,6 @@ namespace AchiSplatoon2.Content.Players
         public string SpecialName = null;
         public float SpecialDrain;
 
-        // Accessories
-        public bool hasSpecialPowerEmblem;
-        public bool hasSpecialChargeEmblem;
-        public bool hasSubPowerEmblem;
-        public static float specialChargeMultiplier = 1.5f;
-        public static float subPowerMultiplier = 2f;
-        public static float specialPowerMultiplier = 2f;
-
-        public bool hasFreshQuiver;
-        public float freshQuiverArcMod = 0.5f;
-        public float freshQuiverVelocityMod = 1.5f;
-
         public float RedChipBaseAttackDamageBonus { get => 0.03f; }
         public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
         public int RedChipBaseArmorPierceBonus { get => 2; }
@@ -230,11 +218,6 @@ namespace AchiSplatoon2.Content.Players
             paletteCapacity = 0;
             ColorChipAmounts = [0, 0, 0, 0, 0, 0];
             ColorChipTotal = 0;
-
-            hasSpecialPowerEmblem = false;
-            hasSpecialChargeEmblem = false;
-            hasSubPowerEmblem = false;
-            hasFreshQuiver = false;
         }
 
         public bool DoesPlayerHaveTooManyChips()
@@ -287,10 +270,11 @@ namespace AchiSplatoon2.Content.Players
         {
             if (!DoesModPlayerBelongToLocalClient()) return;
             if (Player.dead) return;
+            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
 
             if (!IsSpecialActive)
             {
-                if (hasSpecialChargeEmblem) { amount *= specialChargeMultiplier; }
+                if (accMP.hasSpecialChargeEmblem) { amount *= InkAccessoryPlayer.specialChargeMultiplier; }
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
             }
 
@@ -380,16 +364,20 @@ namespace AchiSplatoon2.Content.Players
 
         public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
         {
+            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+
             float damageMod = 1f;
-            if (hasSubPowerEmblem) damageMod *= subPowerMultiplier;
+            if (accMP.hasSubPowerEmblem) damageMod *= InkAccessoryPlayer.subPowerMultiplier;
             if (hasMainWeaponBonus) damageMod *= (1 + BaseWeapon.subDamageBonus);
             return damageMod;
         }
 
         public float CalculateSpecialDamageBonusModifier()
         {
+            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+
             float damageMod = 1f;
-            if (hasSpecialPowerEmblem) damageMod *= specialPowerMultiplier;
+            if (accMP.hasSpecialPowerEmblem) damageMod *= InkAccessoryPlayer.specialPowerMultiplier;
             return damageMod;
         }
 

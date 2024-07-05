@@ -30,10 +30,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
                 if (modPlayer.hasSpecialPowerEmblem)
                 {
-                    damage *= InkWeaponPlayer.specialPowerMultiplier;
+                    damage *= InkAccessoryPlayer.specialPowerMultiplier;
                 }
             }
         }
