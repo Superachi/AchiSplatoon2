@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float explosionRadiusModifier = 1f;
         protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
-        protected float damageModifierAfterPierce = 0.8f;
+        protected float damageModifierAfterPierce = 0.7f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
         protected virtual bool CountDamageForSpecialCharge { get => true; }
 

@@ -130,6 +130,7 @@ namespace AchiSplatoon2.Content.Projectiles
             
             if (state == stateExplodeAir || state == stateExplodeTile)
             {
+                Projectile.penetrate = -1;
                 Projectile.tileCollide = false;
                 Timer = 0;
                 Projectile.velocity = Vector2.Zero;
