@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             Item.height = 28;
             Item.value = Item.buyPrice(silver: 25);
             Item.rare = ItemRarityID.Blue;
-            Item.stack = 1;
+            Item.maxStack = 8;
         }
 
         // Order of code -> reseteffects -> update inventory -> update accessory
@@ -33,12 +33,12 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
 
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] += RedValue;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] += BlueValue;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] += RedValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] += BlueValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
         }
 
         private string StatIncreaseDisplayString(string textColor, string stat, string amount)
