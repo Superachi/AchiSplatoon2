@@ -274,7 +274,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (!IsSpecialActive)
             {
-                if (accMP.hasSpecialChargeEmblem) { amount *= InkAccessoryPlayer.specialChargeMultiplier; }
+                amount *= accMP.specialChargeMultiplier;
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
             }
 
@@ -367,7 +367,7 @@ namespace AchiSplatoon2.Content.Players
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
 
             float damageMod = 1f;
-            if (accMP.hasSubPowerEmblem) damageMod *= InkAccessoryPlayer.subPowerMultiplier;
+            damageMod *= accMP.subPowerMultiplier;
             if (hasMainWeaponBonus) damageMod *= (1 + BaseWeapon.subDamageBonus);
             return damageMod;
         }
@@ -377,7 +377,7 @@ namespace AchiSplatoon2.Content.Players
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
 
             float damageMod = 1f;
-            if (accMP.hasSpecialPowerEmblem) damageMod *= InkAccessoryPlayer.specialPowerMultiplier;
+            damageMod *= accMP.specialPowerMultiplier;
             return damageMod;
         }
 

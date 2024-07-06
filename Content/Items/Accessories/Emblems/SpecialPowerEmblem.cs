@@ -2,12 +2,14 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.Localization;
+using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {
     internal class SpecialPowerEmblem : BaseAccessory
     {
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)((InkAccessoryPlayer.specialPowerMultiplier - 1) * 100));
+        public static float addValue = 1f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(addValue * 100));
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -17,11 +19,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             Item.value = Item.buyPrice(gold: 2);
             Item.rare = ItemRarityID.LightRed;
         }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
-            modPlayer.hasSpecialPowerEmblem = true;
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasAgentCloak) return;
+                accMP.hasSpecialPowerEmblem = true;
+                accMP.specialPowerMultiplier += addValue;
+            }
         }
     }
 }

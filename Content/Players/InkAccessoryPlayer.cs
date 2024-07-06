@@ -9,35 +9,46 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkAccessoryPlayer : ModPlayer
     {
+        public bool hasAgentCloak;
         public bool hasSpecialPowerEmblem;
         public bool hasSpecialChargeEmblem;
         public bool hasSubPowerEmblem;
-        public static float specialChargeMultiplier = 1.5f;
-        public static float subPowerMultiplier = 2f;
-        public static float specialPowerMultiplier = 2f;
+
+        public float specialChargeMultiplier = 1f;
+        public float subPowerMultiplier = 1f;
+        public float specialPowerMultiplier = 1f;
 
         public bool hasFreshQuiver;
         public float freshQuiverArcMod = 0.5f;
         public float freshQuiverVelocityMod = 1.5f;
 
-        public bool hasCrayonBox;
-        public bool hasSteelCoil;
-        public bool hasTentacleScope;
         public bool hasFieryPaintCan;
         public bool lastBlasterShotHit;
 
+        public bool hasCrayonBox;
+        public bool hasSteelCoil;
+        public bool hasTentacleScope;
+
         public override void ResetEffects()
         {
+            hasAgentCloak = false;
             hasSpecialPowerEmblem = false;
             hasSpecialChargeEmblem = false;
             hasSubPowerEmblem = false;
+
+            specialChargeMultiplier = 1f;
+            subPowerMultiplier = 1f;
+            specialPowerMultiplier = 1f;
+
+            // Main weapon boosting accessories
             hasFreshQuiver = false;
-            hasCrayonBox = false;
-            hasSteelCoil = false;
-            hasTentacleScope = false;
 
             if (!hasFieryPaintCan) lastBlasterShotHit = true;
             hasFieryPaintCan = false;
+
+            hasCrayonBox = false;
+            hasSteelCoil = false;
+            hasTentacleScope = false;
         }
     }
 }

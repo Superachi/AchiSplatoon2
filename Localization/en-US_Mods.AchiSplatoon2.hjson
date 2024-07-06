@@ -21,6 +21,7 @@ Hint: {
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
+	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -618,6 +619,18 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.FieryPaintCan.Flavor
 		DisplayName: Flamin' Spray Can
 		Tooltip: ""
+	}
+
+	AgentCloak: {
+		UsageHint: "{$Hint.AgentCloak}"
+		Flavor: Booyah!
+		DisplayName: Cloak of the Inner Agent
+		Tooltip:
+			'''
+			{$SubPowerEmblem.Multiplier@0}
+			{$SpecialPowerEmblem.Multiplier@1}
+			{$SpecialChargeEmblem.Multiplier@2}
+			'''
 	}
 }
 
