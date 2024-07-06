@@ -24,10 +24,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         private float spreadOffset = 0.5f;
         private int soundDelayInterval = 5;
 
-        protected float ChargedAmmo
+        public int barrageTarget = -1;
+        public int barrageCombo = 0;
+
+        public float ChargedAmmo
         {
             get => Projectile.ai[2];
-            set => Projectile.ai[2] = value;
+            private set => Projectile.ai[2] = value;
         }
 
         public override void AfterSpawn()
@@ -83,8 +86,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasCrayonBox)
             {
-                // velocityChargeMod *= CrayonBox.ShotVelocityMod;
-                ChargedAmmo = (int)(ChargedAmmo * CrayonBox.BarrageLengthMod);
+                velocityChargeMod *= CrayonBox.ShotVelocityMod;
                 spreadOffset *= CrayonBox.SpreadOffsetMod;
             }
         }
