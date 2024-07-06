@@ -17,7 +17,7 @@ Hint: {
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
-	FreshQuiver: Fully charged Stringer volleys are easier to hit, and cause an explosion when all shots hit
+	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 
