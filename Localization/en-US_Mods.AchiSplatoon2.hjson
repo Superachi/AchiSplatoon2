@@ -20,6 +20,7 @@ Hint: {
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
+	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -579,7 +580,7 @@ Items: {
 
 	CrayonBox: {
 		UsageHint: "{$Hint.CrayonBox}"
-		Flavor: Yummy yummy!
+		Flavor: A tasty snack
 		DisplayName: Crayon Box
 		Tooltip: ""
 	}
@@ -607,9 +608,16 @@ Items: {
 
 	TentacularOcular: {
 		UsageHint: "{$Hint.TentacleScope.Usage}"
-		Flavor: Sting Ray is back
-		DisplayName: Tentacular Ocular
+		Flavor: Sting Ray is back!
+		DisplayName: Tentacular Oculus
 		Tooltip: "{$Hint.TentacleScope.CritBonus}"
+	}
+
+	FieryPaintCan: {
+		UsageHint: "{$Hint.FieryPaintCan}"
+		Flavor: Mods.AchiSplatoon2.Items.FieryPaintCan.Flavor
+		DisplayName: Flamin' Spray Can
+		Tooltip: ""
 	}
 }
 

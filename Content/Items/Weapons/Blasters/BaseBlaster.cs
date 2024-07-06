@@ -1,5 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

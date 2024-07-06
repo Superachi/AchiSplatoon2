@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -31,6 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private bool hasHadDirectHit = false;
         private bool hasExploded = false;
+        private bool hasHitTarget = false;
 
         private const int stateFly = 0;
         private const int stateExplodeAir = 1;
@@ -57,6 +60,13 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             // Mechanics
             Initialize();
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasFieryPaintCan && !accMP.lastBlasterShotHit)
+            {
+                Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
+                explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
+            }
+
             damageBeforePiercing = Projectile.damage;
             weaponData = weaponSource as Blaster;
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
@@ -165,6 +175,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            if (state != stateExplodeTile) hasHitTarget = true;
+
             if (!hasExploded && !hasHadDirectHit)
             {
                 hasHadDirectHit = true;
@@ -175,6 +187,8 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 SetState(stateExplodeAir);
             }
+
+            base.OnHitNPC(target, hit, damageDone);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -185,6 +199,17 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             return false;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasFieryPaintCan)
+            {
+                accMP.lastBlasterShotHit = hasHitTarget;
+            }
+
+            base.OnKill(timeLeft);
         }
     }
 }

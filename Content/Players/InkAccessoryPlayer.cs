@@ -23,6 +23,8 @@ namespace AchiSplatoon2.Content.Players
         public bool hasCrayonBox;
         public bool hasSteelCoil;
         public bool hasTentacleScope;
+        public bool hasFieryPaintCan;
+        public bool lastBlasterShotHit;
 
         public override void ResetEffects()
         {
@@ -33,6 +35,9 @@ namespace AchiSplatoon2.Content.Players
             hasCrayonBox = false;
             hasSteelCoil = false;
             hasTentacleScope = false;
+
+            if (!hasFieryPaintCan) lastBlasterShotHit = true;
+            hasFieryPaintCan = false;
         }
     }
 }
