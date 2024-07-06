@@ -17,9 +17,14 @@ Hint: {
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
-	FreshQuiver: Fully charged shots with Stringers have improved performance and explode when all shots hit
+	FreshQuiver: Fully charged Stringer volleys are easier to hit, and cause an explosion when all shots hit
 	CrayonBox: Splatling barrage lasts longer and ignores {0} points of enemy Defense
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
+
+	TentacleScope: {
+		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
+		CritBonus: "{0}% increased critical strike chance on Chargers"
+	}
 }
 
 Items: {
@@ -598,6 +603,13 @@ Items: {
 		Flavor: Why does a bucket need a coil anyway?
 		DisplayName: Titanium Coil
 		Tooltip: ""
+	}
+
+	TentacularOcular: {
+		UsageHint: "{$Hint.TentacleScope.Usage}"
+		Flavor: Sting Ray is back
+		DisplayName: Tentacular Ocular
+		Tooltip: "{$Hint.TentacleScope.CritBonus}"
 	}
 }
 

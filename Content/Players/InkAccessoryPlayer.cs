@@ -22,6 +22,7 @@ namespace AchiSplatoon2.Content.Players
 
         public bool hasCrayonBox;
         public bool hasSteelCoil;
+        public bool hasTentacleScope;
 
         public override void ResetEffects()
         {
@@ -31,6 +32,7 @@ namespace AchiSplatoon2.Content.Players
             hasFreshQuiver = false;
             hasCrayonBox = false;
             hasSteelCoil = false;
+            hasTentacleScope = false;
         }
     }
 }

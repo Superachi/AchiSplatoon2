@@ -1,18 +1,21 @@
 ﻿using AchiSplatoon2.Content.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Localization;
-using Terraria;
 using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
-    internal class FreshQuiver : BaseWeaponBoosterAccessory
+    internal class TentacularOcular : BaseWeaponBoosterAccessory
     {
+        public static float TerrainPierceDamageMod = 0.8f;
+        public static float TerrainPierceVelocityMod = 0.2f;
+        public static float BaseCritChance = 15f;
+        public static int TerrainMaxPierceCount = 5;
+
+        protected override string UsageHintParamA => "";
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs($"{BaseCritChance}");
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -26,16 +29,16 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
-                modPlayer.hasFreshQuiver = true;
+                modPlayer.hasTentacleScope = true;
             }
         }
 
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.MagicQuiver, 1);
-            recipe.AddIngredient(ItemID.SharkFin, 1);
-            recipe.AddIngredient(ItemID.ExplosivePowder, 1);
+            recipe.AddIngredient(ItemID.BlackLens, 1);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ItemID.SoulofSight, 5);
             recipe.Register();
         }
     }

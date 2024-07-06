@@ -280,6 +280,11 @@ namespace AchiSplatoon2.Content.Projectiles
             return Main.player[Projectile.owner];
         }
 
+        protected int MultiplyProjectileDamage(float multiplier)
+        {
+            return (int)(Projectile.damage * multiplier);
+        }
+
         public void DamageToSpecialCharge(float damage, float targetMaxLife)
         {
             if (!CountDamageForSpecialCharge) { return; }

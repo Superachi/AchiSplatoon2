@@ -1,5 +1,7 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,6 +18,10 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private const int timeLeftAfterFiring = 120;
         private bool firstHit = false;
+
+        private bool isPiercingTile = false;
+        private Vector2 velocityBeforeTilePierce;
+        private int tilePiercesLeft;
 
         protected virtual bool ShakeScreenOnChargeShot { get => true; }
         protected virtual int MaxPenetrate { get => 10; }
@@ -41,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
+
+            tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
         }
 
         protected override void ReleaseCharge(Player owner)
@@ -48,7 +56,6 @@ namespace AchiSplatoon2.Content.Projectiles
             // Release the attack
             hasFired = true;
             Projectile.friendly = true;
-            Projectile.tileCollide = true;
 
             // Adjust behaviour depending on the charge amount
             if (chargeLevel > 0)
@@ -83,13 +90,64 @@ namespace AchiSplatoon2.Content.Projectiles
                 ) * Projectile.extraUpdates;
             }
 
+            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasTentacleScope && IsChargeMaxedOut())
+            {
+                Projectile.tileCollide = false;
+            } else
+            {
+                Projectile.tileCollide = true;
+            }
+
             PlayShootSample();
 
             Projectile.velocity = owner.DirectionTo(Main.MouseWorld) * 3f;
+            velocityBeforeTilePierce = Projectile.velocity;
+
             SyncProjectilePosWithWeaponBarrel(Projectile.position, Projectile.velocity, new SplatCharger());
             PlayAudio("ChargeStart", volume: 0.0f, maxInstances: 1);
             NetUpdate(ProjNetUpdateType.ReleaseCharge);
             return;
+        }
+
+        private void PierceTile()
+        {
+            bool CheckSolid()
+            {
+                return Framing.GetTileSafely(Projectile.Center).HasTile && Collision.SolidCollision(Projectile.Center, Projectile.width, Projectile.height);
+            }
+
+            if (Projectile.tileCollide == false)
+            {
+                if (!isPiercingTile)
+                {
+                    if (CheckSolid() && tilePiercesLeft > 0)
+                    {
+                        isPiercingTile = true;
+                        tilePiercesLeft--;
+
+                        Projectile.velocity *= 0.1f;
+                        Projectile.damage = MultiplyProjectileDamage(0.8f);
+                        Projectile.friendly = false;
+                    }
+                }
+                else
+                {
+                    if (!CheckSolid())
+                    {
+                        isPiercingTile = false;
+
+                        TilePierceDustEffect();
+                        Projectile.velocity = velocityBeforeTilePierce;
+                        Projectile.friendly = true;
+                    }
+                }
+            }
+
+            if (tilePiercesLeft == 0)
+            {
+                Projectile.Kill();
+            }
         }
 
         public override void AI()
@@ -109,20 +167,14 @@ namespace AchiSplatoon2.Content.Projectiles
                     ReleaseCharge(owner);
                     return;
                 }
+
+                PierceTile();
             }
 
-            if (hasFired)
+            if (hasFired && !isPiercingTile)
             {
                 DustTrail();
             }
-        }
-
-        private void DustTrail()
-        {
-            Color dustColor = GenerateInkColor();
-            var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
         }
 
         public override void OnKill(int timeLeft)
@@ -137,9 +189,17 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (tilePiercesLeft < TentacularOcular.TerrainMaxPierceCount)
+            {
+                modifiers.DisableCrit();
+            }
+        }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!firstHit && IsChargeMaxedOut())
+            if (!firstHit && IsChargeMaxedOut() && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
             {
                 firstHit = true;
                 DirectHitDustBurst(target.Center);
@@ -155,6 +215,58 @@ namespace AchiSplatoon2.Content.Projectiles
             else
             {
                 PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+        }
+
+        private void DustTrail()
+        {
+            Color dustColor = GenerateInkColor();
+            var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
+        }
+
+        protected void TilePierceDustEffect()
+        {
+            var position = Projectile.Center;
+
+            void spawnDust(Vector2 velocity, float scale, Color? newColor = null)
+            {
+                Color color;
+                if (newColor == null)
+                {
+                    color = new Color(255, 255, 255);
+                }
+                else
+                {
+                    color = ColorHelper.LerpBetweenColors((Color)newColor, new Color(255, 255, 255), 0.8f);
+                }
+
+                var dust = Dust.NewDustPerfect((Vector2)position, 306,
+                    velocity,
+                    0, color, scale);
+                dust.noGravity = true;
+                dust.fadeIn = 1f;
+                dust.noLight = true;
+                dust.noLightEmittence = true;
+                dust.rotation = Main.rand.NextFloatDirection();
+            }
+
+            PlayAudio(SoundID.SplashWeak, volume: 1f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
+
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            Color inkColor = modPlayer.ColorFromChips;
+
+            var vel = Vector2.Normalize(Projectile.velocity);
+            var velX = vel.X;
+            var velY = vel.Y;
+
+            for (int i = 0; i < 8; i++)
+            {
+                float speed = i * 2f;
+                float scale = 2 - (i / 10) * 2;
+                spawnDust(new Vector2(velY * speed, -velX * speed), scale, inkColor);
+                spawnDust(new Vector2(-velY * speed, velX * speed), scale, inkColor);
             }
         }
 
