@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.TitaniumBar, 5);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.Register();
         }
     }

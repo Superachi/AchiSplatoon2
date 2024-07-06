@@ -19,7 +19,7 @@ Hint: {
 	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
 	FreshQuiver: Fully charged shots with Stringers have improved performance and explode when all shots hit
 	CrayonBox: Splatling barrage lasts longer and ignores {0} points of enemy Defense
-	SteelCoil: Deal {0} LESS damage with Sloshers, but the same target can be hit multiple times
+	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 }
 
 Items: {

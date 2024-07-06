@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     internal class AdamantiteCoil : BaseWeaponBoosterAccessory
     {
         public static float DamageReductionMod = 0.6f;
-        protected override string UsageHintParamA => $"{Math.Ceiling((1 - DamageReductionMod) * 100)}%";
+        protected override string UsageHintParamA => $"{Math.Ceiling((1 - DamageReductionMod) * 100)}";
 
         public override void SetDefaults()
         {
@@ -32,6 +32,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.AdamantiteBar, 5);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.Register();
         }
     }

@@ -21,18 +21,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
-                if (accMP.hasSteelCoil)
-                {
-                    damage *= AdamantiteCoil.DamageReductionMod;
-                }
-            }
-        }
-
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
