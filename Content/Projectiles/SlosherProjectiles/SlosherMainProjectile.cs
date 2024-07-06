@@ -101,15 +101,5 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
         }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Projectile.penetrate <= 1)
-            {
-                Projectile.Kill();
-            }
-            target.immune[Projectile.owner] = 18;
-            base.OnHitNPC(target, hit, damageDone);
-        }
     }
 }

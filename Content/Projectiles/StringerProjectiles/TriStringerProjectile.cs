@@ -178,12 +178,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     }
                 }
 
+                base.OnHitNPC(target, hit, damageDone);
                 return;
             }
 
             if (sticking && !hasExploded)
             {
                 if (IsThisClientTheProjectileOwner()) Explode();
+
+                base.OnHitNPC(target, hit, damageDone);
                 return;
             }
 

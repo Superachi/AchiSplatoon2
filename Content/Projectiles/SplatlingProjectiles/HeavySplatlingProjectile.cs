@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {
@@ -122,6 +123,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             {
                 ResetCrayonBoxCombo("");
             }
+
+            base.OnHitNPC(target, hit, damageDone);
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
@@ -149,6 +152,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
                 countedForBurst = true;
             }
+
+            base.ModifyHitNPC(target, ref modifiers);
         }
 
         // Netcode

@@ -99,11 +99,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasSteelCoil)
             {
-                target.immune[Projectile.owner] = 4;
+                target.immune[Projectile.owner] = 3;
             } else
             {
                 target.immune[Projectile.owner] = 18;
             }
+            base.OnHitNPC(target, hit, damageDone);
         }
     }
 }

@@ -23,8 +23,8 @@ namespace AchiSplatoon2.Content.Projectiles
         private Vector2 velocityBeforeTilePierce;
         private int tilePiercesLeft;
 
-        protected virtual bool ShakeScreenOnChargeShot { get => true; }
-        protected virtual int MaxPenetrate { get => 10; }
+        protected virtual bool ShakeScreenOnChargeShot { get; private set; }
+        protected virtual int MaxPenetrate { get; private set; }
 
         public override void SetDefaults()
         {
@@ -47,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
+            ShakeScreenOnChargeShot = weaponData.ScreenShake;
+            MaxPenetrate = weaponData.MaxPenetrate;
 
             tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
         }
@@ -191,6 +193,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            base.ModifyHitNPC(target, ref modifiers);
+
             if (tilePiercesLeft < TentacularOcular.TerrainMaxPierceCount)
             {
                 modifiers.DisableCrit();
@@ -199,6 +203,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            base.OnHitNPC(target, hit, damageDone);
+
             if (!firstHit && IsChargeMaxedOut() && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
             {
                 firstHit = true;
