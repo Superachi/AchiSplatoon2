@@ -34,8 +34,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.MagicQuiver, 1);
-            recipe.AddIngredient(ItemID.SharkFin, 1);
-            recipe.AddIngredient(ItemID.ExplosivePowder, 1);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.Register();
         }
     }
