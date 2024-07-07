@@ -6,10 +6,8 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {
@@ -141,7 +139,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                     {
                         ResetCrayonBoxCombo("");
                         proj.barrageTarget = target.whoAmI;
-                    } else
+                    }
+                    else
                     {
                         proj.barrageCombo++;
                     }

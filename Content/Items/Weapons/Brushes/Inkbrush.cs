@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
-using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {

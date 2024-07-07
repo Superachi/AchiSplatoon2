@@ -1,14 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Netcode.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Netcode.DataModels;
 using Terraria;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AchiSplatoon2.Content.Items.Consumables;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Consumables;
-using AchiSplatoon2.Content.Players;
 using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.GlobalNPCs
 {

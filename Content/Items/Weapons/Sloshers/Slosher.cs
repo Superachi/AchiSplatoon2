@@ -1,10 +1,5 @@
-﻿using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Players;
-using Terraria.WorldBuilding;
-using AchiSplatoon2.Helpers;
+﻿using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {

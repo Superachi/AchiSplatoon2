@@ -2,7 +2,6 @@
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {

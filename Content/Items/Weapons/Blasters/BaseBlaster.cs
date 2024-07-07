@@ -1,10 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles;
-using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Projectiles;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters

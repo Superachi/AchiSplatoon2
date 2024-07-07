@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using System.IO;
 using System;
+using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles

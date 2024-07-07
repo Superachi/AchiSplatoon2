@@ -1,14 +1,10 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
-using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
-using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -165,7 +161,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         parentModProj.burstHitCount++;
                     }
-                    
+
                     if (parentModProj.burstHitCount == parentModProj.burstRequiredHits)
                     {
                         TripleHitDustBurst(target.Center);

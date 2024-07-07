@@ -1,12 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -134,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                                 type: ModContent.ProjectileType<KillerWailProjectile>(),
                                 damage: Projectile.damage,
                                 false);
-                            p.Projectile.knockBack = Projectile.knockBack* knockbackMult;
+                            p.Projectile.knockBack = Projectile.knockBack * knockbackMult;
                             p.AfterSpawn();
 
                             PlayAudio(SoundID.Item73, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.4f);

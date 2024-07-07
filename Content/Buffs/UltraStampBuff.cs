@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
-using Terraria;
+﻿using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 

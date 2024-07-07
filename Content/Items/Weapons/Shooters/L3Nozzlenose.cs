@@ -1,14 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {

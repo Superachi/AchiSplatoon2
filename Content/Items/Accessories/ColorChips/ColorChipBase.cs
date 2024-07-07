@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using log4net;
-using log4net.Repository.Hierarchy;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {

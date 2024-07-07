@@ -1,11 +1,6 @@
-using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
-using System;
-using System.Diagnostics;
 using System.IO;
-using Terraria;
 using Terraria.ModLoader;
-using static AchiSplatoon2.Helpers.NetHelper;
 
 namespace AchiSplatoon2
 {

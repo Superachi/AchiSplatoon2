@@ -1,18 +1,8 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.DataStructures;
+﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using Microsoft.Xna.Framework;
-using Mono.Cecil;
-using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -52,7 +42,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             if (Main.rand.NextBool(2))
             {
                 PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
-            } else
+            }
+            else
             {
                 PlayAudio(shootSampleAlt, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             }

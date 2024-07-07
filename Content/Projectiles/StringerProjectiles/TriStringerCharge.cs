@@ -1,12 +1,10 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
@@ -78,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             PlayShootSample();
 
-            float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f , 1f);
+            float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f, 1f);
             float finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
 
             var mP = owner.GetModPlayer<InkAccessoryPlayer>();

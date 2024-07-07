@@ -1,13 +1,6 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SteelSeries.GameSense;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;

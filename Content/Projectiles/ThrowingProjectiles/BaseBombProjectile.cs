@@ -1,9 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles

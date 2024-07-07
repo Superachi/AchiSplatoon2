@@ -1,8 +1,6 @@
-﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles

@@ -4,15 +4,11 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
-using log4net;
-using log4net.Repository.Hierarchy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using ReLogic.Utilities;
 using System;
 using System.IO;
-using System.Text;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -220,7 +216,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     Vector2 angleVec = endRad.ToRotationVector2();
                     Projectile.velocity = angleVec * projSpeed;
                 }
-            
+
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
 
@@ -357,13 +353,14 @@ namespace AchiSplatoon2.Content.Projectiles
             if (radiansOverride == null)
             {
                 mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
-            } else
+            }
+            else
             {
                 mouseDirRadians = (float)radiansOverride;
             }
 
             var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
-            
+
             if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
             {
                 owner.direction = 1;
@@ -655,7 +652,8 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (weaponSource != null)
                 {
                     itemIdentifier = weaponSource.ItemIdentifier;
-                } else
+                }
+                else
                 {
                     weaponSource = (BaseWeapon)Main.LocalPlayer.HeldItem.ModItem;
                     itemIdentifier = weaponSource.ItemIdentifier;

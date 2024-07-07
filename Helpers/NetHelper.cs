@@ -1,14 +1,7 @@
-﻿using Terraria.ID;
+﻿using AchiSplatoon2.Content.Players;
 using Terraria;
-using Terraria.Chat;
-using Terraria.Localization;
-using Microsoft.Xna.Framework;
-using log4net;
+using Terraria.ID;
 using Terraria.ModLoader;
-using System.IO;
-using NVorbis.Contracts;
-using System;
-using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Helpers
 {

@@ -1,16 +1,11 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Specials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.DataStructures;
-using Terraria.Graphics.CameraModifiers;
-using Terraria;
-using AchiSplatoon2.Content.Dusts;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {

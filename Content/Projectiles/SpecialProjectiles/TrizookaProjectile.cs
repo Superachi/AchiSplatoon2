@@ -1,19 +1,11 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Netcode.DataModels;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.DataStructures;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
-using Microsoft.Xna.Framework;
-using Terraria.Graphics.CameraModifiers;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Netcode.DataModels;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {

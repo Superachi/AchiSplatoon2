@@ -2,20 +2,9 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
-using rail;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -137,7 +126,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.Kill();
                     break;
             }
-            
+
             if (state == stateExplodeAir || state == stateExplodeTile)
             {
                 Projectile.penetrate = -1;

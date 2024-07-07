@@ -1,21 +1,12 @@
 ﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using log4net;
-using System;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using static AchiSplatoon2.Helpers.NetHelper;
-using log4net.Repository.Hierarchy;
-using AchiSplatoon2.Netcode.DataTransferObjects;
-using Terraria.ID;
-using Newtonsoft.Json;
-using System.Runtime.InteropServices.JavaScript;
 
 namespace AchiSplatoon2.Netcode
 {
@@ -130,8 +121,8 @@ namespace AchiSplatoon2.Netcode
         public static void ReceiveSyncMoveSpeed(BinaryReader reader, int fromWho, ILog logger)
         {
             // 'Payload'
-            float moveSpeedMod      = (float)reader.ReadDouble();
-            float moveAccelMod      = (float)reader.ReadDouble();
+            float moveSpeedMod = (float)reader.ReadDouble();
+            float moveAccelMod = (float)reader.ReadDouble();
 
             // Respond
             if (IsThisTheServer())

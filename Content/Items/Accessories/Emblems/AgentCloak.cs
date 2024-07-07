@@ -1,13 +1,8 @@
 ﻿using AchiSplatoon2.Content.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria;
-using AchiSplatoon2.Helpers;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
@@ -39,9 +34,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             {
                 var accMP = player.GetModPlayer<InkAccessoryPlayer>();
                 accMP.hasAgentCloak = true;
-                accMP.specialChargeMultiplier   += specialChargeMultiplier;
-                accMP.subPowerMultiplier        += subPowerMultiplier;
-                accMP.specialPowerMultiplier    += specialPowerMultiplier;
+                accMP.specialChargeMultiplier += specialChargeMultiplier;
+                accMP.subPowerMultiplier += subPowerMultiplier;
+                accMP.specialPowerMultiplier += specialPowerMultiplier;
             }
         }
 

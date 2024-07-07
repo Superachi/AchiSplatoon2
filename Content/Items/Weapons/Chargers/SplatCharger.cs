@@ -1,4 +1,3 @@
-using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;

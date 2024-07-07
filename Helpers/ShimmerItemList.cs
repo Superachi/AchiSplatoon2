@@ -1,22 +1,17 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Helpers.WeaponKits;
-using System;
-using System.Collections.Generic;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using System.Linq;
-using Terraria.ID;
-using Terraria;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
-using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {

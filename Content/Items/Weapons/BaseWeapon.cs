@@ -1,25 +1,17 @@
 using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
-using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
-using AchiSplatoon2.Netcode;
 using Humanizer;
 using Microsoft.Xna.Framework;
-using Mono.Cecil;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons
@@ -272,7 +264,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
                                 if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
                                 {
-                                    luckyDiscount = Main.rand.NextBool((int)(1f/subDiscountChance));
+                                    luckyDiscount = Main.rand.NextBool((int)(1f / subDiscountChance));
                                 }
 
                                 var mp = player.GetModPlayer<InkWeaponPlayer>();

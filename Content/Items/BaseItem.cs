@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
 using Humanizer;
 using System.Collections.Generic;
 using Terraria.ID;

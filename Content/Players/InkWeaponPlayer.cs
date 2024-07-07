@@ -8,12 +8,10 @@ using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static System.Reflection.MethodBase;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace AchiSplatoon2.Content.Players
@@ -146,7 +144,8 @@ namespace AchiSplatoon2.Content.Players
                     dustInst.noGravity = true;
                     dustInst.fadeIn = 1.35f;
                 }
-            } else
+            }
+            else
             {
                 if (Player.HasBuff<SpecialReadyBuff>())
                 {
@@ -175,7 +174,8 @@ namespace AchiSplatoon2.Content.Players
                 {
                     moveSpeedModifier = 1.1f;
                     moveAccelModifier = 5f;
-                } else
+                }
+                else
                 {
                     brushMoveSpeedCap = true;
                 }
@@ -298,12 +298,13 @@ namespace AchiSplatoon2.Content.Players
 
         private void AddSpecialPointsOnKill()
         {
-            IncrementSpecialPoints(SpecialPointsMax/5);
+            IncrementSpecialPoints(SpecialPointsMax / 5);
         }
 
         private void AddSpecialPointsOnMovement()
         {
-            if (Math.Abs(Player.velocity.X) > 1f) {
+            if (Math.Abs(Player.velocity.X) > 1f)
+            {
                 float increment = 0.003f * Math.Abs(Player.velocity.X) * (ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
                 IncrementSpecialPoints(increment);
             }
@@ -330,7 +331,8 @@ namespace AchiSplatoon2.Content.Players
                 if (drainAmount == 0f)
                 {
                     SpecialPoints -= SpecialDrain;
-                } else
+                }
+                else
                 {
                     SpecialPoints -= drainAmount;
                 }
@@ -347,7 +349,8 @@ namespace AchiSplatoon2.Content.Players
             ResetSpecialStats();
         }
 
-        public void ResetSpecialStats() {
+        public void ResetSpecialStats()
+        {
             if (!DoesModPlayerBelongToLocalClient()) return;
 
             IsSpecialActive = false;

@@ -1,9 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AchiSplatoon2.Helpers.WeaponKits
 {

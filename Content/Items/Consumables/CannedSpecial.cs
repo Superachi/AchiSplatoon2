@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Players;
 using Terraria;
-using AchiSplatoon2.Content.Players;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {

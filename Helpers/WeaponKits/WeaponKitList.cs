@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using System;
+using System.Collections.Generic;
 
 namespace AchiSplatoon2.Helpers.WeaponKits
 {

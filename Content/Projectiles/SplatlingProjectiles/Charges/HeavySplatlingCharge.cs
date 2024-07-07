@@ -2,12 +2,10 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges

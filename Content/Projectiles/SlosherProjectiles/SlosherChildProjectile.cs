@@ -1,20 +1,12 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.DataStructures;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Helpers;
-using System.IO;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -100,7 +92,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             if (accMP.hasSteelCoil)
             {
                 target.immune[Projectile.owner] = 3;
-            } else
+            }
+            else
             {
                 target.immune[Projectile.owner] = 18;
             }

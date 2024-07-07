@@ -1,12 +1,9 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
@@ -104,7 +101,8 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
                 {
                     modifiers.FlatBonusDamage += (Projectile.damage * (parent.ai[2] * 0.5f));
 
-                    if (parent.ai[2] >= 2) {
+                    if (parent.ai[2] >= 2)
+                    {
                         Projectile.CritChance *= 5;
                         Projectile.knockBack *= 3;
                     }
@@ -135,7 +133,7 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
                         parent.ai[2] = Math.Clamp(parent.ai[2]++, 0, 3);
                     }
                 }
-                
+
                 // Display a visual effect on the third consecutive hit
                 if (parent.ai[2] == 3)
                 {

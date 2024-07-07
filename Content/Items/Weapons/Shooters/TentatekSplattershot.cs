@@ -1,9 +1,5 @@
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Projectiles;
-using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {

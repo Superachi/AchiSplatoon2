@@ -1,17 +1,10 @@
-﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Content.Players;
-using Terraria.DataStructures;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Buffs;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {

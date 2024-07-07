@@ -1,10 +1,7 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

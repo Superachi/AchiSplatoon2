@@ -1,12 +1,9 @@
-﻿using AchiSplatoon2.Netcode.DataModels;
-using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
+using Newtonsoft.Json;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Newtonsoft.Json;
-using AchiSplatoon2.Helpers;
-using System;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 {
@@ -60,7 +57,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
                 {
                     NetUpdate(ProjNetUpdateType.DustExplosion);
                 }
-            } 
+            }
         }
 
         protected override void NetSendDustExplosion(BinaryWriter writer)

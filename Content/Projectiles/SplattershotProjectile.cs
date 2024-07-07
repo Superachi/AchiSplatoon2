@@ -1,12 +1,8 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -47,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AI()
         {
-            Timer ++;
+            Timer++;
             if (Timer >= FrameSpeed(delayUntilFall))
             {
                 if (!canFall)

@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -96,7 +95,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (accMP.hasTentacleScope && IsChargeMaxedOut())
             {
                 Projectile.tileCollide = false;
-            } else
+            }
+            else
             {
                 Projectile.tileCollide = true;
             }

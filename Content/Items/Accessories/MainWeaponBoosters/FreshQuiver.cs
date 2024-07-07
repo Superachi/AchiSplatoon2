@@ -1,12 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Localization;
-using Terraria;
 using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters

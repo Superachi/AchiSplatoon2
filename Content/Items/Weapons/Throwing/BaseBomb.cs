@@ -1,9 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
-using Microsoft.Xna.Framework;
-using Newtonsoft.Json.Bson;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

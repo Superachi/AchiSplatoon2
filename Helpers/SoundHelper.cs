@@ -1,16 +1,7 @@
-﻿using ReLogic.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Audio;
-using Terraria;
+﻿using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
-using AchiSplatoon2.Netcode.DataModels;
-using System.Security.Cryptography.X509Certificates;
-using ReLogic.Content;
-using Terraria.ModLoader;
+using Terraria;
+using Terraria.Audio;
 
 namespace AchiSplatoon2.Helpers
 {
