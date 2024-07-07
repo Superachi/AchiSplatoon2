@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System.IO;
+using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,6 +10,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseChargeProjectile : BaseProjectile
     {
+        protected float lastShotRadians; // Used for networking
+
         // Charge mechanic
         protected int chargeLevel = 0;
         protected float ChargeTime
@@ -29,9 +33,13 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.timeLeft = 36000;
             Projectile.penetrate = -1;
             AIType = ProjectileID.Bullet;
+
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             maxChargeTime = chargeTimeThresholds.Last();
@@ -56,6 +64,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void ReleaseCharge(Player owner)
         {
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
             hasFired = true;
             Projectile.Kill();
         }
@@ -80,11 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (ChargeTime >= chargeTimeThresholds[chargeLevel] * FrameSpeed())
                 {
                     chargeLevel++;
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                    }
+                    ChargeLevelDustBurst();
 
                     PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
 
@@ -96,23 +102,38 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             else
             {
-                if (Main.rand.NextBool(50 * FrameSpeed()))
-                {
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-                }
+                MaxChargeDustStream();
             }
 
+            lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             SyncProjectilePosWithPlayer(owner);
-            PlayerItemAnimationFaceCursor(owner, null);
+            PlayerItemAnimationFaceCursor(owner);
+            NetUpdate(ProjNetUpdateType.UpdateCharge);
+        }
+
+        protected void ChargeLevelDustBurst()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+            }
+        }
+
+        protected void MaxChargeDustStream()
+        {
+            if (Main.rand.NextBool(50 * FrameSpeed()))
+            {
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+            }
         }
 
         public override void AI()
         {
-            Player owner = Main.player[Projectile.owner];
-            if (owner.dead) { Projectile.Kill(); return; }
-
             if (IsThisClientTheProjectileOwner())
             {
+                Player owner = Main.player[Projectile.owner];
+                if (owner.dead) { Projectile.Kill(); return; }
+
                 if (owner.channel)
                 {
                     UpdateCharge(owner);
@@ -125,5 +146,42 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
         }
+
+        #region Netcode
+        protected override void NetSendUpdateCharge(BinaryWriter writer)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            writer.Write((double)lastShotRadians);
+            writer.Write((Int16)owner.itemAnimationMax);
+            writer.Write((byte)chargeLevel);
+        }
+
+        protected override void NetReceiveUpdateCharge(BinaryReader reader)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            // Make weapon face client's cursor
+            lastShotRadians = (float)reader.ReadDouble();
+            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
+            PlayerItemAnimationFaceCursor(owner, null, lastShotRadians);
+
+            // Set the animation time
+            owner.itemAnimationMax = reader.ReadInt16();
+            owner.itemTimeMax = owner.itemAnimationMax;
+
+            // Render dusts based on charge level
+            var newChargeLevel = reader.ReadByte();
+            if (chargeLevel != newChargeLevel)
+            {
+                chargeLevel = newChargeLevel;
+                ChargeLevelDustBurst();
+            }
+            if (IsChargeMaxedOut())
+            {
+                MaxChargeDustStream();
+            }
+        }
+        #endregion
     }
 }

@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             BaseBrush weaponData = (BaseBrush)weaponSource;
@@ -66,11 +66,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             // Play sound
             if (Main.rand.NextBool(2))
             {
-                PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
             }
             else
             {
-                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
             }
         }
 

@@ -15,8 +15,8 @@ using Terraria.ID;
 using Terraria;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
 
 namespace AchiSplatoon2.Helpers
 {

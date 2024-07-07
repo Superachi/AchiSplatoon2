@@ -1,5 +1,10 @@
 ﻿using Terraria.ID;
 using Terraria;
+using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using Terraria.WorldBuilding;
+using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
@@ -8,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 32;
+            Item.damage = 26;
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 2;

@@ -1,4 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,12 +16,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<SlosherMainProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<SlosherMainProjectile>(),
                 singleShotTime: 30,
-                shotVelocity: 8f);
+                shotVelocity: 8f
+            );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasSteelCoil)
+                {
+                    damage *= AdamantiteCoil.DamageReductionMod;
+                }
+            }
         }
     }
 }

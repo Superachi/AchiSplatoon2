@@ -22,11 +22,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<SplattershotProjectile>(),
-                ammoID: AmmoID.None,
-                singleShotTime: 8,
-                shotVelocity: 6f);
 
             Item.damage = 28;
             Item.width = 64;

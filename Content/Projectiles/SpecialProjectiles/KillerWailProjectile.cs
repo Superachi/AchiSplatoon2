@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize(ignoreAimDeviation: true);
             Projectile.alpha = 255;

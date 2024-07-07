@@ -16,11 +16,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<TriStringerCharge>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<TriStringerCharge>(),
                 singleShotTime: 12,
-                shotVelocity: 12f);
+                shotVelocity: 0);
 
             Item.width = 36;
             Item.height = 62;

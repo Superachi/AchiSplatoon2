@@ -1,7 +1,11 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -17,17 +21,22 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         private float barrageShotTime;
         private float damageChargeMod = 1f;
         private float velocityChargeMod = 1f;
+        private float spreadOffset = 0.5f;
         private int soundDelayInterval = 5;
 
-        protected float ChargedAmmo
+        public int barrageTarget = -1;
+        public int barrageCombo = 0;
+
+        public float ChargedAmmo
         {
             get => Projectile.ai[2];
-            set => Projectile.ai[2] = value;
+            private set => Projectile.ai[2] = value;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
-            base.OnSpawn(source);
+            Initialize();
+
             BaseSplatling weaponData = (BaseSplatling)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
@@ -35,6 +44,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
 
+            if (IsThisClientTheProjectileOwner())
+            {
+                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
             Projectile.soundDelay = 30;
         }
 
@@ -68,6 +81,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     damageChargeMod = 1f;
                     velocityChargeMod = 1f;
                     break;
+            }
+
+            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasCrayonBox)
+            {
+                velocityChargeMod *= CrayonBox.ShotVelocityMod;
+                spreadOffset *= CrayonBox.SpreadOffsetMod;
             }
         }
 
@@ -117,9 +137,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         PlayerItemAnimationFaceCursor(owner, recoilVector);
 
                         // Calculate angle/velocity
-                        float aimAngle = MathHelper.ToDegrees(
-                            owner.DirectionTo(Main.MouseWorld).ToRotation()
-                        );
+                        lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+                        float aimAngle = MathHelper.ToDegrees(lastShotRadians);
 
                         float radians = MathHelper.ToRadians(aimAngle);
                         Vector2 angleVector = radians.ToRotationVector2();
@@ -133,14 +152,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             spawnPositionOffset = Vector2.Zero;
                         }
 
-                        int proj = Projectile.NewProjectile(
-                        spawnSource: Projectile.GetSource_FromThis(),
-                        position: Projectile.position + spawnPositionOffset,
-                        velocity: velocity,
-                        Type: ProjectileType,
-                        Damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
-                        KnockBack: Projectile.knockBack,
-                        Owner: Main.myPlayer);
+                        var p = CreateChildProjectile(
+                            position: Projectile.position + spawnPositionOffset,
+                            velocity: velocity,
+                            type: ProjectileType,
+                            damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
+                            triggerAfterSpawn: false);
+
+                        p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        p.AfterSpawn();
 
                         for (int i = 0; i < 15; i++)
                         {
@@ -152,6 +173,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
                             Dust.NewDust(Projectile.position + spawnPositionOffset, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
                         }
+
+                        // Sync shoot animation
+                        // Set item use animation and angle
+                        NetUpdate(ProjNetUpdateType.ShootAnimation);
                     }
 
                     return;
@@ -159,6 +184,28 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
                 Projectile.Kill();
             }
+        }
+
+        protected override void NetSendShootAnimation(BinaryWriter writer)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            writer.Write((double)lastShotRadians);
+            writer.Write((Int16)owner.itemAnimationMax);
+        }
+
+        protected override void NetReceiveShootAnimation(BinaryReader reader)
+        {
+            Player owner = Main.player[Projectile.owner];
+
+            // Make weapon face client's cursor
+            lastShotRadians = (float)reader.ReadDouble();
+            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
+            PlayerItemAnimationFaceCursor(owner, rotationVector * -3, lastShotRadians);
+
+            // Set the animation time
+            owner.itemAnimation = reader.ReadInt16();
+            owner.itemTime = owner.itemAnimation;
         }
     }
 }

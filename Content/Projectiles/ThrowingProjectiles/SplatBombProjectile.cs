@@ -40,9 +40,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             DrawOriginOffsetY = -12;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
-            base.OnSpawn(source);
+            base.AfterSpawn();
+            Initialize();
             FuseTime = maxFuseTime;
         }
 

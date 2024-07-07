@@ -1,10 +1,17 @@
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
+using AchiSplatoon2.Netcode;
 using Humanizer;
 using Microsoft.Xna.Framework;
+using Mono.Cecil;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -35,6 +42,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
     internal class BaseWeapon : BaseItem
     {
+        public int ItemIdentifier { get; private set; }
         // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
         public virtual string ShootWeakSample { get => "SplattershotShoot"; }
@@ -50,8 +58,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponType BonusSub { get; private set; }
         public SubWeaponBonusType BonusType { get; private set; }
 
-        protected const float subDiscountChance = 0.5f;
-        protected const float subDamageBonus = 0.5f;
+        public const float subDiscountChance = 0.5f;
+        public const float subDamageBonus = 0.5f;
         protected static int[] subWeaponItemIDs = {
             ModContent.ItemType<SplatBomb>(),
             ModContent.ItemType<BurstBomb>(),
@@ -65,23 +73,21 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
-        public virtual LocalizedText UsageHint { get; set; }
-        public virtual LocalizedText Flavor { get; set; }
-        protected virtual string UsageHintParamA => "";
-        protected virtual string UsageHintParamB => "";
-
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-
-            UsageHint = this.GetLocalization(nameof(UsageHint));
-            Flavor = this.GetLocalization(nameof(Flavor));
-        }
-
         public override void SetDefaults()
         {
+            ItemIdentifier = Item.type;
             BonusSub = WeaponKitList.GetWeaponKitSubType(this.GetType());
             BonusType = WeaponKitList.GetWeaponKitSubBonusType(this.GetType());
+        }
+
+        public void RangedWeaponDefaults(int projectileType, int singleShotTime, float shotVelocity)
+        {
+            Item.DefaultToRangedWeapon(
+                baseProjType: projectileType,
+                ammoID: AmmoID.None,
+                singleShotTime: singleShotTime,
+                shotVelocity: shotVelocity,
+                hasAutoReuse: true);
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -153,30 +159,73 @@ namespace AchiSplatoon2.Content.Items.Weapons
             return subname;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
         {
-            // Track the item that is being used as the player is about to shoot
-            // In BaseProjectile.cs -> Initialize(), this value is referenced in order to get information relevant to a weapon
-            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
-            modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(this.GetType());
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (weaponType == null) weaponType = this;
 
-            // Adjust the position of the projectile (that is about to spawn) to better match the weapon sprite
+            // Offset the projectile's position to match the weapon
             Vector2 weaponOffset = HoldoutOffset() ?? new Vector2(0, 0);
             Vector2 muzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
-
-            if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+            Vector2 position = player.Center;
+            bool canHit = Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0);
+            if (canHit)
             {
                 position += muzzleOffset;
             }
+
+            // Spawn the projectile
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: source,
+                position: position,
+                velocity: velocity,
+                type: weaponType.Item.shoot,
+                damage: weaponType.Item.damage,
+                knockback: weaponType.Item.knockBack,
+                owner: player.whoAmI);
+            var proj = p.ModProjectile as BaseProjectile;
+
+            // Config variables after spawning
+            proj.weaponSource = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
+            proj.itemIdentifier = ItemIdentifier;
+
+            // If throwing a sub weapon directly, apply damage modifiers
+            if (this is BaseBomb)
+            {
+                BaseBomb bomb = (BaseBomb)this;
+                proj.Projectile.damage = (int)(proj.Projectile.damage * bomb.CalculateDamageMod(player));
+            }
+
+            if (this is BaseSpecial)
+            {
+                BaseSpecial special = (BaseSpecial)this;
+                proj.Projectile.damage = (int)(proj.Projectile.damage * modPlayer.CalculateSpecialDamageBonusModifier());
+            }
+
+            if (triggerAfterSpawn) proj.AfterSpawn();
+            return proj;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CreateProjectileWithWeaponProperties(
+                player: player,
+                source: source,
+                velocity: velocity);
+
+            return false;
         }
 
         public override bool CanUseItem(Player player)
         {
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return true;
+
+            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
             if (!modPlayer.SpecialReady
                 || (modPlayer.IsSpecialActive && IsDurationSpecial)
-                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name))
+                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
+                || player.altFunctionUse == 2)
             {
                 player.itemTime = 30;
                 return false;
@@ -188,7 +237,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool AltFunctionUse(Player player)
         {
-            if (player.whoAmI != Main.myPlayer) return false;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 
@@ -225,19 +274,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 {
                                     luckyDiscount = Main.rand.NextBool((int)(1f/subDiscountChance));
                                 }
-                                if (BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub)
-                                {
-                                    damageBonus *= (1 + subDamageBonus);
-                                }
-                            }
 
-                            if (player.whoAmI == Main.myPlayer)
-                            {
-                                var mp = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                                if (mp.hasSubPowerEmblem)
-                                {
-                                    damageBonus *= InkWeaponPlayer.subPowerMultiplier;
-                                }
+                                var mp = player.GetModPlayer<InkWeaponPlayer>();
+                                bool hasMainWeaponBonus = BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub;
+                                damageBonus = mp.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
                             }
 
                             if (!luckyDiscount)
@@ -272,17 +312,16 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             Vector2 velocity = angleVector;
                             var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
 
-                            var modPlayer = player.GetModPlayer<ItemTrackerPlayer>();
-                            modPlayer.lastUsedWeapon = (BaseWeapon)Activator.CreateInstance(subWeaponType[j]);
-
-                            Projectile.NewProjectile(
-                                spawnSource: source,
-                                position: player.Center,
+                            var p = CreateProjectileWithWeaponProperties(
+                                player: player,
+                                source: source,
                                 velocity: velocity * item.shootSpeed,
-                                Type: item.shoot,
-                                Damage: (int)(item.damage * damageBonus),
-                                KnockBack: item.knockBack,
-                                Owner: Main.myPlayer);
+                                weaponType: (BaseWeapon)item.ModItem,
+                                triggerAfterSpawn: false
+                                );
+                            p.Projectile.damage = (int)(p.Projectile.damage * damageBonus);
+                            p.Projectile.position = player.Center;
+                            p.AfterSpawn();
 
                             player.itemTime = item.useTime;
                             doneSearching = true;
@@ -298,7 +337,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 return false;
             }
 
-            return true;
+            return false;
         }
 
         private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)

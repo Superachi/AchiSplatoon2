@@ -1,5 +1,9 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json.Bson;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,31 +31,40 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.ammo = Item.type;
         }
 
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        public float CalculateDamageMod(Player player)
         {
-            // Apply the sub power emblem accessory bonus here
-            // ALSO apply a main weapon's sub damage bonus here, so it shows up in the tooltip
-            // It should not double-dip the damage
             if (player.whoAmI == Main.myPlayer)
             {
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                if (modPlayer.hasSubPowerEmblem)
-                {
-                    damage *= InkWeaponPlayer.subPowerMultiplier;
-                }
 
+                // Apply main weapon bonus here
+                bool hasMainWeaponBonus = false;
                 if (player.HeldItem.ModItem is BaseWeapon)
                 {
-                    var item = (BaseWeapon)player.HeldItem.ModItem;
-                    if (item.BonusSub == SubWeaponType.None) { return; }
+                    var heldItem = (BaseWeapon)player.HeldItem.ModItem;
 
-                    int bonusId = (int)item.BonusSub - 1;
-                    if (item.BonusType == SubWeaponBonusType.Damage && subWeaponItemIDs[bonusId] == Item.type)
+                    // If we DO have a sub weapon bonus AND its of type damage
+                    if (heldItem.BonusSub != SubWeaponType.None && heldItem.BonusType == SubWeaponBonusType.Damage)
                     {
-                        damage *= 1 + subDamageBonus;
+                        // Check if we match the sub weapon type
+                        int bonusId = (int)heldItem.BonusSub - 1;
+                        if (subWeaponItemIDs[bonusId] == Item.type)
+                        {
+                            hasMainWeaponBonus = true;
+                        }
                     }
                 }
+
+                // Regardless, always check for the sub power emblem
+                return modPlayer.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
             }
+
+            return 1f;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            damage *= CalculateDamageMod(player);
         }
     }
 }

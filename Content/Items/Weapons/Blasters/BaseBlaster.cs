@@ -1,4 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     internal class BaseBlaster : BaseWeapon
     {
         // Audio
-        public override string ShootSample { get => "BlasterShoot"; }
+        public override string ShootSample { get => "BlasterFire"; }
         public virtual string ExplosionBigSample { get => "BlasterExplosion"; }
         public virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
 
@@ -21,9 +25,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(
-                baseProjType: ModContent.ProjectileType<BlasterProjectile>(),
-                ammoID: AmmoID.None,
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
                 singleShotTime: 15,
                 shotVelocity: 4f);
 

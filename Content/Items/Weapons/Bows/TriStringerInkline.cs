@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 104;
+            Item.damage = 82;
             Item.knockBack = 6;
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;

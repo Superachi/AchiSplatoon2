@@ -18,14 +18,19 @@
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
+	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
+	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
+	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\UltraStampProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectileWeak.png" />
 	</ItemGroup>

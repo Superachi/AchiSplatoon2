@@ -1,6 +1,12 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
+using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
+using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,15 +16,22 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerProjectile : BaseProjectile
     {
+        private int networkExplodeDelayBuffer = 120;
+
         private float delayUntilFall = 12f;
-        private float fallSpeed = 0.002f;
-        private float terminalVelocity = 1f;
+        private float fallSpeed = 0.001f;
+
         private bool sticking = false;
         private bool hasExploded = false;
         protected virtual bool CanStick { get => true; }
 
         private int finalExplosionRadius = 0;
         protected virtual int ExplosionRadius { get => 120; }
+        private ExplosionDustModel explosionDustModel;
+
+        private bool countedForBurst = false;
+        public bool parentFullyCharged = false;
+        public bool firedWithFreshQuiver = false;
 
         public override void SetDefaults()
         {
@@ -27,12 +40,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = ExtraUpdatesTime(120);
+            Projectile.timeLeft = ExtraUpdatesTime(120 + networkExplodeDelayBuffer);
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);
@@ -48,47 +61,29 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             return input * Projectile.extraUpdates;
         }
 
-        private void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
-        {
-            float radiusMult = radiusModifier / 100;
-            amount = Convert.ToInt32(amount * radiusMult);
-
-            // Ink
-            for (int i = 0; i < amount; i++)
-            {
-                Color dustColor = GenerateInkColor();
-
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    0, dustColor, Main.rand.NextFloat(minScale, maxScale));
-                dust.velocity *= radiusMult;
-            }
-
-            // Firework
-            for (int i = 0; i < amount / 2; i++)
-            {
-                Color dustColor = GenerateInkColor();
-                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    0, dustColor);
-                dust.velocity *= radiusMult / 2;
-            }
-        }
-
         private void Explode()
         {
             hasExploded = true;
-            if (Projectile.owner == Main.myPlayer)
+
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+
+            Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
+
+            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 15f, _dustAmount: 20, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadius);
+            var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
+
+            // Will result in endless back-and-forth if we do not check for the owner here
+            if (IsThisClientTheProjectileOwner())
             {
-                Projectile.alpha = 255;
-                Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
-                EmitBurstDust(dustMaxVelocity: 15f, amount: 20, minScale: 1, maxScale: 2, radiusModifier: finalExplosionRadius);
-                PlayAudio("BlasterExplosionLight", volume: 0.1f, pitchVariance: 0.2f, maxInstances: 10);
+                CreateExplosionVisual(explosionDustModel, audioModel);
+                NetUpdate(ProjNetUpdateType.DustExplosion);
             }
         }
 
         public override void AI()
         {
+            if (isFakeDestroyed) return;
             Projectile.ai[0] += 1f;
 
             if (!sticking)
@@ -97,10 +92,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (Projectile.ai[0] >= ExtraUpdatesTime(delayUntilFall))
                 {
                     Projectile.velocity.Y += fallSpeed;
-                }
-                if (Projectile.velocity.Y > terminalVelocity)
-                {
-                    Projectile.velocity.Y = terminalVelocity;
                 }
 
                 Color dustColor = GenerateInkColor();
@@ -113,11 +104,14 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = Projectile.velocity * 0.9f;
                 }
 
-                Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
-
-                if (Projectile.timeLeft < ExtraUpdatesTime(3) && !hasExploded)
+                if (!hasExploded)
                 {
-                    Explode();
+                    Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
+                }
+
+                if (Projectile.timeLeft < ExtraUpdatesTime(networkExplodeDelayBuffer) && !hasExploded)
+                {
+                    if (IsThisClientTheProjectileOwner()) Explode();
                 }
             }
         }
@@ -133,7 +127,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     sticking = true;
                     Projectile.tileCollide = false;
                     Projectile.velocity = oldVelocity;
-                    Projectile.timeLeft = ExtraUpdatesTime(60 + (int)Projectile.ai[2] * 5);
+                    Projectile.timeLeft = ExtraUpdatesTime(60 + networkExplodeDelayBuffer + (int)Projectile.ai[2] * 5);
                 }
             }
             else
@@ -153,10 +147,66 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            // Apply visual effect when hitting all of the burst's projectiles on the same target
+            if (!sticking && !countedForBurst && parentFullyCharged)
+            {
+                countedForBurst = true;
+                var parentProj = GetParentProjectile(parentIdentity);
+
+                if (parentProj.ModProjectile is TriStringerCharge)
+                {
+                    var parentModProj = parentProj.ModProjectile as TriStringerCharge;
+                    if (parentModProj.burstNPCTarget == -1)
+                    {
+                        parentModProj.burstNPCTarget = target.whoAmI;
+                    }
+
+                    if (parentModProj.burstNPCTarget == target.whoAmI)
+                    {
+                        parentModProj.burstHitCount++;
+                    }
+                    
+                    if (parentModProj.burstHitCount == parentModProj.burstRequiredHits)
+                    {
+                        TripleHitDustBurst(target.Center);
+                        parentProj.Kill();
+
+                        if (firedWithFreshQuiver)
+                        {
+                            CreateChildProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FreshQuiverBlast>(), Projectile.damage, true);
+                        }
+                    }
+                }
+
+                base.OnHitNPC(target, hit, damageDone);
+                return;
+            }
+
             if (sticking && !hasExploded)
             {
-                Explode();
+                if (IsThisClientTheProjectileOwner()) Explode();
+
+                base.OnHitNPC(target, hit, damageDone);
+                return;
             }
+
+            if (hasExploded)
+            {
+                FakeDestroy();
+            }
+        }
+
+        protected override void NetSendDustExplosion(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.position);
+        }
+
+        protected override void NetReceiveDustExplosion(BinaryReader reader)
+        {
+            Projectile.position = reader.ReadVector2();
+            Explode();
+            fallSpeed = 0;
+            sticking = true;
         }
     }
 }

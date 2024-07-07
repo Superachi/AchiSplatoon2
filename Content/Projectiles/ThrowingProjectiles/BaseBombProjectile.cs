@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             PlayAudio("Throwables/SplatBombThrow");

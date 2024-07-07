@@ -17,6 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float previousVelocityY;
         private int maxBounces;
         private float bounceDamageMod = 1f;
+        private float bounceDamageModMax = 10f;
         private int baseDamage;
 
         public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
             BaseBomb weaponData = (BaseBomb)weaponSource;
@@ -43,6 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool PreAI()
         {
+            base.PreAI();
             previousVelocityX = Projectile.velocity.X;
             previousVelocityY = Projectile.velocity.Y;
             return true;
@@ -53,6 +55,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Color dustColor = GenerateInkColor();
             var dust = Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
             dust.alpha = 64;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (bounceDamageMod > 5f)
+            {
+                DirectHitDustBurst(target.Center);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -74,8 +84,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (bounced)
             {
                 maxBounces--;
-                bounceDamageMod++;
-                bounceDamageMod = Math.Clamp(bounceDamageMod, 1, 5);
+                bounceDamageMod *= 2f;
+                bounceDamageMod = Math.Clamp(bounceDamageMod, 1, bounceDamageModMax);
                 Projectile.damage = (int)(baseDamage * bounceDamageMod);
             }
 

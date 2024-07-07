@@ -1,7 +1,9 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -13,6 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles
     {
         private int delayUntilFall;
         private float fallSpeed;
+        private bool canFall = false;
         private float terminalVelocity = 6f;
         protected float Timer
         {
@@ -29,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = true;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
@@ -39,13 +42,22 @@ namespace AchiSplatoon2.Content.Projectiles
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
 
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayShootSound();
         }
 
         public override void AI()
         {
             Timer ++;
             if (Timer >= FrameSpeed(delayUntilFall))
+            {
+                if (!canFall)
+                {
+                    canFall = true;
+                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
+                }
+            }
+
+            if (canFall)
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
@@ -65,6 +77,22 @@ namespace AchiSplatoon2.Content.Projectiles
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
+        }
+
+        private void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
+        // Netcode
+        protected override void NetSendSyncMovement(BinaryWriter writer)
+        {
+            writer.Write((bool)canFall);
+        }
+
+        protected override void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            canFall = reader.ReadBoolean();
         }
     }
 }

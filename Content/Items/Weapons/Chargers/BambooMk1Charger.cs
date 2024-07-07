@@ -16,12 +16,19 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override float[] ChargeTimeThresholds { get => [20f]; }
+        public override bool ScreenShake => false;
+        public override int MaxPenetrate => 1;
+        public override bool DirectHitEffect => false;
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.DefaultToRangedWeapon(ModContent.ProjectileType<BambooChargerProjectile>(), AmmoID.None, 12, 12f);
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<SplatChargerProjectile>(),
+                singleShotTime: 12,
+                shotVelocity: 12f);
+
             Item.width = 74;
             Item.height = 24;
             Item.damage = 40;

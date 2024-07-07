@@ -10,6 +10,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
@@ -38,14 +40,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             // Occasionally, shoot an extra projectile
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(
-                    spawnSource: source,
-                    position: player.Center,
-                    velocity: velocity + Main.rand.NextVector2Circular(-2, 2),
-                    Type: this.Item.shoot,
-                    Damage: damage,
-                    KnockBack: knockback,
-                    Owner: player.whoAmI);
+                CreateProjectileWithWeaponProperties(player, source, velocity + Main.rand.NextVector2Circular(-2, 2));
             }
 
             return base.Shoot(player, source, position, velocity, type, damage, knockback);

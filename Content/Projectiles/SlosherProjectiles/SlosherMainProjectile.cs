@@ -12,6 +12,7 @@ using Terraria;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using Microsoft.Xna.Framework;
 using Mono.Cecil;
+using AchiSplatoon2.Helpers;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -29,13 +30,13 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = true;
+            Projectile.friendly = false;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
@@ -74,14 +75,14 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 float childVelX = Projectile.velocity.X * 0.5f;
                 float childVelY = Projectile.velocity.Y * 0.25f;
 
-                Projectile.NewProjectile(
-                spawnSource: Projectile.GetSource_FromThis(),
-                position: Projectile.Center,
-                velocity: new Vector2(childVelX, childVelY),
-                Type: ModContent.ProjectileType<SlosherChildProjectile>(),
-                Damage: weaponDamage,
-                KnockBack: Projectile.knockBack,
-                Owner: Main.myPlayer);
+                if (IsThisClientTheProjectileOwner())
+                {
+                    CreateChildProjectile(
+                        position: Projectile.Center,
+                        velocity: new Vector2(childVelX, childVelY),
+                        type: ModContent.ProjectileType<SlosherChildProjectile>(),
+                        damage: weaponDamage);
+                }
             }
 
             // Start falling eventually
@@ -99,12 +100,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             {
                 Projectile.velocity.Y = terminalVelocity;
             }
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.immune[Projectile.owner] = 18;
-            base.OnHitNPC(target, hit, damageDone);
         }
     }
 }

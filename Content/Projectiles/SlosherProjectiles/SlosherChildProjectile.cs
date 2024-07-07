@@ -10,6 +10,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Helpers;
+using System.IO;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -31,16 +36,23 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             Initialize();
 
             BaseSlosher weaponData = (BaseSlosher)weaponSource;
             fallSpeed = weaponData.ShotGravity;
+
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasSteelCoil)
+            {
+                Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
+            }
         }
 
         public override void AI()
         {
+            if (isFakeDestroyed) return;
             Projectile.ai[0] += 1f;
 
             // Start falling eventually
@@ -65,6 +77,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (isFakeDestroyed) return false;
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
@@ -72,12 +85,25 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
+
+            if (IsThisClientTheProjectileOwner() && !NetHelper.IsSinglePlayer())
+            {
+                FakeDestroy();
+                return false;
+            }
             return true;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.immune[Projectile.owner] = 18;
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.hasSteelCoil)
+            {
+                target.immune[Projectile.owner] = 3;
+            } else
+            {
+                target.immune[Projectile.owner] = 18;
+            }
             base.OnHitNPC(target, hit, damageDone);
         }
     }

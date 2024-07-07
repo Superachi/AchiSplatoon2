@@ -1,12 +1,18 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
+using log4net;
+using log4net.Repository.Hierarchy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json.Bson;
+using Newtonsoft.Json;
 using ReLogic.Utilities;
 using System;
+using System.IO;
+using System.Text;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -15,10 +21,26 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
+    enum ProjNetUpdateType : byte
+    {
+        None,
+        Initialize,
+        EveryFrame,
+        DustExplosion,
+        UpdateCharge,
+        ReleaseCharge,
+        ShootAnimation,
+        SyncMovement,
+    }
+
     internal class BaseProjectile : ModProjectile
     {
-        protected BaseWeapon weaponSource;
+        public int itemIdentifier = -1;
+        public BaseWeapon weaponSource;
+        public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
+
+        public int parentIdentity = -1;
 
         // Audio
         protected string shootSample = "SplattershotShoot";
@@ -26,8 +48,8 @@ namespace AchiSplatoon2.Content.Projectiles
         protected string shootAltSample = "SplattershotShoot";
 
         // Colors
-        private InkColor primaryColor = InkColor.Order;
-        private InkColor secondaryColor = InkColor.Order;
+        public InkColor primaryColor = InkColor.Order;
+        public InkColor secondaryColor = InkColor.Order;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
 
@@ -37,12 +59,32 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float explosionRadiusModifier = 1f;
         protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
-        protected float damageModifierAfterPierce = 0.8f;
+        protected float damageModifierAfterPierce = 0.7f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
         protected virtual bool CountDamageForSpecialCharge { get => true; }
 
         // State machine
         protected int state = 0;
+
+        // Netcode
+        protected byte netUpdateType = (byte)ProjNetUpdateType.None;
+        protected int afterInitializeDelay = 1;
+
+        /// <summary>
+        /// Used to declare a projectile destroyed locally, without invoking the Projectile.Kill() method
+        /// Example use-case: makes slosher projectiles go 'inactive' on the owner client, so that other clients have time to show the projectile hitting the target/ground
+        /// </summary>
+        protected bool isFakeDestroyed = false;
+
+        /// <summary>
+        /// Declare a projectile destroyed locally. This sets its damage to 0, and sets Projectile.friendly to false
+        /// </summary>
+        protected virtual void FakeDestroy()
+        {
+            isFakeDestroyed = true;
+            Projectile.damage = 0;
+            Projectile.friendly = false;
+        }
 
         protected virtual void SetState(int targetState)
         {
@@ -57,85 +99,113 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
-        public void Initialize(bool ignoreAimDeviation = false)
+        public virtual void AfterSpawn()
         {
+            // Do something after spawning
+            // Using this, rather than OnSpawn, provides time to set properties of the projectile after its spawned into the world
+        }
+
+        public virtual void AfterInitialize()
+        {
+            NetUpdate(ProjNetUpdateType.Initialize, true);
+        }
+
+        public bool Initialize(bool ignoreAimDeviation = false)
+        {
+            if (weaponSource == null)
+            {
+                // Attempt to get the source via the itemIdentifier
+                if (itemIdentifier != -1)
+                {
+                    ModItem modItem = ModContent.GetModItem(itemIdentifier);
+                    weaponSource = (BaseWeapon)modItem;
+                }
+
+                if (weaponSource == null)
+                {
+                    PrintStackTrace(3);
+                    DebugHelper.PrintWarning($"Data for this projectile is not ready yet! (weaponSource: {weaponSource}, itemIdentifier: {itemIdentifier})");
+                    Projectile.Kill();
+                    return false;
+                }
+            }
+
             // Check the highest color chip amounts, set the ink color to match the top 2
+            // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
+            // This object is then referenced by child classes to get alter certain mechanics
             if (IsThisClientTheProjectileOwner())
             {
-                // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
-                // This object is then referenced by child classes to get alter certain mechanics
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                weaponSource = Main.LocalPlayer.GetModPlayer<ItemTrackerPlayer>().lastUsedWeapon;
+                var owner = Main.player[Projectile.owner];
+                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
 
-                for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
+                if (modPlayer.IsPaletteValid())
                 {
-                    Projectile.usesLocalNPCImmunity = true;
-                    Projectile.localNPCHitCooldown = 20 * FrameSpeed();
-
-                    // Apply color chip buffs
-                    // See also the calculations in InkWeaponPlayer.cs
-                    if (!modPlayer.IsPaletteValid()) return;
-
-                    int value = modPlayer.ColorChipAmounts[i];
-
-                    // Only consider the color if we have any chips for it
-                    if (value > 0)
+                    for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
                     {
-                        // Change the primary color if we see a new highest count
-                        if (value > primaryHighest)
+                        Projectile.usesLocalNPCImmunity = true;
+                        Projectile.localNPCHitCooldown = 20 * FrameSpeed();
+
+                        // Apply color chip buffs
+                        // See also the calculations in InkWeaponPlayer.cs
+                        int value = modPlayer.ColorChipAmounts[i];
+
+                        // Only consider the color if we have any chips for it
+                        if (value > 0)
                         {
-                            // If we've no other colors, make the secondary color match the primary one
-                            if (secondaryHighest == 0)
+                            // Change the primary color if we see a new highest count
+                            if (value > primaryHighest)
+                            {
+                                // If we've no other colors, make the secondary color match the primary one
+                                if (secondaryHighest == 0)
+                                {
+                                    secondaryColor = (InkColor)i;
+                                    secondaryHighest = value;
+                                }
+                                // If we do, mark the previous primary color as the secondary color
+                                else
+                                {
+                                    secondaryColor = primaryColor;
+                                    secondaryHighest = primaryHighest;
+                                }
+
+                                primaryColor = (InkColor)i;
+                                primaryHighest = value;
+                            }
+                            // What if we don't have the highest count?
+                            else if (primaryColor == secondaryColor || value > secondaryHighest)
                             {
                                 secondaryColor = (InkColor)i;
                                 secondaryHighest = value;
                             }
-                            // If we do, mark the previous primary color as the secondary color
-                            else
+                        }
+
+                        // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
+                        if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                        {
+                            armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
+                            Projectile.ArmorPenetration += armorPierceModifier;
+                        }
+
+                        // Purple chips > faster charge speed
+                        if (i == (int)InkWeaponPlayer.ChipColor.Purple)
+                        {
+                            chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
+                        }
+
+                        // Yellow chips > bigger explosions + projectile piercing
+                        if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
+                        {
+                            explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
+                            piercingModifier += modPlayer.CalculatePiercingBonus();
+
+                            if (Projectile.penetrate != -1)
                             {
-                                secondaryColor = primaryColor;
-                                secondaryHighest = primaryHighest;
+                                Projectile.maxPenetrate += piercingModifier;
+                                Projectile.penetrate += piercingModifier;
                             }
-
-                            primaryColor = (InkColor)i;
-                            primaryHighest = value;
-                        }
-                        // What if we don't have the highest count?
-                        else if (primaryColor == secondaryColor || value > secondaryHighest)
-                        {
-                            secondaryColor = (InkColor)i;
-                            secondaryHighest = value;
-                        }
-                    }
-
-                    // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
-                    if (i == (int)InkWeaponPlayer.ChipColor.Red)
-                    {
-                        armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
-                        Projectile.ArmorPenetration += armorPierceModifier;
-                    }
-
-                    // Purple chips > faster charge speed
-                    if (i == (int)InkWeaponPlayer.ChipColor.Purple)
-                    {
-                        chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
-                    }
-
-                    // Yellow chips > bigger explosions + projectile piercing
-                    if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
-                    {
-                        explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
-                        piercingModifier += modPlayer.CalculatePiercingBonus();
-
-                        if (Projectile.penetrate != -1)
-                        {
-                            Projectile.maxPenetrate += piercingModifier;
-                            Projectile.penetrate += piercingModifier;
                         }
                     }
                 }
-
-                modPlayer.ColorFromChips = GenerateInkColor();
 
                 if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
                 {
@@ -150,7 +220,37 @@ namespace AchiSplatoon2.Content.Projectiles
                     Vector2 angleVec = endRad.ToRotationVector2();
                     Projectile.velocity = angleVec * projSpeed;
                 }
+            
+                modPlayer.UpdateInkColor(GenerateInkColor());
             }
+
+            return true;
+        }
+
+        protected virtual BaseProjectile CreateChildProjectile(Vector2 position, Vector2 velocity, int type, int damage, bool triggerAfterSpawn = true)
+        {
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: Projectile.GetSource_FromThis(),
+                position: position,
+                velocity: velocity,
+                type: type,
+                damage: damage,
+                knockback: Projectile.knockBack,
+                owner: Projectile.owner);
+
+            var proj = p.ModProjectile as BaseProjectile;
+            proj.weaponSource = weaponSource;
+            proj.itemIdentifier = itemIdentifier;
+            proj.parentIdentity = Projectile.identity;
+            proj.primaryColor = primaryColor;
+            proj.secondaryColor = secondaryColor;
+            if (triggerAfterSpawn) proj.AfterSpawn();
+            return proj;
+        }
+
+        protected Projectile GetParentProjectile(int projectileId)
+        {
+            return Main.projectile[parentIdentity];
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -173,6 +273,16 @@ namespace AchiSplatoon2.Content.Projectiles
                     DamageToSpecialCharge(damageDone, target.lifeMax);
                 }
             }
+        }
+
+        protected Player GetOwner()
+        {
+            return Main.player[Projectile.owner];
+        }
+
+        protected int MultiplyProjectileDamage(float multiplier)
+        {
+            return (int)(Projectile.damage * multiplier);
         }
 
         public void DamageToSpecialCharge(float damage, float targetMaxLife)
@@ -200,6 +310,15 @@ namespace AchiSplatoon2.Content.Projectiles
             // If there are two color chips being considered, add a bias towards the color that we have more chips of
             var amount = 0.5f;
             if (primaryHighest != secondaryHighest) { amount = 0.35f; }
+
+            if (primaryHighest == 0 && secondaryHighest == 0 && NetHelper.IsThisAClient())
+            {
+                // Failsave for if the bullet color data is missing during online play
+                var owner = Main.player[Projectile.owner];
+                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+                return modPlayer.ColorFromChips;
+            }
+
             return ColorHelper.LerpBetweenInkColors(primaryColor, secondaryColor, amount);
         }
 
@@ -214,6 +333,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return Main.myPlayer == Projectile.owner;
         }
 
+        #region Item animation
         protected void SyncProjectilePosWithPlayer(Player owner, float offsetX = 0, float offsetY = 0)
         {
             Projectile.position = owner.Center + new Vector2(offsetX, offsetY);
@@ -230,10 +350,18 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void PlayerItemAnimationFaceCursor(Player owner, Vector2? offset)
+        protected void PlayerItemAnimationFaceCursor(Player owner, Vector2? offset = null, float? radiansOverride = null)
         {
             // Change player direction depending on what direction the charger is held when charging
-            var mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+            float mouseDirRadians;
+            if (radiansOverride == null)
+            {
+                mouseDirRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
+            } else
+            {
+                mouseDirRadians = (float)radiansOverride;
+            }
+
             var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
             
             if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
@@ -262,7 +390,9 @@ namespace AchiSplatoon2.Content.Projectiles
             owner.itemAnimation = owner.itemAnimationMax;
             owner.itemTime = owner.itemTimeMax;
         }
+        #endregion
 
+        #region Audio
         private SlotId PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)
@@ -302,6 +432,7 @@ namespace AchiSplatoon2.Content.Projectiles
             };
             SoundEngine.PlaySound(chargeSound);
         }
+        #endregion
 
         protected void debugMessage(bool isDebug, string message)
         {
@@ -311,7 +442,7 @@ namespace AchiSplatoon2.Content.Projectiles
         #region DustEffects
         protected void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
         {
-            float radiusMult = radiusModifier / 160;
+            float radiusMult = radiusModifier / 140;
             amount = Convert.ToInt32(amount * radiusMult);
 
             // Ink
@@ -334,7 +465,39 @@ namespace AchiSplatoon2.Content.Projectiles
                 dust.velocity *= radiusMult / 2;
             }
         }
-        #endregion
+        protected void EmitBurstDust(ExplosionDustModel dustModel)
+        {
+            EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);
+        }
+
+        protected void CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                if (expModel == null) return;
+
+                var p = CreateChildProjectile(
+                    position: Projectile.Center,
+                    velocity: Vector2.Zero,
+                    type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
+                    damage: 0);
+                var proj = p as ExplosionProjectileVisual;
+
+                proj.explosionDustModel = expModel;
+                proj.playAudioModel = audioModel;
+            }
+        }
+
+        protected void VisualizeRadius()
+        {
+            if (!IsThisClientTheProjectileOwner()) return;
+            for (int i = 0; i < 30; i++)
+            {
+                int id = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 2, Projectile.height / 2), Projectile.width, Projectile.height, DustID.BlueFairy, 0, 0);
+                Dust d = Main.dust[id];
+                d.velocity = Vector2.Zero;
+            }
+        }
 
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
         {
@@ -404,5 +567,264 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
         }
+
+        // For use by nozzlenoses, stringers, etc. Anything that shoots a burst of shots.
+        protected void TripleHitDustBurst(Vector2? position = null)
+        {
+            if (position == null)
+            {
+                position = Projectile.Center;
+            }
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                void spawnDust(Vector2 velocity, float scale, Color? newColor = null)
+                {
+                    Color color;
+                    if (newColor == null)
+                    {
+                        color = new Color(255, 255, 255);
+                    }
+                    else
+                    {
+                        color = ColorHelper.LerpBetweenColors((Color)newColor, new Color(255, 255, 255), 0.8f);
+                    }
+
+                    var dust = Dust.NewDustPerfect((Vector2)position, 306,
+                        velocity,
+                        0, color, scale);
+                    dust.noGravity = true;
+                    dust.fadeIn = 1f;
+                    dust.noLight = true;
+                    dust.noLightEmittence = true;
+                    dust.rotation = Main.rand.NextFloatDirection();
+                }
+
+                PlayAudio("TripleHit", pitchVariance: 0.1f);
+
+                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                Color inkColor = modPlayer.ColorFromChips;
+
+                for (int i = 0; i < 10; i++)
+                {
+                    float hspeed = i * 1.5f;
+                    float vspeed = i / 1.5f;
+                    float scale = 2 - (i / 10) * 2;
+                    spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
+                }
+            }
+        }
+        #endregion
+
+        public override bool PreAI()
+        {
+            afterInitializeDelay--;
+            if (afterInitializeDelay == 0)
+            {
+                AfterInitialize();
+            }
+            return true;
+        }
+
+        #region NetCode
+        public virtual void NetUpdate(ProjNetUpdateType type, bool ownerOnly = false)
+        {
+            // By default, perform the netUpdate
+            // If ownerOnly is true, then we check if this client owns the projectile first
+            bool willUpdate = true;
+            if (ownerOnly)
+            {
+                willUpdate = IsThisClientTheProjectileOwner();
+            }
+            if (!willUpdate) return;
+
+            netUpdateType = (byte)type;
+            Projectile.netUpdate = true;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            if (NetHelper.IsSinglePlayer()) return;
+
+            // DebugHelper.PrintInfo($"Sending packet of type {(ProjNetUpdateType)netUpdateType}");
+            writer.Write(netUpdateType);
+
+            // Fallbacks for getting the associated item data
+            if (itemIdentifier == -1)
+            {
+                if (weaponSource != null)
+                {
+                    itemIdentifier = weaponSource.ItemIdentifier;
+                } else
+                {
+                    weaponSource = (BaseWeapon)Main.LocalPlayer.HeldItem.ModItem;
+                    itemIdentifier = weaponSource.ItemIdentifier;
+                }
+            }
+
+            // DebugHelper.PrintInfo($"With item identifier of {(Int16)itemIdentifier}");
+            writer.Write((Int16)itemIdentifier);
+
+            switch (netUpdateType)
+            {
+                case (byte)ProjNetUpdateType.Initialize:
+                    NetSendInitialize(writer);
+                    break;
+                case (byte)ProjNetUpdateType.EveryFrame:
+                    NetSendEveryFrame(writer);
+                    break;
+                case (byte)ProjNetUpdateType.DustExplosion:
+                    NetSendDustExplosion(writer);
+                    break;
+                case (byte)ProjNetUpdateType.ReleaseCharge:
+                    NetSendReleaseCharge(writer);
+                    break;
+                case (byte)ProjNetUpdateType.UpdateCharge:
+                    NetSendUpdateCharge(writer);
+                    break;
+                case (byte)ProjNetUpdateType.ShootAnimation:
+                    NetSendShootAnimation(writer);
+                    break;
+                case (byte)ProjNetUpdateType.SyncMovement:
+                    NetSendSyncMovement(writer);
+                    break;
+            }
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            if (NetHelper.IsSinglePlayer()) return;
+
+            netUpdateType = reader.ReadByte();
+            // DebugHelper.PrintInfo($"Receiving packet of type {(ProjNetUpdateType)netUpdateType}");
+            itemIdentifier = reader.ReadInt16();
+            // DebugHelper.PrintInfo($"With item identifier of {itemIdentifier}");
+
+            switch (netUpdateType)
+            {
+                case (byte)ProjNetUpdateType.Initialize:
+                    NetReceiveInitialize(reader);
+                    break;
+                case (byte)ProjNetUpdateType.EveryFrame:
+                    NetReceiveEveryFrame(reader);
+                    break;
+                case (byte)ProjNetUpdateType.DustExplosion:
+                    NetReceiveDustExplosion(reader);
+                    break;
+                case (byte)ProjNetUpdateType.ReleaseCharge:
+                    NetReceiveReleaseCharge(reader);
+                    break;
+                case (byte)ProjNetUpdateType.UpdateCharge:
+                    NetReceiveUpdateCharge(reader);
+                    break;
+                case (byte)ProjNetUpdateType.ShootAnimation:
+                    NetReceiveShootAnimation(reader);
+                    break;
+                case (byte)ProjNetUpdateType.SyncMovement:
+                    NetReceiveSyncMovement(reader);
+                    break;
+            }
+        }
+
+        protected virtual void NetSendInitialize(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveInitialize(BinaryReader reader)
+        {
+            AfterSpawn();
+        }
+
+        private string NotImplementedWarning()
+        {
+            PrintStackTrace(3);
+            return $"No implementation for this projectile packet type yet.";
+        }
+
+        protected virtual void NetSendSyncMovement(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+
+        protected virtual void NetSendEveryFrame(BinaryWriter writer)
+        {
+            // Given that this method will be called very often, try not to make the packet size too large
+        }
+
+        protected virtual void NetReceiveEveryFrame(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+
+        protected virtual void NetSendDustExplosion(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveDustExplosion(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+
+        // Shoot animation (for cases where it doesn't manually show)
+        protected virtual void NetSendShootAnimation(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveShootAnimation(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+
+        // Charge mechanics
+        protected virtual void NetSendUpdateCharge(BinaryWriter writer)
+        {
+        }
+        protected virtual void NetReceiveUpdateCharge(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+
+        protected virtual void NetSendReleaseCharge(BinaryWriter writer)
+        {
+        }
+
+        protected virtual void NetReceiveReleaseCharge(BinaryReader reader)
+        {
+            DebugHelper.PrintWarning(NotImplementedWarning());
+        }
+        #endregion
+
+        #region Debug
+        public void PrintAndLog(string message, Color? color = null)
+        {
+            if (color == null) color = Color.White;
+
+            Main.NewText(message, color);
+            Mod.Logger.Info(message);
+        }
+
+        public void PrintStackTrace(int amount, Color? color = null)
+        {
+            if (color == null) color = Color.White;
+
+            string currentClass = "";
+            PrintAndLog($"{DateTime.Now.TimeOfDay} ==========", color);
+
+            if (currentClass != this.GetType().Name)
+            {
+                currentClass = this.GetType().Name;
+                PrintAndLog($"Class: {currentClass}", Color.Orange);
+            }
+
+            for (var i = 0; i < amount; i++)
+            {
+                PrintAndLog($"{i}>{(new System.Diagnostics.StackTrace()).GetFrame(i + 2).GetMethod().Name}", Color.Yellow);
+            }
+        }
+        #endregion
     }
 }
