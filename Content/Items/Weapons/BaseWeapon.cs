@@ -210,7 +210,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return true;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             if (!IsSpecialWeapon) { return base.CanUseItem(player); }
