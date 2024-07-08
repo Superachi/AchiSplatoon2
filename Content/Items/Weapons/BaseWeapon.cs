@@ -210,21 +210,26 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
-
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            if (!IsSpecialWeapon) { return base.CanUseItem(player); }
-            if (!modPlayer.SpecialReady
-                || (modPlayer.IsSpecialActive && IsDurationSpecial)
-                || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
-                || player.altFunctionUse == 2)
-            {
-                player.itemTime = 30;
-                return false;
+            if (!IsSpecialWeapon) {
+                return base.CanUseItem(player);
             }
-            modPlayer.DrainSpecial(SpecialDrainPerUse);
-            modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem.Name);
-            return true;
+            else
+            {
+                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                if (!modPlayer.SpecialReady
+                    || (modPlayer.IsSpecialActive && IsDurationSpecial)
+                    || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
+                    || player.altFunctionUse == 2)
+                {
+                    // DebugHelper.PrintWarning($"{player.name} | {modPlayer.SpecialReady} | {modPlayer.IsSpecialActive} | {modPlayer.SpecialName} | {player.altFunctionUse}");
+                    player.itemTime = 30;
+                    return false;
+                }
+
+                modPlayer.DrainSpecial(SpecialDrainPerUse);
+                modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem.Name);
+                return true;
+            }
         }
 
         public override bool AltFunctionUse(Player player)
