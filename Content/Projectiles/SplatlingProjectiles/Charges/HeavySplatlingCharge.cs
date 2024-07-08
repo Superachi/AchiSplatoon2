@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -24,6 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
         public int barrageTarget = -1;
         public int barrageCombo = 0;
+        private bool barrageDone = false;
 
         public float ChargedAmmo
         {
@@ -106,7 +108,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         {
             Player owner = Main.player[Projectile.owner];
 
-            if (IsThisClientTheProjectileOwner())
+            if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
                 if (owner.dead) { Projectile.Kill(); return; }
                 if (owner.channel)
@@ -180,7 +182,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     return;
                 }
 
-                Projectile.Kill();
+                if (!barrageDone)
+                {
+                    barrageDone = true;
+                    Projectile.timeLeft = 60;
+                }
             }
         }
 

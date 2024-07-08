@@ -66,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         private HeavySplatlingCharge? GetParentModProjectile()
         {
             var p = GetParentProjectile(parentIdentity);
-            if (p.ModProjectile is HeavySplatlingCharge)
+            if (p != null && p.ModProjectile is HeavySplatlingCharge)
             {
                 return (HeavySplatlingCharge)p.ModProjectile;
             }
@@ -75,20 +75,19 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
         private void ResetCrayonBoxCombo(string message)
         {
+            if (!IsThisClientTheProjectileOwner()) return;
             HeavySplatlingCharge parent = GetParentModProjectile();
 
-            if (parent != null)
+            if (parent == null) return;
+            if (parent.barrageTarget != -1)
             {
-                if (parent.barrageTarget != -1)
+                if (parent.barrageCombo > 5)
                 {
-                    if (parent.barrageCombo > 5)
-                    {
-                        CombatTextHelper.DisplayText($"{message}Combo: {parent.barrageCombo}x", GetOwner().Center);
-                    }
-
-                    parent.barrageTarget = -1;
-                    parent.barrageCombo = 0;
+                    CombatTextHelper.DisplayText($"{message}Combo: {parent.barrageCombo}x", GetOwner().Center);
                 }
+
+                parent.barrageTarget = -1;
+                parent.barrageCombo = 0;
             }
         }
 

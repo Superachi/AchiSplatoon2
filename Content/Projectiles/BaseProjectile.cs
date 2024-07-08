@@ -244,9 +244,13 @@ namespace AchiSplatoon2.Content.Projectiles
             return proj;
         }
 
-        protected Projectile GetParentProjectile(int projectileId)
+        protected Projectile? GetParentProjectile(int projectileId)
         {
-            return Main.projectile[parentIdentity];
+            if (parentIdentity < Main.projectile.Length)
+            {
+                return Main.projectile[parentIdentity];
+            }
+            return null;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
