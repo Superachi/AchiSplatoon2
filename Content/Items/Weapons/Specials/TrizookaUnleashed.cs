@@ -1,0 +1,50 @@
+﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Specials
+{
+    internal class TrizookaUnleashed : TrizookaSpecial
+    {
+        public override string ShootSample { get => "Specials/TrizookaLaunch"; }
+        public override float MuzzleOffsetPx { get; set; } = 80f;
+        protected override string UsageHintParamA => "";
+        protected override string UsageHintParamB => "";
+        public override bool IsSpecialWeapon => false;
+        public override bool AllowSubWeaponUsage => true;
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+
+            Item.rare = ItemRarityID.Cyan;
+            Item.damage = 150;
+            Item.knockBack = 10;
+        }
+
+        public override bool CanReforge() => true;
+
+        public override bool AllowPrefix(int pre) => true;
+
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseGold(registerNow: false);
+            recipe.AddIngredient(ItemID.ChlorophyteBar, 5);
+            recipe.AddIngredient(ItemID.ShroomiteBar, 5);
+            recipe.AddIngredient(ItemID.SpectreBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<TrizookaSpecial>(), 1);
+            recipe.Register();
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            // Ignore the base method from BaseSpecial
+        }
+    }
+}

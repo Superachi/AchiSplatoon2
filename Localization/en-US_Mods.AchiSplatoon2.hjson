@@ -27,6 +27,8 @@ Hint: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
 		CritBonus: "{0}% increased critical strike chance on Chargers"
 	}
+
+	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 }
 
 Items: {
@@ -631,6 +633,13 @@ Items: {
 			{$SpecialPowerEmblem.Multiplier@1}
 			{$SpecialChargeEmblem.Multiplier@2}
 			'''
+	}
+
+	TrizookaUnleashed: {
+		DisplayName: Trizooka Unleashed
+		UsageHint: "{$Hint.TrizookaUnleashed}"
+		Flavor: You're breaking the game, dude!
+		Tooltip: ""
 	}
 }
 

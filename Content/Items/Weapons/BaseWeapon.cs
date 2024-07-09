@@ -188,7 +188,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 proj.Projectile.damage = (int)(proj.Projectile.damage * bomb.CalculateDamageMod(player));
             }
 
-            if (this is BaseSpecial)
+            if (this is BaseSpecial && IsSpecialWeapon)
             {
                 BaseSpecial special = (BaseSpecial)this;
                 proj.Projectile.damage = (int)(proj.Projectile.damage * modPlayer.CalculateSpecialDamageBonusModifier());

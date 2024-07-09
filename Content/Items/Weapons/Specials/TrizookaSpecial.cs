@@ -14,7 +14,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public static readonly int MaxBursts = 3;
         protected override string UsageHintParamA => ProjPerShot.ToString();
         protected override string UsageHintParamB => MaxBursts.ToString();
-        public override bool IsSpecialWeapon => true;
         public override float SpecialDrainPerTick => 0.1f;
         public override float SpecialDrainPerUse => 55f;
 
