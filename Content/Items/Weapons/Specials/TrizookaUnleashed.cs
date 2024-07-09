@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class TrizookaUnleashed : TrizookaSpecial
     {
-        public override string ShootSample { get => "Specials/TrizookaLaunch"; }
+        public override string ShootSample { get => "Specials/TrizookaLaunchAlly"; }
         public override float MuzzleOffsetPx { get; set; } = 80f;
         protected override string UsageHintParamA => "";
         protected override string UsageHintParamB => "";
@@ -22,6 +22,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override void SetDefaults()
         {
             base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<TrizookaShooter>(),
+                singleShotTime: 60,
+                shotVelocity: 20f
+            );
 
             Item.rare = ItemRarityID.Cyan;
             Item.damage = 150;

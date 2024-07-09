@@ -21,14 +21,14 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         protected int damageBeforePiercing;
 
         private const float delayUntilFall = 12f;
-        private const float fallSpeed = 0.3f;
-        private const float terminalVelocity = 12f;
+        private const float fallSpeed = 0.2f;
+        private const float terminalVelocity = 24f;
 
         private const float recoilAmount = 5f;
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 2;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
@@ -50,10 +50,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             TrizookaSpecial weaponData = (TrizookaSpecial)weaponSource;
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             damageBeforePiercing = Projectile.damage;
-
-            // Randomize trajectory
-            Projectile.velocity += Main.rand.NextVector2Circular(2, 2);
-            Projectile.velocity *= Main.rand.NextFloat(1f, 1.5f);
         }
 
         private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
@@ -74,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.tileCollide = false;
             Projectile.velocity = Vector2.Zero;
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.3f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: 0.25f, _position: Projectile.Center);
+            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
             CreateExplosionVisual(e, s);
             AdvanceState();
         }

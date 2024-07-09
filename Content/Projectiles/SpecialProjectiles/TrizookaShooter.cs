@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -12,6 +13,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
     internal class TrizookaShooter : BaseProjectile
     {
         private const float recoilAmount = 5f;
+        private float shotArcIncrement = 1.5f;
+        private float shotVelocityBase = 20f;
+        private float shotVelocityRange = 3f;
 
         public override void SetDefaults()
         {
@@ -45,11 +49,17 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     frames: 30, 80f, FullName);
                 Main.instance.CameraModifiers.Add(modifier);
 
+                float aimAngle = MathHelper.ToDegrees(Projectile.velocity.ToRotation());
+
                 for (int i = 0; i < 3; i++)
                 {
+                    float degrees = aimAngle - shotArcIncrement + (i * shotArcIncrement);
+                    float shotSpeed = shotVelocityBase + Main.rand.NextFloat(-shotVelocityRange, shotVelocityRange);
+                    Vector2 velocity = WoomyMathHelper.DegreesToVector(degrees) * shotSpeed;
+
                     CreateChildProjectile(
                         position: Projectile.Center,
-                        velocity: Projectile.velocity,
+                        velocity: velocity,
                         type: ModContent.ProjectileType<TrizookaProjectile>(),
                         damage: Projectile.damage);
                 }
