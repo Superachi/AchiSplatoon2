@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else if (IsSpecialWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} only usable when special guage is full") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} can't be reforged and is only usable when special gauge is filled") { OverrideColor = null });
             }
             else
             {
@@ -318,6 +318,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 );
                             p.Projectile.damage = (int)(p.Projectile.damage * damageBonus);
                             p.Projectile.position = player.Center;
+                            p.itemIdentifier = item.type;
                             p.AfterSpawn();
 
                             player.itemTime = item.useTime;
