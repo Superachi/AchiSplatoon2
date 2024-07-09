@@ -12,6 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.rare = ItemRarityID.Expert;
             Item.value = Item.buyPrice(gold: 5);
         }

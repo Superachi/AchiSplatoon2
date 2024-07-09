@@ -647,7 +647,6 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             if (NetHelper.IsSinglePlayer()) return;
 
-            // DebugHelper.PrintInfo($"Sending packet of type {(ProjNetUpdateType)netUpdateType}");
             writer.Write(netUpdateType);
 
             // Fallbacks for getting the associated item data
@@ -664,7 +663,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
 
-            // DebugHelper.PrintInfo($"With item identifier of {(Int16)itemIdentifier}");
+            // DebugHelper.PrintInfo($"Packet type: {(ProjNetUpdateType)netUpdateType} | Item ID: {(Int16)itemIdentifier}");
             writer.Write((Int16)itemIdentifier);
 
             switch (netUpdateType)
@@ -698,9 +697,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (NetHelper.IsSinglePlayer()) return;
 
             netUpdateType = reader.ReadByte();
-            // DebugHelper.PrintInfo($"Receiving packet of type {(ProjNetUpdateType)netUpdateType}");
             itemIdentifier = reader.ReadInt16();
-            // DebugHelper.PrintInfo($"With item identifier of {itemIdentifier}");
+            // DebugHelper.PrintInfo($"Receiving packet type: {(ProjNetUpdateType)netUpdateType} | Item ID: {(Int16)itemIdentifier}");
 
             switch (netUpdateType)
             {
