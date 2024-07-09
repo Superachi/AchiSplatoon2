@@ -10,5 +10,10 @@ namespace AchiSplatoon2.Helpers
             float radians = MathHelper.ToRadians(degrees);
             return radians.ToRotationVector2();
         }
+
+        public static int FloatToPercentage(float value)
+        {
+            return (int)(value * 100f);
+        }
     }
 }

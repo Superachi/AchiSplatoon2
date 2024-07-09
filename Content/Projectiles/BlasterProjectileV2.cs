@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
@@ -29,6 +30,8 @@ namespace AchiSplatoon2.Content.Projectiles
         private const int stateExplodeTile = 2;
         private const int stateDespawn = 3;
 
+        protected override bool EnablePierceDamageFalloff => false;
+
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -49,8 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             // Mechanics
             Initialize();
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
-            if (accMP.hasFieryPaintCan && !accMP.lastBlasterShotHit)
+            if (GetOwner().HasBuff<BigBlastBuff>())
             {
                 Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
                 explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
@@ -192,12 +194,12 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnKill(int timeLeft)
         {
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
-            if (accMP.hasFieryPaintCan)
+            if (IsThisClientTheProjectileOwner())
             {
-                accMP.lastBlasterShotHit = hasHitTarget;
+                var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
             }
-
+            
             base.OnKill(timeLeft);
         }
     }

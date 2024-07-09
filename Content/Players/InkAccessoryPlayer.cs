@@ -1,4 +1,8 @@
-﻿using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Buffs;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -24,6 +28,35 @@ namespace AchiSplatoon2.Content.Players
         public bool hasSteelCoil;
         public bool hasTentacleScope;
 
+        public override void PreUpdate()
+        {
+            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
+            if (Player.HasBuff<BigBlastBuff>() && !wepMP.SpecialReady)
+            {
+                var w = Player.width;
+                var h = Player.height;
+                var pos = Player.position - new Vector2(w / 2, 0);
+                int dustId;
+                Dust dustInst;
+
+                if (Main.rand.NextBool(20))
+                {
+                    dustId = Dust.NewDust(Position: pos,
+                        Width: w,
+                        Height: h,
+                        Type: DustID.TheDestroyer,
+                        SpeedX: 0f,
+                        SpeedY: -2.5f,
+                        newColor: Color.White,
+                        Scale: Main.rand.NextFloat(0.8f, 1.2f));
+
+                    dustInst = Main.dust[dustId];
+                    dustInst.noGravity = true;
+                    dustInst.fadeIn = 0.7f;
+                }
+            }
+        }
+
         public override void ResetEffects()
         {
             hasAgentCloak = false;
@@ -44,6 +77,21 @@ namespace AchiSplatoon2.Content.Players
             hasCrayonBox = false;
             hasSteelCoil = false;
             hasTentacleScope = false;
+        }
+
+        public void SetBlasterBuff(bool hasHitTarget)
+        {
+            lastBlasterShotHit = hasHitTarget;
+            if (lastBlasterShotHit)
+            {
+                Player.ClearBuff(ModContent.BuffType<BigBlastBuff>());
+            } else
+            {
+                int buffType = ModContent.BuffType<BigBlastBuff>();
+                Player.AddBuff(buffType, 2);
+                Main.buffNoTimeDisplay[buffType] = true;
+                Main.buffNoSave[buffType] = true;
+            }
         }
     }
 }

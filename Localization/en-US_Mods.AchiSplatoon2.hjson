@@ -695,6 +695,11 @@ Buffs: {
 		DisplayName: Special charged!
 		Description: If you have a special-type weapon, you can now use it!
 	}
+
+	BigBlastBuff: {
+		Description: Your next Blaster shot deals {0}% more damage in a {1}% bigger radius
+		DisplayName: Compensating Blast
+	}
 }
 
 NPCs.BrellaShield.DisplayName: Brella Shield
