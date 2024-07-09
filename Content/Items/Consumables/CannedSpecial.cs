@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 
@@ -23,12 +24,23 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
         public override bool? UseItem(Player player)
         {
-            if (player.whoAmI == Main.myPlayer)
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
                 modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
                 return true;
             }
+            return false;
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
+            }
+
             return false;
         }
     }

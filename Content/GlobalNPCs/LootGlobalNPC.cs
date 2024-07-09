@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
                 chanceModifier = Math.Max(1f, chanceModifier);
 
-                if (Main.rand.NextBool((int)(200f * chanceModifier)))
+                if (Main.rand.NextBool((int)(50f * chanceModifier)))
                 {
                     // Display feedback if a canned special container drops
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
@@ -55,7 +55,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     SoundHelper.PlayAudio("ItemGet", volume: 0.6f, maxInstances: 1, position: npc.position);
                 }
 
-                if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                if (Main.rand.NextBool((int)(25f * chanceModifier)))
                 {
                     if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)
                     {
@@ -63,7 +63,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     }
                 }
 
-                if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                if (Main.rand.NextBool((int)(25f * chanceModifier)))
                 {
                     if (Main.LocalPlayer.statMana < Main.LocalPlayer.statManaMax2)
                     {
