@@ -131,6 +131,7 @@ namespace AchiSplatoon2.Content.Projectiles
                         Projectile.velocity *= 0.1f;
                         Projectile.damage = MultiplyProjectileDamage(0.8f);
                         Projectile.friendly = false;
+                        NetUpdate(ProjNetUpdateType.SyncMovement, true);
                     }
                 }
                 else
@@ -142,6 +143,7 @@ namespace AchiSplatoon2.Content.Projectiles
                         TilePierceDustEffect();
                         Projectile.velocity = velocityBeforeTilePierce;
                         Projectile.friendly = true;
+                        NetUpdate(ProjNetUpdateType.SyncMovement, true);
                     }
                 }
             }
@@ -295,6 +297,21 @@ namespace AchiSplatoon2.Content.Projectiles
 
             PlayShootSample();
             hasFired = true;
+        }
+
+        protected override void NetSendSyncMovement(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.velocity);
+            writer.WriteVector2(Projectile.position);
+            writer.Write((bool)isPiercingTile);
+        }
+
+        protected override void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            Projectile.velocity = reader.ReadVector2();
+            Projectile.position = reader.ReadVector2();
+            isPiercingTile = reader.ReadBoolean();
+            if (!isPiercingTile) TilePierceDustEffect();
         }
     }
 }
