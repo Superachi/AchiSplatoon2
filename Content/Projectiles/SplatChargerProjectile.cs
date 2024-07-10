@@ -69,6 +69,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (chargeLevel > 0)
             {
                 Projectile.penetrate = MaxPenetrate + piercingModifier;
+                wormDamageReduction = true;
+
                 Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
 
                 if (ShakeScreenOnChargeShot)
@@ -85,6 +87,8 @@ namespace AchiSplatoon2.Content.Projectiles
             else
             {
                 Projectile.penetrate = 1 + piercingModifier;
+                if (Projectile.penetrate > 1) wormDamageReduction = true;
+
                 int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
 
                 // Deal a min. of 10% damage and a max. of 40% damage
@@ -206,12 +210,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            base.ModifyHitNPC(target, ref modifiers);
-
             if (tilePiercesLeft < TentacularOcular.TerrainMaxPierceCount)
             {
                 modifiers.DisableCrit();
             }
+            base.ModifyHitNPC(target, ref modifiers);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

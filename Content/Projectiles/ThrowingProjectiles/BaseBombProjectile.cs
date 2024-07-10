@@ -13,8 +13,13 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected int explosionRadius;
         protected int finalExplosionRadius;
 
+        protected int fallTimer = 0;
+        protected int delayUntilFall = 15;
+        protected float fallSpeed = 0.5f;
+        protected bool canFall = false;
+
         protected float airFriction = 0.995f;
-        protected float terminalVelocity = 10f;
+        protected float terminalVelocity = 20f;
 
         protected Color glowColor;
         protected float brightness = 0.002f;
@@ -29,17 +34,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             BaseBomb weaponData = (BaseBomb)weaponSource;
             explosionRadius = weaponData.ExplosionRadius;
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
-        }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (Main.expertMode)
-            {
-                if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
-                {
-                    modifiers.FinalDamage /= 3;
-                }
-            }
+            wormDamageReduction = true;
         }
 
         protected void Detonate()

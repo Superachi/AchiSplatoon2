@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             modifiers.Knockback *= 2;
+            base.ModifyHitNPC(target, ref modifiers);
         }
     }
 }

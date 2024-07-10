@@ -39,6 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             baseDamage = Projectile.damage;
 
             PlayAudio("Throwables/AngleShooterThrow", volume: 0.3f, pitchVariance: 0.2f);
+            wormDamageReduction = false;
         }
 
         public override bool PreAI()

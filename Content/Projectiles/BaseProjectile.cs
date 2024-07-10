@@ -14,6 +14,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -58,6 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float damageModifierAfterPierce = 0.7f;
         protected virtual bool EnablePierceDamageFalloff { get => true; }
         protected virtual bool CountDamageForSpecialCharge { get => true; }
+        protected bool wormDamageReduction = false;
 
         // State machine
         protected int state = 0;
@@ -217,6 +219,11 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.velocity = angleVec * projSpeed;
                 }
 
+                if (Projectile.penetrate != 1)
+                {
+                    wormDamageReduction = true;
+                }
+
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
 
@@ -259,15 +266,43 @@ namespace AchiSplatoon2.Content.Projectiles
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            bool isWorm = false;
+            if (wormDamageReduction)
+            {
+                if (Main.expertMode)
+                {
+                    int n = target.type;
+                    if ((n >= NPCID.EaterofWorldsHead && n <= NPCID.EaterofWorldsTail)
+                    || (n >= NPCID.TheDestroyer && n <= NPCID.TheDestroyerTail)
+                    || (n >= NPCID.GiantWormHead && n <= NPCID.GiantWormTail)
+                    || (n >= NPCID.DiggerHead && n <= NPCID.DiggerTail)
+                    || (n >= NPCID.DevourerHead && n <= NPCID.DevourerTail)
+                    || (n >= NPCID.SeekerHead && n <= NPCID.SeekerTail)
+                    || (n >= NPCID.TombCrawlerHead && n <= NPCID.TombCrawlerTail)
+                    || (n >= NPCID.DuneSplicerHead && n <= NPCID.DuneSplicerTail)
+                    || (n >= NPCID.WyvernHead && n <= NPCID.WyvernTail)
+                    || (n >= NPCID.BoneSerpentHead && n <= NPCID.BoneSerpentTail))
+                    {
+                        isWorm = true;
+                        modifiers.FinalDamage *= 0.3f;
+                    }
+                }
+            }
+
+            if (EnablePierceDamageFalloff && !isWorm)
+            {
+                Projectile.damage = MultiplyProjectileDamage(damageModifierAfterPierce);
+            }
+
+            base.ModifyHitNPC(target, ref modifiers);
+        }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (IsThisClientTheProjectileOwner())
             {
-                if (EnablePierceDamageFalloff)
-                {
-                    Projectile.damage = (int)(Projectile.damage * damageModifierAfterPierce);
-                }
-
                 if (target.type != NPCID.TargetDummy)
                 {
                     DamageToSpecialCharge(damageDone, target.lifeMax);

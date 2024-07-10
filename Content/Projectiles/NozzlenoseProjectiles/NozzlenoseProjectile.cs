@@ -108,6 +108,7 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
                     }
                 }
             }
+            base.ModifyHitNPC(target, ref modifiers);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
