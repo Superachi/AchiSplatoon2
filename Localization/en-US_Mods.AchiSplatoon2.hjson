@@ -578,7 +578,7 @@ Items: {
 		DisplayName: Fresh Quiver
 		Tooltip: ""
 		UsageHint: "{$Hint.FreshQuiver}"
-		Flavor: Stay fresh!
+		Flavor: Niko wins!
 	}
 
 	CrayonBox: {
@@ -639,6 +639,20 @@ Items: {
 		DisplayName: Trizooka Unleashed
 		UsageHint: "{$Hint.TrizookaUnleashed}"
 		Flavor: You're breaking the game, dude!
+		Tooltip: ""
+	}
+
+	ClassicSplattershotS1: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClassicSplattershotS1.UsageHint
+		Flavor: Stay fresh!
+		DisplayName: Ancient Splattershot
+		Tooltip: ""
+	}
+
+	ClassicSplattershotS2: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClassicSplattershotS2.UsageHint
+		Flavor: Stay off the hook!
+		DisplayName: Vintage Splattershot
 		Tooltip: ""
 	}
 }
