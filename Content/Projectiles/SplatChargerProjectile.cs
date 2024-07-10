@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplatChargerProjectile : BaseChargeProjectile
     {
-        private const int timeLeftAfterFiring = 120;
+        private const int timeLeftAfterFiring = 30;
         private bool firstHit = false;
 
         private bool isPiercingTile = false;
@@ -24,6 +24,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual bool ShakeScreenOnChargeShot { get; private set; }
         protected virtual int MaxPenetrate { get; private set; }
+        protected float RangeModifier { get; private set; }
+        protected float MinPartialRange { get; private set; }
+        protected float MaxPartialRange { get; private set; }
 
         public override void SetDefaults()
         {
@@ -49,6 +52,10 @@ namespace AchiSplatoon2.Content.Projectiles
             ShakeScreenOnChargeShot = weaponData.ScreenShake;
             MaxPenetrate = weaponData.MaxPenetrate;
 
+            RangeModifier = weaponData.RangeModifier;
+            MinPartialRange = weaponData.MinPartialRange;
+            MaxPartialRange = weaponData.MaxPartialRange;
+
             tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
         }
 
@@ -69,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     PunchCameraModifier modifier = new PunchCameraModifier(
                         startPosition: owner.Center,
                         direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
-                        strength: 4f,
+                        strength: 3f,
                         vibrationCyclesPerSecond: 8f,
                         frames: 10, 80f, FullName);
                     Main.instance.CameraModifiers.Add(modifier);
@@ -85,11 +92,13 @@ namespace AchiSplatoon2.Content.Projectiles
                     (Projectile.damage * 0.1) + ((Projectile.damage * 0.3) * chargeTimeNormalized / chargeTimeThresholds[0])
                 );
 
-                // Similar for the range (min. 3% range, max. 20%)
+                // Similar for the range (min. 10% range, max. 40%)
                 Projectile.timeLeft = Convert.ToInt32(
-                    (timeLeftAfterFiring * 0.03) + ((timeLeftAfterFiring * 0.17) * chargeTimeNormalized / chargeTimeThresholds[0])
+                    (timeLeftAfterFiring * MinPartialRange) + ((timeLeftAfterFiring * (MaxPartialRange - MinPartialRange)) * chargeTimeNormalized / chargeTimeThresholds[0])
                 ) * Projectile.extraUpdates;
             }
+
+            Projectile.timeLeft = (int)(Projectile.timeLeft * RangeModifier);
 
             var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasTentacleScope && IsChargeMaxedOut())
@@ -136,6 +145,8 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
                 else
                 {
+                    Projectile.timeLeft++;
+
                     if (!CheckSolid())
                     {
                         isPiercingTile = false;

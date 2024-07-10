@@ -16,7 +16,10 @@ Hint: {
 	Slosher: Throws a stream of projectiles that cover a wide area
 	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
 	Octobrush: Decreases mobility while attacking, but slightly improves it when not
-	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
+	Nozzlenose: Increased damage per consecutive hit on the same target
+	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+	Squiffer: Increased mobility while charging, but has shorter range
+	# Accessories
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
@@ -27,8 +30,6 @@ Hint: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
 		CritBonus: "{0}% increased critical strike chance on Chargers"
 	}
-
-	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 }
 
 Items: {
@@ -653,6 +654,13 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.ClassicSplattershotS2.UsageHint
 		Flavor: Stay off the hook!
 		DisplayName: Vintage Splattershot
+		Tooltip: ""
+	}
+
+	ClassicSquiffer: {
+		UsageHint: "{$Hint.Squiffer}"
+		Flavor: Mods.AchiSplatoon2.Items.ClassicSquiffer.Flavor
+		DisplayName: Classic Squiffer
 		Tooltip: ""
 	}
 }
