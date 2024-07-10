@@ -116,18 +116,20 @@ namespace AchiSplatoon2.Netcode
         {
             packet.Write((double)dto.moveSpeedMod);
             packet.Write((double)dto.moveAccelMod);
+            packet.Write((double)dto.moveFrictionMod);
         }
 
         public static void ReceiveSyncMoveSpeed(BinaryReader reader, int fromWho, ILog logger)
         {
             // 'Payload'
-            float moveSpeedMod = (float)reader.ReadDouble();
-            float moveAccelMod = (float)reader.ReadDouble();
+            float moveSpeedMod      = (float)reader.ReadDouble();
+            float moveAccelMod      = (float)reader.ReadDouble();
+            float moveFrictionMod   = (float)reader.ReadDouble();
 
             // Respond
             if (IsThisTheServer())
             {
-                var dto = new PlayerMoveSpeedDTO(moveSpeedMod, moveAccelMod);
+                var dto = new PlayerMoveSpeedDTO(moveSpeedMod, moveAccelMod, moveFrictionMod);
                 var json = JsonConvert.SerializeObject(dto);
 
                 // Forward
@@ -142,6 +144,7 @@ namespace AchiSplatoon2.Netcode
                 InkWeaponPlayer modPlayer = GetModPlayerFromPacket(fromWho);
                 modPlayer.moveSpeedModifier = moveSpeedMod;
                 modPlayer.moveAccelModifier = moveAccelMod;
+                modPlayer.moveFrictionModifier = moveAccelMod;
             }
         }
     }

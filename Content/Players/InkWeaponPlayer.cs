@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
@@ -68,6 +69,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float moveSpeedModifier = 1f;
         public float moveAccelModifier = 1f;
+        public float moveFrictionModifier = 1f;
         public bool brushMoveSpeedCap = true;
 
         private bool DoesModPlayerBelongToLocalClient()
@@ -163,33 +165,43 @@ namespace AchiSplatoon2.Content.Players
 
             var oldMoveSpeedMod = moveSpeedModifier;
             var oldMoveAccelMod = moveAccelModifier;
+            var oldMoveFrictionMod = moveFrictionModifier;
             moveSpeedModifier = 1f;
             moveAccelModifier = 1f;
+            moveFrictionModifier = 1f;
             brushMoveSpeedCap = false;
 
-            // Move speed bonus from holding a brush
-            if (Player.HeldItem.ModItem is Inkbrush)
+            switch (Player.HeldItem.ModItem)
             {
-                if (Player.ItemTimeIsZero)
-                {
-                    moveSpeedModifier = 1.1f;
-                    moveAccelModifier = 5f;
-                }
-                else
-                {
-                    brushMoveSpeedCap = true;
-                }
-            }
-            else if (Player.HeldItem.ModItem is Octobrush)
-            {
-                if (Player.ItemTimeIsZero)
-                {
-                    moveAccelModifier = 3f;
-                }
-                else
-                {
-                    brushMoveSpeedCap = true;
-                }
+                case Inkbrush:
+                    if (Player.ItemTimeIsZero)
+                    {
+                        moveSpeedModifier = 1.1f;
+                        moveAccelModifier = 5f;
+                        moveFrictionModifier = 3f;
+                    }
+                    else
+                    {
+                        brushMoveSpeedCap = true;
+                    }
+                    break;
+                case Octobrush:
+                    if (Player.ItemTimeIsZero)
+                    {
+                        moveAccelModifier = 3f;
+                    }
+                    else
+                    {
+                        brushMoveSpeedCap = true;
+                    }
+                    break;
+                case ClassicSquiffer:
+                    if (Player.channel)
+                    {
+                        moveAccelModifier = 3f;
+                        moveFrictionModifier = 3f;
+                    }
+                    break;
             }
 
             // Move speed bonus from holding blue color chips
@@ -199,7 +211,9 @@ namespace AchiSplatoon2.Content.Players
                 moveSpeedModifier += blueChipCount * BlueChipBaseMoveSpeedBonus;
             }
 
-            if (oldMoveSpeedMod != moveSpeedModifier || oldMoveAccelMod != moveAccelModifier)
+            if (oldMoveSpeedMod != moveSpeedModifier
+            || oldMoveAccelMod != moveAccelModifier
+            || oldMoveFrictionMod != moveFrictionModifier)
             {
                 SyncMoveSpeedData();
             }
@@ -209,6 +223,7 @@ namespace AchiSplatoon2.Content.Players
         {
             Player.maxRunSpeed *= moveSpeedModifier;
             Player.runAcceleration *= moveAccelModifier;
+            Player.runSlowdown *= moveFrictionModifier;
         }
 
         public override void ResetEffects()
@@ -411,7 +426,7 @@ namespace AchiSplatoon2.Content.Players
 
         private void SyncMoveSpeedData()
         {
-            var dto = new PlayerMoveSpeedDTO(moveSpeedModifier, moveAccelModifier);
+            var dto = new PlayerMoveSpeedDTO(moveSpeedModifier, moveAccelModifier, moveFrictionModifier);
             SendPacket(PlayerPacketType.SyncMoveSpeed, dto);
         }
 
