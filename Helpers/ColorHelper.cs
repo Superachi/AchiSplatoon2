@@ -129,5 +129,17 @@ namespace AchiSplatoon2.Helpers
         {
             return Color.Lerp(primaryColor, secondaryColor, amount + Main.rand.NextFloat(-0.1f, 0.1f));
         }
+
+        public static Color LerpBetweenColorsPerfect(Color primaryColor, Color secondaryColor, float amount)
+        {
+            return Color.Lerp(primaryColor, secondaryColor, amount);
+        }
+
+        public static string GetChipTextColor(InkColor inkColor)
+        {
+            var tempColor = GetInkColor(inkColor);
+            var c = LerpBetweenColorsPerfect(tempColor, Color.White, 0.25f);
+            return $"c/{c.R:X2}{c.G:X2}{c.B:X2}:";
+        }
     }
 }

@@ -68,6 +68,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             var textColorWhite = "c/ffffff:";
             var textColorGray = "c/a8a8a8:";
             var textColorWarn = "c/ed3a4a:";
+            string ChipColor(InkColor color) => ColorHelper.GetChipTextColor(color);
+
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             int index = tooltips.FindIndex(l => l.Name == "ItemName");
             if (index != -1)
@@ -107,31 +109,32 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                         $"\n[c/ffffff:Currently active bonuses:]";
                     if (red > 0)
                     {
-                        t.Text += $"\n[{textColorWhite}Power ({red}) >]" +
+                        t.Text += $"\n[{ChipColor(InkColor.Red)}Power ({red}) >]" +
                             $"\n[{textColorGray}Damage: +{(int)(red * modPlayer.RedChipBaseAttackDamageBonus * 100)}%]" +
                             $"\n[{textColorGray}Armor penetration: {(int)(red * modPlayer.RedChipBaseArmorPierceBonus)} Defense]";
                     }
                     if (blue > 0)
                     {
-                        t.Text += $"\n[{textColorWhite}Mobility ({blue}) >]" +
+                        t.Text += $"\n[{ChipColor(InkColor.Blue)}Mobility ({blue}) >]" +
                             $"\n[{textColorGray}Move speed: +{(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]" +
                             $"\n[{textColorGray}Special charge while moving: +{(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
                     }
                     if (yellow > 0)
                     {
-                        t.Text += $"\n[{textColorWhite}Range ({yellow}) >]" +
+                        t.Text += $"\n[{ChipColor(InkColor.Yellow)}Range ({yellow}) >]" +
                             $"\n[{textColorGray}Explosion radius: +{(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]" +
                             $"\n[{textColorGray}Projectile piercing: +{(int)(yellow * modPlayer.YellowChipPiercingBonus)}]";
                     }
                     if (purple > 0)
                     {
-                        t.Text += $"\n[{textColorWhite}Support ({purple}) >]" +
+                        t.Text += $"\n[{ChipColor(InkColor.Purple)}Support ({purple}) >]" +
                             $"\n[{textColorGray}Knockback: +{purple * modPlayer.PurpleChipBaseKnockbackBonus} unit(s)]" +
                             $"\n[{textColorGray}Weapon charge speed: +{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)
                     {
-                        t.Text += $"\n[{textColorWhite}Lucky ({green}) > Critical strike: +{(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
+                        t.Text += $"\n[{ChipColor(InkColor.Green)}Lucky ({green}) >]" +
+                            $"\n[{textColorGray}Critical strike: +{(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
                     }
                 }
                 else
