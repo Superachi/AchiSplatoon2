@@ -54,7 +54,7 @@ namespace AchiSplatoon2.Content.Players
         public float GreenChipLootBonusDivider { get => 2f; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.15f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
-        public float BlueChipBaseChargeBonus { get => 0.5f; }
+        public float BlueChipBaseChargeBonus { get => 0.25f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
 
         public enum ChipColor
@@ -208,7 +208,9 @@ namespace AchiSplatoon2.Content.Players
             if (IsPaletteValid() && !brushMoveSpeedCap)
             {
                 int blueChipCount = ColorChipAmounts[(int)ChipColor.Blue];
-                moveSpeedModifier += blueChipCount * BlueChipBaseMoveSpeedBonus;
+                moveSpeedModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus;
+                moveAccelModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus;
+                moveFrictionModifier    += blueChipCount * BlueChipBaseMoveSpeedBonus;
             }
 
             if (oldMoveSpeedMod != moveSpeedModifier
@@ -311,16 +313,11 @@ namespace AchiSplatoon2.Content.Players
             IncrementSpecialPoints(increment);
         }
 
-        private void AddSpecialPointsOnKill()
-        {
-            IncrementSpecialPoints(SpecialPointsMax / 5);
-        }
-
         private void AddSpecialPointsOnMovement()
         {
             if (Math.Abs(Player.velocity.X) > 1f)
             {
-                float increment = 0.003f * Math.Abs(Player.velocity.X) * (ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
+                float increment = 0.002f * Math.Abs(Player.velocity.X) * (ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
                 IncrementSpecialPoints(increment);
             }
         }
