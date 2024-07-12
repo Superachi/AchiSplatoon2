@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 
@@ -42,7 +43,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void AfterSpawn()
         {
             base.AfterSpawn();
-            Initialize();
             FuseTime = maxFuseTime;
         }
 
@@ -85,7 +85,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.rotation += Projectile.velocity.X * rotateMod;
 
             // Apply gravity
-            Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + 0.3f, -terminalVelocity, terminalVelocity);
+            if (canFall)
+            {
+                Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + fallSpeed, -terminalVelocity, terminalVelocity);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -106,6 +109,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             switch (state)
             {
                 case stateRoll:
+                    canFall = true;
                     hasCollided = true;
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
@@ -128,11 +132,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
             }
 
-            Projectile.netUpdate = true;
+            NetUpdate(ProjNetUpdateType.SyncMovement, true);
         }
 
         private void AdvanceState()
         {
+            if (!IsThisClientTheProjectileOwner()) return;
             state++;
             SetState(state);
         }
@@ -140,9 +145,17 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void AI()
         {
             FuseTime--;
+            fallTimer++;
+
             switch (state)
             {
                 case stateFly:
+                    if (fallTimer >= delayUntilFall)
+                    {
+                        canFall = true;
+                        NetUpdate(ProjNetUpdateType.SyncMovement, true);
+                    }
+
                     if (FuseTime < maxFuseTime - 30)
                     {
                         applyGravity = true;
@@ -171,6 +184,18 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             }
         }
 
+        #endregion
+
+        #region Netcode
+
+        protected override void NetSendSyncMovement(BinaryWriter writer)
+        {
+            writer.Write((int)state);
+        }
+        protected override void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            SetState(reader.Read());
+        }
         #endregion
     }
 }

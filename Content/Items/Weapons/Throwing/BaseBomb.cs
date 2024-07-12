@@ -8,14 +8,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
     internal class BaseBomb : BaseWeapon
     {
         public virtual int ExplosionRadius { get => 100; }
-        public virtual int MaxBounces { get => 10; }
+        public virtual int MaxBounces { get => 12; }
         public override bool IsSubWeapon => true;
         public override bool AllowSubWeaponUsage { get => false; }
 
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 20f;
             Item.maxStack = 9999;
             Item.consumable = true;
             Item.useTime = 30;

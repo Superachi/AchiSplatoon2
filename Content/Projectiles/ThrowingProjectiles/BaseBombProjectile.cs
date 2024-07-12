@@ -1,7 +1,9 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
-using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
@@ -36,6 +38,13 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
 
             wormDamageReduction = true;
+
+            if (IsThisClientTheProjectileOwner()) {
+                float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
+                float velocityMod = MathHelper.Clamp(distance / 500f, 0.6f, 1.2f);
+                Projectile.velocity *= velocityMod;
+                NetUpdate(ProjNetUpdateType.SyncMovement);
+            }
         }
 
         protected void Detonate()
@@ -45,9 +54,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.velocity = Vector2.Zero;
-            EmitBurstDust(dustMaxVelocity: 25, amount: 20, minScale: 1.5f, maxScale: 3, radiusModifier: finalExplosionRadius);
+            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
+            var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
+            CreateExplosionVisual(e, a);
             StopAudio("Throwables/SplatBombFuse");
-            PlayAudio("Throwables/SplatBombDetonate", volume: 0.6f, pitchVariance: 0.2f, maxInstances: 5);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -58,6 +68,22 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 return false;
             }
             return true;
+        }
+
+        protected void readSpawnVelocity(BinaryReader reader)
+        {
+            Projectile.velocity = reader.ReadVector2();
+        }
+
+        protected override void NetSendInitialize(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.velocity);
+        }
+
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            base.NetReceiveInitialize(reader);
+            readSpawnVelocity(reader);
         }
     }
 }

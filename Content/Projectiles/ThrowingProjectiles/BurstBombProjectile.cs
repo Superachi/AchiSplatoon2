@@ -58,6 +58,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
+            fallTimer++;
+
             if (!hasExploded)
             {
                 Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
@@ -69,7 +71,15 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.rotation += Projectile.velocity.X * 0.02f;
 
                 // Apply gravity
-                Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + 0.3f, -terminalVelocity, terminalVelocity);
+                if (fallTimer >= delayUntilFall && !canFall)
+                {
+                    canFall = true;
+                }
+
+                if (canFall)
+                {
+                    Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + fallSpeed, -terminalVelocity, terminalVelocity);
+                }
             }
             else
             {

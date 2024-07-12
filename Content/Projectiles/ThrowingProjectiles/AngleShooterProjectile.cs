@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
 using System;
