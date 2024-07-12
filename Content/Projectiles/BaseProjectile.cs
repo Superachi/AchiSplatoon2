@@ -133,7 +133,7 @@ namespace AchiSplatoon2.Content.Projectiles
             NetUpdate(ProjNetUpdateType.Initialize, true);
         }
 
-        public bool Initialize(bool ignoreAimDeviation = false)
+        public bool Initialize(bool ignoreAimDeviation = false, bool isDissolvable = true)
         {
             if (WeaponInstance == null)
             {
@@ -231,6 +231,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
 
+                dissolvable = isDissolvable;
                 if (!ignoreAimDeviation && WeaponInstance.AimDeviation != 0)
                 {
                     var vel = Projectile.velocity;

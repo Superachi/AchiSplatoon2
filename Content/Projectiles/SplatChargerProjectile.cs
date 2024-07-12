@@ -53,7 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             Projectile.velocity = Vector2.Zero;
@@ -70,6 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles
             // Release the attack
             hasFired = true;
             Projectile.friendly = true;
+            dissolvable = true;
 
             // Adjust behaviour depending on the charge amount
             if (chargeLevel > 0)

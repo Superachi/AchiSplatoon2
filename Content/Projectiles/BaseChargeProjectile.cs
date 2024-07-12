@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
             PlayAudio(soundPath: "ChargeStart");

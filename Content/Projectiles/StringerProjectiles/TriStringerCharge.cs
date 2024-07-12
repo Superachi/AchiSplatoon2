@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())

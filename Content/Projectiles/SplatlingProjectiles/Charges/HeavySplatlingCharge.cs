@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
         public override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
