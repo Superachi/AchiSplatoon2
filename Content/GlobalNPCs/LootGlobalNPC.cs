@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
                 chanceModifier = Math.Max(1f, chanceModifier);
 
-                if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                if (Main.rand.NextBool((int)(75f * chanceModifier)))
                 {
                     // Display feedback if a canned special container drops
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
