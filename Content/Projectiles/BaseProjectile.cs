@@ -52,6 +52,10 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public int parentIdentity = -1;
 
+        // If dissolvable = true, it means this projectile gets destroyed by liquids by default
+        // An exception is made for shimmer
+        protected bool dissolvable = true;
+
         // Audio
         protected string shootSample = "SplattershotShoot";
         protected string shootWeakSample = "SplattershotShoot";
@@ -678,6 +682,18 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         #endregion
 
+        private void Dissolve()
+        {
+            if (dissolvable)
+            {
+                Tile tile = Framing.GetTileSafely(Projectile.Center);
+                if (tile.LiquidType >= LiquidID.Water && tile.LiquidType < LiquidID.Shimmer && tile.LiquidAmount > 100)
+                {
+                    Projectile.Kill();
+                }
+            }
+        }
+
         public override bool PreAI()
         {
             afterInitializeDelay--;
@@ -685,6 +701,9 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 AfterInitialize();
             }
+
+            Dissolve();
+            
             return true;
         }
 
