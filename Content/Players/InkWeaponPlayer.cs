@@ -36,6 +36,8 @@ namespace AchiSplatoon2.Content.Players
         public bool IsSpecialActive;
         public string SpecialName = null;
         public float SpecialDrain;
+        public int SpecialIncrementCooldown = 0;
+        public int SpecialIncrementCooldownDefault = 6;
 
         public float RedChipBaseAttackDamageBonus { get => 0.03f; }
         public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
@@ -79,6 +81,8 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
+
             if (playerId == -1 && DoesModPlayerBelongToLocalClient())
             {
                 playerId = Player.whoAmI;
@@ -286,13 +290,16 @@ namespace AchiSplatoon2.Content.Players
         public void IncrementSpecialPoints(float amount)
         {
             if (!DoesModPlayerBelongToLocalClient()) return;
+            if (SpecialIncrementCooldown > 0) return;
             if (Player.dead) return;
+
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
 
             if (!IsSpecialActive)
             {
                 amount *= accMP.specialChargeMultiplier;
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
+                SpecialIncrementCooldown += SpecialIncrementCooldownDefault;
             }
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
