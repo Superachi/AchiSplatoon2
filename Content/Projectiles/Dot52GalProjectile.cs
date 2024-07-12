@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -25,12 +26,16 @@ namespace AchiSplatoon2.Content.Projectiles
             AIType = ProjectileID.Bullet;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            shootSample = WeaponInstance.ShootSample;
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
-
-            Dot52Gal weaponData = (Dot52Gal)weaponSource;
-            shootSample = weaponData.ShootSample;
+            ApplyWeaponInstanceData();
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
         }
 

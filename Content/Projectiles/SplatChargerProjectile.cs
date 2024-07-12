@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -34,17 +35,10 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.extraUpdates = 32;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
-            Projectile.velocity = Vector2.Zero;
-
-            if (IsThisClientTheProjectileOwner())
-            {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
-            }
-
-            BaseCharger weaponData = (BaseCharger)weaponSource;
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseCharger;
 
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
@@ -55,8 +49,20 @@ namespace AchiSplatoon2.Content.Projectiles
             RangeModifier = weaponData.RangeModifier;
             MinPartialRange = weaponData.MinPartialRange;
             MaxPartialRange = weaponData.MaxPartialRange;
+        }
 
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+
+            Projectile.velocity = Vector2.Zero;
             tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
         }
 
         protected override void ReleaseCharge(Player owner)

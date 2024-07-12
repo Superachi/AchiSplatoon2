@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class BaseBombProjectile : BaseProjectile
     {
         protected override bool FallThroughPlatforms => false;
-        protected override bool EnablePierceDamageFalloff { get => false; }
+
         protected bool hasExploded = false;
         protected int explosionRadius;
         protected int finalExplosionRadius;
@@ -27,17 +27,23 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseBomb;
+
+            explosionRadius = weaponData.ExplosionRadius;
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
+            ApplyWeaponInstanceData();
+            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
+            enablePierceDamagefalloff = false;
+
             PlayAudio("Throwables/SplatBombThrow");
             glowColor = GenerateInkColor();
-
-            BaseBomb weaponData = (BaseBomb)weaponSource;
-            explosionRadius = weaponData.ExplosionRadius;
-            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
-
-            wormDamageReduction = true;
 
             if (IsThisClientTheProjectileOwner()) {
                 float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);

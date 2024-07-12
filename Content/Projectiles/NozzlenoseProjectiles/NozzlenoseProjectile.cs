@@ -32,17 +32,23 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as L3Nozzlenose;
 
-            L3Nozzlenose weaponData = (L3Nozzlenose)weaponSource;
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
 
             damageIncreasePerHit = weaponData.DamageIncreasePerHit;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
 
             PlayShootSound();
         }

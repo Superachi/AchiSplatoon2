@@ -43,12 +43,19 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             set => Projectile.ai[0] = value;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as TrizookaSpecial;
+
+            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
-
-            TrizookaSpecial weaponData = (TrizookaSpecial)weaponSource;
-            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
+            ApplyWeaponInstanceData();
+            
             damageBeforePiercing = Projectile.damage;
         }
 

@@ -72,7 +72,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Initialize();
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
-            wormDamageReduction = false;
         }
 
         public override void AI()

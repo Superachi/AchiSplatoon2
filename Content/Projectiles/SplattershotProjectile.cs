@@ -28,16 +28,21 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            BaseSplattershot weaponData = WeaponInstance as BaseSplattershot;
 
-            BaseSplattershot weaponData = (BaseSplattershot)weaponSource;
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
+        }
 
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
             PlayShootSound();
         }
 

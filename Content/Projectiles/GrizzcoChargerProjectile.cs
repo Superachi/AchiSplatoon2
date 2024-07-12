@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +9,6 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class GrizzcoChargerProjectile : BaseProjectile
     {
-        protected string ShootSample { get => "BambooChargerShoot"; }
 
         public override void SetDefaults()
         {
@@ -25,10 +25,19 @@ namespace AchiSplatoon2.Content.Projectiles
             AIType = ProjectileID.Bullet;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as GrizzcoCharger;
+
+            shootSample = weaponData.ShootSample;
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
-            PlayAudio(ShootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 1);
+            ApplyWeaponInstanceData();
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 1);
         }
 
         public override void AI()

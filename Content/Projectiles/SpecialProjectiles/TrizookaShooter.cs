@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
+using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -27,15 +28,16 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as TrizookaSpecial;
 
-            TrizookaSpecial weaponData = (TrizookaSpecial)weaponSource;
             shootSample = weaponData.ShootSample;
-            EmitShotBurstDust();
-            PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
+        }
 
+        private void CreateZookaShots()
+        {
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.LocalPlayer;
@@ -64,6 +66,17 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         damage: Projectile.damage);
                 }
             }
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+            
+            EmitShotBurstDust();
+            PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
+
+            CreateZookaShots();
 
             Projectile.Kill();
         }

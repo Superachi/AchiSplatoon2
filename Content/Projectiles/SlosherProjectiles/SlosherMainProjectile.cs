@@ -26,11 +26,10 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
-
-            BaseSlosher weaponData = (BaseSlosher)weaponSource;
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSlosher;
 
             // The slosher child projectiles should do the damage here
             weaponDamage = Projectile.damage;
@@ -38,6 +37,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             shootSample = weaponData.ShootSample;
             shootSampleAlt = weaponData.ShootWeakSample;
             fallSpeed = weaponData.ShotGravity;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
 
             if (Main.rand.NextBool(2))
             {

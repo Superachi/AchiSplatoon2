@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
@@ -33,7 +34,19 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BaseProjectile : ModProjectile
     {
         public int itemIdentifier = -1;
-        public BaseWeapon weaponSource;
+        private BaseWeapon weaponSource;
+        public BaseWeapon WeaponInstance
+        {
+            get
+            {
+                return weaponSource;
+            }
+            set
+            {
+                weaponSource = value;
+            }
+        }
+
         public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
 
@@ -56,8 +69,10 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float explosionRadiusModifier = 1f;
         protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
+        protected int originalDamage = 0;
         protected float damageModifierAfterPierce = 0.7f;
-        protected virtual bool EnablePierceDamageFalloff { get => true; }
+        protected bool enablePierceDamagefalloff;
+
         protected virtual bool CountDamageForSpecialCharge { get => true; }
         protected bool wormDamageReduction = false;
 
@@ -97,6 +112,12 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
+        public virtual void ApplyWeaponInstanceData()
+        {
+            // Cast the provided WeaponInstance to the correct child of BaseWeapon
+            // Then use it to set the projectile's properties
+        }
+
         public virtual void AfterSpawn()
         {
             // Do something after spawning
@@ -110,19 +131,20 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public bool Initialize(bool ignoreAimDeviation = false)
         {
-            if (weaponSource == null)
+            if (WeaponInstance == null)
             {
                 // Attempt to get the source via the itemIdentifier
                 if (itemIdentifier != -1)
                 {
+                    // DebugHelper.PrintWarning($"itemId => {itemIdentifier}");
                     ModItem modItem = ModContent.GetModItem(itemIdentifier);
-                    weaponSource = (BaseWeapon)modItem;
+                    WeaponInstance = (BaseWeapon)modItem;
                 }
 
-                if (weaponSource == null)
+                if (WeaponInstance == null)
                 {
                     PrintStackTrace(3);
-                    DebugHelper.PrintWarning($"Data for this projectile is not ready yet! (weaponSource: {weaponSource}, itemIdentifier: {itemIdentifier})");
+                    DebugHelper.PrintWarning($"Data for this projectile is not ready yet! (weaponSource: {WeaponInstance}, itemIdentifier: {itemIdentifier})");
                     Projectile.Kill();
                     return false;
                 }
@@ -205,12 +227,12 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
 
-                if (!ignoreAimDeviation && weaponSource.AimDeviation != 0)
+                if (!ignoreAimDeviation && WeaponInstance.AimDeviation != 0)
                 {
                     var vel = Projectile.velocity;
                     var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
 
-                    var dev = weaponSource.AimDeviation;
+                    var dev = WeaponInstance.AimDeviation;
                     float startRad = vel.ToRotation();
                     float startDeg = MathHelper.ToDegrees(startRad);
                     float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
@@ -221,8 +243,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 if (Projectile.penetrate != 1)
                 {
+                    enablePierceDamagefalloff = true;
                     wormDamageReduction = true;
                 }
+
+                originalDamage = Projectile.damage;
 
                 modPlayer.UpdateInkColor(GenerateInkColor());
             }
@@ -242,7 +267,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 owner: Projectile.owner);
 
             var proj = p.ModProjectile as BaseProjectile;
-            proj.weaponSource = weaponSource;
+            proj.WeaponInstance = WeaponInstance;
             proj.itemIdentifier = itemIdentifier;
             proj.parentIdentity = Projectile.identity;
             proj.primaryColor = primaryColor;
@@ -266,34 +291,33 @@ namespace AchiSplatoon2.Content.Projectiles
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        private bool isTargetWorm(NPC target)
         {
             bool isWorm = false;
-            if (wormDamageReduction)
+
+            int n = target.type;
+            if ((n >= NPCID.EaterofWorldsHead && n <= NPCID.EaterofWorldsTail)
+            || (n >= NPCID.TheDestroyer && n <= NPCID.TheDestroyerTail)
+            || (n >= NPCID.GiantWormHead && n <= NPCID.GiantWormTail)
+            || (n >= NPCID.DiggerHead && n <= NPCID.DiggerTail)
+            || (n >= NPCID.DevourerHead && n <= NPCID.DevourerTail)
+            || (n >= NPCID.SeekerHead && n <= NPCID.SeekerTail)
+            || (n >= NPCID.TombCrawlerHead && n <= NPCID.TombCrawlerTail)
+            || (n >= NPCID.DuneSplicerHead && n <= NPCID.DuneSplicerTail)
+            || (n >= NPCID.WyvernHead && n <= NPCID.WyvernTail)
+            || (n >= NPCID.BoneSerpentHead && n <= NPCID.BoneSerpentTail))
             {
-                if (Main.expertMode)
-                {
-                    int n = target.type;
-                    if ((n >= NPCID.EaterofWorldsHead && n <= NPCID.EaterofWorldsTail)
-                    || (n >= NPCID.TheDestroyer && n <= NPCID.TheDestroyerTail)
-                    || (n >= NPCID.GiantWormHead && n <= NPCID.GiantWormTail)
-                    || (n >= NPCID.DiggerHead && n <= NPCID.DiggerTail)
-                    || (n >= NPCID.DevourerHead && n <= NPCID.DevourerTail)
-                    || (n >= NPCID.SeekerHead && n <= NPCID.SeekerTail)
-                    || (n >= NPCID.TombCrawlerHead && n <= NPCID.TombCrawlerTail)
-                    || (n >= NPCID.DuneSplicerHead && n <= NPCID.DuneSplicerTail)
-                    || (n >= NPCID.WyvernHead && n <= NPCID.WyvernTail)
-                    || (n >= NPCID.BoneSerpentHead && n <= NPCID.BoneSerpentTail))
-                    {
-                        isWorm = true;
-                        modifiers.FinalDamage *= 0.3f;
-                    }
-                }
+                isWorm = true;
             }
 
-            if (EnablePierceDamageFalloff && !isWorm)
+            return isWorm;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (wormDamageReduction && Main.expertMode && isTargetWorm(target))
             {
-                Projectile.damage = MultiplyProjectileDamage(damageModifierAfterPierce);
+                modifiers.FinalDamage *= 0.3f;
             }
 
             base.ModifyHitNPC(target, ref modifiers);
@@ -301,12 +325,14 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (IsThisClientTheProjectileOwner())
+            if (target.type != NPCID.TargetDummy)
             {
-                if (target.type != NPCID.TargetDummy)
-                {
-                    DamageToSpecialCharge(damageDone, target.lifeMax);
-                }
+                DamageToSpecialCharge(damageDone, target.lifeMax);
+            }
+
+            if (enablePierceDamagefalloff && !isTargetWorm(target))
+            {
+                Projectile.damage = MultiplyProjectileDamage(damageModifierAfterPierce);
             }
         }
 
@@ -687,14 +713,14 @@ namespace AchiSplatoon2.Content.Projectiles
             // Fallbacks for getting the associated item data
             if (itemIdentifier == -1)
             {
-                if (weaponSource != null)
+                if (WeaponInstance != null)
                 {
-                    itemIdentifier = weaponSource.ItemIdentifier;
+                    itemIdentifier = WeaponInstance.ItemIdentifier;
                 }
                 else
                 {
-                    weaponSource = (BaseWeapon)Main.LocalPlayer.HeldItem.ModItem;
-                    itemIdentifier = weaponSource.ItemIdentifier;
+                    WeaponInstance = (BaseWeapon)Main.LocalPlayer.HeldItem.ModItem;
+                    itemIdentifier = WeaponInstance.ItemIdentifier;
                 }
             }
 

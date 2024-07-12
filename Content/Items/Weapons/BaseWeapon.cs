@@ -178,7 +178,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             var proj = p.ModProjectile as BaseProjectile;
 
             // Config variables after spawning
-            proj.weaponSource = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
+            proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
 
             // If throwing a sub weapon directly, apply damage modifiers

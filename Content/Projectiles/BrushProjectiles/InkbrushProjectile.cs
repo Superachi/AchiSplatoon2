@@ -40,13 +40,20 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
-            BaseBrush weaponData = (BaseBrush)weaponSource;
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseBrush;
+
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
             delayUntilFall = weaponData.DelayUntilFall;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
 
             // Set visuals
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);

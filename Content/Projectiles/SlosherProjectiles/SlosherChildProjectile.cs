@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Steamworks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,12 +29,18 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             AIType = ProjectileID.Bullet;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSlosher;
+
+            fallSpeed = weaponData.ShotGravity;
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
-
-            BaseSlosher weaponData = (BaseSlosher)weaponSource;
-            fallSpeed = weaponData.ShotGravity;
+            ApplyWeaponInstanceData();
 
             var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasSteelCoil)

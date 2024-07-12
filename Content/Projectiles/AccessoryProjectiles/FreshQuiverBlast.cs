@@ -5,8 +5,6 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {
     internal class FreshQuiverBlast : BaseProjectile
     {
-        protected override bool EnablePierceDamageFalloff { get => false; }
-
         protected string explosionSample = "BlasterExplosion";
         private int baseRadius = 150;
         private bool hasExploded = false;
@@ -21,6 +19,7 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
         public override void AfterSpawn()
         {
             Initialize();
+            enablePierceDamagefalloff = false;
             Projectile.CritChance = 100;
 
             if (IsThisClientTheProjectileOwner())

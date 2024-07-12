@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -36,16 +37,23 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
             Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
-            Projectile.velocity = Vector2.Zero;
+            base.ApplyWeaponInstanceData();
+            weaponData = WeaponInstance as L3Nozzlenose;
 
-            weaponData = (L3Nozzlenose)weaponSource;
             shotVelocity = weaponData.ShotVelocity;
             shotSpeed = weaponData.BurstShotTime;
             muzzleDistance = weaponData.MuzzleOffsetPx;
-            ShotTimer = 4;
+
+            ShotTimer = shotSpeed;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+            Projectile.velocity = Vector2.Zero;
         }
 
         protected Vector2 GetVelocityTimesAngle(float aimRadians, float shotVelocity)
@@ -87,7 +95,7 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
 
                     var p = CreateChildProjectile(Projectile.Center + spawnPositionOffset, velocity, ModContent.ProjectileType<NozzlenoseProjectile>(), Projectile.damage, false);
 
-                    p.weaponSource = weaponSource;
+                    p.WeaponInstance = WeaponInstance;
                     p.Projectile.ai[2] = Projectile.whoAmI;
                     p.AfterSpawn();
 

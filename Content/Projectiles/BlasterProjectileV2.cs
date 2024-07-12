@@ -1,10 +1,12 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -30,8 +32,6 @@ namespace AchiSplatoon2.Content.Projectiles
         private const int stateExplodeTile = 2;
         private const int stateDespawn = 3;
 
-        protected override bool EnablePierceDamageFalloff => false;
-
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -48,18 +48,12 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            // Mechanics
-            Initialize();
-            if (GetOwner().HasBuff<BigBlastBuff>())
-            {
-                Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
-                explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
-            }
+            base.ApplyWeaponInstanceData();
+            weaponData = WeaponInstance as Blaster;
 
-            damageBeforePiercing = Projectile.damage;
-            weaponData = weaponSource as Blaster;
+            // Explosion radius/timing
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
             explosionRadiusTile = weaponData.ExplosionRadiusTile;
             explosionDelay = weaponData.ExplosionDelayInit;
@@ -68,7 +62,22 @@ namespace AchiSplatoon2.Content.Projectiles
             shootSample = weaponData.ShootSample;
             explosionAirSample = weaponData.ExplosionBigSample;
             explosionTileSample = weaponData.ExplosionSmallSample;
+        }
 
+        public override void AfterSpawn()
+        {
+            // Mechanics
+            Initialize();
+            ApplyWeaponInstanceData();
+            enablePierceDamagefalloff = false;
+
+            if (GetOwner().HasBuff<BigBlastBuff>())
+            {
+                Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
+                explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
+            }
+
+            damageBeforePiercing = Projectile.damage;
             SetState(stateFly);
         }
 

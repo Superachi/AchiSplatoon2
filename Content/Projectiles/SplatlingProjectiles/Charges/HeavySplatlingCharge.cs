@@ -33,16 +33,22 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             private set => Projectile.ai[2] = value;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSplatling;
 
-            BaseSplatling weaponData = (BaseSplatling)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
             {

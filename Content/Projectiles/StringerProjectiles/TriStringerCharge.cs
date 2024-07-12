@@ -19,11 +19,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public int burstRequiredHits;
         private float muzzleDistance;
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseStringer;
 
-            BaseStringer weaponData = (BaseStringer)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
@@ -33,6 +33,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
             burstRequiredHits = weaponData.ProjectileCount;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
             {
