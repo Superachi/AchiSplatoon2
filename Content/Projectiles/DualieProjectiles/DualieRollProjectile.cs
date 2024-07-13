@@ -66,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void OnKill(int timeLeft)
         {
             owner.fullRotation = 0;
-            dualieMP.postRollCooldown = 30;
+            dualieMP.postRollCooldown = InkDualiePlayer.postRollCooldownDefault;
         }
     }
 }

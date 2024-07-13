@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Players
 
         public bool postRoll;
         public int postRollCooldown;
+        public static int postRollCooldownDefault = 30;
 
         private int maxRolls;
         private int rollsLeft;
@@ -115,6 +116,7 @@ namespace AchiSplatoon2.Content.Players
             if (isRolling)
             {
                 BlockJumps();
+                Player.wings = 0;
                 postRoll = true;
                 return;
             }
@@ -132,7 +134,7 @@ namespace AchiSplatoon2.Content.Players
             // If jumping with a dualie while shooting...
             if (rollsLeft == 0 || xDir == 0) return;
             bool countJump = InputHelper.GetInputJumpPressed() || Player.controlJump && rollsLeft < maxRolls;
-            if (countJump && isHoldingDualie && !Player.ItemTimeIsZero)
+            if (countJump && isHoldingDualie && Player.controlUseItem)
             {
                 // Check if we can roll in the given direction
                 if (!Collision.SolidCollision(new Vector2(Player.position.X + xDir * 10, Player.position.Y), Player.width, Player.height))

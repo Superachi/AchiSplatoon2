@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override bool CanUseItem(Player player)
         {
             var dualieMP = player.GetModPlayer<InkDualiePlayer>();
-            if (dualieMP.isRolling && PreventShootOnRoll)
+            if ((dualieMP.isRolling && PreventShootOnRoll) || dualieMP.postRollCooldown > InkDualiePlayer.postRollCooldownDefault - 6)
             {
                 return false;
             }
