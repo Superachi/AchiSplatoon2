@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkAccessoryPlayer : ModPlayer
+    internal class InkAccessoryPlayer : BaseModPlayer
     {
         public bool hasAgentCloak;
         public bool hasSpecialPowerEmblem;

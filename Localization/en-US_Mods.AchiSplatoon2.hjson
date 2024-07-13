@@ -663,6 +663,13 @@ Items: {
 		DisplayName: Classic Squiffer
 		Tooltip: ""
 	}
+
+	TestDualie: {
+		Tooltip: ""
+		DisplayName: Test Dualie
+		Flavor: Mods.AchiSplatoon2.Items.TestDualie.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.TestDualie.UsageHint
+	}
 }
 
 Projectiles: {
@@ -705,6 +712,9 @@ Projectiles: {
 	NozzlenoseProjectile.DisplayName: Nozzlenose Projectile
 	NozzlenoseShooter.DisplayName: Nozzlenose Shooter
 	FreshQuiverBlast.DisplayName: Fresh Quiver Blast
+	RollProjectile.DisplayName: Roll Projectile
+	DualieRollProjectile.DisplayName: Dualie Roll Projectile
+	DualieShotProjectile.DisplayName: Dualie Shot Projectile
 }
 
 Buffs: {

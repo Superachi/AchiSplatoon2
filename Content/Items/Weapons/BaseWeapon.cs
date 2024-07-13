@@ -211,6 +211,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override bool CanUseItem(Player player)
         {
             if (!IsSpecialWeapon) {
+                var dualieMP = player.GetModPlayer<InkDualiePlayer>();
+                if (dualieMP.isRolling) return false;
                 return base.CanUseItem(player);
             }
             else

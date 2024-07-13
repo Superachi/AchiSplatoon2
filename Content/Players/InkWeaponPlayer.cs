@@ -17,7 +17,7 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkWeaponPlayer : ModPlayer
+    internal class InkWeaponPlayer : BaseModPlayer
     {
         public int playerId = -1;
         public bool isPaletteEquipped;
@@ -58,6 +58,7 @@ namespace AchiSplatoon2.Content.Players
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
         public float BlueChipBaseChargeBonus { get => 0.25f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
+        public float BlueChipBaseDualieRollSpeedBonus { get => 0.03f; }
 
         public enum ChipColor
         {
@@ -73,11 +74,6 @@ namespace AchiSplatoon2.Content.Players
         public float moveAccelModifier = 1f;
         public float moveFrictionModifier = 1f;
         public bool brushMoveSpeedCap = true;
-
-        private bool DoesModPlayerBelongToLocalClient()
-        {
-            return Player.whoAmI == Main.LocalPlayer.whoAmI;
-        }
 
         public override void PreUpdate()
         {
