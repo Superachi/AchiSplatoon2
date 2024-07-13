@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         public override void ApplyWeaponInstanceData()
         {
-            var dualieData = WeaponInstance as TestDualie;
+            var dualieData = WeaponInstance as BaseDualie;
             PlayAudio(dualieData.RollSample, pitchVariance: 0.1f);
         }
 

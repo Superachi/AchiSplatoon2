@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -35,6 +36,7 @@ namespace AchiSplatoon2.Content.Players
         private float rollDistance = 0f;
         private float rollDuration = 0f;
         private string rollSample = "";
+        private bool hasSquidClipOns;
 
         private void BlockJumps()
         {
@@ -46,7 +48,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void ResetEffects()
         {
-            if (Player.HeldItem.ModItem is not TestDualie)
+            if (Player.HeldItem.ModItem is not BaseDualie)
             {
                 isRolling = false;
                 isTurret = false;
@@ -62,19 +64,23 @@ namespace AchiSplatoon2.Content.Players
         public override void PreUpdateMovement()
         {
             var heldItem = Player.HeldItem.ModItem;
-            var dualieData = heldItem as TestDualie;
+            var dualieData = heldItem as BaseDualie;
+            hasSquidClipOns = Player.GetModPlayer<InkAccessoryPlayer>().hasSquidClipOns;
 
-            if (heldItem is TestDualie)
+            if (heldItem is BaseDualie)
             {
                 if (!isHoldingDualie)
                 {
                     isHoldingDualie = true;
 
                     maxRolls = dualieData.MaxRolls;
-                    rollsLeft = dualieData.MaxRolls;
                     rollDistance = dualieData.RollDistance;
                     rollDuration = dualieData.RollDuration;
                     rollSample = dualieData.RollSample;
+
+                    if (hasSquidClipOns) maxRolls += SquidClipOns.ExtraMaxRolls;
+                    rollsLeft = 0;
+                    maxRollCooldown = 30;
                 }
                 
             } else
@@ -106,11 +112,10 @@ namespace AchiSplatoon2.Content.Players
                 if (postRollCooldown > 0)
                 {
                     postRollCooldown--;
-                }
-
-                if (maxRollCooldown > 0 || postRollCooldown > 0)
-                {
-                    Player.velocity.X = Math.Clamp(Player.velocity.X, -3, 3);
+                    if (Math.Abs(Player.velocity.X) > 4)
+                    {
+                        Player.velocity.X *= 0.9f;
+                    }
                 }
             }
 
@@ -124,7 +129,7 @@ namespace AchiSplatoon2.Content.Players
             }
 
             int xDir = InputHelper.GetInputX();
-            if ((postRollCooldown > 0 || (xDir == 0 && postRoll)) && !Player.controlJump)
+            if ((postRollCooldown > 0 || (xDir == 0 && postRoll)) && !Player.controlJump && Player.controlUseItem)
             {
                 isTurret = true;
                 return;
@@ -156,6 +161,13 @@ namespace AchiSplatoon2.Content.Players
 
                     rollsLeft--;
                     maxRollCooldown = 60;
+
+                    if (hasSquidClipOns) {
+                        maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
+                        Player.immuneTime = (int)rollDuration;
+                        Player.immune = true;
+                        Player.immuneNoBlink = true;
+                    };
                 }
             }
         }

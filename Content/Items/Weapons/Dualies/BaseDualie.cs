@@ -7,11 +7,20 @@ using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Terraria.DataStructures;
 using AchiSplatoon2.Content.Players;
 using System.Runtime.InteropServices.Marshalling;
+using Terraria.Localization;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Helpers;
+using Humanizer;
+using System.Collections.Generic;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
-    internal class TestDualie : BaseWeapon
+    internal class BaseDualie : BaseWeapon
     {
+        private int maxRollsDisplay = 0;
+        protected override string UsageHintParamA => maxRollsDisplay.ToString();
+        
+        // Shoot settings
         public virtual float ShotGravity { get => 0.3f; }
         public virtual int ShotGravityDelay { get => 20; }
         public virtual int ShotExtraUpdates { get => 4; }
@@ -46,6 +55,21 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.knockBack = 2;
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.White;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                maxRollsDisplay = MaxRolls;
+                if (player.GetModPlayer<InkAccessoryPlayer>().hasSquidClipOns)
+                {
+                    DebugHelper.PrintWarning("a");
+                    maxRollsDisplay += SquidClipOns.ExtraMaxRolls;
+                }
+            }
+
+            base.UpdateInventory(player);
         }
 
         public override bool CanUseItem(Player player)

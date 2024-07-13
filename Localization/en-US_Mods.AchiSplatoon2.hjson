@@ -6,6 +6,9 @@ SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
 
 Hint: {
+	# ----------------------------------------
+	# Weapons
+	# ----------------------------------------
 	SplatCharger: Hold the fire button to charge up a piercing shot
 	BambooCharger: Hold the fire button to charge up a high velocity shot
 	Blaster: Has a smaller blast when hitting a wall
@@ -19,12 +22,20 @@ Hint: {
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 	Squiffer: Increased mobility while charging, but has shorter range
+	Dualies.Usage: Jump while firing to roll up to {0} times. Stand still afterwards for a stronger attack
+	# ----------------------------------------
 	# Accessories
+	# ----------------------------------------
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
+
+	SquidClipOns: {
+		Usage: Dodge rolls make you immune to damage, but they recover less quickly
+		ExtraRolls: +{0} extra dodge roll(s) on Dualies
+	}
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -664,11 +675,32 @@ Items: {
 		Tooltip: ""
 	}
 
-	TestDualie: {
+	BaseDualie: {
 		Tooltip: ""
-		DisplayName: Test Dualie
-		Flavor: Mods.AchiSplatoon2.Items.TestDualie.Flavor
-		UsageHint: Mods.AchiSplatoon2.Items.TestDualie.UsageHint
+		DisplayName: Base Dualie
+		Flavor: Mods.AchiSplatoon2.Items.BaseDualie.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.BaseDualie.UsageHint
+	}
+
+	SplatDualie: {
+		UsageHint: "{$Hint.Dualies.Usage}"
+		Flavor: Inkoming!
+		DisplayName: Splat Dualies
+		Tooltip: ""
+	}
+
+	SquidClipOns: {
+		UsageHint: "{$Hint.SquidClipOns.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.SquidClipOns.Flavor
+		DisplayName: Squid Clip Ons
+		Tooltip: "{$Hint.SquidClipOns.ExtraRolls}"
+	}
+
+	EnperrySplatDualie: {
+		UsageHint: "{$Hint.Dualies.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.EnperrySplatDualie.Flavor
+		DisplayName: Enperry Splat Dualies
+		Tooltip: ""
 	}
 }
 

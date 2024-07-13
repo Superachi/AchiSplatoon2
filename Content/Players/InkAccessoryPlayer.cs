@@ -27,6 +27,7 @@ namespace AchiSplatoon2.Content.Players
         public bool hasCrayonBox;
         public bool hasSteelCoil;
         public bool hasTentacleScope;
+        public bool hasSquidClipOns;
 
         public override void PreUpdate()
         {
@@ -77,6 +78,7 @@ namespace AchiSplatoon2.Content.Players
             hasCrayonBox = false;
             hasSteelCoil = false;
             hasTentacleScope = false;
+            hasSquidClipOns = false;
         }
 
         public void SetBlasterBuff(bool hasHitTarget)

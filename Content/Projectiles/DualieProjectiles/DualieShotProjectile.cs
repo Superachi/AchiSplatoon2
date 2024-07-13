@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            TestDualie weaponData = WeaponInstance as TestDualie;
+            BaseDualie weaponData = WeaponInstance as BaseDualie;
 
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
