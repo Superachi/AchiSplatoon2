@@ -16,6 +16,31 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class BaseModPlayer : ModPlayer
     {
+        protected ModItem heldItem;
+        protected ModItem oldHeldItem;
+        protected bool heldItemChanged;
+
+        protected bool CheckIfHeldItemChanged()
+        {
+            bool changed = false;
+            if (oldHeldItem == null)
+            {
+                UpdateOldHeldItem();
+                changed = true;
+            }
+            else if (oldHeldItem.Type != heldItem.Type)
+            {
+                changed = true;
+            }
+
+            return changed;
+        }
+
+        protected void UpdateOldHeldItem()
+        {
+            oldHeldItem = heldItem;
+        }
+
         protected bool DoesModPlayerBelongToLocalClient()
         {
             return Player.whoAmI == Main.LocalPlayer.whoAmI;
