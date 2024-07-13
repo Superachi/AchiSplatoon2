@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
@@ -115,6 +116,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (isRolling)
             {
+                DodgeRollDustStream();
                 BlockJumps();
                 Player.wings = 0;
                 postRoll = true;
@@ -140,6 +142,7 @@ namespace AchiSplatoon2.Content.Players
                 if (!Collision.SolidCollision(new Vector2(Player.position.X + xDir * 10, Player.position.Y), Player.width, Player.height))
                 {
                     BlockJumps();
+                    DodgeRollDustBurst(xDir);
 
                     // Roll!
                     var p = CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
@@ -148,11 +151,46 @@ namespace AchiSplatoon2.Content.Players
                     proj.rollDuration = rollDuration;
                     proj.AfterSpawn();
 
-                    SoundHelper.PlayAudio(rollSample);
+                    SoundHelper.PlayAudio(rollSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+                    SoundHelper.PlayAudio(SoundID.Splash, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
 
                     rollsLeft--;
                     maxRollCooldown = 60;
                 }
+            }
+        }
+
+        private void DodgeRollDustStream()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Rectangle rect = new Rectangle((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height);
+
+                Color color = Player.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Dust d = Dust.NewDustPerfect(
+                    Position: Main.rand.NextVector2FromRectangle(rect),
+                    Type: ModContent.DustType<SplatterBulletDust>(),
+                    Velocity: new Vector2(Player.velocity.X / Main.rand.NextFloat(2, 6), 0),
+                    Alpha: 96,
+                    newColor: color,
+                    Scale: 1f);
+            }
+        }
+
+        private void DodgeRollDustBurst(int xDirection)
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                Rectangle rect = new Rectangle((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height);
+
+                Color color = Player.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Dust d = Dust.NewDustPerfect(
+                    Position: Main.rand.NextVector2FromRectangle(rect),
+                    Type: ModContent.DustType<SplatterDropletDust>(),
+                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(1, -6)),
+                    Alpha: 0,
+                    newColor: color,
+                    Scale: Main.rand.NextFloat(1f, 2f));
             }
         }
     }

@@ -90,7 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         private void PlayShootSound()
         {
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayAudio(shootSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.25f);
         }
 
         // Netcode
