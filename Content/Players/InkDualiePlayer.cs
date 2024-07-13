@@ -1,28 +1,19 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 
 namespace AchiSplatoon2.Content.Players
 {
     internal class InkDualiePlayer : BaseModPlayer
     {
-        public bool isHoldingDualie;
         public bool isRolling;
         public bool isTurret;
 
@@ -61,34 +52,49 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        public override void PreUpdateMovement()
+        public void UpdateMaxRolls(BaseDualie dualieData)
         {
-            var heldItem = Player.HeldItem.ModItem;
-            var dualieData = heldItem as BaseDualie;
-            hasSquidClipOns = Player.GetModPlayer<InkAccessoryPlayer>().hasSquidClipOns;
+            maxRolls = dualieData.MaxRolls;
+            if (hasSquidClipOns) maxRolls /= 2;
+        }
 
-            if (heldItem is BaseDualie)
+        public void GetDualieStats(BaseDualie dualieData)
+        {
+            UpdateMaxRolls(dualieData);
+            rollDistance = dualieData.RollDistance;
+            rollDuration = dualieData.RollDuration;
+            rollSample = dualieData.RollSample;
+            rollsLeft = Math.Min(rollsLeft, maxRolls);
+            maxRollCooldown = Math.Max(maxRollCooldown, 30);
+        }
+
+        public override void PreUpdate()
+        {
+            heldItem = Player.HeldItem.ModItem;
+            if (heldItem is not BaseDualie)
             {
-                if (!isHoldingDualie)
-                {
-                    isHoldingDualie = true;
-
-                    maxRolls = dualieData.MaxRolls;
-                    rollDistance = dualieData.RollDistance;
-                    rollDuration = dualieData.RollDuration;
-                    rollSample = dualieData.RollSample;
-
-                    if (hasSquidClipOns) maxRolls += SquidClipOns.ExtraMaxRolls;
-                    rollsLeft = 0;
-                    maxRollCooldown = 30;
-                }
-                
-            } else
-            {
-                isHoldingDualie = false;
+                UpdateOldHeldItem();
                 return;
             }
 
+            bool needUpdate = false;
+            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+
+            if (CheckIfHeldItemChanged()) needUpdate = true;
+            if (hasSquidClipOns != accMP.hasSquidClipOns)
+            {
+                needUpdate = true;
+                hasSquidClipOns = accMP.hasSquidClipOns;
+            }
+
+            if (needUpdate) GetDualieStats(heldItem as BaseDualie);
+            else UpdateMaxRolls(heldItem as BaseDualie);
+
+            UpdateOldHeldItem();
+        }
+
+        public override void PreUpdateMovement()
+        {
             int projType = ModContent.ProjectileType<DualieRollProjectile>();
             isRolling = Player.ownedProjectileCounts[projType] >= 1;
 
@@ -138,10 +144,10 @@ namespace AchiSplatoon2.Content.Players
             isTurret = false;
             postRoll = false;
 
-            // If jumping with a dualie while shooting...
+            // If jumping while shooting...
             if (rollsLeft == 0 || xDir == 0) return;
             bool countJump = InputHelper.GetInputJumpPressed() || Player.controlJump && rollsLeft < maxRolls;
-            if (countJump && isHoldingDualie && Player.controlUseItem)
+            if (countJump && Player.controlUseItem)
             {
                 // Check if we can roll in the given direction
                 if (!Collision.SolidCollision(new Vector2(Player.position.X + xDir * 10, Player.position.Y), Player.width, Player.height))
@@ -154,13 +160,19 @@ namespace AchiSplatoon2.Content.Players
                     var proj = p as DualieRollProjectile;
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
+                    if (hasSquidClipOns) proj.rollDuration *= SquidClipOns.RollDistanceMult;
                     proj.AfterSpawn();
 
                     SoundHelper.PlayAudio(rollSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
                     SoundHelper.PlayAudio(SoundID.Splash, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
 
                     rollsLeft--;
-                    maxRollCooldown = 60;
+                    maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
+
+                    if (maxRolls > 0)
+                    {
+                        CombatTextHelper.DisplayText($"{maxRolls - rollsLeft}", Player.Center);
+                    }
 
                     if (hasSquidClipOns) {
                         maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
@@ -199,7 +211,7 @@ namespace AchiSplatoon2.Content.Players
                 Dust d = Dust.NewDustPerfect(
                     Position: Main.rand.NextVector2FromRectangle(rect),
                     Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(1, -6)),
+                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(1, 6), Main.rand.NextFloat(1, -3)),
                     Alpha: 0,
                     newColor: color,
                     Scale: Main.rand.NextFloat(1f, 2f));

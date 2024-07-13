@@ -1,0 +1,41 @@
+﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Dualies
+{
+    internal class GrizzcoDualie : SplatDualie
+    {
+        public override float ShotGravity { get => 0.4f; }
+        public override int ShotGravityDelay { get => 10; }
+        public override int ShotExtraUpdates { get => 4; }
+        public override float AimDeviation { get => 8f; }
+        public override string ShootSample { get => "SplatlingShoot"; }
+        public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
+        public override float MuzzleOffsetPx { get; set; } = 50f;
+
+        // Dualie specific
+        public override float PostRollVelocityMod { get => 1.25f; }
+        public override int MaxRolls { get => 8; }
+        public override float RollDistance { get => 16f; }
+        public override float RollDuration { get => 16f; }
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
+                singleShotTime: 5,
+                shotVelocity: 4f);
+
+            Item.damage = 28;
+            Item.width = 56;
+            Item.height = 38;
+            Item.knockBack = 2;
+            Item.value = Item.buyPrice(gold: 40);
+            Item.rare = ItemRarityID.Lime;
+        }
+    }
+}

@@ -23,6 +23,7 @@ Hint: {
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 	Squiffer: Increased mobility while charging, but has shorter range
 	Dualies.Usage: Jump while firing to roll up to {0} times. Stand still afterwards for a stronger attack
+	GrizzcoDualies.Usage: "{0} Dodge rolls! Rolling creates an explosion at your location"
 	# ----------------------------------------
 	# Accessories
 	# ----------------------------------------
@@ -31,11 +32,7 @@ Hint: {
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
-
-	SquidClipOns: {
-		Usage: Dodge rolls make you immune to damage, but they recover less quickly
-		ExtraRolls: +{0} extra dodge roll(s) on Dualies
-	}
+	SquidClipOns.Usage: "{0}% LESS dodge rolls, but they grant immunity and go further"
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -693,13 +690,20 @@ Items: {
 		UsageHint: "{$Hint.SquidClipOns.Usage}"
 		Flavor: Mods.AchiSplatoon2.Items.SquidClipOns.Flavor
 		DisplayName: Squid Clip Ons
-		Tooltip: "{$Hint.SquidClipOns.ExtraRolls}"
+		Tooltip: ""
 	}
 
 	EnperrySplatDualie: {
 		UsageHint: "{$Hint.Dualies.Usage}"
 		Flavor: Mods.AchiSplatoon2.Items.EnperrySplatDualie.Flavor
 		DisplayName: Enperry Splat Dualies
+		Tooltip: ""
+	}
+
+	GrizzcoDualie: {
+		UsageHint: "{$Hint.GrizzcoDualies.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.GrizzcoDualie.Flavor
+		DisplayName: Grizzco Dualies
 		Tooltip: ""
 	}
 }

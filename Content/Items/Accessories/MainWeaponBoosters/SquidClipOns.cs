@@ -12,9 +12,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class SquidClipOns : BaseWeaponBoosterAccessory
     {
-        public static int ExtraMaxRolls = 1;
-        public static float RollCooldownMult = 3f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ExtraMaxRolls);
+        public static float RollCooldownMult = 2f;
+        public static float RollDistanceMult = 1.5f;
+        protected override string UsageHintParamA => 50.ToString();
 
         public override void SetDefaults()
         {
