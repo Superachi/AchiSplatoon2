@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
             recipe.Register();
         }
 
