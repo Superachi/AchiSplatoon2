@@ -17,8 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class BaseDualie : BaseWeapon
     {
-        private int maxRollsDisplay = 0;
-        protected override string UsageHintParamA => maxRollsDisplay.ToString();
+        protected override string UsageHintParamA => MaxRolls.ToString();
         
         // Shoot settings
         public virtual float ShotGravity { get => 0.3f; }
@@ -55,21 +54,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.knockBack = 2;
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.White;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                maxRollsDisplay = MaxRolls;
-                if (player.GetModPlayer<InkAccessoryPlayer>().hasSquidClipOns)
-                {
-                    DebugHelper.PrintWarning("a");
-                    maxRollsDisplay += SquidClipOns.ExtraMaxRolls;
-                }
-            }
-
-            base.UpdateInventory(player);
         }
 
         public override bool CanUseItem(Player player)
