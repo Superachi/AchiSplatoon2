@@ -133,7 +133,7 @@ namespace AchiSplatoon2.Content.Projectiles
             NetUpdate(ProjNetUpdateType.Initialize, true);
         }
 
-        public bool Initialize(bool ignoreAimDeviation = false, bool isDissolvable = true)
+        public bool Initialize(bool ignoreAimDeviation = false, bool isDissolvable = true, float aimDeviationOverride = -1f)
         {
             if (WeaponInstance == null)
             {
@@ -237,7 +237,9 @@ namespace AchiSplatoon2.Content.Projectiles
                     var vel = Projectile.velocity;
                     var projSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + vel);
 
-                    var dev = WeaponInstance.AimDeviation;
+                    float dev = WeaponInstance.AimDeviation;
+                    if (aimDeviationOverride != -1f) dev = aimDeviationOverride;
+                    
                     float startRad = vel.ToRotation();
                     float startDeg = MathHelper.ToDegrees(startRad);
                     float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);

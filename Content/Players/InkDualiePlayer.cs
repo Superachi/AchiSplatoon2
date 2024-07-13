@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameInput;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
@@ -19,17 +20,67 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkDualiePlayer : BaseModPlayer
     {
+        public bool isHoldingDualie;
         public bool isRolling;
         public bool isTurret;
+
         public bool postRoll;
         public int postRollCooldown;
 
-        public int maxRolls = 2;
-        public int rollsLeft = 2;
-        public int maxRollCooldown;
+        private int maxRolls;
+        private int rollsLeft;
+        private int maxRollCooldown;
+        private float rollDistance = 0f;
+        private float rollDuration = 0f;
+        private string rollSample = "";
+
+        private void BlockJumps()
+        {
+            Player.jump = 0;
+            Player.jumpHeight = 0;
+            Player.StopExtraJumpInProgress();
+            Player.blockExtraJumps = true;
+        }
+
+        public override void ResetEffects()
+        {
+            if (Player.HeldItem.ModItem is not TestDualie)
+            {
+                isRolling = false;
+                isTurret = false;
+                postRoll = false;
+                postRollCooldown = 0;
+
+                maxRolls = 0;
+                rollsLeft = 0;
+                maxRollCooldown = 0;
+            }
+        }
 
         public override void PreUpdateMovement()
         {
+            var heldItem = Player.HeldItem.ModItem;
+            var dualieData = heldItem as TestDualie;
+
+            if (heldItem is TestDualie)
+            {
+                if (!isHoldingDualie)
+                {
+                    isHoldingDualie = true;
+
+                    maxRolls = dualieData.MaxRolls;
+                    rollsLeft = dualieData.MaxRolls;
+                    rollDistance = dualieData.RollDistance;
+                    rollDuration = dualieData.RollDuration;
+                    rollSample = dualieData.RollSample;
+                }
+                
+            } else
+            {
+                isHoldingDualie = false;
+                return;
+            }
+
             int projType = ModContent.ProjectileType<DualieRollProjectile>();
             isRolling = Player.ownedProjectileCounts[projType] >= 1;
 
@@ -38,7 +89,16 @@ namespace AchiSplatoon2.Content.Players
                 if (maxRollCooldown > 0)
                 {
                     maxRollCooldown--;
-                    if (maxRollCooldown == 0) rollsLeft = maxRolls;
+                    if (maxRollCooldown == 0)
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            Dust.NewDust(Player.Center, 0, 0, DustID.SilverCoin, 0, 0, 0, default, 1);
+                            SoundHelper.PlayAudio(SoundID.MaxMana, 0.2f);
+                        }
+
+                        rollsLeft = maxRolls;
+                    }
                 }
 
                 if (postRollCooldown > 0)
@@ -54,8 +114,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (isRolling)
             {
-                Player.blockExtraJumps = true;
-                Player.jump = 0;
+                BlockJumps();
                 postRoll = true;
                 return;
             }
@@ -70,30 +129,24 @@ namespace AchiSplatoon2.Content.Players
             isTurret = false;
             postRoll = false;
 
-            var heldItem = Player.HeldItem.ModItem;
-
             // If jumping with a dualie while shooting...
             if (rollsLeft == 0 || xDir == 0) return;
             bool countJump = InputHelper.GetInputJumpPressed() || Player.controlJump && rollsLeft < maxRolls;
-            if (countJump &&  heldItem is TestDualie && !Player.ItemTimeIsZero)
+            if (countJump && isHoldingDualie && !Player.ItemTimeIsZero)
             {
                 // Check if we can roll in the given direction
                 if (!Collision.SolidCollision(new Vector2(Player.position.X + xDir * 10, Player.position.Y), Player.width, Player.height))
                 {
-                    // Blue color chips make dodge rolls go faster
-                    var weaponMP = Player.GetModPlayer<InkWeaponPlayer>();
-                    int blueChips = weaponMP.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue];
-                    float rollSpeedBonus = Math.Max(0.7f, 1f - blueChips * weaponMP.BlueChipBaseDualieRollSpeedBonus);
+                    BlockJumps();
 
                     // Roll!
-                    var dualieData = heldItem as TestDualie;
                     var p = CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
                     var proj = p as DualieRollProjectile;
-                    proj.rollDistance = 18 / rollSpeedBonus;
-                    proj.rollDuration = 30 * rollSpeedBonus;
+                    proj.rollDistance = rollDistance;
+                    proj.rollDuration = rollDuration;
                     proj.AfterSpawn();
 
-                    SoundHelper.PlayAudio(dualieData.RollSample);
+                    SoundHelper.PlayAudio(rollSample);
 
                     rollsLeft--;
                     maxRollCooldown = 60;

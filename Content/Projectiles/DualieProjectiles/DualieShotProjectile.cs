@@ -19,6 +19,8 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         private float fallSpeed;
         private bool canFall = false;
         private float terminalVelocity = 6f;
+        public float aimDevOverride = -1f;
+
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -47,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         public override void AfterSpawn()
         {
-            Initialize();
+            Initialize(aimDeviationOverride: aimDevOverride);
             ApplyWeaponInstanceData();
             PlayShootSound();
         }
