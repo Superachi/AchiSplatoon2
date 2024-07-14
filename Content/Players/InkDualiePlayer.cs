@@ -30,6 +30,8 @@ namespace AchiSplatoon2.Content.Players
         private bool slowMoveAfterRoll = true;
         private bool hasSquidClipOns;
 
+        private int jumpInputBuffer = 0;
+
         public void DisplayRolls()
         {
             if (maxRolls > 1)
@@ -67,6 +69,7 @@ namespace AchiSplatoon2.Content.Players
 
             maxRolls = dualieData.MaxRolls;
             if (hasSquidClipOns) maxRolls /= 2;
+            if (maxRolls < 1) maxRolls = 1;
             if (rollsLeftWasMax) rollsLeft = maxRolls;
         }
 
@@ -105,6 +108,12 @@ namespace AchiSplatoon2.Content.Players
             else UpdateMaxRolls(heldItem as BaseDualie);
 
             UpdateOldHeldItem();
+
+            if (jumpInputBuffer > 0) jumpInputBuffer--;
+            if (InputHelper.GetInputJumpPressed())
+            {
+                jumpInputBuffer = 9;
+            }
         }
 
         public override void PreUpdateMovement()
@@ -126,7 +135,7 @@ namespace AchiSplatoon2.Content.Players
                         }
 
                         rollsLeft = maxRolls;
-                        if (maxRolls > 1) CombatTextHelper.DisplayText($"{rollsLeft}/{maxRolls}", Player.Center);
+                        if (maxRolls > 1) CombatTextHelper.DisplayText($"{rollsLeft}/{maxRolls}", Player.Center, color: Color.LimeGreen);
                     }
                 }
 
@@ -162,7 +171,7 @@ namespace AchiSplatoon2.Content.Players
 
             // If jumping while shooting...
             if (rollsLeft == 0 || xDir == 0) return;
-            bool countJump = InputHelper.GetInputJumpPressed() || Player.controlJump && rollsLeft < maxRolls;
+            bool countJump = jumpInputBuffer > 0 && rollsLeft > 0;
             if (countJump && Player.controlUseItem)
             {
                 // Check if we can roll in the given direction
