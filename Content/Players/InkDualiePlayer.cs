@@ -63,8 +63,11 @@ namespace AchiSplatoon2.Content.Players
 
         public void UpdateMaxRolls(BaseDualie dualieData)
         {
+            bool rollsLeftWasMax = rollsLeft == maxRolls;
+
             maxRolls = dualieData.MaxRolls;
             if (hasSquidClipOns) maxRolls /= 2;
+            if (rollsLeftWasMax) rollsLeft = maxRolls;
         }
 
         public void GetDualieStats(BaseDualie dualieData)
@@ -114,7 +117,7 @@ namespace AchiSplatoon2.Content.Players
                 if (maxRollCooldown > 0)
                 {
                     maxRollCooldown--;
-                    if (maxRollCooldown == 0)
+                    if (maxRollCooldown == 0 && rollsLeft < maxRolls)
                     {
                         for (int i = 0; i < 5; i++)
                         {
@@ -123,6 +126,7 @@ namespace AchiSplatoon2.Content.Players
                         }
 
                         rollsLeft = maxRolls;
+                        if (maxRolls > 1) CombatTextHelper.DisplayText($"{rollsLeft}/{maxRolls}", Player.Center);
                     }
                 }
 
