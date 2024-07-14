@@ -35,9 +35,6 @@ namespace AchiSplatoon2.Helpers
             { ModContent.ItemType<KillerWail>(),            ModContent.ItemType<UltraStamp>() },
             { ModContent.ItemType<UltraStamp>(),            ModContent.ItemType<TrizookaSpecial>() },
 
-            // Start of hardmode
-            { ModContent.ItemType<TentatekSplattershot>(),  ModContent.ItemType<SplatDualie>() },
-
             // Cobalt <-> Palladium
             { ModContent.ItemType<ZinkMiniSplatling>(),     ModContent.ItemType<InkbrushNouveau>() },
 

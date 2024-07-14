@@ -22,9 +22,10 @@ Hint: {
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 	Squiffer: Increased mobility while charging, but has shorter range
-	Dualies.Usage: Jump while attacking to roll up to {0} times. Hold still afterwards for a stronger attack
-	GrizzcoDualies.Usage: "{0} Dodge rolls! Rolling creates an explosion at your location"
-	TetraDualies.Usage: "{0} Dodge rolls! Can attack while rolling, slightly increased mobility outside of rolling"
+	Dualies.Usage: Jump while attacking to roll up to {0} time(s). Hold still afterwards for a stronger attack
+	GrizzcoDualies.Usage: "{0} Dodge roll(s)! Rolling creates an explosion at your location"
+	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
+	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
 	# ----------------------------------------
 	# Accessories
 	# ----------------------------------------
@@ -726,6 +727,13 @@ Items: {
 		UsageHint: "{$Hint.Dualies.Usage}"
 		Flavor: Mods.AchiSplatoon2.Items.GloogaDualie.Flavor
 		DisplayName: Glooga Dualies
+		Tooltip: ""
+	}
+
+	DouserDualie: {
+		UsageHint: "{$Hint.DouserDualies.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.DouserDualie.Flavor
+		DisplayName: Douser Dualies FF
 		Tooltip: ""
 	}
 }
