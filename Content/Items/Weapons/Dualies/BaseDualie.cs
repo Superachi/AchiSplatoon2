@@ -25,6 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public virtual int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 8f; }
         public override string ShootSample { get => "SplatlingShoot"; }
+        public override string ShootAltSample { get => ShootSample; }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
         public override float MuzzleOffsetPx { get; set; } = 44f;
 

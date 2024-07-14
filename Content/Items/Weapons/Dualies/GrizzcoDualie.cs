@@ -8,8 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class GrizzcoDualie : SplatDualie
     {
-        public override float ShotGravity { get => 0.4f; }
-        public override int ShotGravityDelay { get => 15; }
+        public override float ShotGravity { get => 0.3f; }
+        public override int ShotGravityDelay { get => 12; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 8f; }
         public override string ShootSample { get => "SplatlingShoot"; }
@@ -17,7 +17,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float MuzzleOffsetPx { get; set; } = 50f;
 
         // Dualie specific
-        public override float PostRollVelocityMod { get => 1.25f; }
         public override int MaxRolls { get => 8; }
         public override float RollDistance { get => 16f; }
         public override float RollDuration { get => 16f; }

@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
@@ -42,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             BaseDualie weaponData = WeaponInstance as BaseDualie;
 
             shootSample = weaponData.ShootSample;
+            shootAltSample = weaponData.ShootAltSample;
             fallSpeed = weaponData.ShotGravity;
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
@@ -90,7 +92,13 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         private void PlayShootSound()
         {
-            PlayAudio(shootSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.25f);
+            var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
+            if (dualieMP.isTurret)
+            {
+                PlayAudio(shootAltSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0f);
+            } else {
+                PlayAudio(shootSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.25f);
+            }
         }
 
         // Netcode

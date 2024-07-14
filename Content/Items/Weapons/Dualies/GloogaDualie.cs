@@ -1,0 +1,43 @@
+﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria;
+using Microsoft.Xna.Framework;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Dualies
+{
+    internal class GloogaDualie : SplatDualie
+    {
+        public override float AimDeviation { get => 6f; }
+        public override string ShootSample { get => "SplatlingShoot"; }
+        public override string ShootAltSample { get => "Dot52GalShoot"; }
+        public override Vector2? HoldoutOffset() { return new Vector2(8, 0); }
+        public override float MuzzleOffsetPx { get; set; } = 50f;
+
+        // Dualie specific
+        public override string RollSample { get => "Dualies/GloogaDualieRoll"; }
+        public override float PostRollAttackSpeedMod { get => 1f; }
+        public override float PostRollDamageMod { get => 2f; }
+        public override float PostRollAimMod { get => 0.25f; }
+        public override float PostRollVelocityMod { get => 1.5f; }
+        public override int MaxRolls { get => 2; }
+        public override float RollDistance { get => 18f; }
+        public override float RollDuration { get => 32f; }
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
+                singleShotTime: 9,
+                shotVelocity: 6f);
+
+            Item.damage = 45;
+            Item.width = 40;
+            Item.height = 30;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.LightRed;
+        }
+    }
+}

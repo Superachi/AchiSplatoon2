@@ -1,32 +1,28 @@
 ﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
-    internal class SplatDualie : BaseDualie
+    internal class DappleDualie : SplatDualie
     {
-        public override float AimDeviation { get => 6f; }
+        // Shoot settings
+        public override float ShotGravity { get => 0.3f; }
+        public override int ShotGravityDelay { get => 12; }
+        public override int ShotExtraUpdates { get => 4; }
+        public override float AimDeviation { get => 10f; }
         public override string ShootSample { get => "SplatlingShoot"; }
-        public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 50f;
+        public override Vector2? HoldoutOffset() { return new Vector2(-20, 0); }
+        public override float MuzzleOffsetPx { get; set; } = 52f;
 
         // Dualie specific
-        public override string RollSample { get => "Dualies/SplatDualieRoll"; }
-        public override float PostRollDamageMod { get => 1.2f; }
-        public override float PostRollAttackSpeedMod { get => 0.8f; }
-        public override float PostRollAimMod { get => 0.25f; }
-        public override float PostRollVelocityMod { get => 1.3f; }
+        public override float PostRollAimMod { get => 0.5f; }
+        public override float PostRollVelocityMod { get => 1.25f; }
         public override int MaxRolls { get => 2; }
         public override float RollDistance { get => 16f; }
-        public override float RollDuration { get => 24f; }
+        public override float RollDuration { get => 16f; }
 
         public override void SetDefaults()
         {
@@ -34,9 +30,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
                 singleShotTime: 5,
-                shotVelocity: 5f);
+                shotVelocity: 3f);
 
-            Item.damage = 30;
+            Item.damage = 38;
+            Item.crit = 5;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 2;
@@ -47,8 +44,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override void AddRecipes()
         {
             AddRecipeWithSheldonLicenseSilver(registerNow: false)
-                .AddIngredient(ItemID.SoulofLight, 5)
-                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.OrichalcumBar, 5)
                 .Register();
         }
     }

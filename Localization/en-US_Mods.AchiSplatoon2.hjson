@@ -714,6 +714,20 @@ Items: {
 		DisplayName: Dark Tetra Dualies
 		Tooltip: ""
 	}
+
+	DappleDualie: {
+		UsageHint: "{$Hint.Dualies.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.DappleDualie.Flavor
+		DisplayName: Dapple Dualies
+		Tooltip: ""
+	}
+
+	GloogaDualie: {
+		UsageHint: "{$Hint.Dualies.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.GloogaDualie.Flavor
+		DisplayName: Glooga Dualies
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
