@@ -47,8 +47,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override void AddRecipes()
         {
             AddRecipeWithSheldonLicenseSilver(registerNow: false)
-                .AddIngredient(ItemID.SoulofLight, 5)
-                .AddIngredient(ItemID.SoulofNight, 5)
+                .AddIngredient(ItemID.CrystalShard, 15)
                 .Register();
         }
     }

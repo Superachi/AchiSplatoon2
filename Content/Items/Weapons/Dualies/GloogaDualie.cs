@@ -36,8 +36,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 40;
             Item.height = 30;
             Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.buyPrice(gold: 15);
+            Item.rare = ItemRarityID.LightPurple;
+        }
+
+        public override void AddRecipes()
+        {
+            AddRecipeWithSheldonLicenseSilver(registerNow: false)
+                .AddIngredient(ItemID.AdamantiteBar, 5)
+                .Register();
         }
     }
 }
