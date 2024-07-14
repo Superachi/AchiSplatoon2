@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     internal class GrizzcoDualie : SplatDualie
     {
         public override float ShotGravity { get => 0.4f; }
-        public override int ShotGravityDelay { get => 10; }
+        public override int ShotGravityDelay { get => 15; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 8f; }
         public override string ShootSample { get => "SplatlingShoot"; }
@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 5,
                 shotVelocity: 4f);
 
-            Item.damage = 28;
+            Item.damage = 30;
             Item.width = 56;
             Item.height = 38;
             Item.knockBack = 2;

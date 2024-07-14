@@ -27,6 +27,7 @@ namespace AchiSplatoon2.Content.Players
         private float rollDistance = 0f;
         private float rollDuration = 0f;
         private string rollSample = "";
+        private bool slowMoveAfterRoll = true;
         private bool hasSquidClipOns;
 
         private void BlockJumps()
@@ -64,6 +65,8 @@ namespace AchiSplatoon2.Content.Players
             rollDistance = dualieData.RollDistance;
             rollDuration = dualieData.RollDuration;
             rollSample = dualieData.RollSample;
+            slowMoveAfterRoll = dualieData.SlowMoveAfterRoll;
+
             rollsLeft = Math.Min(rollsLeft, maxRolls);
             maxRollCooldown = Math.Max(maxRollCooldown, 30);
         }
@@ -118,7 +121,7 @@ namespace AchiSplatoon2.Content.Players
                 if (postRollCooldown > 0)
                 {
                     postRollCooldown--;
-                    if (Math.Abs(Player.velocity.X) > 4)
+                    if (Math.Abs(Player.velocity.X) > 4 && slowMoveAfterRoll)
                     {
                         Player.velocity.X *= 0.9f;
                     }

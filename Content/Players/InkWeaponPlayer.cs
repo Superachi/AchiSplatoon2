@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
@@ -199,6 +200,13 @@ namespace AchiSplatoon2.Content.Players
                     {
                         moveAccelModifier = 3f;
                         moveFrictionModifier = 3f;
+                    }
+                    break;
+                case DarkTetraDualie:
+                    moveAccelModifier = 3f;
+                    if (Player.GetModPlayer<InkDualiePlayer>().postRollCooldown > 0)
+                    {
+                        moveFrictionModifier = 2f;
                     }
                     break;
             }

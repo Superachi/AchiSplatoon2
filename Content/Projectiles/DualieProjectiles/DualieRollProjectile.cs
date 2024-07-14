@@ -39,8 +39,12 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             owner = GetOwner();
             dualieMP = owner.GetModPlayer<InkDualiePlayer>();
 
-            var xDir = PlayerInput.Triggers.Current.Right ? 1 : PlayerInput.Triggers.Current.Left ? -1 : 0;
+            if (IsThisClientTheProjectileOwner() && owner.HeldItem.ModItem is GrizzcoDualie)
+            {
+                CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 300, true);
+            }
 
+            var xDir = InputHelper.GetInputX();
             if (xDir != 0)
             {
                 owner.velocity.X = xDir * rollDistance;

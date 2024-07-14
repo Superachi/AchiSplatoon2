@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public virtual float RollDistance { get => 15f; }
         public virtual float RollDuration { get => 30f; }
         public virtual bool PreventShootOnRoll { get => true; }
+        public virtual bool SlowMoveAfterRoll { get => true; }
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
@@ -59,10 +60,16 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override bool CanUseItem(Player player)
         {
             var dualieMP = player.GetModPlayer<InkDualiePlayer>();
-            if ((dualieMP.isRolling && PreventShootOnRoll) || dualieMP.postRollCooldown > InkDualiePlayer.postRollCooldownDefault - 6)
+            if (PreventShootOnRoll)
             {
-                return false;
+                // Prevent shooting during a roll
+                // The second if-statement is to prevent single shots during a chained roll (by holding down the jump key)
+                if (dualieMP.isRolling || dualieMP.postRollCooldown > InkDualiePlayer.postRollCooldownDefault - 6)
+                {
+                    return false;
+                }
             }
+            
             return base.CanUseItem(player);
         }
 

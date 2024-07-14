@@ -15,13 +15,16 @@
 	  <None Remove="Content\Items\BaseItem.png" />
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
+	  <None Remove="Content\Items\Weapons\Dualies\SplatDualie.png" />
 	  <None Remove="Content\Items\Weapons\Specials\TrizookaUnleashed.png" />
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
-	  <None Remove="Content\Projectiles\DualieProjectiles\RollProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\DualieRollProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\DualieShotProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\GrizzcoDualieBlastProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
 	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
