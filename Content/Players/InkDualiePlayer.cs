@@ -30,6 +30,14 @@ namespace AchiSplatoon2.Content.Players
         private bool slowMoveAfterRoll = true;
         private bool hasSquidClipOns;
 
+        public void DisplayRolls()
+        {
+            if (maxRolls > 1)
+            {
+                CombatTextHelper.DisplayText($"{rollsLeft}/{maxRolls}", Player.Center);
+            }
+        }
+
         private void BlockJumps()
         {
             Player.jump = 0;
@@ -108,10 +116,10 @@ namespace AchiSplatoon2.Content.Players
                     maxRollCooldown--;
                     if (maxRollCooldown == 0)
                     {
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < 5; i++)
                         {
-                            Dust.NewDust(Player.Center, 0, 0, DustID.SilverCoin, 0, 0, 0, default, 1);
-                            SoundHelper.PlayAudio(SoundID.MaxMana, 0.2f);
+                            Dust.NewDust(Player.Center, 0, 0, DustID.GoldCoin, 0, 0, 0, default, 2);
+                            SoundHelper.PlayAudio(SoundID.MaxMana, 0.3f);
                         }
 
                         rollsLeft = maxRolls;
@@ -121,6 +129,7 @@ namespace AchiSplatoon2.Content.Players
                 if (postRollCooldown > 0)
                 {
                     postRollCooldown--;
+
                     if (Math.Abs(Player.velocity.X) > 4 && slowMoveAfterRoll)
                     {
                         Player.velocity.X *= 0.9f;
@@ -172,11 +181,6 @@ namespace AchiSplatoon2.Content.Players
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
 
-                    if (maxRolls > 0)
-                    {
-                        CombatTextHelper.DisplayText($"{maxRolls - rollsLeft}", Player.Center);
-                    }
-
                     if (hasSquidClipOns) {
                         maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
                         Player.immuneTime = (int)rollDuration;
@@ -206,7 +210,7 @@ namespace AchiSplatoon2.Content.Players
 
         private void DodgeRollDustBurst(int xDirection)
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 30; i++)
             {
                 Rectangle rect = new Rectangle((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height);
 
@@ -214,7 +218,7 @@ namespace AchiSplatoon2.Content.Players
                 Dust d = Dust.NewDustPerfect(
                     Position: Main.rand.NextVector2FromRectangle(rect),
                     Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(1, 6), Main.rand.NextFloat(1, -3)),
+                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),
                     Alpha: 0,
                     newColor: color,
                     Scale: Main.rand.NextFloat(1f, 2f));

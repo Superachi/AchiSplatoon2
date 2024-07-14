@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Players;
 using Terraria.GameInput;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
@@ -42,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             if (IsThisClientTheProjectileOwner() && owner.HeldItem.ModItem is GrizzcoDualie)
             {
                 CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 300, true);
+                PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.1f, maxInstances: 3, pitch: 0.5f);
             }
 
             var xDir = InputHelper.GetInputX();
@@ -71,6 +73,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         {
             owner.fullRotation = 0;
             dualieMP.postRollCooldown = InkDualiePlayer.postRollCooldownDefault;
+            dualieMP.DisplayRolls();
         }
     }
 }

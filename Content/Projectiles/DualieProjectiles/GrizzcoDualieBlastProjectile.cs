@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 var finalRadius = (int)(baseRadius * explosionRadiusModifier);
                 var e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
-                var a = new PlayAudioModel(_soundPath: explosionSample, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: 1);
+                var a = new PlayAudioModel(_soundPath: explosionSample, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: 0);
                 CreateExplosionVisual(e, a);
 
                 Projectile.Resize(finalRadius, finalRadius);
