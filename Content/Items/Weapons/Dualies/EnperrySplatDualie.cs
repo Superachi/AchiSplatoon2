@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         {
             base.SetDefaults();
 
-            Item.damage = 42;
+            Item.damage = 38;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 3;

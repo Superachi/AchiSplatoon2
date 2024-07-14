@@ -21,8 +21,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float PostRollAimMod { get => 0.25f; }
         public override float PostRollVelocityMod { get => 1.5f; }
         public override int MaxRolls { get => 2; }
-        public override float RollDistance { get => 18f; }
-        public override float RollDuration { get => 32f; }
+        public override float RollDistance { get => 14f; }
+        public override float RollDuration { get => 28f; }
 
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 9,
                 shotVelocity: 6f);
 
-            Item.damage = 45;
+            Item.damage = 40;
             Item.width = 40;
             Item.height = 30;
             Item.knockBack = 4;
