@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -34,10 +35,14 @@ namespace AchiSplatoon2.Helpers
             { ModContent.ItemType<KillerWail>(),            ModContent.ItemType<UltraStamp>() },
             { ModContent.ItemType<UltraStamp>(),            ModContent.ItemType<TrizookaSpecial>() },
 
+            // Start of hardmode
+            { ModContent.ItemType<TentatekSplattershot>(),  ModContent.ItemType<SplatDualie>() },
+
             // Cobalt <-> Palladium
             { ModContent.ItemType<ZinkMiniSplatling>(),     ModContent.ItemType<InkbrushNouveau>() },
 
             // Mythril <-> Orichalcum
+            { ModContent.ItemType<DarkTetraDualie>(),       ModContent.ItemType<DappleDualie>() },
             { ModContent.ItemType<Octobrush>(),             ModContent.ItemType<RoyalHeavySplatling>() },
             { ModContent.ItemType<ReefluxDecoStringer>(),   ModContent.ItemType<TriStringerInkline>() },
             { ModContent.ItemType<BambooMk2Charger>(),      ModContent.ItemType<ZFSplatCharger>() },
@@ -46,7 +51,7 @@ namespace AchiSplatoon2.Helpers
             // Adamantite <-> Titanium
             { ModContent.ItemType<RapidBlasterDeco>(),      ModContent.ItemType<RangeBlaster>() },
 
-            // Hallowed
+            // Reskins
             { ModContent.ItemType<ClassicSplattershotS1>(), ModContent.ItemType<ClassicSplattershotS2>() },
 
             // Accessories

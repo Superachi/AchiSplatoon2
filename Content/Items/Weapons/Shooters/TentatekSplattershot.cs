@@ -13,15 +13,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.useAnimation = Item.useTime;
             Item.damage = 36;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 10);
+            Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;
         }
 
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.CrystalShard, 15);
             recipe.Register();
         }
     }
