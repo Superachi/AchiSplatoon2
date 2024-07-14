@@ -46,6 +46,9 @@ namespace AchiSplatoon2.Helpers
             // Adamantite <-> Titanium
             { ModContent.ItemType<RapidBlasterDeco>(),      ModContent.ItemType<RangeBlaster>() },
 
+            // Hallowed
+            { ModContent.ItemType<ClassicSplattershotS1>(), ModContent.ItemType<ClassicSplattershotS2>() },
+
             // Accessories
             { ModContent.ItemType<SpecialChargeEmblem>(),   ModContent.ItemType<SpecialPowerEmblem>() },
             { ModContent.ItemType<SpecialPowerEmblem>(),    ModContent.ItemType<SubPowerEmblem>() },
