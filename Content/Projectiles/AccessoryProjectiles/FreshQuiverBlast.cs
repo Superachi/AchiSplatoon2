@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 6;
             Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
         }
 
         public override void AfterSpawn()
