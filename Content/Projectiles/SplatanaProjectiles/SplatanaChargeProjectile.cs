@@ -1,0 +1,115 @@
+﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
+
+namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
+{
+    internal class SplatanaChargeProjectile : BaseChargeProjectile
+    {
+        private float weakSlashShotSpeed;
+        private float maxChargeMeleeDamageMod;
+        private float maxChargeRangeDamageMod;
+        private float maxChargeLifetimeMod;
+        private float maxChargeVelocityMod;
+
+        private int soundDelayInterval = 6;
+        private string chargeSample;
+
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSplatana;
+
+            shootSample = weaponData.ShootSample;
+            shootWeakSample = weaponData.ShootWeakSample;
+            chargeSample = weaponData.ChargeSample;
+
+            chargeTimeThresholds = weaponData.ChargeTimeThresholds;
+            weakSlashShotSpeed = weaponData.WeakSlashShotSpeed;
+            maxChargeMeleeDamageMod = weaponData.MaxChargeMeleeDamageMod;
+            maxChargeRangeDamageMod = weaponData.MaxChargeRangeDamageMod;
+            maxChargeLifetimeMod = weaponData.MaxChargeLifetimeMod;
+            maxChargeVelocityMod = weaponData.MaxChargeVelocityMod;
+        }
+
+        public override void AfterSpawn()
+        {
+            Initialize(isDissolvable: false);
+            ApplyWeaponInstanceData();
+            maxChargeTime = chargeTimeThresholds.Last();
+            Projectile.velocity = Vector2.Zero;
+        }
+
+        protected override void StartCharge()
+        {
+            // You can do something like playing a sound effect here
+        }
+
+        protected override void UpdateCharge(Player owner)
+        {
+            base.UpdateCharge(owner);
+
+            float rad;
+            if (Main.MouseWorld.X > owner.position.X)
+            {
+                owner.direction = 1;
+                rad = MathHelper.ToRadians(-90);
+            }
+            else
+            {
+                owner.direction = -1;
+                rad = MathHelper.ToRadians(270);
+            }
+            PlayerItemAnimationFaceCursor(owner, Main.rand.NextVector2Square(-1, 1), radiansOverride: rad);
+
+            if (Projectile.soundDelay == 0)
+            {
+                Projectile.soundDelay = soundDelayInterval;
+
+                PlayAudio(soundPath: chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5);
+            }
+        }
+
+        protected override void ReleaseCharge(Player owner)
+        {
+            StopAudio(chargeSample);
+            hasFired = true;
+            var velocity = owner.DirectionTo(Main.MouseWorld) * weakSlashShotSpeed;
+
+            if (chargeLevel > 0)
+            {
+                PlayAudio(shootSample, pitchVariance: 0.2f);
+
+                var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeMeleeDamageMod));
+                meleeProj.wasFullyCharged = true;
+
+                velocity *= maxChargeVelocityMod;
+                var proj = CreateChildProjectile<SplatanaStrongSlashProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false);
+                proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
+                proj.AfterSpawn();
+
+            }
+            else
+            {
+                PlayAudio(shootWeakSample, pitchVariance: 0.2f);
+
+                var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, Projectile.damage);
+                meleeProj.wasFullyCharged = false;
+
+                CreateChildProjectile<SplatanaWeakSlashProjectile>(owner.Center, velocity, Projectile.damage);
+            }
+
+
+            Projectile.Kill();
+            return;
+        }
+    }
+}

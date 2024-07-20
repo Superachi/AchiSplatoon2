@@ -32,6 +32,8 @@
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\UltraStampProjectile.png" />
+	  <None Remove="Content\Projectiles\SplatanaProjectiles\SplatanaChargeProjectile.png" />
+	  <None Remove="Content\Projectiles\SplatanaProjectiles\SplatanaWeakSlashProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />

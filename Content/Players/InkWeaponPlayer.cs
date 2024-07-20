@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
@@ -189,6 +190,7 @@ namespace AchiSplatoon2.Content.Players
                     if (Player.ItemTimeIsZero)
                     {
                         moveAccelModifier = 3f;
+                        moveFrictionModifier = 3f;
                     }
                     else
                     {
@@ -208,6 +210,11 @@ namespace AchiSplatoon2.Content.Players
                     {
                         moveFrictionModifier = 2f;
                     }
+                    break;
+                case SplatanaWiper:
+                case SplatanaStamper:
+                    moveAccelModifier = 3f;
+                    moveFrictionModifier = 3f;
                     break;
             }
 

@@ -17,8 +17,8 @@ Hint: {
 	Splatling: Hold the fire button to charge up a long barrage of shots
 	MiniSplatling: Hold the fire button to charge up a short barrage of shots
 	Slosher: Throws a stream of projectiles that cover a wide area
-	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
-	Octobrush: Decreases mobility while attacking, but slightly improves it when not
+	Inkbrush: Drastically improved mobility when not attacking
+	Octobrush: Improved mobility when not attacking
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 	Squiffer: Increased mobility while charging, but has shorter range
@@ -26,6 +26,7 @@ Hint: {
 	GrizzcoDualies.Usage: "{0} Dodge roll(s)! Rolling creates an explosion at your location"
 	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
 	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
+	Splatana.Usage: Hold the fire button to charge up a powerful, piercing slash
 	# ----------------------------------------
 	# Accessories
 	# ----------------------------------------
@@ -736,6 +737,27 @@ Items: {
 		DisplayName: Douser Dualies FF
 		Tooltip: ""
 	}
+
+	SplatanaWiper: {
+		UsageHint: "{$Hint.Splatana.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiper.Flavor
+		DisplayName: Splatana Wiper
+		Tooltip: ""
+	}
+
+	BaseSplatana: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSplatana.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSplatana.Flavor
+		DisplayName: Base Splatana
+		Tooltip: ""
+	}
+
+	SplatanaStamper: {
+		UsageHint: "{$Hint.Splatana.Usage}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaStamper.Flavor
+		DisplayName: Splatana Stamper
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -782,6 +804,10 @@ Projectiles: {
 	DualieRollProjectile.DisplayName: Dualie Roll Projectile
 	DualieShotProjectile.DisplayName: Dualie Shot Projectile
 	GrizzcoDualieBlastProjectile.DisplayName: Grizzco Dualie Blast Projectile
+	SplatanaWeakSlashProjectile.DisplayName: Splatana Weak Slash Projectile
+	SplatanaChargeProjectile.DisplayName: Splatana Charge Projectile
+	SplatanaMeleeProjectile.DisplayName: Splatana Melee Projectile
+	SplatanaStrongSlashProjectile.DisplayName: Splatana Strong Slash Projectile
 }
 
 Buffs: {
