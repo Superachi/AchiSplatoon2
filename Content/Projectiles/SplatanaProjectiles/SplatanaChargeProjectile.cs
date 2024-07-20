@@ -69,13 +69,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 owner.direction = -1;
                 rad = MathHelper.ToRadians(270);
             }
-            PlayerItemAnimationFaceCursor(owner, Main.rand.NextVector2Square(-1, 1), radiansOverride: rad);
+
+            Vector2 shakeOffset = Main.rand.NextVector2Square(-1, 1) * ChargeQuotient();
+            PlayerItemAnimationFaceCursor(owner, offset: shakeOffset, radiansOverride: rad);
 
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = soundDelayInterval;
 
-                PlayAudio(soundPath: chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5);
+                var pitchValue = -0.5f + (ChargeQuotient() * 0.5f);
+                PlayAudio(soundPath: chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
             }
         }
 

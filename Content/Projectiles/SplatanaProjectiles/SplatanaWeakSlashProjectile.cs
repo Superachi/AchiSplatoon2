@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         private Color bulletColor;
         private int frameCount = 4;
         private float frameTimer = 0;
-        private int frameDelay = 16;
+        private int frameDelay = 12;
         private int currentFrame = 0;
         private float drawScale = 1f;
 

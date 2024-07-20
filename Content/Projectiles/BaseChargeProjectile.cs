@@ -51,6 +51,11 @@ namespace AchiSplatoon2.Content.Projectiles
             return (chargeLevel >= chargeTimeThresholds.Length);
         }
 
+        protected float ChargeQuotient()
+        {
+            return ChargeTime / MaxChargeTime();
+        }
+
         protected virtual void IncrementChargeTime()
         {
             ChargeTime += 1f * chargeSpeedModifier;

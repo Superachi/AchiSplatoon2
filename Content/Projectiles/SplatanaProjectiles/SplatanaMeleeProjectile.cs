@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Stubble.Core.Settings;
@@ -17,7 +19,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
     internal class SplatanaMeleeProjectile : BaseProjectile
     {
         private Color bulletColor;
-        private int startLifeTime;
         private int swingDirection;
 
         public bool wasFullyCharged;
@@ -61,11 +62,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.ai[1] += 1.1f;
 
             Color dustColor = GenerateInkColor();
-            if (Main.rand.NextBool(10))
+            Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
+            if (timeSpentAlive % 8 == 0)
             {
                 Dust.NewDustPerfect(
-                Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
-                Type: ModContent.DustType<SplatterBulletDust>(),
+                Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
+                Type: ModContent.DustType<SplatterBulletLastingDust>(),
                 Velocity: Vector2.Normalize(Projectile.position - oldPos),
                 newColor: dustColor, Scale: 1.0f);
             }

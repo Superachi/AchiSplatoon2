@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         // Splatana specific
         public override int BaseDamage { get => 52; }
-        public override float[] ChargeTimeThresholds { get => [24f]; }
+        public override float[] ChargeTimeThresholds { get => [26f]; }
         public override float WeakSlashShotSpeed { get => 10f; }
 
         public override void SetDefaults()
