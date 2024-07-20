@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
 
-            Item.damage = 14;
+            Item.damage = 13;
             Item.width = 42;
             Item.height = 26;
             Item.knockBack = 1;

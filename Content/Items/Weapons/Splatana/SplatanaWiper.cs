@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 40;
+            Item.damage = 8;
             Item.knockBack = 4;
 
             Item.useTime = 15;
