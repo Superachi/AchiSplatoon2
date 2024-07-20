@@ -82,6 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // State machine
         protected int state = 0;
+        protected int timeSpentAlive = 0;
 
         // Netcode
         protected byte netUpdateType = (byte)ProjNetUpdateType.None;
@@ -281,6 +282,12 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.secondaryColor = secondaryColor;
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
+        }
+
+        protected virtual T CreateChildProjectile<T>(Vector2 position, Vector2 velocity, int damage, bool triggerAfterSpawn = true)
+            where T : BaseProjectile
+        {
+            return CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn) as T;
         }
 
         protected Projectile? GetParentProjectile(int projectileId)
@@ -568,7 +575,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, bool considerWorldLight = true)
+        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true)
         {
             Vector2 position = Projectile.Center - Main.screenPosition;
             Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -576,15 +583,14 @@ namespace AchiSplatoon2.Content.Projectiles
             Vector2 origin = sourceRectangle.Size() / 2f;
 
             // The light value in the world
-            var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
-
-            var finalColor = new Color(inkColor.R, inkColor.G, inkColor.B);
+            var lightInWorld = Color.White;
             if (considerWorldLight)
             {
-                finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
+                lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
             }
+            var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
 
-            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor, rotation, origin, scale, new SpriteEffects(), 0f);
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, new SpriteEffects(), 0f);
         }
 
         protected void DirectHitDustBurst(Vector2? position = null)
@@ -699,6 +705,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override bool PreAI()
         {
+            timeSpentAlive++;
             afterInitializeDelay--;
             if (afterInitializeDelay == 0)
             {
