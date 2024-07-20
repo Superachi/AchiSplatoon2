@@ -41,7 +41,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<SplatDualie>(), 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 10);
             recipe.AddTile(TileID.Anvils);

@@ -33,7 +33,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<BambooMk1Charger>(), 1);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 10);
             recipe.AddTile(TileID.Anvils);

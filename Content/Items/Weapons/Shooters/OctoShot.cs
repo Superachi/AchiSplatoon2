@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Recipe recipe = CreateRecipe()
                 .AddTile(TileID.Anvils)
                 .AddIngredient(ModContent.ItemType<TentatekSplattershot>())
-                .AddIngredient(ItemID.SoulofMight, 5)
+                .AddIngredient(ItemID.SoulofFright, 5)
                 .AddIngredient(ItemID.HallowedBar, 10);
             return recipe;
         }
