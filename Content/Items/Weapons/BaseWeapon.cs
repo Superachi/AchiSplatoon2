@@ -264,6 +264,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             bool luckyDiscount = false;
                             float damageBonus = 1f;
 
+                            bool hasMainWeaponBonus = false;
                             if (BonusSub != SubWeaponType.None)
                             {
                                 SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
@@ -272,10 +273,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                     luckyDiscount = Main.rand.NextBool((int)(1f / subDiscountChance));
                                 }
 
-                                var mp = player.GetModPlayer<InkWeaponPlayer>();
-                                bool hasMainWeaponBonus = BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub;
-                                damageBonus = mp.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
+                                hasMainWeaponBonus = BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub;
                             }
+                            var mp = player.GetModPlayer<InkWeaponPlayer>();
+                            damageBonus = mp.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
 
                             if (!luckyDiscount)
                             {
