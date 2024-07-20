@@ -96,7 +96,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 if (fading)
                 {
                     alpha = (float)Projectile.timeLeft / (float)timeLeftWhenFade;
-                    Main.NewText($"{Projectile.timeLeft} / {timeLeftWhenFade} = {alpha}");
                 }
                 float scale = 1f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 8)) * 0.1f;
                 DrawProjectile(bulletColor, rotation, scale: scale, alphaMod: alpha, considerWorldLight: false);
