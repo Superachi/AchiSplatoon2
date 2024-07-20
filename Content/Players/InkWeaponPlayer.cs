@@ -309,7 +309,6 @@ namespace AchiSplatoon2.Content.Players
             {
                 amount *= accMP.specialChargeMultiplier;
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
-                SpecialIncrementCooldown += SpecialIncrementCooldownDefault;
             }
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
@@ -325,9 +324,8 @@ namespace AchiSplatoon2.Content.Players
 
         public void AddSpecialPointsForDamage(float amount)
         {
-            // Increment at least 0.5%, but at most 10%
-            float increment = Math.Clamp(amount, 0.5f, SpecialPointsMax / 10);
-            IncrementSpecialPoints(increment);
+            IncrementSpecialPoints(amount);
+            SpecialIncrementCooldown += SpecialIncrementCooldownDefault;
         }
 
         private void AddSpecialPointsOnMovement()

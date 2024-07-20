@@ -339,7 +339,17 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (target.type != NPCID.TargetDummy)
+            bool canGetSpecialPoints = true;
+            if ((target.friendly)
+                || (target.type == NPCID.TargetDummy)
+                || (target.SpawnedFromStatue)
+                || (Main.npcCatchable[target.type])
+                || (!CountDamageForSpecialCharge))
+            {
+                canGetSpecialPoints = false;
+            }
+
+            if (canGetSpecialPoints)
             {
                 DamageToSpecialCharge(damageDone, target.lifeMax);
             }
@@ -362,11 +372,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public void DamageToSpecialCharge(float damage, float targetMaxLife)
         {
-            if (!CountDamageForSpecialCharge) { return; }
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
 
-            // The increment is a % of the target's max life, up to 5%
-            float increment = Math.Min(damage * 2 / targetMaxLife, targetMaxLife / 20);
+            float increment = Math.Clamp(damage * 2 / targetMaxLife, 0.5f, 5f);
             modPlayer.AddSpecialPointsForDamage(increment);
         }
 
