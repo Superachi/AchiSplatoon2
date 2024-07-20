@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InkbrushProjectile>();
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 6f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             Item.damage = 8;
             Item.knockBack = 2f;
-            Item.shootSpeed = 6f;
+            Item.shootSpeed = 4f;
 
             Item.useTime = 18;
             Item.useAnimation = Item.useTime;
