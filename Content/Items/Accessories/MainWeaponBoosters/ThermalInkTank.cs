@@ -1,0 +1,32 @@
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria.ID;
+using Terraria;
+
+namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
+{
+    internal class ThermalInkTank : BaseWeaponBoosterAccessory
+    {
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+
+            Item.width = 30;
+            Item.height = 32;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                modPlayer.hasThermalInkTank = true;
+            }
+        }
+    }
+}

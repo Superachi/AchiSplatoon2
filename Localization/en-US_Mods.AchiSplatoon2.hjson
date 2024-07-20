@@ -35,7 +35,8 @@ Hint: {
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
-	SquidClipOns.Usage: "{0}% LESS dodge rolls, but they grant immunity and go further"
+	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and go further"
+	ThermalInkTank: Ink-based projectiles can pass through liquids
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -690,7 +691,7 @@ Items: {
 	}
 
 	SquidClipOns: {
-		UsageHint: "{$Hint.SquidClipOns.Usage}"
+		UsageHint: "{$Hint.SquidClipOns}"
 		Flavor: Mods.AchiSplatoon2.Items.SquidClipOns.Flavor
 		DisplayName: Squid Clip Ons
 		Tooltip: ""
@@ -756,6 +757,13 @@ Items: {
 		UsageHint: "{$Hint.Splatana.Usage}"
 		Flavor: Mods.AchiSplatoon2.Items.SplatanaStamper.Flavor
 		DisplayName: Splatana Stamper
+		Tooltip: ""
+	}
+
+	ThermalInkTank: {
+		UsageHint: "{$Hint.ThermalInkTank}"
+		Flavor: Mods.AchiSplatoon2.Items.ThermalInkTank.Flavor
+		DisplayName: Thermal Ink Tank
 		Tooltip: ""
 	}
 }

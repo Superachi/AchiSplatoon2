@@ -701,7 +701,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void Dissolve()
         {
-            if (dissolvable)
+            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var hasThermalInkTank = accMP.hasThermalInkTank;
+            if (dissolvable && !hasThermalInkTank)
             {
                 Tile tile = Framing.GetTileSafely(Projectile.Center);
                 if (tile.LiquidType >= LiquidID.Water && tile.LiquidType < LiquidID.Shimmer && tile.LiquidAmount > 100)
