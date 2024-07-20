@@ -26,8 +26,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.width = 64;
             Item.height = 64;
 
-            Item.value = Item.buyPrice(gold: 10);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
+        }
+
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.Register();
         }
     }
 }

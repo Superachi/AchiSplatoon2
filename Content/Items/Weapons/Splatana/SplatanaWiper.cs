@@ -24,5 +24,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
         }
+
+        public override void AddRecipes()
+        {
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.Register();
+        }
     }
 }
