@@ -28,6 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatana;
 
+            Projectile.damage = weaponData.BaseDamage;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
             chargeSample = weaponData.ChargeSample;

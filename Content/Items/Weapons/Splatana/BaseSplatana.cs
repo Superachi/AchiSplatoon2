@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
@@ -18,6 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public virtual string ChargeSample { get => "Splatana/WiperCharge"; }
 
         // Splatana specific
+        public virtual int BaseDamage { get => 5; }
         public virtual float[] ChargeTimeThresholds { get => [18f]; }
         public virtual float WeakSlashShotSpeed { get => 8f; }
         public virtual float MaxChargeMeleeDamageMod { get => 5f; }
@@ -30,7 +32,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 5;
+
+            // Apply the max charge range damage mod to give the player a better indication of the damage
+            Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 1;
 
             Item.width = 62;
@@ -42,6 +46,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
             Item.noMelee = true;
             Item.channel = true;
+        }
+
+        public int DisplayDamage(int damage)
+        {
+            return (int)(damage * MaxChargeRangeDamageMod);
         }
     }
 }

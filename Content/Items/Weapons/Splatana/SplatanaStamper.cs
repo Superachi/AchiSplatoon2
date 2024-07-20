@@ -10,13 +10,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override string ChargeSample { get => "Splatana/StamperCharge"; }
 
         // Splatana specific
+        public override int BaseDamage { get => 52; }
         public override float[] ChargeTimeThresholds { get => [24f]; }
         public override float WeakSlashShotSpeed { get => 10f; }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 52;
+            Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 5;
 
             Item.useTime = 22;
