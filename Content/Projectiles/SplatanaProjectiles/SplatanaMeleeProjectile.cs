@@ -71,6 +71,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             }
         }
 
+        public override bool? CanHitNPC(NPC target)
+        {
+            var p = GetOwner();
+            if (Collision.CanHitLine(p.position, 1, 1, target.position, 1, 1))
+            {
+                if (!target.friendly) return true;
+            }
+            return false;
+        }
+
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             base.ModifyHitNPC(target, ref modifiers);
