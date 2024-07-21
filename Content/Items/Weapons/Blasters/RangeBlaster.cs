@@ -25,10 +25,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
-                singleShotTime: 60,
+                singleShotTime: 58,
                 shotVelocity: 9f);
 
-            Item.damage = 300;
+            Item.damage = 260;
             Item.width = 64;
             Item.height = 34;
             Item.value = Item.buyPrice(gold: 15);

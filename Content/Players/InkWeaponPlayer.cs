@@ -61,7 +61,7 @@ namespace AchiSplatoon2.Content.Players
         public float BlueChipBaseChargeBonus { get => 0.25f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
 
-        public float PaletteMainDamageMod { get => 1.2f; }
+        public float PaletteMainDamageMod { get => 1.1f; }
         public string PaletteMainDamageModDisplay { get => $"+{(int)((PaletteMainDamageMod - 1) * 100)}%"; }
 
         public enum ChipColor

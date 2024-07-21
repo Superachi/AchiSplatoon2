@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
                 singleShotTime: 28,
                 shotVelocity: 0);
 
-            Item.damage = 92;
+            Item.damage = 64;
             Item.width = 34;
             Item.height = 74;
             Item.knockBack = 4;

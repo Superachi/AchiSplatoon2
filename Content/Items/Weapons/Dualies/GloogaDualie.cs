@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         // Dualie specific
         public override string RollSample { get => "Dualies/GloogaDualieRoll"; }
         public override float PostRollAttackSpeedMod { get => 1f; }
-        public override float PostRollDamageMod { get => 2f; }
+        public override float PostRollDamageMod { get => 1.5f; }
         public override float PostRollAimMod { get => 0.25f; }
         public override float PostRollVelocityMod { get => 1.5f; }
         public override int MaxRolls { get => 2; }
@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 9,
                 shotVelocity: 6f);
 
-            Item.damage = 40;
+            Item.damage = 36;
             Item.width = 40;
             Item.height = 30;
             Item.knockBack = 4;
