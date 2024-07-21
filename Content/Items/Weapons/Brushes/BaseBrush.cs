@@ -10,6 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class BaseBrush : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brush;
+
         public override float AimDeviation { get => 12f; }
         public override string ShootSample { get => "BrushShoot"; }
         public override string ShootAltSample { get => "BrushShootAlt"; }

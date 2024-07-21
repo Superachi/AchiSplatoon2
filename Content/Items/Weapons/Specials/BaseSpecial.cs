@@ -26,14 +26,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             return false;
         }
-
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                var accMP = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
-                damage *= accMP.specialPowerMultiplier;
-            }
-        }
     }
 }

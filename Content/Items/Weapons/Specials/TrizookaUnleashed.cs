@@ -46,10 +46,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             recipe.AddIngredient(ModContent.ItemType<TrizookaSpecial>(), 1);
             recipe.Register();
         }
-
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            // Ignore the base method from BaseSpecial
-        }
     }
 }

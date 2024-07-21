@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +10,8 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class InkAccessoryPlayer : BaseModPlayer
     {
+        public Type? paletteType = null;
+
         public bool hasAgentCloak;
         public bool hasSpecialPowerEmblem;
         public bool hasSpecialChargeEmblem;
@@ -61,6 +65,8 @@ namespace AchiSplatoon2.Content.Players
 
         public override void ResetEffects()
         {
+            paletteType = null;
+
             hasAgentCloak = false;
             hasSpecialPowerEmblem = false;
             hasSpecialChargeEmblem = false;

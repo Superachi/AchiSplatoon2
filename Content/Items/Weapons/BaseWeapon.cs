@@ -1,5 +1,15 @@
+using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
@@ -16,6 +26,22 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons
 {
+    enum MainWeaponStyle
+    {
+        Other,
+        Shooter,
+        Roller,
+        Charger,
+        Slosher,
+        Splatling,
+        Dualies,
+        Brella,
+        Blaster,
+        Brush,
+        Stringer,
+        Splatana
+    }
+
     enum SubWeaponType
     {
         None,
@@ -45,6 +71,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float AimDeviation { get => 0f; }
 
         // Sub weapon stats
+        public virtual MainWeaponStyle WeaponStyle { get; set; } = MainWeaponStyle.Other;
         public virtual bool IsSubWeapon { get => false; }
         public virtual bool AllowSubWeaponUsage { get => true; }
         public SubWeaponType BonusSub { get; private set; }
@@ -80,6 +107,40 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 singleShotTime: singleShotTime,
                 shotVelocity: shotVelocity,
                 hasAutoReuse: true);
+        }
+
+        public static bool DoesPaletteBoostMainWeapon(BaseWeapon usedWeapon, Player player)
+        {
+            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            if (accMP.paletteType == null) return false;
+
+            ChipPalette palette = (ChipPalette)Activator.CreateInstance(accMP.paletteType);
+            MainWeaponStyle paletteWeaponStyle = palette.PaletteWeaponStyle();
+            MainWeaponStyle usedWeaponStyle = usedWeapon.WeaponStyle;
+            if (paletteWeaponStyle == MainWeaponStyle.Other) return false;
+
+            return usedWeaponStyle == paletteWeaponStyle;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            base.ModifyWeaponDamage(player, ref damage);
+
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var wepMP = player.GetModPlayer<InkWeaponPlayer>();
+                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                if (IsSpecialWeapon)
+                {
+                    damage *= accMP.specialPowerMultiplier;
+                    return;
+                }
+
+                if (DoesPaletteBoostMainWeapon(this, player))
+                {
+                    damage *= wepMP.PaletteMainDamageMod;
+                }
+            }
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class BaseStringer : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Stringer;
+
         public virtual float[] ChargeTimeThresholds { get => [36f, 72f]; }
         public override string ShootSample { get => "TriStringerShoot"; }
         public override string ShootWeakSample { get => "BambooChargerShootWeak"; }

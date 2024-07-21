@@ -1,11 +1,13 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Content.Items.Weapons;
+using Terraria;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
+namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {
-    internal class PrincessPalette : ChipPalette
+    internal class PearlPalette : ChipPalette
     {
         protected override int PaletteCapacity { get => 8; }
+        protected override MainWeaponStyle WeaponStyle => MainWeaponStyle.Dualies;
         public override void SetDefaults()
         {
             base.SetDefaults();

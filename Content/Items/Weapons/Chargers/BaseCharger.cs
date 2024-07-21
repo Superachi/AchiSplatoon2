@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class BaseCharger : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Charger;
+
         public virtual float[] ChargeTimeThresholds { get => [60f]; }
         public virtual bool ScreenShake { get => true; }
         public virtual int MaxPenetrate { get => 10; }

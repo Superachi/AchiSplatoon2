@@ -4,6 +4,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class BaseSplatling : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatling;
+
         public virtual float[] ChargeTimeThresholds { get => [30f, 60f]; }
         public virtual float BarrageVelocity { get; set; } = 10f;
         public virtual int BarrageShotTime { get; set; } = 5;

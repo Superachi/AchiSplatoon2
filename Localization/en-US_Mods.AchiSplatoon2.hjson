@@ -235,24 +235,24 @@ Items: {
 	}
 
 	ChipPalette: {
-		DisplayName: Smoll Color Palette
+		DisplayName: Smoll Palette
 		Tooltip: ""
 		UsageHint: Mods.AchiSplatoon2.Items.ChipPalette.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ChipPalette.Flavor
 	}
 
-	HyperfreshPalette: {
-		DisplayName: Hyperfresh Color Palette
+	MarinaPalette: {
+		DisplayName: Marina's Palette
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.HyperfreshPalette.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.HyperfreshPalette.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.MarinaPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MarinaPalette.Flavor
 	}
 
-	PrincessPalette: {
-		DisplayName: Princess Color Palette
+	PearlPalette: {
+		DisplayName: Pearl's Palette
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.PrincessPalette.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.PrincessPalette.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.PearlPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PearlPalette.Flavor
 	}
 
 	ColorChipEmpty: {
@@ -764,6 +764,69 @@ Items: {
 		UsageHint: "{$Hint.ThermalInkTank}"
 		Flavor: Mods.AchiSplatoon2.Items.ThermalInkTank.Flavor
 		DisplayName: Thermal Ink Tank
+		Tooltip: ""
+	}
+
+	BigManPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.BigManPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BigManPalette.Flavor
+		DisplayName: Big Man's Palette
+		Tooltip: ""
+	}
+
+	CalliePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.CalliePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CalliePalette.Flavor
+		DisplayName: Callie's Palette
+		Tooltip: ""
+	}
+
+	EightPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.EightPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.EightPalette.Flavor
+		DisplayName: Eight's Palette
+		Tooltip: ""
+	}
+
+	FryePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.FryePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.FryePalette.Flavor
+		DisplayName: Frye's Palette
+		Tooltip: ""
+	}
+
+	MariePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.MariePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MariePalette.Flavor
+		DisplayName: Marie's Palette
+		Tooltip: ""
+	}
+
+	MurchPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.MurchPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MurchPalette.Flavor
+		DisplayName: Murch's Palette
+		Tooltip: ""
+	}
+
+	OctavioPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.OctavioPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.OctavioPalette.Flavor
+		DisplayName: DJ Octavio's Palette
+		Tooltip: ""
+	}
+
+	SheldonPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.SheldonPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SheldonPalette.Flavor
+		DisplayName: Sheldon's Palette
+		Tooltip: ""
+	}
+
+	ShiverPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.ShiverPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ShiverPalette.Flavor
+		DisplayName: Shiver's Palette
 		Tooltip: ""
 	}
 }

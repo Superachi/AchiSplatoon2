@@ -1,15 +1,18 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
+namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {
     internal class ChipPalette : BaseAccessory
     {
         protected virtual int PaletteCapacity { get => 4; }
+        protected virtual MainWeaponStyle WeaponStyle { get => MainWeaponStyle.Other; }
+        public MainWeaponStyle PaletteWeaponStyle() => WeaponStyle;
 
         public override void SetDefaults()
         {
@@ -37,46 +40,63 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
 
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            if (modPlayer.isPaletteEquipped)
+            var wepMP = player.GetModPlayer<InkWeaponPlayer>();
+
+            if (wepMP.isPaletteEquipped)
             {
-                modPlayer.conflictingPalettes = true;
+                wepMP.conflictingPalettes = true;
                 return;
             }
 
-            modPlayer.isPaletteEquipped = true;
-            modPlayer.paletteCapacity = PaletteCapacity;
+            wepMP.isPaletteEquipped = true;
+            wepMP.paletteCapacity = PaletteCapacity;
 
             // Note that disabling the buffs here doesn't disable ALL the buffs
             // See also the calculations in BaseProjectile.cs
-            if (!modPlayer.IsPaletteValid()) return;
+            if (!wepMP.IsPaletteValid()) return;
 
-            var chips = modPlayer.ColorChipAmounts;
+            var chips = wepMP.ColorChipAmounts;
             player.GetDamage(DamageClass.Generic) +=
-                (float)chips[(int)InkWeaponPlayer.ChipColor.Red] * modPlayer.RedChipBaseAttackDamageBonus;
+                chips[(int)InkWeaponPlayer.ChipColor.Red] * wepMP.RedChipBaseAttackDamageBonus;
 
             player.GetKnockback(DamageClass.Generic) +=
-                (float)chips[(int)InkWeaponPlayer.ChipColor.Purple] * modPlayer.PurpleChipBaseKnockbackBonus;
+                chips[(int)InkWeaponPlayer.ChipColor.Purple] * wepMP.PurpleChipBaseKnockbackBonus;
 
             player.GetCritChance(DamageClass.Generic) +=
-                (float)chips[(int)InkWeaponPlayer.ChipColor.Green] * modPlayer.GreenChipBaseCritBonus;
+                chips[(int)InkWeaponPlayer.ChipColor.Green] * wepMP.GreenChipBaseCritBonus;
+
+            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            accMP.paletteType = GetType();
+        }
+
+        public override bool CanReforge()
+        {
+            return false;
+        }
+
+        public override bool AllowPrefix(int pre)
+        {
+            return false;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            Player player = Main.LocalPlayer;
+
             var textColorEffect = "c/ff8e2c:";
             var textColorWhite = "c/ffffff:";
             var textColorGray = "c/a8a8a8:";
             var textColorWarn = "c/ed3a4a:";
             string ChipColor(InkColor color) => ColorHelper.GetChipTextColor(color);
 
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
             int index = tooltips.FindIndex(l => l.Name == "ItemName");
             if (index != -1)
             {
                 var t = tooltips[index];
                 if (modPlayer.isPaletteEquipped)
                 {
+                    // Display an error tooltip if requirements aren't met
                     if (modPlayer.conflictingPalettes)
                     {
                         t.Text = $"{Item.Name}" +
@@ -95,6 +115,21 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                         return;
                     }
 
+                    // Palette name, main weapon boost type and chip count
+                    t.Text = $"{Item.Name}";
+                    if (WeaponStyle != MainWeaponStyle.Other)
+                    {
+                        string boostedWeapon = PaletteWeaponStyle().ToString();
+                        t.Text += "\n" + ColorHelper.TextWithBonusColor($"{modPlayer.PaletteMainDamageModDisplay} {boostedWeapon} damage");
+                    }
+
+                    t.Text += "\n" + ColorHelper.TextWithFunctionalColor("Activates the effects of Color Chips") +
+                        "\n" + ColorHelper.TextWithFunctionalColor("held in your inventory ") +
+                        ColorHelper.TextWithNeutralColor($"({chipCount}/{PaletteCapacity})");
+
+                    // List color chip bonuses
+                    t.Text += $"\n[{textColorWhite}Currently active bonuses:]";
+
                     var chips = modPlayer.ColorChipAmounts;
                     var red = (float)chips[(int)InkWeaponPlayer.ChipColor.Red];
                     var blue = (float)chips[(int)InkWeaponPlayer.ChipColor.Blue];
@@ -103,10 +138,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     var green = (float)chips[(int)InkWeaponPlayer.ChipColor.Green];
                     var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
 
-                    t.Text = $"{Item.Name}" +
-                        $"\n[{textColorEffect}Activates the effects of Color Chips]" +
-                        $"\n[{textColorEffect}held in your inventory ({chipCount}/{PaletteCapacity})]" +
-                        $"\n[c/ffffff:Currently active bonuses:]";
                     if (red > 0)
                     {
                         t.Text += $"\n[{ChipColor(InkColor.Red)}Power ({red}) >]" +

@@ -6,6 +6,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class BaseBlaster : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Blaster;
+
         // Audio
         public override string ShootSample { get => "BlasterFire"; }
         public virtual string ExplosionBigSample { get => "BlasterExplosion"; }

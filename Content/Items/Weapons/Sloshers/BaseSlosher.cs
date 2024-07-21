@@ -10,6 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class BaseSlosher : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Slosher;
+
         public override string ShootSample { get => "SlosherShoot"; }
         public override string ShootWeakSample { get => "SlosherShootAlt"; }
         public virtual float ShotGravity { get => 0.12f; }
@@ -26,6 +28,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
+            base.ModifyWeaponDamage(player, ref damage);
+
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var accMP = player.GetModPlayer<InkAccessoryPlayer>();

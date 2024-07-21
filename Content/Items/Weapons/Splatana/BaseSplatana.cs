@@ -14,6 +14,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class BaseSplatana : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
+
         public override string ShootSample { get => "Splatana/WiperStrongSlash"; }
         public override string ShootWeakSample { get => "Splatana/WiperWeakSlash"; }
         public virtual string ChargeSample { get => "Splatana/WiperCharge"; }

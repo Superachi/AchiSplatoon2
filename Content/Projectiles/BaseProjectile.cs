@@ -161,18 +161,18 @@ namespace AchiSplatoon2.Content.Projectiles
             if (IsThisClientTheProjectileOwner())
             {
                 var owner = Main.player[Projectile.owner];
-                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+                var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
 
-                if (modPlayer.IsPaletteValid())
+                if (wepMP.IsPaletteValid())
                 {
-                    for (int i = 0; i < modPlayer.ColorChipAmounts.Length; i++)
+                    for (int i = 0; i < wepMP.ColorChipAmounts.Length; i++)
                     {
                         Projectile.usesLocalNPCImmunity = true;
                         Projectile.localNPCHitCooldown = 20 * FrameSpeed();
 
                         // Apply color chip buffs
                         // See also the calculations in InkWeaponPlayer.cs
-                        int value = modPlayer.ColorChipAmounts[i];
+                        int value = wepMP.ColorChipAmounts[i];
 
                         // Only consider the color if we have any chips for it
                         if (value > 0)
@@ -207,21 +207,21 @@ namespace AchiSplatoon2.Content.Projectiles
                         // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
                         if (i == (int)InkWeaponPlayer.ChipColor.Red)
                         {
-                            armorPierceModifier += modPlayer.CalculateArmorPierceBonus();
+                            armorPierceModifier += wepMP.CalculateArmorPierceBonus();
                             Projectile.ArmorPenetration += armorPierceModifier;
                         }
 
                         // Purple chips > faster charge speed
                         if (i == (int)InkWeaponPlayer.ChipColor.Purple)
                         {
-                            chargeSpeedModifier += modPlayer.CalculateChargeSpeedBonus();
+                            chargeSpeedModifier += wepMP.CalculateChargeSpeedBonus();
                         }
 
                         // Yellow chips > bigger explosions + projectile piercing
                         if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
                         {
-                            explosionRadiusModifier += modPlayer.CalculateExplosionRadiusBonus();
-                            piercingModifier += modPlayer.CalculatePiercingBonus();
+                            explosionRadiusModifier += wepMP.CalculateExplosionRadiusBonus();
+                            piercingModifier += wepMP.CalculatePiercingBonus();
 
                             if (Projectile.penetrate != -1)
                             {
@@ -255,9 +255,14 @@ namespace AchiSplatoon2.Content.Projectiles
                     wormDamageReduction = true;
                 }
 
+                if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponSource, owner))
+                {
+                    Projectile.damage = MultiplyProjectileDamage(wepMP.PaletteMainDamageMod);
+                }
+
                 originalDamage = Projectile.damage;
 
-                modPlayer.UpdateInkColor(GenerateInkColor());
+                wepMP.UpdateInkColor(GenerateInkColor());
             }
 
             return true;

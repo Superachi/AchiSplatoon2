@@ -1,22 +1,17 @@
-﻿using AchiSplatoon2.Content.Projectiles;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Terraria.DataStructures;
 using AchiSplatoon2.Content.Players;
-using System.Runtime.InteropServices.Marshalling;
-using Terraria.Localization;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Helpers;
-using Humanizer;
-using System.Collections.Generic;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class BaseDualie : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Dualies;
+
         protected override string UsageHintParamA => MaxRolls.ToString();
         
         // Shoot settings

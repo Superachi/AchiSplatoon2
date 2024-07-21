@@ -6,6 +6,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class BaseSplattershot : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Shooter;
+
         public virtual float ShotGravity { get => 0.1f; }
         public virtual int ShotGravityDelay { get => 0; }
         public virtual int ShotExtraUpdates { get => 4; }
