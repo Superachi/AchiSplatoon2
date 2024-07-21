@@ -82,13 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 if (ShakeScreenOnChargeShot)
                 {
-                    PunchCameraModifier modifier = new PunchCameraModifier(
-                        startPosition: owner.Center,
-                        direction: (Main.rand.NextFloat() * ((float)Math.PI * 2f)).ToRotationVector2(),
-                        strength: 3f,
-                        vibrationCyclesPerSecond: 8f,
-                        frames: 10, 80f, FullName);
-                    Main.instance.CameraModifiers.Add(modifier);
+                    GameFeelHelper.ShakeScreenNearPlayer(owner, true);
                 }
             }
             else
