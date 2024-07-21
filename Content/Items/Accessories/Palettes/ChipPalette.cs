@@ -25,15 +25,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-
-            Recipe altRecipe = CreateRecipe();
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 8);
-            altRecipe.AddTile(TileID.Anvils);
-            altRecipe.Register();
+            AddRecipeWithSheldonLicenseBasic(registerNow: false)
+                .Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

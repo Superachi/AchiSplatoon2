@@ -399,29 +399,5 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             return false;
         }
-
-        private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(itemType);
-            recipe.AddTile(TileID.Anvils);
-            if (registerNow) { recipe.Register(); }
-            return recipe;
-        }
-
-        protected Recipe AddRecipeWithSheldonLicenseBasic(bool registerNow = true)
-        {
-            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicense>(), registerNow);
-        }
-
-        protected Recipe AddRecipeWithSheldonLicenseSilver(bool registerNow = true)
-        {
-            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicenseSilver>(), registerNow);
-        }
-
-        protected Recipe AddRecipeWithSheldonLicenseGold(bool registerNow = true)
-        {
-            return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicenseGold>(), registerNow);
-        }
     }
 }

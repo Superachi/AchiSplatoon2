@@ -446,7 +446,7 @@ Items: {
 		DisplayName: Basic Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft basic Splatlandian gear.
+			Obtained from pre-Hardmode bosses. Used to craft basic Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		Flavor: U got a loicense fer that?
@@ -457,7 +457,7 @@ Items: {
 		DisplayName: Golden Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft some of the best Splatlandian gear available.
+			Obtained from endgame bosses (post-Plantera). Used to craft the best Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseGold.UsageHint
@@ -468,7 +468,7 @@ Items: {
 		DisplayName: Silver Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses (and mimics). Used to craft higher quality Splatlandian gear.
+			Obtained from post-Hardmode bosses and mimics. Used to craft better Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseSilver.UsageHint

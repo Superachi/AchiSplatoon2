@@ -17,5 +17,11 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             Item.rare = ItemRarityID.LightPurple;
             Item.accessory = true;
         }
+
+        public override void AddRecipes()
+        {
+            AddRecipeWithSheldonLicenseSilver(registerNow: false)
+                .Register();
+        }
     }
 }
