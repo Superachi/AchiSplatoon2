@@ -98,6 +98,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 velocity *= maxChargeVelocityMod;
                 var proj = CreateChildProjectile<SplatanaStrongSlashProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false);
                 proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
+                proj.Projectile.penetrate = 3;
                 proj.AfterSpawn();
 
             }

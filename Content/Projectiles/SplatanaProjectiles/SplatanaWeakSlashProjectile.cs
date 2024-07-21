@@ -40,7 +40,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.timeLeft = 60;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 2;
-            Projectile.penetrate = 3;
         }
 
         public override void AfterSpawn()
