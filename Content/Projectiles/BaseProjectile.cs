@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Players;
@@ -163,13 +163,13 @@ namespace AchiSplatoon2.Content.Projectiles
                 var owner = Main.player[Projectile.owner];
                 var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
 
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = 20 * FrameSpeed();
+
                 if (wepMP.IsPaletteValid())
                 {
                     for (int i = 0; i < wepMP.ColorChipAmounts.Length; i++)
                     {
-                        Projectile.usesLocalNPCImmunity = true;
-                        Projectile.localNPCHitCooldown = 20 * FrameSpeed();
-
                         // Apply color chip buffs
                         // See also the calculations in InkWeaponPlayer.cs
                         int value = wepMP.ColorChipAmounts[i];
@@ -204,11 +204,17 @@ namespace AchiSplatoon2.Content.Projectiles
                             }
                         }
 
-                        // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
-                        if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                        // Prevent double dipping modifiers
+                        if (parentIdentity == -1)
                         {
-                            armorPierceModifier += wepMP.CalculateArmorPierceBonus();
-                            Projectile.ArmorPenetration += armorPierceModifier;
+                            // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
+                            if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                            {
+                                Projectile.damage = MultiplyProjectileDamage(1 + wepMP.CalculateAttackDamageBonus());
+
+                                armorPierceModifier += wepMP.CalculateArmorPierceBonus();
+                                Projectile.ArmorPenetration += armorPierceModifier;
+                            }
                         }
 
                         // Purple chips > faster charge speed
