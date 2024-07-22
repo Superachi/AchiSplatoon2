@@ -34,6 +34,9 @@ namespace AchiSplatoon2.Content.Players
         public bool hasSquidClipOns;
         public bool hasThermalInkTank;
 
+        // Debug
+        public bool hasDamageStabilizer;
+
         public override void PreUpdate()
         {
             var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
@@ -87,6 +90,9 @@ namespace AchiSplatoon2.Content.Players
             hasTentacleScope = false;
             hasSquidClipOns = false;
             hasThermalInkTank = false;
+
+            // Debug
+            hasDamageStabilizer = false;
         }
 
         public void SetBlasterBuff(bool hasHitTarget)

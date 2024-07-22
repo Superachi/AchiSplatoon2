@@ -37,6 +37,7 @@ Hint: {
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and go further"
 	ThermalInkTank: Ink-based projectiles can pass through liquids
+	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -827,6 +828,13 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShiverPalette.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShiverPalette.Flavor
 		DisplayName: Shiver's Palette
+		Tooltip: ""
+	}
+
+	DamageStabilizer: {
+		UsageHint: "{$Hint.DamageStabilizer}"
+		Flavor: Mods.AchiSplatoon2.Items.DamageStabilizer.Flavor
+		DisplayName: Damage Stabilizer
 		Tooltip: ""
 	}
 }
