@@ -13,6 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         private float fallDelayCount = 0;
         private float fallSpeed;
         private float terminalVelocity = 8f;
+        private bool hasChildren = false;
 
         public override void SetDefaults()
         {
@@ -20,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = false;
+            Projectile.friendly = true;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
@@ -73,6 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
                 if (IsThisClientTheProjectileOwner())
                 {
+                    hasChildren = true;
                     CreateChildProjectile(
                         position: Projectile.Center,
                         velocity: new Vector2(childVelX, childVelY),
@@ -95,6 +97,18 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             if (Projectile.velocity.Y > terminalVelocity)
             {
                 Projectile.velocity.Y = terminalVelocity;
+            }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+
+            if (hasChildren)
+            {
+                modifiers.FinalDamage *= 0;
+                modifiers.HideCombatText();
+                Projectile.Kill();
             }
         }
     }
