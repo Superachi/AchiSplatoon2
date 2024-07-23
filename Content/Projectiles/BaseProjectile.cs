@@ -261,7 +261,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (parentIdentity == -1)
                 {
                     // Apply damage modifiers
-                    float damageMod = StatCalculationHelper.CalculateDamageModifiers(owner, WeaponInstance, this);
+                    float damageMod = StatCalculationHelper.CalculateDamageModifiers(owner, WeaponInstance, this, true);
                     Projectile.damage = MultiplyProjectileDamage(damageMod);
                 }
                 originalDamage = Projectile.damage;

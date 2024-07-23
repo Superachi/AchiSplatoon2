@@ -300,9 +300,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             // Check if the main weapon has a bonus that discounts sub weapons of a matching type
                             // Eg. Splattershot has a chance to not consume burst bombs
                             bool luckyDiscount = false;
-                            float damageBonus = 1f;
 
-                            bool hasMainWeaponBonus = false;
                             if (BonusSub != SubWeaponType.None)
                             {
                                 SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
@@ -310,11 +308,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 {
                                     luckyDiscount = Main.rand.NextBool((int)(1f / subDiscountChance));
                                 }
-
-                                hasMainWeaponBonus = BonusType == SubWeaponBonusType.Damage && currentlyCheckedSub == BonusSub;
                             }
-                            var mp = player.GetModPlayer<InkWeaponPlayer>();
-                            damageBonus = mp.CalculateSubDamageBonusModifier(hasMainWeaponBonus);
 
                             if (!luckyDiscount)
                             {
@@ -355,7 +349,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 weaponType: (BaseWeapon)item.ModItem,
                                 triggerAfterSpawn: false
                                 );
-                            p.Projectile.damage = (int)(p.Projectile.damage * damageBonus);
                             p.Projectile.position = player.Center;
                             p.itemIdentifier = item.type;
                             p.AfterSpawn();

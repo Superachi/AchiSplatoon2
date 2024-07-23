@@ -9,9 +9,8 @@ namespace AchiSplatoon2.Helpers
 {
     internal static class StatCalculationHelper
     {
-        public static float CalculateDamageModifiers(Player player, BaseWeapon weaponInstance, BaseProjectile projectile = null)
+        public static float CalculateDamageModifiers(Player player, BaseWeapon weaponInstance, BaseProjectile projectile = null, bool debug = false)
         {
-            var debug = false;
             float damageModifier = 1f;
             var wepMP = player.GetModPlayer<InkWeaponPlayer>();
             var accMP = player.GetModPlayer<InkAccessoryPlayer>();
@@ -66,7 +65,7 @@ namespace AchiSplatoon2.Helpers
             #region Multiplicative
 
             // Class bonus (eg. from vanilla armors, accessories, etc.)
-            if (projectile != null)
+            if (projectile != null || weaponInstance.IsSubWeapon)
             {
                 float classMod = 1f;
                 if (player.HeldItem.DamageType == DamageClass.Melee)
