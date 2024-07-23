@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -47,6 +48,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public int DisplayDamage(int damage)
         {
             return (int)(damage * MaxChargeRangeDamageMod);
+        }
+
+        public int ActualDamage(int damage)
+        {
+            return (int)(damage / MaxChargeRangeDamageMod);
         }
     }
 }

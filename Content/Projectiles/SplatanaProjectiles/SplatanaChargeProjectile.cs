@@ -21,7 +21,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatana;
 
-            Projectile.damage = weaponData.BaseDamage;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
             chargeSample = weaponData.ChargeSample;
@@ -32,6 +31,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             maxChargeRangeDamageMod = weaponData.MaxChargeRangeDamageMod;
             maxChargeLifetimeMod = weaponData.MaxChargeLifetimeMod;
             maxChargeVelocityMod = weaponData.MaxChargeVelocityMod;
+
+            Projectile.damage = weaponData.ActualDamage(Projectile.damage);
         }
 
         public override void AfterSpawn()
