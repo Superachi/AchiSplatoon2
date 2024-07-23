@@ -78,7 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool? CanHitNPC(NPC target)
         {
-            return HasLineOfSightToTarget(target);
+            return CanHitNPCWithLineOfSight(target);
         }
 
         protected void readSpawnVelocity(BinaryReader reader)

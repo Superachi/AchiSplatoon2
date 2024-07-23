@@ -372,11 +372,11 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected bool HasLineOfSightToTarget(NPC target)
+        protected bool CanHitNPCWithLineOfSight(NPC target)
         {
             if (Collision.CanHitLine(Projectile.Center, 1, 1, target.Center, 1, 1))
             {
-                if (!target.friendly) return true;
+                if (!target.friendly && Projectile.friendly) return true;
             }
             return false;
         }

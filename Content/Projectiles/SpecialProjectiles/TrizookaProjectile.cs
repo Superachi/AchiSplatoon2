@@ -136,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override bool? CanHitNPC(NPC target)
         {
-            return HasLineOfSightToTarget(target);
+            return CanHitNPCWithLineOfSight(target);
         }
     }
 }
