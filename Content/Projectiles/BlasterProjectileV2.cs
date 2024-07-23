@@ -91,9 +91,14 @@ namespace AchiSplatoon2.Content.Projectiles
             for (int i = 0; i < amount; i++)
             {
                 Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(pos, ModContent.DustType<BlasterTrailDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                Dust.NewDustPerfect(
+                    pos + Main.rand.NextVector2Circular(10, 10),
+                    ModContent.DustType<SplatterBulletLastingDust>(),
+                    Main.rand.NextVector2Circular(-dustMaxVelocity, dustMaxVelocity),
+                    255,
+                    dustColor,
+                    Main.rand.NextFloat(minScale, maxScale)
+                );
             }
         }
 
@@ -143,6 +148,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 Projectile.tileCollide = false;
                 Timer = 0;
+                Projectile.position -= Projectile.velocity;
                 Projectile.velocity = Vector2.Zero;
                 Projectile.Resize(finalRadius, finalRadius);
                 hasExploded = true;
@@ -156,7 +162,7 @@ namespace AchiSplatoon2.Content.Projectiles
             switch (state)
             {
                 case stateFly:
-                    EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 1, minScale: 1, maxScale: 3);
+                    EmitTrailInkDust(dustMaxVelocity: 1f, amount: 3, minScale: 0.5f, maxScale: 2);
 
                     if (Timer >= explosionDelay * FrameSpeed())
                     {
@@ -210,6 +216,11 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             
             base.OnKill(timeLeft);
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            return HasLineOfSightToTarget(target);
         }
     }
 }

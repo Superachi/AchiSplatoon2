@@ -372,6 +372,15 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        protected bool HasLineOfSightToTarget(NPC target)
+        {
+            if (Collision.CanHitLine(Projectile.Center, 1, 1, target.Center, 1, 1))
+            {
+                if (!target.friendly) return true;
+            }
+            return false;
+        }
+
         protected Player GetOwner()
         {
             return Main.player[Projectile.owner];

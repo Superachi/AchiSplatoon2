@@ -75,6 +75,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.penetrate = -1;
             Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
             Projectile.tileCollide = false;
+            Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
             var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
@@ -131,6 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             if (state == 0) { Explode(); }
             return false;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            return HasLineOfSightToTarget(target);
         }
     }
 }

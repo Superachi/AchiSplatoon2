@@ -58,6 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.alpha = 255;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
+            Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
             var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
@@ -73,6 +74,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 return false;
             }
             return true;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            return HasLineOfSightToTarget(target);
         }
 
         protected void readSpawnVelocity(BinaryReader reader)
