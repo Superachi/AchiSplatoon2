@@ -40,6 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
+            wormDamageReduction = true;
 
             var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasSteelCoil)

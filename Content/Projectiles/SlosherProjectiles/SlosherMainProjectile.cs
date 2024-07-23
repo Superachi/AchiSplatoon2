@@ -44,6 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
+            wormDamageReduction = true;
 
             if (Main.rand.NextBool(2))
             {
