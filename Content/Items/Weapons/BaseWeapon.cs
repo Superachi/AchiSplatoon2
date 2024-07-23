@@ -128,18 +128,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var wepMP = player.GetModPlayer<InkWeaponPlayer>();
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
-                if (IsSpecialWeapon)
-                {
-                    damage *= accMP.specialPowerMultiplier;
-                    return;
-                }
-
-                if (DoesPaletteBoostMainWeapon(this, player))
-                {
-                    damage *= wepMP.PaletteMainDamageMod;
-                }
+                float damageMod = StatCalculationHelper.CalculateDamageModifiers(player, this);
+                damage *= damageMod;
             }
         }
 
@@ -241,19 +231,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // Config variables after spawning
             proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
-
-            // If throwing a sub weapon directly, apply damage modifiers
-            if (this is BaseBomb)
-            {
-                BaseBomb bomb = (BaseBomb)this;
-                proj.Projectile.damage = (int)(proj.Projectile.damage * bomb.CalculateDamageMod(player));
-            }
-
-            if (this is BaseSpecial && IsSpecialWeapon)
-            {
-                BaseSpecial special = (BaseSpecial)this;
-                proj.Projectile.damage = (int)(proj.Projectile.damage * modPlayer.CalculateSpecialDamageBonusModifier());
-            }
 
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;

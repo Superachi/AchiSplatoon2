@@ -49,8 +49,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             if (!wepMP.IsPaletteValid()) return;
 
             var chips = wepMP.ColorChipAmounts;
-            player.GetDamage(DamageClass.Generic) +=
-                chips[(int)InkWeaponPlayer.ChipColor.Red] * wepMP.RedChipBaseAttackDamageBonus;
 
             player.GetKnockback(DamageClass.Generic) +=
                 chips[(int)InkWeaponPlayer.ChipColor.Purple] * wepMP.PurpleChipBaseKnockbackBonus;

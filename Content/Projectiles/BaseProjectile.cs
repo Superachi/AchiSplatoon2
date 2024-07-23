@@ -204,17 +204,11 @@ namespace AchiSplatoon2.Content.Projectiles
                             }
                         }
 
-                        // Prevent double dipping modifiers
-                        if (parentIdentity == -1)
+                        // Red chips > more armor piercing
+                        if (i == (int)InkWeaponPlayer.ChipColor.Red)
                         {
-                            // Red chips > more attack damage (configured in ChipPalette.cs) + armor piercing
-                            if (i == (int)InkWeaponPlayer.ChipColor.Red)
-                            {
-                                Projectile.damage = MultiplyProjectileDamage(1 + wepMP.CalculateAttackDamageBonus());
-
-                                armorPierceModifier += wepMP.CalculateArmorPierceBonus();
-                                Projectile.ArmorPenetration += armorPierceModifier;
-                            }
+                            armorPierceModifier += wepMP.CalculateArmorPierceBonus();
+                            Projectile.ArmorPenetration += armorPierceModifier;
                         }
 
                         // Purple chips > faster charge speed
@@ -261,14 +255,16 @@ namespace AchiSplatoon2.Content.Projectiles
                     wormDamageReduction = true;
                 }
 
-                if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponSource, owner))
-                {
-                    Projectile.damage = MultiplyProjectileDamage(wepMP.PaletteMainDamageMod);
-                }
-
-                originalDamage = Projectile.damage;
-
                 wepMP.UpdateInkColor(GenerateInkColor());
+
+                // Prevent double dipping modifiers
+                if (parentIdentity == -1)
+                {
+                    // Apply damage modifiers
+                    float damageMod = StatCalculationHelper.CalculateDamageModifiers(owner, WeaponInstance, this);
+                    Projectile.damage = MultiplyProjectileDamage(damageMod);
+                }
+                originalDamage = Projectile.damage;
             }
 
             return true;
