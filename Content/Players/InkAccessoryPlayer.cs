@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

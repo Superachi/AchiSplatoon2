@@ -1,15 +1,4 @@
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
-using AchiSplatoon2.Content.Items.Weapons.Splatana;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;

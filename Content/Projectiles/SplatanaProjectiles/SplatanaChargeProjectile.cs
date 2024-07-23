@@ -1,14 +1,7 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using AchiSplatoon2.Content.Items.Weapons.Splatana;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
-using System;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {

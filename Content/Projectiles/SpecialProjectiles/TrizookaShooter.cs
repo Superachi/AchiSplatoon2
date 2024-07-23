@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
-using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

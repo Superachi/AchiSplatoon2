@@ -1,8 +1,5 @@
-﻿using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles;
-using Microsoft.Xna.Framework;
+﻿using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {

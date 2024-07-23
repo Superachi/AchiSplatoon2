@@ -1,9 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
-using Terraria.ModLoader;
 using Terraria;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {

@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;

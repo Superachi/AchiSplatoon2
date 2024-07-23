@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Graphics.CameraModifiers;
 using Terraria;
+using Terraria.Graphics.CameraModifiers;
 
 namespace AchiSplatoon2.Helpers
 {

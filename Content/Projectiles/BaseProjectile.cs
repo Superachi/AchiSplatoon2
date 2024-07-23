@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
@@ -15,7 +14,6 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles
 {

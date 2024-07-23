@@ -1,16 +1,10 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Specials;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Players
 {

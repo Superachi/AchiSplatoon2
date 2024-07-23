@@ -4,7 +4,6 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using Steamworks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

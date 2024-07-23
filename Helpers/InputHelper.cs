@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria.GameInput;
 
 namespace AchiSplatoon2.Helpers

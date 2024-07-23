@@ -1,6 +1,4 @@
 using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.Localization;
-using Terraria;
-using AchiSplatoon2.Content.Players;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Buffs
 {

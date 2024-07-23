@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System.IO;
