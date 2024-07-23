@@ -1,17 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Items.Weapons.Splatana;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Stubble.Core.Settings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
@@ -51,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Player p = GetOwner();
 
             float swingDirOffset = swingDirection == -1 ? 180 : 0;
-            float deg = (Projectile.ai[1] + 30 + swingDirOffset) * swingDirection ;
+            float deg = (Projectile.ai[1] + 30 + swingDirOffset) * swingDirection;
             float rad = MathHelper.ToRadians(deg);
             float distanceFromPlayer = 64f;
 
@@ -68,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 Dust.NewDustPerfect(
                 Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
                 Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                Velocity: Vector2.Normalize(Projectile.position - oldPos),
+                Velocity: Vector2.Normalize(Projectile.position - oldPos) * 3f,
                 newColor: dustColor, Scale: 1.0f);
             }
         }
