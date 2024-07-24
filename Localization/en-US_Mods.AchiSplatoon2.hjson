@@ -837,6 +837,13 @@ Items: {
 		DisplayName: Damage Stabilizer
 		Tooltip: ""
 	}
+
+	BaseBrella: {
+		Flavor: Mods.AchiSplatoon2.Items.BaseBrella.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.BaseBrella.UsageHint
+		DisplayName: Base Brella
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -887,6 +894,8 @@ Projectiles: {
 	SplatanaChargeProjectile.DisplayName: Splatana Charge Projectile
 	SplatanaMeleeProjectile.DisplayName: Splatana Melee Projectile
 	SplatanaStrongSlashProjectile.DisplayName: Splatana Strong Slash Projectile
+	BrellaPelletProjectile.DisplayName: Brella Pellet Projectile
+	BrellaShotgunProjectile.DisplayName: Brella Shotgun Projectile
 }
 
 Buffs: {

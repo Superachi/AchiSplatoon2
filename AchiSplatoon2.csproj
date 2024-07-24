@@ -22,6 +22,8 @@
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaPelletProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaShotgunProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\DualieProjectiles\DualieRollProjectile.png" />
 	  <None Remove="Content\Projectiles\DualieProjectiles\DualieShotProjectile.png" />
