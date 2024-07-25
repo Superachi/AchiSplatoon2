@@ -896,6 +896,7 @@ Projectiles: {
 	SplatanaStrongSlashProjectile.DisplayName: Splatana Strong Slash Projectile
 	BrellaPelletProjectile.DisplayName: Brella Pellet Projectile
 	BrellaShotgunProjectile.DisplayName: Brella Shotgun Projectile
+	BrellaMeleeProjectile.DisplayName: Brella Melee Projectile
 }
 
 Buffs: {
