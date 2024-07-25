@@ -27,6 +27,7 @@ Hint: {
 	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
 	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
 	Splatana.Usage: Hold the fire button to charge up a powerful, piercing slash
+	BrellaUsage: While attacking, you are shielded from enemy attacks
 	# ----------------------------------------
 	# Accessories
 	# ----------------------------------------
@@ -842,6 +843,13 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.BaseBrella.Flavor
 		UsageHint: Mods.AchiSplatoon2.Items.BaseBrella.UsageHint
 		DisplayName: Base Brella
+		Tooltip: ""
+	}
+
+	SplatBrella: {
+		UsageHint: "{$Hint.BrellaUsage}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatBrella.Flavor
+		DisplayName: Splat Brella
 		Tooltip: ""
 	}
 }
