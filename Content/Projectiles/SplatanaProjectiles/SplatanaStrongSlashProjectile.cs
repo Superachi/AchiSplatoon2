@@ -37,6 +37,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         public override void AI()
         {
             base.AI();
+            if (!IsThisClientTheProjectileOwner()) return;
+
             bool CheckSolid()
             {
                 return Framing.GetTileSafely(Projectile.Center).HasTile && Collision.SolidCollision(Projectile.Center, 16, 16);

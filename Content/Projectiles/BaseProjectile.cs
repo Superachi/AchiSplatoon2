@@ -737,6 +737,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected Projectile DeflectProjectileWithinRectangle(Rectangle rect)
         {
+            if (!IsThisClientTheProjectileOwner()) return null;
+
             foreach (var p in Main.ActiveProjectiles)
             {
                 if (rect.Contains((int)p.Center.X, (int)p.Center.Y) && p.hostile)

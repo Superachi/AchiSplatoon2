@@ -45,6 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Player owner = GetOwner();
             SyncProjectilePosWithPlayer(owner, shieldAngle.X - Projectile.width / 2, shieldAngle.Y - Projectile.height / 2);
 
+            if (!IsThisClientTheProjectileOwner()) return;
             Rectangle projectileRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
             Projectile deflectedProj = DeflectProjectileWithinRectangle(projectileRect);
 
