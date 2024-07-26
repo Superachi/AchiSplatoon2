@@ -45,39 +45,29 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Player owner = GetOwner();
             SyncProjectilePosWithPlayer(owner, shieldAngle.X - Projectile.width / 2, shieldAngle.Y - Projectile.height / 2);
 
-            // Detect enemy projectiles within range
             Rectangle projectileRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+            Projectile deflectedProj = DeflectProjectileWithinRectangle(projectileRect);
 
-            foreach (var p in Main.ActiveProjectiles)
+            if (deflectedProj != null)
             {
-                if (projectileRect.Contains((int)p.Center.X, (int)p.Center.Y) && p.hostile) {
-                    var globalProjectile = p.GetGlobalProjectile<BaseGlobalProjectile>();
+                PlayAudio("Brellas/BrellaDeflect", pitchVariance: 0.4f, maxInstances: 5);
 
-                    if (!globalProjectile.deflected)
-                    {
-                        globalProjectile.deflected = true;
-                        p.velocity = -p.velocity;
+                // Ink
+                for (int i = 0; i < 15; i++)
+                {
+                    Color dustColor = GenerateInkColor();
+                    var dust = Dust.NewDustPerfect(deflectedProj.Center, ModContent.DustType<SplatterDropletDust>(),
+                        Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                        255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+                }
 
-                        PlayAudio("Brellas/BrellaDeflect", pitchVariance: 0.4f, maxInstances: 5);
-
-                        // Ink
-                        for (int i = 0; i < 15; i++)
-                        {
-                            Color dustColor = GenerateInkColor();
-                            var dust = Dust.NewDustPerfect(p.Center, ModContent.DustType<SplatterDropletDust>(),
-                                Vector2.Normalize(p.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                                255, dustColor, Main.rand.NextFloat(0.5f, 1f));
-                        }
-
-                        // Firework
-                        for (int i = 0; i < 15; i++)
-                        {
-                            Color dustColor = GenerateInkColor();
-                            var dust = Dust.NewDustPerfect(p.Center, DustID.FireworksRGB,
-                                Vector2.Normalize(p.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                                255, dustColor, Main.rand.NextFloat(0.5f, 1f));
-                        }
-                    }
+                // Firework
+                for (int i = 0; i < 15; i++)
+                {
+                    Color dustColor = GenerateInkColor();
+                    var dust = Dust.NewDustPerfect(deflectedProj.Center, DustID.FireworksRGB,
+                        Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                        255, dustColor, Main.rand.NextFloat(0.5f, 1f));
                 }
             }
         }

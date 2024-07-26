@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
@@ -673,7 +674,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         // For use by nozzlenoses, stringers, etc. Anything that shoots a burst of shots.
-        protected void TripleHitDustBurst(Vector2? position = null)
+        protected void TripleHitDustBurst(Vector2? position = null, bool playSample = true)
         {
             if (position == null)
             {
@@ -704,7 +705,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     dust.rotation = Main.rand.NextFloatDirection();
                 }
 
-                PlayAudio("TripleHit", pitchVariance: 0.1f);
+                if (playSample) PlayAudio("TripleHit", pitchVariance: 0.1f);
 
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
                 Color inkColor = modPlayer.ColorFromChips;
@@ -732,6 +733,27 @@ namespace AchiSplatoon2.Content.Projectiles
                     Projectile.Kill();
                 }
             }
+        }
+
+        protected Projectile DeflectProjectileWithinRectangle(Rectangle rect)
+        {
+            foreach (var p in Main.ActiveProjectiles)
+            {
+                if (rect.Contains((int)p.Center.X, (int)p.Center.Y) && p.hostile)
+                {
+                    var globalProjectile = p.GetGlobalProjectile<BaseGlobalProjectile>();
+
+                    if (!globalProjectile.deflected)
+                    {
+                        globalProjectile.deflected = true;
+                        p.velocity = -p.velocity;
+
+                        return p;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public override bool PreAI()
