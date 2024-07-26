@@ -37,6 +37,7 @@ Hint: {
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and go further"
+	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 
@@ -848,8 +849,15 @@ Items: {
 
 	SplatBrella: {
 		UsageHint: "{$Hint.BrellaUsage}"
-		Flavor: Mods.AchiSplatoon2.Items.SplatBrella.Flavor
+		Flavor: You deserve some time in the sun again.
 		DisplayName: Splat Brella
+		Tooltip: ""
+	}
+
+	PinkSponge: {
+		UsageHint: "{$Hint.PinkSponge}"
+		Flavor: Right back at ya!
+		DisplayName: Pink Sponge
 		Tooltip: ""
 	}
 }

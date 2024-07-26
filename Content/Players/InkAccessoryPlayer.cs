@@ -31,6 +31,7 @@ namespace AchiSplatoon2.Content.Players
         public bool hasSteelCoil;
         public bool hasTentacleScope;
         public bool hasSquidClipOns;
+        public bool hasPinkSponge;
         public bool hasThermalInkTank;
 
         // Debug
@@ -88,6 +89,7 @@ namespace AchiSplatoon2.Content.Players
             hasSteelCoil = false;
             hasTentacleScope = false;
             hasSquidClipOns = false;
+            hasPinkSponge = false;
             hasThermalInkTank = false;
 
             // Debug

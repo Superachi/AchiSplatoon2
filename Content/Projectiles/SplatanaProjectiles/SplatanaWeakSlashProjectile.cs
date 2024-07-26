@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         private int currentFrame = 0;
         private float drawScale = 1f;
 
-        private int timeLeftWhenFade = 20;
+        protected int timeLeftWhenFade = 20;
         private bool fading = false;
 
         public override void SetStaticDefaults()
