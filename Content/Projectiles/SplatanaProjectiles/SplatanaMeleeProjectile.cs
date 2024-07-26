@@ -1,7 +1,10 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
+using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
@@ -14,11 +17,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         public bool wasFullyCharged;
         private bool firstHit = false;
 
+        private int baseAnimationTime = 22;
+
         public override void SetDefaults()
         {
-            Projectile.width = 48;
-            Projectile.height = 48;
-            Projectile.timeLeft = 160;
+            Projectile.width = 64;
+            Projectile.height = 64;
+            Projectile.timeLeft = 60;
             Projectile.extraUpdates = 12;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
@@ -33,12 +38,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             bulletColor = GenerateInkColor();
             Projectile.velocity = Vector2.Zero;
+
             swingDirection = GetOwner().direction;
+            Projectile.timeLeft = GetOwner().itemAnimationMax * FrameSpeed();
         }
 
         public override void AI()
         {
             Player p = GetOwner();
+            float meleeSpeedMod = p.GetAttackSpeed(DamageClass.Melee);
 
             float swingDirOffset = swingDirection == -1 ? 180 : 0;
             float deg = (Projectile.ai[1] + 30 + swingDirOffset) * swingDirection;
@@ -49,7 +57,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.position.X = p.Center.X - (int)(Math.Cos(rad) * distanceFromPlayer) - Projectile.width / 2;
             Projectile.position.Y = p.Center.Y - (int)(Math.Sin(rad) * distanceFromPlayer) - Projectile.height / 2;
 
-            Projectile.ai[1] += 1.1f;
+            Projectile.ai[1] += 0.7f * (float)baseAnimationTime / (float)p.itemAnimationMax;
 
             Color dustColor = GenerateInkColor();
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
