@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             if (IsThisClientTheProjectileOwner()) {
                 float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
-                float velocityMod = MathHelper.Clamp(distance / 500f, 0.6f, 1.2f);
+                float velocityMod = MathHelper.Clamp(distance / 250f, 0.4f, 1.2f);
                 Projectile.velocity *= velocityMod;
                 NetUpdate(ProjNetUpdateType.SyncMovement);
             }
