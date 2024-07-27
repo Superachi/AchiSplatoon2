@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -10,29 +12,22 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class BaseModPlayer : ModPlayer
     {
-        protected ModItem heldItem;
-        protected ModItem oldHeldItem;
-        protected bool heldItemChanged;
+        protected int heldType = 0;
+        protected int oldHeldType = 0;
 
-        protected bool CheckIfHeldItemChanged()
+        public override void PreUpdate()
         {
-            bool changed = false;
-            if (oldHeldItem == null)
+            if (CheckIfHeldItemChanged())
             {
-                UpdateOldHeldItem();
-                changed = true;
-            }
-            else if (oldHeldItem.Type != heldItem.Type)
-            {
-                changed = true;
+                HeldItemChangeTrigger();
             }
 
-            return changed;
+            UpdateOldHeldTypeToMatchNew();
+            UpdateCurrentHeldType();
         }
 
-        protected void UpdateOldHeldItem()
+        protected virtual void HeldItemChangeTrigger()
         {
-            oldHeldItem = heldItem;
         }
 
         protected bool DoesModPlayerBelongToLocalClient()
@@ -62,6 +57,26 @@ namespace AchiSplatoon2.Content.Players
 
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
+        }
+
+        private bool CheckIfHeldItemChanged()
+        {
+            return oldHeldType != heldType;
+        }
+
+        private void UpdateOldHeldTypeToMatchNew()
+        {
+            oldHeldType = heldType;
+        }
+
+        private void UpdateCurrentHeldType()
+        {
+            heldType = Player.HeldItem.type;
+        }
+
+        protected ModItem HeldModItem()
+        {
+            return Player.HeldItem.ModItem;
         }
     }
 }
