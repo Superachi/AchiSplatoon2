@@ -11,6 +11,7 @@ using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using Terraria.ID;
 using static Terraria.GameContent.Animations.IL_Actions.Sprites;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {
@@ -18,6 +19,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
     {
         private Vector2 shieldAngle;
         private float shieldAngleOffsetMult = 30f;
+        private bool canShield;
 
         public override void SetDefaults()
         {
@@ -35,29 +37,82 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Initialize(isDissolvable: false);
             enablePierceDamagefalloff = false;
 
-            Projectile.timeLeft = GetOwner().itemTimeMax;
+            var owner = GetOwner();
+            Projectile.timeLeft = owner.itemTimeMax;
             shieldAngle = Projectile.velocity * shieldAngleOffsetMult;
             Projectile.velocity = Vector2.Zero;
+
+            var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+            canShield = brellaMP.shieldAvailable;
+            Projectile.friendly = canShield;
+        }
+
+        private void BrellaProtectDustStream()
+        {
+            if (canShield)
+            {
+                if (Main.rand.NextBool(8))
+                {
+                    Dust dust = Dust.NewDustDirect(
+                        Projectile.position,
+                        Projectile.width,
+                        Projectile.height,
+                        DustID.RainbowTorch,
+                        newColor: GenerateInkColor(),
+                        Scale: Main.rand.NextFloat(0.5f, 1f)
+                    );
+                    dust.noGravity = true;
+                }
+            }
+            else
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    Dust dust = Dust.NewDustDirect(
+                        Projectile.position,
+                        Projectile.width,
+                        Projectile.height,
+                        DustID.Torch,
+                        Scale: Main.rand.NextFloat(1f, 2f)
+                    );
+                    dust.noGravity = true;
+                    dust.noLight = true;
+                    dust.noLightEmittence = true;
+
+                    Dust smoke = Dust.NewDustDirect(
+                        Projectile.position,
+                        Projectile.width,
+                        Projectile.height,
+                        DustID.Smoke,
+                        Scale: Main.rand.NextFloat(1f, 2f)
+                    );
+                    smoke.noGravity = true;
+                }
+            }
         }
 
         public override void AI()
         {
             Player owner = GetOwner();
             SyncProjectilePosWithPlayer(owner, shieldAngle.X - Projectile.width / 2, shieldAngle.Y - Projectile.height / 2);
+            BrellaProtectDustStream();
 
             if (!IsThisClientTheProjectileOwner()) return;
+            if (!canShield) return;
+
             Rectangle projectileRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
             Projectile deflectedProj = DeflectProjectileWithinRectangle(projectileRect);
 
             if (deflectedProj != null)
             {
-                PlayAudio("Brellas/BrellaDeflect", pitchVariance: 0.4f, maxInstances: 5);
+                var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+                brellaMP.DamageShield(deflectedProj.damage);
 
                 // Ink
                 for (int i = 0; i < 15; i++)
                 {
                     Color dustColor = GenerateInkColor();
-                    var dust = Dust.NewDustPerfect(deflectedProj.Center, ModContent.DustType<SplatterDropletDust>(),
+                    Dust.NewDustPerfect(deflectedProj.Center, ModContent.DustType<SplatterDropletDust>(),
                         Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
                         255, dustColor, Main.rand.NextFloat(0.5f, 1f));
                 }
@@ -66,7 +121,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 for (int i = 0; i < 15; i++)
                 {
                     Color dustColor = GenerateInkColor();
-                    var dust = Dust.NewDustPerfect(deflectedProj.Center, DustID.FireworksRGB,
+                    Dust.NewDustPerfect(deflectedProj.Center, DustID.FireworksRGB,
                         Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
                         255, dustColor, Main.rand.NextFloat(0.5f, 1f));
                 }
@@ -76,7 +131,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
         public override bool? CanHitNPC(NPC target)
         {
             var p = GetOwner();
-            if (Collision.CanHitLine(p.Center, 1, 1, target.Center, 1, 1))
+            if (Collision.CanHitLine(p.Center, 1, 1, target.Center, 1, 1) && canShield)
             {
                 if (!target.friendly) return true;
             }
@@ -88,6 +143,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             base.ModifyHitNPC(target, ref modifiers);
             Projectile.knockBack += 5;
             modifiers.HitDirectionOverride = GetOwner().direction;
+
+            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            brellaMP.DamageShield((int)(target.damage * 0.25f));
         }
     }
 }

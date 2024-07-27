@@ -2,12 +2,16 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class SplatBrella : BaseBrella
     {
         public override int ProjectileCount { get => 8; }
+        public override int ShieldLife => 300;
+        public override int ShieldCooldown => 450;
 
         public override void SetDefaults()
         {
@@ -17,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 8f);
 
-            Item.damage = 14;
+            Item.damage = 18;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;

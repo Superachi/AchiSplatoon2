@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Initialize();
             ApplyWeaponInstanceData();
 
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 5);
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             shotSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
         }
@@ -80,9 +80,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 }
 
                 var meleeProj = CreateChildProjectile<BrellaMeleeProjectile>(
-                    position: Projectile.position,
-                    velocity: owner.DirectionTo(Main.MouseWorld),
-                    Projectile.damage * 3);
+                position: Projectile.position,
+                velocity: owner.DirectionTo(Main.MouseWorld),
+                Projectile.damage * 3);
 
                 Projectile.timeLeft = 60;
             }
