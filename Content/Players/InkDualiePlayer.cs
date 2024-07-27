@@ -87,33 +87,28 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
-            heldItem = Player.HeldItem.ModItem;
-            if (heldItem is not BaseDualie)
-            {
-                UpdateOldHeldItem();
-                return;
-            }
+            base.PreUpdate();
 
-            bool needUpdate = false;
+            if (HeldModItem() is not BaseDualie) return;
+
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
-
-            if (CheckIfHeldItemChanged()) needUpdate = true;
             if (hasSquidClipOns != accMP.hasSquidClipOns)
             {
-                needUpdate = true;
                 hasSquidClipOns = accMP.hasSquidClipOns;
+                UpdateMaxRolls(HeldModItem() as BaseDualie);
             }
-
-            if (needUpdate) GetDualieStats(heldItem as BaseDualie);
-            else UpdateMaxRolls(heldItem as BaseDualie);
-
-            UpdateOldHeldItem();
 
             if (jumpInputBuffer > 0) jumpInputBuffer--;
-            if (InputHelper.GetInputJumpPressed())
+            if (InputHelper.GetInputRightClicked())
             {
-                jumpInputBuffer = 9;
+                jumpInputBuffer = 6;
             }
+        }
+
+        protected override void HeldItemChangeTrigger()
+        {
+            if (HeldModItem() is not BaseDualie) return;
+            GetDualieStats(HeldModItem() as BaseDualie);
         }
 
         public override void PreUpdateMovement()

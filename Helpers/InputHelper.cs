@@ -36,5 +36,10 @@ namespace AchiSplatoon2.Helpers
         {
             return PlayerInput.Triggers.JustPressed.Jump;
         }
+
+        public static bool GetInputRightClicked()
+        {
+            return PlayerInput.Triggers.JustPressed.MouseRight;
+        }
     }
 }
