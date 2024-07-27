@@ -860,6 +860,13 @@ Items: {
 		DisplayName: Pink Sponge
 		Tooltip: ""
 	}
+
+	SorellaSplatBrella: {
+		UsageHint: "{$Hint.BrellaUsage}"
+		Flavor: Mods.AchiSplatoon2.Items.SorellaSplatBrella.Flavor
+		DisplayName: Sorella Splat Brella
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
