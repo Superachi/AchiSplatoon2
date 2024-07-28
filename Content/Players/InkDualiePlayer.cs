@@ -155,7 +155,7 @@ namespace AchiSplatoon2.Content.Players
             }
 
             int xDir = InputHelper.GetInputX();
-            if ((postRollCooldown > 0 || (xDir == 0 && postRoll)) && !Player.controlJump && Player.controlUseItem)
+            if ((postRollCooldown > 0 || (xDir == 0 && postRoll)) && jumpInputBuffer == 0 && Player.controlUseItem)
             {
                 isTurret = true;
                 return;
