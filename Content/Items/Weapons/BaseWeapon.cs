@@ -248,7 +248,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
                     || player.altFunctionUse == 2)
                 {
-                    // DebugHelper.PrintWarning($"{player.name} | {modPlayer.SpecialReady} | {modPlayer.IsSpecialActive} | {modPlayer.SpecialName} | {player.altFunctionUse}");
                     player.itemTime = 30;
                     return false;
                 }

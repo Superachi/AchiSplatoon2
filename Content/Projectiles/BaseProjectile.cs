@@ -597,7 +597,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected void VisualizeRadius()
         {
             if (!IsThisClientTheProjectileOwner()) return;
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 15; i++)
             {
                 int id = Dust.NewDust(Projectile.Center - new Vector2(Projectile.width / 2, Projectile.height / 2), Projectile.width, Projectile.height, DustID.BlueFairy, 0, 0);
                 Dust d = Main.dust[id];

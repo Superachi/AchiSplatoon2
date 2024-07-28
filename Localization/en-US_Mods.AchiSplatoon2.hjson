@@ -896,6 +896,13 @@ Items: {
 		DisplayName: Recycled Brella 24 Mk I
 		Tooltip: "{$BrellaPelletCount.Display}"
 	}
+
+	BaseRoller: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseRoller.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseRoller.Flavor
+		DisplayName: Base Roller
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -949,6 +956,8 @@ Projectiles: {
 	BrellaPelletProjectile.DisplayName: Brella Pellet Projectile
 	BrellaShotgunProjectile.DisplayName: Brella Shotgun Projectile
 	BrellaMeleeProjectile.DisplayName: Brella Melee Projectile
+	RollerSwingProjectile.DisplayName: Roller Swing Projectile
+	RollerInkProjectile.DisplayName: Roller Ink Projectile
 }
 
 Buffs: {
