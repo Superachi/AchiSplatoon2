@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Brellas;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -47,7 +48,15 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("Brellas/BrellaBreak", volume: 1f, maxInstances: 5);
                 CombatTextHelper.DisplayText($"Brella broke!", Player.Center, Color.HotPink);
 
-                shieldCooldown = shieldCooldownMax;
+                if (Player.GetModPlayer<InkAccessoryPlayer>().hasMarinatedNecklace)
+                {
+                    shieldCooldown = (int)(shieldCooldownMax * MarinatedNecklace.RecoverTimeModifier);
+                }
+                else
+                {
+                    shieldCooldown = shieldCooldownMax;
+                }
+
                 shieldAvailable = false;
 
                 Player.immuneTime = 60;

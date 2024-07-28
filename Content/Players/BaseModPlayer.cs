@@ -59,6 +59,11 @@ namespace AchiSplatoon2.Content.Players
             return proj;
         }
 
+        protected ModItem HeldModItem()
+        {
+            return Player.HeldItem.ModItem;
+        }
+
         private bool CheckIfHeldItemChanged()
         {
             return oldHeldType != heldType;
@@ -72,11 +77,6 @@ namespace AchiSplatoon2.Content.Players
         private void UpdateCurrentHeldType()
         {
             heldType = Player.HeldItem.type;
-        }
-
-        protected ModItem HeldModItem()
-        {
-            return Player.HeldItem.ModItem;
         }
     }
 }

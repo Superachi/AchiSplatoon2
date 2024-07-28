@@ -32,6 +32,7 @@ namespace AchiSplatoon2.Content.Players
         public bool hasTentacleScope;
         public bool hasSquidClipOns;
         public bool hasPinkSponge;
+        public bool hasMarinatedNecklace;
         public bool hasThermalInkTank;
 
         // Debug
@@ -91,6 +92,7 @@ namespace AchiSplatoon2.Content.Players
             hasSquidClipOns = false;
             hasPinkSponge = false;
             hasThermalInkTank = false;
+            hasMarinatedNecklace = false;
 
             // Debug
             hasDamageStabilizer = false;
