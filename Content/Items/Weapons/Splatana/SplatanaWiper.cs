@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddIngredient(ItemID.BeeWax, 5);
             recipe.Register();
         }
     }
