@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.height = 1;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.timeLeft = 20 * FrameSpeed();
+            Projectile.timeLeft = 40 * FrameSpeed();
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
@@ -91,7 +91,15 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (bounced)
             {
                 maxBounces--;
-                bounceDamageMod *= 2f;
+                if (bounceDamageMod == 1f)
+                {
+                    bounceDamageMod += 3f;
+                }
+                else
+                {
+                    bounceDamageMod += 2f;
+                }
+
                 bounceDamageMod = Math.Clamp(bounceDamageMod, 1, bounceDamageModMax);
                 Projectile.damage = (int)(baseDamage * bounceDamageMod);
             }
