@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class SplatBrella : BaseBrella
     {
         public override int ProjectileCount { get => 4; }
-        public override int ShieldLife => 100;
+        public override int ShieldLife => 120;
         public override int ShieldCooldown => 450;
 
         public override void SetDefaults()
@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 8f);
 
-            Item.damage = 9;
+            Item.damage = 11;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
