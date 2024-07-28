@@ -1,6 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using Terraria;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
@@ -22,6 +28,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public virtual int ShieldLife => 200;
         public virtual int ShieldCooldown => 300;
 
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs($"{ProjectileCount}");
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -34,6 +42,27 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            var brellaMP = player.GetModPlayer<InkBrellaPlayer>();
+
+            var p = CreateProjectileWithWeaponProperties(
+                player: player,
+                source: source,
+                velocity: velocity,
+                triggerAfterSpawn: false);
+            var proj = p as BrellaShotgunProjectile;
+
+            if (!brellaMP.shieldAvailable && accMP.hasMarinatedNecklace)
+            {
+                player.itemTime = (int)(player.itemTime * MarinatedNecklace.RecoverAttackSpeedModifier);
+            }
+            proj.AfterSpawn();
+
+            return false;
         }
     }
 }

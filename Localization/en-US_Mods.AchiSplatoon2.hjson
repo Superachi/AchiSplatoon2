@@ -1,6 +1,7 @@
 # This file will automatically update with entries for new content after a build and reload.
 
 ArmorPierce.Display: Ignores {0} points of enemy Defense
+BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
@@ -27,7 +28,12 @@ Hint: {
 	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
 	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
 	Splatana.Usage: Hold the fire button to charge up a powerful, piercing slash
-	BrellaUsage: The brella protects you while you attack (until it breaks!)
+
+	Brella: {
+		Generic: The brella protects you while you attack (until it breaks!)
+		Undercover: Has a weaker shield than other Brellas, but recovers faster
+	}
+
 	# ----------------------------------------
 	# Accessories
 	# ----------------------------------------
@@ -38,6 +44,7 @@ Hint: {
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and go further"
 	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
+	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 
@@ -848,10 +855,10 @@ Items: {
 	}
 
 	SplatBrella: {
-		UsageHint: "{$Hint.BrellaUsage}"
+		UsageHint: "{$Hint.Brella.Generic}"
 		Flavor: You deserve some time in the sun again.
 		DisplayName: Splat Brella
-		Tooltip: ""
+		Tooltip: "{$BrellaPelletCount.Display}"
 	}
 
 	PinkSponge: {
@@ -862,14 +869,24 @@ Items: {
 	}
 
 	SorellaSplatBrella: {
-		UsageHint: "{$Hint.BrellaUsage}"
+		UsageHint: "{$Hint.Brella.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.SorellaSplatBrella.Flavor
 		DisplayName: Sorella Splat Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
 	MarinatedNecklace: {
 		UsageHint: "{$Hint.MarinatedNecklace}"
 		Flavor: I wish humans were real.
 		DisplayName: Marinated Necklace
 		Tooltip: ""
+	}
+
+	UndercoverBrella: {
+		UsageHint: "{$Hint.Brella.Undercover}"
+		Flavor: Mods.AchiSplatoon2.Items.UndercoverBrella.Flavor
+		DisplayName: Undercover Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
 	}
 }
 

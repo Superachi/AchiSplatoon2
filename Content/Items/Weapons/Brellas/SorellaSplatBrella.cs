@@ -7,25 +7,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class SorellaSplatBrella : SplatBrella
     {
-        public override int ShieldLife => 400;
-        public override int ShieldCooldown => 450;
+        public override int ProjectileCount { get => 8; }
+        public override int ShieldLife => 300;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
 
-            Item.damage = 28;
+            Item.damage = 24;
             Item.knockBack = 3;
 
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.value = Item.buyPrice(gold: 10);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.TitaniumBar, 5);
             recipe.Register();
         }
     }

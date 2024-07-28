@@ -9,8 +9,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class SplatBrella : BaseBrella
     {
-        public override int ProjectileCount { get => 8; }
-        public override int ShieldLife => 300;
+        public override int ProjectileCount { get => 5; }
+        public override int ShieldLife => 100;
         public override int ShieldCooldown => 450;
 
         public override void SetDefaults()
@@ -21,19 +21,19 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 8f);
 
-            Item.damage = 18;
+            Item.damage = 6;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
         {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.TitaniumBar, 5);
+            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.Register();
         }
     }
