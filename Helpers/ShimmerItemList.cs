@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -47,6 +48,7 @@ namespace AchiSplatoon2.Helpers
 
             // Adamantite <-> Titanium
             { ModContent.ItemType<RapidBlasterDeco>(),      ModContent.ItemType<RangeBlaster>() },
+            { ModContent.ItemType<UndercoverBrella>(),      ModContent.ItemType<SorellaSplatBrella>() },
 
             // Reskins
             { ModContent.ItemType<ClassicSplattershotS1>(), ModContent.ItemType<ClassicSplattershotS2>() },
