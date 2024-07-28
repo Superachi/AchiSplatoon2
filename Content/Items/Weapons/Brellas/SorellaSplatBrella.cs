@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class SorellaSplatBrella : SplatBrella
     {
         public override int ProjectileCount { get => 8; }
-        public override int ShieldLife => 300;
+        public override int ShieldLife => 350;
 
         public override void SetDefaults()
         {

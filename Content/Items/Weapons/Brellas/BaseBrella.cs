@@ -25,6 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         // Brella specific
         public virtual int ProjectileCount { get => 10; }
         public virtual float ShotgunArc { get => 3f; }
+        public virtual float ShotVelocityRandomRange => 0.2f;
         public virtual int ShieldLife => 200;
         public virtual int ShieldCooldown => 300;
 

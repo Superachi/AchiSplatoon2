@@ -18,6 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
         private int projectileCount;
         private float shotgunArc;
         private float shotSpeed;
+        private float shotVelocityRandomRange;
 
         public int burstNPCTarget = -1;
         public int burstHitCount = 0;
@@ -30,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             projectileCount = weaponData.ProjectileCount;
             shotgunArc = weaponData.ShotgunArc;
             shootSample = weaponData.ShootSample;
+            shotVelocityRandomRange = weaponData.ShotVelocityRandomRange;
 
             burstRequiredHits = projectileCount;
         }
@@ -63,7 +65,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 for (int i = 0; i < projectileCount; i++)
                 {
                     float degreesRand = shotgunArc * Main.rand.NextFloat(-0.2f, 0.2f);
-                    float shotSpeedRand = Main.rand.NextFloat(0.8f, 1.2f);
+                    float shotSpeedRand = Main.rand.NextFloat(1 - shotVelocityRandomRange, 1 + shotVelocityRandomRange);
 
                     float degrees = aimDeg + degreesOffset + degreesRand;
                     float radians = MathHelper.ToRadians(degrees);

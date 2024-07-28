@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {
@@ -107,6 +108,15 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                         parentProj.Kill();
                     }
                 }
+            }
+
+            // In the original Splatoon game, Undercover Brella instantly regains its shield when splatting an opponent
+            var heldItem = GetOwner().HeldItem.ModItem;
+            bool isUndercover = heldItem is UndercoverBrella;
+            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            if (target.life < 1 && !brellaMP.shieldAvailable && isUndercover)
+            {
+                brellaMP.shieldCooldown = 1;
             }
         }
 

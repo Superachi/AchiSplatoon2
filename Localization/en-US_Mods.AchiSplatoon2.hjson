@@ -31,7 +31,8 @@ Hint: {
 
 	Brella: {
 		Generic: The brella protects you while you attack (until it breaks!)
-		Undercover: Has a weaker shield than other Brellas, but recovers faster
+		Undercover: The shield is weak, but recovers instantly when defeating an enemy
+		Recycle: The shield is weak, but recovers quickly. The shot spread is narrow and has long range
 	}
 
 	# ----------------------------------------
@@ -886,6 +887,13 @@ Items: {
 		UsageHint: "{$Hint.Brella.Undercover}"
 		Flavor: Mods.AchiSplatoon2.Items.UndercoverBrella.Flavor
 		DisplayName: Undercover Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	RecycleBrella: {
+		UsageHint: "{$Hint.Brella.Recycle}"
+		Flavor: They just stuck a Brella and Bamboozler together and called it a day.
+		DisplayName: Recycled Brella 24 Mk I
 		Tooltip: "{$BrellaPelletCount.Display}"
 	}
 }
