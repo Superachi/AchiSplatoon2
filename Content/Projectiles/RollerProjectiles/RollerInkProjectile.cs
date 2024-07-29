@@ -10,13 +10,13 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
     internal class RollerInkProjectile : BaseProjectile
     {
         private Color bulletColor;
-        public float delayUntilFall = 20;
-        private float fallSpeed = 0.3f;
-        private float airResist = 0.99f;
+        public float delayUntilFall = 45;
+        private float fallSpeed = 0.4f;
         private float drawScale;
         private float drawRotation;
         protected float brightness = 0.001f;
         private bool visible;
+        private float damageFalloffMod = 1f;
 
         protected float Timer
         {
@@ -59,13 +59,16 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 visible = true;
             }
 
+            if (timeSpentAlive > 15)
+            {
+                if (damageFalloffMod > 0.5f)
+                {
+                    damageFalloffMod -= 0.005f;
+                }
+            }
 
             // Rotation increased by velocity.X 
             drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
-            if (Math.Abs(Projectile.velocity.X) > 0)
-            {
-                Projectile.velocity.X *= airResist;
-            }
 
             Timer++;
 
@@ -112,9 +115,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             return false;
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.FinalDamage *= damageFalloffMod;
+        }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.immune[Projectile.owner] = 9;
+            target.immune[Projectile.owner] = 12;
         }
     }
 }
