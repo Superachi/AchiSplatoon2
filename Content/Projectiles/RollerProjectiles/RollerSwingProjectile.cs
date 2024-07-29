@@ -119,12 +119,12 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             base.ModifyHitNPC(target, ref modifiers);
             if (state == stateRolling)
             {
-                var playerVelocity = Math.Abs(owner.velocity.X);
-                DebugHelper.PrintInfo($"{playerVelocity}");
+                var playerVelocity = AbsPlayerSpeed();
 
                 if (playerVelocity > 2)
                 {
-                    modifiers.FinalDamage *= 0.5f + playerVelocity / 2;
+                    float damageMod = Math.Min(0.5f + playerVelocity / 2, 5);
+                    modifiers.FinalDamage *= damageMod;
                     modifiers.Knockback += playerVelocity / 2;
                 }
                 else
@@ -133,7 +133,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 }
             } else
             {
-                modifiers.FinalDamage *= 2;
+                modifiers.FinalDamage *= 2f;
             }
 
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - owner.position.X);
@@ -182,7 +182,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
                 var vecFromPlayer = Main.MouseWorld.DirectionFrom(p.Center);
                 float i = stateTimer - 2;
-                float velocityMult = 5f + i * (2 - i * 0.25f);
+                float velocityMult = 4f + i * (1 - i * 0.15f);
                 Vector2 velocity = vecFromPlayer * velocityMult;
 
                 // Make it so thrown projectiles always match the roller's direction,
@@ -211,15 +211,45 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             }
 
             RollerUpdateRotate();
-            var p = GetOwner();
-            if (p.velocity.X != 0)
+            if (AbsPlayerSpeed() >= 2)
             {
                 Projectile.friendly = true;
+
+                if (owner.velocity.Y == 0)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var posRand = Main.rand.NextVector2Circular(12, 12);
+                        var xVelocityRand = Main.rand.NextFloat(1, 3);
+                        var finalXVel = Math.Sign(owner.velocity.X) * AbsPlayerSpeed() / 4;
+
+                        Dust d = Dust.NewDustPerfect(
+                            Position: new Vector2(owner.Center.X + Math.Sign(owner.velocity.X) * 64, owner.position.Y + owner.height) + posRand,
+                            Type: ModContent.DustType<SplatterDropletDust>(),
+                            Velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
+                            Alpha: Main.rand.Next(0, 32),
+                            newColor: GenerateInkColor(),
+                            Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                    }
+
+                    Dust.NewDustPerfect(
+                        Position: new Vector2(owner.Center.X + Math.Sign(owner.velocity.X) * 64, owner.position.Y + owner.height),
+                        Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                        Velocity: new Vector2(0, AbsPlayerSpeed() * Main.rand.NextFloat(-1, 1)),
+                        Alpha: Main.rand.Next(0, 32),
+                        newColor: GenerateInkColor(),
+                        Scale: Main.rand.NextFloat(0.5f, 1f));
+                }
             }
             else
             {
                 Projectile.friendly = false;
             }
+        }
+
+        private float AbsPlayerSpeed()
+        {
+            return Math.Abs(owner.velocity.X);
         }
 
         private float VectorToDegrees(Vector2 vector)
@@ -243,10 +273,6 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         {
             // if (Projectile.friendly) VisualizeRadius();
             Player p = GetOwner();
-            if (p.gfxOffY != 0)
-            {
-                DebugHelper.PrintWarning(p.gfxOffY);
-            }
 
             float deg = (SwingAngleDegrees);
             float rad = MathHelper.ToRadians(deg);
@@ -262,7 +288,6 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             RollerUpdateRotate();
             Player p = GetOwner();
 
-            // DebugHelper.PrintInfo($"{SwingAngleDegrees}");
             SwingAngleDegrees = MathHelper.Lerp(SwingAngleDegrees, angleDestinationDegrees, lerpAmount);
 
             var dirToPlayer = Projectile.Center
