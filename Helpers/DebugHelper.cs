@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Newtonsoft.Json;
 using System;
 using Terraria;
 
@@ -51,5 +52,10 @@ namespace AchiSplatoon2.Helpers
             Main.NewText($"<Info - {GetTime()}> {message}", ColorHelper.GetInkColor(InkColor.Aqua));
             if (logger != null) LogMessage(message, logger, LogMessageType.Info);
         }
+
+        public static void PrintError(object message, ILog logger = null) => PrintError(JsonConvert.SerializeObject(message), logger);
+        public static void PrintWarning(object message, ILog logger = null) => PrintWarning(JsonConvert.SerializeObject(message), logger);
+        public static void PrintInfo(object message, ILog logger = null) => PrintInfo(JsonConvert.SerializeObject(message), logger);
+
     }
 }
