@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 visible = true;
             }
 
-            if (timeSpentAlive > 15)
+            if (timeSpentAlive > 10)
             {
                 if (damageFalloffMod > 0.5f)
                 {

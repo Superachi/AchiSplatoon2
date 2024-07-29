@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.DamageType = DamageClass.Melee;
             Item.width = 56;
             Item.height = 50;
-            Item.damage = 85;
+            Item.damage = 95;
             Item.useTime = 30;
             Item.useAnimation = 30;
             Item.knockBack = 5;
