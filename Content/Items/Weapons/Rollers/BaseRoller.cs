@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<RollerSwingProjectile>()] == 0;
+            return player.ownedProjectileCounts[Item.shoot] == 0;
         }
     }
 }

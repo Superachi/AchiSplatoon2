@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
@@ -13,6 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             base.SetDefaults();
             Item.damage = 100;
             Item.knockBack = 5;
+
+            Item.shoot = ModContent.ProjectileType<KrakonRollerSwingProjectile>();
         }
     }
 }

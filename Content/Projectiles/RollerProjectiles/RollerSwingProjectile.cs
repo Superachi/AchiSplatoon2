@@ -124,7 +124,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 var playerVelocity = AbsPlayerSpeed();
                 if (playerVelocity > 2)
                 {
-                    float damageMod = Math.Min(0.5f + playerVelocity / 2, 5);
+                    float damageMod = Math.Min(0.5f + playerVelocity / 3, 5);
                     if (!IsPlayerGrounded()) damageMod *= 0.5f;
 
                     modifiers.FinalDamage *= damageMod;

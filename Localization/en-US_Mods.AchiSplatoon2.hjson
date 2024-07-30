@@ -974,6 +974,7 @@ Projectiles: {
 	RollerSwingProjectile.DisplayName: Roller Swing Projectile
 	RollerInkProjectile.DisplayName: Roller Ink Projectile
 	RollerRollingProjectile.DisplayName: Roller Rolling Projectile
+	KrakonRollerSwingProjectile.DisplayName: Krakon Roller Swing Projectile
 }
 
 Buffs: {
