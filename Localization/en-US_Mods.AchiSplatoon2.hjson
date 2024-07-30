@@ -28,6 +28,7 @@ Hint: {
 	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
 	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
 	Splatana.Usage: Hold the fire button to charge up a powerful, piercing slash
+	Roller: Hold the fire button and run to roll over enemies
 
 	Brella: {
 		Generic: The brella protects you while you attack (until it breaks!)
@@ -892,7 +893,7 @@ Items: {
 
 	RecycleBrella: {
 		UsageHint: "{$Hint.Brella.Recycle}"
-		Flavor: They just stuck a Brella and Bamboozler together and called it a day.
+		Flavor: When a Bamboozler and Brella love each other very much...
 		DisplayName: Recycled Brella 24 Mk I
 		Tooltip: "{$BrellaPelletCount.Display}"
 	}
@@ -901,6 +902,20 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.BaseRoller.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.BaseRoller.Flavor
 		DisplayName: Base Roller
+		Tooltip: ""
+	}
+
+	SplatRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatRoller.Flavor
+		DisplayName: Splat Roller
+		Tooltip: ""
+	}
+
+	KrakonSplatRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.KrakonSplatRoller.Flavor
+		DisplayName: Krak-On Splat Roller
 		Tooltip: ""
 	}
 }
@@ -958,6 +973,7 @@ Projectiles: {
 	BrellaMeleeProjectile.DisplayName: Brella Melee Projectile
 	RollerSwingProjectile.DisplayName: Roller Swing Projectile
 	RollerInkProjectile.DisplayName: Roller Ink Projectile
+	RollerRollingProjectile.DisplayName: Roller Rolling Projectile
 }
 
 Buffs: {
