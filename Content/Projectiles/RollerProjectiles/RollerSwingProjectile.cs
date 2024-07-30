@@ -110,8 +110,10 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     break;
             }
 
-            owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(90f));
-            Vector2 armPosition = owner.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, Projectile.rotation - (float)Math.PI / 2);
+            var armRotateDeg = 135f;
+            if (facingDirection == -1) armRotateDeg = -135f;
+            owner.direction = facingDirection;
+            owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
@@ -120,12 +122,18 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             if (state == stateRolling)
             {
                 var playerVelocity = AbsPlayerSpeed();
-
                 if (playerVelocity > 2)
                 {
                     float damageMod = Math.Min(0.5f + playerVelocity / 2, 5);
+                    if (!IsPlayerGrounded()) damageMod *= 0.5f;
+
                     modifiers.FinalDamage *= damageMod;
                     modifiers.Knockback += playerVelocity / 2;
+
+                    if (damageMod >= 3)
+                    {
+                        TripleHitDustBurst(playSample: false);
+                    }
                 }
                 else
                 {
@@ -165,7 +173,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         protected void StateWindUp()
         {
-            if (facingDirection == 1) RollerSwingRotate(15, 0.15f);
+            if (facingDirection == 1) RollerSwingRotate(20, 0.15f);
             else RollerSwingRotate(160, 0.15f);
 
             if (stateTimer > windUpTime) AdvanceState();
@@ -174,7 +182,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         protected void StateSwing()
         {
             if (facingDirection == 1) RollerSwingRotate(200, 0.25f);
-            else RollerSwingRotate(-40, 0.15f);
+            else RollerSwingRotate(-30, 0.15f);
 
             if (stateTimer >= 2 && stateTimer < 6)
             {
@@ -224,7 +232,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                         var finalXVel = Math.Sign(owner.velocity.X) * AbsPlayerSpeed() / 4;
 
                         Dust d = Dust.NewDustPerfect(
-                            Position: new Vector2(owner.Center.X + Math.Sign(owner.velocity.X) * 64, owner.position.Y + owner.height) + posRand,
+                            Position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
                             Type: ModContent.DustType<SplatterDropletDust>(),
                             Velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
                             Alpha: Main.rand.Next(0, 32),
@@ -233,7 +241,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     }
 
                     Dust.NewDustPerfect(
-                        Position: new Vector2(owner.Center.X + Math.Sign(owner.velocity.X) * 64, owner.position.Y + owner.height),
+                        Position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height),
                         Type: ModContent.DustType<SplatterBulletLastingDust>(),
                         Velocity: new Vector2(0, AbsPlayerSpeed() * Main.rand.NextFloat(-1, 1)),
                         Alpha: Main.rand.Next(0, 32),
@@ -293,7 +301,16 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             var dirToPlayer = Projectile.Center
                 .DirectionTo(p.Center)
                 .ToRotation();
-            Projectile.rotation = dirToPlayer + MathHelper.ToRadians(45 + 180);
+
+            Projectile.spriteDirection = facingDirection;
+            if (facingDirection == 1)
+            {
+                Projectile.rotation = dirToPlayer + MathHelper.ToRadians(45 + 180);
+            }
+            else
+            {
+                Projectile.rotation = dirToPlayer + MathHelper.ToRadians(45 - 90);
+            }
         }
     }
 }
