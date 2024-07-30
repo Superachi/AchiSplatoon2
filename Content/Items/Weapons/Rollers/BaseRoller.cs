@@ -27,6 +27,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
         public override float MuzzleOffsetPx { get; set; } = 44f;
 
+        // Roller specific
+        public virtual float GroundWindUpDelayModifier => 1f;
+        public virtual float GroundAttackVelocityModifier => 1f;
+        public virtual float JumpWindUpDelayModifier => 1f;
+        public virtual float JumpAttackDamageModifier => 1f;
+        public virtual float JumpAttackVelocityModifier => 1f;
+        public virtual float RollingSpeedModifier => 1f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

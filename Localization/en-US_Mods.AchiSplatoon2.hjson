@@ -918,6 +918,20 @@ Items: {
 		DisplayName: Krak-On Splat Roller
 		Tooltip: ""
 	}
+
+	CarbonRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.CarbonRoller.Flavor
+		DisplayName: Carbon Roller
+		Tooltip: ""
+	}
+
+	DynamoRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.DynamoRoller.Flavor
+		DisplayName: Dynamo Roller
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -975,6 +989,8 @@ Projectiles: {
 	RollerInkProjectile.DisplayName: Roller Ink Projectile
 	RollerRollingProjectile.DisplayName: Roller Rolling Projectile
 	KrakonRollerSwingProjectile.DisplayName: Krakon Roller Swing Projectile
+	CarbonRollerSwingProjectile.DisplayName: Carbon Roller Swing Projectile
+	DynamoRollerSwingProjectile.DisplayName: Dynamo Roller Swing Projectile
 }
 
 Buffs: {

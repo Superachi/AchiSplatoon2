@@ -11,6 +11,8 @@ using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+using AchiSplatoon2.Content.Players;
+using Microsoft.Build.Framework;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 {
@@ -26,16 +28,16 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private int stateTimer = 0;
 
         private int windUpTime = 20;
+        private int childVelocity = 20;
         private bool startedJumpSwing = false;
-        private float groundedWindUpTimeMod = 1f;
-        private float groundedSwingVelocityMod = 1f;
-        private float jumpWindUpTimeMod = 1.5f;
-        private float jumpSwingVelocityMod = 1.5f;
-        private float jumpSwingDamageMod = 1.5f;
+
+        private float groundWindUpDelayMod;
+        private float groundAttackVelocityMod;
+        private float jumpWindUpDelayMod;
+        private float jumpAttackVelocityMod;
+        private float jumpAttackDamageMod;
 
         private int swingTime = 15;
-        private int swingTimeCurrent = 0;
-        private int groundedTime = 0;
         private int facingDirection;
 
         Player owner;
@@ -67,6 +69,13 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             var weaponData = WeaponInstance as BaseRoller;
             swingSample = weaponData.SwingSample;
             windUpSample = weaponData.WindUpSample;
+
+            groundWindUpDelayMod = weaponData.GroundWindUpDelayModifier;
+            groundAttackVelocityMod = weaponData.GroundAttackVelocityModifier;
+
+            jumpWindUpDelayMod = weaponData.JumpWindUpDelayModifier;
+            jumpAttackDamageMod = weaponData.JumpAttackDamageModifier;
+            jumpAttackVelocityMod = weaponData.JumpAttackVelocityModifier;
         }
 
         public override void AfterSpawn()
@@ -94,6 +103,12 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         public override void AI()
         {
             Player owner = GetOwner();
+            if (owner.dead)
+            {
+                Projectile.Kill();
+                return;
+            }
+
             owner.heldProj = Projectile.whoAmI;
             stateTimer++;
 
@@ -130,7 +145,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     modifiers.FinalDamage *= damageMod;
                     modifiers.Knockback += playerVelocity / 2;
 
-                    if (damageMod >= 3)
+                    if (damageMod >= 2.5f)
                     {
                         TripleHitDustBurst(playSample: false);
                     }
@@ -156,7 +171,10 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 case stateWindUp:
                     if (startedJumpSwing)
                     {
-                        windUpTime = (int)(windUpTime * jumpWindUpTimeMod);
+                        windUpTime = (int)(windUpTime * jumpWindUpDelayMod);
+                    } else
+                    {
+                        windUpTime = (int)(windUpTime * groundWindUpDelayMod);
                     }
 
                     Projectile.friendly = false;
@@ -173,16 +191,26 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         protected void StateWindUp()
         {
-            if (facingDirection == 1) RollerSwingRotate(20, 0.15f);
-            else RollerSwingRotate(160, 0.15f);
+            float lerpAmount = 0.15f;
+            if (startedJumpSwing)
+            {
+                lerpAmount /= jumpWindUpDelayMod;
+            } else
+            {
+                lerpAmount /= groundWindUpDelayMod;
+            }
+
+            if (facingDirection == 1) RollerSwingRotate(20, lerpAmount);
+            else RollerSwingRotate(160, lerpAmount);
 
             if (stateTimer > windUpTime) AdvanceState();
         }
 
         protected void StateSwing()
         {
-            if (facingDirection == 1) RollerSwingRotate(200, 0.25f);
-            else RollerSwingRotate(-30, 0.15f);
+            float lerpAmount = 0.2f;
+            if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
+            else RollerSwingRotate(-30, lerpAmount);
 
             if (stateTimer >= 2 && stateTimer < 6)
             {
@@ -200,11 +228,19 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 int damage = Projectile.damage;
                 if (startedJumpSwing)
                 {
-                    damage = (int)(Projectile.damage * jumpSwingDamageMod);
-                    velocity *= jumpSwingVelocityMod;
+                    damage = (int)(Projectile.damage * jumpAttackDamageMod);
+                    velocity *= jumpAttackVelocityMod;
+                } else
+                {
+                    velocity *= groundAttackVelocityMod;
                 }
                 CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage);
                 CreateChildProjectile<RollerInkProjectile>(p.Center, velocity * 0.75f, damage);
+
+                if (owner.HeldItem.ModItem is DynamoRoller)
+                {
+                    CreateChildProjectile<RollerInkProjectile>(p.Center, velocity * 1.25f, damage);
+                }
             }
 
             if (stateTimer > swingTime) AdvanceState();
