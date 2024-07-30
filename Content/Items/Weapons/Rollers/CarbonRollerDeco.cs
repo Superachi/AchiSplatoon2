@@ -5,17 +5,17 @@ using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
-    internal class KrakonSplatRoller : SplatRoller
+    internal class CarbonRollerDeco : CarbonRoller
     {
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 100;
-            Item.knockBack = 5;
-            Item.shoot = ModContent.ProjectileType<KrakonSwingProjectile>();
+            Item.damage = 72;
+            Item.knockBack = 3;
+            Item.shoot = ModContent.ProjectileType<CarbonDecoSwingProjectile>();
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(gold: 15);
+            Item.rare = ItemRarityID.LightPurple;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public virtual float JumpWindUpDelayModifier => 1f;
         public virtual float JumpAttackDamageModifier => 1f;
         public virtual float JumpAttackVelocityModifier => 1f;
-        public virtual float RollingSpeedModifier => 1f;
+        public virtual float RollingAccelModifier => 1f;
 
         public override void SetDefaults()
         {

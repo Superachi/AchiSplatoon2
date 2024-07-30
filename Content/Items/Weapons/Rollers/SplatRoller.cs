@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override float JumpWindUpDelayModifier => 1.5f;
         public override float JumpAttackDamageModifier => 1.5f;
         public override float JumpAttackVelocityModifier => 1.5f;
+        public override float RollingAccelModifier => 2f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
@@ -78,6 +79,7 @@ namespace AchiSplatoon2.Content.Players
         public float moveAccelModifier = 1f;
         public float moveFrictionModifier = 1f;
         public bool brushMoveSpeedCap = true;
+        public bool isUsingRoller = false;
 
         public override void PreUpdate()
         {
@@ -218,6 +220,14 @@ namespace AchiSplatoon2.Content.Players
                 case SplatanaStamper:
                     moveAccelModifier = 3f;
                     moveFrictionModifier = 3f;
+                    break;
+                case BaseRoller:
+                    var roller = Player.HeldItem.ModItem as BaseRoller;
+                    if (isUsingRoller)
+                    {
+                        moveAccelModifier = Math.Max(1, roller.RollingAccelModifier);
+                        moveFrictionModifier = Math.Max(1, roller.RollingAccelModifier);
+                    }
                     break;
             }
 

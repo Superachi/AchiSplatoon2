@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles
 {
-    internal class CarbonRollerSwingProjectile : RollerSwingProjectile
+    internal class KrakonSwingProjectile : RollerSwingProjectile
     {
     }
 }

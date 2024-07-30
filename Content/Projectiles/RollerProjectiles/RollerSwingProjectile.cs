@@ -40,7 +40,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private int swingTime = 15;
         private int facingDirection;
 
-        Player owner;
+        private Player owner;
+        private InkWeaponPlayer weaponPlayer;
 
         protected float SwingAngleDegrees
         {
@@ -85,6 +86,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Initialize(isDissolvable: false);
 
             owner = GetOwner();
+            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
 
@@ -162,6 +165,11 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - owner.position.X);
         }
 
+        public override void OnKill(int timeLeft)
+        {
+            weaponPlayer.isUsingRoller = false;
+        }
+
         protected override void SetState(int targetState)
         {
             base.SetState(targetState);
@@ -185,6 +193,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     PlayAudio(swingSample, pitchVariance: 0.1f, maxInstances: 5);
                     break;
                 case stateRolling:
+                    weaponPlayer.isUsingRoller = true;
                     break;
             }
         }
@@ -210,7 +219,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         {
             float lerpAmount = 0.2f;
             if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
-            else RollerSwingRotate(-30, lerpAmount);
+            else RollerSwingRotate(-25, lerpAmount);
 
             if (stateTimer >= 2 && stateTimer < 6)
             {

@@ -932,6 +932,13 @@ Items: {
 		DisplayName: Dynamo Roller
 		Tooltip: ""
 	}
+
+	CarbonRollerDeco: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.CarbonRollerDeco.Flavor
+		DisplayName: Carbon Roller Deco
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -991,6 +998,9 @@ Projectiles: {
 	KrakonRollerSwingProjectile.DisplayName: Krakon Roller Swing Projectile
 	CarbonRollerSwingProjectile.DisplayName: Carbon Roller Swing Projectile
 	DynamoRollerSwingProjectile.DisplayName: Dynamo Roller Swing Projectile
+	CarbonDecoSwingProjectile.DisplayName: Carbon Deco Swing Projectile
+	KrakonSwingProjectile.DisplayName: Krakon Swing Projectile
+	CarbonSwingProjectile.DisplayName: Carbon Swing Projectile
 }
 
 Buffs: {

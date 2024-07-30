@@ -9,17 +9,22 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
     {
         public override float GroundWindUpDelayModifier => 0.4f;
         public override float JumpWindUpDelayModifier => 0.8f;
-        public override float RollingSpeedModifier => 1.5f;
+        public override float RollingAccelModifier => 3f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 72;
-            Item.knockBack = 3;
-            Item.shoot = ModContent.ProjectileType<CarbonRollerSwingProjectile>();
+            Item.damage = 24;
+            Item.knockBack = 2;
+            Item.shoot = ModContent.ProjectileType<CarbonSwingProjectile>();
 
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = ItemRarityID.Green;
+        }
+
+        public override void AddRecipes()
+        {
+            AddRecipeWithSheldonLicenseBasic(registerNow: true);
         }
     }
 }
