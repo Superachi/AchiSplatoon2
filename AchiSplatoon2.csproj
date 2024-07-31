@@ -33,7 +33,6 @@
 	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\RollerInkProjectile.png" />
-	  <None Remove="Content\Projectiles\RollerProjectiles\RollerRollingProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\CarbonRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
