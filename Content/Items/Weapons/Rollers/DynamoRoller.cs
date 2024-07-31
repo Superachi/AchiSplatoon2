@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override float GroundWindUpDelayModifier => 2.1f;
         public override float GroundAttackVelocityModifier => 1.5f;
         public override float JumpWindUpDelayModifier => 2.8f;
-        public override float JumpAttackDamageModifier => 2f;
+        public override float JumpAttackDamageModifier => 1.6f;
         public override float JumpAttackVelocityModifier => 2f;
         public override float RollingAccelModifier => 1f;
 
