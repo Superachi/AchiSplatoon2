@@ -10,25 +10,29 @@ Hint: {
 	# ----------------------------------------
 	# Weapons
 	# ----------------------------------------
-	SplatCharger: Hold the fire button to charge up a piercing shot
-	BambooCharger: Hold the fire button to charge up a high velocity shot
+	SplatCharger: Hold left-click to charge up a piercing shot
+	BambooCharger: Hold left-click to charge up a high velocity shot
 	Blaster: Has a smaller blast when hitting a wall
-	TriStringer: Hold the fire button to charge up a volley of explosive shots
-	Reeflux: Hold the fire button to charge up a volley of shots
-	Splatling: Hold the fire button to charge up a long barrage of shots
-	MiniSplatling: Hold the fire button to charge up a short barrage of shots
+	TriStringer: Hold left-click to charge up a volley of explosive shots
+	Reeflux: Hold left-click to charge up a volley of shots
+	Splatling: Hold left-click to charge up a long barrage of shots
+	MiniSplatling: Hold left-click to charge up a short barrage of shots
 	Slosher: Throws a stream of projectiles that cover a wide area
 	Inkbrush: Drastically improved mobility when not attacking
 	Octobrush: Improved mobility when not attacking
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 	Squiffer: Increased mobility while charging, but has shorter range
-	Dualies.Usage: Jump while attacking to roll up to {0} time(s). Hold still afterwards for a stronger attack
-	GrizzcoDualies.Usage: "{0} Dodge roll(s)! Rolling creates an explosion at your location"
-	TetraDualies.Usage: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
-	DouserDualies.Usage: "{0} Dodge roll(s). Has long range when not rolling"
-	Splatana.Usage: Hold the fire button to charge up a powerful, piercing slash
-	Roller: Hold the fire button and run to roll over enemies
+
+	Dualies: {
+		Generic: Right-click while attacking to dodge roll. Stand still afterwards for a stronger attack
+		Grizzco: "{0} Dodge roll(s)! Rolling creates an explosion at your location"
+		Tetra: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
+		Douser: Up to one dodge roll at a time. Has long range when not rolling
+	}
+
+	Splatana.Usage: Hold left-click to charge up a powerful, piercing slash
+	Roller: Hold left-click and run to roll over enemies
 
 	Brella: {
 		Generic: The brella protects you while you attack (until it breaks!)
@@ -696,7 +700,7 @@ Items: {
 	}
 
 	SplatDualie: {
-		UsageHint: "{$Hint.Dualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Generic}"
 		Flavor: Inkoming!
 		DisplayName: Splat Dualies
 		Tooltip: ""
@@ -710,42 +714,42 @@ Items: {
 	}
 
 	EnperrySplatDualie: {
-		UsageHint: "{$Hint.Dualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.EnperrySplatDualie.Flavor
 		DisplayName: Enperry Splat Dualies
 		Tooltip: ""
 	}
 
 	GrizzcoDualie: {
-		UsageHint: "{$Hint.GrizzcoDualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Grizzco}"
 		Flavor: Mods.AchiSplatoon2.Items.GrizzcoDualie.Flavor
 		DisplayName: Grizzco Dualies
 		Tooltip: ""
 	}
 
 	DarkTetraDualie: {
-		UsageHint: "{$Hint.TetraDualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Tetra}"
 		Flavor: Mods.AchiSplatoon2.Items.DarkTetraDualie.Flavor
 		DisplayName: Dark Tetra Dualies
 		Tooltip: ""
 	}
 
 	DappleDualie: {
-		UsageHint: "{$Hint.Dualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.DappleDualie.Flavor
 		DisplayName: Dapple Dualies
 		Tooltip: ""
 	}
 
 	GloogaDualie: {
-		UsageHint: "{$Hint.Dualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.GloogaDualie.Flavor
 		DisplayName: Glooga Dualies
 		Tooltip: ""
 	}
 
 	DouserDualie: {
-		UsageHint: "{$Hint.DouserDualies.Usage}"
+		UsageHint: "{$Hint.Dualies.Douser}"
 		Flavor: Mods.AchiSplatoon2.Items.DouserDualie.Flavor
 		DisplayName: Douser Dualies FF
 		Tooltip: ""
