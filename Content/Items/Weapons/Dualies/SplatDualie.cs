@@ -20,8 +20,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1.2f; }
         public override int MaxRolls { get => 2; }
-        public override float RollDistance { get => 16f; }
-        public override float RollDuration { get => 24f; }
+        public override float RollDistance { get => 14f; }
+        public override float RollDuration { get => 20f; }
 
         public override void SetDefaults()
         {
@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.damage = 11;
             Item.width = 50;
             Item.height = 36;
-            Item.knockBack = 1;
+            Item.knockBack = 1f;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
         }
