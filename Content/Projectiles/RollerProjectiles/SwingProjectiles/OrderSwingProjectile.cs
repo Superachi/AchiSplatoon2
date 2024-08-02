@@ -1,6 +1,6 @@
 ﻿namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles
 {
-    internal class CarbonSwingProjectile : RollerSwingProjectile
+    internal class OrderSwingProjectile : RollerSwingProjectile
     {
     }
 }
