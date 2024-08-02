@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 15;
+            Item.damage = 18;
             Item.knockBack = 4;
             Item.shootSpeed = 8f;
 
@@ -26,11 +26,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

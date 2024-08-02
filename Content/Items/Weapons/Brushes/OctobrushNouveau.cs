@@ -18,11 +18,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

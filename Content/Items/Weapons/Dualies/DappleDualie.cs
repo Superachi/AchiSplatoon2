@@ -41,12 +41,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes()
-        {
-            AddRecipeWithSheldonLicenseSilver(registerNow: false)
-                .AddIngredient(ItemID.OrichalcumBar, 5)
-                .AddIngredient(ItemID.SoulofLight, 5)
-                .Register();
-        }
+        public override void AddRecipes() => AddRecipeOrichalcum();
     }
 }

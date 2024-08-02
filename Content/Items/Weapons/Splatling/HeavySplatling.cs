@@ -30,11 +30,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }

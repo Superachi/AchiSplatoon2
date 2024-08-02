@@ -17,5 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
         }
+
+        public override void AddRecipes() => AddRecipeCobalt();
     }
 }

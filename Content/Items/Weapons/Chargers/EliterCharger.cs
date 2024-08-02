@@ -23,13 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofSight);
 
         public override Vector2? HoldoutOffset()
         {

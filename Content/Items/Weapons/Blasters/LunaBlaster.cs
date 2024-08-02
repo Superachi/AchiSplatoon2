@@ -35,11 +35,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeOrichalcum();
     }
 }

@@ -14,11 +14,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.CobaltBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeCobalt();
     }
 }

@@ -19,15 +19,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.Register();
-
-            var altRecipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            altRecipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostEOC();
     }
 }

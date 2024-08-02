@@ -56,6 +56,12 @@ namespace AchiSplatoon2.Content.Items
             return recipe;
         }
 
+        private Recipe RegisterRecipe(Recipe recipe, bool registerNow)
+        {
+            if (registerNow) { recipe.Register(); }
+            return recipe;
+        }
+
         protected Recipe AddRecipeWithSheldonLicenseBasic(bool registerNow = true)
         {
             return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicense>(), registerNow);
@@ -69,6 +75,121 @@ namespace AchiSplatoon2.Content.Items
         protected Recipe AddRecipeWithSheldonLicenseGold(bool registerNow = true)
         {
             return AddRecipeWithSheldonLicense(ModContent.ItemType<SheldonLicenseGold>(), registerNow);
+        }
+
+        protected void AddRecipePostEOC()
+        {
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.DemoniteBar, 5)
+                .Register();
+
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.CrimtaneBar, 5)
+                .Register();
+        }
+
+        protected void AddRecipeMeteorite()
+        {
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.MeteoriteBar, 5)
+                .Register();
+        }
+
+        protected void AddRecipePostBee()
+        {
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.BeeWax, 5)
+                .Register();
+        }
+
+        protected void AddRecipeHellstone()
+        {
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.HellstoneBar, 5)
+                .Register();
+        }
+
+        protected void AddRecipePostSkeletron()
+        {
+            AddRecipeWithSheldonLicenseBasic(false)
+                .AddIngredient(ItemID.Bone, 20)
+                .Register();
+        }
+
+        protected void AddRecipeCobalt()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.CobaltBar, 10)
+                .Register();
+        }
+
+        protected void AddRecipePalladium()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.PalladiumBar, 10)
+                .Register();
+        }
+
+        protected void AddRecipeMythril()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.MythrilBar, 7)
+                .Register();
+        }
+
+        protected void AddRecipeOrichalcum()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.OrichalcumBar, 7)
+                .Register();
+        }
+
+        protected void AddRecipeAdamantite()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.AdamantiteBar, 5)
+                .Register();
+        }
+
+        protected void AddRecipeTitanium()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.TitaniumBar, 5)
+                .Register();
+        }
+
+        protected Recipe AddRecipePostMechBoss(bool registerNow)
+        {
+            var recipe = AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.HallowedBar, 8);
+
+            return RegisterRecipe(recipe, registerNow);
+        }
+
+        protected Recipe AddRecipePostMechBoss(bool registerNow, int soulItemID)
+        {
+            var recipe = AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.HallowedBar, 8)
+                .AddIngredient(soulItemID, 5);
+
+            return RegisterRecipe(recipe, registerNow);
+        }
+
+        protected Recipe AddRecipeGrizzco(int regularWeapon)
+        {
+            return AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.ChlorophyteBar, 8)
+                .AddIngredient(ItemID.IllegalGunParts, 1)
+                .AddIngredient(regularWeapon, 1)
+                .Register();
+        }
+
+        protected Recipe AddRecipeOrder()
+        {
+            return CreateRecipe()
+                .AddIngredient(ItemID.IronBar, 5)
+                .AddIngredient(ItemID.Gel, 10)
+                .Register();
         }
     }
 }

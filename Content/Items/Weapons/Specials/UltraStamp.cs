@@ -31,12 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.value = Item.buyPrice(gold: 5);
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.Bone, 30);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostSkeletron();
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {

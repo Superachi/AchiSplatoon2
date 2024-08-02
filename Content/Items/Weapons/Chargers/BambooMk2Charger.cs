@@ -17,11 +17,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

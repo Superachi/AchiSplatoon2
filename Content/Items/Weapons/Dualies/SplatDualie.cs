@@ -39,11 +39,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            AddRecipeWithSheldonLicenseBasic(registerNow: false)
-                .AddIngredient(ItemID.HellstoneBar, 5)
-                .Register();
-        }
+        public override void AddRecipes() => AddRecipeHellstone();
     }
 }

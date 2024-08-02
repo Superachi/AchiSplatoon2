@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 24;
+            Item.damage = 30;
             Item.knockBack = 2;
             Item.shoot = ModContent.ProjectileType<CarbonSwingProjectile>();
 
@@ -25,9 +25,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            AddRecipeWithSheldonLicenseBasic(registerNow: true);
-        }
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

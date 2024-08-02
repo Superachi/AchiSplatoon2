@@ -37,14 +37,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<SplatDualie>(), 1);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeGrizzco(ModContent.ItemType<SplatDualie>());
     }
 }

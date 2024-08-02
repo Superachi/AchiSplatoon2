@@ -24,5 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
+
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
     }
 }

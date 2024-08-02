@@ -33,11 +33,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeAdamantite();
     }
 }

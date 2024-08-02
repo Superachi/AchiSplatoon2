@@ -5,7 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaWiper : BaseSplatana
     {
-        public override int BaseDamage { get => 8; }
+        public override int BaseDamage { get => 12; }
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -22,11 +22,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.BeeWax, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }

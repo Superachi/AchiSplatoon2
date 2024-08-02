@@ -44,11 +44,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            AddRecipeWithSheldonLicenseSilver(registerNow: false)
-                .AddIngredient(ItemID.TitaniumBar, 5)
-                .Register();
-        }
+        public override void AddRecipes() => AddRecipeTitanium();
     }
 }

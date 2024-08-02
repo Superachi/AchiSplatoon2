@@ -23,15 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        protected Recipe CraftingReqs()
-        {
-            Recipe recipe = CreateRecipe()
-                .AddTile(TileID.Anvils)
-                .AddIngredient(ModContent.ItemType<TentatekSplattershot>())
-                .AddIngredient(ItemID.SoulofFright, 5)
-                .AddIngredient(ItemID.HallowedBar, 10);
-            return recipe;
-        }
+        protected Recipe CraftingReqs() => AddRecipePostMechBoss(false, ItemID.SoulofFright);
 
         public override void AddRecipes()
         {

@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 8f);
 
-            Item.damage = 11;
+            Item.damage = 13;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
@@ -30,11 +30,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.BeeWax, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

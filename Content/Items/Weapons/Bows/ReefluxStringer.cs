@@ -28,9 +28,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.crit = 10;
         }
 
-        public override void AddRecipes()
-        {
-            AddRecipeWithSheldonLicenseBasic();
-        }
+        public override void AddRecipes() => AddRecipeWithSheldonLicenseBasic();
     }
 }

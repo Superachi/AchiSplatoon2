@@ -24,11 +24,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

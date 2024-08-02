@@ -32,9 +32,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightRed;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver();
-        }
+        public override void AddRecipes() => AddRecipeWithSheldonLicenseSilver();
     }
 }

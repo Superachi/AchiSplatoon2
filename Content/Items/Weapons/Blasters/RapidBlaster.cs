@@ -33,9 +33,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            base.AddRecipes();
-        }
+        public override void AddRecipes() => base.AddRecipes();
     }
 }
