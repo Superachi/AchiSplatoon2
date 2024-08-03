@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.knockBack = 6;
             Item.shoot = ModContent.ProjectileType<DynamoRollerSwingProjectile>();
 
-            Item.value = Item.buyPrice(gold: 15);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
         }
 
