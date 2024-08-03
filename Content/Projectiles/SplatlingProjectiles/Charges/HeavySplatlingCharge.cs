@@ -13,14 +13,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
     internal class HeavySplatlingCharge : BaseChargeProjectile
     {
         protected virtual int ProjectileType { get => ModContent.ProjectileType<HeavySplatlingProjectile>(); }
-        private float muzzleDistance;
-        private float barrageMaxAmmo;
-        private float barrageVelocity;
-        private float barrageShotTime;
-        private float damageChargeMod = 1f;
-        private float velocityChargeMod = 1f;
-        private float spreadOffset = 0.5f;
-        private int soundDelayInterval = 5;
+        protected float muzzleDistance;
+        protected float barrageMaxAmmo;
+        protected float barrageVelocity;
+        protected float barrageShotTime;
+        protected float damageChargeMod = 1f;
+        protected float velocityChargeMod = 1f;
+        protected float spreadOffset = 0.5f;
+        protected int soundDelayInterval = 5;
 
         public int barrageTarget = -1;
         public int barrageCombo = 0;
@@ -102,7 +102,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (Projectile.soundDelay == 0)
             {
-                Projectile.soundDelay = (int)(soundDelayInterval * (MaxChargeTime() / ChargeTime));
+                Projectile.soundDelay = 5;
                 var pitchValue = 0.6f + (ChargeTime / MaxChargeTime()) * 0.5f;
 
                 PlayAudio(soundPath: "SplatlingChargeLoop", volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
@@ -163,10 +163,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             type: ProjectileType,
                             damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
                             triggerAfterSpawn: false);
+                        var proj = p as HeavySplatlingProjectile;
 
-                        p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-                        p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-                        p.AfterSpawn();
+                        proj.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        proj.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        proj.chargedShot = IsChargeMaxedOut();
+                        proj.AfterSpawn();
 
                         for (int i = 0; i < 15; i++)
                         {

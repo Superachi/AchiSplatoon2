@@ -962,6 +962,13 @@ Items: {
 		DisplayName: Star Fisher
 		Tooltip: ""
 	}
+
+	HydraSplatling: {
+		UsageHint: "{$Hint.Splatling}"
+		Flavor: Mods.AchiSplatoon2.Items.HydraSplatling.Flavor
+		DisplayName: Hydra Splatling
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

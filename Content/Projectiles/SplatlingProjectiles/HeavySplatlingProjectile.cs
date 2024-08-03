@@ -1,11 +1,13 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Tile_Entities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,8 +18,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         private float delayUntilFall = 20f;
         private float fallSpeed = 0.1f;
 
+        public bool chargedShot = false;
         private bool firedWithCrayonBox = false;
         private bool countedForBurst = false;
+
+        private float pitch = 0f;
 
         public override void SetDefaults()
         {
@@ -31,9 +36,28 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+
+            var weapon = WeaponInstance as BaseSplatling;
+            shootSample = weapon.ShootSample;
+
+            if (weapon is HydraSplatling)
+            {
+                pitch = -0.5f;
+
+                if (chargedShot)
+                {
+                    GameFeelHelper.ShakeScreenNearPlayer(GetOwner(), localOnly: true, strength: 1, duration: 5);
+                }
+            }
+        }
+
         public override void AfterSpawn()
         {
             Initialize();
+            ApplyWeaponInstanceData();
             PlayShootSound();
             firedWithCrayonBox = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasCrayonBox;
         }
@@ -93,7 +117,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
         private void PlayShootSound()
         {
-            PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3, pitch: pitch);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
