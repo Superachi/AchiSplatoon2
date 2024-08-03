@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
@@ -576,11 +576,11 @@ namespace AchiSplatoon2.Content.Projectiles
             EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);
         }
 
-        protected void CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
+        protected ExplosionProjectileVisual CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
         {
             if (IsThisClientTheProjectileOwner())
             {
-                if (expModel == null) return;
+                if (expModel == null) return null;
 
                 var p = CreateChildProjectile(
                     position: Projectile.Center,
@@ -591,7 +591,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 proj.explosionDustModel = expModel;
                 proj.playAudioModel = audioModel;
+
+                return proj;
             }
+
+            return null;
         }
 
         protected void VisualizeRadius()
