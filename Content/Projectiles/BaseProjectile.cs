@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
@@ -65,6 +65,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public InkColor secondaryColor = InkColor.Order;
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
+        public Color? colorOverride = null;
 
         // Modifiers
         // See <InkWeaponPlayer.cs>
@@ -412,6 +413,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public Color GenerateInkColor()
         {
+            if (colorOverride != null)
+            {
+                return (Color)colorOverride;
+            }
+
             // If there are two color chips being considered, add a bias towards the color that we have more chips of
             var amount = 0.5f;
             if (primaryHighest != secondaryHighest) { amount = 0.35f; }
@@ -661,7 +667,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 PlayAudio("DirectHit", pitchVariance: 0.1f);
 
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                Color inkColor = modPlayer.ColorFromChips;
+                Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.ColorFromChips;
 
                 for (int i = 0; i < 10; i++)
                 {
