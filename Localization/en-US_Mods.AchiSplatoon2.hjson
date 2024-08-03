@@ -10,8 +10,14 @@ Hint: {
 	# ----------------------------------------
 	# Weapons
 	# ----------------------------------------
-	SplatCharger: Hold left-click to charge up a piercing shot
-	BambooCharger: Hold left-click to charge up a high velocity shot
+	
+	Chargers: {
+		Generic: Hold left-click to charge up a piercing shot
+		Bamboo: Hold left-click to charge up a high velocity shot
+		Squiffer: Increased mobility while charging, but has shorter range
+		StarFisher: Fully charged shots cause a blast after a short delay
+	}
+
 	Blaster: Has a smaller blast when hitting a wall
 	TriStringer: Hold left-click to charge up a volley of explosive shots
 	Reeflux: Hold left-click to charge up a volley of shots
@@ -22,7 +28,6 @@ Hint: {
 	Octobrush: Improved mobility when not attacking
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
-	Squiffer: Increased mobility while charging, but has shorter range
 
 	Dualies: {
 		Generic: Right-click while attacking to dodge roll. Stand still afterwards for a stronger attack
@@ -119,7 +124,7 @@ Items: {
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.SplatCharger.Flavor
 	}
@@ -128,13 +133,13 @@ Items: {
 		DisplayName: E-liter 4K
 		Flavor: I love hallways!
 		Tooltip: ""
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 	}
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
 		Tooltip: ""
-		UsageHint: "{$Hint.BambooCharger}"
+		UsageHint: "{$Hint.Chargers.Bamboo}"
 		Flavor: Mods.AchiSplatoon2.Items.BambooMk1Charger.Flavor
 	}
 
@@ -142,7 +147,7 @@ Items: {
 		DisplayName: Bamboozler 14 Mk II
 		Flavor: Now with Main Power Up!
 		Tooltip: ""
-		UsageHint: "{$Hint.BambooCharger}"
+		UsageHint: "{$Hint.Chargers.Bamboo}"
 	}
 
 	BaseWeapon: {
@@ -555,7 +560,7 @@ Items: {
 	}
 
 	ZFSplatCharger: {
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.ZFSplatCharger.Flavor
 		DisplayName: Z+F Splat Charger
 		Tooltip: ""
@@ -576,7 +581,7 @@ Items: {
 	}
 
 	OrderCharger: {
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Flavor: Humble beginnings
 		DisplayName: Order Charger
 		Tooltip: ""
@@ -686,7 +691,7 @@ Items: {
 	}
 
 	ClassicSquiffer: {
-		UsageHint: "{$Hint.Squiffer}"
+		UsageHint: "{$Hint.Chargers.Squiffer}"
 		Flavor: Mods.AchiSplatoon2.Items.ClassicSquiffer.Flavor
 		DisplayName: Classic Squiffer
 		Tooltip: ""
@@ -950,6 +955,13 @@ Items: {
 		DisplayName: Order Roller
 		Tooltip: ""
 	}
+
+	StarfishedCharger: {
+		UsageHint: "{$Hint.Chargers.StarFisher}"
+		Flavor: Mods.AchiSplatoon2.Items.StarfishedCharger.Flavor
+		DisplayName: Star Fisher
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1013,6 +1025,9 @@ Projectiles: {
 	KrakonSwingProjectile.DisplayName: Krakon Swing Projectile
 	CarbonSwingProjectile.DisplayName: Carbon Swing Projectile
 	OrderSwingProjectile.DisplayName: Order Swing Projectile
+	StarfishedChargerBlast.DisplayName: Starfished Charger Blast
+	StarfishedChargerProjectile.DisplayName: Starfished Charger Projectile
+	StarFisherBlastVisual.DisplayName: Star Fisher Blast Visual
 }
 
 Buffs: {

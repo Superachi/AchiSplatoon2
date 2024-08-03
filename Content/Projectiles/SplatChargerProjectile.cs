@@ -239,7 +239,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        private void DustTrail()
+        protected virtual void DustTrail()
         {
             Color dustColor = GenerateInkColor();
             var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
