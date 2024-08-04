@@ -969,6 +969,13 @@ Items: {
 		DisplayName: Hydra Splatling
 		Tooltip: ""
 	}
+
+	Bloblobber: {
+		UsageHint: Mods.AchiSplatoon2.Items.Bloblobber.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.Bloblobber.Flavor
+		DisplayName: Bloblobber
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1035,6 +1042,8 @@ Projectiles: {
 	StarfishedChargerBlast.DisplayName: Starfished Charger Blast
 	StarfishedChargerProjectile.DisplayName: Starfished Charger Projectile
 	StarFisherBlastVisual.DisplayName: Star Fisher Blast Visual
+	BloblobberChildProjectile.DisplayName: Bloblobber Child Projectile
+	BloblobberMainProjectile.DisplayName: Bloblobber Main Projectile
 }
 
 Buffs: {
