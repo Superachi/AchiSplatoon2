@@ -133,10 +133,5 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             if (state == 0) { Explode(); }
             return false;
         }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            return CanHitNPCWithLineOfSight(target);
-        }
     }
 }
