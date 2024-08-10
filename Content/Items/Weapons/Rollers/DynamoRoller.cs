@@ -17,14 +17,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 165;
+            Item.damage = 38;
             Item.knockBack = 6;
             Item.shoot = ModContent.ProjectileType<DynamoRollerSwingProjectile>();
 
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = ItemRarityID.LightRed;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
+        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }

@@ -17,13 +17,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             base.SetDefaults();
             Item.width = 92;
             Item.height = 32;
-            Item.damage = 360;
-            Item.knockBack = 8;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.damage = 99;
+            Item.knockBack = 6;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = ItemRarityID.LightRed;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofSight);
+        public override void AddRecipes() => AddRecipePostSkeletron();
 
         public override Vector2? HoldoutOffset()
         {

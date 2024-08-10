@@ -976,6 +976,20 @@ Items: {
 		DisplayName: Bloblobber
 		Tooltip: ""
 	}
+
+	CustomEliterCharger: {
+		UsageHint: Mods.AchiSplatoon2.Items.CustomEliterCharger.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CustomEliterCharger.Flavor
+		DisplayName: Custom E-liter 4K
+		Tooltip: ""
+	}
+
+	GoldDynamoRoller: {
+		UsageHint: Mods.AchiSplatoon2.Items.GoldDynamoRoller.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.GoldDynamoRoller.Flavor
+		DisplayName: Gold Dynamo Roller
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1044,6 +1058,7 @@ Projectiles: {
 	StarFisherBlastVisual.DisplayName: Star Fisher Blast Visual
 	BloblobberChildProjectile.DisplayName: Bloblobber Child Projectile
 	BloblobberMainProjectile.DisplayName: Bloblobber Main Projectile
+	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
 }
 
 Buffs: {

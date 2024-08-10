@@ -26,8 +26,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.width = 92;
             Item.height = 50;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void AddRecipes() => AddRecipePostSkeletron();
