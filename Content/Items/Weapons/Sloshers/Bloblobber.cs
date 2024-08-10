@@ -16,9 +16,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         {
             base.SetDefaults();
 
-            Item.shoot = ModContent.ProjectileType<BloblobberMainProjectile>();
-            Item.shootSpeed = 36;
-            
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BloblobberMainProjectile>(),
+                singleShotTime: 36,
+                shotVelocity: 1f
+            );
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+
             Item.damage = 50;
             Item.width = 38;
             Item.height = 28;
