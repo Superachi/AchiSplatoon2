@@ -990,6 +990,104 @@ Items: {
 		DisplayName: Gold Dynamo Roller
 		Tooltip: ""
 	}
+
+	KensaMiniSplatling: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaMiniSplatling.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaMiniSplatling.UsageHint
+		DisplayName: Kensa Mini Splatling
+		Tooltip: ""
+	}
+
+	KensaSplatanaStamper: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatanaStamper.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaSplatanaStamper.UsageHint
+		DisplayName: Kensa Splatana Stamper
+		Tooltip: ""
+	}
+
+	KensaL3Nozzlenose: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaL3Nozzlenose.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaL3Nozzlenose.UsageHint
+		DisplayName: Kensa L3 Nozzlenose
+		Tooltip: ""
+	}
+
+	KensaDot52Gal: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaDot52Gal.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaDot52Gal.UsageHint
+		DisplayName: Kensa .52 Gal
+		Tooltip: ""
+	}
+
+	KensaSplatRoller: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatRoller.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaSplatRoller.UsageHint
+		DisplayName: Kensa Splat Roller
+		Tooltip: ""
+	}
+
+	KensaDynamoRoller: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaDynamoRoller.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaDynamoRoller.UsageHint
+		DisplayName: Kensa Dynamo Roller
+		Tooltip: ""
+	}
+
+	KensaSplatDualie: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatDualie.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaSplatDualie.UsageHint
+		DisplayName: Kensa Splat Dualies
+		Tooltip: ""
+	}
+
+	KensaGloogaDualie: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaGloogaDualie.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaGloogaDualie.UsageHint
+		DisplayName: Kensa Glooga Dualies
+		Tooltip: ""
+	}
+
+	KensaSplatCharger: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatCharger.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaSplatCharger.UsageHint
+		DisplayName: Kensa Splat Charger
+		Tooltip: ""
+	}
+
+	KensaOctobrush: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaOctobrush.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaOctobrush.UsageHint
+		DisplayName: Kensa Octobrush
+		Tooltip: ""
+	}
+
+	KensaUndercoverBrella: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaUndercoverBrella.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaUndercoverBrella.UsageHint
+		DisplayName: Kensa Undercover Brella
+		Tooltip: ""
+	}
+
+	KensaReefluxStringer: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaReefluxStringer.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaReefluxStringer.UsageHint
+		DisplayName: Kensa REEF-LUX 450
+		Tooltip: ""
+	}
+
+	KensaRapidBlaster: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaRapidBlaster.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaRapidBlaster.UsageHint
+		DisplayName: Kensa Rapid Blaster
+		Tooltip: ""
+	}
+
+	KensaLunaBlaster: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaLunaBlaster.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.KensaLunaBlaster.UsageHint
+		DisplayName: Kensa Luna Blaster
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1059,6 +1157,8 @@ Projectiles: {
 	BloblobberChildProjectile.DisplayName: Bloblobber Child Projectile
 	BloblobberMainProjectile.DisplayName: Bloblobber Main Projectile
 	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
+	KensaDynamoRollerSwingProjectile.DisplayName: Kensa Dynamo Roller Swing Projectile
+	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
 }
 
 Buffs: {

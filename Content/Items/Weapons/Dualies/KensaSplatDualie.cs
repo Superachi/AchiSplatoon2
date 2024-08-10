@@ -5,27 +5,24 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
-    internal class EnperrySplatDualie : SplatDualie
+    internal class KensaSplatDualie : EnperrySplatDualie
     {
-        public override float PostRollVelocityMod { get => 1.2f; }
-        public override float PostRollAimMod { get => 0.25f; }
-
         public override void SetDefaults()
         {
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
-                singleShotTime: 6,
+                singleShotTime: 5,
                 shotVelocity: 5f);
 
-            Item.damage = 34;
+            Item.damage = 46;
             Item.width = 50;
             Item.height = 36;
-            Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 30);
+            Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofMight);
+        public override void AddRecipes() => AddRecipeKensa();
     }
 }

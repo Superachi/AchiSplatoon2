@@ -184,6 +184,12 @@ namespace AchiSplatoon2.Content.Items
                 .Register();
         }
 
+        protected Recipe AddRecipeKensa()
+        {
+            return AddRecipeWithSheldonLicenseGold(false)
+                .Register();
+        }
+
         protected Recipe AddRecipeOrder()
         {
             return CreateRecipe()

@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
                 projectileType: ModContent.ProjectileType<StarfishedChargerProjectile>(),
                 singleShotTime: 15,
                 shotVelocity: 18f);
-            Item.damage = 220;
+            Item.damage = 180;
             Item.width = 86;
             Item.height = 24;
             Item.knockBack = 0;
