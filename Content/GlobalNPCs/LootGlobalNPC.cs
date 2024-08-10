@@ -87,7 +87,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicense>());
                     break;
                 case NPCID.Mimic:
-                case NPCID.WallofFlesh:
                 case NPCID.BigMimicHallow:
                 case NPCID.BigMimicCrimson:
                 case NPCID.BigMimicCorruption:
@@ -100,9 +99,13 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseSilver>());
                     break;
                 case NPCID.DukeFishron:
-                case NPCID.Plantera:
-                case NPCID.EmpressButterfly:
+                case NPCID.HallowBoss: // Empress of Light
                 case NPCID.Golem:
+                case NPCID.MourningWood:
+                case NPCID.Pumpking:
+                case NPCID.Everscream:
+                case NPCID.SantaNK1:
+                case NPCID.IceQueen:
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
                     break;
