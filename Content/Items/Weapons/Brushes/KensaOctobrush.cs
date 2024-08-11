@@ -6,6 +6,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class KensaOctobrush : Octobrush
     {
+        public override float AimDeviation { get => 3f; }
+
+        public override float DelayUntilFall => 18f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

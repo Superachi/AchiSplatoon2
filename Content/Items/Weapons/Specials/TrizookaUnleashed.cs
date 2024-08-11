@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<TrizookaShooter>(),
-                singleShotTime: 60,
+                singleShotTime: 50,
                 shotVelocity: 20f
             );
 
