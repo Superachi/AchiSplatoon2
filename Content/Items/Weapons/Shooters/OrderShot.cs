@@ -11,11 +11,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetStaticDefaults();
             ItemID.Sets.ShimmerTransformToItem[Item.type] = ModContent.ItemType<Splattershot>();
         }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
 
-            Item.useTime = 9;
+            Item.useTime = 12;
             Item.useAnimation = Item.useTime;
             Item.damage = 8;
             Item.knockBack = 0.8f;

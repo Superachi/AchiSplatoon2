@@ -30,6 +30,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes() => AddRecipePostEOC();
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

@@ -6,6 +6,7 @@ using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -21,8 +22,6 @@ namespace AchiSplatoon2.Helpers
     {
         public static Dictionary<int, int> ShimmerItemDictionary = new Dictionary<int, int> {
             // Regular Mains
-            { ModContent.ItemType<Blaster>(),               ModContent.ItemType<RapidBlaster>() },
-            { ModContent.ItemType<ReefluxStringer>(),       ModContent.ItemType<TriStringer>() },
             { ModContent.ItemType<SplooshOMatic>(),         ModContent.ItemType<SplashOMatic>() },
 
             // Subs
@@ -38,6 +37,7 @@ namespace AchiSplatoon2.Helpers
 
             // Cobalt <-> Palladium
             { ModContent.ItemType<ZinkMiniSplatling>(),     ModContent.ItemType<InkbrushNouveau>() },
+            { ModContent.ItemType<KrakonSplatRoller>(),     ModContent.ItemType<CarbonRollerDeco>() },
 
             // Mythril <-> Orichalcum
             { ModContent.ItemType<DarkTetraDualie>(),       ModContent.ItemType<DappleDualie>() },
@@ -49,6 +49,8 @@ namespace AchiSplatoon2.Helpers
             // Adamantite <-> Titanium
             { ModContent.ItemType<RapidBlasterDeco>(),      ModContent.ItemType<RangeBlaster>() },
             { ModContent.ItemType<UndercoverBrella>(),      ModContent.ItemType<SorellaSplatBrella>() },
+            { ModContent.ItemType<GloogaDualie>(),          ModContent.ItemType<DouserDualie>() },
+            { ModContent.ItemType<H3Nozzlenose>(),          ModContent.ItemType<L3Nozzlenose>() },
 
             // Reskins
             { ModContent.ItemType<ClassicSplattershotS1>(), ModContent.ItemType<ClassicSplattershotS2>() },

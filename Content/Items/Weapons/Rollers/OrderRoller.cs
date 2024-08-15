@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 12;
+            Item.damage = 10;
             Item.knockBack = 2;
             Item.shoot = ModContent.ProjectileType<OrderSwingProjectile>();
 
