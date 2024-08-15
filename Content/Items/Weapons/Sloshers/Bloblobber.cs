@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<BloblobberMainProjectile>(),
-                singleShotTime: 36,
+                singleShotTime: 32,
                 shotVelocity: 1f
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
