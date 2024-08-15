@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles
+namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 {
     internal class BlasterProjectileV2 : BaseProjectile
     {
-        public Blaster weaponData;
+        public BaseBlaster weaponData;
 
         protected string explosionAirSample;
         protected string explosionTileSample;
@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            weaponData = WeaponInstance as Blaster;
+            weaponData = WeaponInstance as BaseBlaster;
 
             // Explosion radius/timing
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
@@ -214,7 +214,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
                 if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
             }
-            
+
             base.OnKill(timeLeft);
         }
 

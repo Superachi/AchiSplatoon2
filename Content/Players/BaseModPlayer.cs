@@ -35,6 +35,11 @@ namespace AchiSplatoon2.Content.Players
             return Player.whoAmI == Main.LocalPlayer.whoAmI;
         }
 
+        public bool IsPlayerGrounded()
+        {
+            return Player.velocity.Y == 0 && Player.oldVelocity.Y == 0;
+        }
+
         protected BaseProjectile CreateProjectileWithWeaponProperties(Player player, int type, BaseWeapon weaponType, bool triggerAfterSpawn = true, Vector2 ? velocity = null, int damage = 0, float knockback = 0f)
         {
             Vector2 position = player.Center;

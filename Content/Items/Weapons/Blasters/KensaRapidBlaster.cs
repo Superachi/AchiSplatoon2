@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
-using AchiSplatoon2.Content.Projectiles;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {

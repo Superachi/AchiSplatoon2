@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

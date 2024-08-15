@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Terraria;
 using Terraria.ModLoader;
 

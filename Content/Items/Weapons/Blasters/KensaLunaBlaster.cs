@@ -1,7 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 30,
                 shotVelocity: 6f);
 
-            Item.damage = 170;
+            Item.damage = 180;
             Item.width = 42;
             Item.height = 44;
             Item.value = Item.buyPrice(gold: 30);

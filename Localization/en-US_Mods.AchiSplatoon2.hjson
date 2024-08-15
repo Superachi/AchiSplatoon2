@@ -1089,6 +1089,13 @@ Items: {
 		DisplayName: Kensa Luna Blaster
 		Tooltip: ""
 	}
+
+	SBlast92: {
+		UsageHint: "{$Hint.SBlast}"
+		Flavor: This will take over the meta!
+		DisplayName: S-BLAST '92
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1160,6 +1167,7 @@ Projectiles: {
 	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
 	KensaDynamoRollerSwingProjectile.DisplayName: Kensa Dynamo Roller Swing Projectile
 	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
+	SBlastProjectile.DisplayName: S Blast Projectile
 }
 
 Buffs: {
