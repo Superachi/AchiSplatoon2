@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
     {
         public static float specialChargeMultiplier = 0.5f;
         public static float subPowerMultiplier = 1f;
-        public static float specialPowerMultiplier = 1f;
+        public static float specialPowerMultiplier = 2f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
             (int)(subPowerMultiplier * 100),
             (int)(specialPowerMultiplier * 100),

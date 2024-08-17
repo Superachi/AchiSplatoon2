@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
                 shotVelocity: 20f
             );
 
-            Item.damage = 150;
+            Item.damage = 75;
             Item.width = 90;
             Item.height = 44;
             Item.knockBack = 10;

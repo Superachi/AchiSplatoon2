@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 90;
+            Item.damage = 50;
             Item.knockBack = 8;
             Item.scale = 2;
             Item.useStyle = ItemUseStyleID.Swing;

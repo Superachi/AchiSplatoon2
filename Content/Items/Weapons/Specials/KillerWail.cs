@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
                 singleShotTime: 30,
                 shotVelocity: -10f);
 
-            Item.damage = 40;
+            Item.damage = 30;
             Item.knockBack = 1;
             Item.ArmorPenetration = ArmorPierce;
 
