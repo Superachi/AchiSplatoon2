@@ -1096,6 +1096,13 @@ Items: {
 		DisplayName: S-BLAST '92
 		Tooltip: ""
 	}
+
+	OrderBag: {
+		UsageHint: Gives you some weapons, a Palette and Color Chips
+		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
+		DisplayName: Order Starter Bag
+		Tooltip: Right click to open
+	}
 }
 
 Projectiles: {
