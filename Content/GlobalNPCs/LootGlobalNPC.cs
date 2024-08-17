@@ -1,9 +1,12 @@
-﻿using AchiSplatoon2.Content.Items.Consumables;
+﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -28,18 +31,38 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
                 float chipCount = modPlayer.ColorChipAmounts[(int)ChipColor.Green];
 
-                if (chipCount <= 0) { return; }
                 if (npc.friendly) { return; }
                 if (Main.npcCatchable[npc.type]) { return; }
 
-                float chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
-                chanceModifier = Math.Max(1f, chanceModifier);
-
-                if (Main.rand.NextBool((int)(75f * chanceModifier)))
+                float chanceModifier = 1f;
+                if (chipCount > 0)
                 {
-                    // Display feedback if a canned special container drops
+                    chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
+                    chanceModifier = Math.Max(1f, chanceModifier);
+
+                    if (Main.rand.NextBool((int)(50f * chanceModifier)))
+                    {
+                        if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)
+                        {
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Heart);
+                        }
+                    }
+
+                    if (Main.rand.NextBool((int)(25f * chanceModifier)))
+                    {
+                        if (Main.LocalPlayer.statMana < Main.LocalPlayer.statManaMax2)
+                        {
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Star);
+                        }
+                    }
+                }
+
+                // Canned special drop chance
+                if (Main.rand.NextBool((int)(100f * chanceModifier)))
+                {
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
 
+                    // Display feedback if a canned special container drops
                     for (int i = 0; i < 15; i++)
                     {
                         Dust dust;
@@ -55,20 +78,31 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     SoundHelper.PlayAudio("ItemGet", volume: 0.6f, maxInstances: 1, position: npc.position);
                 }
 
-                if (Main.rand.NextBool((int)(25f * chanceModifier)))
+                // Sheldon license drop chance
+                if (Main.rand.NextBool((int)(1000f * chanceModifier)))
                 {
-                    if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)
-                    {
-                        Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Heart);
-                    }
+                    int licenseId = !Main.hardMode ? ModContent.ItemType<SheldonLicense>() : ModContent.ItemType<SheldonLicenseSilver>();
+                    Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
                 }
 
-                if (Main.rand.NextBool((int)(25f * chanceModifier)))
+                // Sub weapon drop chance
+                if (Main.rand.NextBool((int)(100f * chanceModifier)))
                 {
-                    if (Main.LocalPlayer.statMana < Main.LocalPlayer.statManaMax2)
+                    var subWeapons = new List<int>
                     {
-                        Item.NewItem(npc.GetSource_Loot(), npc.Center, ItemID.Star);
-                    }
+                        ModContent.ItemType<SplatBomb>(),
+                        ModContent.ItemType<BurstBomb>(),
+                        ModContent.ItemType<AngleShooter>(),
+                        ModContent.ItemType<Sprinkler>(),
+                    };
+
+                    int droppedSub = Main.rand.NextFromCollection<int>(subWeapons);
+                    Item.NewItem(
+                        source: npc.GetSource_Loot(),
+                        position: npc.Center,
+                        Type: droppedSub,
+                        Stack: Main.rand.Next(3, 8)
+                    );
                 }
             }
         }

@@ -278,8 +278,8 @@ Items: {
 	}
 
 	ColorChipEmpty: {
-		DisplayName: Color Chip Empty
-		Tooltip: ""
+		DisplayName: Color Chip (Empty)
+		Tooltip: Combine with a dye to unlock its power!
 	}
 
 	HeavySplatling: {
@@ -468,7 +468,7 @@ Items: {
 		DisplayName: Basic Sheldon License
 		Tooltip:
 			'''
-			Obtained from pre-Hardmode bosses. Used to craft basic Splatlandian gear.
+			Often obtained from pre-Hardmode bosses. Used to craft basic Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		Flavor: U got a loicense fer that?
@@ -490,7 +490,7 @@ Items: {
 		DisplayName: Silver Sheldon License
 		Tooltip:
 			'''
-			Obtained from post-Hardmode bosses and mimics. Used to craft better Splatlandian gear.
+			Often obtained from post-Hardmode bosses and mimics. Used to craft better Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseSilver.UsageHint
