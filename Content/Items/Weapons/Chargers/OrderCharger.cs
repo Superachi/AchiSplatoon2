@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class OrderCharger : SplatCharger
     {
+        public override float[] ChargeTimeThresholds { get => [75f]; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -22,6 +22,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.knockBack = 0.8f;
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
+
+            // Note: hide this stat from the player-- the Order Shot shouldn't be seen as a swapout for high-def enemies
+            Item.ArmorPenetration = 3;
         }
 
         public override void AddRecipes() => AddRecipeOrder();

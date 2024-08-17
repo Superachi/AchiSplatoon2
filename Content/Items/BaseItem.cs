@@ -190,10 +190,17 @@ namespace AchiSplatoon2.Content.Items
                 .Register();
         }
 
-        protected Recipe AddRecipeOrder()
+        protected void AddRecipeOrder()
         {
-            return CreateRecipe()
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
                 .AddIngredient(ItemID.IronBar, 5)
+                .AddIngredient(ItemID.Gel, 10)
+                .Register();
+
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
+                .AddIngredient(ItemID.LeadBar, 5)
                 .AddIngredient(ItemID.Gel, 10)
                 .Register();
         }

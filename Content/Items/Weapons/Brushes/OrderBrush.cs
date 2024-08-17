@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 8;
+            Item.damage = 7;
             Item.knockBack = 2f;
             Item.shootSpeed = 4f;
 
@@ -23,6 +23,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
+
+            // Note: hide this stat from the player-- the Order Shot shouldn't be seen as a swapout for high-def enemies
+            Item.ArmorPenetration = 3;
         }
 
         public override void AddRecipes() => AddRecipeOrder();
