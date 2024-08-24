@@ -104,6 +104,20 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.friendly = false;
         }
 
+        public override bool PreAI()
+        {
+            timeSpentAlive++;
+            afterInitializeDelay--;
+            if (afterInitializeDelay == 0)
+            {
+                AfterInitialize();
+            }
+
+            Dissolve();
+
+            return true;
+        }
+
         protected virtual void SetState(int targetState)
         {
             // In this method, you can do something different per changed state
@@ -345,7 +359,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (wormDamageReduction && Main.expertMode && isTargetWorm(target))
             {
-                modifiers.FinalDamage *= 0.3f;
+                modifiers.FinalDamage *= 0.6f;
             }
 
             base.ModifyHitNPC(target, ref modifiers);
@@ -768,18 +782,9 @@ namespace AchiSplatoon2.Content.Projectiles
             return null;
         }
 
-        public override bool PreAI()
+        protected bool IsVelocityGreaterThan(float speed)
         {
-            timeSpentAlive++;
-            afterInitializeDelay--;
-            if (afterInitializeDelay == 0)
-            {
-                AfterInitialize();
-            }
-
-            Dissolve();
-            
-            return true;
+            return (Math.Abs(Projectile.velocity.X) > speed || Math.Abs(Projectile.velocity.Y) > speed);
         }
 
         #region NetCode
