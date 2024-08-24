@@ -84,7 +84,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 var meleeProj = CreateChildProjectile<BrellaMeleeProjectile>(
                 position: Projectile.position,
                 velocity: owner.DirectionTo(Main.MouseWorld),
-                Projectile.damage * 3);
+                Projectile.damage * 2);
 
                 Projectile.timeLeft = 60;
             }
