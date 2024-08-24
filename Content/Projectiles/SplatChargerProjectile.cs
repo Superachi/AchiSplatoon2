@@ -69,12 +69,13 @@ namespace AchiSplatoon2.Content.Projectiles
             hasFired = true;
             Projectile.friendly = true;
             dissolvable = true;
+            wormDamageReduction = false;
 
             // Adjust behaviour depending on the charge amount
             if (chargeLevel > 0)
             {
                 Projectile.penetrate = MaxPenetrate + piercingModifier;
-                wormDamageReduction = true;
+                if (Projectile.penetrate != 1) wormDamageReduction = true;
 
                 Projectile.timeLeft = timeLeftAfterFiring * Projectile.extraUpdates;
 
@@ -86,7 +87,7 @@ namespace AchiSplatoon2.Content.Projectiles
             else
             {
                 Projectile.penetrate = 1 + piercingModifier;
-                if (Projectile.penetrate > 1) wormDamageReduction = true;
+                if (Projectile.penetrate != 1) wormDamageReduction = true;
 
                 int chargeTimeNormalized = Convert.ToInt32(ChargeTime / Projectile.extraUpdates);
 
