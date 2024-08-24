@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             Item.width = 28;
             Item.height = 28;
             Item.value = Item.buyPrice(silver: 25);
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Green;
             Item.maxStack = 8;
         }
 

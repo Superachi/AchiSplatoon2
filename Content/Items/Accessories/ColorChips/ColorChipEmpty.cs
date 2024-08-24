@@ -6,6 +6,12 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
     internal class ColorChipEmpty : ModItem
     {
+        public override void SetDefaults()
+        {
+            Item.rare = ItemRarityID.Blue;
+            Item.maxStack = Item.CommonMaxStack;
+        }
+
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
