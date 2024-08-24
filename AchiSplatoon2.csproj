@@ -25,6 +25,7 @@
 	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaPelletProjectile.png" />
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaShotgunProjectile.png" />
+	  <None Remove="Content\Projectiles\BrushProjectiles\DesertBrushProjectile.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerBlast.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />

@@ -25,10 +25,14 @@ Hint: {
 	Splatling: Hold left-click to charge up a long barrage of shots
 	MiniSplatling: Hold left-click to charge up a short barrage of shots
 	Slosher: Throws a stream of projectiles that cover a wide area
-	Inkbrush: Drastically improved mobility when not attacking
-	Octobrush: Improved mobility when not attacking
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+
+	Brushes: {
+		Ink: Drastically improved mobility when not attacking
+		Octo: Improved mobility when not attacking
+		Desert: Projectiles linger in place shortly
+	}
 
 	Dualies: {
 		Generic: Right-click while attacking to dodge roll. Stand still afterwards for a stronger attack
@@ -526,14 +530,14 @@ Items: {
 	}
 
 	Inkbrush: {
-		UsageHint: "{$Hint.Inkbrush}"
+		UsageHint: "{$Hint.Brushes.Ink}"
 		Flavor: I can brush the base all by myself!
 		DisplayName: Inkbrush
 		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	InkbrushNouveau: {
-		UsageHint: "{$Hint.Inkbrush}"
+		UsageHint: "{$Hint.Brushes.Ink}"
 		Flavor: Mods.AchiSplatoon2.Items.InkbrushNouveau.Flavor
 		DisplayName: Inkbrush Nouveau
 		Tooltip: "{$ArmorPierce.Display}"
@@ -547,14 +551,14 @@ Items: {
 	}
 
 	Octobrush: {
-		UsageHint: "{$Hint.Octobrush}"
+		UsageHint: "{$Hint.Brushes.Octo}"
 		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
 		DisplayName: Octobrush
 		Tooltip: ""
 	}
 
 	OctobrushNouveau: {
-		UsageHint: "{$Hint.Octobrush}"
+		UsageHint: "{$Hint.Brushes.Octo}"
 		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
 		DisplayName: Octobrush Nouveau
 		Tooltip: ""
@@ -1103,6 +1107,27 @@ Items: {
 		DisplayName: Order Starter Bag
 		Tooltip: Right click to open
 	}
+
+	SlimeSplattershot: {
+		UsageHint: Mods.AchiSplatoon2.Items.SlimeSplattershot.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SlimeSplattershot.Flavor
+		DisplayName: Gloop Shot
+		Tooltip: ""
+	}
+
+	DesertBrush: {
+		UsageHint: "{$Hint.Brushes.Desert}"
+		Flavor: Mods.AchiSplatoon2.Items.DesertBrush.Flavor
+		DisplayName: Dune Stainer
+		Tooltip: ""
+	}
+
+	FreshSquiffer: {
+		UsageHint: "{$Hint.Chargers.Squiffer}"
+		Flavor: Mods.AchiSplatoon2.Items.FreshSquiffer.Flavor
+		DisplayName: Fresh Squiffer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1175,6 +1200,7 @@ Projectiles: {
 	KensaDynamoRollerSwingProjectile.DisplayName: Kensa Dynamo Roller Swing Projectile
 	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
 	SBlastProjectile.DisplayName: S Blast Projectile
+	DesertBrushProjectile.DisplayName: Desert Brush Projectile
 }
 
 Buffs: {
