@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
             Item.useTime = 6;
             Item.useAnimation = Item.useTime;
-            Item.damage = 36;
+            Item.damage = 28;
             Item.knockBack = 3;
             Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;

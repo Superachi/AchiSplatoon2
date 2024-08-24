@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.knockBack = 4;
             Item.shootSpeed = 8f;
 
-            Item.scale = 1.5f;
+            Item.scale = 1f;
             Item.useTime = 18;
             Item.useAnimation = Item.useTime;
 

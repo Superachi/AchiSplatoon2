@@ -5,7 +5,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaWiper : BaseSplatana
     {
-        public override int BaseDamage { get => 12; }
+        public override float MaxChargeMeleeDamageMod { get => 3f; }
+        public override float MaxChargeRangeDamageMod { get => 2f; }
+        public override float MaxChargeLifetimeMod { get => 1.5f; }
+
+        public override int BaseDamage { get => 10; }
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -22,6 +26,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipePostSkeletron();
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 50;
+            Item.damage = 40;
             Item.width = 38;
             Item.height = 28;
             Item.knockBack = 3;

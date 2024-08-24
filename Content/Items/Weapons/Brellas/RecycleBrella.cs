@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float AimDeviation { get => 0f; }
 
         // Brella specific
-        public override int ProjectileCount { get => 6; }
+        public override int ProjectileCount { get => 5; }
         public override float ShotgunArc { get => 4f; }
         public override float ShotVelocityRandomRange => 0.05f;
         public override int ShieldLife => 150;
@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 10f);
 
-            Item.damage = 30;
+            Item.damage = 24;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 4;

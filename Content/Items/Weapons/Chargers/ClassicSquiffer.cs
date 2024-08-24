@@ -24,11 +24,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
             Item.width = 90;
             Item.height = 26;
-            Item.damage = 170;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.damage = 48;
         }
 
-        public override void AddRecipes() => AddRecipeCobalt();
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

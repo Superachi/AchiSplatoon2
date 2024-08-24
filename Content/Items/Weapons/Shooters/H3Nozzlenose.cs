@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 18,
                 shotVelocity: 1f);
 
-            Item.damage = 30;
+            Item.damage = 26;
             Item.width = 50;
             Item.height = 32;
             Item.knockBack = 2;
