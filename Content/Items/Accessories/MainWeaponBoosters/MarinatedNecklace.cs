@@ -26,5 +26,12 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 modPlayer.hasMarinatedNecklace = true;
             }
         }
+
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.Register();
+        }
     }
 }

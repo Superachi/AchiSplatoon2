@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.StarCloak, 1);
+            recipe.AddIngredient(ItemID.Silk, 10);
             recipe.AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1);
             recipe.AddIngredient(ItemID.SoulofSight, 1);
             recipe.AddIngredient(ItemID.SoulofMight, 1);
@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             recipe.Register();
 
             Recipe recipeB = CreateRecipe();
-            recipeB.AddIngredient(ItemID.StarCloak, 1);
+            recipe.AddIngredient(ItemID.Silk, 10);
             recipeB.AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1);
             recipeB.AddIngredient(ItemID.SoulofSight, 1);
             recipeB.AddIngredient(ItemID.SoulofMight, 1);
@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             recipeB.Register();
 
             Recipe recipeC = CreateRecipe();
-            recipeC.AddIngredient(ItemID.StarCloak, 1);
+            recipe.AddIngredient(ItemID.Silk, 10);
             recipeC.AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1);
             recipeC.AddIngredient(ItemID.SoulofSight, 1);
             recipeC.AddIngredient(ItemID.SoulofMight, 1);

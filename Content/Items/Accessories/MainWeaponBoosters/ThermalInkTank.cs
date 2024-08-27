@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
@@ -21,6 +22,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
                 modPlayer.hasThermalInkTank = true;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddTile(TileID.WorkBenches)
+                .AddIngredient(ItemID.Glass, 5)
+                .AddIngredient(ItemID.Glowstick, 25)
+                .Register();
         }
     }
 }
