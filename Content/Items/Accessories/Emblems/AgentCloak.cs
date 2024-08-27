@@ -42,29 +42,29 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipe.AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1);
-            recipe.AddIngredient(ItemID.SoulofSight, 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 1);
-            recipe.AddIngredient(ItemID.SoulofFright, 1);
-            recipe.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
 
-            Recipe recipeB = CreateRecipe();
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipeB.AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1);
-            recipeB.AddIngredient(ItemID.SoulofSight, 1);
-            recipeB.AddIngredient(ItemID.SoulofMight, 1);
-            recipeB.AddIngredient(ItemID.SoulofFright, 1);
-            recipeB.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
 
-            Recipe recipeC = CreateRecipe();
-            recipe.AddIngredient(ItemID.Silk, 10);
-            recipeC.AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1);
-            recipeC.AddIngredient(ItemID.SoulofSight, 1);
-            recipeC.AddIngredient(ItemID.SoulofMight, 1);
-            recipeC.AddIngredient(ItemID.SoulofFright, 1);
-            recipeC.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
         }
     }
 }
