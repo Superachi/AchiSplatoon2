@@ -5,7 +5,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaWiper : BaseSplatana
     {
-        public override float MaxChargeMeleeDamageMod { get => 3f; }
         public override float MaxChargeRangeDamageMod { get => 2f; }
         public override float MaxChargeLifetimeMod { get => 1.5f; }
 
