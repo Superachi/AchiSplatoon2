@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.ModLoader.IO;
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 
 namespace AchiSplatoon2.Content.GlobalItems
