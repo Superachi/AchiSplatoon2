@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<TrizookaShooter>(),
                 singleShotTime: 50,
-                shotVelocity: 20f
+                shotVelocity: 14f
             );
 
             Item.rare = ItemRarityID.Cyan;
