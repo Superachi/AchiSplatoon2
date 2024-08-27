@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 12,
                 shotVelocity: 1f);
 
-            Item.damage = 32;
+            Item.damage = 35;
             Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.Lime;

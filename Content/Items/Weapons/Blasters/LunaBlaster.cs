@@ -31,6 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.damage = 120;
             Item.width = 42;
             Item.height = 44;
+            Item.knockBack = 6;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }

@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void AddRecipes()
         {
             Recipe recipe = CraftingReqs()
-                .AddIngredient(ItemID.BlackInk)
+                .AddIngredient(ItemID.BlackDye)
                 .Register();
         }
     }
