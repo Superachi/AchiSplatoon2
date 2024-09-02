@@ -48,7 +48,7 @@ namespace AchiSplatoon2.Content.Players
         public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
         public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
         public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
-        public float PurpleChipBaseChargeSpeedBonus { get => 0.06f; }
+        public float PurpleChipBaseChargeSpeedBonus { get => 0.08f; }
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
         public float YellowChipExplosionRadiusBonus { get => 0.1f; }
         public string YellowChipExplosionRadiusBonusDisplay { get => $"{(int)(YellowChipExplosionRadiusBonus * 100)}%"; }
@@ -177,6 +177,12 @@ namespace AchiSplatoon2.Content.Players
             moveFrictionModifier = 1f;
             brushMoveSpeedCap = false;
 
+            float mountSpeedMultMod = 1f;
+            if (Player.mount.Active)
+            {
+                mountSpeedMultMod = 0.5f;
+            }
+
             switch (Player.HeldItem.ModItem)
             {
                 case Inkbrush:
@@ -235,9 +241,9 @@ namespace AchiSplatoon2.Content.Players
             if (IsPaletteValid() && !brushMoveSpeedCap)
             {
                 int blueChipCount = ColorChipAmounts[(int)ChipColor.Blue];
-                moveSpeedModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus;
-                moveAccelModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus;
-                moveFrictionModifier    += blueChipCount * BlueChipBaseMoveSpeedBonus;
+                moveSpeedModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveAccelModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveFrictionModifier    += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
             }
 
             if (oldMoveSpeedMod != moveSpeedModifier

@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 44;
+            Item.damage = 38;
             Item.knockBack = 3;
 
             Item.value = Item.buyPrice(gold: 30);
