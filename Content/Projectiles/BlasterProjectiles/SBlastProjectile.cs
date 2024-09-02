@@ -3,10 +3,12 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 {
@@ -23,15 +25,33 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             Projectile.tileCollide = true;
         }
 
+        private bool IsPlayerGrounded()
+        {
+            var baseMP = GetOwner().GetModPlayer<BaseModPlayer>();
+            return baseMP.IsPlayerGrounded();
+        }
+
         public override void AfterSpawn()
         {
             base.AfterSpawn();
-            var baseMP = GetOwner().GetModPlayer<BaseModPlayer>();
-            if (baseMP.IsPlayerGrounded())
+
+            if (IsPlayerGrounded())
             {
-                Projectile.velocity *= 2f;
+                Projectile.velocity *= 1.5f;
                 Projectile.extraUpdates = 6;
                 explosionRadiusAir /= 2;
+            }
+        }
+
+        protected override void PlayShootSound()
+        {
+            if (IsPlayerGrounded())
+            {
+                PlayAudio("SBlastShoot", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+            }
+            else
+            {
+                PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             }
         }
     }
