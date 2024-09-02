@@ -88,6 +88,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
 
             // Splatana
             { typeof(SplatanaWiper),        new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(SplatanaWiperDeco),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(SplatanaStamper),      new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
 
             // Brella
