@@ -1061,7 +1061,7 @@ Items: {
 
 	KensaOctobrush: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaOctobrush.Flavor
-		UsageHint: "{$Hint.Octobrush}"
+		UsageHint: "{$Hint.Brushes.Octo}"
 		DisplayName: Kensa Octobrush
 		Tooltip: ""
 	}
@@ -1070,7 +1070,7 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaUndercoverBrella.Flavor
 		UsageHint: "{$Hint.Brella.Undercover}"
 		DisplayName: Kensa Undercover Brella
-		Tooltip: ""
+		Tooltip: "{$BrellaPelletCount.Display}"
 	}
 
 	KensaReefluxStringer: {
@@ -1126,6 +1126,13 @@ Items: {
 		UsageHint: "{$Hint.Chargers.Squiffer}"
 		Flavor: Mods.AchiSplatoon2.Items.FreshSquiffer.Flavor
 		DisplayName: Fresh Squiffer
+		Tooltip: ""
+	}
+
+	SplatanaWiperDeco: {
+		UsageHint: "{$Hint.Splatana}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiperDeco.Flavor
+		DisplayName: Splatana Wiper Deco
 		Tooltip: ""
 	}
 }
