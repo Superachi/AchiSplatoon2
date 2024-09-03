@@ -165,7 +165,7 @@ namespace AchiSplatoon2.Content.Players
             postRoll = false;
 
             // If jumping while shooting...
-            if (rollsLeft == 0 || xDir == 0) return;
+            if (rollsLeft == 0 || xDir == 0 || Player.mount.Active) return;
             bool countJump = jumpInputBuffer > 0 && rollsLeft > 0;
             if (countJump && Player.controlUseItem)
             {
