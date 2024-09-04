@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.rare = ItemRarityID.Cyan;
             Item.damage = 150;
             Item.knockBack = 10;
+            Item.value = Item.buyPrice(gold: 50);
         }
 
         public override bool CanReforge() => true;
