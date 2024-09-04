@@ -4,6 +4,7 @@ using Terraria;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using Terraria.GameContent.ItemDropRules;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
 
 namespace AchiSplatoon2.Content.GlobalItems
 {
@@ -14,7 +15,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.KingSlimeBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>(), chanceDenominator: 5)
+                    ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>(), chanceDenominator: 3)
                 );
             }
 
@@ -35,6 +36,13 @@ namespace AchiSplatoon2.Content.GlobalItems
                         ModContent.ItemType<SplooshOMatic>(),
                         ModContent.ItemType<SplashOMatic>()
                     )
+                );
+            }
+
+            if (item.type == ItemID.FairyQueenBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<StarfishedCharger>())
                 );
             }
         }
