@@ -166,6 +166,14 @@ namespace AchiSplatoon2.Content.Items
             return RegisterRecipe(recipe, registerNow);
         }
 
+        protected void AddRecipePostPlanteraDungeon()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.Ectoplasm, 10)
+                .AddIngredient(ItemID.Bone, 30)
+                .Register();
+        }
+
         protected Recipe AddRecipePostMechBoss(bool registerNow, int soulItemID)
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(false)
