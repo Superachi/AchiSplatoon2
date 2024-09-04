@@ -12,12 +12,6 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
     {
         private int npcHits = 0;
 
-        public override void AfterSpawn()
-        {
-            base.AfterSpawn();
-            Projectile.damage /= 2;
-        }
-
         protected override void DustTrail()
         {
             var dust = Dust.NewDustPerfect(
@@ -46,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
             if (chargeLevel > 0 && target.life > 0 && npcHits < 5)
             {
-                var p = CreateChildProjectile<StarfishedChargerBlast>(Projectile.Center, Vector2.Zero, Projectile.damage * 4, false);
+                var p = CreateChildProjectile<StarfishedChargerBlast>(Projectile.Center, Vector2.Zero, Projectile.damage * 5, false);
                 p.delayUntilBlast += npcHits * 5;
                 p.pitchAdd += npcHits * 0.2f;
                 p.npcTarget = target.whoAmI;
