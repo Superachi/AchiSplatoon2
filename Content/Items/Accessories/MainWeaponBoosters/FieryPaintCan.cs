@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     internal class FieryPaintCan : BaseWeaponBoosterAccessory
     {
         public static float MissDamageModifier = 1.5f;
-        public static float MissRadiusModifier = 1.25f;
+        public static float MissRadiusModifier = 1.5f;
         protected override string UsageHintParamA => ((MissDamageModifier - 1) * 100).ToString();
 
         public override void SetDefaults()
@@ -26,14 +26,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
                 modPlayer.hasFieryPaintCan = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.Register();
         }
     }
 }

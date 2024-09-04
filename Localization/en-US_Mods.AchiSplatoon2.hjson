@@ -19,7 +19,7 @@ Hint: {
 	}
 
 	Blaster: Has a smaller blast when hitting a wall
-	SBlast: While airborne, it has shorter range, but a bigger blast radius
+	SBlast: Has more range and damage while grounded, but a bigger blast radius while airborne
 	TriStringer: Hold left-click to charge up a volley of explosive shots
 	Reeflux: Hold left-click to charge up a volley of shots
 	Splatling: Hold left-click to charge up a long barrage of shots
@@ -1135,6 +1135,55 @@ Items: {
 		DisplayName: Splatana Wiper Deco
 		Tooltip: ""
 	}
+
+	RecycleBrellaMk2: {
+		UsageHint: Mods.AchiSplatoon2.Items.RecycleBrellaMk2.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.RecycleBrellaMk2.Flavor
+		DisplayName: Recycled Brella 24 Mk II
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	CustomDouserDualie: {
+		UsageHint: Mods.AchiSplatoon2.Items.CustomDouserDualie.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CustomDouserDualie.Flavor
+		DisplayName: Custom Douser Dualies
+		Tooltip: ""
+	}
+
+	LightTetraDualie: {
+		UsageHint: Mods.AchiSplatoon2.Items.LightTetraDualie.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LightTetraDualie.Flavor
+		DisplayName: Light Tetra Dualies
+		Tooltip: ""
+	}
+
+	SplashOMaticNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplashOMaticNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplashOMaticNeo.Flavor
+		DisplayName: Neo Splash-O-Matic
+		Tooltip: ""
+	}
+
+	SplooshOMaticNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplooshOMaticNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplooshOMaticNeo.Flavor
+		DisplayName: Neo Sploosh-O-Matic
+		Tooltip: ""
+	}
+
+	BloblobberDeco: {
+		UsageHint: Mods.AchiSplatoon2.Items.BloblobberDeco.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BloblobberDeco.Flavor
+		DisplayName: Bloblobber Deco
+		Tooltip: ""
+	}
+
+	SBlast91: {
+		UsageHint: "{$Hint.SBlast}"
+		Flavor: Okay trust me, THIS will take over the meta!
+		DisplayName: S-BLAST '91
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1206,7 +1255,7 @@ Projectiles: {
 	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
 	KensaDynamoRollerSwingProjectile.DisplayName: Kensa Dynamo Roller Swing Projectile
 	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
-	SBlastProjectile.DisplayName: S Blast Projectile
+	SBlastProjectile.DisplayName: S-Blast Projectile
 	DesertBrushProjectile.DisplayName: Desert Brush Projectile
 }
 

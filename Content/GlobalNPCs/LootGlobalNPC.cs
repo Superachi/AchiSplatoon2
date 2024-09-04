@@ -1,6 +1,13 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -116,6 +123,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            var dungeonDropChanceDenominator = 8;
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -149,6 +157,38 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
                     break;
+                // Dungeon drops
+                case NPCID.SkeletonSniper:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.TacticalSkeleton:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.BoneLee:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidClipOns>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PinkSponge>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.SkeletonCommando:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.Paladin:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), dungeonDropChanceDenominator / 2));
+                    break;
+                case NPCID.Necromancer:
+                case NPCID.NecromancerArmored:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.DiabolistRed:
+                case NPCID.DiabolistWhite:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
+                    break;
+            }
+
+            if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 4));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 4));
             }
         }
     }

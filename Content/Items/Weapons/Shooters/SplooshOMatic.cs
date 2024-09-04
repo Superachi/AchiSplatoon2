@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
                 singleShotTime: 5,
-                shotVelocity: 4f);
+                shotVelocity: 3.5f);
 
             Item.damage = 22;
             Item.width = 60;

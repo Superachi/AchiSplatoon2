@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     {
         public static float DeflectDamageModifier => 8f;
         public static float DeflectVelocityModifier => 20f;
-        public static float ChargeSlashLifetimeModifier => 0.3f;
+        public static float ChargeSlashLifetimeModifier => 0.5f;
 
         public override void SetDefaults()
         {
