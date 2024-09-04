@@ -180,7 +180,7 @@ Items: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
 		UsageHint: "{$Hint.TriStringer}"
-		Flavor: Mods.AchiSplatoon2.Items.TriStringerInkline.Flavor
+		Flavor: Sorry, no flavor text here, I actually need to make a Wellstring sprite haha
 	}
 
 	GrizzcoStringer: {

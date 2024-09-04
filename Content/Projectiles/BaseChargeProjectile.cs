@@ -26,8 +26,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 4;
+            Projectile.height = 4;
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 36000;
             Projectile.penetrate = -1;

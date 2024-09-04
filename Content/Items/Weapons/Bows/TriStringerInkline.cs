@@ -5,6 +5,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class TriStringerInkline : TriStringer
     {
+        public override float ShotgunArc { get => 8f; }
+        public override int ProjectileCount { get => 5; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
