@@ -37,6 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
             if (IsPlayerGrounded())
             {
+                Projectile.damage = MultiplyProjectileDamage(1.25f);
                 Projectile.velocity *= 1.5f;
                 Projectile.extraUpdates = 6;
                 explosionRadiusAir /= 2;
