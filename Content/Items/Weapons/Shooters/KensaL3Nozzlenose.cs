@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<NozzlenoseShooter>(),
-                singleShotTime: 12,
+                singleShotTime: 14,
                 shotVelocity: 1f);
 
             Item.damage = 35;

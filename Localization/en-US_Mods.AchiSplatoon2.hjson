@@ -19,11 +19,10 @@ Hint: {
 	}
 
 	Blaster: Has a smaller blast when hitting a wall
-	SBlast: Has more range and damage while grounded, but a bigger blast radius while airborne
+	SBlast: Has increased damage and range while grounded, but also a smaller blast
 	TriStringer: Hold left-click to charge up a volley of explosive shots
 	Reeflux: Hold left-click to charge up a volley of shots
-	Splatling: Hold left-click to charge up a long barrage of shots
-	MiniSplatling: Hold left-click to charge up a short barrage of shots
+	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
 	Slosher: Throws a stream of projectiles that cover a wide area
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
@@ -63,6 +62,7 @@ Hint: {
 	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
+	HypnoShades: Bombs used via the hotbar are thrown quicker
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -303,7 +303,7 @@ Items: {
 	MiniSplatling: {
 		DisplayName: Mini Splatling
 		Tooltip: ""
-		UsageHint: "{$Hint.MiniSplatling}"
+		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.MiniSplatling.Flavor
 	}
 
@@ -352,7 +352,7 @@ Items: {
 	ZinkMiniSplatling: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
-		UsageHint: "{$Hint.MiniSplatling}"
+		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.Flavor
 	}
 
@@ -998,7 +998,7 @@ Items: {
 
 	KensaMiniSplatling: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaMiniSplatling.Flavor
-		UsageHint: "{$Hint.MiniSplatling}"
+		UsageHint: "{$Hint.Splatling}"
 		DisplayName: Kensa Mini Splatling
 		Tooltip: ""
 	}
@@ -1183,6 +1183,13 @@ Items: {
 		Flavor: Okay trust me, THIS will take over the meta!
 		DisplayName: S-BLAST '91
 		Tooltip: ""
+	}
+
+	HypnoShades: {
+		UsageHint: "{$Hint.HypnoShades}"
+		Flavor: I put these on willingly!
+		DisplayName: Callie's Hypnoshades
+		Tooltip: "{$SubPowerEmblem.Multiplier@0}"
 	}
 }
 

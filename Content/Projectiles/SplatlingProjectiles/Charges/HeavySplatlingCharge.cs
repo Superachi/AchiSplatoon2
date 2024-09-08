@@ -116,6 +116,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
                 if (owner.dead) { Projectile.Kill(); return; }
+
                 if (owner.channel)
                 {
                     UpdateCharge(owner);
@@ -131,6 +132,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 if (ChargedAmmo > 0)
                 {
                     SyncProjectilePosWithPlayer(owner, 0, 8);
+
+                    AllowChargeCancel();
+                    if (chargeCanceled) return;
 
                     ChargeTime++;
                     if (ChargeTime >= barrageShotTime)

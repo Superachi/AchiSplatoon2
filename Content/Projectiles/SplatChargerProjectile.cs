@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float RangeModifier { get; private set; }
         protected float MinPartialRange { get; private set; }
         protected float MaxPartialRange { get; private set; }
+        protected bool DirectHitEffect { get; private set; }
 
         public override void SetDefaults()
         {
@@ -47,6 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles
             RangeModifier = weaponData.RangeModifier;
             MinPartialRange = weaponData.MinPartialRange;
             MaxPartialRange = weaponData.MaxPartialRange;
+            DirectHitEffect = weaponData.DirectHitEffect;
         }
 
         public override void AfterSpawn()
@@ -221,7 +223,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.OnHitNPC(target, hit, damageDone);
 
-            if (!firstHit && IsChargeMaxedOut() && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
+            if (!firstHit && IsChargeMaxedOut() && DirectHitEffect && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
             {
                 firstHit = true;
                 DirectHitDustBurst(target.Center);

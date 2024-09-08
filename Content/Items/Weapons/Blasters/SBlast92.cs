@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SBlastProjectile>(),
                 singleShotTime: 52,
-                shotVelocity: 6f);
+                shotVelocity: 7f);
 
             Item.damage = 180;
             Item.width = 60;

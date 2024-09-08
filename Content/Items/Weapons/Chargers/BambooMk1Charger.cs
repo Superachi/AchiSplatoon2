@@ -16,6 +16,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override float[] ChargeTimeThresholds { get => [20f]; }
+        public override float MinPartialRange { get => 1f; }
+        public override float MaxPartialRange { get => 1f; }
         public override bool ScreenShake => false;
         public override int MaxPenetrate => 1;
         public override bool DirectHitEffect => false;

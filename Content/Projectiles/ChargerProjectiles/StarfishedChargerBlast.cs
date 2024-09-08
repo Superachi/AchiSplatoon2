@@ -35,6 +35,12 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             enablePierceDamagefalloff = false;
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.DisableCrit();
+        }
+
         public override void AI()
         {
             NPC target = Main.npc[npcTarget];

@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -13,6 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // Charge mechanic
         protected int chargeLevel = 0;
+        protected bool chargeCanceled = false;
         protected float ChargeTime
         {
             get => Projectile.ai[1];
@@ -79,6 +82,17 @@ namespace AchiSplatoon2.Content.Projectiles
             // You can do something like playing a sound effect here
         }
 
+        protected virtual void AllowChargeCancel()
+        {
+            if (InputHelper.GetInputRightClicked()) CancelCharge();
+        }
+
+        protected virtual void CancelCharge()
+        {
+            chargeCanceled = true;
+            Projectile.Kill();
+        }
+
         protected virtual void UpdateCharge(Player owner)
         {
             if (ChargeTime == 0)
@@ -136,7 +150,11 @@ namespace AchiSplatoon2.Content.Projectiles
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.player[Projectile.owner];
-                if (owner.dead) { Projectile.Kill(); return; }
+                if (owner.dead)
+                {
+                    Projectile.Kill();
+                    return;
+                }
 
                 if (owner.channel)
                 {
@@ -148,6 +166,8 @@ namespace AchiSplatoon2.Content.Projectiles
                 {
                     ReleaseCharge(owner);
                 }
+
+                AllowChargeCancel();
             }
         }
 
