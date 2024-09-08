@@ -149,9 +149,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.DukeFishron:
                 case NPCID.HallowBoss: // Empress of Light
                 case NPCID.Golem:
-                case NPCID.MourningWood:
                 case NPCID.Pumpking:
-                case NPCID.Everscream:
                 case NPCID.SantaNK1:
                 case NPCID.IceQueen:
                     npcLoot.Add(notExpertRule);
