@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 30,
                 shotVelocity: 6f);
 
-            Item.damage = 180;
+            Item.damage = 150;
             Item.width = 42;
             Item.height = 44;
             Item.value = Item.buyPrice(gold: 30);
