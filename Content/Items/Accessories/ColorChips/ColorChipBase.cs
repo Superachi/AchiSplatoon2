@@ -79,6 +79,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 else if (GreenValue > 0)
                 {
                     t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
+                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
                 }
                 else if (AquaValue > 0)
                 {

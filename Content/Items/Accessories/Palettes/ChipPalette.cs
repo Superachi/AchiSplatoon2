@@ -156,7 +156,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (green > 0)
                     {
                         t.Text += $"\n[{ChipColor(InkColor.Green)}Lucky ({green}) >]" +
-                            $"\n[{textColorGray}Critical strike: +{(int)(green * modPlayer.GreenChipBaseCritBonus)}%]";
+                            $"\n[{textColorGray}Critical strike: +{(int)(green * modPlayer.GreenChipBaseCritBonus)}%]" +
+                            $"\n[{textColorGray}Lucky bomb drop chance: +{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%]";
                     }
                 }
                 else

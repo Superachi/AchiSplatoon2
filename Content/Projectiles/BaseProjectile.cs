@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
@@ -66,6 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private int primaryHighest = 0;
         private int secondaryHighest = 0;
         public Color? colorOverride = null;
+        public Color initialColor;
 
         // Modifiers
         // See <InkWeaponPlayer.cs>
@@ -269,7 +271,9 @@ namespace AchiSplatoon2.Content.Projectiles
                     wormDamageReduction = true;
                 }
 
-                wepMP.UpdateInkColor(GenerateInkColor());
+                var color = GenerateInkColor();
+                initialColor = color;
+                wepMP.UpdateInkColor(color);
 
                 // Prevent double dipping modifiers
                 if (parentIdentity == -1)
@@ -386,6 +390,58 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Projectile.damage = MultiplyProjectileDamage(damageModifierAfterPierce);
             }
+
+            if (target.life <= 0)
+            {
+                if (!IsTargetEnemy(target)) return;
+
+                var owner = GetOwner();
+                var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+                var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
+                var luckyBombMinDamage = Main.expertMode ? 20 : 60;
+                var luckyBombDamage = Math.Max(luckyBombMinDamage, luckyBombStartDamage);
+                var luckyBombChance = wepMP.CalculateLuckyBombChance();
+                var createdBombs = 0;
+
+                void CreateLuckyBomb(int spawnOrder)
+                {
+                    var p = CreateChildProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<LuckyBombProjectile>(), luckyBombDamage) as LuckyBombProjectile;
+                    p.spawnOrder = spawnOrder;
+                    createdBombs++;
+                }
+                void CreateLuckyBombCluster()
+                {
+                    if (this is LuckyBombProjectile)
+                    {
+                        for (int i = 0; i < Main.rand.Next(1, 3); i++)
+                        {
+                            CreateLuckyBomb(createdBombs);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Main.rand.Next(3, 6); i++)
+                        {
+                            CreateLuckyBomb(createdBombs);
+                        }
+                    }
+                }
+
+                float loopCount = 1f + luckyBombChance;
+                for (float i = 0; i < loopCount; i ++)
+                {
+                    if (luckyBombChance > 0 && Main.rand.NextFloat() <= luckyBombChance)
+                    {
+                        CreateLuckyBombCluster();
+                    }
+                    luckyBombChance--;
+                }
+            }
+        }
+
+        protected bool IsTargetEnemy(NPC target)
+        {
+            return !target.friendly && target.type != NPCID.TargetDummy && !Main.npcCatchable[target.type] && target.damage > 0 && target.lifeMax > 5;
         }
 
         protected bool CanHitNPCWithLineOfSight(NPC target)

@@ -1275,9 +1275,9 @@ Projectiles: {
 	KrakonSwingProjectile.DisplayName: Krakon Swing Projectile
 	CarbonSwingProjectile.DisplayName: Carbon Swing Projectile
 	OrderSwingProjectile.DisplayName: Order Swing Projectile
-	StarfishedChargerBlast.DisplayName: Starfished Charger Blast
-	StarfishedChargerProjectile.DisplayName: Starfished Charger Projectile
-	StarFisherBlastVisual.DisplayName: Star Fisher Blast Visual
+	StarfishedChargerBlast.DisplayName: Starfish Sniper Blast
+	StarfishedChargerProjectile.DisplayName: Starfish Sniper Projectile
+	StarFisherBlastVisual.DisplayName: Starfish Sniper Blast Visual
 	BloblobberChildProjectile.DisplayName: Bloblobber Child Projectile
 	BloblobberMainProjectile.DisplayName: Bloblobber Main Projectile
 	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
@@ -1285,6 +1285,8 @@ Projectiles: {
 	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
 	SBlastProjectile.DisplayName: S-Blast Projectile
 	DesertBrushProjectile.DisplayName: Desert Brush Projectile
+	LuckyBombProjectile.DisplayName: Lucky Bomb Projectile
+	LuckyBombBlast.DisplayName: Lucky Bomb Blast
 }
 
 Buffs: {
