@@ -964,7 +964,7 @@ Items: {
 	StarfishedCharger: {
 		UsageHint: "{$Hint.Chargers.StarFisher}"
 		Flavor: Mods.AchiSplatoon2.Items.StarfishedCharger.Flavor
-		DisplayName: Starfish Piercer
+		DisplayName: Starfish Sniper
 		Tooltip: ""
 	}
 
@@ -1190,6 +1190,27 @@ Items: {
 		Flavor: I put these on willingly!
 		DisplayName: Callie's Hypnoshades
 		Tooltip: "{$SubPowerEmblem.Multiplier@0}"
+	}
+
+	SodaSlosher: {
+		UsageHint: "{$Hint.Slosher}"
+		Flavor: SODAAAAA!!
+		DisplayName: Soda Slosher
+		Tooltip: ""
+	}
+
+	TriSlosher: {
+		UsageHint: "{$Hint.Slosher}"
+		Flavor: Mods.AchiSplatoon2.Items.TriSlosher.Flavor
+		DisplayName: Tri-Slosher
+		Tooltip: ""
+	}
+
+	TriSlosherNouveau: {
+		UsageHint: "{$Hint.Slosher}"
+		Flavor: Mods.AchiSplatoon2.Items.TriSlosherNouveau.Flavor
+		DisplayName: Tri-Slosher Nouveau
+		Tooltip: ""
 	}
 }
 

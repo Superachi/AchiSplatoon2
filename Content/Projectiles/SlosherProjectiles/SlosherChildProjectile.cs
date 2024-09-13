@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,10 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         private float fallSpeed;
         private float terminalVelocity = 12f;
 
+        private Color bulletColor;
+        private float drawScale = 0f;
+        private float drawRotation = 0f;
+
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 2;
@@ -26,6 +31,11 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
+        }
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void ApplyWeaponInstanceData()
@@ -47,6 +57,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             {
                 Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
             }
+
+            
+            // Set visuals
+            Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
+            bulletColor = GenerateInkColor();
+            drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
         }
 
         public override void AI()
@@ -70,8 +86,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SlosherProjectileDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: Main.rand.NextFloat(1.4f, 2f));
+            drawRotation += Math.Sign(Projectile.velocity.X) * 0.02f;
+            if (drawScale <= 1f) drawScale += 0.1f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -105,6 +121,13 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 target.immune[Projectile.owner] = 18;
             }
             base.OnHitNPC(target, hit, damageDone);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+
+            return false;
         }
     }
 }
