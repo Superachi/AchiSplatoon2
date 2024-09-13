@@ -155,6 +155,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
                     break;
+
                 // Dungeon drops
                 case NPCID.SkeletonSniper:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), dungeonDropChanceDenominator));
@@ -180,6 +181,10 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.DiabolistRed:
                 case NPCID.DiabolistWhite:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.RaggedCaster:
+                case NPCID.RaggedCasterOpenCoat:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SodaSlosher>(), dungeonDropChanceDenominator));
                     break;
             }
 
