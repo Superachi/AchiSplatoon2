@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
     {
         public override float BarrageVelocity { get; set; } = 9f;
         public override int BarrageShotTime { get; set; } = 3;
-        public override int BarrageMaxAmmo { get; set; } = 32;
+        public override int BarrageMaxAmmo { get; set; } = 24;
 
         public override void SetDefaults()
         {
