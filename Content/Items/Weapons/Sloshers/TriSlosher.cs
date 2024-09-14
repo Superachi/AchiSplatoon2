@@ -19,12 +19,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 56;
-            Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.damage = 22;
+            Item.knockBack = 4;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipeCobalt();
+        public override void AddRecipes() => AddRecipeHellstone();
     }
 }

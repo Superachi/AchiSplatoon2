@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.height = 32;
             Item.knockBack = 2;
             Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes() => AddRecipeMeteorite();
