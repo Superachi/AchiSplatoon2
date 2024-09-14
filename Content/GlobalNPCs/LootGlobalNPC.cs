@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -192,8 +192,24 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 4));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 4));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 8));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 8));
+            }
+
+            // Super palette crafting materials
+            if (npc.type == NPCID.MartianSaucer)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteMiddlePart>(), 3));
+            }
+
+            if (npc.type == NPCID.PirateShip)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteLeftPart>(), 3));
+            }
+
+            if (npc.type == NPCID.Mothron)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
             }
         }
     }

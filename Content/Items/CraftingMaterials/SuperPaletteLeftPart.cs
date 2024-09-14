@@ -1,0 +1,15 @@
+﻿using Terraria.ID;
+using Terraria;
+
+namespace AchiSplatoon2.Content.Items.CraftingMaterials
+{
+    internal class SuperPaletteLeftPart : BaseItem
+    {
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.Cyan;
+        }
+    }
+}

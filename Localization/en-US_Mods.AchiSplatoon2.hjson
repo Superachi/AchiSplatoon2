@@ -1226,6 +1226,34 @@ Items: {
 		DisplayName: Snipewriter 5B
 		Tooltip: ""
 	}
+
+	SuperPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPalette.Flavor
+		DisplayName: Digital Palette
+		Tooltip: ""
+	}
+
+	SuperPaletteLeftPart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteLeftPart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteLeftPart.Flavor
+		DisplayName: L-Type Motion Stick
+		Tooltip: ""
+	}
+
+	SuperPaletteMiddlePart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteMiddlePart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteMiddlePart.Flavor
+		DisplayName: Light-Emitting Display
+		Tooltip: ""
+	}
+
+	SuperPaletteRightPart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteRightPart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteRightPart.Flavor
+		DisplayName: R-Type Camera Stick
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

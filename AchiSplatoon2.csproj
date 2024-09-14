@@ -17,6 +17,7 @@
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
 	  <None Remove="Content\Items\Weapons\Dualies\SplatDualie.png" />
+	  <None Remove="Content\Items\Weapons\Sloshers\TriSlosher.png" />
 	  <None Remove="Content\Items\Weapons\Specials\TrizookaUnleashed.png" />
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
@@ -51,6 +52,8 @@
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
+	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\SnipewriterCharge.png" />
+	  <None Remove="Content\Projectiles\SplatlingProjectiles\SnipewriterProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectileWeak.png" />
