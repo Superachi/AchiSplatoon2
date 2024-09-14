@@ -57,35 +57,37 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
             else sizeMod = 2f;
         }
 
-        protected override void SetState(int targetState)
+        public override bool? CanHitNPC(NPC target)
         {
-            base.SetState(targetState);
-            switch (targetState)
+            if (target.type == NPCID.TargetDummy) return false;
+            return base.CanHitNPC(target);
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitNPC(target, hit, damageDone);
+            if (state != stateExplode) SetState(stateExplode);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.DisableCrit();
+            modifiers.Defense *= 0;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (state != stateExplode)
             {
-                case stateSpawn:
-                    Projectile.velocity = Main.rand.NextVector2Circular(8, 8);
-                    break;
-                case stateChase:
-                    Projectile.friendly = true;
-                    FindClosestEnemy();
-                    break;
-                case stateExplode:
-                    Detonate();
-                    Projectile.timeLeft = 6;
-                    break;
-                case stateSequenceExplode:
-                    Projectile.timeLeft = 30 + (spawnOrder * 6);
-                    break;
+                DrawProjectile(inkColor: initialColor, rotation: 0, scale: drawScale, considerWorldLight: false);
             }
+            return false;
         }
 
         public override void AI()
         {
-            Projectile.velocity *= 0.98f;
-            if (npcTarget == null || npcTarget.life <= 0)
-            {
-                chaseSpeed = 0f;
-            }
+            Projectile.velocity *= 0.95f;
 
             frameTimer += FrameSpeedDivide(1);
             if (frameTimer >= frameDelay)
@@ -105,15 +107,17 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
                     {
                         var dist = Projectile.Center.Distance(npcTarget.Center);
 
-                        if (chaseSpeed < 10) chaseSpeed += 0.2f;
+                        if (chaseSpeed < 5) chaseSpeed += 0.2f;
                         chaseSpeed = Math.Min(chaseSpeed, dist);
 
-                        var moveVec = Projectile.position.DirectionTo(npcTarget.position);
-                        Projectile.velocity = moveVec * chaseSpeed;
+                        var moveVec = Projectile.Center.DirectionTo(npcTarget.Center);
+                        Projectile.velocity += moveVec * chaseSpeed;
+                        Projectile.velocity.X = Math.Clamp(Projectile.velocity.X, -10, 10);
+                        Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y, -10, 10);
                     }
                     else
                     {
-                        if (timeSpentAlive % 12 == 0)
+                        if (timeSpentAlive % 6 == 0)
                         {
                             FindClosestEnemy();
                         }
@@ -138,36 +142,32 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        protected override void SetState(int targetState)
         {
-            if (state != stateExplode)
+            base.SetState(targetState);
+            switch (targetState)
             {
-                DrawProjectile(inkColor: initialColor, rotation: 0, scale: drawScale, considerWorldLight: false);
+                case stateSpawn:
+                    Projectile.velocity = Main.rand.NextVector2Circular(5, 5);
+                    break;
+                case stateChase:
+                    Projectile.friendly = true;
+                    FindClosestEnemy();
+                    break;
+                case stateExplode:
+                    Detonate();
+                    Projectile.timeLeft = 6;
+                    break;
+                case stateSequenceExplode:
+                    Projectile.timeLeft = 30 + (spawnOrder * 6);
+                    break;
             }
-            return false;
-        }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            if (target.type == NPCID.TargetDummy) return false;
-            return base.CanHitNPC(target);
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            base.OnHitNPC(target, hit, damageDone);
-            if (state != stateExplode) SetState(stateExplode);
-        }
-
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            base.ModifyHitNPC(target, ref modifiers);
-            modifiers.DisableCrit();
-            modifiers.Defense *= 0;
         }
 
         private void FindClosestEnemy()
         {
+            chaseSpeed = 0f;
+
             if (remainingTargetAttempts > 0)
             {
                 remainingTargetAttempts--;

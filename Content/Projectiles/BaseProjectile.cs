@@ -398,7 +398,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 var owner = GetOwner();
                 var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
                 var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
-                var luckyBombMinDamage = Main.expertMode ? 20 : 60;
+                var luckyBombMinDamage = Main.expertMode ? 20 : 50;
                 var luckyBombDamage = Math.Max(luckyBombMinDamage, luckyBombStartDamage);
                 var luckyBombChance = wepMP.CalculateLuckyBombChance();
                 var createdBombs = 0;
@@ -420,7 +420,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                     else
                     {
-                        for (int i = 0; i < Main.rand.Next(3, 6); i++)
+                        for (int i = 0; i < Main.rand.Next(2, 5); i++)
                         {
                             CreateLuckyBomb(createdBombs);
                         }

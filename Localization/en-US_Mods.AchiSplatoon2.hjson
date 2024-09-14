@@ -1213,6 +1213,14 @@ Items: {
 		DisplayName: Tri-Slosher Nouveau
 		Tooltip: ""
 	}
+
+	LuckyBombGun: {
+		UsageHint: Mods.AchiSplatoon2.Items.LuckyBombGun.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LuckyBombGun.Flavor
+		DisplayName: Lucky Bomb Test Gun
+		Tooltip: ""
+	}
+
 	Snipewriter5H: {
 		UsageHint: "{$Hint.Chargers.Snipewriter}"
 		Flavor: From rags to riches
