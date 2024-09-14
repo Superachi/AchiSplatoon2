@@ -25,17 +25,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.channel = true;
             Item.crit = 5;
         }
-
-        public override void ModifyWeaponCrit(Player player, ref float crit)
-        {
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
-                if (accMP.hasTentacleScope)
-                {
-                    crit += TentacularOcular.BaseCritChance;
-                }
-            }
-        }
     }
 }

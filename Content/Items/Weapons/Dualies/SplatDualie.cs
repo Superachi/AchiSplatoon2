@@ -35,10 +35,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(gold: 3);
+            Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipeHellstone();
+        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }

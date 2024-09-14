@@ -1202,7 +1202,7 @@ Items: {
 
 	TriSlosher: {
 		UsageHint: "{$Hint.Slosher}"
-		Flavor: Mods.AchiSplatoon2.Items.TriSlosher.Flavor
+		Flavor: It just takes no skill!
 		DisplayName: Tri-Slosher
 		Tooltip: ""
 	}

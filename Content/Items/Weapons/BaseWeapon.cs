@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
@@ -119,6 +120,18 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 float damageMod = StatCalculationHelper.CalculateDamageModifiers(player, this);
                 damage *= damageMod;
+            }
+        }
+
+        public override void ModifyWeaponCrit(Player player, ref float crit)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                if (accMP.hasTentacleScope && WeaponStyle == MainWeaponStyle.Charger)
+                {
+                    crit += TentacularOcular.BaseCritChance;
+                }
             }
         }
 
