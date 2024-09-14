@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -8,6 +8,7 @@ using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -158,10 +159,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
                 // Dungeon drops
                 case NPCID.SkeletonSniper:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Snipewriter5B>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.TacticalSkeleton:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.BoneLee:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidClipOns>(), dungeonDropChanceDenominator));
@@ -169,7 +171,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.SkeletonCommando:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.Paladin:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), dungeonDropChanceDenominator / 2));
@@ -180,6 +181,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.DiabolistRed:
                 case NPCID.DiabolistWhite:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.RaggedCaster:

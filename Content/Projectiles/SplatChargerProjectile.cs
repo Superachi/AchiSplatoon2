@@ -230,6 +230,12 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
         private void PlayShootSample()
         {
             if (chargeLevel > 0)

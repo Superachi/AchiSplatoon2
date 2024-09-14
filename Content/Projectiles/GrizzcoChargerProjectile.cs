@@ -9,7 +9,6 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class GrizzcoChargerProjectile : BaseProjectile
     {
-
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -38,6 +37,12 @@ namespace AchiSplatoon2.Content.Projectiles
             Initialize();
             ApplyWeaponInstanceData();
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 1);
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
         public override void AI()

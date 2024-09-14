@@ -16,6 +16,7 @@ Hint: {
 		Bamboo: Hold left-click to charge up a high velocity shot
 		Squiffer: Increased mobility while charging, but has shorter range
 		StarFisher: Fully charged shots cause a blast after a short delay
+		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
 	Blaster: Has a smaller blast when hitting a wall
@@ -1212,6 +1213,19 @@ Items: {
 		DisplayName: Tri-Slosher Nouveau
 		Tooltip: ""
 	}
+	Snipewriter5H: {
+		UsageHint: "{$Hint.Chargers.Snipewriter}"
+		Flavor: From rags to riches
+		DisplayName: Snipewriter 5H
+		Tooltip: ""
+	}
+
+	Snipewriter5B: {
+		UsageHint: "{$Hint.Chargers.Snipewriter}"
+		Flavor: Mods.AchiSplatoon2.Items.Snipewriter5B.Flavor
+		DisplayName: Snipewriter 5B
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1287,6 +1301,8 @@ Projectiles: {
 	DesertBrushProjectile.DisplayName: Desert Brush Projectile
 	LuckyBombProjectile.DisplayName: Lucky Bomb Projectile
 	LuckyBombBlast.DisplayName: Lucky Bomb Blast
+	SnipewriterCharge.DisplayName: Snipewriter Charge
+	SnipewriterProjectile.DisplayName: Snipewriter Projectile
 }
 
 Buffs: {
