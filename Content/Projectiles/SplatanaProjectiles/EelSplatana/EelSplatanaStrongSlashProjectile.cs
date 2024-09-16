@@ -22,6 +22,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         private int shootSpeed = 9;
         private int shootCooldown = 0;
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.width = 24;
+            Projectile.height = 24;
+        }
+
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = FrameCount;
@@ -107,7 +114,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                     drawAlpha = Projectile.timeLeft / (float)timeLeftWhenFade;
                 }
                 float scale = drawScale + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.05f;
-                DrawProjectile(Color.White, rotation: 0, scale: scale, alphaMod: drawAlpha, considerWorldLight: false);
+                DrawProjectile(Color.White, rotation: 0, scale: scale, alphaMod: drawAlpha, considerWorldLight: false, positionOffset: new Vector2(0, -32));
             }
 
             return false;

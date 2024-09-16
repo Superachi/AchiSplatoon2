@@ -702,9 +702,10 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None)
+        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1,
+            bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None, Vector2? positionOffset = null)
         {
-            Vector2 position = Projectile.Center - Main.screenPosition;
+            Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
             Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
             Vector2 origin = sourceRectangle.Size() / 2f;
