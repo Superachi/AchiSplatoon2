@@ -9,20 +9,20 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
     internal class SplatanaWeakSlashProjectile : BaseProjectile
     {
         protected virtual bool Animate => true;
+        protected virtual bool ProjectileDust => true;
 
-        private Color bulletColor;
-        private int frameCount = 4;
-        private float frameTimer = 0;
-        private int frameDelay = 12;
-        private int currentFrame = 0;
-        private float drawScale = 1f;
+        protected Color bulletColor;
+        protected virtual int FrameCount => 4;
+        protected virtual int FrameDelay => 12;
+        protected float frameTimer = 0;
+        protected float drawScale = 1f;
 
         protected int timeLeftWhenFade = 20;
-        private bool fading = false;
+        protected bool fading = false;
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = frameCount;
+            Main.projFrames[Projectile.type] = FrameCount;
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         {
             Initialize();
             bulletColor = GenerateInkColor();
-            if (Animate) Projectile.frame = Main.rand.Next(frameCount);
+            if (Animate) Projectile.frame = Main.rand.Next(FrameCount);
         }
 
         public override void AI()
@@ -47,10 +47,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             if (Animate)
             {
                 frameTimer += FrameSpeedDivide(1);
-                if (frameTimer >= frameDelay)
+                if (frameTimer >= FrameDelay)
                 {
                     frameTimer = 0;
-                    Projectile.frame = (Projectile.frame + 1) % frameCount;
+                    Projectile.frame = (Projectile.frame + 1) % FrameCount;
                 }
             }
 
@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 fading = true;
             }
 
-            if (Main.rand.NextBool(5) && !fading)
+            if (Main.rand.NextBool(5) && !fading && ProjectileDust)
             {
                 Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(

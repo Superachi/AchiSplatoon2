@@ -42,6 +42,7 @@ Hint: {
 	}
 
 	Splatana: Hold left-click to charge up a powerful, piercing slash
+	EelSplatana: Hold left-click to charge up a tornado that fires eels
 	Roller: Hold left-click and run to roll over enemies
 
 	Brella: {
@@ -1262,6 +1263,13 @@ Items: {
 		DisplayName: R-Type Camera Stick
 		Tooltip: ""
 	}
+
+	EelSplatana: {
+		Flavor: Say it with sizzle!
+		UsageHint: "{$Hint.EelSplatana}"
+		DisplayName: Moray Claymore
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1339,6 +1347,8 @@ Projectiles: {
 	LuckyBombBlast.DisplayName: Lucky Bomb Blast
 	SnipewriterCharge.DisplayName: Snipewriter Charge
 	SnipewriterProjectile.DisplayName: Snipewriter Projectile
+	EelSplatanaStrongSlashProjectile.DisplayName: Eel Splatana Strong Slash Projectile
+	EelSplatanaSmallProjectile.DisplayName: Eel Splatana Small Projectile
 }
 
 Buffs: {

@@ -5,7 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class KensaSplatanaStamper : SplatanaStamper
     {
-        public override int BaseDamage { get => 60; }
+        public override int BaseDamage { get => 100; }
         public override float[] ChargeTimeThresholds { get => [18f]; }
 
         public override void SetDefaults()

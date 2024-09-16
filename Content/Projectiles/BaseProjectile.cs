@@ -444,6 +444,23 @@ namespace AchiSplatoon2.Content.Projectiles
             return !target.friendly && target.type != NPCID.TargetDummy && !Main.npcCatchable[target.type] && target.damage > 0 && target.lifeMax > 5;
         }
 
+        protected NPC FindClosestEnemy(float maxTargetDistance)
+        {
+            NPC npcTarget = null;
+            float closestDistance = maxTargetDistance;
+            foreach (var npc in Main.ActiveNPCs)
+            {
+                float distance = Projectile.Center.Distance(npc.Center);
+                if (distance < closestDistance && IsTargetEnemy(npc))
+                {
+                    closestDistance = distance;
+                    npcTarget = npc;
+                }
+            }
+
+            return npcTarget;
+        }
+
         protected bool CanHitNPCWithLineOfSight(NPC target)
         {
             if (Collision.CanHitLine(Projectile.Center, 1, 1, target.Center, 1, 1))
@@ -685,7 +702,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true)
+        protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None)
         {
             Vector2 position = Projectile.Center - Main.screenPosition;
             Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -700,7 +717,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
 
-            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, new SpriteEffects(), 0f);
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, flipSpriteSettings, 0f);
         }
 
         protected void DirectHitDustBurst(Vector2? position = null)

@@ -1,7 +1,10 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
 using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
@@ -15,6 +18,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         private int soundDelayInterval = 6;
         private string chargeSample;
+
+        private int weakSlashProjectile;
+        private int strongSlashProjectile;
 
         public override void ApplyWeaponInstanceData()
         {
@@ -31,6 +37,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             maxChargeRangeDamageMod = weaponData.MaxChargeRangeDamageMod;
             maxChargeLifetimeMod = weaponData.MaxChargeLifetimeMod;
             maxChargeVelocityMod = weaponData.MaxChargeVelocityMod;
+
+            weakSlashProjectile = weaponData.WeakSlashProjectile;
+            strongSlashProjectile = weaponData.StrongSlashProjectile;
 
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
         }
@@ -90,11 +99,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 meleeProj.wasFullyCharged = true;
 
                 velocity *= maxChargeVelocityMod;
-                var proj = CreateChildProjectile<SplatanaStrongSlashProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false);
+                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false)
+                    as SplatanaStrongSlashProjectile;
                 proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
                 proj.Projectile.penetrate = 3;
                 proj.AfterSpawn();
-
             }
             else
             {
@@ -103,7 +112,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, Projectile.damage);
                 meleeProj.wasFullyCharged = false;
 
-                CreateChildProjectile<SplatanaWeakSlashProjectile>(owner.Center, velocity, Projectile.damage);
+                CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
             }
 
 

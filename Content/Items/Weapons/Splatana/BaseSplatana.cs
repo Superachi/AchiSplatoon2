@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -24,6 +23,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public virtual float MaxChargeLifetimeMod { get => 3f; }
         public virtual float MaxChargeVelocityMod { get => 0.7f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 8); }
+
+        public virtual int WeakSlashProjectile { get => ModContent.ProjectileType<SplatanaWeakSlashProjectile>(); }
+        public virtual int StrongSlashProjectile { get => ModContent.ProjectileType<SplatanaStrongSlashProjectile>(); }
 
         public override void SetDefaults()
         {

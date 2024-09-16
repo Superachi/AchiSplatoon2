@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
     internal class SplatanaStrongSlashProjectile : SplatanaWeakSlashProjectile
     {
         protected override bool Animate => false;
+        protected override int FrameCount => 1;
+        protected override int FrameDelay => 1;
 
         public override void SetStaticDefaults()
         {
@@ -17,9 +19,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Projectile.width = 64;
-            Projectile.height = 64;
-            Projectile.tileCollide = false;
+            Projectile.width = 12;
+            Projectile.height = 12;
         }
 
         public override void AfterSpawn()
@@ -34,20 +35,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             }
         }
 
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 64;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
         public override void AI()
         {
             base.AI();
             if (!IsThisClientTheProjectileOwner()) return;
-
-            bool CheckSolid()
-            {
-                return Framing.GetTileSafely(Projectile.Center).HasTile && Collision.SolidCollision(Projectile.Center, 16, 16);
-            }
-
-            if (CheckSolid())
-            {
-                Projectile.Kill();
-            }
 
             Player owner = GetOwner();
             var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
