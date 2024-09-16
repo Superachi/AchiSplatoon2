@@ -1,82 +1,26 @@
-using AchiSplatoon2.Content.Dusts;
-using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
-    internal class Dot52GalProjectile : BaseProjectile
+    internal class Dot52GalProjectile : SplattershotProjectile
     {
-        private float delayUntilFall = 3f;
-        private float fallSpeed = 0.03f;
-        private float terminalVelocity = 6f;
-
-        public override void SetDefaults()
-        {
-            Projectile.extraUpdates = 2;
-            Projectile.width = 8;
-            Projectile.height = 8;
-            Projectile.aiStyle = 1;
-            Projectile.friendly = true;
-            Projectile.timeLeft = 600;
-            Projectile.tileCollide = true;
-            AIType = ProjectileID.Bullet;
-        }
-
-        public override void ApplyWeaponInstanceData()
-        {
-            base.ApplyWeaponInstanceData();
-            shootSample = WeaponInstance.ShootSample;
-        }
-
         public override void AfterSpawn()
         {
-            Initialize();
-            ApplyWeaponInstanceData();
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            base.AfterSpawn();
+            Projectile.damage = 52;
         }
 
-        public override void AI()
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.ai[0] += 1f;
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.DamageVariationScale *= 0;
 
-            // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (target.type != NPCID.DungeonGuardian)
             {
-                Projectile.velocity.Y += fallSpeed;
-
-                if (Projectile.velocity.Y >= 0)
-                {
-                    Projectile.velocity.X *= 0.99f;
-                }
+                modifiers.Defense *= 0;
             }
-
-            if (Projectile.velocity.Y > terminalVelocity)
-            {
-                Projectile.velocity.Y = terminalVelocity;
-            }
-
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            for (int i = 0; i < 3; i++)
-            {
-                // Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                dust.alpha = 64;
-            }
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
-            return true;
         }
     }
 }

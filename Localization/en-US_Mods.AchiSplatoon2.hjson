@@ -19,6 +19,7 @@ Hint: {
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
+	Dot52Gal: Shots always deal a base damage of 52, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: Has increased damage and range while grounded, but also a smaller blast
 	TriStringer: Hold left-click to charge up a volley of explosive shots
@@ -416,9 +417,9 @@ Items: {
 
 	Dot52Gal: {
 		DisplayName: .52 Gal
-		Flavor: leTS GO GAMBLING!1
+		Flavor: Mods.AchiSplatoon2.Items.Dot52Gal.Flavor
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.Dot52Gal.UsageHint
+		UsageHint: "{$Hint.Dot52Gal}"
 	}
 
 	SplooshOMatic: {
@@ -1021,7 +1022,7 @@ Items: {
 
 	KensaDot52Gal: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaDot52Gal.Flavor
-		UsageHint: Mods.AchiSplatoon2.Items.KensaDot52Gal.UsageHint
+		UsageHint: "{$Hint.Dot52Gal}"
 		DisplayName: Kensa .52 Gal
 		Tooltip: ""
 	}

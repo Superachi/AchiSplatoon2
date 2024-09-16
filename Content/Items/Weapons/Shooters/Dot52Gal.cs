@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
+                projectileType: ModContent.ProjectileType<Dot52GalProjectile>(),
                 singleShotTime: 10,
                 shotVelocity: 8f);
 
@@ -29,7 +29,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 4;
-            Item.crit = 5;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
         }

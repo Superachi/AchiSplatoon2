@@ -14,13 +14,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                 projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
+                 projectileType: ModContent.ProjectileType<Dot52GalProjectile>(),
                  singleShotTime: 7,
                  shotVelocity: 8f);
 
             Item.damage = 52;
             Item.knockBack = 5;
-            Item.crit = 20;
+            Item.crit = 10;
             Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.Lime;
         }
