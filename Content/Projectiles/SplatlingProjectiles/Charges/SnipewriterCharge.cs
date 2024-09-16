@@ -66,6 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 case 0:
                     damageChargeMod = 0.6f;
                     velocityChargeMod = 0.6f;
+                    barrageShotTime = (int)(barrageShotTime * 1.2f);
                     ChargedAmmo = Math.Min(barrageMaxAmmo - 1, ChargedAmmo);
                     break;
                 case 1:

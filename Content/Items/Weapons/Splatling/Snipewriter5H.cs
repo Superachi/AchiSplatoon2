@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 
         public override Vector2? HoldoutOffset() { return new Vector2(-24, 0); }
         public override float MuzzleOffsetPx { get; set; } = 52f;
-        public override float[] ChargeTimeThresholds { get => [75f]; }
+        public override float[] ChargeTimeThresholds { get => [85f]; }
         public override float BarrageVelocity { get; set; } = 3f;
         public override int BarrageShotTime { get; set; } = 15;
         public override int BarrageMaxAmmo { get; set; } = 5;
