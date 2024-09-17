@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -81,8 +81,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
 
                 // Sub weapon drop chance
-                if (Main.rand.NextBool((int)(100f * chanceModifier)))
+                if (Main.rand.NextBool((int)(80f * chanceModifier)))
                 {
+                    int stackSize;
+                    if (!Main.hardMode) stackSize = Main.rand.Next(5, 10);
+                    else stackSize = Main.rand.Next(10, 20);
+
                     var subWeapons = new List<int>
                     {
                         ModContent.ItemType<SplatBomb>(),
@@ -96,7 +100,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                         source: npc.GetSource_Loot(),
                         position: npc.Center,
                         Type: droppedSub,
-                        Stack: Main.rand.Next(3, 8)
+                        Stack: stackSize
                     );
                 }
             }
