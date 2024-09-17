@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -128,7 +128,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
-            var dungeonDropChanceDenominator = 8;
+            var dungeonDropChanceDenominator = 16;
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -178,10 +178,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.Paladin:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), dungeonDropChanceDenominator / 2));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SodaSlosher>(), dungeonDropChanceDenominator / 2));
                     break;
                 case NPCID.Necromancer:
                 case NPCID.NecromancerArmored:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DappleDualieNouveau>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.DiabolistRed:
                 case NPCID.DiabolistWhite:
@@ -190,7 +191,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.RaggedCaster:
                 case NPCID.RaggedCasterOpenCoat:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SodaSlosher>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), dungeonDropChanceDenominator));
                     break;
             }
 

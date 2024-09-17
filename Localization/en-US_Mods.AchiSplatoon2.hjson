@@ -26,6 +26,7 @@ Hint: {
 	Reeflux: Hold left-click to charge up a volley of shots
 	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
 	Slosher: Throws a stream of projectiles that cover a wide area
+	Bloblobber: Throws a stream of bubbles that bounce against walls
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 
@@ -979,7 +980,7 @@ Items: {
 	}
 
 	Bloblobber: {
-		UsageHint: Mods.AchiSplatoon2.Items.Bloblobber.UsageHint
+		UsageHint: "{$Hint.Bloblobber}"
 		Flavor: Mods.AchiSplatoon2.Items.Bloblobber.Flavor
 		DisplayName: Bloblobber
 		Tooltip: ""
@@ -1140,7 +1141,7 @@ Items: {
 	}
 
 	RecycleBrellaMk2: {
-		UsageHint: Mods.AchiSplatoon2.Items.RecycleBrellaMk2.UsageHint
+		UsageHint: "{$Hint.Brella.Recycle}"
 		Flavor: Mods.AchiSplatoon2.Items.RecycleBrellaMk2.Flavor
 		DisplayName: Recycled Brella 24 Mk II
 		Tooltip: "{$BrellaPelletCount.Display}"
@@ -1175,7 +1176,7 @@ Items: {
 	}
 
 	BloblobberDeco: {
-		UsageHint: Mods.AchiSplatoon2.Items.BloblobberDeco.UsageHint
+		UsageHint: "{$Hint.Bloblobber}"
 		Flavor: Mods.AchiSplatoon2.Items.BloblobberDeco.Flavor
 		DisplayName: Bloblobber Deco
 		Tooltip: ""
@@ -1269,6 +1270,13 @@ Items: {
 		Flavor: Say it with sizzle!
 		UsageHint: "{$Hint.EelSplatana}"
 		DisplayName: Moray Claymore
+		Tooltip: ""
+	}
+
+	DappleDualieNouveau: {
+		UsageHint: "{$Hint.Dualies.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.DappleDualieNouveau.Flavor
+		DisplayName: Dapple Dualies Nouveau
 		Tooltip: ""
 	}
 }
