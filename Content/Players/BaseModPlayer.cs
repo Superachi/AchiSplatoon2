@@ -69,6 +69,8 @@ namespace AchiSplatoon2.Content.Players
             return Player.HeldItem.ModItem;
         }
 
+        public bool HasHeldItemChanged() => CheckIfHeldItemChanged();
+
         private bool CheckIfHeldItemChanged()
         {
             return oldHeldType != heldType;

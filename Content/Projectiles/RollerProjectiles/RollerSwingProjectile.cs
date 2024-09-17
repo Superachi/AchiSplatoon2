@@ -257,7 +257,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         protected void StateRolling()
         {
-            if (!InputHelper.GetInputMouseLeftHold())
+            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<BaseModPlayer>().HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;
