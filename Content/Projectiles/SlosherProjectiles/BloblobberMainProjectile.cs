@@ -4,22 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class BloblobberMainProjectile : BaseProjectile
     {
         public int burstNPCTarget = -1;
-        public int burstHitCount = 0;
-        public int burstRequiredHits = 4;
+        public int burstHitCount;
+        public int burstRequiredHits;
+        private int burstShotDelay;
 
         private string shootSampleAlt;
         private int weaponDamage;
-        private int shotsLeft = 4;
+        private int shotsLeft;
 
         public override void SetDefaults()
         {
@@ -30,12 +29,16 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as BaseSlosher;
+            var weaponData = WeaponInstance as Bloblobber;
 
             // The slosher child projectiles should do the damage here
             weaponDamage = Projectile.damage;
             shootSample = weaponData.ShootSample;
             shootSampleAlt = weaponData.ShootWeakSample;
+
+            burstRequiredHits = weaponData.BurstShotCount;
+            shotsLeft = weaponData.BurstShotCount;
+            burstShotDelay = weaponData.BurstShotDelay;
         }
 
         public override void AfterSpawn()
@@ -64,7 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             var player = GetOwner();
 
             Timer++;
-            if (Timer % 5 == 0 && shotsLeft > 0)
+            if (Timer % burstShotDelay == 0 && shotsLeft > 0)
             {
                 Timer = 0;
 

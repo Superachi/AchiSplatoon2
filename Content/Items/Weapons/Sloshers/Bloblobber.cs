@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override string ShootSample { get => "Sloshers/BloblobberShoot"; }
         public override string ShootWeakSample { get => "Sloshers/BloblobberShootAlt"; }
         public override float ShotGravity { get => 0.4f; }
+        public virtual int BurstShotCount { get => 4; }
+        public virtual int BurstShotDelay { get => 5; }
 
         public override void SetDefaults()
         {
