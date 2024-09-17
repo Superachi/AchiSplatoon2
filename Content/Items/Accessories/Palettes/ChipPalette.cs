@@ -53,9 +53,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             player.GetKnockback(DamageClass.Generic) +=
                 chips[(int)InkWeaponPlayer.ChipColor.Purple] * wepMP.PurpleChipBaseKnockbackBonus;
 
-            player.GetCritChance(DamageClass.Generic) +=
-                chips[(int)InkWeaponPlayer.ChipColor.Green] * wepMP.GreenChipBaseCritBonus;
-
             var accMP = player.GetModPlayer<InkAccessoryPlayer>();
             accMP.paletteType = GetType();
         }
@@ -156,7 +153,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (green > 0)
                     {
                         t.Text += $"\n[{ChipColor(InkColor.Green)}Lucky ({green}) >]" +
-                            $"\n[{textColorGray}Critical strike: +{(int)(green * modPlayer.GreenChipBaseCritBonus)}%]" +
                             $"\n[{textColorGray}Lucky bomb drop chance: +{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%]";
                     }
                 }

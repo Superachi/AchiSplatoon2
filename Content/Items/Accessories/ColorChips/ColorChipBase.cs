@@ -78,8 +78,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 }
                 else if (GreenValue > 0)
                 {
-                    t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
+                    t.Text += StatIncreaseDisplayString(textColor, "enemy lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
+                    t.Text += $"\n[{textColor}:Per chip, enemies are more likely to drop sub weapons, canned specials and life/mana pickups]";
                 }
                 else if (AquaValue > 0)
                 {
