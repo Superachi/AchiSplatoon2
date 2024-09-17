@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
             if (IsThisClientTheProjectileOwner() && owner.HeldItem.ModItem is GrizzcoDualie)
             {
-                CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 300, true);
+                CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 800, true);
                 PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.1f, maxInstances: 3, pitch: 0.5f);
             }
 

@@ -1,5 +1,7 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
@@ -9,15 +11,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         {
             base.SetDefaults();
 
-            Item.damage = 60;
-            Item.shootSpeed = 4;
+            Item.damage = 30;
+            Item.shootSpeed = 3.5f;
             Item.crit = 5;
-            Item.knockBack = 4;
-            Item.damage = 40;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Lime;
+            Item.knockBack = 3;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes() => AddRecipePostPlanteraDungeon();
+        public override void AddRecipes() => AddRecipeOrichalcum();
     }
 }

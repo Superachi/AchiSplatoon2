@@ -32,15 +32,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 5,
                 shotVelocity: 3f);
 
-            Item.damage = 30;
+            Item.damage = 10;
             Item.crit = 5;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipeOrichalcum();
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

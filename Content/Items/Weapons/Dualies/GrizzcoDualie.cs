@@ -18,8 +18,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         // Dualie specific
         public override int MaxRolls { get => 8; }
-        public override float RollDistance { get => 16f; }
-        public override float RollDuration { get => 16f; }
+        public override float RollDistance { get => 14f; }
+        public override float RollDuration { get => 12f; }
 
         public override void SetDefaults()
         {
@@ -27,9 +27,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
                 singleShotTime: 5,
-                shotVelocity: 4f);
+                shotVelocity: 3.5f);
 
-            Item.damage = 30;
+            Item.damage = 56;
             Item.width = 56;
             Item.height = 38;
             Item.knockBack = 2;

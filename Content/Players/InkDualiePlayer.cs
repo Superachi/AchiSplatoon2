@@ -138,7 +138,7 @@ namespace AchiSplatoon2.Content.Players
                 {
                     postRollCooldown--;
 
-                    if (Math.Abs(Player.velocity.X) > 4 && slowMoveAfterRoll)
+                    if (Math.Abs(Player.velocity.X) > 4 && (slowMoveAfterRoll && !hasSquidClipOns))
                     {
                         Player.velocity.X *= 0.9f;
                     }
@@ -180,7 +180,6 @@ namespace AchiSplatoon2.Content.Players
                     var proj = p as DualieRollProjectile;
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
-                    if (hasSquidClipOns) proj.rollDuration *= SquidClipOns.RollDistanceMult;
                     proj.AfterSpawn();
 
                     SoundHelper.PlayAudio(rollSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
