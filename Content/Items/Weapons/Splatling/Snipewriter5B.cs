@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         {
             base.SetDefaults();
 
-            Item.damage = 140;
+            Item.damage = 150;
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Lime;
         }

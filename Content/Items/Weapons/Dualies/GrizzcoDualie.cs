@@ -29,11 +29,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 5,
                 shotVelocity: 3.5f);
 
-            Item.damage = 56;
+            Item.damage = 50;
             Item.width = 56;
             Item.height = 38;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 40);
+            Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.Lime;
         }
 
