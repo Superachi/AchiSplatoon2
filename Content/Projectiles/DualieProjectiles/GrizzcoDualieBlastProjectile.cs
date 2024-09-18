@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
     internal class GrizzcoDualieBlastProjectile : BaseProjectile
     {
         protected string explosionSample = "BlasterExplosion";
-        private int baseRadius = 225;
+        private int baseRadius = 220;
         private bool hasExploded = false;
 
         public override void SetDefaults()
@@ -36,6 +36,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            modifiers.DisableCrit();
             modifiers.Knockback *= 2;
             base.ModifyHitNPC(target, ref modifiers);
         }

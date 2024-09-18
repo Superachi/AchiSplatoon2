@@ -1288,6 +1288,13 @@ Items: {
 		DisplayName: Dualie Squelchers
 		Tooltip: ""
 	}
+
+	HeroShot: {
+		UsageHint: Mods.AchiSplatoon2.Items.HeroShot.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.HeroShot.Flavor
+		DisplayName: Hero Shot
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

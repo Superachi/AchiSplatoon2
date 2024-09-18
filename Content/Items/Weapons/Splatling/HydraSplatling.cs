@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.damage = 50;
             Item.width = 88;
             Item.height = 50;
-            Item.knockBack = 4;
+            Item.knockBack = 6;
 
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
