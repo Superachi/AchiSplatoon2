@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
-                singleShotTime: 5,
+                singleShotTime: 6,
                 shotVelocity: 3f);
 
             Item.damage = 10;
