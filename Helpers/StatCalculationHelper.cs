@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.BurstBomb    && weaponInstance is BurstBomb)
                             || (heldItem.BonusSub == SubWeaponType.AngleShooter && weaponInstance is AngleShooter)
                             || (heldItem.BonusSub == SubWeaponType.Sprinkler    && weaponInstance is Sprinkler)) {
-                            damageModifier += BaseWeapon.subDamageBonus;
+                            damageModifier += heldItem.SubWeaponDamageBonus;
                         }
                     }
                 }

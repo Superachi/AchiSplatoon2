@@ -419,10 +419,15 @@ namespace AchiSplatoon2.Content.Players
         public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
         {
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+            var heldItem = Player.HeldItem.ModItem;
 
             float damageMod = 1f;
-            damageMod *= accMP.subPowerMultiplier;
-            if (hasMainWeaponBonus) damageMod *= (1 + BaseWeapon.subDamageBonus);
+            if (heldItem is BaseWeapon)
+            {
+                var heldWeapon = heldItem as BaseWeapon;
+                damageMod *= accMP.subPowerMultiplier;
+                if (hasMainWeaponBonus) damageMod *= (1 + heldWeapon.SubWeaponDamageBonus);
+            }
             return damageMod;
         }
 

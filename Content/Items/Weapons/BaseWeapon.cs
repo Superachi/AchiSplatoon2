@@ -67,8 +67,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponType BonusSub { get; private set; }
         public SubWeaponBonusType BonusType { get; private set; }
 
+        public virtual float SubWeaponDamageBonus { get => 0.5f; }
         public const float subDiscountChance = 0.5f;
-        public const float subDamageBonus = 0.5f;
+
         protected static int[] subWeaponItemIDs = {
             ModContent.ItemType<SplatBomb>(),
             ModContent.ItemType<BurstBomb>(),
@@ -169,7 +170,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 if (BonusType == SubWeaponBonusType.Damage)
                 {
-                    var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{ColorHelper.TextWithBonusColor($"+{(int)(subDamageBonus * 100f)}% {GetSubWeaponName(BonusSub)} damage")}") { OverrideColor = null };
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{ColorHelper.TextWithBonusColor($"+{(int)(SubWeaponDamageBonus * 100f)}% {GetSubWeaponName(BonusSub)} damage")}") { OverrideColor = null };
                     tooltips.Add(tooltip);
                 }
             }
