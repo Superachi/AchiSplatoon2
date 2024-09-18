@@ -38,9 +38,11 @@ Hint: {
 
 	Dualies: {
 		Generic: Right-click while attacking to dodge roll. Stand still afterwards for a stronger attack
-		Grizzco: "{0} Dodge roll(s)! Rolling creates an explosion at your location"
-		Tetra: "{0} Dodge roll(s)! Can attack while rolling, slightly increased mobility outside of rolling"
-		Douser: Up to one dodge roll at a time. Has long range when not rolling
+		Grizzco: Has {0} dodge rolls! Rolling creates an explosion at your location
+		Tetra: Has {0} dodge rolls. Can attack while rolling and has no movement penalty after a roll
+		Dapple: Has {0} dodge rolls. Stand still after a roll for a stronger attack
+		Douser: Has one dodge roll, but increased range when not rolling
+		Squelcher: Has no increased damage after rolling, but also no movement penalty
 	}
 
 	Splatana: Hold left-click to charge up a powerful, piercing slash
@@ -749,7 +751,7 @@ Items: {
 	}
 
 	DappleDualie: {
-		UsageHint: "{$Hint.Dualies.Generic}"
+		UsageHint: "{$Hint.Dualies.Dapple}"
 		Flavor: Mods.AchiSplatoon2.Items.DappleDualie.Flavor
 		DisplayName: Dapple Dualies
 		Tooltip: ""
@@ -1274,9 +1276,16 @@ Items: {
 	}
 
 	DappleDualieNouveau: {
-		UsageHint: "{$Hint.Dualies.Generic}"
+		UsageHint: "{$Hint.Dualies.Dapple}"
 		Flavor: Mods.AchiSplatoon2.Items.DappleDualieNouveau.Flavor
 		DisplayName: Dapple Dualies Nouveau
+		Tooltip: ""
+	}
+
+	DualieSquelcher: {
+		UsageHint: "{$Hint.Dualies.Squelcher}"
+		Flavor: Mods.AchiSplatoon2.Items.DualieSquelcher.Flavor
+		DisplayName: Dualie Squelchers
 		Tooltip: ""
 	}
 }
