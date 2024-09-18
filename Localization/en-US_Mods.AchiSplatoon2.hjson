@@ -1150,9 +1150,9 @@ Items: {
 	}
 
 	CustomDouserDualie: {
-		UsageHint: Mods.AchiSplatoon2.Items.CustomDouserDualie.UsageHint
+		UsageHint: "{$Hint.Dualies.Douser}"
 		Flavor: Mods.AchiSplatoon2.Items.CustomDouserDualie.Flavor
-		DisplayName: Custom Douser Dualies
+		DisplayName: Custom Douser Dualies FF
 		Tooltip: ""
 	}
 
