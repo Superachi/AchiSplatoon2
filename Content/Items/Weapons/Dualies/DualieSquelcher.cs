@@ -35,12 +35,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 6,
                 shotVelocity: 6f);
 
-            Item.damage = 42;
+            Item.damage = 36;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 3f;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
+
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
     }
 }
