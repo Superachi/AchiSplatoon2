@@ -839,6 +839,15 @@ namespace AchiSplatoon2.Content.Projectiles
 
             foreach (var p in Main.ActiveProjectiles)
             {
+                bool skip = false;
+                switch (p.type)
+                {
+                    case ProjectileID.SandnadoHostile:
+                        skip = true;
+                        break;
+                }
+                if (skip) continue;
+
                 if (rect.Contains((int)p.Center.X, (int)p.Center.Y) && p.hostile)
                 {
                     var globalProjectile = p.GetGlobalProjectile<BaseGlobalProjectile>();

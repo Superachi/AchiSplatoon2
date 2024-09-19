@@ -50,7 +50,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
             if (accMP.hasPinkSponge)
             {
-                Rectangle projectileRect = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+                var size = 80;
+                Rectangle projectileRect = new Rectangle((int)Projectile.Center.X - size/2, (int)Projectile.Center.Y - size / 2, size, size);
                 Projectile deflectedProj = DeflectProjectileWithinRectangle(projectileRect);
 
                 if (deflectedProj != null)
@@ -71,8 +72,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     {
                         deflectedProj.damage *= 2;
                     }
-
-                    Projectile.timeLeft = (int)MathHelper.Min(Projectile.timeLeft, timeLeftWhenFade);
                 }
             }
         }
