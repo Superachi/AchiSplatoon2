@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Dusts
 {
-    internal class SplatterDropletDust : ModDust
+    internal class SplatterDropletDust : BaseDust
     {
         public override void OnSpawn(Dust dust)
         {

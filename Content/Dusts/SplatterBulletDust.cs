@@ -3,18 +3,15 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Dusts
 {
-    internal class SplatterBulletDust : ModDust
+    internal class SplatterBulletDust : BaseDust
     {
-        public virtual float ScaleSpeed { get; set; } = -0.05f;
+        public virtual float ScaleSpeed { get; set; } = -0.15f;
         public override void OnSpawn(Dust dust)
         {
-            dust.noLight = false;
-
             var random = Main.rand.NextFloat(-1, 1);
             dust.velocity.X += random;
             dust.velocity.Y += random;
         }
-
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
@@ -28,6 +25,12 @@ namespace AchiSplatoon2.Content.Dusts
             {
                 dust.active = false;
             }
+            return false;
+        }
+
+        public override bool PreDraw(Dust dust)
+        {
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false);
             return false;
         }
     }

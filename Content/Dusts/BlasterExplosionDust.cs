@@ -4,7 +4,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace AchiSplatoon2.Content.Dusts
 {
-    internal class BlasterExplosionDust : ModDust
+    internal class BlasterExplosionDust : BaseDust
     {
         public virtual Vector2 RotationSpeedRange { get; set; } = new Vector2(-0.05f, 0.05f);
         private float RotationSpeed = 0f;

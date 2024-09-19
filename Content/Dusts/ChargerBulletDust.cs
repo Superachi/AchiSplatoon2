@@ -3,9 +3,9 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Dusts
 {
-    internal class SlosherProjectileDust : BaseDust
+    internal class ChargerBulletDust : BaseDust
     {
-        public virtual float ScaleSpeed { get; set; } = -0.2f;
+        public virtual float ScaleSpeed { get; set; } = -0.06f;
         public override void OnSpawn(Dust dust)
         {
             dust.noLight = false;
