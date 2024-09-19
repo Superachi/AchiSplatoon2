@@ -166,6 +166,15 @@ namespace AchiSplatoon2.Content.Items
             return RegisterRecipe(recipe, registerNow);
         }
 
+        protected Recipe AddRecipeChlorophyteUpgrade(bool registerNow, int requiredWeapon)
+        {
+            Recipe recipe = CreateRecipe()
+                .AddIngredient(ItemID.ChlorophyteBar, 5)
+                .AddIngredient(requiredWeapon, 1);
+
+            return RegisterRecipe(recipe, registerNow);
+        }
+
         protected void AddRecipePostPlanteraDungeon()
         {
             AddRecipeWithSheldonLicenseSilver(false)

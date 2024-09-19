@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +9,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Dot52Gal : BaseSplattershot
     {
+        public virtual int DamageOverride => 52;
+        protected override string UsageHintParamA => $"{DamageOverride}";
+
         public override string ShootSample { get => "Dot52GalShoot"; }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }

@@ -6,10 +6,11 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class Dot52GalProjectile : SplattershotProjectile
     {
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            base.AfterSpawn();
-            Projectile.damage = 52;
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as Dot52Gal;
+            Projectile.damage = weaponData.DamageOverride;
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)

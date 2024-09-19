@@ -1,5 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
@@ -16,6 +17,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes() => AddRecipePostPlanteraDungeon();
+        public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<RecycleBrella>());
     }
 }
