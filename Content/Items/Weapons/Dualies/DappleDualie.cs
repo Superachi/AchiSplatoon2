@@ -18,6 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float MuzzleOffsetPx { get; set; } = 52f;
 
         // Dualie specific
+        public override string RollSample { get => "Dualies/TetraDualieRoll"; }
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1.2f; }
         public override int MaxRolls { get => 3; }

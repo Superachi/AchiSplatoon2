@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Terraria;
@@ -28,6 +29,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 shop.Add<OrderBrush>();
                 shop.Add<OrderStringer>();
                 shop.Add<OrderCharger>();
+            }
+
+            if (shop.NpcType == NPCID.Painter)
+            {
+                shop.Add<PainterDualie>();
             }
         }
     }
