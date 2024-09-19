@@ -190,9 +190,9 @@ namespace AchiSplatoon2.Content.Players
 
                     if (hasSquidClipOns) {
                         maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
-                        Player.immuneTime = (int)rollDuration;
+                        Player.immuneTime = (int)rollDuration + 12;
                         Player.immune = true;
-                        Player.immuneNoBlink = true;
+                        Player.immuneNoBlink = false;
                     };
                 }
             }

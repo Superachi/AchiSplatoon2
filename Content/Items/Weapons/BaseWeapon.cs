@@ -251,12 +251,14 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (modPlayer.CustomWeaponCooldown > 0) return false;
+
             if (!IsSpecialWeapon) {
                 return base.CanUseItem(player);
             }
             else
             {
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
                 if (!modPlayer.SpecialReady
                     || (modPlayer.IsSpecialActive && IsDurationSpecial)
                     || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
