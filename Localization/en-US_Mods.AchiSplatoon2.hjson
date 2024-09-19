@@ -25,10 +25,14 @@ Hint: {
 	TriStringer: Hold left-click to charge up a volley of explosive shots
 	Reeflux: Hold left-click to charge up a volley of shots
 	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
-	Slosher: Throws a stream of projectiles that cover a wide area
-	Bloblobber: Throws a stream of bubbles that bounce against walls
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+
+	Sloshers: {
+		Slosher: Throws a stream of projectiles that cover a wide area
+		Bloblobber: Throws a stream of bubbles that bounce against walls
+		Explosher: Throws a piercing projectile that explodes when hitting a wall
+	}
 
 	Brushes: {
 		Ink: Drastically improved mobility when not attacking
@@ -516,7 +520,7 @@ Items: {
 
 	Slosher: {
 		Flavor: I barely know her!
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		DisplayName: Slosher
 		Tooltip: ""
 	}
@@ -529,7 +533,7 @@ Items: {
 	}
 
 	SlosherDeco: {
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: Mods.AchiSplatoon2.Items.SlosherDeco.Flavor
 		DisplayName: Slosher Deco
 		Tooltip: ""
@@ -982,7 +986,7 @@ Items: {
 	}
 
 	Bloblobber: {
-		UsageHint: "{$Hint.Bloblobber}"
+		UsageHint: "{$Hint.Sloshers.Bloblobber}"
 		Flavor: Mods.AchiSplatoon2.Items.Bloblobber.Flavor
 		DisplayName: Bloblobber
 		Tooltip: ""
@@ -1178,7 +1182,7 @@ Items: {
 	}
 
 	BloblobberDeco: {
-		UsageHint: "{$Hint.Bloblobber}"
+		UsageHint: "{$Hint.Sloshers.Bloblobber}"
 		Flavor: Mods.AchiSplatoon2.Items.BloblobberDeco.Flavor
 		DisplayName: Bloblobber Deco
 		Tooltip: ""
@@ -1199,21 +1203,21 @@ Items: {
 	}
 
 	SodaSlosher: {
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: SODAAAAA!!
 		DisplayName: Soda Slosher
 		Tooltip: ""
 	}
 
 	TriSlosher: {
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: It just takes no skill!
 		DisplayName: Tri-Slosher
 		Tooltip: ""
 	}
 
 	TriSlosherNouveau: {
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: Mods.AchiSplatoon2.Items.TriSlosherNouveau.Flavor
 		DisplayName: Tri-Slosher Nouveau
 		Tooltip: ""
@@ -1302,6 +1306,13 @@ Items: {
 		DisplayName: .96 Gal
 		Tooltip: ""
 	}
+
+	Explosher: {
+		UsageHint: "{$Hint.Sloshers.Explosher}"
+		Flavor: Mods.AchiSplatoon2.Items.Explosher.Flavor
+		DisplayName: Explosher
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1381,6 +1392,8 @@ Projectiles: {
 	SnipewriterProjectile.DisplayName: Snipewriter Projectile
 	EelSplatanaStrongSlashProjectile.DisplayName: Eel Splatana Strong Slash Projectile
 	EelSplatanaSmallProjectile.DisplayName: Eel Splatana Small Projectile
+	ExplosherProjectile.DisplayName: Explosher Projectile
+	BlastProjectile.DisplayName: Blast Projectile
 }
 
 Buffs: {
