@@ -257,7 +257,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<ChargerBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
         }
 
         protected void TilePierceDustEffect()

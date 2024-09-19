@@ -1313,6 +1313,13 @@ Items: {
 		DisplayName: Explosher
 		Tooltip: ""
 	}
+
+	PainterDualie: {
+		UsageHint: Mods.AchiSplatoon2.Items.PainterDualie.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PainterDualie.Flavor
+		DisplayName: Paintball Dualies
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1394,6 +1401,7 @@ Projectiles: {
 	EelSplatanaSmallProjectile.DisplayName: Eel Splatana Small Projectile
 	ExplosherProjectile.DisplayName: Explosher Projectile
 	BlastProjectile.DisplayName: Blast Projectile
+	PainterDualieShotProjectile.DisplayName: Painter Dualie Shot Projectile
 }
 
 Buffs: {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -126,6 +127,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     FuseTime = maxFuseTime;
                     hasExploded = true;
                     Detonate();
+
+                    Player owner = GetOwner();
+                    if (Projectile.Center.Distance(owner.Center) < 200)
+                    {
+                        GameFeelHelper.ShakeScreenNearPlayer(owner, true, strength: 3, speed: 4, duration: 20);
+                    }
                     break;
                 case stateDespawn:
                     Projectile.Kill();

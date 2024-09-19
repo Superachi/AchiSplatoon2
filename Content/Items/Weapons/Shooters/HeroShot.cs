@@ -9,8 +9,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     internal class HeroShot : Splattershot
     {
         public override float ShotGravity { get => 0.4f; }
-        public override int ShotGravityDelay => 6;
-        public override int ShotExtraUpdates { get => 6; }
+        public override int ShotGravityDelay => 10;
+        public override int ShotExtraUpdates { get => 5; }
         public override float AimDeviation { get => 2f; }
         public override string ShootSample { get => "HeroShotShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }

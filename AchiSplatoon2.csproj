@@ -24,6 +24,7 @@
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectiles\SBlastProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
+	  <None Remove="Content\Projectiles\BlastProjectile.png" />
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaPelletProjectile.png" />
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaShotgunProjectile.png" />
 	  <None Remove="Content\Projectiles\BrushProjectiles\DesertBrushProjectile.png" />
@@ -43,6 +44,7 @@
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaDynamoRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaSplatRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\BloblobberMainProjectile.png" />
+	  <None Remove="Content\Projectiles\SlosherProjectiles\ExplosherProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherChildProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />

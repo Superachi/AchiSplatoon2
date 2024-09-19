@@ -40,11 +40,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         {
             Color dustColor = GenerateInkColor();
             var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
-            if (Main.rand.NextBool(10))
+            if (Main.rand.NextBool(5))
             {
-                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
-            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<ChargerBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
