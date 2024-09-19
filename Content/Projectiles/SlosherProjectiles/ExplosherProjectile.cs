@@ -44,7 +44,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
-            enablePierceDamagefalloff = false;
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
         }
 
@@ -67,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             Color dustColor = GenerateInkColor();
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(1.5f, 2f));
-            Dust.NewDustPerfect(Position: Projectile.position + Main.rand.NextVector2Circular(10, 10), Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+            Dust.NewDustPerfect(Position: Projectile.position + Main.rand.NextVector2Circular(5, 5), Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
