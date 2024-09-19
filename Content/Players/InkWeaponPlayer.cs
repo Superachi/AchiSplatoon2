@@ -218,18 +218,6 @@ namespace AchiSplatoon2.Content.Players
                         moveFrictionModifier = 3f;
                     }
                     break;
-                case DarkTetraDualie:
-                    moveAccelModifier = 3f;
-                    if (Player.GetModPlayer<InkDualiePlayer>().postRollCooldown > 0)
-                    {
-                        moveFrictionModifier = 2f;
-                    }
-                    break;
-                case SplatanaWiper:
-                case SplatanaStamper:
-                    moveAccelModifier = 3f;
-                    moveFrictionModifier = 3f;
-                    break;
                 case BaseRoller:
                     var roller = Player.HeldItem.ModItem as BaseRoller;
                     if (isUsingRoller)
@@ -238,6 +226,15 @@ namespace AchiSplatoon2.Content.Players
                         moveFrictionModifier = Math.Max(1, roller.RollingAccelModifier);
                     }
                     break;
+            }
+
+            if (Player.HeldItem.ModItem is BaseDualie)
+            {
+                moveAccelModifier = 2f;
+                if (Player.GetModPlayer<InkDualiePlayer>().postRollCooldown > 0)
+                {
+                    moveFrictionModifier = 2f;
+                }
             }
 
             // Move speed bonus from holding blue color chips
