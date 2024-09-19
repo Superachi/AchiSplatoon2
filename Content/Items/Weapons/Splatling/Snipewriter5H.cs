@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
                 projectileType: ModContent.ProjectileType<SnipewriterCharge>(),
                 singleShotTime: BarrageShotTime + 10,
                 shotVelocity: BarrageVelocity);
-            Item.damage = 90;
+            Item.damage = 120;
             Item.width = 88;
             Item.height = 26;
             Item.crit = 5;
