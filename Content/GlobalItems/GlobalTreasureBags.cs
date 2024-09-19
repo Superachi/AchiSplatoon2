@@ -5,6 +5,8 @@ using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using Terraria.GameContent.ItemDropRules;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 
 namespace AchiSplatoon2.Content.GlobalItems
 {
@@ -43,6 +45,20 @@ namespace AchiSplatoon2.Content.GlobalItems
             {
                 itemLoot.Add(
                     ItemDropRule.Common(ModContent.ItemType<StarfishedCharger>())
+                );
+            }
+
+            if (item.type == ItemID.FishronBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<EelSplatana>())
+                );
+            }
+
+            if (item.type == ItemID.GolemBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<Explosher>())
                 );
             }
         }

@@ -75,6 +75,8 @@ namespace AchiSplatoon2.Content.Players
             Aqua,
         }
 
+        public int CustomWeaponCooldown = 0;
+
         public float moveSpeedModifier = 1f;
         public float moveAccelModifier = 1f;
         public float moveFrictionModifier = 1f;
@@ -83,6 +85,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            if (CustomWeaponCooldown > 0) CustomWeaponCooldown--;
             if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
 
             if (playerId == -1 && DoesModPlayerBelongToLocalClient())
