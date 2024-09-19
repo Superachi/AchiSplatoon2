@@ -13,6 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override float ShotGravity { get => 0.4f; }
         public int ShotGravityDelay => 30;
         public int ShotExtraUpdates => 3;
+        public override float SubWeaponDamageBonus => 1f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -24,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.useAnimation = 30;
-            Item.damage = 220;
+            Item.damage = 240;
             Item.knockBack = 8;
 
             Item.value = Item.buyPrice(gold: 30);
