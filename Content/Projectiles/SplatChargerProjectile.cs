@@ -58,6 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             Projectile.velocity = Vector2.Zero;
             tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
+            enablePierceDamagefalloff = false;
 
             if (IsThisClientTheProjectileOwner())
             {
