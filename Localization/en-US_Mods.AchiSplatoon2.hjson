@@ -21,7 +21,7 @@ Hint: {
 
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
-	SBlast: Has increased damage and range while grounded, but also a smaller blast
+	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
 	TriStringer: Hold left-click to charge up a volley of explosive shots
 	Reeflux: Hold left-click to charge up a volley of shots
 	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)

@@ -34,8 +34,8 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         public override void AfterSpawn()
         {
             base.AfterSpawn();
-
-            if (IsPlayerGrounded())
+            var owner = GetOwner();
+            if (IsPlayerGrounded() || owner.velocity.Length() < 0.005f)
             {
                 Projectile.damage = MultiplyProjectileDamage(1.5f);
                 Projectile.velocity *= 1.5f;
