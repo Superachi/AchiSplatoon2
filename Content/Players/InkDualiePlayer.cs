@@ -114,6 +114,12 @@ namespace AchiSplatoon2.Content.Players
         public override void PreUpdateMovement()
         {
             int projType = ModContent.ProjectileType<DualieRollProjectile>();
+            if (HeldModItem() is BaseDualie)
+            {
+                var item = HeldModItem() as BaseDualie;
+                projType = item.RollProjectileType;
+            }
+
             isRolling = Player.ownedProjectileCounts[projType] >= 1;
 
             if (!isRolling)
@@ -147,7 +153,6 @@ namespace AchiSplatoon2.Content.Players
 
             if (isRolling)
             {
-                DodgeRollDustStream();
                 BlockJumps();
                 Player.wings = 0;
                 postRoll = true;
@@ -173,7 +178,6 @@ namespace AchiSplatoon2.Content.Players
                 if (!Collision.SolidCollision(new Vector2(Player.position.X + xDir * 10, Player.position.Y), Player.width, Player.height))
                 {
                     BlockJumps();
-                    DodgeRollDustBurst(xDir);
 
                     // Roll!
                     var p = CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
@@ -181,9 +185,6 @@ namespace AchiSplatoon2.Content.Players
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
                     proj.AfterSpawn();
-
-                    SoundHelper.PlayAudio(rollSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
-                    SoundHelper.PlayAudio(SoundID.Splash, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
 
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
@@ -195,40 +196,6 @@ namespace AchiSplatoon2.Content.Players
                         Player.immuneNoBlink = false;
                     };
                 }
-            }
-        }
-
-        private void DodgeRollDustStream()
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Rectangle rect = new Rectangle((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height);
-
-                Color color = Player.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
-                Dust d = Dust.NewDustPerfect(
-                    Position: Main.rand.NextVector2FromRectangle(rect),
-                    Type: ModContent.DustType<SplatterBulletDust>(),
-                    Velocity: new Vector2(Player.velocity.X / Main.rand.NextFloat(2, 6), 0),
-                    Alpha: 96,
-                    newColor: color,
-                    Scale: 1f);
-            }
-        }
-
-        private void DodgeRollDustBurst(int xDirection)
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                Rectangle rect = new Rectangle((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height);
-
-                Color color = Player.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
-                Dust d = Dust.NewDustPerfect(
-                    Position: Main.rand.NextVector2FromRectangle(rect),
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),
-                    Alpha: 0,
-                    newColor: color,
-                    Scale: Main.rand.NextFloat(1f, 2f));
             }
         }
     }

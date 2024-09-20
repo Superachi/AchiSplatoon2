@@ -18,8 +18,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         // Dualie specific
         public override int MaxRolls { get => 8; }
-        public override float RollDistance { get => 14f; }
-        public override float RollDuration { get => 12f; }
+        public override float RollDistance { get => 15f; }
+        public override float RollDuration { get => 15f; }
 
         public override void SetDefaults()
         {

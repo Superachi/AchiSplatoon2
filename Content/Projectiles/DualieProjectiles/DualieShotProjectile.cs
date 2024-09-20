@@ -87,14 +87,20 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             return true;
         }
 
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
         private void PlayShootSound()
         {
             var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
             if (dualieMP.isTurret)
             {
-                PlayAudio(shootAltSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0f);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0f);
             } else {
-                PlayAudio(shootSample, volume: 0.15f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.25f);
+                PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.25f);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Dualies;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -11,23 +12,18 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
     internal class DualieRollProjectile : BaseProjectile
     {
-        private Player owner;
-        private InkDualiePlayer dualieMP;
-
         public float rollDistance;
         public float rollDuration;
+        protected virtual bool DisplayDefaultDusts => true;
+
+        private Player owner;
+        private InkDualiePlayer dualieMP;
 
         public override void SetDefaults()
         {
             Projectile.timeLeft = 60;
             Projectile.tileCollide = false;
             Projectile.friendly = false;
-        }
-
-        public override void ApplyWeaponInstanceData()
-        {
-            var dualieData = WeaponInstance as BaseDualie;
-            PlayAudio(dualieData.RollSample, pitchVariance: 0.1f);
         }
 
         public override void AfterSpawn()
@@ -37,12 +33,6 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             owner = GetOwner();
             dualieMP = owner.GetModPlayer<InkDualiePlayer>();
 
-            if (IsThisClientTheProjectileOwner() && owner.HeldItem.ModItem is GrizzcoDualie)
-            {
-                CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 800, true);
-                PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.1f, maxInstances: 3, pitch: 0.5f);
-            }
-
             var xDir = InputHelper.GetInputX();
             if (xDir != 0)
             {
@@ -50,6 +40,18 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             } else
             {
                 owner.velocity.X = -Math.Sign(owner.DirectionTo(Main.MouseWorld).X) * rollDistance;
+            }
+
+            PlayRollSound();
+            DodgeRollDustBurst(Math.Sign(owner.velocity.X));
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                if (owner.HeldItem.ModItem is GrizzcoDualie)
+                {
+                    CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 800, true);
+                    PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.1f, maxInstances: 3, pitch: 0.5f);
+                } 
             }
         }
 
@@ -61,6 +63,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             owner.velocity.Y = MathHelper.Max(owner.velocity.Y, 10);
             owner.fullRotation += Math.Sign(owner.velocity.X) * rollDistance / rollDuration / fullRotate * rotateSpeed; // 0.3f;
             owner.fullRotationOrigin = new Vector2(10f, 20f);
+            DodgeRollDustStream();
 
             if (Math.Abs(owner.fullRotation) >= fullRotate) Projectile.Kill();
             if (owner.velocity.X == 0) Projectile.Kill();
@@ -71,6 +74,51 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             owner.fullRotation = 0;
             dualieMP.postRollCooldown = InkDualiePlayer.postRollCooldownDefault;
             dualieMP.DisplayRolls();
+        }
+
+        protected virtual void PlayRollSound()
+        {
+            var dualieData = WeaponInstance as BaseDualie;
+            PlayAudio(dualieData.RollSample, pitchVariance: 0.1f);
+            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
+        }
+
+        private void DodgeRollDustStream()
+        {
+            if (!DisplayDefaultDusts) return;
+
+            for (int i = 0; i < 2; i++)
+            {
+                Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
+
+                Color color = owner.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Dust d = Dust.NewDustPerfect(
+                    Position: Main.rand.NextVector2FromRectangle(rect),
+                    Type: ModContent.DustType<ChargerBulletDust>(),
+                    Velocity: new Vector2(owner.velocity.X / Main.rand.NextFloat(2, 6), 0),
+                    Alpha: 96,
+                    newColor: color,
+                    Scale: 1f);
+            }
+        }
+
+        private void DodgeRollDustBurst(int xDirection)
+        {
+            if (!DisplayDefaultDusts) return;
+
+            for (int i = 0; i < 30; i++)
+            {
+                Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
+
+                Color color = owner.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Dust d = Dust.NewDustPerfect(
+                    Position: Main.rand.NextVector2FromRectangle(rect),
+                    Type: ModContent.DustType<SplatterDropletDust>(),
+                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),
+                    Alpha: 0,
+                    newColor: color,
+                    Scale: Main.rand.NextFloat(1f, 2f));
+            }
         }
     }
 }

@@ -47,6 +47,7 @@ Hint: {
 		Dapple: Has {0} dodge rolls. Stand still after a roll for a stronger attack
 		Douser: Has one dodge roll, but increased range when not rolling
 		Squelcher: Has no increased damage after rolling, but also no movement penalty
+		Vortex: Has {0} dodges. Instead of just rolling, you zip towards a given direction
 	}
 
 	Splatana: Hold left-click to charge up a powerful, piercing slash
@@ -1320,6 +1321,13 @@ Items: {
 		DisplayName: Paintball Dualies
 		Tooltip: ""
 	}
+
+	VortexDualie: {
+		UsageHint: "{$Hint.Dualies.Vortex}"
+		Flavor: Mods.AchiSplatoon2.Items.VortexDualie.Flavor
+		DisplayName: Vortex Dualies
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1402,6 +1410,8 @@ Projectiles: {
 	ExplosherProjectile.DisplayName: Explosher Projectile
 	BlastProjectile.DisplayName: Blast Projectile
 	PainterDualieShotProjectile.DisplayName: Painter Dualie Shot Projectile
+	VortexDualieShotProjectile.DisplayName: Vortex Dualie Shot Projectile
+	VortexDualieRollProjectile.DisplayName: Vortex Dualie Roll Projectile
 }
 
 Buffs: {

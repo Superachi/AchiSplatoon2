@@ -22,8 +22,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1.2f; }
         public override int MaxRolls { get => 3; }
-        public override float RollDistance { get => 14f; }
-        public override float RollDuration { get => 12f; }
+        public override float RollDistance { get => 15f; }
+        public override float RollDuration { get => 15f; }
 
         public override void SetDefaults()
         {
