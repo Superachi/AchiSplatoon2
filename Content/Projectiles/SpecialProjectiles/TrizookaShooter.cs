@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -58,11 +59,19 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     float shotSpeed = shotVelocityBase + Main.rand.NextFloat(-shotVelocityRange, shotVelocityRange);
                     Vector2 velocity = WoomyMathHelper.DegreesToVector(degrees) * shotSpeed;
 
-                    CreateChildProjectile(
+                    var p = CreateChildProjectile(
                         position: Projectile.Center,
                         velocity: velocity,
                         type: ModContent.ProjectileType<TrizookaProjectile>(),
                         damage: Projectile.damage);
+
+                    if (WeaponInstance is not TrizookaUnleashed)
+                    {
+                        p.colorOverride = initialColor;
+                    } else
+                    {
+                        p.colorOverride = Main.DiscoColor;
+                    }
                 }
             }
         }

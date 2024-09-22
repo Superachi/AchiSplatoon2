@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -77,9 +78,18 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.tileCollide = false;
             Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
+
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
             var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
-            CreateExplosionVisual(e, s);
+            var p = CreateChildProjectile<ExplosionProjectileVisual>(
+                position: Projectile.Center,
+                velocity: Vector2.Zero,
+                damage: 0);
+
+            p.explosionDustModel = e;
+            p.playAudioModel = s;
+            p.colorOverride = colorOverride;
+
             AdvanceState();
         }
 
