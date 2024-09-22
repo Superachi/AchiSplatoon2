@@ -25,11 +25,5 @@ namespace AchiSplatoon2.Content.Dusts
             if (dust.scale < 0.05f) dust.active = false;
             return false;
         }
-
-        public override bool PreDraw(Dust dust)
-        {
-            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: BlendState.Additive);
-            return false;
-        }
     }
 }

@@ -88,12 +88,6 @@ namespace AchiSplatoon2.Content.Players
             if (CustomWeaponCooldown > 0) CustomWeaponCooldown--;
             if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
 
-            if (playerId == -1 && DoesModPlayerBelongToLocalClient())
-            {
-                playerId = Player.whoAmI;
-                Main.NewText($"Woomy! Hi {Player.name}!", Color.Orange);
-            }
-
             // Emit dusts when special is ready
             if (SpecialReady)
             {

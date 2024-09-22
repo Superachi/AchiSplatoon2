@@ -1328,7 +1328,7 @@ Items: {
 
 	VortexDualie: {
 		UsageHint: "{$Hint.Dualies.Vortex}"
-		Flavor: Mods.AchiSplatoon2.Items.VortexDualie.Flavor
+		Flavor: I can dance all day, try and hit me!
 		DisplayName: Interstellar Dualies
 		Tooltip: ""
 	}
@@ -1425,6 +1425,8 @@ Projectiles: {
 	VortexDualieRollProjectile.DisplayName: Vortex Dualie Roll Projectile
 	NebulaStringerProjectile.DisplayName: Nebula Stringer Projectile
 	NebulaStringerCharge.DisplayName: Nebula Stringer Charge
+	SlimeSplattershotProjectile.DisplayName: Slime Splattershot Projectile
+	TrizookaUnleashedProjectile.DisplayName: Trizooka Unleashed Projectile
 }
 
 Buffs: {

@@ -39,5 +39,11 @@ namespace AchiSplatoon2.Content.Dusts
                 spriteBatch.Draw(Texture2D.Value, position, dust.frame, finalColor, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
             }
         }
+
+        public override bool PreDraw(Dust dust)
+        {
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: BlendState.Additive);
+            return false;
+        }
     }
 }

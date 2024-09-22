@@ -49,6 +49,7 @@
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\CarbonRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaDynamoRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaSplatRollerSwingProjectile.png" />
+	  <None Remove="Content\Projectiles\ShooterProjectiles\Dot52GalProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\BloblobberMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\ExplosherProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherChildProjectile.png" />
@@ -62,8 +63,8 @@
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\SnipewriterCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\SnipewriterProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
-	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
 	</ItemGroup>
 	<ItemGroup>

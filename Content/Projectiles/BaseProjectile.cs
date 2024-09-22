@@ -530,14 +530,22 @@ namespace AchiSplatoon2.Content.Projectiles
             if (wepMP.DoesPlayerHaveEqualAmountOfChips() && wepMP.CalculateColorChipTotal() != 0)
             {
                 var colorMP = GetOwnerModPlayer<InkColorPlayer>();
-                colorMP.IncreaseHueBy(10, out float hue);
-                colorOverride = colorMP.currentColor;
+                colorOverride = colorMP.IncreaseHueBy(5);
                 return (Color)colorOverride;
             }
 
             // If there are two color chips being considered, add a bias towards the color that we have more chips of
-            var amount = 0.5f;
-            if (primaryHighest != secondaryHighest) { amount = 0.35f; }
+            var colorResult = ColorHelper.CombinePrimarySecondaryColors(
+                ColorHelper.GetInkColor(primaryColor),
+                ColorHelper.GetInkColor(secondaryColor));
+
+            if (primaryHighest != secondaryHighest)
+            {
+                colorResult = ColorHelper.CombinePrimarySecondaryColors(
+                ColorHelper.GetInkColor(primaryColor),
+                ColorHelper.GetInkColor(secondaryColor),
+                ColorHelper.GetInkColor(primaryColor));
+            };
 
             if (primaryHighest == 0 && secondaryHighest == 0 && NetHelper.IsThisAClient())
             {
@@ -547,7 +555,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 return modPlayer.ColorFromChips;
             }
 
-            return ColorHelper.LerpBetweenInkColors(primaryColor, secondaryColor, amount);
+            return colorResult;
         }
 
         /// <summary>
