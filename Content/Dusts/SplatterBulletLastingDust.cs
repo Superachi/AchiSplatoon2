@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Dusts
@@ -27,7 +28,7 @@ namespace AchiSplatoon2.Content.Dusts
 
         public override bool PreDraw(Dust dust)
         {
-            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false);
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: true, blendState: BlendState.Additive);
             return false;
         }
     }

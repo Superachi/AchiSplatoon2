@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Dusts
@@ -26,6 +27,12 @@ namespace AchiSplatoon2.Content.Dusts
             {
                 dust.active = false;
             }
+            return false;
+        }
+
+        public override bool PreDraw(Dust dust)
+        {
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: true, blendState: BlendState.Additive);
             return false;
         }
     }
