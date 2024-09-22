@@ -79,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             SetState(stateFly);
         }
 
-        protected virtual void PlayShootSound()
+        protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
         }

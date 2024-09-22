@@ -93,7 +93,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
-        private void PlayShootSound()
+        protected override void PlayShootSound()
         {
             var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
             if (dualieMP.isTurret)

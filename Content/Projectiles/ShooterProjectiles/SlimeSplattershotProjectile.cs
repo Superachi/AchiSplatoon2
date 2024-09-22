@@ -92,7 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
-        private void PlayShootSound()
+        protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
         }

@@ -630,6 +630,12 @@ namespace AchiSplatoon2.Content.Projectiles
         #endregion
 
         #region Audio
+
+        protected virtual void PlayShootSound()
+        {
+
+        }
+
         private SlotId PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)

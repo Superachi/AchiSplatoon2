@@ -4,6 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
@@ -32,6 +33,19 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                     newColor: bulletColor,
                     Scale: Main.rand.NextFloat(0.8f, 1.6f));
                 dustB.noGravity = true;
+            }
+        }
+
+        protected override void PlayShootSound()
+        {
+            var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
+            if (dualieMP.isTurret)
+            {
+                PlayAudio(SoundID.Item158, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0);
+            }
+            else
+            {
+                PlayAudio(SoundID.Item158, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 1);
             }
         }
 

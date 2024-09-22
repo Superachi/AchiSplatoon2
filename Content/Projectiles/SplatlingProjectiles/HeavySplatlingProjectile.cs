@@ -115,7 +115,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             }
         }
 
-        private void PlayShootSound()
+        protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3, pitch: pitch);
         }

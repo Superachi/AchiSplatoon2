@@ -67,7 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.tileCollide = false;
                     break;
                 case stateExplode:
-                    SoundHelper.PlayAudio(SoundID.DD2_ExplosiveTrapExplode, volume: 0.2f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
+                    SoundHelper.PlayAudio(SoundID.Item66, volume: 0.2f, pitchVariance: 0f, maxInstances: 5, pitch: 2, position: Projectile.position);
 
                     Projectile.timeLeft = 6 * FrameSpeed();
                     Projectile.position -= Projectile.velocity;
@@ -292,10 +292,10 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Vector2 position = Projectile.Center - Main.screenPosition;
             Vector2 origin = spriteToRender.Size() / 2;
             Color color = initialColor;
+            float scale = 0.5f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
-            float scale = 0.5f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
             for (int i = 0; i < 3; i++)
             {

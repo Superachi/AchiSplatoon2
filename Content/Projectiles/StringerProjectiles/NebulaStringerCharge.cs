@@ -52,7 +52,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     PlayAudio(SoundID.Item158, volume: 0.5f, maxInstances: 3, pitch: 0);
                     break;
                 case 2:
-                    PlayAudio(SoundID.Item109, volume: 0.4f, maxInstances: 3, pitch: 0);
+                    PlayAudio(SoundID.Item9, volume: 0.3f, maxInstances: 3, pitch: 0);
+                    PlayAudio(SoundID.Item43, volume: 0.7f, maxInstances: 3, pitch: 0);
                     break;
             }
         }
