@@ -848,6 +848,21 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        protected virtual void ProjectileBounce(Vector2 oldVelocity)
+        {
+            // If the projectile hits the left or right side of the tile, reverse the X velocity
+            if (Math.Abs(Projectile.velocity.X - oldVelocity.X) > float.Epsilon)
+            {
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+
+            // If the projectile hits the top or bottom side of the tile, reverse the Y velocity
+            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
+        }
+
         protected Projectile DeflectProjectileWithinRectangle(Rectangle rect)
         {
             if (!IsThisClientTheProjectileOwner()) return null;
