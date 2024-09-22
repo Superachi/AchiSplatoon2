@@ -5,7 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles
+namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 {
     internal class SplattershotProjectile : BaseProjectile
     {
@@ -76,8 +76,8 @@ namespace AchiSplatoon2.Content.Projectiles
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
+                float velX = (Projectile.velocity.X + random) * -0.5f;
+                float velY = (Projectile.velocity.Y + random) * -0.5f;
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
@@ -97,7 +97,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // Netcode
         protected override void NetSendSyncMovement(BinaryWriter writer)
         {
-            writer.Write((bool)canFall);
+            writer.Write(canFall);
         }
 
         protected override void NetReceiveSyncMovement(BinaryReader reader)

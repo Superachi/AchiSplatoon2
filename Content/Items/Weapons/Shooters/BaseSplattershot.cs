@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 

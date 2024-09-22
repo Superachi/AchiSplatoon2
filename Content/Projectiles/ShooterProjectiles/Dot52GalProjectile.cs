@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Projectiles
+namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 {
     internal class Dot52GalProjectile : SplattershotProjectile
     {
