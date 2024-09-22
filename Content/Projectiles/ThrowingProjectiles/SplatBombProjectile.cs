@@ -177,7 +177,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
             }
 
-            Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
+            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
 
             if (FuseTime <= 0)
             {

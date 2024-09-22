@@ -67,8 +67,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponType BonusSub { get; private set; }
         public SubWeaponBonusType BonusType { get; private set; }
 
-        public virtual float SubWeaponDamageBonus { get => 0.5f; }
-        public const float subDiscountChance = 0.5f;
+        public float SubBonusAmount { get; private set; }
 
         protected static int[] subWeaponItemIDs = {
             ModContent.ItemType<SplatBomb>(),
@@ -88,6 +87,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             ItemIdentifier = Item.type;
             BonusSub = WeaponKitList.GetWeaponKitSubType(this.GetType());
             BonusType = WeaponKitList.GetWeaponKitSubBonusType(this.GetType());
+            SubBonusAmount = WeaponKitList.GetWeaponKitSubBonusAmount(this.GetType());
         }
 
         public void RangedWeaponDefaults(int projectileType, int singleShotTime, float shotVelocity)
@@ -164,13 +164,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 if (BonusType == SubWeaponBonusType.Discount)
                 {
-                    var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{ColorHelper.TextWithBonusColor($"{(int)(subDiscountChance * 100f)}% chance to not consume {GetSubWeaponName(BonusSub)}")}") { OverrideColor = null };
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{ColorHelper.TextWithBonusColor($"{(int)(SubBonusAmount * 100f)}% chance to not consume {GetSubWeaponName(BonusSub)}")}") { OverrideColor = null };
                     tooltips.Add(tooltip);
                 }
 
                 if (BonusType == SubWeaponBonusType.Damage)
                 {
-                    var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{ColorHelper.TextWithBonusColor($"+{(int)(SubWeaponDamageBonus * 100f)}% {GetSubWeaponName(BonusSub)} damage")}") { OverrideColor = null };
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDamageTooltip", $"{ColorHelper.TextWithBonusColor($"+{(int)(SubBonusAmount * 100f)}% {GetSubWeaponName(BonusSub)} damage")}") { OverrideColor = null };
                     tooltips.Add(tooltip);
                 }
             }
@@ -310,7 +310,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
                                 if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
                                 {
-                                    luckyDiscount = Main.rand.NextBool((int)(1f / subDiscountChance));
+                                    luckyDiscount = Main.rand.NextBool((int)(1f / SubBonusAmount));
                                 }
                             }
 
@@ -327,13 +327,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             if (item.stack == 0)
                             {
                                 CombatTextHelper.DisplayText($"Used last {item.Name}!", player.Center);
-                            }
-
-                            // Specifically for the sprinkler, prevent usage if one is already active
-                            if (item.type == ModContent.ItemType<Sprinkler>() && player.ownedProjectileCounts[item.shoot] >= 1)
-                            {
-                                CombatTextHelper.DisplayText("Sprinkler already active!", player.Center);
-                                return false;
                             }
 
                             // Calculate throw angle and spawn projectile

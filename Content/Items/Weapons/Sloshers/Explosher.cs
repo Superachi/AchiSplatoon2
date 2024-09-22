@@ -13,7 +13,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override float ShotGravity { get => 0.4f; }
         public int ShotGravityDelay => 30;
         public int ShotExtraUpdates => 3;
-        public override float SubWeaponDamageBonus => 1f;
 
         public override void SetDefaults()
         {

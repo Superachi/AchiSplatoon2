@@ -22,7 +22,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected float airFriction = 0.995f;
         protected float terminalVelocity = 20f;
 
-        protected Color glowColor;
         protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
@@ -42,7 +41,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             enablePierceDamagefalloff = false;
 
             PlayAudio("Throwables/SplatBombThrow");
-            glowColor = GenerateInkColor();
 
             if (IsThisClientTheProjectileOwner()) {
                 float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
@@ -70,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (!hasExploded)
             {
-                DrawProjectile(inkColor: glowColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false);
+                DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false);
                 return false;
             }
             return true;

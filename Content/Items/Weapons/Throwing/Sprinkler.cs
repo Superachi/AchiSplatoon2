@@ -16,10 +16,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.width = 28;
             Item.height = 28;
         }
-
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[Item.shoot] < 1;
-        }
     }
 }

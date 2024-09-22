@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Helpers.WeaponKits;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -46,7 +47,7 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.BurstBomb    && weaponInstance is BurstBomb)
                             || (heldItem.BonusSub == SubWeaponType.AngleShooter && weaponInstance is AngleShooter)
                             || (heldItem.BonusSub == SubWeaponType.Sprinkler    && weaponInstance is Sprinkler)) {
-                            damageModifier += heldItem.SubWeaponDamageBonus;
+                            damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
                     }
                 }

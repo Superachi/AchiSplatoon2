@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
@@ -433,9 +434,8 @@ namespace AchiSplatoon2.Content.Players
             float damageMod = 1f;
             if (heldItem is BaseWeapon)
             {
-                var heldWeapon = heldItem as BaseWeapon;
                 damageMod *= accMP.subPowerMultiplier;
-                if (hasMainWeaponBonus) damageMod *= (1 + heldWeapon.SubWeaponDamageBonus);
+                if (hasMainWeaponBonus) damageMod *= (1 + WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType()));
             }
             return damageMod;
         }

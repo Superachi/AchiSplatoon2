@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override string ShootSample { get => "HeroShotShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 56f;
-        public override float SubWeaponDamageBonus => 1f;
 
         public override void SetDefaults()
         {
