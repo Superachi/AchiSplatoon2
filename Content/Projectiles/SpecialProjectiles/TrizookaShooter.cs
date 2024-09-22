@@ -53,6 +53,12 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
                 float aimAngle = MathHelper.ToDegrees(Projectile.velocity.ToRotation());
 
+                Color projColor = initialColor;
+                if (WeaponInstance is TrizookaUnleashed)
+                {
+                    projColor = GetOwnerModPlayer<InkColorPlayer>().IncreaseHueBy(50);
+                }
+
                 for (int i = 0; i < 3; i++)
                 {
                     float degrees = aimAngle - shotArcIncrement + (i * shotArcIncrement);
@@ -65,13 +71,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         type: ModContent.ProjectileType<TrizookaProjectile>(),
                         damage: Projectile.damage);
 
-                    if (WeaponInstance is not TrizookaUnleashed)
-                    {
-                        p.colorOverride = initialColor;
-                    } else
-                    {
-                        p.colorOverride = Main.DiscoColor;
-                    }
+                    p.colorOverride = projColor;
                 }
             }
         }
