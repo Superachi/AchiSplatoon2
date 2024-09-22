@@ -22,11 +22,15 @@ Hint: {
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
-	TriStringer: Hold left-click to charge up a volley of explosive shots
-	Reeflux: Hold left-click to charge up a volley of shots
 	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
 	Nozzlenose: Increased damage per consecutive hit on the same target
 	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+
+	Stringers: {
+		Tri: Hold left-click to charge up a volley of explosive shots
+		Reeflux: Hold left-click to charge up a volley of shots
+		Nebula: Hold left-click to charge up a volley of homing stars
+	}
 
 	Sloshers: {
 		Slosher: Throws a stream of projectiles that cover a wide area
@@ -182,7 +186,7 @@ Items: {
 
 	TriStringer: {
 		DisplayName: Tri-Stringer
-		UsageHint: "{$Hint.TriStringer}"
+		UsageHint: "{$Hint.Stringers.Tri}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.TriStringer.Flavor
 	}
@@ -190,7 +194,7 @@ Items: {
 	TriStringerInkline: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
-		UsageHint: "{$Hint.TriStringer}"
+		UsageHint: "{$Hint.Stringers.Tri}"
 		Flavor: Sorry, no flavor text here, I actually need to make a Wellstring sprite haha
 	}
 
@@ -198,12 +202,12 @@ Items: {
 		DisplayName: Grizzco Stringer
 		Flavor: That fancy weapon you have there? That's one of my special models.
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.GrizzcoStringer.UsageHint
+		UsageHint: "{$Hint.Stringers.Tri}"
 	}
 
 	ReefluxStringer: {
 		DisplayName: REEF-LUX 450
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxStringer.Flavor
 	}
@@ -211,7 +215,7 @@ Items: {
 	ReefluxDecoStringer: {
 		DisplayName: REEF-LUX 450 Deco
 		Tooltip: ""
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.Flavor
 	}
 
@@ -583,7 +587,7 @@ Items: {
 	}
 
 	OrderStringer: {
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Flavor: Humble beginnings
 		DisplayName: Order Stringer
 		Tooltip: ""
@@ -1086,7 +1090,7 @@ Items: {
 
 	KensaReefluxStringer: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaReefluxStringer.Flavor
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		DisplayName: Kensa REEF-LUX 450
 		Tooltip: ""
 	}
@@ -1325,7 +1329,14 @@ Items: {
 	VortexDualie: {
 		UsageHint: "{$Hint.Dualies.Vortex}"
 		Flavor: Mods.AchiSplatoon2.Items.VortexDualie.Flavor
-		DisplayName: Vortex Dualies
+		DisplayName: Interstellar Dualies
+		Tooltip: ""
+	}
+
+	NebulaStringer: {
+		UsageHint: "{$Hint.Stringers.Nebula}"
+		Flavor: Mods.AchiSplatoon2.Items.NebulaStringer.Flavor
+		DisplayName: Star-Touched Stringer
 		Tooltip: ""
 	}
 }
@@ -1412,6 +1423,8 @@ Projectiles: {
 	PainterDualieShotProjectile.DisplayName: Painter Dualie Shot Projectile
 	VortexDualieShotProjectile.DisplayName: Vortex Dualie Shot Projectile
 	VortexDualieRollProjectile.DisplayName: Vortex Dualie Roll Projectile
+	NebulaStringerProjectile.DisplayName: Nebula Stringer Projectile
+	NebulaStringerCharge.DisplayName: Nebula Stringer Charge
 }
 
 Buffs: {

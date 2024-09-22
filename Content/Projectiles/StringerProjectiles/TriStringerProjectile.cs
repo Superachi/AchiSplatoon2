@@ -12,6 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerProjectile : BaseProjectile
     {
+        public bool canStick = false;
         private int networkExplodeDelayBuffer = 120;
 
         private float delayUntilFall = 12f;
@@ -19,7 +20,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         private bool sticking = false;
         private bool hasExploded = false;
-        protected virtual bool CanStick { get => true; }
 
         private int finalExplosionRadius = 0;
         protected virtual int ExplosionRadius { get => 120; }
@@ -114,7 +114,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (CanStick)
+            if (canStick)
             {
                 if (!sticking)
                 {

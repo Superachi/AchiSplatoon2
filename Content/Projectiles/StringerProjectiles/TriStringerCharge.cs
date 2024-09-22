@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -11,13 +12,18 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerCharge : BaseChargeProjectile
     {
+        protected float velocityModifier = 0.75f;
         protected float shotgunArc;
         protected int projectileCount;
         protected bool allowStickyProjectiles;
+
         public int burstHitCount = 0;
         public int burstNPCTarget = -1;
         public int burstRequiredHits;
-        private float muzzleDistance;
+
+        protected float muzzleDistance;
+        protected int projectileType;
+        protected float finalArc;
 
         public override void ApplyWeaponInstanceData()
         {
@@ -33,6 +39,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
             burstRequiredHits = weaponData.ProjectileCount;
+
+            projectileType = weaponData.ProjectileType;
         }
 
         public override void AfterSpawn()
@@ -43,6 +51,14 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             if (IsThisClientTheProjectileOwner())
             {
                 PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
+        }
+
+        public override void AI()
+        {
+            if (!isFakeDestroyed)
+            {
+                base.AI();
             }
         }
 
@@ -58,32 +74,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 return;
             }
 
-            // Set shot modifiers
-            float velocityModifier = 0.75f;
-            int projectileType = ModContent.ProjectileType<TriStringerProjectileWeak>();
-            if (chargeLevel == 0)
-            {
-                Projectile.damage /= 2;
-            }
-            else
-            {
-                if (chargeLevel == 1)
-                {
-                    Projectile.damage = (int)(Projectile.damage * 0.75);
-                    velocityModifier = 1f;
-                }
-                else
-                {
-                    velocityModifier = 1.5f;
-                }
-
-                if (allowStickyProjectiles) { projectileType = ModContent.ProjectileType<TriStringerProjectile>(); }
-            }
-
-            PlayShootSample();
-
             float chargePercentage = Math.Clamp(ChargeTime / chargeTimeThresholds.Last(), 0.2f, 1f);
-            float finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
+            SetChargeLevelModifiers(chargePercentage);
+            PlayShootSample();
 
             var mP = owner.GetModPlayer<InkAccessoryPlayer>();
             if (mP.hasFreshQuiver && IsChargeMaxedOut())
@@ -116,34 +109,62 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
                 // Spawn projectile
                 var p = CreateChildProjectile(position: Projectile.position + spawnPositionOffset, velocity: velocity, type: projectileType, Projectile.damage, false);
-                var modProj = p as TriStringerProjectile;
-                modProj.parentFullyCharged = IsChargeMaxedOut();
-                modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
-
-                // Set a number in the arrow
-                // Can be used to make them explode in sequence
-                p.Projectile.ai[2] = i;
-                p.AfterSpawn();
+                SetChildProjectileProperties(p, i);
 
                 // Adjust the angle for the next projectile
                 degreesOffset += degreesPerProjectile;
             }
 
-            PlayAudio(soundPath: "ChargeStart", volume: 0f, maxInstances: 1);
+            StopAudio("ChargeStart");
             Projectile.timeLeft = 60;
             FakeDestroy();
             NetUpdate(ProjNetUpdateType.ReleaseCharge);
         }
 
-        public override void AI()
+        protected virtual void SetChargeLevelModifiers(float chargePercentage)
         {
-            if (!isFakeDestroyed)
+            velocityModifier = 0.75f;
+            if (chargeLevel == 0)
             {
-                base.AI();
+                Projectile.damage /= 3;
             }
+            else
+            {
+                if (chargeLevel == 1)
+                {
+                    Projectile.damage = (int)(Projectile.damage * 0.75);
+                    velocityModifier = 1f;
+                }
+                else
+                {
+                    velocityModifier = 1.5f;
+                }
+            }
+
+            finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
         }
 
-        private void PlayShootSample()
+        protected virtual void SetChildProjectileProperties(BaseProjectile projectile, int projectileNumber = 0)
+        {
+            if (!IsProjectileOfType<TriStringerProjectile>(projectile)) return;
+
+            var mP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var modProj = projectile as TriStringerProjectile;
+            modProj.parentFullyCharged = IsChargeMaxedOut();
+            modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
+
+            // Set a number in the arrow
+            // Can be used to make them explode in sequence
+            if (chargeLevel > 0 && allowStickyProjectiles)
+            {
+                modProj.canStick = true;
+            }
+
+            projectile.Projectile.ai[2] = projectileNumber;
+            projectile.AfterSpawn();
+        }
+
+        protected virtual void PlayShootSample()
         {
             if (chargeLevel > 0)
             {

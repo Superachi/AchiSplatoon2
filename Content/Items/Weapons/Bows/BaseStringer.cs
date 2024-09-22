@@ -14,6 +14,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public virtual int ProjectileCount { get => 3; }
         public virtual bool AllowStickyProjectiles { get => true; }
 
+        public virtual int ProjectileType => ModContent.ProjectileType<TriStringerProjectile>();
+
         public override void SetDefaults()
         {
             base.SetDefaults();

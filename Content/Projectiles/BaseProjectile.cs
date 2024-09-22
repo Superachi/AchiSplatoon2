@@ -330,6 +330,16 @@ namespace AchiSplatoon2.Content.Projectiles
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 
+        public bool IsProjectileOfType<T>(BaseProjectile projectile)
+        {
+            if (projectile is not T)
+            {
+                DebugHelper.PrintError($"{this.GetType().Name} tried to fire a projectile, but it was not of type {typeof(T)}");
+                return false;
+            }
+            return true;
+        }
+
         private bool isTargetWorm(NPC target)
         {
             bool isWorm = false;
@@ -496,6 +506,11 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float FrameSpeedDivide(float input)
         {
             return input / (1 + Projectile.extraUpdates);
+        }
+
+        protected int FrameSpeedMultiply(int input = 1)
+        {
+            return input * (1 + Projectile.extraUpdates);
         }
 
         public Color GenerateInkColor()

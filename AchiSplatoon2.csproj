@@ -62,9 +62,9 @@
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\SnipewriterCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\SnipewriterProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
-	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectileWeak.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Content\UI\Elements\" />
