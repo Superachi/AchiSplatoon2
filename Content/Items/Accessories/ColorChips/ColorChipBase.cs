@@ -36,7 +36,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue * this.Item.stack;
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue * this.Item.stack;
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
+            // modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
         }
 
         private string StatIncreaseDisplayString(string textColor, string stat, string amount)

@@ -124,7 +124,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     var yellow = (float)chips[(int)InkWeaponPlayer.ChipColor.Yellow];
                     var purple = (float)chips[(int)InkWeaponPlayer.ChipColor.Purple];
                     var green = (float)chips[(int)InkWeaponPlayer.ChipColor.Green];
-                    var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
+                    // var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
 
                     if (red > 0)
                     {

@@ -266,7 +266,7 @@ namespace AchiSplatoon2.Content.Players
             conflictingPalettes = false;
             isPaletteEquipped = false;
             paletteCapacity = 0;
-            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
+            ColorChipAmounts = [0, 0, 0, 0, 0]; //, 0];
             ColorChipTotal = 0;
         }
 
@@ -274,6 +274,21 @@ namespace AchiSplatoon2.Content.Players
         {
             int chipCount = CalculateColorChipTotal();
             return (chipCount > paletteCapacity);
+        }
+
+        public bool DoesPlayerHaveEqualAmountOfChips()
+        {
+            int lastAmount = 0;
+            for (int i = 0; i < ColorChipAmounts.Length; i++)
+            {
+                if (i > 0 && ColorChipAmounts[i] != lastAmount)
+                {
+                    return false;
+                }
+
+                lastAmount = ColorChipAmounts[i];
+            }
+            return true;
         }
 
         public bool IsPaletteValid()

@@ -485,6 +485,12 @@ namespace AchiSplatoon2.Content.Projectiles
             return Main.player[Projectile.owner];
         }
 
+        protected T GetOwnerModPlayer<T>()
+            where T : BaseModPlayer
+        {
+            return GetOwner().GetModPlayer<T>();
+        }
+
         protected int MultiplyProjectileDamage(float multiplier)
         {
             return (int)(Projectile.damage * multiplier);
@@ -517,6 +523,15 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             if (colorOverride != null)
             {
+                return (Color)colorOverride;
+            }
+
+            var wepMP = GetOwnerModPlayer<InkWeaponPlayer>();
+            if (wepMP.DoesPlayerHaveEqualAmountOfChips() && wepMP.CalculateColorChipTotal() != 0)
+            {
+                var colorMP = GetOwnerModPlayer<InkColorPlayer>();
+                colorMP.IncreaseHueBy(10, out float hue);
+                colorOverride = colorMP.currentColor;
                 return (Color)colorOverride;
             }
 
