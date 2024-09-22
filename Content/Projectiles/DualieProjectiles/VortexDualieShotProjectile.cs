@@ -16,6 +16,8 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void AfterSpawn()
         {
             base.AfterSpawn();
+            dissolvable = false;
+
             colorOverride = new Color(60, 210, 250);
             bulletColor = (Color)colorOverride;
         }

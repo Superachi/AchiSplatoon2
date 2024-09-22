@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             );
 
             Item.rare = ItemRarityID.Cyan;
-            Item.damage = 130;
+            Item.damage = 150;
             Item.knockBack = 10;
             Item.value = Item.buyPrice(gold: 50);
         }
