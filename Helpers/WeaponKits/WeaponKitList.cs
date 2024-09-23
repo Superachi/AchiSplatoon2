@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(Dot96Gal),             new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
             { typeof(JetSquelcher),         new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
             { typeof(L3Nozzlenose),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(H3Nozzlenose),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(H3Nozzlenose),         new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(HeroShot),             new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Dualies
@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(DappleDualieNouveau),  new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(DarkTetraDualie),      new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(LightTetraDualie),     new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(DouserDualie),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(DouserDualie),         new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(CustomDouserDualie),   new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(DualieSquelcher),      new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(GloogaDualie),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
@@ -52,8 +52,8 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             // Chargers
             { typeof(SplatCharger),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(ZFSplatCharger),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(ClassicSquiffer),      new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
-            { typeof(FreshSquiffer),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(ClassicSquiffer),      new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(FreshSquiffer),        new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(BambooMk1Charger),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount) },
             { typeof(BambooMk2Charger),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
             { typeof(EliterCharger),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
@@ -64,17 +64,17 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(ReefluxStringer),      new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(TriStringer),          new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(ReefluxDecoStringer),  new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(TriStringerInkline),   new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(TriStringerInkline),   new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(GrizzcoStringer),      new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(Snipewriter5H),        new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
             { typeof(Snipewriter5B),        new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
 
             // Blasters
             { typeof(Blaster),              new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
-            { typeof(RapidBlaster),         new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(RapidBlaster),         new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
             { typeof(LunaBlaster),          new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RangeBlaster),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(RapidBlasterDeco),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(RapidBlasterDeco),     new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(SBlast92),             new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
             { typeof(SBlast91),             new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
 
@@ -83,7 +83,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(HeavySplatling),       new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(ZinkMiniSplatling),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RoyalHeavySplatling),  new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(HydraSplatling),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(HydraSplatling),       new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
 
             // Sloshers
             { typeof(Slosher),              new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount) },
@@ -96,8 +96,8 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(Explosher),            new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Brushes
-            { typeof(Inkbrush),             new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
-            { typeof(InkbrushNouveau),      new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(Inkbrush),             new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(InkbrushNouveau),      new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(Octobrush),            new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(OctobrushNouveau),     new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
 
@@ -109,36 +109,36 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             // Brella
             { typeof(SplatBrella),          new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(SorellaSplatBrella),   new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(UndercoverBrella),     new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(UndercoverBrella),     new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RecycleBrella),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
             { typeof(RecycleBrellaMk2),     new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
 
             // Rollers
-            { typeof(SplatRoller),          new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
-            { typeof(KrakonSplatRoller),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(SplatRoller),          new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(KrakonSplatRoller),    new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
             { typeof(CarbonRoller),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(CarbonRollerDeco),     new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(DynamoRoller),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
             { typeof(GoldDynamoRoller),     new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
 
             // Kensa weapons
-            { typeof(KensaDot52Gal),            new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaDynamoRoller),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaGloogaDualie),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaL3Nozzlenose),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaLunaBlaster),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaMiniSplatling),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaOctobrush),           new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaRapidBlaster),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaReefluxStringer),     new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaSplatanaStamper),     new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaSplatCharger),        new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaSplatDualie),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaSplatRoller),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage) },
-            { typeof(KensaUndercoverBrella),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(KensaDot52Gal),            new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaDynamoRoller),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaGloogaDualie),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaL3Nozzlenose),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaLunaBlaster),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaMiniSplatling),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaOctobrush),           new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaRapidBlaster),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaReefluxStringer),     new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaSplatanaStamper),     new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaSplatCharger),        new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaSplatDualie),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaSplatRoller),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
+            { typeof(KensaUndercoverBrella),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Original
-            { typeof(SlimeSplattershot),    new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(SlimeSplattershot),    new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
             { typeof(StarfishedCharger),    new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(VortexDualie),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(NebulaStringer),       new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },

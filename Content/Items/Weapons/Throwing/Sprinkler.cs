@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.shoot = ModContent.ProjectileType<SprinklerSentry>();
             Item.shootSpeed = 2f;
             Item.damage = 12;
-            Item.knockBack = 0.5f;
+            Item.knockBack = 2f;
             Item.width = 28;
             Item.height = 28;
         }

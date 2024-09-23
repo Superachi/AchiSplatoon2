@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
+using System;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -40,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.HitDirectionOverride = GetOwner().direction;
+            modifiers.HitDirectionOverride = Math.Sign(target.position.X - GetOwner().position.X);
             base.ModifyHitNPC(target, ref modifiers);
         }
     }

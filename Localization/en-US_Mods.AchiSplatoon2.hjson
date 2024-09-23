@@ -1339,6 +1339,13 @@ Items: {
 		DisplayName: Star-Touched Stringer
 		Tooltip: ""
 	}
+
+	InkMine: {
+		UsageHint: A stationary weapon, activating whenever an enemy gets close to it
+		Flavor: Mods.AchiSplatoon2.Items.InkMine.Flavor
+		DisplayName: Ink Mine
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1427,6 +1434,7 @@ Projectiles: {
 	NebulaStringerCharge.DisplayName: Nebula Stringer Charge
 	SlimeSplattershotProjectile.DisplayName: Slime Splattershot Projectile
 	TrizookaUnleashedProjectile.DisplayName: Trizooka Unleashed Projectile
+	InkMineProjectile.DisplayName: Ink Mine Projectile
 }
 
 Buffs: {

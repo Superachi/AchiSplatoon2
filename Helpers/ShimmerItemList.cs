@@ -24,12 +24,6 @@ namespace AchiSplatoon2.Helpers
             // Regular Mains
             { ModContent.ItemType<SplooshOMatic>(),         ModContent.ItemType<SplashOMatic>() },
 
-            // Subs
-            { ModContent.ItemType<SplatBomb>(),             ModContent.ItemType<BurstBomb>() },
-            { ModContent.ItemType<BurstBomb>(),             ModContent.ItemType<AngleShooter>() },
-            { ModContent.ItemType<AngleShooter>(),          ModContent.ItemType<Sprinkler>() },
-            { ModContent.ItemType<Sprinkler>(),             ModContent.ItemType<SplatBomb>() },
-
             // Specials
             { ModContent.ItemType<TrizookaSpecial>(),       ModContent.ItemType<KillerWail>() },
             { ModContent.ItemType<KillerWail>(),            ModContent.ItemType<UltraStamp>() },

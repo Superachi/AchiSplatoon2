@@ -687,11 +687,11 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             float radiusMult = radiusModifier / 140;
             amount = Convert.ToInt32(amount * radiusMult);
+            Color dustColor = GenerateInkColor();
 
             // Ink
             for (int i = 0; i < amount; i++)
             {
-                Color dustColor = GenerateInkColor();
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     255, dustColor, Main.rand.NextFloat(minScale, maxScale));
@@ -701,7 +701,6 @@ namespace AchiSplatoon2.Content.Projectiles
             // Firework
             for (int i = 0; i < amount / 2; i++)
             {
-                Color dustColor = GenerateInkColor();
                 var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
                     new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
                     255, dustColor);

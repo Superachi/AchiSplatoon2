@@ -46,7 +46,8 @@ namespace AchiSplatoon2.Helpers
                         if ((heldItem.BonusSub == SubWeaponType.SplatBomb       && weaponInstance is SplatBomb)
                             || (heldItem.BonusSub == SubWeaponType.BurstBomb    && weaponInstance is BurstBomb)
                             || (heldItem.BonusSub == SubWeaponType.AngleShooter && weaponInstance is AngleShooter)
-                            || (heldItem.BonusSub == SubWeaponType.Sprinkler    && weaponInstance is Sprinkler)) {
+                            || (heldItem.BonusSub == SubWeaponType.Sprinkler    && weaponInstance is Sprinkler)
+                            || (heldItem.BonusSub == SubWeaponType.InkMine      && weaponInstance is InkMine)) {
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
                     }

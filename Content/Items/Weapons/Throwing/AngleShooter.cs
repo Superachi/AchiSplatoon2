@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.shoot = ModContent.ProjectileType<AngleShooterProjectile>();
             Item.shootSpeed = 1f;
             Item.damage = 24;
-            Item.knockBack = 4;
+            Item.knockBack = 6;
             Item.width = 30;
             Item.height = 16;
         }

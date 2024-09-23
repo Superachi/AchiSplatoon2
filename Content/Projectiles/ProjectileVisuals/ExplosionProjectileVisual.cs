@@ -28,6 +28,11 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
             Projectile.timeLeft = 6;
         }
 
+        public override void AfterSpawn()
+        {
+            Initialize();
+        }
+
         private void PlayEffect()
         {
             hasActivated = true;

@@ -38,7 +38,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         SplatBomb,
         BurstBomb,
         AngleShooter,
-        Sprinkler
+        Sprinkler,
+        InkMine
     }
 
     enum SubWeaponBonusType
@@ -74,6 +75,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             ModContent.ItemType<BurstBomb>(),
             ModContent.ItemType<AngleShooter>(),
             ModContent.ItemType<Sprinkler>(),
+            ModContent.ItemType<InkMine>(),
         };
 
         // Special weapon stats
@@ -201,6 +203,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 case SubWeaponType.Sprinkler:
                     subname = "Sprinkler";
                     break;
+                case SubWeaponType.InkMine:
+                    subname = "Ink Mine";
+                    break;
             }
             return subname;
         }
@@ -286,7 +291,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 typeof(SplatBomb),
                 typeof(BurstBomb),
                 typeof(AngleShooter),
-                typeof(Sprinkler)
+                typeof(Sprinkler),
+                typeof(InkMine)
             };
 
             // We use 4 here, as there are 4 ammo slots
