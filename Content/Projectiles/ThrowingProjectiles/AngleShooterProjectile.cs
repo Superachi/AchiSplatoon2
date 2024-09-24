@@ -93,11 +93,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 maxBounces--;
                 if (bounceDamageMod == 1f)
                 {
-                    bounceDamageMod += 3f;
+                    bounceDamageMod += 2f;
                 }
                 else
                 {
-                    bounceDamageMod += 2f;
+                    bounceDamageMod += 1.5f;
                 }
 
                 bounceDamageMod = Math.Clamp(bounceDamageMod, 1, bounceDamageModMax);
