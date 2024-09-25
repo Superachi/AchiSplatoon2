@@ -270,7 +270,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: true);
+            DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 

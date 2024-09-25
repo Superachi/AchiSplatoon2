@@ -6,6 +6,7 @@ using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
+using Microsoft.Build.Evaluation;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
@@ -84,6 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // State machine
         protected int state = 0;
+        protected int timeSpentInState = 0;
         protected int timeSpentAlive = 0;
 
         // Netcode
@@ -109,6 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public override bool PreAI()
         {
             timeSpentAlive++;
+            timeSpentInState++;
             afterInitializeDelay--;
             if (afterInitializeDelay == 0)
             {
@@ -125,6 +128,8 @@ namespace AchiSplatoon2.Content.Projectiles
             // In this method, you can do something different per changed state
             state = targetState;
             Projectile.netUpdate = true;
+
+            timeSpentInState = 0;
         }
 
         protected virtual void AdvanceState()
@@ -454,17 +459,28 @@ namespace AchiSplatoon2.Content.Projectiles
             return !target.friendly && target.type != NPCID.TargetDummy && !Main.npcCatchable[target.type] && target.damage > 0 && target.lifeMax > 5;
         }
 
-        protected NPC FindClosestEnemy(float maxTargetDistance)
+        protected NPC? FindClosestEnemy(float maxTargetDistance, bool checkLineOfSight = false)
         {
             NPC npcTarget = null;
+
             float closestDistance = maxTargetDistance;
             foreach (var npc in Main.ActiveNPCs)
             {
                 float distance = Projectile.Center.Distance(npc.Center);
                 if (distance < closestDistance && IsTargetEnemy(npc))
                 {
-                    closestDistance = distance;
-                    npcTarget = npc;
+                    if (checkLineOfSight)
+                    {
+                        if (Collision.CanHitLine(Projectile.Center, Projectile.width, Projectile.height, npc.Center, 1, 1))
+                        {
+                            closestDistance = distance;
+                            npcTarget = npc;
+                        }
+                    } else
+                    {
+                        closestDistance = distance;
+                        npcTarget = npc;
+                    }
                 }
             }
 
@@ -746,7 +762,8 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1,
-            bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None, Vector2? positionOffset = null)
+            bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None, Vector2? positionOffset = null,
+            float additiveAmount = 0f)
         {
             Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -761,7 +778,24 @@ namespace AchiSplatoon2.Content.Projectiles
             }
             var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
 
+            SpriteBatch spriteBatch = Main.spriteBatch;
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
             Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, flipSpriteSettings, 0f);
+
+            // By drawing the same sprite over the original with an additive blendmode, it becomes more vibrant
+            if (additiveAmount > 0)
+            {
+                spriteBatch.End();
+                spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+                Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod * additiveAmount, rotation, origin, scale, flipSpriteSettings, 0f);
+
+                spriteBatch.End();
+                spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+            }
         }
 
         protected void DirectHitDustBurst(Vector2? position = null)
@@ -876,7 +910,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected virtual void ProjectileBounce(Vector2 oldVelocity)
+        protected virtual void ProjectileBounce(Vector2 oldVelocity, Vector2? postBounceSpeedMod = null)
         {
             // If the projectile hits the left or right side of the tile, reverse the X velocity
             if (Math.Abs(Projectile.velocity.X - oldVelocity.X) > float.Epsilon)
@@ -888,6 +922,11 @@ namespace AchiSplatoon2.Content.Projectiles
             if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
+            }
+
+            if (postBounceSpeedMod != null)
+            {
+                Projectile.velocity *= (Vector2)postBounceSpeedMod!;
             }
         }
 
