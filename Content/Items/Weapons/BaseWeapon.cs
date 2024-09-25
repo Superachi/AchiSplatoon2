@@ -39,7 +39,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         BurstBomb,
         AngleShooter,
         Sprinkler,
-        InkMine
+        InkMine,
+        Torpedo
     }
 
     enum SubWeaponBonusType
@@ -69,14 +70,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponBonusType BonusType { get; private set; }
 
         public float SubBonusAmount { get; private set; }
-
-        protected static int[] subWeaponItemIDs = {
-            ModContent.ItemType<SplatBomb>(),
-            ModContent.ItemType<BurstBomb>(),
-            ModContent.ItemType<AngleShooter>(),
-            ModContent.ItemType<Sprinkler>(),
-            ModContent.ItemType<InkMine>(),
-        };
 
         // Special weapon stats
         public virtual bool IsSpecialWeapon { get => false; }
@@ -189,6 +182,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         private string GetSubWeaponName(SubWeaponType type)
         {
             string subname = "Sub weapon not found! (This is an error...)";
+
             switch (type)
             {
                 case SubWeaponType.SplatBomb:
@@ -205,6 +199,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     break;
                 case SubWeaponType.InkMine:
                     subname = "Ink Mine";
+                    break;
+                case SubWeaponType.Torpedo:
+                    subname = "Torpedo";
                     break;
             }
             return subname;
@@ -287,12 +284,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             bool doneSearching = false;
 
-            Type[] subWeaponType = {
-                typeof(SplatBomb),
-                typeof(BurstBomb),
-                typeof(AngleShooter),
-                typeof(Sprinkler),
-                typeof(InkMine)
+            int[] subWeaponItemIDs = {
+                ModContent.ItemType<SplatBomb>(),
+                ModContent.ItemType<BurstBomb>(),
+                ModContent.ItemType<AngleShooter>(),
+                ModContent.ItemType<Sprinkler>(),
+                ModContent.ItemType<InkMine>(),
+                ModContent.ItemType<Torpedo>()
             };
 
             // We use 4 here, as there are 4 ammo slots

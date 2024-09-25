@@ -181,6 +181,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 case stateChase:
                     chaseSpeed = Math.Min(chaseSpeed + 0.2f, chaseSpeedMax);
 
+                    if (timeSpentInState >= 50)
+                    {
+                        drawScale += 0.1f;
+                    }
+
                     if (timeSpentInState >= 60)
                     {
                         SetState(stateExplode);
