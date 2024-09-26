@@ -162,6 +162,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             }
         }
 
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (!GetOwner().channel) return false;
+            DrawStraightTrajectoryLine();
+            return false;
+        }
+
         protected override void NetSendShootAnimation(BinaryWriter writer)
         {
             Player owner = Main.player[Projectile.owner];

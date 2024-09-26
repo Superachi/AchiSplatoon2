@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -14,6 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class SplatChargerProjectile : BaseChargeProjectile
     {
+        protected override float DamageModifierAfterPierce => 0.95f;
         private const int timeLeftAfterFiring = 30;
         private bool firstHit = false;
 
@@ -58,7 +60,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             Projectile.velocity = Vector2.Zero;
             tilePiercesLeft = TentacularOcular.TerrainMaxPierceCount;
-            enablePierceDamagefalloff = false;
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -197,6 +198,13 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 DustTrail();
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (!GetOwner().channel) return false;
+            DrawStraightTrajectoryLine();
+            return false;
         }
 
         public override void OnKill(int timeLeft)

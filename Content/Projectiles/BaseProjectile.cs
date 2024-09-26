@@ -77,7 +77,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
         protected int originalDamage = 0;
-        protected float damageModifierAfterPierce = 0.7f;
+        protected virtual float DamageModifierAfterPierce => 0.7f;
         protected bool enablePierceDamagefalloff;
 
         protected virtual bool CountDamageForSpecialCharge { get => true; }
@@ -403,7 +403,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (enablePierceDamagefalloff && !isTargetWorm(target))
             {
-                Projectile.damage = MultiplyProjectileDamage(damageModifierAfterPierce);
+                Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
             }
 
             if (target.life <= 0)

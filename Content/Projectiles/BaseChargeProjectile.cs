@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using System.Linq;
@@ -169,6 +170,32 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 AllowChargeCancel();
             }
+        }
+
+        protected void DrawStraightTrajectoryLine()
+        {
+            if (hasFired) return;
+
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            var lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, ChargeTime / MaxChargeTime() * 0.5f);
+            if (IsChargeMaxedOut())
+            {
+                lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, 2f);
+            }
+
+            Utils.DrawLine(
+                spriteBatch,
+                GetOwner().Center,
+                GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
+                new Color(initialColor.R, initialColor.G, initialColor.B, 0),
+                lineCol,
+                2f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         #region Netcode
