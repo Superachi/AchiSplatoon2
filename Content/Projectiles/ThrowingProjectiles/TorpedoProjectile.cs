@@ -71,6 +71,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Initialize();
             ApplyWeaponInstanceData();
             explosionRadius = (int)(explosionRadius * explosionRadiusModifier);
+            wormDamageReduction = true;
 
             throwAudio = PlayAudio("Throwables/SplatBombThrow");
 

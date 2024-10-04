@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
@@ -318,13 +319,17 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 }
                             }
 
-                            if (!luckyDiscount)
+                            // Make it so subs thrown via the SplattershotJr (and its inheritors) don't cost ammo
+                            if (player.HeldItem.ModItem is not SplattershotJr)
                             {
-                                item.stack--;
-                            }
-                            else
-                            {
-                                CombatTextHelper.DisplayText("Sub saved!", player.Center, new Color(140, 80, 255));
+                                if (!luckyDiscount)
+                                {
+                                    item.stack--;
+                                }
+                                else
+                                {
+                                    CombatTextHelper.DisplayText("Sub saved!", player.Center, new Color(140, 80, 255));
+                                }
                             }
 
                             // Warn player if last sub weapon was used

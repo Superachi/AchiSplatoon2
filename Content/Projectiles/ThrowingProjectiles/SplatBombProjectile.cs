@@ -45,6 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             base.AfterSpawn();
             FuseTime = maxFuseTime;
+            wormDamageReduction = true;
         }
 
         public override void SetStaticDefaults()

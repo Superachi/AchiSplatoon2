@@ -48,6 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             ApplyWeaponInstanceData();
             detectionRadius = (int)(detectionRadius * explosionRadiusModifier);
             enablePierceDamagefalloff = false;
+            wormDamageReduction = true;
 
             PlayAudio("Throwables/SprinklerDeployNew", volume: 0.2f, maxInstances: 10, position: Projectile.Center);
             SetState(stateSpawn);

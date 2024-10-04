@@ -19,6 +19,7 @@ Hint: {
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
+	SplattershotJr: While equipped, sub weapons are free to use, but damage is halved
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
@@ -1351,6 +1352,20 @@ Items: {
 		UsageHint: Homes in on enemies after being thrown, exploding into smaller pellets
 		Flavor: Mods.AchiSplatoon2.Items.Torpedo.Flavor
 		DisplayName: Torpedo
+		Tooltip: ""
+	}
+
+	SplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.SplattershotJr.Flavor
+		DisplayName: Splattershot Jr.
+		Tooltip: ""
+	}
+
+	CustomSplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomSplattershotJr.Flavor
+		DisplayName: Custom Splattershot Jr.
 		Tooltip: ""
 	}
 }

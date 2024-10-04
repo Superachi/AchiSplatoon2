@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
@@ -50,6 +51,11 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.InkMine      && weaponInstance is InkMine)) {
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
+                    }
+
+                    if (heldItem is SplattershotJr)
+                    {
+                        damageModifier /= 2;
                     }
                 }
                 if (debug) DebugHelper.PrintInfo($"Val after sub power bonuses: {damageModifier}");
