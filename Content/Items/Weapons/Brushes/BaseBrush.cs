@@ -24,21 +24,19 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
             Item.ArmorPenetration = ArmorPierce;
-            Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<InkbrushProjectile>();
+            Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
             Item.shootSpeed = 6f;
+
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool CanUseItem(Player player)
         {
-            // Occasionally, shoot an extra projectile
-            if (Main.rand.NextBool(5))
-            {
-                CreateProjectileWithWeaponProperties(player, source, velocity + Main.rand.NextVector2Circular(-2, 2));
-            }
-
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            return player.ownedProjectileCounts[Item.shoot] == 0;
         }
     }
 }

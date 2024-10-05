@@ -132,6 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles
             timeSpentInState = 0;
         }
 
+        protected bool IsStartOfState()
+        {
+            return timeSpentInState == 0;
+        }
+
         protected virtual void AdvanceState()
         {
             state++;

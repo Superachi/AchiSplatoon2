@@ -1459,6 +1459,7 @@ Projectiles: {
 	InkMineProjectile.DisplayName: Ink Mine Projectile
 	TorpedoProjectile.DisplayName: Torpedo Projectile
 	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
+	BrushSwingProjectile.DisplayName: Brush Swing Projectile
 }
 
 Buffs: {
