@@ -13,8 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private float delayUntilFall;
         private float fallSpeed = 0.05f;
         private float airResist = 0.99f;
-        private float terminalVelocity = 8f;
-        private float drawScale;
+        private float drawScale = 0;
         private float drawRotation;
         protected float brightness = 0.001f;
 
@@ -59,7 +58,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
             bulletColor = GenerateInkColor();
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
-            drawScale += Main.rand.NextFloat(1f, 1.5f);
 
             // Play sound
             if (Main.rand.NextBool(2))
@@ -75,6 +73,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         public override void AI()
         {
             Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
+            if (drawScale < 1f && timeSpentAlive > 5)
+            {
+                drawScale += 0.1f;
+            }
 
             // Rotation increased by velocity.X 
             drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
@@ -85,18 +87,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             Timer++;
 
-            // Start falling eventually
             if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
             {
                 Projectile.velocity.Y += fallSpeed;
             }
 
-            if (Projectile.velocity.Y > terminalVelocity)
-            {
-                Projectile.velocity.Y = terminalVelocity;
-            }
-
-            // Spawn dust
             if (Timer % 3 == 0 && Main.rand.NextBool(2))
             {
                 Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity * 0.2f, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(1f, 1.5f));
@@ -117,6 +112,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
+            if (timeSpentAlive < 5) return false;
+
             DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
             return false;
         }

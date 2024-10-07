@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 
 namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {
@@ -18,15 +19,16 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private const int stateInit = 0;
         private const int stateWindup = 1;
-        private const int stateSwingLoop = 2;
-        private const int stateRoll = 3;
+        private const int stateSwingForward = 2;
+        private const int stateSwingBack = 3;
+        private const int stateRoll = 4;
 
         private int facingDirection;
         private bool enableWindUp = false;
         private float weaponUseTime = 30;
         private int swingsUntilRoll = 8;
         private float swingAngleCurrent;
-        private float swingArc = 90;
+        private float swingArc = 120;
         private float swingAngleGoal;
 
         public override void SetDefaults()
@@ -38,15 +40,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.ownerHitCheck = true;
 
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 30;
+            Projectile.timeLeft = 36000;
         }
 
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseBrush;
-
-            
         }
 
         public override void AfterSpawn()
@@ -59,12 +59,19 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             wormDamageReduction = false;
 
             Projectile.velocity = Vector2.Zero;
+            GetSwingAngleFromMouse(direction: 1);
+        }
 
+        private float GetMouseAngle()
+        {
+            return MathHelper.ToDegrees(owner.DirectionFrom(Main.MouseWorld).ToRotation());
+        }
+
+        private void GetSwingAngleFromMouse(int direction)
+        {
             facingDirection = Math.Sign(Main.MouseWorld.X - owner.Center.X);
-            float mouseAngle = MathHelper.ToDegrees(owner.DirectionTo(Main.MouseWorld).ToRotation());
-
-            swingAngleCurrent = mouseAngle + (swingArc / 2 + 180) * -facingDirection;
-            swingAngleGoal = swingAngleCurrent + swingArc * facingDirection;
+            swingAngleCurrent = GetMouseAngle() + (swingArc / 2) * direction * -facingDirection;
+            swingAngleGoal = swingAngleCurrent + swingArc * direction * facingDirection;
         }
 
         public override void AI()
@@ -72,8 +79,47 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             switch (state)
             {
                 case stateInit:
-                    RollerSwingRotate(swingAngleGoal, 0.3f);
+                    AdvanceState();
                     break;
+                case stateWindup:
+                    AdvanceState();
+                    break;
+                case stateSwingForward:
+                    StateSwing();
+
+                    if (timeSpentInState > 8)
+                    {
+                        GetSwingAngleFromMouse(direction: -1);
+                        SetState(stateSwingBack);
+                    }
+                    break;
+                case stateSwingBack:
+                    StateSwing();
+
+                    if (timeSpentInState > 8)
+                    {
+                        GetSwingAngleFromMouse(direction: 1);
+                        SetState(stateSwingForward);
+                    }
+                    break;
+            }
+        }
+
+        private void StateSwing()
+        {
+            RollerSwingRotate(swingAngleGoal, 0.3f);
+
+            if (timeSpentInState == 4)
+            {
+                CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * 10, Projectile.damage);
+            }
+
+            if (timeSpentInState > 8)
+            {
+                if (!InputHelper.GetInputMouseLeftHold())
+                {
+                    Projectile.Kill();
+                }
             }
         }
 
@@ -115,8 +161,17 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Utils.DrawBorderString(Main.spriteBatch, $"swingAngleCurrent: {swingAngleCurrent}\n swingArc: {swingArc}\n swingAngleGoal: {swingAngleGoal}", Projectile.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
-            return base.PreDraw(ref lightColor);
+            if (state < stateSwingForward) return false;
+
+            DrawProjectile(Color.White, Projectile.rotation, spriteOverride: TextureAssets.Item[itemIdentifier].Value);
+            Utils.DrawBorderString(Main.spriteBatch, $"swingAngleCurrent: {swingAngleCurrent}\n swingArc: {swingArc}\n swingAngleGoal: {swingAngleGoal}", owner.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
+            return false;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.HitDirectionOverride = Math.Sign(target.position.X - GetOwner().position.X);
         }
     }
 }
