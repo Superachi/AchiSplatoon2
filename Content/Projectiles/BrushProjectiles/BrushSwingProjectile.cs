@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private int facingDirection;
         private bool enableWindUp = false;
-        private float weaponUseTime = 30;
+        private float weaponUseTime = 8;
         private int swingsUntilRoll = 8;
         private float swingAngleCurrent;
         private float swingArc = 120;
@@ -33,14 +33,15 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void SetDefaults()
         {
-            Projectile.width = 40;
-            Projectile.height = 40;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ownerHitCheck = true;
 
             Projectile.penetrate = -1;
             Projectile.timeLeft = 36000;
+
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20 * FrameSpeed();
         }
 
         public override void ApplyWeaponInstanceData()
@@ -59,7 +60,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             wormDamageReduction = false;
 
             Projectile.velocity = Vector2.Zero;
-            GetSwingAngleFromMouse(direction: 1);
+            SetSwingAngleFromMouse(direction: 1);
         }
 
         private float GetMouseAngle()
@@ -67,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             return MathHelper.ToDegrees(owner.DirectionFrom(Main.MouseWorld).ToRotation());
         }
 
-        private void GetSwingAngleFromMouse(int direction)
+        private void SetSwingAngleFromMouse(int direction)
         {
             facingDirection = Math.Sign(Main.MouseWorld.X - owner.Center.X);
             swingAngleCurrent = GetMouseAngle() + (swingArc / 2) * direction * -facingDirection;
@@ -79,42 +80,39 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             switch (state)
             {
                 case stateInit:
-                    AdvanceState();
-                    break;
                 case stateWindup:
                     AdvanceState();
                     break;
                 case stateSwingForward:
-                    StateSwing();
-
-                    if (timeSpentInState > 8)
-                    {
-                        GetSwingAngleFromMouse(direction: -1);
-                        SetState(stateSwingBack);
-                    }
-                    break;
                 case stateSwingBack:
                     StateSwing();
 
-                    if (timeSpentInState > 8)
+                    if (timeSpentInState > weaponUseTime)
                     {
-                        GetSwingAngleFromMouse(direction: 1);
-                        SetState(stateSwingForward);
+                        bool isSwingingForward = state == stateSwingForward;
+                        int direction = isSwingingForward ? -1 : 1;
+                        SetSwingAngleFromMouse(direction);
+                        SetState(isSwingingForward ? stateSwingBack : stateSwingForward);
                     }
                     break;
             }
+
+            var armRotateDeg = 135f;
+            if (facingDirection == -1) armRotateDeg = -135f;
+            owner.direction = facingDirection;
+            owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
         }
 
         private void StateSwing()
         {
-            RollerSwingRotate(swingAngleGoal, 0.3f);
+            RollerSwingRotate(swingAngleGoal, 3f / (float)weaponUseTime);
 
-            if (timeSpentInState == 4)
+            if (timeSpentInState == (int)(weaponUseTime / 2))
             {
                 CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * 10, Projectile.damage);
             }
 
-            if (timeSpentInState > 8)
+            if (timeSpentInState > weaponUseTime)
             {
                 if (!InputHelper.GetInputMouseLeftHold())
                 {
@@ -163,7 +161,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (state < stateSwingForward) return false;
 
-            DrawProjectile(Color.White, Projectile.rotation, spriteOverride: TextureAssets.Item[itemIdentifier].Value);
+            DrawProjectile(
+                Color.White,
+                Projectile.rotation,
+                spriteOverride: TextureAssets.Item[itemIdentifier].Value,
+                flipSpriteSettings: facingDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+
             Utils.DrawBorderString(Main.spriteBatch, $"swingAngleCurrent: {swingAngleCurrent}\n swingArc: {swingArc}\n swingAngleGoal: {swingAngleGoal}", owner.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
             return false;
         }
