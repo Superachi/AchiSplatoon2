@@ -6,6 +6,8 @@
 	<!-- General -->
 	<PropertyGroup>
 		
+	<Nullable>enable</Nullable>
+		
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Content\Dusts\BaseDust.png" />
