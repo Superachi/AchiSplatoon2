@@ -350,7 +350,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return true;
         }
 
-        private bool isTargetWorm(NPC target)
+        private bool IsTargetWorm(NPC target)
         {
             bool isWorm = false;
 
@@ -381,7 +381,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 modifiers.DisableCrit();
             }
 
-            if (wormDamageReduction && Main.expertMode && isTargetWorm(target))
+            if (wormDamageReduction && Main.expertMode && IsTargetWorm(target))
             {
                 modifiers.FinalDamage *= 0.6f;
             }
@@ -406,7 +406,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 DamageToSpecialCharge(damageDone, target.lifeMax);
             }
 
-            if (enablePierceDamagefalloff && !isTargetWorm(target))
+            if (enablePierceDamagefalloff && !IsTargetWorm(target))
             {
                 Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
             }
