@@ -11,8 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
     {
         private Color bulletColor;
         private float delayUntilFall;
-        private float fallSpeed = 0.05f;
-        private float airResist = 0.99f;
+        private float shotGravity = 0.05f;
+        private float airResist = 0.995f;
         private float drawScale = 0;
         private float drawRotation;
         protected float brightness = 0.001f;
@@ -44,8 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseBrush;
 
-            shootSample = weaponData.ShootSample;
-            shootAltSample = weaponData.ShootAltSample;
+            shotGravity = weaponData.ShotGravity;
             delayUntilFall = weaponData.DelayUntilFall;
         }
 
@@ -58,16 +57,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
             bulletColor = GenerateInkColor();
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
-
-            // Play sound
-            if (Main.rand.NextBool(2))
-            {
-                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
-            else
-            {
-                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
         }
 
         public override void AI()
@@ -89,7 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
             {
-                Projectile.velocity.Y += fallSpeed;
+                Projectile.velocity.Y += shotGravity;
             }
 
             if (Timer % 3 == 0 && Main.rand.NextBool(2))

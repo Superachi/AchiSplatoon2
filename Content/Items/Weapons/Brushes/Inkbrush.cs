@@ -5,7 +5,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class Inkbrush : BaseBrush
     {
+        public override float AimDeviation { get => 12f; }
         protected override int ArmorPierce => 5;
+
+
+        // Brush-specific properties
+        public override float ShotVelocity => 7f;
+        public override float BaseWeaponUseTime => 8f;
+        public override int SwingArc => 80;
 
         public override void SetDefaults()
         {
@@ -14,8 +21,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.knockBack = 3;
 
             Item.scale = 1;
-            Item.useTime = 12;
-            Item.useAnimation = Item.useTime;
 
             Item.width = 56;
             Item.height = 64;

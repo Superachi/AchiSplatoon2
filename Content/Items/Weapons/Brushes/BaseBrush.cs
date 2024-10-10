@@ -16,8 +16,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override string ShootSample { get => "BrushShoot"; }
         public override string ShootAltSample { get => "BrushShootAlt"; }
         protected virtual int ArmorPierce => 0;
-        public virtual float DelayUntilFall => 3f;
+        public virtual float DelayUntilFall => 10f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);
+
+        // Brush-specific properties
+        public virtual float ShotVelocity => 7f;
+        public virtual float ShotGravity => 0.2f;
+        public virtual float BaseWeaponUseTime => 15f;
+        public virtual int SwingArc => 80;
 
         public override void SetDefaults()
         {
@@ -27,6 +33,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
             Item.shootSpeed = 6f;
+
+            Item.useTime = 6;
+            Item.useAnimation = Item.useTime;
 
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;

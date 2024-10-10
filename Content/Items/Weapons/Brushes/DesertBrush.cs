@@ -9,17 +9,19 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float AimDeviation { get => 4f; }
 
+        public override float ShotVelocity => 6f;
+        public override float BaseWeaponUseTime => 12f;
+        public override int SwingArc => 180;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.shoot = ModContent.ProjectileType<DesertBrushProjectile>();
+            Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
 
             Item.damage = 10;
             Item.knockBack = 3;
 
             Item.scale = 1;
-            Item.useTime = 18;
-            Item.useAnimation = Item.useTime;
 
             Item.width = 52;
             Item.height = 52;

@@ -44,9 +44,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseBrush;
-
-            shootSample = weaponData.ShootSample;
-            shootAltSample = weaponData.ShootAltSample;
         }
 
         public override void AfterSpawn()
@@ -59,16 +56,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             bulletColor = GenerateInkColor();
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
             drawScale += Main.rand.NextFloat(1f, 1.5f);
-
-            // Play sound
-            if (Main.rand.NextBool(2))
-            {
-                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
-            else
-            {
-                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
         }
 
         public override void AI()

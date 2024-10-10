@@ -183,29 +183,6 @@ namespace AchiSplatoon2.Content.Players
 
             switch (Player.HeldItem.ModItem)
             {
-                case Inkbrush:
-                    if (Player.ItemTimeIsZero)
-                    {
-                        moveSpeedModifier = 1.1f;
-                        moveAccelModifier = 5f;
-                        moveFrictionModifier = 3f;
-                    }
-                    else
-                    {
-                        brushMoveSpeedCap = true;
-                    }
-                    break;
-                case Octobrush:
-                    if (Player.ItemTimeIsZero)
-                    {
-                        moveAccelModifier = 3f;
-                        moveFrictionModifier = 3f;
-                    }
-                    else
-                    {
-                        brushMoveSpeedCap = true;
-                    }
-                    break;
                 case ClassicSquiffer:
                     if (Player.channel)
                     {
