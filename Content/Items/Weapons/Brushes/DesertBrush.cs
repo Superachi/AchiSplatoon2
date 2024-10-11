@@ -18,11 +18,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
 
-            Item.damage = 16;
-            Item.knockBack = 3;
+            Item.damage = 22;
+            Item.knockBack = 5;
 
             Item.scale = 1;
-
             Item.width = 52;
             Item.height = 52;
 

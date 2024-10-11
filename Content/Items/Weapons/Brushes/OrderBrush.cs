@@ -14,8 +14,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 7;
-            Item.knockBack = 2f;
+            Item.damage = 8;
+            Item.knockBack = 3f;
             Item.shootSpeed = 4f;
 
             Item.width = 58;
