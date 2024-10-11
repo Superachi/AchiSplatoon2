@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class Inkbrush : BaseBrush
     {
         public override float AimDeviation { get => 12f; }
-        protected override int ArmorPierce => 5;
+        protected override int ArmorPierce => 20;
 
 
         // Brush-specific properties

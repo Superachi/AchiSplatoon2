@@ -6,6 +6,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class OctobrushNouveau : Octobrush
     {
+        protected override int ArmorPierce => 15;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

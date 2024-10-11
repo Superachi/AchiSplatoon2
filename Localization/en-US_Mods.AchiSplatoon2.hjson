@@ -570,14 +570,14 @@ Items: {
 		UsageHint: "{$Hint.Brushes.Octo}"
 		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
 		DisplayName: Octobrush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	OctobrushNouveau: {
 		UsageHint: "{$Hint.Brushes.Octo}"
 		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
 		DisplayName: Octobrush Nouveau
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	ZFSplatCharger: {
@@ -1079,7 +1079,7 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaOctobrush.Flavor
 		UsageHint: "{$Hint.Brushes.Octo}"
 		DisplayName: Kensa Octobrush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	KensaUndercoverBrella: {

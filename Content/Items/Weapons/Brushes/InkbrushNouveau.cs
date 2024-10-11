@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class InkbrushNouveau : Inkbrush
     {
-        protected override int ArmorPierce => 10;
+        protected override int ArmorPierce => 30;
         public override void SetDefaults()
         {
             base.SetDefaults();

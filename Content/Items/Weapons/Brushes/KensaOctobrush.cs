@@ -8,6 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float AimDeviation { get => 3f; }
         public override float DelayUntilFall => 15f;
+        protected override int ArmorPierce => 20;
 
 
         // Brush-specific properties
@@ -19,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 72;
+            Item.damage = 66;
             Item.knockBack = 6;
             Item.scale = 2.0f;
             Item.useTime = 15;

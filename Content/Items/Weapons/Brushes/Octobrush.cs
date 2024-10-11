@@ -7,6 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float AimDeviation { get => 6f; }
         public override float DelayUntilFall => 12f;
+        protected override int ArmorPierce => 10;
 
         public override float ShotVelocity => 9f;
         public override float BaseWeaponUseTime => 15f;
