@@ -183,7 +183,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             RollerSwingRotate(swingAngleGoal, 3f / WeaponUseTime());
 
-            if (timeSpentInState == (int)(WeaponUseTime() / 2))
+            if (timeSpentInState == (int)(WeaponUseTime() / 2f * 0.8f))
             {
                 Shoot();
             }

@@ -62,9 +62,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         public override void AI()
         {
             Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
-            if (drawScale < 1f && timeSpentAlive > 5)
+            
+            if (timeSpentAlive > 3 * FrameSpeed())
             {
-                drawScale += 0.1f;
+                if (drawScale < 1f)
+                {
+                    drawScale += 0.1f;
+                }
+
+                if (Timer % 4 == 0 && Main.rand.NextBool(2))
+                {
+                    Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity * 0.2f, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(1f, 1.5f));
+                }
             }
 
             // Rotation increased by velocity.X 
@@ -79,11 +88,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
             {
                 Projectile.velocity.Y += shotGravity;
-            }
-
-            if (Timer % 3 == 0 && Main.rand.NextBool(2))
-            {
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity * 0.2f, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(1f, 1.5f));
             }
         }
 
