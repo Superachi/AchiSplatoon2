@@ -461,7 +461,20 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected bool IsTargetEnemy(NPC target)
         {
-            return !target.friendly && target.type != NPCID.TargetDummy && !Main.npcCatchable[target.type] && target.damage > 0 && target.lifeMax > 5;
+            if (target.dontTakeDamage) return false;
+            if (target.type == NPCID.TargetDummy) return false;
+
+            if (!target.friendly
+                    && !Main.npcCatchable[target.type]
+                    && target.damage > 0
+                    && target.lifeMax > 5) return true;
+
+            if (target.type == NPCID.MoonLordCore
+                || target.type == NPCID.MoonLordHand
+                || target.type == NPCID.MoonLordHead
+                || target.type == NPCID.MoonLordLeechBlob) return true;
+
+            return false;
         }
 
         protected NPC? FindClosestEnemy(float maxTargetDistance, bool checkLineOfSight = false)
