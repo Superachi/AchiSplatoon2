@@ -28,6 +28,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
             Item.ArmorPenetration = ArmorPierce;
             Item.autoReuse = true;
@@ -46,6 +48,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[Item.shoot] == 0;
+        }
+
+        protected void SetItemUseTime()
+        {
+            Item.useTime = (int)BaseWeaponUseTime;
+            Item.useAnimation = Item.useTime;
         }
     }
 }

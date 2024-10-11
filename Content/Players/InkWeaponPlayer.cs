@@ -185,16 +185,13 @@ namespace AchiSplatoon2.Content.Players
             switch (Player.HeldItem.ModItem)
             {
                 case BaseBrush:
+                    moveAccelModifier = 2f;
                     moveFrictionModifier = 2f;
 
                     if (isBrushRolling)
                     {
                         moveSpeedModifier = 2.5f;
                         moveAccelModifier = 5f;
-                    }
-                    else if (isBrushAttacking)
-                    {
-
                     }
                     break;
                 case ClassicSquiffer:

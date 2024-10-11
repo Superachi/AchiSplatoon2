@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class KensaOctobrush : Octobrush
     {
         public override float AimDeviation { get => 3f; }
-        public override float DelayUntilFall => 15f;
+        public override float DelayUntilFall => 20f;
         protected override int ArmorPierce => 20;
 
 
@@ -19,6 +19,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
             Item.damage = 72;
             Item.knockBack = 8;

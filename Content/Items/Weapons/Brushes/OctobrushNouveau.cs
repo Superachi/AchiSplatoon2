@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
             Item.damage = 54;
             Item.knockBack = 7;
