@@ -66,7 +66,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
             Projectile.velocity *= airResist;
 
-            if (Projectile.timeLeft < 18) drawScale -= 0.05f;
+            if (Projectile.timeLeft < 18)
+            {
+                drawScale -= 0.05f;
+            } else if (drawScale < 1f && timeSpentAlive > 2 * FrameSpeed())
+            {
+                drawScale += 0.1f;
+            }
 
             // Spawn dust
             Timer++;
@@ -96,6 +102,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
+            if (timeSpentAlive < 5 * FrameSpeed()) return false;
+
             DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
             return false;
         }
