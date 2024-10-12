@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         {
             base.AfterSpawn();
             enablePierceDamagefalloff = false;
+            dissolvable = false;
             Projectile.localNPCHitCooldown = 5 * FrameSpeed();
             Projectile.penetrate = -1;
             Projectile.damage /= 2;

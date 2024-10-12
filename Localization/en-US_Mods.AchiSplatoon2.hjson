@@ -31,6 +31,7 @@ Hint: {
 		Tri: Hold left-click to charge up a volley of explosive shots
 		Reeflux: Hold left-click to charge up a volley of shots
 		Nebula: Hold left-click to charge up a volley of homing stars
+		Ice: Hold left-click to charge up a piercing shot that releases icy shrapnel
 	}
 
 	Sloshers: {
@@ -1381,6 +1382,13 @@ Items: {
 		DisplayName: Painbrush Nouveau
 		Tooltip: ""
 	}
+
+	IceStringer: {
+		UsageHint: "{$Hint.Stringers.Ice}"
+		Flavor: Don't lick it!
+		DisplayName: Frozen Stringer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1473,6 +1481,8 @@ Projectiles: {
 	TorpedoProjectile.DisplayName: Torpedo Projectile
 	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
 	BrushSwingProjectile.DisplayName: Brush Swing Projectile
+	IceStringerProjectile.DisplayName: Ice Stringer Projectile
+	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
 }
 
 Buffs: {

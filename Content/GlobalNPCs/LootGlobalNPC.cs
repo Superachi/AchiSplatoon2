@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
@@ -157,9 +158,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.Golem:
                 case NPCID.Pumpking:
                 case NPCID.SantaNK1:
-                case NPCID.IceQueen:
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
+                    break;
+
+                case NPCID.IceQueen:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
                     break;
 
                 // Dungeon drops

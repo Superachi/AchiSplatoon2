@@ -141,6 +141,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 }
             }
 
+            if (projectileCount < 2)
+            {
+                finalArc = 0;
+                return;
+            }
+
             finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
         }
 
