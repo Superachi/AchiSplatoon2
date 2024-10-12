@@ -25,6 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             base.AfterSpawn();
 
+            SoundHelper.PlayAudio(SoundID.Item28, 0.3f, maxInstances: 10, pitch: 0.5f, position: Projectile.Center);
             colorOverride = new Color(r: 106, g: 218, b: 255);
             dissolvable = false;
             enablePierceDamagefalloff = true;
@@ -61,7 +62,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 hasLanded = true;
                 SoundHelper.PlayAudio(SoundID.DD2_CrystalCartImpact, 1f, maxInstances: 10, position: Projectile.Center);
-                SoundHelper.PlayAudio(SoundID.Item28, 0.5f, maxInstances: 10, pitch: 0.3f, position: Projectile.Center);
             }
         }
 
@@ -79,6 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             if (parentFullyCharged && hitShrapnelCooldown <= 0)
             {
+                SoundHelper.PlayAudio(SoundID.Shatter, 0.5f, maxInstances: 10, pitchVariance: 0.2f, pitch: 0.5f, position: Projectile.Center);
                 CreateShrapnel(hitShrapnelCount, 3f, 6f);
                 hitShrapnelCooldown = hitShrapnelCooldownMax;
 
