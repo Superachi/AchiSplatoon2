@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override float ShotVelocity => 9f;
         public override float ShotGravity => 0.1f;
         public override float BaseWeaponUseTime => 18f;
-        public override int SwingArc => 180;
+        public override int SwingArc => 160;
         public override int WindupTime => 26;
         public override float RollMoveSpeedBonus => 1.4f;
 
@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             SetItemUseTime();
 
             Item.damage = 90;
-            Item.knockBack = 10;
+            Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
