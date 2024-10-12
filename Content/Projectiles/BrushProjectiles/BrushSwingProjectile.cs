@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
@@ -64,12 +65,15 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var weaponData = WeaponInstance as BaseBrush;
             if (weaponData == null) throw new InvalidCastException($"Tried casting {nameof(WeaponInstance)} to type {nameof(BaseBrush)}, but the result was null.");
 
-
             baseWeaponUseTime = weaponData.BaseWeaponUseTime / owner.GetAttackSpeed(DamageClass.Melee);
             baseWeaponUseTime = Math.Max(4, baseWeaponUseTime);
             shotVelocity = weaponData.ShotVelocity;
 
             swingArc = weaponData.SwingArc;
+            if (swingArc >= 180)
+            {
+                DebugHelper.PrintWarning($"Swing arc for {WeaponInstance.Name} is set to {swingArc} degrees. Swing arcs of 180+ degrees may cause unexpected visual behaviour.");
+            }
             windupTime = weaponData.WindupTime;
 
             shootSample = weaponData.ShootSample;
@@ -167,13 +171,33 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
 
             // Dust
-            if (timeSpentAlive % 6 == 0)
+            if (timeSpentAlive % 5 == 0)
             {
+                float offsetMod = Main.rand.NextFloat(-0.3f, 0.7f);
+                bool isSwingingForward = state == stateSwingForward;
+                int swingDirection = isSwingingForward ? -1 : 1;
+                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
+
                 Dust.NewDustPerfect(
-                    Position: Projectile.Center + drawPositionOffset * -1.3f + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
-                    Type: ModContent.DustType<ChargerBulletDust>(),
-                    Velocity: Vector2.Normalize(Projectile.position - Projectile.oldPosition) * -3f,
-                    newColor: initialColor, Scale: 1.5f);
+                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: angleVector * 3f,
+                    newColor: initialColor, Scale: 1.0f);
+            }
+
+            if (timeSpentAlive % 10 == 0)
+            {
+                float offsetMod = Main.rand.NextFloat(-3f, 1f);
+                bool isSwingingForward = state == stateSwingForward;
+                int swingDirection = isSwingingForward ? -1 : 1;
+                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
+
+                var lightDust = Dust.NewDustPerfect(
+                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
+                    Type: DustID.AncientLight,
+                    Velocity: Vector2.Zero,
+                    newColor: initialColor, Scale: 1.0f);
+                lightDust.noGravity = true;
             }
         }
 
@@ -193,7 +217,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 flipSpriteSettings: facingDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                 positionOffset: drawPositionOffset);
 
-            Utils.DrawBorderString(Main.spriteBatch, $"SwingAngle = {swingAngleCurrent}", owner.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
+            // Utils.DrawBorderString(Main.spriteBatch, $"SwingAngle = {swingAngleCurrent}", owner.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
+            // Utils.DrawBorderString(Main.spriteBatch, $"MouseAngle = {GetMouseAngle()}", owner.Center - Main.screenPosition + new Vector2(0, -160), Color.White);
             return false;
         }
 
@@ -237,6 +262,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (timeSpentInState > windupTime * FrameSpeed())
             {
+                SetSwingAngleFromMouse(direction: 1);
                 AdvanceState();
             }
         }
@@ -265,8 +291,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 }
 
                 bool isSwingingForward = state == stateSwingForward;
-                int direction = isSwingingForward ? -1 : 1;
-                SetSwingAngleFromMouse(direction);
+                int swingDirection = isSwingingForward ? -1 : 1;
+                SetSwingAngleFromMouse(swingDirection);
                 SetState(isSwingingForward ? stateSwingBack : stateSwingForward);
             }
         }
@@ -290,7 +316,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (!IsMouseUnderneathPlayer() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
             {
-                swingAngleCurrent = GetMouseAngle();
+                SetSwingAngleFromMouse(direction: 1);
+
                 if (windupTime > 0)
                 {
                     SetState(stateWindup);
@@ -378,10 +405,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 switch (WeaponInstance)
                 {
                     case DesertBrush:
-                        CreateChildProjectile<DesertBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i), Projectile.damage / 2);
+                        CreateChildProjectile<DesertBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                         break;
                     default:
-                        CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i), Projectile.damage / 2);
+                        CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                         break;
                 }
             }
@@ -432,7 +459,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             RollerUpdateRotate();
             Player p = GetOwner();
 
-            swingAngleCurrent = MathHelper.Lerp(swingAngleCurrent, angleDestinationDegrees, lerpAmount) % 360;
+            swingAngleCurrent = AngleLerp(swingAngleCurrent, angleDestinationDegrees, lerpAmount);
 
             var dirToPlayer = Projectile.Center
                 .DirectionTo(p.Center)
@@ -447,6 +474,27 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             {
                 Projectile.rotation = dirToPlayer + MathHelper.ToRadians(45 - 90);
             }
+        }
+
+        private float AngleLerp(float angleStartDegrees, float angleDestinationDegrees, float lerpAmount)
+        {
+            float result = 0;
+            float degreesOffset = 360;
+
+            // Normalize the angles
+            angleStartDegrees += degreesOffset;
+            angleDestinationDegrees += degreesOffset;
+
+            // If the gap between the two angles is too big, decrease one of the angles to make the brush swing less wildly
+            if (Math.Abs(angleStartDegrees - angleDestinationDegrees) > 180)
+            {
+                angleStartDegrees += degreesOffset;
+                result -= degreesOffset;
+            }
+
+            result += MathHelper.Lerp(angleStartDegrees, angleDestinationDegrees, lerpAmount);
+            result -= degreesOffset;
+            return result;
         }
     }
 }

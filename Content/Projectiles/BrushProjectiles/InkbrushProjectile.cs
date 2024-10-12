@@ -17,6 +17,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private float drawRotation;
         protected float brightness = 0.001f;
 
+        protected float damageFallOffMod = 0.75f;
+
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -69,9 +71,15 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     drawScale += 0.1f;
                 }
 
-                if (Timer % 4 == 0 && Main.rand.NextBool(2))
+                if (Timer % 8 == 0 && Main.rand.NextBool(10))
                 {
-                    Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity * 0.2f, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(1f, 1.5f));
+                    Dust.NewDustPerfect(
+                        Position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
+                        Type: ModContent.DustType<SplatterDropletDust>(),
+                        Velocity: Projectile.velocity * 0.2f,
+                        newColor: GenerateInkColor(),
+                        Scale: Main.rand.NextFloat(1f, 1.5f)
+                    );
                 }
             }
 
@@ -87,6 +95,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (timeSpentAlive >= delayUntilFall * FrameSpeed())
             {
                 Projectile.velocity.Y += shotGravity;
+            }
+
+            if (timeSpentAlive >= delayUntilFall / 2 * FrameSpeed() && damageFallOffMod > 0.5f)
+            {
+                damageFallOffMod -= 0.01f;
             }
         }
 
@@ -114,6 +127,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             var size = 30;
             hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= damageFallOffMod;
         }
     }
 }

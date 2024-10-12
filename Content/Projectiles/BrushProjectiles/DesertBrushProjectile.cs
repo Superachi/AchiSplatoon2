@@ -76,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             // Spawn dust
             Timer++;
-            if (Timer % 3 == 0 && Main.rand.NextBool(2) && IsVelocityGreaterThan(0.5f))
+            if (Timer % 5 == 0 && Main.rand.NextBool(10) && IsVelocityGreaterThan(0.5f))
             {
                 Dust.NewDustPerfect(
                     Position: Projectile.position + Main.rand.NextVector2Circular(10, 10),
@@ -90,6 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            ProjectileBounce(oldVelocity, new Vector2(0.8f, 0.8f));
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
@@ -97,7 +98,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
-            return true;
+            return false;
         }
 
         public override bool PreDraw(ref Color lightColor)
