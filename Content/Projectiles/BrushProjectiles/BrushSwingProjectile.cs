@@ -19,23 +19,21 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private Player owner;
         private InkWeaponPlayer weaponPlayer;
 
-        private const int stateInit = 0;
-        private const int stateWindup = 1;
-        private const int stateSwingForward = 2;
-        private const int stateSwingBack = 3;
-        private const int stateRoll = 4;
+        private const int stateWindup = 0;
+        private const int stateSwingForward = 1;
+        private const int stateSwingBack = 2;
+        private const int stateRoll = 3;
 
         private int facingDirection;
-        private bool enableWindUp = false;
-
-        private float shotVelocity;
 
         private float WeaponUseTime() => baseWeaponUseTime * FrameSpeed();
         private float baseWeaponUseTime = 6f;
+        private float shotVelocity;
 
         private float swingAngleCurrent;
         private float swingArc = 80;
         private float swingAngleGoal;
+        private int windupTime;
 
         // How much time the player can stay in the air for, before the rolling state reverts to swinging
         private int rollCoyoteTime;
@@ -66,10 +64,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var weaponData = WeaponInstance as BaseBrush;
             if (weaponData == null) throw new InvalidCastException($"Tried casting {nameof(WeaponInstance)} to type {nameof(BaseBrush)}, but the result was null.");
 
-            shotVelocity = weaponData.ShotVelocity;
+
             baseWeaponUseTime = weaponData.BaseWeaponUseTime / owner.GetAttackSpeed(DamageClass.Melee);
             baseWeaponUseTime = Math.Max(4, baseWeaponUseTime);
+            shotVelocity = weaponData.ShotVelocity;
+
             swingArc = weaponData.SwingArc;
+            windupTime = weaponData.WindupTime;
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
@@ -80,25 +81,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             owner = GetOwner();
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
-            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
-
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
 
+            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+
             Projectile.velocity = Vector2.Zero;
             SetSwingAngleFromMouse(direction: 1);
-        }
-
-        private float GetMouseAngle()
-        {
-            return MathHelper.ToDegrees(owner.DirectionFrom(Main.MouseWorld).ToRotation());
-        }
-
-        private void SetSwingAngleFromMouse(int direction)
-        {
-            facingDirection = Math.Sign(Main.MouseWorld.X - owner.Center.X);
-            swingAngleCurrent = GetMouseAngle() + (swingArc / 2) * direction * -facingDirection;
-            swingAngleGoal = swingAngleCurrent + swingArc * direction * facingDirection;
+            SetState(stateWindup);
         }
 
         protected override void SetState(int targetState)
@@ -108,16 +98,37 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             switch (state)
             {
+                case stateWindup:
+                    if (windupTime == 0)
+                    {
+                        return;
+                    }
+
+                    Projectile.friendly = false;
+                    wepMP.isBrushRolling = false;
+                    weaponPlayer.isBrushAttacking = true;
+
+                    PlayAudio("Rollers/SwingMedium", volume: 0.2f, maxInstances: 5, position: Projectile.Center, pitch: 1);
+                    swingAngleCurrent = facingDirection == 1 ? 180 : 0;
+                    break;
+
                 case stateSwingForward:
                 case stateSwingBack:
                     Projectile.friendly = true;
                     wepMP.isBrushRolling = false;
+                    weaponPlayer.isBrushAttacking = true;
                     break;
 
                 case stateRoll:
                     Projectile.friendly = false;
                     wepMP.isBrushRolling = true;
+                    weaponPlayer.isBrushAttacking = false;
                     rollCoyoteTime = RollCoyoteTimeDefault;
+
+                    if (swingAngleCurrent < -45)
+                    {
+                        swingAngleCurrent += 360;
+                    }
                     break;
             }
         }
@@ -133,104 +144,19 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 return;
             }
 
-            bool isPlayerGrounded = baseMP.IsPlayerGrounded();
-
             switch (state)
             {
-                case stateInit:
                 case stateWindup:
-                    AdvanceState();
+                    StateWindup();
                     break;
 
                 case stateSwingForward:
                 case stateSwingBack:
-                    RollerSwingRotate(swingAngleGoal, 3f / WeaponUseTime());
-
-                    if (timeSpentInState == (int)(WeaponUseTime() / 2f * 0.8f))
-                    {
-                        Shoot();
-                    }
-
-                    if (timeSpentInState > WeaponUseTime())
-                    {
-                        if (!InputHelper.GetInputMouseLeftHold())
-                        {
-                            Projectile.Kill();
-                            return;
-                        }
-
-                        if (IsMouseUnderneathPlayer() && isPlayerGrounded && AbsPlayerSpeed() > float.Epsilon)
-                        {
-                            if (swingAngleCurrent < -45)
-                            {
-                                swingAngleCurrent += 360;
-                            }
-
-                            SetState(stateRoll);
-                            return;
-                        }
-
-                        bool isSwingingForward = state == stateSwingForward;
-                        int direction = isSwingingForward ? -1 : 1;
-                        SetSwingAngleFromMouse(direction);
-                        SetState(isSwingingForward ? stateSwingBack : stateSwingForward);
-                    }
+                    StateSwing();
                     break;
 
                 case stateRoll:
-                    if (!InputHelper.GetInputMouseLeftHold())
-                    {
-                        Projectile.Kill();
-                        return;
-                    }
-
-                    if (!isPlayerGrounded)
-                    {
-                        rollCoyoteTime--;
-                    }
-
-                    if (!IsMouseUnderneathPlayer() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
-                    {
-                        swingAngleCurrent = GetMouseAngle();
-                        SetState(stateSwingForward);
-                        return;
-                    }
-
-                    if (SignPlayerSpeed() != 0)
-                    {
-                        owner.direction = SignPlayerSpeed();
-                        facingDirection = owner.direction;
-                    }
-
-                    // Emit dust when running
-                    bool isFastEnough = AbsPlayerSpeed() >= 6;
-                    Projectile.friendly = isFastEnough;
-                    if (isFastEnough && isPlayerGrounded && Main.rand.NextBool(10))
-                    {
-                        var posRand = Main.rand.NextVector2Circular(12, 12);
-                        var xVelocityRand = Main.rand.NextFloat(1, 3);
-                        var finalXVel = SignPlayerSpeed() * AbsPlayerSpeed() / 4;
-
-                        Dust d = Dust.NewDustPerfect(
-                            Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height) + posRand,
-                            Type: ModContent.DustType<SplatterDropletDust>(),
-                            Velocity: new Vector2(finalXVel * 2, -AbsPlayerSpeed() * 0.7f),
-                            Alpha: Main.rand.Next(0, 32),
-                            newColor: GenerateInkColor(),
-                            Scale: Main.rand.NextFloat(0.8f, 1.6f));
-
-                        Dust.NewDustPerfect(
-                            Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height),
-                            Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                            Velocity: new Vector2(0, AbsPlayerSpeed() * Main.rand.NextFloat(0, 1)),
-                            Alpha: Main.rand.Next(0, 32),
-                            newColor: GenerateInkColor(),
-                            Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                    }
-
-                    float lerpAmount = 0.05f;
-                    if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
-                    else RollerSwingRotate(-20, lerpAmount);
+                    StateRoll();
                     break;
             }
 
@@ -251,11 +177,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
         }
 
-        private bool IsMouseUnderneathPlayer()
-        {
-            return GetMouseAngle() < -50 && GetMouseAngle() > -120;
-        }
-
         public override void OnKill(int timeLeft)
         {
             var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
@@ -265,8 +186,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (state < stateSwingForward) return false;
-
             DrawProjectile(
                 Color.White,
                 Projectile.rotation,
@@ -290,9 +209,171 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
         }
 
+        #region State machine functions (AI loop)
+
+        private void StateWindup()
+        {
+            if (windupTime == 0)
+            {
+                if (PlayerMeetsRollingRequirements())
+                {
+                    SetState(stateRoll);
+                    return;
+                }
+
+                AdvanceState();
+                return;
+            }
+
+            float lerpAmount = 0.03f;
+            if (facingDirection == 1)
+            {
+                RollerSwingRotate(20, lerpAmount);
+            }
+            else
+            {
+                RollerSwingRotate(160, lerpAmount);
+            }
+
+            if (timeSpentInState > windupTime * FrameSpeed())
+            {
+                AdvanceState();
+            }
+        }
+
+        private void StateSwing()
+        {
+            RollerSwingRotate(swingAngleGoal, 3f / WeaponUseTime());
+
+            if (timeSpentInState == (int)(WeaponUseTime() / 2f * 0.8f))
+            {
+                Shoot();
+            }
+
+            if (timeSpentInState > WeaponUseTime())
+            {
+                if (!InputHelper.GetInputMouseLeftHold())
+                {
+                    Projectile.Kill();
+                    return;
+                }
+
+                if (PlayerMeetsRollingRequirements())
+                {
+                    SetState(stateRoll);
+                    return;
+                }
+
+                bool isSwingingForward = state == stateSwingForward;
+                int direction = isSwingingForward ? -1 : 1;
+                SetSwingAngleFromMouse(direction);
+                SetState(isSwingingForward ? stateSwingBack : stateSwingForward);
+            }
+        }
+
+        private void StateRoll()
+        {
+            if (!InputHelper.GetInputMouseLeftHold())
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            if (!IsPlayerGrounded())
+            {
+                rollCoyoteTime--;
+            }
+            else
+            {
+                rollCoyoteTime = RollCoyoteTimeDefault;
+            }
+
+            if (!IsMouseUnderneathPlayer() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
+            {
+                swingAngleCurrent = GetMouseAngle();
+                if (windupTime > 0)
+                {
+                    SetState(stateWindup);
+                    return;
+                }
+
+                SetState(stateSwingForward);
+                return;
+            }
+
+            if (SignPlayerSpeed() != 0)
+            {
+                owner.direction = SignPlayerSpeed();
+                facingDirection = owner.direction;
+            }
+
+            // Emit dust when running
+            bool isFastEnough = AbsPlayerSpeed() >= 6;
+            Projectile.friendly = isFastEnough;
+            if (isFastEnough && IsPlayerGrounded() && Main.rand.NextBool(10))
+            {
+                var posRand = Main.rand.NextVector2Circular(12, 12);
+                var xVelocityRand = Main.rand.NextFloat(1, 3);
+                var finalXVel = SignPlayerSpeed() * AbsPlayerSpeed() / 4;
+
+                Dust d = Dust.NewDustPerfect(
+                    Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height) + posRand,
+                    Type: ModContent.DustType<SplatterDropletDust>(),
+                    Velocity: new Vector2(finalXVel * 2, -AbsPlayerSpeed() * 0.7f),
+                    Alpha: Main.rand.Next(0, 32),
+                    newColor: GenerateInkColor(),
+                    Scale: Main.rand.NextFloat(0.8f, 1.6f));
+
+                Dust.NewDustPerfect(
+                    Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height),
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: new Vector2(0, AbsPlayerSpeed() * Main.rand.NextFloat(0, 1)),
+                    Alpha: Main.rand.Next(0, 32),
+                    newColor: GenerateInkColor(),
+                    Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            }
+
+            float lerpAmount = 0.05f;
+            if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
+            else RollerSwingRotate(-20, lerpAmount);
+        }
+
+        #endregion
+
+        #region Angle functions
+
+        private float GetMouseAngle()
+        {
+            return MathHelper.ToDegrees(owner.DirectionFrom(Main.MouseWorld).ToRotation());
+        }
+
+        private void SetSwingAngleFromMouse(int direction)
+        {
+            facingDirection = Math.Sign(Main.MouseWorld.X - owner.Center.X);
+            swingAngleCurrent = GetMouseAngle() + (swingArc / 2) * direction * -facingDirection;
+            swingAngleGoal = swingAngleCurrent + swingArc * direction * facingDirection;
+        }
+
+        private bool IsMouseUnderneathPlayer()
+        {
+            return GetMouseAngle() < -50 && GetMouseAngle() > -120;
+        }
+
+        private bool PlayerMeetsRollingRequirements()
+        {
+            return IsMouseUnderneathPlayer() && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
+        }
+
+        #endregion
+
+        private bool IsPlayerGrounded()
+        {
+            return owner.GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
+        }
+
         private void Shoot()
         {
-            for (int i = 0; i < Main.rand.Next(1, 4); i++)
+            for (int i = 0; i < Main.rand.Next(2, 4); i++)
             {
                 switch (WeaponInstance)
                 {
@@ -307,11 +388,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (Main.rand.NextBool(2))
             {
-                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
             }
             else
             {
-                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
             }
         }
 

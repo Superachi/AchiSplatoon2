@@ -104,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (timeSpentAlive < 5 * FrameSpeed()) return false;
 
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.2f);
             return false;
         }
     }

@@ -24,6 +24,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public virtual float ShotGravity => 0.2f;
         public virtual float BaseWeaponUseTime => 15f;
         public virtual int SwingArc => 80;
+        public virtual int WindupTime => 0;
+        public virtual float RollMoveSpeedBonus => 2f;
 
         public override void SetDefaults()
         {

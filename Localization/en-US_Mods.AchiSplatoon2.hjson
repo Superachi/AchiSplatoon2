@@ -1367,6 +1367,20 @@ Items: {
 		DisplayName: Custom Splattershot Jr.
 		Tooltip: ""
 	}
+
+	PainBrush: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrush.Flavor
+		DisplayName: Painbrush
+		Tooltip: ""
+	}
+
+	PainBrushNouveau: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrushNouveau.Flavor
+		DisplayName: Painbrush Nouveau
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

@@ -33,7 +33,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.extraUpdates = 2;
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
@@ -85,7 +84,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             Timer++;
 
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (timeSpentAlive >= delayUntilFall * FrameSpeed())
             {
                 Projectile.velocity.Y += shotGravity;
             }
@@ -107,8 +106,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (timeSpentAlive < 5) return false;
 
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.2f);
             return false;
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 30;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
     }
 }
