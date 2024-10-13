@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             if (parentFullyCharged)
             {
-                Projectile.penetrate = -1;
+                Projectile.penetrate += 5;
             }
         }
 

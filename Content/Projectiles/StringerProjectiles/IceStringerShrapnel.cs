@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.height = 8;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 3;
 
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 30;
