@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Lime;
         }
+
         public override void AddRecipes() => AddRecipePostPlanteraDungeon();
     }
 }

@@ -48,7 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.height = 40;
 
             Projectile.extraUpdates = 3;
-            Projectile.friendly = true;
+            Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.ownerHitCheck = true;
 
@@ -400,26 +400,44 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private void Shoot()
         {
-            for (int i = 0; i < Main.rand.Next(2, 4); i++)
+            if (WeaponInstance is not SpookyBrush)
             {
-                switch (WeaponInstance)
+                for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
-                    case DesertBrush:
-                        CreateChildProjectile<DesertBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                        break;
-                    default:
-                        CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                        break;
+                    switch (WeaponInstance)
+                    {
+                        case DesertBrush:
+                            CreateChildProjectile<DesertBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                            break;
+                        default:
+                            CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                            break;
+                    }
                 }
-            }
 
-            if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool(2))
+                {
+                    PlayAudio(shootSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
+                }
+                else
+                {
+                    PlayAudio(shootAltSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
+                }
+            } else
             {
-                PlayAudio(shootSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
-            }
-            else
-            {
-                PlayAudio(shootAltSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
+                int sineDirection = 0;
+                if (state == stateSwingForward)
+                {
+                    sineDirection = -1;
+                }
+                else if (state == stateSwingBack)
+                {
+                    sineDirection = 1;
+                }
+                
+                var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage, triggerAfterSpawn: false);
+                p.sineDirection = sineDirection;
+                p.AfterSpawn();
             }
         }
 

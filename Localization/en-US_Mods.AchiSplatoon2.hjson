@@ -43,6 +43,7 @@ Hint: {
 	Brushes: {
 		Generic: While you run and aim downwards, you gain a speed boost
 		Desert: Projectiles linger in place shortly
+		Spooky: Fires magic projectiles that bounce against walls
 	}
 
 	Dualies: {
@@ -1389,6 +1390,13 @@ Items: {
 		DisplayName: Shivering Stringer
 		Tooltip: ""
 	}
+
+	SpookyBrush: {
+		UsageHint: "{$Hint.Brush.Spooky}"
+		Flavor: Every witch needs their broom!
+		DisplayName: Broom Brush
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1483,6 +1491,7 @@ Projectiles: {
 	BrushSwingProjectile.DisplayName: Brush Swing Projectile
 	IceStringerProjectile.DisplayName: Ice Stringer Projectile
 	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
+	SpookyBrushProjectile.DisplayName: Spooky Brush Projectile
 }
 
 Buffs: {

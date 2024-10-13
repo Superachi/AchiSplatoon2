@@ -322,7 +322,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual T CreateChildProjectile<T>(Vector2 position, Vector2 velocity, int damage, bool triggerAfterSpawn = true)
             where T : BaseProjectile
         {
-            return CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn) as T;
+            return (T)CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn);
         }
 
         protected Projectile? GetParentProjectile(int projectileId)
@@ -503,6 +503,11 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             return npcTarget;
+        }
+
+        protected void SetHitboxSize(int size, out Rectangle hitbox)
+        {
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
         protected bool CanHitNPCWithLineOfSight(NPC target)
