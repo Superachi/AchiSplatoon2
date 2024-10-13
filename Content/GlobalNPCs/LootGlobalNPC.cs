@@ -158,12 +158,9 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.Golem:
                 case NPCID.Pumpking:
                 case NPCID.SantaNK1:
+                case NPCID.IceQueen:
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
-                    break;
-
-                case NPCID.IceQueen:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
                     break;
 
                 // Dungeon drops
@@ -220,6 +217,17 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (npc.type == NPCID.Mothron)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
+            }
+
+            // Special item drops
+            if (npc.type == NPCID.Pumpking)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
+            }
+
+            if (npc.type == NPCID.IceQueen)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
             }
         }
     }
