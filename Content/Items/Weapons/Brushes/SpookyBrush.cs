@@ -6,19 +6,21 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class SpookyBrush : BaseBrush
     {
         public override float AimDeviation { get => 0f; }
+        protected override int ArmorPierce => 20;
 
 
         // Brush-specific properties
         public override float BaseWeaponUseTime => 15f;
         public override int SwingArc => 120;
-        public override float RollMoveSpeedBonus => 2.5f;
+        public override float RollMoveSpeedBonus => 1.7f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 80;
+            Item.damage = 100;
+            Item.crit = 5;
             Item.knockBack = 6;
 
             Item.width = 60;
