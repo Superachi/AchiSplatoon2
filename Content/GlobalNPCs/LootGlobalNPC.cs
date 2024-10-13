@@ -188,11 +188,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.Necromancer:
                 case NPCID.NecromancerArmored:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DappleDualieNouveau>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.DiabolistRed:
                 case NPCID.DiabolistWhite:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.RaggedCaster:
                 case NPCID.RaggedCasterOpenCoat:
