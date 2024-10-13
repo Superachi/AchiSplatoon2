@@ -1392,10 +1392,10 @@ Items: {
 	}
 
 	SpookyBrush: {
-		UsageHint: "{$Hint.Brush.Spooky}"
+		UsageHint: "{$Hint.Brushes.Spooky}"
 		Flavor: Every witch needs their broom!
 		DisplayName: Broom Brush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 }
 

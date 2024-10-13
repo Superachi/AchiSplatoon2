@@ -216,9 +216,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 spriteOverride: TextureAssets.Item[itemIdentifier].Value,
                 flipSpriteSettings: facingDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                 positionOffset: drawPositionOffset);
-
-            // Utils.DrawBorderString(Main.spriteBatch, $"SwingAngle = {swingAngleCurrent}", owner.Center - Main.screenPosition + new Vector2(0, -200), Color.White);
-            // Utils.DrawBorderString(Main.spriteBatch, $"MouseAngle = {GetMouseAngle()}", owner.Center - Main.screenPosition + new Vector2(0, -160), Color.White);
             return false;
         }
 
@@ -425,19 +422,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 }
             } else
             {
-                int sineDirection = 0;
-                if (state == stateSwingForward)
+                for (int i = -1; i < 2; i += 2)
                 {
-                    sineDirection = -1;
+                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage / 2, triggerAfterSpawn: false);
+                    p.sineDirection = i;
+                    p.AfterSpawn();
                 }
-                else if (state == stateSwingBack)
-                {
-                    sineDirection = 1;
-                }
-                
-                var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage, triggerAfterSpawn: false);
-                p.sineDirection = sineDirection;
-                p.AfterSpawn();
             }
         }
 
