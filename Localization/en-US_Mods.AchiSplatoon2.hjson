@@ -1386,7 +1386,7 @@ Items: {
 	IceStringer: {
 		UsageHint: "{$Hint.Stringers.Ice}"
 		Flavor: Don't lick it!
-		DisplayName: Frozen Stringer
+		DisplayName: Shivering Stringer
 		Tooltip: ""
 	}
 }
