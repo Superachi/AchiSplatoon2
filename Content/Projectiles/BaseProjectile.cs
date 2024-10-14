@@ -729,21 +729,30 @@ namespace AchiSplatoon2.Content.Projectiles
             Color dustColor = GenerateInkColor();
 
             // Ink
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < amount * 2; i++)
             {
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                    Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
+                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                dust.velocity *= radiusMult;
+            }
+
+            for (int i = 0; i < amount * 2; i++)
+            {
+                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
+                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
+                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
                 dust.velocity *= radiusMult;
             }
 
             // Firework
-            for (int i = 0; i < amount / 2; i++)
+            for (int i = 0; i < amount / 4; i++)
             {
                 var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
+                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
                     255, dustColor);
                 dust.velocity *= radiusMult / 2;
+                dust.noGravity = true;
             }
         }
         protected void EmitBurstDust(ExplosionDustModel dustModel)
@@ -804,9 +813,6 @@ namespace AchiSplatoon2.Content.Projectiles
             var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
 
             SpriteBatch spriteBatch = Main.spriteBatch;
-
-            spriteBatch.End();
-            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, flipSpriteSettings, 0f);
 
