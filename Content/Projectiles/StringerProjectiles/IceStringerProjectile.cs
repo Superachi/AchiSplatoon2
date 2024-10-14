@@ -45,7 +45,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 hitShrapnelCooldown--;
             }
 
-            if (Main.rand.NextBool(10) && !sticking)
+            var dustChance = sticking == true ? 75 : 20;
+            if (Main.rand.NextBool(dustChance))
             {
                 Dust dust = Dust.NewDustDirect(
                     Projectile.position,
