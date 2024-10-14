@@ -30,6 +30,7 @@ Hint: {
 	Stringers: {
 		Tri: Hold left-click to charge up a volley of explosive shots
 		Reeflux: Hold left-click to charge up a volley of shots
+		Wellstring: Fires a wider volley of explosive shots when fully charged
 		Nebula: Hold left-click to charge up a volley of homing stars
 		Ice: Hold left-click to charge up a piercing shot that releases icy shrapnel
 	}
@@ -1397,6 +1398,13 @@ Items: {
 		DisplayName: Doom Broom
 		Tooltip: "{$ArmorPierce.Display}"
 	}
+
+	Wellstring: {
+		UsageHint: "{$Hint.Stringers.Wellstring}"
+		Flavor: Mods.AchiSplatoon2.Items.Wellstring.Flavor
+		DisplayName: Wellstring V
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1492,6 +1500,7 @@ Projectiles: {
 	IceStringerProjectile.DisplayName: Ice Stringer Projectile
 	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
 	SpookyBrushProjectile.DisplayName: Spooky Brush Projectile
+	WellstringCharge.DisplayName: Wellstring Charge
 }
 
 Buffs: {

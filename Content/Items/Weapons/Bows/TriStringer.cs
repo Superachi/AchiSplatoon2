@@ -11,6 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     {
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
+        public override float ShotgunArc { get => 8f; }
 
         public override void SetDefaults()
         {
