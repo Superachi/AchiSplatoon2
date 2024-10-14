@@ -70,6 +70,7 @@
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\WellstringCharge.png" />
 	  <None Remove="Content\Projectiles\ThrowingProjectiles\InkMineProjectile.png" />
 	  <None Remove="Content\Projectiles\ThrowingProjectiles\TorpedoProjectile.png" />
 	</ItemGroup>

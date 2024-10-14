@@ -65,22 +65,22 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             }
 
             Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 2f);
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.5f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = (Projectile.velocity.X + random) * -0.5f;
-                float velY = (Projectile.velocity.Y + random) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                Dust.NewDustPerfect(
+                Position: Projectile.Center,
+                Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                newColor: initialColor,
+                Scale: 0.8f);
             }
 
-            ProjectileBounce(oldVelocity);
-            Projectile.velocity.X *= 0.95f;
-            Projectile.velocity.Y *= 0.8f;
+            ProjectileBounce(oldVelocity, new Vector2(0.95f, 0.8f));
             bouncesLeft--;
 
             return bouncesLeft < 1;

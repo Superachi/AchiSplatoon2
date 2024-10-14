@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
             Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
 
-            Item.damage = 18;
+            Item.damage = 12;
             Item.knockBack = 5;
 
             Item.scale = 1;
