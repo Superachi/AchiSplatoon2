@@ -169,36 +169,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (facingDirection == -1) armRotateDeg = -135f;
             owner.direction = facingDirection;
             owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
-
-            // Dust
-            if (timeSpentAlive % 5 == 0)
-            {
-                float offsetMod = Main.rand.NextFloat(-0.3f, 0.7f);
-                bool isSwingingForward = state == stateSwingForward;
-                int swingDirection = isSwingingForward ? -1 : 1;
-                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
-
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
-                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                    Velocity: angleVector * 3f,
-                    newColor: initialColor, Scale: 1.0f);
-            }
-
-            if (timeSpentAlive % 10 == 0)
-            {
-                float offsetMod = Main.rand.NextFloat(-3f, 1f);
-                bool isSwingingForward = state == stateSwingForward;
-                int swingDirection = isSwingingForward ? -1 : 1;
-                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
-
-                var lightDust = Dust.NewDustPerfect(
-                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
-                    Type: DustID.AncientLight,
-                    Velocity: Vector2.Zero,
-                    newColor: initialColor, Scale: 1.0f);
-                lightDust.noGravity = true;
-            }
         }
 
         public override void OnKill(int timeLeft)
@@ -266,6 +236,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private void StateSwing()
         {
+            bool isSwingingForward = state == stateSwingForward;
+            int swingDirection = isSwingingForward ? -1 : 1;
+
             RollerSwingRotate(swingAngleGoal, 3f / WeaponUseTime());
 
             if (timeSpentInState == (int)(WeaponUseTime() / 2f * 0.8f))
@@ -287,10 +260,33 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     return;
                 }
 
-                bool isSwingingForward = state == stateSwingForward;
-                int swingDirection = isSwingingForward ? -1 : 1;
                 SetSwingAngleFromMouse(swingDirection);
                 SetState(isSwingingForward ? stateSwingBack : stateSwingForward);
+            }
+
+            if (timeSpentAlive % 5 == 0)
+            {
+                float offsetMod = Main.rand.NextFloat(-0.3f, 0.7f);
+                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
+
+                Dust.NewDustPerfect(
+                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: angleVector * 3f,
+                    newColor: initialColor, Scale: 1.0f);
+            }
+
+            if (timeSpentAlive % 10 == 0)
+            {
+                float offsetMod = Main.rand.NextFloat(-3f, 1f);
+                Vector2 angleVector = MathHelper.ToRadians(swingAngleCurrent + 90 * swingDirection).ToRotationVector2();
+
+                var lightDust = Dust.NewDustPerfect(
+                    Position: Projectile.Center + drawPositionOffset * -offsetMod,
+                    Type: DustID.AncientLight,
+                    Velocity: Vector2.Zero,
+                    newColor: initialColor, Scale: 1.0f);
+                lightDust.noGravity = true;
             }
         }
 

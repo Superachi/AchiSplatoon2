@@ -79,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             drawRotation += Projectile.velocity.Length() / 200f;
             currentColor = ColorHelper.IncreaseHueBy(0.25f, currentColor);
 
-            if (timeSpentAlive > 4 * FrameSpeed())
+            if (timeSpentAlive > 5 * FrameSpeed())
             {
                 visible = true;
             }
