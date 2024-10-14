@@ -138,7 +138,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (sineCooldown == 0)
             {
-                Projectile.damage = MultiplyProjectileDamage(0.8f);
+                Projectile.damage = MultiplyProjectileDamage(0.7f);
                 bouncesLeft--;
                 SoundHelper.PlayAudio(SoundID.Item115, 0.2f, maxInstances: 10, pitch: 0.7f, pitchVariance: 0.3f, position: Projectile.Center);
                 DustBurst();
