@@ -1,13 +1,7 @@
-﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using AchiSplatoon2.Helpers;
+using Terraria.ID;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
@@ -15,9 +9,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
     internal class BrellaShotgunProjectile : BaseProjectile
     {
         private bool hasFired = false;
-        private int projectileCount;
+
+        private int meleeProjectileType;
+        private int pelletProjectileType;
+        private int pelletCount;
+        protected float shotSpeed;
         private float shotgunArc;
-        private float shotSpeed;
         private float shotVelocityRandomRange;
 
         public int burstNPCTarget = -1;
@@ -27,13 +24,16 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as BaseBrella;
-            projectileCount = weaponData.ProjectileCount;
+            var weaponData = (BaseBrella)WeaponInstance;
+
+            meleeProjectileType = weaponData.MeleeProjectileType;
+            pelletProjectileType = weaponData.ProjectileType;
+            pelletCount = weaponData.ProjectileCount;
             shotgunArc = weaponData.ShotgunArc;
             shootSample = weaponData.ShootSample;
             shotVelocityRandomRange = weaponData.ShotVelocityRandomRange;
 
-            burstRequiredHits = projectileCount;
+            burstRequiredHits = pelletCount;
         }
 
         public override void AfterSpawn()
@@ -41,9 +41,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Initialize();
             ApplyWeaponInstanceData();
 
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             shotSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
+            PlayShootSound();
+        }
+
+        protected override void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
         }
 
         public override void AI()
@@ -55,14 +60,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 hasFired = true;
                 SyncProjectilePosWithPlayer(owner);
 
-                float degreesPerProjectile = shotgunArc / projectileCount;
-                int middleProjectile = projectileCount / 2;
+                float degreesPerProjectile = shotgunArc / pelletCount;
+                int middleProjectile = pelletCount / 2;
                 float degreesOffset = -(middleProjectile * degreesPerProjectile);
 
                 float aimRad = owner.DirectionTo(Main.MouseWorld).ToRotation();
                 float aimDeg = MathHelper.ToDegrees(aimRad);
 
-                for (int i = 0; i < projectileCount; i++)
+                for (int i = 0; i < pelletCount; i++)
                 {
                     float degreesRand = shotgunArc * Main.rand.NextFloat(-0.2f, 0.2f);
                     float shotSpeedRand = Main.rand.NextFloat(1 - shotVelocityRandomRange, 1 + shotVelocityRandomRange);
@@ -72,19 +77,22 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     Vector2 angleVector = radians.ToRotationVector2();
                     Vector2 velocity = angleVector * shotSpeed * shotSpeedRand;
 
-                    var pelletProj = CreateChildProjectile(
+                    // Pellet projectile
+                    CreateChildProjectile(
                         position: Projectile.position,
                         velocity: velocity,
-                        type: ModContent.ProjectileType<BrellaPelletProjectile>(),
+                        type: pelletProjectileType,
                         Projectile.damage);
 
                     degreesOffset += degreesPerProjectile;
                 }
 
-                var meleeProj = CreateChildProjectile<BrellaMeleeProjectile>(
-                position: Projectile.position,
-                velocity: owner.DirectionTo(Main.MouseWorld),
-                Projectile.damage * 2);
+                // Melee projectile
+                CreateChildProjectile(
+                    position: Projectile.position,
+                    velocity: owner.DirectionTo(Main.MouseWorld),
+                    type: meleeProjectileType,
+                    Projectile.damage * 2);
 
                 Projectile.timeLeft = 60;
             }

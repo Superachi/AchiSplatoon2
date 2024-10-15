@@ -23,6 +23,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float MuzzleOffsetPx { get; set; } = 44f;
 
         // Brella specific
+        public virtual int ProjectileType { get => ModContent.ProjectileType<BrellaPelletProjectile>(); }
+        public virtual int MeleeProjectileType { get => ModContent.ProjectileType<BrellaMeleeProjectile>(); }
         public virtual int ProjectileCount { get => 10; }
         public virtual float ShotgunArc { get => 3f; }
         public virtual float ShotVelocityRandomRange => 0.2f;

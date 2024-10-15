@@ -1,16 +1,9 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.GlobalProjectiles;
 using Terraria.ID;
-using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
@@ -108,23 +101,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
                 brellaMP.DamageShield(deflectedProj.damage);
 
-                // Ink
-                for (int i = 0; i < 15; i++)
-                {
-                    Color dustColor = GenerateInkColor();
-                    Dust.NewDustPerfect(deflectedProj.Center, ModContent.DustType<SplatterDropletDust>(),
-                        Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                        255, dustColor, Main.rand.NextFloat(0.5f, 1f));
-                }
-
-                // Firework
-                for (int i = 0; i < 15; i++)
-                {
-                    Color dustColor = GenerateInkColor();
-                    Dust.NewDustPerfect(deflectedProj.Center, DustID.FireworksRGB,
-                        Vector2.Normalize(deflectedProj.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                        255, dustColor, Main.rand.NextFloat(0.5f, 1f));
-                }
+                BlockProjectileEffect(deflectedProj);
             }
         }
 
@@ -154,6 +131,27 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             var brellaLifePercentage = Math.Max(0, (int)(brellaMP.shieldLife / brellaMP.shieldLifeMax * 100));
 
             Utils.DrawBorderString(Main.spriteBatch, $"{brellaLifePercentage}%", GetOwner().Center - Main.screenPosition + new Vector2(0, 60 + GetOwner().gfxOffY) , Color.White, anchorx: 0.5f);
+        }
+
+        protected virtual void BlockProjectileEffect(Projectile deflectedProjectile)
+        {
+            // Ink
+            for (int i = 0; i < 15; i++)
+            {
+                Color dustColor = GenerateInkColor();
+                Dust.NewDustPerfect(deflectedProjectile.Center, ModContent.DustType<SplatterDropletDust>(),
+                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+            }
+
+            // Firework
+            for (int i = 0; i < 15; i++)
+            {
+                Color dustColor = GenerateInkColor();
+                Dust.NewDustPerfect(deflectedProjectile.Center, DustID.FireworksRGB,
+                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+            }
         }
     }
 }

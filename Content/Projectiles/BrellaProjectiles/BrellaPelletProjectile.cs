@@ -73,7 +73,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
-            if (timeSpentAlive > 8)
+            if (timeSpentAlive > 6)
             {
                 Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);

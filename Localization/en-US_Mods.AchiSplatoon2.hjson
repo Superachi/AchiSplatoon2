@@ -64,7 +64,8 @@ Hint: {
 	Brella: {
 		Generic: The brella protects you while you attack (until it breaks!)
 		Undercover: The shield is weak, but recovers instantly when defeating an enemy
-		Recycle: The shield is weak, but recovers quickly. The shot spread is narrow and has long range
+		Recycle: The shield is weak, but recovers quickly
+		Martian: When the shield takes damage, it fires off a large lightning bolt
 	}
 
 	# ----------------------------------------
@@ -1395,7 +1396,7 @@ Items: {
 	SpookyBrush: {
 		UsageHint: "{$Hint.Brushes.Spooky}"
 		Flavor: What's a broom, if not an oversized brush?
-		DisplayName: Doom Broom
+		DisplayName: Hexing Broom
 		Tooltip: "{$ArmorPierce.Display}"
 	}
 
@@ -1403,6 +1404,13 @@ Items: {
 		UsageHint: "{$Hint.Stringers.Wellstring}"
 		Flavor: Mods.AchiSplatoon2.Items.Wellstring.Flavor
 		DisplayName: Wellstring V
+		Tooltip: ""
+	}
+
+	MartianBrella: {
+		UsageHint: "{$Hint.Brella.Martian}"
+		Flavor: Mods.AchiSplatoon2.Items.MartianBrella.Flavor
+		DisplayName: Lightning Brella
 		Tooltip: ""
 	}
 }
@@ -1501,6 +1509,8 @@ Projectiles: {
 	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
 	SpookyBrushProjectile.DisplayName: Spooky Brush Projectile
 	WellstringCharge.DisplayName: Wellstring Charge
+	MartianBrellaPelletProjectile.DisplayName: Martian Brella Pellet Projectile
+	MartianBrellaMeleeProjectile.DisplayName: Martian Brella Melee Projectile
 }
 
 Buffs: {
