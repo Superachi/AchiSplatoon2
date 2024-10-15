@@ -13,7 +13,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaShooter : BaseProjectile
     {
-        private const float recoilAmount = 5f;
         private float shotArcIncrement = 1.5f;
         private float shotVelocityBase = 20f;
         private float shotVelocityRange = 3f;
@@ -41,7 +40,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.LocalPlayer;
-                owner.velocity -= Vector2.Normalize(Projectile.velocity) * recoilAmount;
 
                 PunchCameraModifier modifier = new PunchCameraModifier(
                     startPosition: owner.Center,
@@ -56,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 Color projColor = initialColor;
                 if (WeaponInstance is TrizookaUnleashed)
                 {
-                    projColor = GetOwnerModPlayer<InkColorPlayer>().IncreaseHueBy(50);
+                    projColor = GetOwnerModPlayer<InkColorPlayer>().IncreaseHueBy(40);
                 }
 
                 for (int i = 0; i < 3; i++)
@@ -65,13 +63,13 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     float shotSpeed = shotVelocityBase + Main.rand.NextFloat(-shotVelocityRange, shotVelocityRange);
                     Vector2 velocity = WoomyMathHelper.DegreesToVector(degrees) * shotSpeed;
 
-                    var p = CreateChildProjectile(
+                    var p = CreateChildProjectile<TrizookaProjectile>(
                         position: Projectile.Center,
                         velocity: velocity,
-                        type: ModContent.ProjectileType<TrizookaProjectile>(),
                         damage: Projectile.damage);
 
                     p.colorOverride = projColor;
+                    p.Projectile.velocity *= 1 - (i * 0.1f);
                 }
             }
         }

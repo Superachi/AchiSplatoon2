@@ -734,7 +734,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
                     Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
                     255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
-                dust.velocity *= radiusMult;
+                dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
             }
 
             for (int i = 0; i < amount * 2; i++)
