@@ -7,18 +7,22 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class KensaOctobrush : Octobrush
     {
         public override float AimDeviation { get => 3f; }
+        protected override int ArmorPierce => 20;
 
-        public override float DelayUntilFall => 18f;
+
+        // Brush-specific properties
+        public override float BaseWeaponUseTime => 12f;
+        public override int SwingArc => 150;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 72;
-            Item.knockBack = 6;
+            Item.damage = 58;
+            Item.knockBack = 7;
             Item.scale = 2.0f;
-            Item.useTime = 15;
-            Item.useAnimation = Item.useTime;
 
             Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.Lime;

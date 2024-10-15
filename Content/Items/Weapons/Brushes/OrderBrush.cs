@@ -8,15 +8,20 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float AimDeviation { get => 8f; }
 
+        // Brush-specific properties
+        public override float ShotVelocity => 6f;
+        public override float BaseWeaponUseTime => 15f;
+        public override int SwingArc => 100;
+        public override float RollMoveSpeedBonus => 1.4f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 7;
-            Item.knockBack = 2f;
-            Item.shootSpeed = 4f;
+            SetItemUseTime();
 
-            Item.useTime = 24;
-            Item.useAnimation = Item.useTime;
+            Item.damage = 6;
+            Item.knockBack = 3f;
+            Item.shootSpeed = 4f;
 
             Item.width = 58;
             Item.height = 58;

@@ -18,12 +18,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private float delayUntilFall = 12f;
         private float fallSpeed = 0.001f;
 
-        private bool sticking = false;
-        private bool hasExploded = false;
+        protected bool sticking = false;
+        protected bool hasExploded = false;
 
-        private int finalExplosionRadius = 0;
         protected virtual int ExplosionRadius { get => 120; }
         private ExplosionDustModel explosionDustModel;
+        protected int finalExplosionRadius = 0;
 
         private bool countedForBurst = false;
         public bool parentFullyCharged = false;
@@ -57,23 +57,21 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             return input * Projectile.extraUpdates;
         }
 
-        private void Explode()
+        protected virtual void Explode()
         {
             hasExploded = true;
 
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
 
-            Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
-
-            explosionDustModel = new ExplosionDustModel(_dustMaxVelocity: 15f, _dustAmount: 20, _minScale: 1, _maxScale: 2, _radiusModifier: finalExplosionRadius);
             var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
 
-            // Will result in endless back-and-forth if we do not check for the owner here
             if (IsThisClientTheProjectileOwner())
             {
-                CreateExplosionVisual(explosionDustModel, audioModel);
-                NetUpdate(ProjNetUpdateType.DustExplosion);
+                BlastProjectile p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
+                p.SetProperties(finalExplosionRadius, audioModel);
+                p.AfterSpawn();
+                Projectile.Kill();
             }
         }
 
@@ -95,9 +93,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
             else
             {
-                if (Math.Abs(Projectile.velocity.X) > 0.0001f || Math.Abs(Projectile.velocity.Y) > 0.0001f)
+                if (Math.Abs(Projectile.velocity.X) > float.Epsilon || Math.Abs(Projectile.velocity.Y) > float.Epsilon)
                 {
-                    Projectile.velocity = Projectile.velocity * 0.9f;
+                    Projectile.velocity = Projectile.velocity * 0.1f;
                 }
 
                 if (!hasExploded)
@@ -121,7 +119,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.alpha = 0;
                     PlayAudio("InkHitSplash00", volume: 0.2f, pitchVariance: 0.3f, maxInstances: 9);
                     sticking = true;
+                    Projectile.friendly = false;
                     Projectile.tileCollide = false;
+                    Projectile.position -= Projectile.velocity;
                     Projectile.velocity = oldVelocity;
                     Projectile.timeLeft = ExtraUpdatesTime(60 + networkExplodeDelayBuffer + (int)Projectile.ai[2] * 5);
                 }
@@ -152,24 +152,28 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (parentProj.ModProjectile is TriStringerCharge)
                 {
                     var parentModProj = parentProj.ModProjectile as TriStringerCharge;
-                    if (parentModProj.burstNPCTarget == -1)
-                    {
-                        parentModProj.burstNPCTarget = target.whoAmI;
-                    }
 
-                    if (parentModProj.burstNPCTarget == target.whoAmI)
+                    if (parentModProj.burstRequiredHits > 1)
                     {
-                        parentModProj.burstHitCount++;
-                    }
-
-                    if (parentModProj.burstHitCount == parentModProj.burstRequiredHits)
-                    {
-                        TripleHitDustBurst(target.Center);
-                        parentProj.Kill();
-
-                        if (firedWithFreshQuiver)
+                        if (parentModProj.burstNPCTarget == -1)
                         {
-                            CreateChildProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FreshQuiverBlast>(), Projectile.damage, true);
+                            parentModProj.burstNPCTarget = target.whoAmI;
+                        }
+
+                        if (parentModProj.burstNPCTarget == target.whoAmI)
+                        {
+                            parentModProj.burstHitCount++;
+                        }
+
+                        if (parentModProj.burstHitCount == parentModProj.burstRequiredHits)
+                        {
+                            TripleHitDustBurst(target.Center);
+                            parentProj.Kill();
+
+                            if (firedWithFreshQuiver)
+                            {
+                                CreateChildProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FreshQuiverBlast>(), Projectile.damage, true);
+                            }
                         }
                     }
                 }
@@ -190,19 +194,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 FakeDestroy();
             }
-        }
-
-        protected override void NetSendDustExplosion(BinaryWriter writer)
-        {
-            writer.WriteVector2(Projectile.position);
-        }
-
-        protected override void NetReceiveDustExplosion(BinaryReader reader)
-        {
-            Projectile.position = reader.ReadVector2();
-            Explode();
-            fallSpeed = 0;
-            sticking = true;
         }
     }
 }

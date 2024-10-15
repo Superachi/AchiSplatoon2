@@ -81,8 +81,10 @@ namespace AchiSplatoon2.Content.Players
         public float moveSpeedModifier = 1f;
         public float moveAccelModifier = 1f;
         public float moveFrictionModifier = 1f;
-        public bool brushMoveSpeedCap = true;
+
         public bool isUsingRoller = false;
+        public bool isBrushRolling = false;
+        public bool isBrushAttacking = false;
 
         public override void PreUpdate()
         {
@@ -173,7 +175,6 @@ namespace AchiSplatoon2.Content.Players
             moveSpeedModifier = 1f;
             moveAccelModifier = 1f;
             moveFrictionModifier = 1f;
-            brushMoveSpeedCap = false;
 
             float mountSpeedMultMod = 1f;
             if (Player.mount.Active)
@@ -183,27 +184,14 @@ namespace AchiSplatoon2.Content.Players
 
             switch (Player.HeldItem.ModItem)
             {
-                case Inkbrush:
-                    if (Player.ItemTimeIsZero)
+                case BaseBrush:
+                    BaseBrush brush = (BaseBrush)Player.HeldItem.ModItem;
+
+                    if (isBrushRolling)
                     {
-                        moveSpeedModifier = 1.1f;
-                        moveAccelModifier = 5f;
-                        moveFrictionModifier = 3f;
-                    }
-                    else
-                    {
-                        brushMoveSpeedCap = true;
-                    }
-                    break;
-                case Octobrush:
-                    if (Player.ItemTimeIsZero)
-                    {
-                        moveAccelModifier = 3f;
-                        moveFrictionModifier = 3f;
-                    }
-                    else
-                    {
-                        brushMoveSpeedCap = true;
+                        moveSpeedModifier = brush.RollMoveSpeedBonus;
+                        moveAccelModifier = 2f * brush.RollMoveSpeedBonus;
+                        moveFrictionModifier = 2f * brush.RollMoveSpeedBonus;
                     }
                     break;
                 case ClassicSquiffer:
@@ -233,7 +221,7 @@ namespace AchiSplatoon2.Content.Players
             }
 
             // Move speed bonus from holding blue color chips
-            if (IsPaletteValid() && !brushMoveSpeedCap)
+            if (IsPaletteValid())
             {
                 int blueChipCount = ColorChipAmounts[(int)ChipColor.Blue];
                 moveSpeedModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;

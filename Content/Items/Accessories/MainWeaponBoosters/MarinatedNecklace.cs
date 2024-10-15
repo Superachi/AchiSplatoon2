@@ -7,8 +7,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class MarinatedNecklace : BaseWeaponBoosterAccessory
     {
-        public static float RecoverTimeModifier = 1.5f;
-        public static float RecoverAttackSpeedModifier = 0.7f;
+        public static float RecoverTimeModifier = 2f;
+        public static float RecoverAttackSpeedModifier = 0.5f;
 
         public override void SetDefaults()
         {

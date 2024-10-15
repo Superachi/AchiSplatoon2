@@ -132,6 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles
             timeSpentInState = 0;
         }
 
+        protected bool IsStartOfState()
+        {
+            return timeSpentInState == 0;
+        }
+
         protected virtual void AdvanceState()
         {
             state++;
@@ -317,7 +322,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual T CreateChildProjectile<T>(Vector2 position, Vector2 velocity, int damage, bool triggerAfterSpawn = true)
             where T : BaseProjectile
         {
-            return CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn) as T;
+            return (T)CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn);
         }
 
         protected Projectile? GetParentProjectile(int projectileId)
@@ -345,7 +350,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return true;
         }
 
-        private bool isTargetWorm(NPC target)
+        private bool IsTargetWorm(NPC target)
         {
             bool isWorm = false;
 
@@ -376,7 +381,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 modifiers.DisableCrit();
             }
 
-            if (wormDamageReduction && Main.expertMode && isTargetWorm(target))
+            if (wormDamageReduction && Main.expertMode && IsTargetWorm(target))
             {
                 modifiers.FinalDamage *= 0.6f;
             }
@@ -401,7 +406,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 DamageToSpecialCharge(damageDone, target.lifeMax);
             }
 
-            if (enablePierceDamagefalloff && !isTargetWorm(target))
+            if (enablePierceDamagefalloff && !IsTargetWorm(target))
             {
                 Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
             }
@@ -456,7 +461,20 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected bool IsTargetEnemy(NPC target)
         {
-            return !target.friendly && target.type != NPCID.TargetDummy && !Main.npcCatchable[target.type] && target.damage > 0 && target.lifeMax > 5;
+            if (target.dontTakeDamage) return false;
+            if (target.type == NPCID.TargetDummy) return false;
+
+            if (!target.friendly
+                    && !Main.npcCatchable[target.type]
+                    && target.damage > 0
+                    && target.lifeMax > 5) return true;
+
+            if (target.type == NPCID.MoonLordCore
+                || target.type == NPCID.MoonLordHand
+                || target.type == NPCID.MoonLordHead
+                || target.type == NPCID.MoonLordLeechBlob) return true;
+
+            return false;
         }
 
         protected NPC? FindClosestEnemy(float maxTargetDistance, bool checkLineOfSight = false)
@@ -485,6 +503,11 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             return npcTarget;
+        }
+
+        protected void SetHitboxSize(int size, out Rectangle hitbox)
+        {
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
         protected bool CanHitNPCWithLineOfSight(NPC target)
@@ -706,21 +729,30 @@ namespace AchiSplatoon2.Content.Projectiles
             Color dustColor = GenerateInkColor();
 
             // Ink
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < amount * 2; i++)
             {
                 var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                    Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
+                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
+            }
+
+            for (int i = 0; i < amount * 2; i++)
+            {
+                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
+                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
+                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
                 dust.velocity *= radiusMult;
             }
 
             // Firework
-            for (int i = 0; i < amount / 2; i++)
+            for (int i = 0; i < amount / 4; i++)
             {
                 var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
+                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
                     255, dustColor);
                 dust.velocity *= radiusMult / 2;
+                dust.noGravity = true;
             }
         }
         protected void EmitBurstDust(ExplosionDustModel dustModel)
@@ -763,10 +795,12 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1,
             bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None, Vector2? positionOffset = null,
-            float additiveAmount = 0f)
+            float additiveAmount = 0f, Texture2D? spriteOverride = null)
         {
             Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
+            if (spriteOverride != null) texture = spriteOverride;
+
             Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
             Vector2 origin = sourceRectangle.Size() / 2f;
 
@@ -779,9 +813,6 @@ namespace AchiSplatoon2.Content.Projectiles
             var finalColor = new Color(inkColor.R * lightInWorld.R / 255, inkColor.G * lightInWorld.G / 255, inkColor.B * lightInWorld.G / 255);
 
             SpriteBatch spriteBatch = Main.spriteBatch;
-
-            spriteBatch.End();
-            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.EntitySpriteDraw(texture, position, sourceRectangle, finalColor * alphaMod, rotation, origin, scale, flipSpriteSettings, 0f);
 

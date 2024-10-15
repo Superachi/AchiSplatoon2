@@ -30,7 +30,9 @@ Hint: {
 	Stringers: {
 		Tri: Hold left-click to charge up a volley of explosive shots
 		Reeflux: Hold left-click to charge up a volley of shots
+		Wellstring: Fires a wider volley of explosive shots when fully charged
 		Nebula: Hold left-click to charge up a volley of homing stars
+		Ice: Hold left-click to charge up a piercing shot that releases icy shrapnel
 	}
 
 	Sloshers: {
@@ -40,9 +42,9 @@ Hint: {
 	}
 
 	Brushes: {
-		Ink: Drastically improved mobility when not attacking
-		Octo: Improved mobility when not attacking
+		Generic: While you run and aim downwards, you gain a speed boost
 		Desert: Projectiles linger in place shortly
+		Spooky: Fires magic projectiles that bounce against walls
 	}
 
 	Dualies: {
@@ -546,14 +548,14 @@ Items: {
 	}
 
 	Inkbrush: {
-		UsageHint: "{$Hint.Brushes.Ink}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: I can brush the base all by myself!
 		DisplayName: Inkbrush
 		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	InkbrushNouveau: {
-		UsageHint: "{$Hint.Brushes.Ink}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.InkbrushNouveau.Flavor
 		DisplayName: Inkbrush Nouveau
 		Tooltip: "{$ArmorPierce.Display}"
@@ -567,17 +569,17 @@ Items: {
 	}
 
 	Octobrush: {
-		UsageHint: "{$Hint.Brushes.Octo}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
 		DisplayName: Octobrush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	OctobrushNouveau: {
-		UsageHint: "{$Hint.Brushes.Octo}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
 		DisplayName: Octobrush Nouveau
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	ZFSplatCharger: {
@@ -1077,9 +1079,9 @@ Items: {
 
 	KensaOctobrush: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaOctobrush.Flavor
-		UsageHint: "{$Hint.Brushes.Octo}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		DisplayName: Kensa Octobrush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	KensaUndercoverBrella: {
@@ -1368,6 +1370,41 @@ Items: {
 		DisplayName: Custom Splattershot Jr.
 		Tooltip: ""
 	}
+
+	PainBrush: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrush.Flavor
+		DisplayName: Painbrush
+		Tooltip: ""
+	}
+
+	PainBrushNouveau: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrushNouveau.Flavor
+		DisplayName: Painbrush Nouveau
+		Tooltip: ""
+	}
+
+	IceStringer: {
+		UsageHint: "{$Hint.Stringers.Ice}"
+		Flavor: Don't lick it!
+		DisplayName: Shivering Stringer
+		Tooltip: ""
+	}
+
+	SpookyBrush: {
+		UsageHint: "{$Hint.Brushes.Spooky}"
+		Flavor: What's a broom, if not an oversized brush?
+		DisplayName: Doom Broom
+		Tooltip: "{$ArmorPierce.Display}"
+	}
+
+	Wellstring: {
+		UsageHint: "{$Hint.Stringers.Wellstring}"
+		Flavor: Mods.AchiSplatoon2.Items.Wellstring.Flavor
+		DisplayName: Wellstring V
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1459,6 +1496,11 @@ Projectiles: {
 	InkMineProjectile.DisplayName: Ink Mine Projectile
 	TorpedoProjectile.DisplayName: Torpedo Projectile
 	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
+	BrushSwingProjectile.DisplayName: Brush Swing Projectile
+	IceStringerProjectile.DisplayName: Ice Stringer Projectile
+	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
+	SpookyBrushProjectile.DisplayName: Spooky Brush Projectile
+	WellstringCharge.DisplayName: Wellstring Charge
 }
 
 Buffs: {

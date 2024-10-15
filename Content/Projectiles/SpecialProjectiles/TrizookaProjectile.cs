@@ -64,10 +64,25 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             for (int i = 0; i < amount; i++)
             {
-                Color dustColor = GenerateInkColor();
                 Dust.NewDustPerfect(Projectile.position, ModContent.DustType<BlasterTrailDust>(),
-                    new Vector2(Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity), Main.rand.NextFloat(-dustMaxVelocity, dustMaxVelocity)),
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                    Main.rand.NextVector2Circular(1, 1),
+                    255, GenerateInkColor(), Main.rand.NextFloat(minScale, maxScale));
+            }
+
+            if (Main.rand.NextBool(5))
+            {
+                var d = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight,
+                    Main.rand.NextVector2Circular(5, 5),
+                    255, GenerateInkColor(), Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                d.noGravity = true;
+            }
+
+            if (Main.rand.NextBool(15))
+            {
+                var d = Dust.NewDustPerfect(Projectile.position, DustID.FireworksRGB,
+                    -Projectile.velocity / 2 + Main.rand.NextVector2Circular(3, 3),
+                    255, GenerateInkColor(), Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                d.noGravity = true;
             }
         }
 
@@ -79,8 +94,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
 
-            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.2f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
+            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
+            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.3f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
             var p = CreateChildProjectile<ExplosionProjectileVisual>(
                 position: Projectile.Center,
                 velocity: Vector2.Zero,
@@ -114,7 +129,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         }
                     }
 
-                    EmitTrailInkDust(dustMaxVelocity: 0.2f, amount: 4, minScale: 1, maxScale: 3);
+                    EmitTrailInkDust(dustMaxVelocity: 0.5f, amount: 4, minScale: 0.8f, maxScale: 3);
 
                     if (Timer > 300)
                     {

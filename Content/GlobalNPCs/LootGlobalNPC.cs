@@ -3,7 +3,9 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
@@ -175,19 +177,19 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.SkeletonCommando:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.Paladin:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), dungeonDropChanceDenominator / 2));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SodaSlosher>(), dungeonDropChanceDenominator / 2));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PainBrushNouveau>(), dungeonDropChanceDenominator / 2));
                     break;
                 case NPCID.Necromancer:
                 case NPCID.NecromancerArmored:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DappleDualieNouveau>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.DiabolistRed:
                 case NPCID.DiabolistWhite:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.RaggedCaster:
                 case NPCID.RaggedCasterOpenCoat:
@@ -215,6 +217,17 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (npc.type == NPCID.Mothron)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
+            }
+
+            // Special item drops
+            if (npc.type == NPCID.Pumpking)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
+            }
+
+            if (npc.type == NPCID.IceQueen)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
             }
         }
     }

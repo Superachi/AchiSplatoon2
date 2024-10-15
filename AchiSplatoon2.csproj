@@ -6,6 +6,8 @@
 	<!-- General -->
 	<PropertyGroup>
 		
+	<Nullable>enable</Nullable>
+		
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Content\Dusts\BaseDust.png" />
@@ -19,6 +21,7 @@
 	  <None Remove="Content\Items\BaseItem.png" />
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
+	  <None Remove="Content\Items\Weapons\Brushes\PainBrush.png" />
 	  <None Remove="Content\Items\Weapons\Dualies\SplatDualie.png" />
 	  <None Remove="Content\Items\Weapons\Sloshers\TriSlosher.png" />
 	  <None Remove="Content\Items\Weapons\Specials\TrizookaUnleashed.png" />
@@ -31,6 +34,7 @@
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaPelletProjectile.png" />
 	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaShotgunProjectile.png" />
 	  <None Remove="Content\Projectiles\BrushProjectiles\DesertBrushProjectile.png" />
+	  <None Remove="Content\Projectiles\BrushProjectiles\SpookyBrushProjectile.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerBlast.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
@@ -66,6 +70,7 @@
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\WellstringCharge.png" />
 	  <None Remove="Content\Projectiles\ThrowingProjectiles\InkMineProjectile.png" />
 	  <None Remove="Content\Projectiles\ThrowingProjectiles\TorpedoProjectile.png" />
 	</ItemGroup>

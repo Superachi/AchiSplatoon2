@@ -147,5 +147,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
             brellaMP.DamageShield((int)(target.damage * 0.25f));
         }
+
+        public override void PostDraw(Color lightColor)
+        {
+            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaLifePercentage = Math.Max(0, (int)(brellaMP.shieldLife / brellaMP.shieldLifeMax * 100));
+
+            Utils.DrawBorderString(Main.spriteBatch, $"{brellaLifePercentage}%", GetOwner().Center - Main.screenPosition + new Vector2(0, 60 + GetOwner().gfxOffY) , Color.White, anchorx: 0.5f);
+        }
     }
 }

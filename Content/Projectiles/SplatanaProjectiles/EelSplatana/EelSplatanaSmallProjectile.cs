@@ -5,6 +5,8 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
+using Microsoft.Build.Tasks;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
@@ -22,6 +24,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
         public override void SetDefaults()
         {
+            ProjectileID.Sets.TrailCacheLength[Type] = 20;
+            ProjectileID.Sets.TrailingMode[Type] = 3;
+
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
@@ -55,6 +60,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
+
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.spriteDirection = Projectile.velocity.X < 0 ? -1 : 1;
         }
 
         // Netcode
@@ -70,11 +78,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
         public override bool PreDraw(ref Color lightColor)
         {
-            var rotation = Projectile.velocity.ToRotation();
-            SpriteEffects faceDir = SpriteEffects.None;
-            if (Projectile.velocity.X < 0) faceDir = SpriteEffects.FlipVertically;
+            var len = Projectile.oldPos.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if (i % 5 != 0) continue;
 
-            DrawProjectile(Color.White, rotation, scale: 1, alphaMod: timeSpentAlive / 14, considerWorldLight: true, flipSpriteSettings: faceDir);
+                var posDiff = Projectile.position - Projectile.oldPos[i];
+                var spriteEffects = Projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+                var alphaMod = (float)i / len;
+
+                DrawProjectile(Color.White, Projectile.oldRot[i], scale: 1, alphaMod: alphaMod, considerWorldLight: true, flipSpriteSettings: spriteEffects, positionOffset: posDiff); 
+            }
             return false;
         }
     }

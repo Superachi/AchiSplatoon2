@@ -11,12 +11,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
     {
         private Color bulletColor;
         private float delayUntilFall;
-        private float fallSpeed = 0.05f;
-        private float airResist = 0.99f;
-        private float terminalVelocity = 8f;
-        private float drawScale;
+        private float shotGravity = 0.05f;
+        private float airResist = 0.995f;
+        private float drawScale = 0;
         private float drawRotation;
         protected float brightness = 0.001f;
+
+        protected float damageFallOffMod = 0.75f;
 
         protected float Timer
         {
@@ -34,7 +35,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.extraUpdates = 2;
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
@@ -45,8 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseBrush;
 
-            shootSample = weaponData.ShootSample;
-            shootAltSample = weaponData.ShootAltSample;
+            shotGravity = weaponData.ShotGravity;
             delayUntilFall = weaponData.DelayUntilFall;
         }
 
@@ -59,22 +58,30 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
             bulletColor = GenerateInkColor();
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
-            drawScale += Main.rand.NextFloat(1f, 1.5f);
-
-            // Play sound
-            if (Main.rand.NextBool(2))
-            {
-                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
-            else
-            {
-                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
         }
 
         public override void AI()
         {
             Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
+            
+            if (timeSpentAlive > 3 * FrameSpeed())
+            {
+                if (drawScale < 1f)
+                {
+                    drawScale += 0.1f;
+                }
+
+                if (Timer % 8 == 0 && Main.rand.NextBool(10))
+                {
+                    Dust.NewDustPerfect(
+                        Position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
+                        Type: ModContent.DustType<SplatterDropletDust>(),
+                        Velocity: Projectile.velocity * 0.2f,
+                        newColor: GenerateInkColor(),
+                        Scale: Main.rand.NextFloat(1f, 1.5f)
+                    );
+                }
+            }
 
             // Rotation increased by velocity.X 
             drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
@@ -85,21 +92,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             Timer++;
 
-            // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (timeSpentAlive >= delayUntilFall * FrameSpeed())
             {
-                Projectile.velocity.Y += fallSpeed;
+                Projectile.velocity.Y += shotGravity;
             }
 
-            if (Projectile.velocity.Y > terminalVelocity)
+            if (timeSpentAlive >= delayUntilFall / 2 * FrameSpeed() && damageFallOffMod > 0.5f)
             {
-                Projectile.velocity.Y = terminalVelocity;
-            }
-
-            // Spawn dust
-            if (Timer % 3 == 0 && Main.rand.NextBool(2))
-            {
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity * 0.2f, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(1f, 1.5f));
+                damageFallOffMod -= 0.01f;
             }
         }
 
@@ -117,8 +117,22 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+            if (timeSpentAlive < 5) return false;
+
+            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, alphaMod: 0.5f, considerWorldLight: false, additiveAmount: 1f);
             return false;
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 30;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.SourceDamage *= damageFallOffMod;
         }
     }
 }

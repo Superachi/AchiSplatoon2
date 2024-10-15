@@ -44,9 +44,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseBrush;
-
-            shootSample = weaponData.ShootSample;
-            shootAltSample = weaponData.ShootAltSample;
         }
 
         public override void AfterSpawn()
@@ -59,16 +56,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             bulletColor = GenerateInkColor();
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
             drawScale += Main.rand.NextFloat(1f, 1.5f);
-
-            // Play sound
-            if (Main.rand.NextBool(2))
-            {
-                PlayAudio(shootSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
-            else
-            {
-                PlayAudio(shootAltSample, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5);
-            }
         }
 
         public override void AI()
@@ -79,11 +66,17 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
             Projectile.velocity *= airResist;
 
-            if (Projectile.timeLeft < 18) drawScale -= 0.05f;
+            if (Projectile.timeLeft < 18)
+            {
+                drawScale -= 0.05f;
+            } else if (drawScale < 1f && timeSpentAlive > 2 * FrameSpeed())
+            {
+                drawScale += 0.1f;
+            }
 
             // Spawn dust
             Timer++;
-            if (Timer % 3 == 0 && Main.rand.NextBool(2) && IsVelocityGreaterThan(0.5f))
+            if (Timer % 5 == 0 && Main.rand.NextBool(10) && IsVelocityGreaterThan(0.5f))
             {
                 Dust.NewDustPerfect(
                     Position: Projectile.position + Main.rand.NextVector2Circular(10, 10),
@@ -97,6 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            ProjectileBounce(oldVelocity, new Vector2(0.8f, 0.8f));
             for (int i = 0; i < 5; i++)
             {
                 float random = Main.rand.NextFloat(-2, 2);
@@ -104,12 +98,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 float velY = ((Projectile.velocity.Y + random) * -0.5f);
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
-            return true;
+            return false;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+            if (timeSpentAlive < 5 * FrameSpeed()) return false;
+
+            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, alphaMod: 0.5f, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
     }

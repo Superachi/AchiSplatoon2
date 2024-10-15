@@ -46,7 +46,8 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
         protected override void PlayShootSound()
         {
-            if (IsPlayerGrounded())
+            var owner = GetOwner();
+            if (IsPlayerGrounded() || owner.velocity.Length() < 0.005f)
             {
                 PlayAudio("SBlastShoot", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             }
