@@ -56,14 +56,15 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 
             if (isBigLightning)
             {
-                lightningDustId = 297;
+                lightningDustId = Main.rand.NextFromList<int>(181, 112);
                 lightningDustScale = 2f;
 
-                Projectile.damage *= 10;
+                Projectile.damage *= 5;
                 Projectile.penetrate += 3;
 
                 lightningDirOffset *= 1.5f;
-                speed *= 1.5f;
+                Projectile.extraUpdates += 2;
+                Projectile.timeLeft *= 2;
             }
         }
 
@@ -79,6 +80,20 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
             if (timeSpentAlive > 30 && timeSpentAlive % 60 * FrameSpeed() == 0)
             {
                 ChangeLightningAngle();
+            }
+
+            if (timeSpentAlive == 10)
+            {
+                var loopCount = 3;
+                if (isBigLightning) loopCount *= 2;
+
+                for (int i = 0; i < loopCount; i++)
+                {
+                    Color dustColor = GenerateInkColor();
+                    Dust dust = Dust.NewDustDirect(Position: Projectile.position, Type: lightningDustId, Width: 1, Height: 1, newColor: dustColor, Scale: Main.rand.NextFloat(1.2f, 1.6f));
+                    dust.noGravity = true;
+                    dust.velocity = Projectile.velocity * 2 + Main.rand.NextVector2Circular(8f, 8f);
+                }
             }
 
             if (timeSpentAlive > 10)
@@ -121,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 
             if (isBigLightning)
             {
-                modifiers.DisableCrit();
+                modifiers.SetCrit();
             }
         }
 

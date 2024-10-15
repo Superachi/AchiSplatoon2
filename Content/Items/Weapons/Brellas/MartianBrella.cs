@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override int ProjectileType { get => ModContent.ProjectileType<MartianBrellaPelletProjectile>(); }
         public override int MeleeProjectileType { get => ModContent.ProjectileType<MartianBrellaMeleeProjectile>(); }
         public override int ProjectileCount { get => 2; }
-        public override float ShotgunArc { get => 5f; }
+        public override float ShotgunArc { get => 10f; }
         public override float ShotVelocityRandomRange => 0f;
         public override int ShieldLife => 300;
         public override int ShieldCooldown => 450;
@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BrellaShotgunProjectile>(),
+                projectileType: ModContent.ProjectileType<MartianBrellaShotgunProjectile>(),
                 singleShotTime: 12,
                 shotVelocity: 8f);
 

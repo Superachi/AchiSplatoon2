@@ -1410,7 +1410,7 @@ Items: {
 	MartianBrella: {
 		UsageHint: "{$Hint.Brella.Martian}"
 		Flavor: Mods.AchiSplatoon2.Items.MartianBrella.Flavor
-		DisplayName: Lightning Brella
+		DisplayName: Spark Brella
 		Tooltip: ""
 	}
 }
@@ -1505,12 +1505,13 @@ Projectiles: {
 	TorpedoProjectile.DisplayName: Torpedo Projectile
 	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
 	BrushSwingProjectile.DisplayName: Brush Swing Projectile
-	IceStringerProjectile.DisplayName: Ice Stringer Projectile
-	IceStringerShrapnel.DisplayName: Ice Stringer Shrapnel
-	SpookyBrushProjectile.DisplayName: Spooky Brush Projectile
+	IceStringerProjectile.DisplayName: Shivering Stringer Projectile
+	IceStringerShrapnel.DisplayName: Shivering Stringer Shrapnel
+	SpookyBrushProjectile.DisplayName: Hexing Broom
 	WellstringCharge.DisplayName: Wellstring Charge
-	MartianBrellaPelletProjectile.DisplayName: Martian Brella Pellet Projectile
-	MartianBrellaMeleeProjectile.DisplayName: Martian Brella Melee Projectile
+	MartianBrellaPelletProjectile.DisplayName: Spark Brella
+	MartianBrellaMeleeProjectile.DisplayName: Spark Brella
+	MartianBrellaShotgunProjectile.DisplayName: Martian Brella Shotgun Projectile
 }
 
 Buffs: {
