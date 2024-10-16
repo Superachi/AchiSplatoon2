@@ -187,7 +187,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: bulletColor, rotation: 0, scale: drawScale, alphaMod: drawAlpha, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(inkColor: bulletColor, rotation: 0, scale: drawScale, alphaMod: drawAlpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 
