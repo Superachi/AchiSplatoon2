@@ -183,6 +183,13 @@ namespace AchiSplatoon2.Content.Items
                 .Register();
         }
 
+        protected void AddRecipePumpkinMoon()
+        {
+            AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ItemID.SpookyWood, 200)
+                .Register();
+        }
+
         protected Recipe AddRecipePostMechBoss(bool registerNow, int soulItemID)
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(false)

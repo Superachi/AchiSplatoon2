@@ -199,7 +199,7 @@ Items: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
 		UsageHint: "{$Hint.Stringers.Tri}"
-		Flavor: Sorry, no flavor text here, I actually need to make a Wellstring sprite haha
+		Flavor: Mods.AchiSplatoon2.Items.TriStringerInkline.Flavor
 	}
 
 	GrizzcoStringer: {
@@ -1411,6 +1411,27 @@ Items: {
 		UsageHint: "{$Hint.Brella.Martian}"
 		Flavor: Mods.AchiSplatoon2.Items.MartianBrella.Flavor
 		DisplayName: Spark Brella
+		Tooltip: ""
+	}
+
+	CustomWellstring: {
+		UsageHint: "{$Hint.Stringers.Wellstring}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomWellstring.Flavor
+		DisplayName: Custom Wellstring V
+		Tooltip: ""
+	}
+
+	OrderBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.OrderBlaster.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.OrderBlaster.Flavor
+		DisplayName: Order Blaster
+		Tooltip: ""
+	}
+
+	OrderBrella: {
+		UsageHint: Mods.AchiSplatoon2.Items.OrderBrella.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.OrderBrella.Flavor
+		DisplayName: Order Brella
 		Tooltip: ""
 	}
 }

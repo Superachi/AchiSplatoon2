@@ -130,7 +130,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
-            var dungeonDropChanceDenominator = 16;
+
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -162,45 +162,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
                     break;
-
-                // Dungeon drops
-                case NPCID.SkeletonSniper:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Snipewriter5B>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.TacticalSkeleton:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.BoneLee:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidClipOns>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PinkSponge>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.SkeletonCommando:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.Paladin:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), dungeonDropChanceDenominator / 2));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PainBrushNouveau>(), dungeonDropChanceDenominator / 2));
-                    break;
-                case NPCID.Necromancer:
-                case NPCID.NecromancerArmored:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.DiabolistRed:
-                case NPCID.DiabolistWhite:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.RaggedCaster:
-                case NPCID.RaggedCasterOpenCoat:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), dungeonDropChanceDenominator));
-                    break;
-            }
-
-            if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 8));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 8));
             }
 
             // Super palette crafting materials
@@ -220,16 +181,84 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
             }
 
-            // Special item drops
-            if (npc.type == NPCID.Pumpking)
+            #region Dungeon (post-plantera)
+
+            var dungeonDropChanceDenominator = 12;
+            switch (npc.type)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
+                case NPCID.SkeletonSniper:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Snipewriter5B>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.TacticalSkeleton:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.BoneLee:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidClipOns>(), dungeonDropChanceDenominator));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PinkSponge>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.SkeletonCommando:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
+                    break;
+                case NPCID.Paladin:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PainBrushNouveau>(), dungeonDropChanceDenominator / 2));
+                    break;
             }
 
-            if (npc.type == NPCID.IceQueen)
+            if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 8));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 8));
             }
+
+            #endregion
+
+            #region Pumpkin moon
+
+            switch (npc.type)
+            {
+                case NPCID.Splinterling:
+                case NPCID.Hellhound:
+                case NPCID.Poltergeist:
+                case NPCID.HeadlessHorseman:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 25));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 25));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 25));
+                    break;
+
+                case NPCID.MourningWood:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), 10));
+                    break;
+
+                case NPCID.Pumpking:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
+                    break;
+            }
+
+            #endregion
+
+            #region Frost moon
+
+            switch (npc.type)
+            {
+                case NPCID.Nutcracker:
+                case NPCID.NutcrackerSpinning:
+                case NPCID.Yeti:
+                case NPCID.ElfCopter:
+                case NPCID.Krampus:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 25));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 25));
+                    break;
+
+                case NPCID.SantaNK1:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), 10));
+                    break;
+
+                case NPCID.IceQueen:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
+                    break;
+            }
+
+            #endregion
         }
     }
 }

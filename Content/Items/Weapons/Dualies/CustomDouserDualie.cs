@@ -14,6 +14,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes() => AddRecipePostPlanteraDungeon();
+        public override void AddRecipes() => AddRecipePumpkinMoon();
     }
 }

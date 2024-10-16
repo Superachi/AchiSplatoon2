@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 5;
 
-            Item.useTime = 30;
+            Item.useTime = 22;
             Item.useAnimation = Item.useTime;
 
             Item.width = 58;
