@@ -92,7 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     position: Projectile.position,
                     velocity: owner.DirectionTo(Main.MouseWorld),
                     type: meleeProjectileType,
-                    Projectile.damage * 2);
+                    Projectile.damage);
 
                 Projectile.timeLeft = 60;
             }
