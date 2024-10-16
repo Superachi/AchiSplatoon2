@@ -737,11 +737,11 @@ namespace AchiSplatoon2.Content.Projectiles
                 dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
             }
 
-            for (int i = 0; i < amount * 2; i++)
+            for (int i = 0; i < amount; i++)
             {
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
-                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
-                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SplatterBulletDust>(),
+                    Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * 0.25f,
+                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
                 dust.velocity *= radiusMult;
             }
 
@@ -760,23 +760,32 @@ namespace AchiSplatoon2.Content.Projectiles
             EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);
         }
 
-        protected ExplosionProjectileVisual CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
+        protected ExplosionProjectileVisual? CreateExplosionVisual(ExplosionDustModel expModel, PlayAudioModel? audioModel = null)
         {
             if (IsThisClientTheProjectileOwner())
             {
-                if (expModel == null) return null;
+                if (expModel == null)
+                {
+                    DebugHelper.PrintError($"Tried to create {nameof(ExplosionProjectileVisual)}, but {nameof(ExplosionDustModel)} was null.");
+                    return null;
+                }
 
-                var p = CreateChildProjectile(
+                var p = CreateChildProjectile<ExplosionProjectileVisual>(
                     position: Projectile.Center,
                     velocity: Vector2.Zero,
-                    type: ModContent.ProjectileType<ExplosionProjectileVisual>(),
-                    damage: 0);
-                var proj = p as ExplosionProjectileVisual;
+                    damage: 0,
+                    triggerAfterSpawn: false);
 
-                proj.explosionDustModel = expModel;
-                proj.playAudioModel = audioModel;
+                if (colorOverride != null)
+                {
+                    p.colorOverride = colorOverride;
+                }
 
-                return proj;
+                p.explosionDustModel = expModel;
+                p.playAudioModel = audioModel;
+                p.AfterSpawn();
+
+                return p;
             }
 
             return null;
