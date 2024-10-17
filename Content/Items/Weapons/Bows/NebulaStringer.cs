@@ -29,7 +29,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.value = Item.buyPrice(gold: 50);
             Item.rare = ItemRarityID.Cyan;
         }
-
-        public override void AddRecipes() => AddRecipePostEOC();
     }
 }

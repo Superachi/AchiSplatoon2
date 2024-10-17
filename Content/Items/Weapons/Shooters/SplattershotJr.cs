@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplattershotJr : BaseSplattershot
     {
-        public override float ShotGravity { get => 0.3f; }
+        public override float ShotGravity { get => 0.4f; }
         public override int ShotGravityDelay { get => 4; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 8f; }
@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 6,
                 shotVelocity: 4f);
 
-            Item.damage = 6;
+            Item.damage = 9;
             Item.width = 48;
             Item.height = 30;
             Item.knockBack = 0.5f;
@@ -34,6 +34,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipeWithSheldonLicenseBasic();
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

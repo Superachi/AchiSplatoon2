@@ -33,5 +33,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Blue;
         }
+        public override void AddRecipes() {}
     }
 }

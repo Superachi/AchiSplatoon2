@@ -1434,6 +1434,13 @@ Items: {
 		DisplayName: Order Brella
 		Tooltip: "{$BrellaPelletCount.Display}"
 	}
+
+	SquidBoomerang: {
+		UsageHint: Mods.AchiSplatoon2.Items.SquidBoomerang.UsageHint
+		Flavor: This is stupid
+		DisplayName: Woomerang
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1533,6 +1540,7 @@ Projectiles: {
 	MartianBrellaPelletProjectile.DisplayName: Spark Brella
 	MartianBrellaMeleeProjectile.DisplayName: Spark Brella
 	MartianBrellaShotgunProjectile.DisplayName: Martian Brella Shotgun Projectile
+	SquidBoomerangProjectile.DisplayName: Squid Boomerang Projectile
 }
 
 Buffs: {

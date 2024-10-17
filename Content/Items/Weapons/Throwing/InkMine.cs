@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             base.SetDefaults();
             Item.shoot = ModContent.ProjectileType<InkMineProjectile>();
-            Item.damage = 90;
+            Item.damage = 80;
             Item.knockBack = 9;
             Item.width = 32;
             Item.height = 22;
