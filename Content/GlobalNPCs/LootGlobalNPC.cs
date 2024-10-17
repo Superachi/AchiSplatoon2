@@ -12,6 +12,7 @@ using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -256,6 +257,20 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.IceQueen:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
                     break;
+            }
+
+            #endregion
+
+            #region Rare drops
+
+            if (npc.type == NPCID.Squid)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 5));
+            }
+
+            if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 100));
             }
 
             #endregion
