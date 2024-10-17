@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -95,6 +96,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                     t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
                 }
             }
+        }
+
+        protected Recipe ColorChipRecipe(int dyeItemId, int gemItemId) {
+            return CreateRecipe()
+                .AddIngredient(ModContent.ItemType<ColorChipEmpty>())
+                .AddIngredient(dyeItemId)
+                .AddIngredient(gemItemId)
+                .AddIngredient(ItemID.MeteoriteBar)
+                .AddTile(TileID.Bottles);
         }
     }
 }

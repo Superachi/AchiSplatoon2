@@ -10,11 +10,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.PurpleDye);
-            recipe.AddIngredient(ModContent.ItemType<ColorChipEmpty>());
-            recipe.AddTile(TileID.Bottles);
-            recipe.Register();
+            ColorChipRecipe(ItemID.PurpleDye, ItemID.Amethyst)
+                .Register();
         }
     }
 }
