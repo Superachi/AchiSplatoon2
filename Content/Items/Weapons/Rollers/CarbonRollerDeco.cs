@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         {
             base.SetDefaults();
             Item.damage = 95;
-            Item.knockBack = 3;
+            Item.knockBack = 4;
             Item.shoot = ModContent.ProjectileType<CarbonDecoSwingProjectile>();
 
             Item.value = Item.buyPrice(gold: 10);

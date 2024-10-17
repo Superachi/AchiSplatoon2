@@ -13,8 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 24;
-            Item.knockBack = 4;
+            Item.damage = 28;
+            Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Orange;
         }
