@@ -10,8 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
         // Brush-specific properties
         public override float ShotVelocity => 6f;
-        public override float BaseWeaponUseTime => 15f;
-        public override int SwingArc => 100;
+        public override float BaseWeaponUseTime => 25f;
+        public override int SwingArc => 120;
         public override float RollMoveSpeedBonus => 1.4f;
 
         public override void SetDefaults()
@@ -19,8 +19,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 6;
-            Item.knockBack = 3f;
+            Item.damage = 8;
+            Item.knockBack = 1f;
             Item.shootSpeed = 4f;
 
             Item.width = 58;

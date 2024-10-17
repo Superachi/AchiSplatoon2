@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
@@ -52,11 +54,12 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             var weapons = new List<int>
             {
-                ModContent.ItemType<OrderShot>(),
                 ModContent.ItemType<OrderBrush>(),
                 ModContent.ItemType<OrderCharger>(),
                 ModContent.ItemType<OrderStringer>(),
-                ModContent.ItemType<OrderRoller>()
+                ModContent.ItemType<OrderRoller>(),
+                ModContent.ItemType<OrderBlaster>(),
+                ModContent.ItemType<OrderBrella>(),
             };
 
             var chips = new List<int>
@@ -69,10 +72,9 @@ namespace AchiSplatoon2.Content.Items.Consumables
             };
 
             int firstWeapon = Main.rand.NextFromCollection<int>(weapons);
-            weapons.Remove(firstWeapon);
-            int secondWeapon = Main.rand.NextFromCollection<int>(weapons);
+
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), firstWeapon);
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), secondWeapon);
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SplatBomb>(), 10);
 
             int chosenChip = Main.rand.NextFromCollection<int>(chips);

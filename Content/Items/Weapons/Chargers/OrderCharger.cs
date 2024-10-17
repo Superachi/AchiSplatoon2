@@ -7,11 +7,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     {
         public override float[] ChargeTimeThresholds { get => [75f]; }
 
+        public override float RangeModifier => 0.2f;
+        public override float MinPartialRange { get => 0.3f; }
+        public override float MaxPartialRange { get => 0.6f; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
             Item.damage = 28;
-            Item.knockBack = 3;
+            Item.knockBack = 4;
             Item.crit = 0;
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;

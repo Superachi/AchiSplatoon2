@@ -598,7 +598,7 @@ Items: {
 	}
 
 	OrderBrush: {
-		UsageHint: Decreases mobility while attacking
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Humble beginnings
 		DisplayName: Order Brush
 		Tooltip: ""
@@ -975,7 +975,7 @@ Items: {
 
 	OrderRoller: {
 		UsageHint: "{$Hint.Roller}"
-		Flavor: Mods.AchiSplatoon2.Items.OrderRoller.Flavor
+		Flavor: Humble beginnings
 		DisplayName: Order Roller
 		Tooltip: ""
 	}
@@ -1423,16 +1423,16 @@ Items: {
 
 	OrderBlaster: {
 		UsageHint: Mods.AchiSplatoon2.Items.OrderBlaster.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.OrderBlaster.Flavor
+		Flavor: Humble beginnings
 		DisplayName: Order Blaster
 		Tooltip: ""
 	}
 
 	OrderBrella: {
 		UsageHint: Mods.AchiSplatoon2.Items.OrderBrella.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.OrderBrella.Flavor
+		Flavor: Humble beginnings
 		DisplayName: Order Brella
-		Tooltip: ""
+		Tooltip: "{$BrellaPelletCount.Display}"
 	}
 }
 

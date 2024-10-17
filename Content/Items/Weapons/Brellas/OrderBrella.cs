@@ -7,8 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class OrderBrella : BaseBrella
     {
-        public override int ProjectileCount { get => 4; }
-        public override int ShieldLife => 100;
+        public override int ProjectileCount { get => 3; }
+        public override int ShieldLife => 60;
         public override int ShieldCooldown => 450;
 
         public override void SetDefaults()
@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 40,
                 shotVelocity: 8f);
 
-            Item.damage = 6;
+            Item.damage = 7;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 1;
@@ -31,6 +31,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipePostBee();
+        public override void AddRecipes() => AddRecipeOrder();
     }
 }

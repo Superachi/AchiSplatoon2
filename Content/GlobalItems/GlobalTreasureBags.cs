@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 
 namespace AchiSplatoon2.Content.GlobalItems
 {
@@ -16,9 +17,7 @@ namespace AchiSplatoon2.Content.GlobalItems
         {
             if (item.type == ItemID.KingSlimeBossBag)
             {
-                itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>(), chanceDenominator: 3)
-                );
+                ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>(), chanceDenominator: 3);
             }
 
             if (item.type == ItemID.WallOfFleshBossBag)
@@ -57,9 +56,22 @@ namespace AchiSplatoon2.Content.GlobalItems
 
             if (item.type == ItemID.GolemBossBag)
             {
-                itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<Explosher>())
-                );
+            }
+
+            switch (item.type)
+            {
+                case ItemID.KingSlimeBossBag:
+                case ItemID.EyeOfCthulhuBossBag:
+                case ItemID.EaterOfWorldsBossBag:
+                case ItemID.BrainOfCthulhuBossBag:
+                case ItemID.SkeletronBossBag:
+                case ItemID.QueenBeeBossBag:
+                case ItemID.DeerclopsBossBag:
+                case ItemID.WallOfFleshBossBag:
+                    itemLoot.Add(
+                        ItemDropRule.Common(ModContent.ItemType<ColorChipEmpty>())
+                    );
+                break;
             }
         }
     }

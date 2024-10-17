@@ -147,6 +147,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 return;
             }
 
+            if (WeaponInstance is OrderStringer)
+            {
+                velocityModifier *= 0.75f;
+            }
+
             finalArc = shotgunArc / chargePercentage / (projectileCount / 2);
         }
 
