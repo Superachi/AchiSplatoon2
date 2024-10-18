@@ -1,7 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 

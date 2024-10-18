@@ -1,10 +1,10 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Players;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {

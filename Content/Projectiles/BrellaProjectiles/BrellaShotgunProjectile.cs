@@ -1,8 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using Microsoft.Xna.Framework;
 using Terraria;
-using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using AchiSplatoon2.Content.Items.Weapons.Brellas;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {

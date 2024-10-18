@@ -1,9 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {

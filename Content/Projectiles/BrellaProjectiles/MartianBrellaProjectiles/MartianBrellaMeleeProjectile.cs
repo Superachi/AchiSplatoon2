@@ -1,5 +1,5 @@
-﻿using Terraria;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProjectiles

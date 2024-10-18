@@ -1,10 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.Emblems;
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories
 {

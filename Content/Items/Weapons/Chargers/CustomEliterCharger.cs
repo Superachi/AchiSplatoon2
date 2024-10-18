@@ -1,6 +1,5 @@
-﻿using Terraria.ID;
-using Terraria;
-using Microsoft.Xna.Framework;
+﻿using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {

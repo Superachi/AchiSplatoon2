@@ -1,7 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
-using Terraria;
+﻿using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {

@@ -1,6 +1,6 @@
-﻿using Terraria.ID;
+﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
 using Terraria;
-using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers

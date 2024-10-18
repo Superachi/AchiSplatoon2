@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles

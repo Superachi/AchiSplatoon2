@@ -1,12 +1,10 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {

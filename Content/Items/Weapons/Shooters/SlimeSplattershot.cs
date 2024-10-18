@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {

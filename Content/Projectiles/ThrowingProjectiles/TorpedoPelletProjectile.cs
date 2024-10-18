@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Netcode.DataModels;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {

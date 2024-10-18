@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 {

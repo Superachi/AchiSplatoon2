@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProjectiles;
-using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

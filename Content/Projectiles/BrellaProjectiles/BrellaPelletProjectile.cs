@@ -1,18 +1,10 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
-using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using AchiSplatoon2.Content.Players;
+using Microsoft.Xna.Framework;
+using System.IO;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {

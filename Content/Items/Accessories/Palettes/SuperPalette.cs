@@ -1,8 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {

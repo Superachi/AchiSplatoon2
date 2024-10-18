@@ -1,9 +1,9 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using System.IO;
-using Terraria.ModLoader;
-using Terraria;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using Microsoft.Xna.Framework;
+using System.IO;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {

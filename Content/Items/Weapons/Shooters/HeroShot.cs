@@ -1,7 +1,7 @@
-﻿using Terraria.ID;
-using Terraria;
+﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using Microsoft.Xna.Framework;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters

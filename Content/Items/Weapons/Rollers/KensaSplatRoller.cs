@@ -1,7 +1,7 @@
 ﻿using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {

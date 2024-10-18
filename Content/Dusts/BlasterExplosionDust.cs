@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace AchiSplatoon2.Content.Dusts

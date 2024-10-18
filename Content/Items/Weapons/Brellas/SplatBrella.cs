@@ -1,9 +1,7 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {

@@ -1,12 +1,8 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using System.IO;
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria;
 using Terraria.ID;
-using Microsoft.Build.Tasks;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {

@@ -1,10 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
 using Microsoft.Xna.Framework;
-using System;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {

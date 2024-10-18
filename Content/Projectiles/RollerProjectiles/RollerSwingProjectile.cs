@@ -1,18 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
-using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using AchiSplatoon2.Content.Players;
-using Microsoft.Build.Framework;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 {

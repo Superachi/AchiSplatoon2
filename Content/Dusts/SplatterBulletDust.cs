@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 
 namespace AchiSplatoon2.Content.Dusts
 {

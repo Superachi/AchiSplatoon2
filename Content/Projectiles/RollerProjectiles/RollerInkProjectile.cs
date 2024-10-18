@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

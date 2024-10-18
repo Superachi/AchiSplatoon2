@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ModLoader;
-using Terraria;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {

@@ -1,11 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Netcode.DataModels;
-using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Netcode.DataModels;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 {

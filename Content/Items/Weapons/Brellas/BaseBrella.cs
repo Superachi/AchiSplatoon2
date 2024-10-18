@@ -1,12 +1,11 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
-using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
 using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using Terraria.DataStructures;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {

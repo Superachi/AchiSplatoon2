@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Players;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {

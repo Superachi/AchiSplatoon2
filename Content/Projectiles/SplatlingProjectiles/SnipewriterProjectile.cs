@@ -1,9 +1,9 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {

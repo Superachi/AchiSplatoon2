@@ -1,13 +1,10 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {

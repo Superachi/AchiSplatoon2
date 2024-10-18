@@ -1,10 +1,10 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Players;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
-using AchiSplatoon2.Content.Players;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {

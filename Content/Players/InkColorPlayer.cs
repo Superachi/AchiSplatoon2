@@ -1,7 +1,5 @@
 ﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace AchiSplatoon2.Content.Players
 {
