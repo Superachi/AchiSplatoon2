@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 7;
+            Item.damage = 6;
             Item.knockBack = 4;
             Item.scale = 1;
 
