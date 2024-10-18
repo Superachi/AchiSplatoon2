@@ -17,18 +17,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         {
             if (shop.NpcType == NPCID.Demolitionist)
             {
-                shop.Add<SplatBomb>(BossConditions.DownedEvilBoss);
-                shop.Add<BurstBomb>();
+                shop.Add<SplatBomb>();
+                shop.Add<BurstBomb>(Condition.DownedEarlygameBoss);
                 shop.Add<AngleShooter>(Condition.DownedEarlygameBoss);
-                shop.Add<Sprinkler>(Condition.DownedEarlygameBoss);
-            }
-
-            if (shop.NpcType == NPCID.Merchant)
-            {
-                shop.Add<OrderShot>();
-                shop.Add<OrderBrush>();
-                shop.Add<OrderStringer>();
-                shop.Add<OrderCharger>();
+                shop.Add<Sprinkler>(BossConditions.DownedEvilBoss);
+                shop.Add<InkMine>(BossConditions.DownedEvilBoss);
+                shop.Add<Torpedo>(Condition.Hardmode);
             }
 
             if (shop.NpcType == NPCID.Painter)
