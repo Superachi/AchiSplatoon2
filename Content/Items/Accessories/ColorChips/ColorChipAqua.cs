@@ -10,6 +10,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         {
             ColorChipRecipe(ItemID.CyanDye, ItemID.Diamond)
                 .Register();
+
+            ColorChipRecipe(ItemID.TealDye, ItemID.Diamond)
+                .Register();
         }
     }
 }
