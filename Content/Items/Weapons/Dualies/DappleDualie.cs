@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     {
         // Shoot settings
         public override float ShotGravity { get => 0.3f; }
-        public override int ShotGravityDelay { get => 12; }
+        public override int ShotGravityDelay { get => 4; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 10f; }
         public override string ShootSample { get => "SplatlingShoot"; }

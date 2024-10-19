@@ -152,7 +152,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 }
             } else
             {
-                modifiers.FinalDamage *= 2f;
+                modifiers.FinalDamage *= 1f;
             }
 
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - owner.position.X);

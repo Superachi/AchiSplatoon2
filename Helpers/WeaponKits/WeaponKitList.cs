@@ -117,8 +117,8 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(RecycleBrellaMk2),     new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage) },
 
             // Rollers
-            { typeof(SplatRoller),          new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount) },
-            { typeof(KrakonSplatRoller),    new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage) },
+            { typeof(SplatRoller),          new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount) },
+            { typeof(KrakonSplatRoller),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage) },
             { typeof(CarbonRoller),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount) },
             { typeof(CarbonRollerDeco),     new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage) },
             { typeof(DynamoRoller),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount) },
