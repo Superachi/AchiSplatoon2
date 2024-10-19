@@ -5,7 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaWiperDeco : SplatanaWiper
     {
-        public override int BaseDamage { get => 20; }
+        public override int BaseDamage { get => 30; }
 
         public override void SetDefaults()
         {
