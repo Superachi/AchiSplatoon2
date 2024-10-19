@@ -6,11 +6,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class Octobrush : BaseBrush
     {
         public override float AimDeviation { get => 6f; }
-        public override float DelayUntilFall => 10f;
+        public override float DelayUntilFall => 8f;
         protected override int ArmorPierce => 10;
 
         public override float ShotVelocity => 8f;
-        public override float ShotGravity => 0.1f;
+        public override float ShotGravity => 0.2f;
         public override float BaseWeaponUseTime => 15f;
         public override int SwingArc => 130;
         public override float RollMoveSpeedBonus => 1.7f;

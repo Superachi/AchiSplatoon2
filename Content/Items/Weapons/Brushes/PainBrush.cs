@@ -6,11 +6,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class PainBrush : BaseBrush
     {
         public override float AimDeviation { get => 3f; }
-        public override float DelayUntilFall => 20f;
+        public override float DelayUntilFall => 12f;
 
         // Brush-specific properties
         public override float ShotVelocity => 9f;
-        public override float ShotGravity => 0.1f;
+        public override float ShotGravity => 0.15f;
         public override float BaseWeaponUseTime => 18f;
         public override int SwingArc => 160;
         public override int WindupTime => 26;
@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 62;
+            Item.damage = 54;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
