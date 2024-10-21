@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
+using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
@@ -412,6 +413,17 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (target.life <= 0)
             {
+                var pdMP = GetOwnerModPlayer<PearlDronePlayer>();
+                if (this is PearlDroneMinion)
+                {
+                    pdMP.TriggerDialoguePearlKillsNpc(target);
+
+                }
+                else
+                {
+                    pdMP.TriggerDialoguePlayerKillsNpc(target);
+                }
+
                 if (!IsTargetEnemy(target)) return;
 
                 var owner = GetOwner();

@@ -17,6 +17,11 @@ namespace AchiSplatoon2.Helpers
             return result;
         }
 
+        public static bool IsAnyKeyPressed()
+        {
+            return PlayerInput.GetPressedKeys().Count > 0;
+        }
+
         public static int GetInputX()
         {
             return PlayerInput.Triggers.Current.Right ? 1 : PlayerInput.Triggers.Current.Left ? -1 : 0;
