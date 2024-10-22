@@ -87,6 +87,8 @@ Hint: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
 		CritBonus: "{0}% increased critical strike chance on Chargers"
 	}
+
+	DroneDisc: Adds +1 to the level of your Pearl Drone, making them deal more damage permanently. This specific type of disc is usable only once.
 }
 
 Items: {
@@ -1444,6 +1446,41 @@ Items: {
 
 	PearlDroneStaff: {
 		DisplayName: Pearl Drone Test Staff
+		Tooltip: ""
+	}
+
+	DroneDiscBase: {
+		UsageHint: Mods.AchiSplatoon2.Items.DroneDiscBase.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscBase.Flavor
+		DisplayName: Drone Disc Base
+		Tooltip: ""
+	}
+
+	DroneDiscA: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscA.Flavor
+		DisplayName: Type-A Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscB: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscB.Flavor
+		DisplayName: Type-B Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscC: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscC.Flavor
+		DisplayName: Type-C Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscDowngrade: {
+		UsageHint: CAUTION! Resets Pearl Drone's level back to 1.
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscDowngrade.Flavor
+		DisplayName: Type-X Drone Downgrade Disc
 		Tooltip: ""
 	}
 }

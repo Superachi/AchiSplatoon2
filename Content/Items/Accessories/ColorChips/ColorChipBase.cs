@@ -36,7 +36,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue * this.Item.stack;
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue * this.Item.stack;
             modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue * this.Item.stack;
-            // modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
         }
 
         private string StatIncreaseDisplayString(string textColor, string stat, string amount)
@@ -83,7 +83,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 }
                 else if (AquaValue > 0)
                 {
-                    //
+                    t.Text += StatIncreaseDisplayString(textColor, "Pearl Drone's attack speed", modPlayer.AquaChipBaseAttackCooldownReductionDisplay);
+                    t.Text += $"\n[{textColor}:Every 2 chips, an additional attack is added (up to 3 new attacks)]";
                 }
 
                 if (!modPlayer.isPaletteEquipped)

@@ -1,12 +1,11 @@
-﻿using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 {
     internal class PearlDroneBurstBomb : BurstBombProjectile
     {
-        private int baseExplosionRadius = 200;
+        private readonly int baseExplosionRadius = new BurstBomb().ExplosionRadius;
 
         public override void AfterSpawn()
         {

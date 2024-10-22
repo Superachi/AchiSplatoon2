@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Players
         public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
 
         // Color chip
-        public int[] ColorChipAmounts;
+        public int[] ColorChipAmounts = [0, 0, 0, 0, 0, 0];
         public int ColorChipTotal;
         public Color ColorFromChips = ColorHelper.GetInkColor(InkColor.Order);
 
@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Players
         public float SpecialPointsMax = 100;
         public bool SpecialReady;
         public bool IsSpecialActive;
-        public string SpecialName = null;
+        public string? SpecialName = null;
         public float SpecialDrain;
         public int SpecialIncrementCooldown = 0;
         public int SpecialIncrementCooldownDefault = 6;
@@ -61,6 +61,8 @@ namespace AchiSplatoon2.Content.Players
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
         public float BlueChipBaseChargeBonus { get => 0.2f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
+        public float AquaChipBaseAttackCooldownReduction { get => 0.05f; }
+        public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
 
         public float PaletteMainDamageMod { get => 1.1f; }
         public string PaletteMainDamageModDisplay { get => $"+{(int)((PaletteMainDamageMod - 1) * 100)}%"; }
@@ -248,7 +250,7 @@ namespace AchiSplatoon2.Content.Players
             conflictingPalettes = false;
             isPaletteEquipped = false;
             paletteCapacity = 0;
-            ColorChipAmounts = [0, 0, 0, 0, 0]; //, 0];
+            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
             ColorChipTotal = 0;
         }
 
@@ -316,6 +318,11 @@ namespace AchiSplatoon2.Content.Players
         public float CalculateLuckyBombChance()
         {
             return ColorChipAmounts[(int)ChipColor.Green] * GreenChipLuckyBombChance;
+        }
+
+        public float CalculateDroneAttackCooldownReduction()
+        {
+            return ColorChipAmounts[(int)ChipColor.Aqua] * AquaChipBaseAttackCooldownReduction;
         }
 
         public void IncrementSpecialPoints(float amount)

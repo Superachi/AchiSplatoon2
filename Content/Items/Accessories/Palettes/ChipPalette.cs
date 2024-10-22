@@ -124,7 +124,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     var yellow = (float)chips[(int)InkWeaponPlayer.ChipColor.Yellow];
                     var purple = (float)chips[(int)InkWeaponPlayer.ChipColor.Purple];
                     var green = (float)chips[(int)InkWeaponPlayer.ChipColor.Green];
-                    // var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
+                    var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
 
                     if (red > 0)
                     {
@@ -154,6 +154,13 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     {
                         t.Text += $"\n[{ChipColor(InkColor.Green)}Lucky ({green}) >]" +
                             $"\n[{textColorGray}Lucky bomb drop chance: +{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%]";
+                    }
+                    if (aqua > 0)
+                    {
+                        var droneLevel = player.GetModPlayer<PearlDronePlayer>().PowerLevel;
+                        t.Text += $"\n[{ChipColor(InkColor.Aqua)}Drone ({aqua}) >]" +
+                            $"\n[{textColorGray}Pearl Drone attack speed: +{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%]" +
+                            $"\n[{textColorGray}Power level: {droneLevel}]";
                     }
                 }
                 else

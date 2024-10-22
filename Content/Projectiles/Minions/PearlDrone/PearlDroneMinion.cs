@@ -12,6 +12,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using Terraria.Map;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 {
@@ -29,9 +30,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private string speechText = "";
 
         private int sprinklerCooldown = 0;
-        private int sprinklerCooldownMax = 0;
+        private int sprinklerCooldownMax = 15;
         private int burstBombCooldown = 0;
-        private int burstBombCooldownMax = 0;
+        private int burstBombCooldownMax = 300;
 
         private NPC? foundTarget = null;
 
@@ -267,21 +268,34 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             float speed = 12f;
             float inertia = 45f;
 
-            goalDirection *= speed;
-            Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection) / inertia;
+            Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * speed) / inertia;
 
-            if (sprinklerCooldown == 0)
+            var droneMP = GetOwnerModPlayer<PearlDronePlayer>();
+
+            if (sprinklerCooldown <= 0)
             {
-                sprinklerCooldown = 16;
-                SprinklerProjectile p = CreateChildProjectile<SprinklerProjectile>(Projectile.Center, Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity, 30);
-                WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-10, 10));
+                sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
+                SprinklerProjectile p = CreateChildProjectile<SprinklerProjectile>(
+                    Projectile.Center,
+                    Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
+                    droneMP.GetSprinklerDamage());
+                WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-15, 15));
             }
 
-            if (burstBombCooldown == 0 && distanceToTarget < 300)
+            if (burstBombCooldown <= 0 && distanceToTarget < 200)
             {
-                burstBombCooldown = 300;
-                CreateChildProjectile<PearlDroneBurstBomb>(Projectile.Center, Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity, 90);
+                burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
+                CreateChildProjectile<PearlDroneBurstBomb>(
+                    Projectile.Center,
+                    Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
+                    droneMP.GetBurstBombDamage());
             }
+        }
+
+        private int GetCooldownValue(int baseCooldown)
+        {
+            var droneMP = GetOwnerModPlayer<PearlDronePlayer>();
+            return (int)(baseCooldown * droneMP.GetAttackCooldownModifier());
         }
 
         public override void PostDraw(Color lightColor)
@@ -304,7 +318,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 }
             }
 
-            // Utils.DrawBorderString(Main.spriteBatch, $"{foundTarget} ({foundTarget.life})", Projectile.Center - Main.screenPosition + new Vector2(0, 50), Color.Aqua, scale: 2, anchorx: 0.5f, anchory: 0.5f);
+            //var level = GetOwnerModPlayer<PearlDronePlayer>().PowerLevel;
+            //Utils.DrawBorderString(Main.spriteBatch, $"Lv. {level}", Projectile.Center - Main.screenPosition + new Vector2(0, 32), Color.White, scale: 1f, anchorx: 0.5f, anchory: 0.5f);
 
             if (speechText.Length == 0) return;
             Utils.DrawBorderString(Main.spriteBatch, speechText, Projectile.Center - Main.screenPosition + new Vector2(0, -50), Color.Pink, scale: speechScale, anchorx: 0.5f, anchory: 0.5f);
