@@ -1547,6 +1547,8 @@ Projectiles: {
 	MartianBrellaShotgunProjectile.DisplayName: Martian Brella Shotgun Projectile
 	SquidBoomerangProjectile.DisplayName: Squid Boomerang Projectile
 	PearlDroneMinion.DisplayName: Pearl Drone Minion
+	PearlDroneSprinklerProjectile.DisplayName: Pearl Drone Sprinkler Projectile
+	PearlDroneBurstBomb.DisplayName: Pearl Drone Burst Bomb
 }
 
 Buffs: {

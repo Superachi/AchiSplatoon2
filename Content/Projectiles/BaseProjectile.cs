@@ -51,6 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
 
+        public Projectile? parentProjectile = null;
         public int parentIdentity = -1;
 
         // If dissolvable = true, it means this projectile gets destroyed by liquids by default
@@ -313,6 +314,7 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.WeaponInstance = WeaponInstance;
             proj.itemIdentifier = itemIdentifier;
             proj.parentIdentity = Projectile.identity;
+            proj.parentProjectile = Projectile;
             proj.primaryColor = primaryColor;
             proj.secondaryColor = secondaryColor;
             if (triggerAfterSpawn) proj.AfterSpawn();
@@ -414,7 +416,7 @@ namespace AchiSplatoon2.Content.Projectiles
             if (target.life <= 0)
             {
                 var pdMP = GetOwnerModPlayer<PearlDronePlayer>();
-                if (this is PearlDroneMinion)
+                if (parentProjectile != null && parentProjectile.ModProjectile is PearlDroneMinion)
                 {
                     pdMP.TriggerDialoguePearlKillsNpc(target);
 
