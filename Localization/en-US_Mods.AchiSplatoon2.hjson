@@ -1605,7 +1605,7 @@ Buffs: {
 	}
 
 	PearlDroneBuff: {
-		DisplayName: Pearl Drone is supporting you
+		DisplayName: ""
 		Description: ""
 	}
 }

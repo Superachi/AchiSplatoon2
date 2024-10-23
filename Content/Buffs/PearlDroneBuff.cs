@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -34,16 +35,36 @@ namespace AchiSplatoon2.Content.Buffs
             var weaponPlayer = player.GetModPlayer<InkWeaponPlayer>();
             var summonDamageBonus = (int)((player.GetDamage(DamageClass.Summon).ApplyTo(1) - 1) * 100);
 
-            string tooltip = $"Power level: { dronePlayer.PowerLevel}\n";
+            if (!weaponPlayer.IsPaletteValid()) return;
 
-            if (weaponPlayer.IsPaletteValid())
-            {
-                tooltip += $"Attack speed bonus: {(int)((weaponPlayer.CalculateDroneAttackCooldownReduction()) * 100)}%\n";
-            }
-
+            // Stat bonus section
+            string tooltip = ColorHelper.TextWithPearlColor("Pearl is supporting you!") + "\n";
+            tooltip += "Power level:" + ColorHelper.TextWithBonusColor($" {dronePlayer.PowerLevel}") + ColorHelper.TextWithFlavorColor(" (boosts attack damage and flight speed)") + "\n";
+            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(weaponPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
             if (summonDamageBonus > 0)
             {
-                tooltip += $"Summoning damage bonus: {summonDamageBonus}%";
+                tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%") + "\n";
+            }
+            tooltip += "\n";
+
+            // Enabled attacks section
+            tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
+            tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+            tooltip += ColorHelper.TextWithSubWeaponColor("Life drops") + "\n";
+
+            if (dronePlayer.IsBurstBombEnabled)
+            {
+                tooltip += ColorHelper.TextWithSubWeaponColor("Burst Bomb") + $" ({dronePlayer.MinimumChipsForBurstBomb}+ chips)" + "\n";
+            }
+
+            if (dronePlayer.IsKillerWailEnabled)
+            {
+                tooltip += ColorHelper.TextWithSpecialWeaponColor("Killer Wail 5.1") + $" ({dronePlayer.MinimumChipsForKillerWail}+ chips)" + "\n";
+            }
+
+            if (dronePlayer.IsInkStrikeEnabled)
+            {
+                tooltip += ColorHelper.TextWithSpecialWeaponColor("Inkstrike") + $" ({dronePlayer.MinimumChipsForInkStrike}+ chips)" + "\n";
             }
 
             tip = tooltip;

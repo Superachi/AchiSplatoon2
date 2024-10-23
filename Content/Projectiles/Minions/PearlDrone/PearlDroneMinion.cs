@@ -197,7 +197,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 if (Projectile.velocity.Length() >= 1 || InputHelper.IsAnyKeyPressed())
                 {
                     idleTime = 0;
-                } else
+                }
+                else
                 {
                     idleTime++;
                 }
@@ -205,7 +206,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             if (idleTime >= 60 * 20)
             {
-                Speak(IdleQuotes());
+                TriggerDialoguePearlIdle();
                 idleTime -= 60 * 60;
             }
         }
@@ -312,7 +313,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-15, 15));
             }
 
-            if (burstBombCooldown <= 0 && distanceToTarget < 200)
+            if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
                 CreateChildProjectile<PearlDroneBurstBomb>(
@@ -518,6 +519,17 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             PlaySpeechSample(shoutSample, shoutSampleCount);
         }
 
+        public void TriggerDialoguePearlIdle()
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            var list = IdleQuotes();
+            if (list.Count == 0) return;
+
+            Speak(list);
+            PlaySpeechSample(talkSample, talkSampleCount);
+        }
+
         public void TriggerDialoguePearlHealing()
         {
             if (speechCooldownCurrent > 0) return;
@@ -562,7 +574,6 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void Speak(string message)
         {
-            if (speechCooldownCurrent > 0) return;
             speechCooldownCurrent = speechCooldownMax;
             speechText = message;
             speechDisplayTime = 90 + message.Length * 5;

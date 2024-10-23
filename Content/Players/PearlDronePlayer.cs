@@ -15,19 +15,28 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class PearlDronePlayer : BaseModPlayer
     {
+        // Level mechanics
         public int PowerLevel { get; private set; } = 1;
         private int LevelCap = 4;
         private List<string> usedDroneDiscs = new();
 
-        private bool isDroneActive = false;
-        private string droneName = "Pearl Drone";
-
+        // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
         public int SprinklerBaseDamage { get; private set; } = 10;
         public int BurstBombBaseDamage { get; private set; } = 30;
+        public int KillerWailBaseDamage { get; private set; } = 30;
+        public int InkStrikeBaseDamage { get; private set; } = 50;
+        public int MinimumChipsForBurstBomb => 3;
+        public int MinimumChipsForKillerWail => 6;
+        public int MinimumChipsForInkStrike => 8;
+        public bool IsBurstBombEnabled => GetDroneChipCount() >= MinimumChipsForBurstBomb;
+        public bool IsKillerWailEnabled => GetDroneChipCount() >= MinimumChipsForKillerWail;
+        public bool IsInkStrikeEnabled => GetDroneChipCount() >= MinimumChipsForInkStrike;
 
-        // NOTE: The tag instance provided here is always empty by default.
-        // Read https://github.com/tModLoader/tModLoader/wiki/Saving-and-loading-using-TagCompound to better understand Saving and Loading data.
+        // Misc.
+        private bool isDroneActive = false;
+        private string droneName = "Pearl Drone";
+
         public override void SaveData(TagCompound tag)
         {
             tag["dronePowerLevel"] = PowerLevel;
@@ -168,6 +177,12 @@ namespace AchiSplatoon2.Content.Players
             modifier = Math.Max(0.25f, modifier);
 
             return modifier;
+        }
+
+        public int GetDroneChipCount()
+        {
+            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
+            return wepMP.ColorChipAmounts[(int)ChipColor.Aqua];
         }
 
         public void TriggerDialoguePlayerKillsNpc(NPC npc)
