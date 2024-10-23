@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Players
 
         // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
-        public int SprinklerBaseDamage { get; private set; } = 10;
+        public int SprinklerBaseDamage { get; private set; } = 8;
         public int BurstBombBaseDamage { get; private set; } = 30;
         public int KillerWailBaseDamage { get; private set; } = 30;
         public int InkStrikeBaseDamage { get; private set; } = 50;
@@ -128,13 +128,13 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 1;
                     break;
                 case 2:
-                    baseDamage *= 1.5f;
+                    baseDamage *= 2;
                     break;
                 case 3:
-                    baseDamage *= 3;
+                    baseDamage *= 5;
                     break;
                 case 4:
-                    baseDamage *= 5;
+                    baseDamage *= 8;
                     break;
             }
 
@@ -151,7 +151,7 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 1;
                     break;
                 case 2:
-                    baseDamage *= 1.5f;
+                    baseDamage *= 2;
                     break;
                 case 3:
                     baseDamage *= 5;

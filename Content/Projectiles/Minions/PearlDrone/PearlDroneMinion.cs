@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private int talkSampleCount = 5;
 
         private int sprinklerCooldown;
-        private int sprinklerCooldownMax = 15;
+        private int sprinklerCooldownMax = 30;
         private int burstBombCooldown;
         private int burstBombCooldownMax = 300;
         private int healCooldown;
@@ -461,15 +461,17 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private void SpawnHearts()
         {
             int heartCount = 0;
+            var currentLife = GetOwner().statLife;
+            var maxLife = GetOwner().statLifeMax2;
 
-            if (GetOwner().statLife < GetOwner().statLifeMax2 * 0.25f)
+            if (currentLife < maxLife * 0.25f)
             {
-                heartCount = 5;
+                heartCount = (int)Math.Max(3f, Math.Floor((float)maxLife / 20f * 0.25f));
                 healCooldown = healCooldownMax;
             }
-            else if (GetOwner().statLife < GetOwner().statLifeMax2 * 0.5f)
+            else if (currentLife < maxLife * 0.5f)
             {
-                heartCount = 3;
+                heartCount = (int)Math.Max(2f, Math.Floor((float)maxLife / 20f * 0.15f));
                 healCooldown = (int)(healCooldownMax * 0.75f);
             }
             else
@@ -606,6 +608,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "Mic check, one-two!",
                 "Let's get KRAKEN!",
                 "NASTY! P#$&%!",
+                "Check out SimonTendo's Lethal Company mods! For eel!",
             };
         }
 
@@ -685,12 +688,6 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 $"See my moves, {GetOwner().name}?",
             };
 
-            if (npcName.Contains("slime"))
-            {
-                strings.Add("Squish!");
-                strings.Add("Don't be made of gel if you can't handle the heat!");
-            }
-
             return strings;
         }
 
@@ -699,10 +696,11 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             return new List<string>
             {
                 $"Have this, {GetOwner().name}!",
-                $"Chin up, {GetOwner().name}!",
                 "I gotchu!",
                 "Get a life!",
                 "This one's from Marina!",
+                "Careful!",
+                "Need some healing?",
             };
         }
 
