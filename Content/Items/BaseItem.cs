@@ -218,14 +218,14 @@ namespace AchiSplatoon2.Content.Items
         {
             CreateRecipe()
                 .AddTile(TileID.Anvils)
-                .AddIngredient(ItemID.IronBar, 5)
-                .AddIngredient(ItemID.Gel, 10)
+                .AddIngredient(ItemID.SilverBar, 8)
+                .AddIngredient(ItemID.Gel, 15)
                 .Register();
 
             CreateRecipe()
                 .AddTile(TileID.Anvils)
-                .AddIngredient(ItemID.LeadBar, 5)
-                .AddIngredient(ItemID.Gel, 10)
+                .AddIngredient(ItemID.TungstenBar, 8)
+                .AddIngredient(ItemID.Gel, 15)
                 .Register();
         }
     }
