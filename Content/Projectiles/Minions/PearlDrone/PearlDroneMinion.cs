@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private int talkSampleCount = 5;
 
         private int sprinklerCooldown;
-        private int sprinklerCooldownMax = 30;
+        private int sprinklerCooldownMax = 20;
         private int burstBombCooldown;
         private int burstBombCooldownMax = 300;
         private int healCooldown;
@@ -104,10 +104,13 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 case stateIdle:
                     break;
+
                 case stateFollowPlayer:
                     break;
+
                 case stateAttack:
                     break;
+
                 case stateDropItem:
                     hasDroppedItem = false;
                     TriggerDialoguePearlHealing();
@@ -135,15 +138,21 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             DeductCooldowns();
 
+            // Disc scratch sound
+            if (timeSpentAlive == 15 || timeSpentAlive == 32)
+            {
+                SoundHelper.PlayAudio(SoundID.Item166, volume: 0.3f, maxInstances: 10, position: Projectile.Center);
+            }
+
             // Greet the player
-            if (timeSpentAlive == 30)
+            if (timeSpentAlive == 44)
             {
                 TriggerDialoguePearlAppears();
             }
 
             if (timeSpentAlive % 20 == 0)
             {
-                FindTarget(1000f);
+                FindTarget(800f);
                 if (foundTarget != null) SetState(stateAttack);
             }
 
@@ -179,7 +188,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 return;
             }
 
-            var goalPosition = GetOwner().Center + new Vector2(GetOwner().direction * 60, -60);
+            float yHeight = -60 + 30 * (float)Math.Sin(timeSpentAlive / 22);
+            var goalPosition = GetOwner().Center + new Vector2(GetOwner().direction * 60, yHeight);
             var distanceToGoal = Vector2.Distance(Projectile.Center, goalPosition);
             var goalDirection = Projectile.Center.DirectionTo(goalPosition);
 
@@ -204,7 +214,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 }
             }
 
-            if (idleTime >= 60 * 20)
+            if (idleTime >= 60 * 30)
             {
                 TriggerDialoguePearlIdle();
                 idleTime -= 60 * 60;
@@ -221,7 +231,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             float speed = 8f;
             float inertia = 20f;
 
-            if (distanceToGoal > 1000f)
+            if (distanceToGoal > 1500f)
             {
                 Projectile.position = goalPosition;
                 Projectile.velocity /= 2;
@@ -365,9 +375,15 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             if (speechDisplayTime > 0)
             {
-                if (speechScale < 1)
+                var scaleAmount = 1f;
+                if (speechText.Length < 20)
                 {
-                    speechScale = MathHelper.Lerp(speechScale, 1, 0.2f);
+                    scaleAmount = 1.5f;
+                }
+
+                if (speechScale < scaleAmount)
+                {
+                    speechScale = MathHelper.Lerp(speechScale, scaleAmount, 0.2f);
                 }
             }
 
@@ -446,7 +462,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 }
             }
 
-            Lighting.AddLight(Projectile.Center, Color.Pink.ToVector3() * 0.8f);
+            Lighting.AddLight(Projectile.Center, Color.HotPink.ToVector3() * 0.5f);
 
             if (timeSpentAlive % 4 == 0 && Main.rand.NextBool(10))
             {
@@ -455,6 +471,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     255, Main.DiscoColor, Main.rand.NextFloat(0.8f, 1.6f));
                 dust.velocity = Vector2.Zero;
                 dust.noGravity = true;
+                dust.noLight = true;
+                dust.noLightEmittence = true;
             }
         }
 
@@ -480,6 +498,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 healCooldown = (int)(healCooldownMax * 0.5f);
             }
 
+            for (int i = 0; i < heartCount; i++)
+            {
+                Item.NewItem(Player.GetSource_None(), Projectile.Center, ItemID.Heart);
+            }
+
+            // Audio/visual
             for (int i = 0; i < 15; i++)
             {
                 var d = Dust.NewDustPerfect(
@@ -492,10 +516,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 d.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
             }
 
-            for (int i = 0; i < heartCount; i++)
-            {
-                Item.NewItem(Player.GetSource_None(), Projectile.Center, ItemID.Heart);
-            }
+            SoundHelper.PlayAudio(SoundID.Item4, volume: 0.5f, maxInstances: 10, position: Projectile.Center);
         }
 
         #region Speech methods
@@ -608,7 +629,6 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "Mic check, one-two!",
                 "Let's get KRAKEN!",
                 "NASTY! P#$&%!",
-                "Check out SimonTendo's Lethal Company mods! For eel!",
             };
         }
 
@@ -626,6 +646,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 $"Yo! You good, {GetOwner().name}?",
                 "Dang, is the gameplay always this slow?",
                 "...I'm gonna go play Squid Beatz. Shout if ya need me.",
+                "Sure is boring around here!",
+                "Check out SimonTendo's Lethal Company mods sometime. They're the hype!",
             };
 
             var heldItem = GetOwner().HeldItem.ModItem;
@@ -666,8 +688,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     break;
 
                 case NPCID.Shark:
-                    strings.Add("Uhh... Don't let Shiver know what you did.");
-                    strings.Add("Let's hope Shiver didn't see that.");
+                    strings.Add("Don't tell Shiver what you just did.");
                     break;
             }
 
@@ -685,7 +706,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "Got 'em!",
                 "How's that!",
                 "K.O!",
+                "Oh yeah!",
                 $"See my moves, {GetOwner().name}?",
+                $"Check me out, {GetOwner().name}!",
             };
 
             return strings;
@@ -697,10 +720,10 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 $"Have this, {GetOwner().name}!",
                 "I gotchu!",
-                "Get a life!",
-                "This one's from Marina!",
                 "Careful!",
-                "Need some healing?",
+                "Need a heal?",
+                "This way! Heal!",
+                "Get a life!",
             };
         }
 
