@@ -1,10 +1,10 @@
-﻿using Terraria.DataStructures;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Buffs;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {

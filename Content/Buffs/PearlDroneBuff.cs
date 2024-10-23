@@ -1,7 +1,7 @@
-﻿using Terraria.ModLoader;
-using Terraria;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
-using AchiSplatoon2.Content.Players;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Buffs
 {

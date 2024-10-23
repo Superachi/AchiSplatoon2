@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
-using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Test;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Helpers;

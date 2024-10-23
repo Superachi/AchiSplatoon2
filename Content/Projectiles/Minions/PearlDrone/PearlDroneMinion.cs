@@ -1,17 +1,17 @@
-﻿using System;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AchiSplatoon2.Content.Buffs;
+using System;
 using System.Collections.Generic;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Items.Weapons.Splatana;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
-using AchiSplatoon2.Content.Players;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 {
