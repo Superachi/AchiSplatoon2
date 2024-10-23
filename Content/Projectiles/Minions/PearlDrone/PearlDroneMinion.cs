@@ -403,13 +403,14 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void FindTarget(float maxTargetDistance)
         {
+            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<InkAccessoryPlayer>().hasThermalInkTank;
             var success = false;
 
             float closestDistance = maxTargetDistance;
             foreach (var npc in Main.ActiveNPCs)
             {
                 float distance = GetOwner().Center.Distance(npc.Center);
-                if (distance < closestDistance && IsTargetEnemy(npc) && !npc.wet)
+                if (distance < closestDistance && IsTargetEnemy(npc) && (!npc.wet || shotsCanPassThroughLiquid))
                 {
                     if (Collision.CanHitLine(Projectile.Center, Projectile.width, Projectile.height, npc.Center, 1, 1)
                     || Collision.CanHitLine(GetOwner().Center, Projectile.width, Projectile.height, npc.Center, 1, 1))
