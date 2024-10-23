@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
 
 namespace AchiSplatoon2.Content.Players
@@ -17,7 +18,7 @@ namespace AchiSplatoon2.Content.Players
     {
         public int PowerLevel { get; private set; } = 1;
         private int LevelCap = 4;
-        private readonly List<string> usedDroneDiscs = new();
+        private List<string> usedDroneDiscs = new();
 
         private bool isDroneActive = false;
         private string droneName = "Pearl Drone";
@@ -25,6 +26,20 @@ namespace AchiSplatoon2.Content.Players
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
         public int SprinklerBaseDamage { get; private set; } = 10;
         public int BurstBombBaseDamage { get; private set; } = 30;
+
+        // NOTE: The tag instance provided here is always empty by default.
+        // Read https://github.com/tModLoader/tModLoader/wiki/Saving-and-loading-using-TagCompound to better understand Saving and Loading data.
+        public override void SaveData(TagCompound tag)
+        {
+            tag["dronePowerLevel"] = PowerLevel;
+            tag["usedDroneDiscs"] = usedDroneDiscs;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            PowerLevel = tag.GetInt("dronePowerLevel");
+            usedDroneDiscs = (List<string>)tag.GetList<string>("usedDroneDiscs");
+        }
 
         public override void PreUpdate()
         {
@@ -174,6 +189,8 @@ namespace AchiSplatoon2.Content.Players
 
         private void UpdateDroneExistence()
         {
+            if (Player.dead) isDroneActive = false;
+
             var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
             if (!isDroneActive)
             {
