@@ -11,7 +11,6 @@ using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
-using Terraria.Map;
 using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
@@ -19,9 +18,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
     internal class PearlDroneMinion : BaseProjectile
     {
         private int idleTime = 0;
+        private bool hasDroppedItem = false;
+
         private const int stateIdle = 0;
         private const int stateFollowPlayer = 1;
         private const int stateAttack = 2;
+        private const int stateDropItem = 3;
 
         private int speechCooldownCurrent = 0;
         private int speechCooldownMax = 600;
@@ -29,10 +31,17 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private float speechScale = 0f;
         private string speechText = "";
 
-        private int sprinklerCooldown = 0;
+        private string shoutSample = $"Voice\\Pearl\\Shout";
+        private int shoutSampleCount = 3;
+        private string talkSample = $"Voice\\Pearl\\ShortTalk";
+        private int talkSampleCount = 5;
+
+        private int sprinklerCooldown;
         private int sprinklerCooldownMax = 15;
-        private int burstBombCooldown = 0;
+        private int burstBombCooldown;
         private int burstBombCooldownMax = 300;
+        private int healCooldown;
+        private int healCooldownMax = 7200;
 
         private NPC? foundTarget = null;
 
@@ -81,20 +90,27 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         public override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
+            sprinklerCooldown = sprinklerCooldownMax;
+            burstBombCooldown = burstBombCooldownMax;
+            healCooldown = healCooldownMax;
         }
 
         protected override void SetState(int targetState)
         {
             base.SetState(targetState);
+            idleTime = 0;
 
             switch (state)
             {
                 case stateIdle:
-                    idleTime = 0;
                     break;
                 case stateFollowPlayer:
                     break;
                 case stateAttack:
+                    break;
+                case stateDropItem:
+                    hasDroppedItem = false;
+                    TriggerDialoguePearlHealing();
                     break;
             }
         }
@@ -106,6 +122,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             if (sprinklerCooldown > 0) sprinklerCooldown--;
             if (burstBombCooldown > 0) burstBombCooldown--;
+
+            if (healCooldown > 0) healCooldown--;
         }
 
         public override void AI()
@@ -118,21 +136,20 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             DeductCooldowns();
 
             // Greet the player
-            if (timeSpentAlive == 60 && Main.rand.NextBool(2))
+            if (timeSpentAlive == 30)
             {
-                if (IsOwnerAnIrlFriend())
-                {
-                    Speak(MemeSpawnQuotes());
-                }
-                else
-                {
-                    Speak(NormalSpawnQuotes());
-                }
+                TriggerDialoguePearlAppears();
             }
 
             if (timeSpentAlive % 20 == 0)
             {
                 FindTarget(1000f);
+                if (foundTarget != null) SetState(stateAttack);
+            }
+
+            if (healCooldown <= 0 && GetOwner().statLife < GetOwner().statLifeMax2 * 0.75f)
+            {
+                SetState(stateDropItem);
             }
 
             switch (state)
@@ -146,19 +163,16 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 case stateAttack:
                     StateAttack();
                     break;
+                case stateDropItem:
+                    StateDropItem();
+                    break;
             }
 
             RenderVisuals();
         }
 
-        public void StateIdle()
+        private void StateIdle()
         {
-            if (foundTarget != null)
-            {
-                SetState(stateAttack);
-                return;
-            }
-
             if (Vector2.Distance(Projectile.Center, GetOwner().Center) > 150)
             {
                 SetState(stateFollowPlayer);
@@ -196,14 +210,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
         }
 
-        public void StateFollowPlayer()
+        private void StateFollowPlayer()
         {
-            if (foundTarget != null)
-            {
-                SetState(stateAttack);
-                return;
-            }
-
             var goalPosition = GetOwner().Center + new Vector2(GetOwner().direction * 60, -60);
             var distanceToGoal = Vector2.Distance(Projectile.Center, goalPosition);
             var goalDirection = Projectile.Center.DirectionTo(goalPosition);
@@ -227,7 +235,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             else
             {
                 // Slow down the minion if closer to the player
-                speed = 4f;
+                speed = 6f;
                 inertia = 40f;
             }
 
@@ -242,7 +250,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
         }
 
-        public void StateAttack()
+        private void StateAttack()
         {
             if (foundTarget == null || foundTarget.life <= 0)
             {
@@ -252,6 +260,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 return;
             }
 
+            var droneMP = GetOwnerModPlayer<PearlDronePlayer>();
+
+            // Movement
             Vector2 goalPosition;
             if (Collision.CanHitLine(foundTarget.Center + new Vector2(0, -100), Projectile.width, Projectile.height, foundTarget.Center, 1, 1))
             {
@@ -265,13 +276,32 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             var distanceToTarget = Vector2.Distance(Projectile.Center, foundTarget.Center);
             var goalDirection = Projectile.Center.DirectionTo(goalPosition);
 
-            float speed = 12f;
-            float inertia = 45f;
+            float speed;
+            float inertia;
+
+            switch (droneMP.PowerLevel)
+            {
+                case 2:
+                    speed = 16f;
+                    inertia = 30f;
+                    break;
+                case 3:
+                    speed = 20f;
+                    inertia = 25f;
+                    break;
+                case 4:
+                    speed = 24f;
+                    inertia = 20f;
+                    break;
+                default:
+                    speed = 12f;
+                    inertia = 40f;
+                    break;
+            }
 
             Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * speed) / inertia;
 
-            var droneMP = GetOwnerModPlayer<PearlDronePlayer>();
-
+            // Attacks
             if (sprinklerCooldown <= 0)
             {
                 sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
@@ -289,6 +319,36 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
                     droneMP.GetBurstBombDamage());
+            }
+        }
+
+        private void StateDropItem()
+        {
+            var goalPosition = GetOwner().Center + new Vector2(GetOwner().direction, -60);
+            var distanceToGoal = Vector2.Distance(Projectile.Center, goalPosition);
+            var goalDirection = Projectile.Center.DirectionTo(goalPosition);
+
+            if (distanceToGoal > 40)
+            {
+                var inertia = 40f;
+                Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * distanceToGoal / 15) / inertia;
+            }
+            else
+            {
+                Projectile.velocity *= 0.9f;
+            }
+
+            if (!hasDroppedItem && distanceToGoal < 80 && IsThisClientTheProjectileOwner())
+            {
+                timeSpentInState = 0;
+                hasDroppedItem = true;
+
+                SpawnHearts();
+            }
+
+            if (hasDroppedItem && timeSpentInState >= 60)
+            {
+                SetState(stateFollowPlayer);
             }
         }
 
@@ -396,27 +456,106 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
         }
 
+        private void SpawnHearts()
+        {
+            int heartCount = 0;
+
+            if (GetOwner().statLife < GetOwner().statLifeMax2 * 0.25f)
+            {
+                heartCount = 5;
+                healCooldown = healCooldownMax;
+            }
+            else if (GetOwner().statLife < GetOwner().statLifeMax2 * 0.5f)
+            {
+                heartCount = 3;
+                healCooldown = (int)(healCooldownMax * 0.75f);
+            }
+            else
+            {
+                heartCount = 1;
+                healCooldown = (int)(healCooldownMax * 0.5f);
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center,
+                    Type: DustID.FireworksRGB,
+                    Velocity: Main.rand.NextVector2CircularEdge(8, 8),
+                    newColor: Color.HotPink,
+                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                d.noGravity = true;
+                d.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
+            }
+
+            for (int i = 0; i < heartCount; i++)
+            {
+                Item.NewItem(Player.GetSource_None(), Projectile.Center, ItemID.Heart);
+            }
+        }
+
         #region Speech methods
+
+        private void PlaySpeechSample(string sample, int amountOfVariations)
+        {
+            SoundHelper.PlayAudio(sample + Main.rand.Next(1, amountOfVariations + 1).ToString(), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
+        }
+
+        public void TriggerDialoguePearlAppears()
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            if (IsOwnerAnIrlFriend())
+            {
+                Speak(MemeSpawnQuotes());
+            }
+            else
+            {
+                Speak(NormalSpawnQuotes());
+            }
+
+            PlaySpeechSample(shoutSample, shoutSampleCount);
+        }
+
+        public void TriggerDialoguePearlHealing()
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            if (Main.rand.NextBool(3))
+            {
+                var list = PearlGivesHealingQuotes();
+                if (list.Count == 0) return;
+
+                Speak(list);
+                PlaySpeechSample(talkSample, talkSampleCount);
+            }
+        }
 
         public void TriggerDialoguePlayerKillsNpc(NPC npc)
         {
+            if (speechCooldownCurrent > 0) return;
+
             if (Main.rand.NextBool(10))
             {
                 var list = PlayerGetsKillQuotes(npc);
                 if (list.Count == 0) return;
 
                 Speak(list);
+                PlaySpeechSample(talkSample, talkSampleCount);
             }
         }
 
         public void TriggerDialoguePearlKillsNpc(NPC npc)
         {
+            if (speechCooldownCurrent > 0) return;
+
             if (Main.rand.NextBool(10))
             {
                 var list = PearlGetsKillQuotes(npc);
                 if (list.Count == 0) return;
 
                 Speak(list);
+                PlaySpeechSample(talkSample, talkSampleCount);
             }
         }
 
@@ -425,7 +564,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (speechCooldownCurrent > 0) return;
             speechCooldownCurrent = speechCooldownMax;
             speechText = message;
-            speechDisplayTime = 60 + message.Length * 5;
+            speechDisplayTime = 90 + message.Length * 5;
         }
 
         private void Speak(List<string> messages)
@@ -543,16 +682,15 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             return strings;
         }
 
-        private List<string> PearlGivesHealing()
+        private List<string> PearlGivesHealingQuotes()
         {
             return new List<string>
             {
                 $"Have this, {GetOwner().name}!",
                 $"Chin up, {GetOwner().name}!",
                 "I gotchu!",
-                "Get yo life up!",
-                "Marina told me to give you this!",
-                $"I need you alive and well, {GetOwner().name}!",
+                "Get a life!",
+                "This one's from Marina!",
             };
         }
 
