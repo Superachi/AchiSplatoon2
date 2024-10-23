@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override float BaseWeaponUseTime => 18f;
         public override int SwingArc => 160;
         public override int WindupTime => 26;
-        public override float RollMoveSpeedBonus => 1.4f;
+        public override float RollMoveSpeedBonus => 1.6f;
 
         public override void SetDefaults()
         {
