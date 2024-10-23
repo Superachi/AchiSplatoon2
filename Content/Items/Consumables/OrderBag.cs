@@ -62,24 +62,13 @@ namespace AchiSplatoon2.Content.Items.Consumables
                 ModContent.ItemType<OrderBrella>(),
             };
 
-            var chips = new List<int>
-            {
-                ModContent.ItemType<ColorChipRed>(),
-                ModContent.ItemType<ColorChipBlue>(),
-                ModContent.ItemType<ColorChipYellow>(),
-                ModContent.ItemType<ColorChipPurple>(),
-                ModContent.ItemType<ColorChipGreen>()
-            };
-
-            int firstWeapon = Main.rand.NextFromCollection<int>(weapons);
+            int chosenWeapon = Main.rand.NextFromCollection<int>(weapons);
 
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), firstWeapon);
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), chosenWeapon);
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SplatBomb>(), 10);
 
-            int chosenChip = Main.rand.NextFromCollection<int>(chips);
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), chosenChip);
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipEmpty>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipAqua>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ChipPalette>());
         }
     }
