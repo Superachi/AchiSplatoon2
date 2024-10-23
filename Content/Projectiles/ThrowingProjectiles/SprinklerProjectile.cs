@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
-            Projectile.ArmorPenetration = 10;
+            Projectile.ArmorPenetration = 5;
             AIType = ProjectileID.Bullet;
         }
 

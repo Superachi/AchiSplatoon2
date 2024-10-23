@@ -52,24 +52,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
         private void SpawnOrderWeapons(Player player)
         {
-            var weapons = new List<int>
-            {
-                ModContent.ItemType<OrderBrush>(),
-                ModContent.ItemType<OrderCharger>(),
-                ModContent.ItemType<OrderStringer>(),
-                ModContent.ItemType<OrderRoller>(),
-                ModContent.ItemType<OrderBlaster>(),
-                ModContent.ItemType<OrderBrella>(),
-            };
-
-            int chosenWeapon = Main.rand.NextFromCollection<int>(weapons);
-
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), chosenWeapon);
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SplatBomb>(), 10);
 
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipAqua>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ChipPalette>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipAqua>());
         }
     }
 }
