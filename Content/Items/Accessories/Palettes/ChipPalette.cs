@@ -157,10 +157,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     }
                     if (aqua > 0)
                     {
-                        var droneLevel = player.GetModPlayer<PearlDronePlayer>().PowerLevel;
                         t.Text += $"\n[{ChipColor(InkColor.Aqua)}Drone ({aqua}) >]" +
-                            $"\n[{textColorGray}Pearl Drone attack speed: +{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%]" +
-                            $"\n[{textColorGray}Power level: {droneLevel}]";
+                            $"\n[{textColorGray}Pearl Drone attack speed: +{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%]";
                     }
                 }
                 else
