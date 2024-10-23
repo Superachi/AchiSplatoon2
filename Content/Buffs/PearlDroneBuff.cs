@@ -1,6 +1,7 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
+using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Buffs
 {
@@ -24,6 +25,28 @@ namespace AchiSplatoon2.Content.Buffs
                 player.DelBuff(buffIndex);
                 buffIndex--;
             }
+        }
+
+        public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
+        {
+            var player = Main.LocalPlayer;
+            var dronePlayer = player.GetModPlayer<PearlDronePlayer>();
+            var weaponPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var summonDamageBonus = (int)((player.GetDamage(DamageClass.Summon).ApplyTo(1) - 1) * 100);
+
+            string tooltip = $"Power level: { dronePlayer.PowerLevel}\n";
+
+            if (weaponPlayer.IsPaletteValid())
+            {
+                tooltip += $"Attack speed bonus: {(int)((weaponPlayer.CalculateDroneAttackCooldownReduction()) * 100)}%\n";
+            }
+
+            if (summonDamageBonus > 0)
+            {
+                tooltip += $"Summoning damage bonus: {summonDamageBonus}%";
+            }
+
+            tip = tooltip;
         }
     }
 }
