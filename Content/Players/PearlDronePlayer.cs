@@ -177,7 +177,7 @@ namespace AchiSplatoon2.Content.Players
             var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
             if (!isDroneActive)
             {
-                if (wepMP.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
+                if (wepMP.IsPaletteValid() && wepMP.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
                 {
                     if (GetPlayerDrone() == null)
                     {
@@ -204,7 +204,7 @@ namespace AchiSplatoon2.Content.Players
             }
             else
             {
-                if (wepMP.ColorChipAmounts[(int)ChipColor.Aqua] == 0 || !Player.HasBuff<PearlDroneBuff>())
+                if (!wepMP.IsPaletteValid() || wepMP.ColorChipAmounts[(int)ChipColor.Aqua] == 0)
                 {
                     var drone = GetPlayerDrone();
                     if (drone != null)
