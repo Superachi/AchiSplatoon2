@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 6f;
-            Item.value = Item.buyPrice(gold: 5);
+            Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;
         }
 
@@ -42,6 +42,23 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             recipe.AddIngredient(ItemID.GelBalloon, 15);
             recipe.AddIngredient(ItemID.PinkGel, 5);
             recipe.Register();
+        }
+
+        public override bool AllowPrefix(int pre)
+        {
+            switch (pre)
+            {
+                case PrefixID.Quick:
+                case PrefixID.Agile:
+                case PrefixID.Nimble:
+                case PrefixID.Rapid:
+                case PrefixID.Hasty:
+                case PrefixID.Lethargic:
+                case PrefixID.Awkward:
+                    return true;
+            }
+
+            return false;
         }
     }
 }

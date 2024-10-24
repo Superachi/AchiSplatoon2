@@ -8,8 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class DarkTetraDualie : SplatDualie
     {
-        public override float ShotGravity { get => 0.15f; }
-        public override int ShotGravityDelay { get => 30; }
+        public override float ShotGravity { get => 0.2f; }
+        public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 3; }
         public override float AimDeviation { get => 6f; }
         public override string ShootSample { get => "SplatlingShoot"; }

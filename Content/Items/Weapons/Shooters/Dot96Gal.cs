@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
@@ -29,8 +30,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 62;
             Item.height = 32;
             Item.knockBack = 8f;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.buyPrice(gold: 20);
+            Item.rare = ItemRarityID.LightPurple;
         }
 
         public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<Dot52Gal>());

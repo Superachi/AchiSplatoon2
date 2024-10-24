@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 64;
             Item.height = 36;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 15);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
         }
 
