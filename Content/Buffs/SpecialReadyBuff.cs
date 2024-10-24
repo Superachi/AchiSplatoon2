@@ -12,7 +12,6 @@ namespace AchiSplatoon2.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
             Main.buffNoSave[buffIndex] = true;
         }
 

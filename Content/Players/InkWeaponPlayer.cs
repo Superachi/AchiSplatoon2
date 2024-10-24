@@ -92,6 +92,11 @@ namespace AchiSplatoon2.Content.Players
             if (CustomWeaponCooldown > 0) CustomWeaponCooldown--;
             if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
 
+            if (!Player.HasBuff<SpecialReadyBuff>())
+            {
+                ResetSpecialStats();
+            }
+
             // Emit dusts when special is ready
             if (SpecialReady)
             {
@@ -341,7 +346,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (SpecialPoints == SpecialPointsMax && !SpecialReady)
             {
-                Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
+                Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 60 * 30);
                 CombatTextHelper.DisplayText("SPECIAL CHARGED!", Player.Center, color: new Color(255, 155, 0));
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;

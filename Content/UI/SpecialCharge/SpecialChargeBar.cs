@@ -74,6 +74,8 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             int right = hitbox.Right;
             int steps = (int)((right - left) * quotient);
             barColor = modPlayer.ColorFromChips;
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.Left, hitbox.Y, (int)(hitbox.Width), hitbox.Height), new Color(0, 0, 0, 0.3f));
+            spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.Left, hitbox.Y, (int)(hitbox.Width * quotient), hitbox.Height), Color.Black);
             spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(hitbox.Left, hitbox.Y, (int)(hitbox.Width * quotient), hitbox.Height), barColor);
         }
 
