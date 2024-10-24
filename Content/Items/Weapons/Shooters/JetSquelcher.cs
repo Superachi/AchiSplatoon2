@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
 
-            Item.damage = 26;
+            Item.damage = 32;
             Item.width = 64;
             Item.height = 36;
             Item.knockBack = 3;
@@ -24,6 +24,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipeTitanium();
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofSight);
     }
 }

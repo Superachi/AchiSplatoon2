@@ -27,6 +27,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true);
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
     }
 }

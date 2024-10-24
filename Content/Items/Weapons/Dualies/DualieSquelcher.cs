@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -35,7 +36,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 6,
                 shotVelocity: 6f);
 
-            Item.damage = 32;
+            Item.damage = 36;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 3f;
@@ -43,6 +44,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
+        public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<JetSquelcher>());
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs
 {
@@ -26,6 +27,13 @@ namespace AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs
             }
 
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<DroneDiscBase>()
+                .AddTile(TileID.DemonAltar);
         }
     }
 }

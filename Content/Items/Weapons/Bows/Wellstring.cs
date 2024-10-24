@@ -31,6 +31,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofSight);
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofMight);
     }
 }
