@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
@@ -16,11 +17,18 @@ namespace AchiSplatoon2.Content.GlobalItems
         {
             if (item.type == ItemID.KingSlimeBossBag)
             {
-                ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>(), chanceDenominator: 3);
+                ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>());
+            }
+
+            if (item.type == ItemID.EyeOfCthulhuBossBag)
+            {
+                ItemDropRule.Common(ModContent.ItemType<DroneDiscA>());
             }
 
             if (item.type == ItemID.WallOfFleshBossBag)
             {
+                ItemDropRule.Common(ModContent.ItemType<DroneDiscB>());
+
                 itemLoot.Add(
                     ItemDropRule.OneFromOptions(
                         1,
@@ -37,6 +45,11 @@ namespace AchiSplatoon2.Content.GlobalItems
                         ModContent.ItemType<SplashOMatic>()
                     )
                 );
+            }
+
+            if (item.type == ItemID.PlanteraBossBag)
+            {
+                ItemDropRule.Common(ModContent.ItemType<DroneDiscC>());
             }
 
             if (item.type == ItemID.FairyQueenBossBag)
