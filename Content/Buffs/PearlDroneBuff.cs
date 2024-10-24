@@ -66,6 +66,9 @@ namespace AchiSplatoon2.Content.Buffs
             {
                 tooltip += ColorHelper.TextWithSpecialWeaponColor("Inkstrike") + $" ({dronePlayer.MinimumChipsForInkStrike}+ chips)" + "\n";
             }
+            tooltip += "\n";
+
+            tooltip += ColorHelper.TextWithPearlColor("Damage dealt by this summon:") + $" {dronePlayer.DamageDealt}" + "\n";
 
             tip = tooltip;
         }

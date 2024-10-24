@@ -415,17 +415,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (target.life <= 0)
             {
-                var pdMP = GetOwnerModPlayer<PearlDronePlayer>();
-                if (parentProjectile != null && parentProjectile.ModProjectile is PearlDroneMinion)
-                {
-                    pdMP.TriggerDialoguePearlKillsNpc(target);
-
-                }
-                else
-                {
-                    pdMP.TriggerDialoguePlayerKillsNpc(target);
-                }
-
                 if (!IsTargetEnemy(target)) return;
 
                 var owner = GetOwner();

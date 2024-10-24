@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
@@ -30,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private int speechDisplayTime = 0;
         private float speechScale = 0f;
         private string speechText = "";
+        private string ownerName = "";
 
         private string shoutSample = $"Voice\\Pearl\\Shout";
         private int shoutSampleCount = 3;
@@ -39,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private int sprinklerCooldown;
         private int sprinklerCooldownMax = 20;
         private int burstBombCooldown;
-        private int burstBombCooldownMax = 300;
+        private int burstBombCooldownMax = 600;
         private int healCooldown;
         private int healCooldownMax = 7200;
 
@@ -93,6 +95,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             sprinklerCooldown = sprinklerCooldownMax;
             burstBombCooldown = burstBombCooldownMax;
             healCooldown = healCooldownMax;
+            ownerName = GetOwner().name;
         }
 
         protected override void SetState(int targetState)
@@ -316,7 +319,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (sprinklerCooldown <= 0)
             {
                 sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
-                SprinklerProjectile p = CreateChildProjectile<SprinklerProjectile>(
+                SprinklerProjectile p = CreateChildProjectile<PearlDroneSprinklerProjectile>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
                     droneMP.GetSprinklerDamage());
@@ -589,13 +592,27 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
         }
 
+        public void TriggerDialoguePlayerActivatesSpecial(int specialItemId)
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            if (Main.rand.NextBool(2))
+            {
+                var list = PlayerActivatesSpecial(specialItemId);
+                if (list.Count == 0) return;
+
+                Speak(list);
+                PlaySpeechSample(talkSample, talkSampleCount);
+            }
+        }
+
         private void Speak(string message)
         {
             speechCooldownCurrent = speechCooldownMax;
             speechText = message;
             speechDisplayTime = 90 + message.Length * 5;
 
-            Main.NewText("<Pearl> " + message, Color.HotPink);
+            ChatHelper.SendChatToThisClient("<Pearl> " + message, Color.HotPink);
         }
 
         private void Speak(List<string> messages)
@@ -613,9 +630,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             return new List<string>
             {
                 "Don't get cooked, stay off the hook!",
-                $"Wassup {GetOwner().name}!",
-                $"What's good {GetOwner().name}?",
-                $"Yo {GetOwner().name}!",
+                $"Wassup {ownerName}!",
+                $"What's good {ownerName}?",
+                $"Yo {ownerName}!",
                 "Booyah!",
                 "'Sup!",
                 "Yo yo! MC Princess on the mic!",
@@ -630,23 +647,29 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private List<string> IdleQuotes()
         {
+            // General dialogue
+            var owner = GetOwner();
             var strings = new List<string>
             {
                 "Uuuuugh, I'm booored!",
-                $"I miss my wife, {GetOwner().name}.",
+                $"I miss my wife, {ownerName}.",
                 "Ay, wake yo sleepy head up!",
                 "Man, is there nuthin' to do?",
                 "Dude, what's taking so long?",
                 "Y'know, being a drone ain't all that bad.",
                 "I wonder how Eight is doin'.",
-                $"Yo! You good, {GetOwner().name}?",
+                $"Yo! You good, {ownerName}?",
                 "Dang, is the gameplay always this slow?",
                 "...I'm gonna go play Squid Beatz. Shout if ya need me.",
                 "Sure is boring around here!",
-                "Check out SimonTendo's Lethal Company mods sometime. They're the hype!",
+                "...",
+                "I'm gonna grab some water-- wait...",
+
+                "Dude, you should play Lethal Company with SimonTendo's mods sometime. It's good stuff.",
             };
 
-            var heldItem = GetOwner().HeldItem.ModItem;
+            // Weapon based dialogue
+            var heldItem = owner.HeldItem.ModItem;
             switch (heldItem)
             {
                 case BaseDualie:
@@ -657,16 +680,42 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                         strings.Add("Yo, can I borrow those dualies sometime?");
                     }
 
-                    strings.Add("You like dualies too? Shell yeah!");
+                    strings.Add("You like dualies too? Ohhh yeah!");
+                    strings.Add("Not to brag, but I'm kiiinda goated with the dualies. You can be the second best.");
                     break;
 
                 case BaseBrella:
                     strings.Add("Talk with 'Rina sometime, she loooves brellas.");
+
+                    if (owner.ZoneRain)
+                    {
+                        strings.Add("Good thing you have a brella, this weather suuucks.");
+                    }
                     break;
 
                 case EelSplatana:
                     strings.Add("You think Frye names each of her eels?");
                     break;
+            }
+
+            // Area based dialogue
+            if (owner.ZoneNormalUnderground || owner.ZoneNormalCaverns)
+            {
+                strings.Add("Mining away...");
+            }
+            else if (owner.ZoneCorrupt || owner.ZoneCrimson)
+            {
+                strings.Add($"Not gonna lie, {ownerName}, I'm not digging the vibes here.");
+                strings.Add($"Why's everything so creepy and gross here?");
+            }
+            else if (owner.ZoneDungeon)
+            {
+                strings.Add($"What's it like to have bones, {ownerName}?");
+            }
+            else if (owner.ZoneGraveyard)
+            {
+                strings.Add($"Good thing you can respawn, {ownerName}. You need it.");
+                strings.Add("Cod damn, I'm feeling like a dead fish around these parts.");
             }
 
             return strings;
@@ -684,7 +733,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     break;
 
                 case NPCID.Shark:
-                    strings.Add("Don't tell Shiver what you just did.");
+                    strings.Add("...Don't tell Shiver what you just did.");
                     break;
             }
 
@@ -703,8 +752,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "How's that!",
                 "K.O!",
                 "Oh yeah!",
-                $"See my moves, {GetOwner().name}?",
-                $"Check me out, {GetOwner().name}!",
+                "I'm straight up fishious!",
+                $"See my moves, {ownerName}?",
+                $"Check me out, {ownerName}!",
             };
 
             return strings;
@@ -714,13 +764,42 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         {
             return new List<string>
             {
-                $"Have this, {GetOwner().name}!",
+                $"Have this, {ownerName}!",
                 "I gotchu!",
                 "Careful!",
                 "Need a heal?",
                 "This way! Heal!",
                 "Get a life!",
+                "Heal up!",
             };
+        }
+
+        private List<string> PlayerActivatesSpecial(int specialItemId)
+        {
+            var strings = new List<string>();
+
+            if (specialItemId == ModContent.ItemType<TrizookaSpecial>())
+            {
+                strings.Add("Fire away!");
+                strings.Add("BOOM! BOOM! BOOM!");
+                strings.Add("React to that, chumps!");
+            }
+
+            if (specialItemId == ModContent.ItemType<KillerWail>())
+            {
+                strings.Add("Get your vocal chords ready!");
+                strings.Add("Hey, that's my move!");
+                strings.Add("Final smash!");
+            }
+
+            if (specialItemId == ModContent.ItemType<UltraStamp>())
+            {
+                strings.Add($"Squash them, {ownerName}!");
+                strings.Add($"Hammerhead time!");
+                strings.Add($"Sic 'em, {ownerName}!");
+            }
+
+            return strings;
         }
 
         #endregion
@@ -729,21 +808,21 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private bool IsOwnerAnIrlFriend()
         {
-            string ownerName = GetOwner().name.ToLower();
-            return ownerName.Equals("isa")
-                || ownerName.Equals("isey")
-                || ownerName.Equals("joel")
-                || ownerName.Equals("fieryice")
-                || ownerName.Equals("daan")
-                || ownerName.Equals("daanbanaan")
-                || ownerName.Equals("mrbraadworst")
-                || ownerName.Equals("hanna")
-                || ownerName.Equals("fenneathalia");
+            string name = ownerName.ToLower();
+            return name.Equals("isa")
+                || name.Equals("isey")
+                || name.Equals("joel")
+                || name.Equals("fieryice")
+                || name.Equals("daan")
+                || name.Equals("daanbanaan")
+                || name.Equals("mrbraadworst")
+                || name.Equals("hanna")
+                || name.Equals("fenneathalia");
         }
 
         private List<string> MemeSpawnQuotes()
         {
-            var name = GetOwner().name.ToLower();
+            var name = ownerName.ToLower();
             if (name.Equals("isa") || name.Equals("isey"))
             {
                 return new List<string>

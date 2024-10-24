@@ -370,12 +370,18 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        public void ActivateSpecial(float drainSpeed, string specialName)
+        public void ActivateSpecial(float drainSpeed, Item special)
         {
             if (!DoesModPlayerBelongToLocalClient()) return;
             if (!IsSpecialActive)
             {
-                SpecialName = specialName;
+                if (SpecialPoints == SpecialPointsMax)
+                {
+                    var dronePlayer = Player.GetModPlayer<PearlDronePlayer>();
+                    dronePlayer.TriggerDialoguePlayerActivatesSpecial(special.type);
+                }
+
+                SpecialName = special.Name;
                 IsSpecialActive = true;
                 SpecialDrain = drainSpeed;
             }

@@ -272,7 +272,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 }
 
                 modPlayer.DrainSpecial(SpecialDrainPerUse);
-                modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem.Name);
+                modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem);
                 return true;
             }
         }

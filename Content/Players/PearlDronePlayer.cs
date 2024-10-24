@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Players
     {
         // Level mechanics
         public int PowerLevel { get; private set; } = 1;
-        private int LevelCap = 4;
+        private int levelCap = 4;
         private List<string> usedDroneDiscs = new();
 
         // Attack stats
@@ -37,6 +37,18 @@ namespace AchiSplatoon2.Content.Players
         private bool isDroneActive = false;
         private string droneName = "Pearl Drone";
 
+        // Usage stats
+        public int DamageDealt => damageDealt;
+        private int damageDealt = 0;
+
+        public override void PreUpdate()
+        {
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
+            UpdateDroneExistence();
+        }
+
+        #region Saving/loading
+
         public override void SaveData(TagCompound tag)
         {
             tag["dronePowerLevel"] = PowerLevel;
@@ -49,11 +61,9 @@ namespace AchiSplatoon2.Content.Players
             usedDroneDiscs = (List<string>)tag.GetList<string>("usedDroneDiscs");
         }
 
-        public override void PreUpdate()
-        {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
-            UpdateDroneExistence();
-        }
+        #endregion
+
+        #region Leveling
 
         public bool CheckIfDiscCanBeUsed(DroneDiscBase disc)
         {
@@ -63,7 +73,7 @@ namespace AchiSplatoon2.Content.Players
                 return false;
             }
 
-            if (PowerLevel + 1 > LevelCap)
+            if (PowerLevel + 1 > levelCap)
             {
                 Main.NewText($"{droneName}'s level is maxed out (level {PowerLevel}).", Color.Pink);
                 return false;
@@ -99,6 +109,8 @@ namespace AchiSplatoon2.Content.Players
             // Todo: apply visual effect to pearl and make her say something
         }
 
+        #endregion
+
         public bool DoesPlayerHavePearlDrone()
         {
             return Player.ownedProjectileCounts[ModContent.ProjectileType<PearlDroneMinion>()] > 0;
@@ -118,6 +130,19 @@ namespace AchiSplatoon2.Content.Players
 
             return null;
         }
+
+        public int GetDroneChipCount()
+        {
+            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
+            return wepMP.ColorChipAmounts[(int)ChipColor.Aqua];
+        }
+
+        public void AddDamageDealtStatistic(int damage)
+        {
+            damageDealt += damage;
+        }
+
+        #region Damage calcs
 
         public int GetSprinklerDamage()
         {
@@ -179,26 +204,40 @@ namespace AchiSplatoon2.Content.Players
             return modifier;
         }
 
-        public int GetDroneChipCount()
+        private float GetDroneAttackCooldownReduction()
         {
             var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.ColorChipAmounts[(int)ChipColor.Aqua];
+            return wepMP.CalculateDroneAttackCooldownReduction();
         }
+
+        #endregion
+
+        #region Dialogue triggers
 
         public void TriggerDialoguePlayerKillsNpc(NPC npc)
         {
-            var drone = GetPlayerDrone();
-            if (drone == null) return;
-
-            drone.TriggerDialoguePlayerKillsNpc(npc);
+            if (!DroneExists(out var drone)) return;
+            drone!.TriggerDialoguePlayerKillsNpc(npc);
         }
 
         public void TriggerDialoguePearlKillsNpc(NPC npc)
         {
-            var drone = GetPlayerDrone();
-            if (drone == null) return;
+            if (!DroneExists(out var drone)) return;
+            drone!.TriggerDialoguePearlKillsNpc(npc);
+        }
 
-            drone.TriggerDialoguePearlKillsNpc(npc);
+        public void TriggerDialoguePlayerActivatesSpecial(int heldItemId)
+        {
+            if (!DroneExists(out var drone)) return;
+            drone!.TriggerDialoguePlayerActivatesSpecial(heldItemId);
+        }
+
+        #endregion
+
+        private bool DroneExists(out PearlDroneMinion? drone)
+        {
+            drone = GetPlayerDrone();
+            return drone != null;
         }
 
         private void UpdateDroneExistence()
@@ -242,15 +281,11 @@ namespace AchiSplatoon2.Content.Players
                     {
                         drone.Projectile.Kill();
                     }
+
+                    damageDealt = 0;
                     isDroneActive = false;
                 }
             }
-        }
-
-        private float GetDroneAttackCooldownReduction()
-        {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.CalculateDroneAttackCooldownReduction();
         }
     }
 }
