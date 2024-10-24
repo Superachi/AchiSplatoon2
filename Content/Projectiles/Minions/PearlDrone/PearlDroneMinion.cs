@@ -342,7 +342,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (distanceToGoal > 40)
             {
                 var inertia = 40f;
-                Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * distanceToGoal / 15) / inertia;
+                Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * distanceToGoal / 10) / inertia;
             }
             else
             {
@@ -375,15 +375,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             if (speechDisplayTime > 0)
             {
-                var scaleAmount = 1f;
-                if (speechText.Length < 20)
+                if (speechScale < 1)
                 {
-                    scaleAmount = 1.5f;
-                }
-
-                if (speechScale < scaleAmount)
-                {
-                    speechScale = MathHelper.Lerp(speechScale, scaleAmount, 0.2f);
+                    speechScale = MathHelper.Lerp(speechScale, 1, 0.2f);
                 }
             }
 
@@ -600,6 +594,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             speechCooldownCurrent = speechCooldownMax;
             speechText = message;
             speechDisplayTime = 90 + message.Length * 5;
+
+            Main.NewText("<Pearl> " + message, Color.HotPink);
         }
 
         private void Speak(List<string> messages)
@@ -625,10 +621,10 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "Yo yo! MC Princess on the mic!",
                 "MC Princess in the house!",
                 "Let's make some noise!",
-                "Yo! I'm never shook, 'cause I'm OFF THE HOOK!",
                 "Mic check, one-two!",
                 "Let's get KRAKEN!",
                 "NASTY! P#$&%!",
+                "We're so back!",
             };
         }
 
