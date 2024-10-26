@@ -14,9 +14,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
 
-        public override float ShotGravity { get => 0.5f; }
-        public override int ShotGravityDelay => 16;
-        public override float AimDeviation { get => 4f; }
+        public override float ShotGravity { get => 0.45f; }
+        public override int ShotGravityDelay => 12;
+        public override float AimDeviation { get => 6f; }
 
         public override void SetDefaults()
         {
