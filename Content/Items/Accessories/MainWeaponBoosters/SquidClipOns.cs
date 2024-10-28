@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class SquidClipOns : BaseWeaponBoosterAccessory
     {
-        public static float RollCooldownMult = 1.5f;
+        public static float RollCooldownMult = 2f;
         protected override string UsageHintParamA => 50.ToString();
 
         public override void SetDefaults()

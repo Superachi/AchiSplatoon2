@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     {
         public static float TerrainPierceDamageMod = 0.8f;
         public static float TerrainPierceVelocityMod = 0.2f;
-        public static float BaseCritChance = 15f;
+        public static float BaseCritChance = 5f;
         public static int TerrainMaxPierceCount = 5;
 
         protected override string UsageHintParamA => "";
@@ -31,15 +31,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
                 modPlayer.hasTentacleScope = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.BlackLens, 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.Register();
         }
     }
 }

@@ -1123,7 +1123,7 @@ Items: {
 	}
 
 	OrderBag: {
-		UsageHint: Gives you some weapons, a Palette and Color Chips
+		UsageHint: Gives you an Order Shot, a Palette and Color Chips
 		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
 		DisplayName: Order Starter Bag
 		Tooltip: Right click to open
@@ -1482,6 +1482,22 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.DroneDiscDowngrade.Flavor
 		DisplayName: Type-X Drone Downgrade Disc
 		Tooltip: ""
+	}
+
+	CorruptLootBag: {
+		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
+		DisplayName: Corrupt Splash Bag
+		Tooltip: Right click to open
+	}
+
+	CrimsonLootBag: {
+		DisplayName: Crimson Splash Bag
+		Tooltip: Right click to open
+	}
+
+	HallowedLootBag: {
+		DisplayName: Hallowed Splash Bag
+		Tooltip: Right click to open
 	}
 }
 

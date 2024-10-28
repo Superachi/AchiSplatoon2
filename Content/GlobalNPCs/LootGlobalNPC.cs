@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables;
+using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
@@ -141,9 +142,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicense>());
                     break;
                 case NPCID.Mimic:
-                case NPCID.BigMimicHallow:
-                case NPCID.BigMimicCrimson:
-                case NPCID.BigMimicCorruption:
                 case NPCID.QueenSlimeBoss:
                 case NPCID.TheDestroyer:
                 case NPCID.Retinazer:
@@ -180,6 +178,22 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
             }
 
+            // Large mimics
+            if (npc.type == NPCID.BigMimicHallow)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HallowedLootBag>()));
+            }
+
+            if (npc.type == NPCID.BigMimicCrimson)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimsonLootBag>()));
+            }
+
+            if (npc.type == NPCID.BigMimicCorruption)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CorruptLootBag>()));
+            }
+
             #region Dungeon (post-plantera)
 
             var dungeonDropChanceDenominator = 12;
@@ -190,10 +204,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     break;
                 case NPCID.TacticalSkeleton:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.BoneLee:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidClipOns>(), dungeonDropChanceDenominator));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PinkSponge>(), dungeonDropChanceDenominator));
                     break;
                 case NPCID.SkeletonCommando:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
@@ -224,10 +234,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 25));
                     break;
 
-                case NPCID.MourningWood:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FieryPaintCan>(), 10));
-                    break;
-
                 case NPCID.Pumpking:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
                     break;
@@ -248,10 +254,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 25));
                     break;
 
-                case NPCID.SantaNK1:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrayonBox>(), 10));
-                    break;
-
                 case NPCID.IceQueen:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
                     break;
@@ -268,7 +270,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 100));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 25));
             }
 
             #endregion

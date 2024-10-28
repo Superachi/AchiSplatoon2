@@ -49,7 +49,9 @@ namespace AchiSplatoon2.Content.GlobalItems
 
             if (item.type == ItemID.PlanteraBossBag)
             {
-                ItemDropRule.Common(ModContent.ItemType<DroneDiscC>());
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<DroneDiscC>())
+                );
             }
 
             if (item.type == ItemID.FairyQueenBossBag)

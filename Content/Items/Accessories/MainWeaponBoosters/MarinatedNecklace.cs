@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     internal class MarinatedNecklace : BaseWeaponBoosterAccessory
     {
         public static float RecoverTimeModifier = 2f;
-        public static float RecoverAttackSpeedModifier = 0.5f;
+        public static float RecoverAttackSpeedModifier = 0.6f;
 
         public override void SetDefaults()
         {
@@ -25,13 +25,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
                 modPlayer.hasMarinatedNecklace = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.Register();
         }
     }
 }

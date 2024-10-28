@@ -23,13 +23,5 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
                 modPlayer.hasFreshQuiver = true;
             }
         }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.MagicQuiver, 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.Register();
-        }
     }
 }
