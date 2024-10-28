@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
@@ -20,7 +21,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void AddRecipes()
         {
             var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.CrystalShard, 15);
+            recipe.AddIngredient(ModContent.ItemType<Splattershot>());
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.CrystalShard, 10);
             recipe.Register();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+using Microsoft.Extensions.Options;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -37,8 +38,22 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             CreateRecipe()
                 .AddTile(TileID.Anvils)
                 .AddIngredient(ModContent.ItemType<SheldonLicenseGold>())
+                .AddIngredient(ModContent.ItemType<OctoShot>())
                 .AddIngredient(ItemID.BrokenHeroSword)
-                .AddIngredient(ItemID.ShroomiteBar, 10)
+                .Register();
+
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
+                .AddIngredient(ModContent.ItemType<SheldonLicenseGold>())
+                .AddIngredient(ModContent.ItemType<ClassicSplattershotS1>())
+                .AddIngredient(ItemID.BrokenHeroSword)
+                .Register();
+
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
+                .AddIngredient(ModContent.ItemType<SheldonLicenseGold>())
+                .AddIngredient(ModContent.ItemType<ClassicSplattershotS2>())
+                .AddIngredient(ItemID.BrokenHeroSword)
                 .Register();
         }
     }

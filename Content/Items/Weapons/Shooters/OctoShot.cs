@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
@@ -22,7 +23,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        protected Recipe CraftingReqs() => AddRecipePostMechBoss(false, ItemID.SoulofFright);
+        protected Recipe CraftingReqs()
+        {
+            var recipe = AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ModContent.ItemType<TentatekSplattershot>())
+                .AddIngredient(ItemID.HallowedBar, 8);
+
+            return recipe;
+        }
 
         public override void AddRecipes()
         {
