@@ -153,9 +153,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 case NPCID.DukeFishron:
                 case NPCID.HallowBoss: // Empress of Light
                 case NPCID.Golem:
-                case NPCID.Pumpking:
-                case NPCID.SantaNK1:
-                case NPCID.IceQueen:
+                case NPCID.CultistBoss:
                     npcLoot.Add(notExpertRule);
                     AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
                     break;
@@ -226,9 +224,9 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             switch (npc.type)
             {
                 case NPCID.MourningWood:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 10));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 10));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 10));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 15));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 15));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 15));
                     break;
 
                 case NPCID.Pumpking:
@@ -243,11 +241,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             switch (npc.type)
             {
                 case NPCID.Everscream:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 20));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 10));
                     break;
 
                 case NPCID.SantaNK1:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 20));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 10));
                     break;
 
                 case NPCID.IceQueen:
