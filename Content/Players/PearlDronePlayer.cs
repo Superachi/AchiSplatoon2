@@ -190,10 +190,12 @@ namespace AchiSplatoon2.Content.Players
             return (int)baseDamage;
         }
 
-        private float GetSummonDamageModifier()
+        public float GetSummonDamageModifier()
         {
             var baseVal = 1f;
-            return Player.GetDamage(DamageClass.Summon).ApplyTo(baseVal);
+            baseVal = Player.GetDamage(DamageClass.Summon).ApplyTo(baseVal);
+            baseVal = Player.GetDamage(DamageClass.Generic).ApplyTo(baseVal);
+            return baseVal;
         }
 
         public float GetAttackCooldownModifier()

@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Buffs
             var player = Main.LocalPlayer;
             var dronePlayer = player.GetModPlayer<PearlDronePlayer>();
             var weaponPlayer = player.GetModPlayer<InkWeaponPlayer>();
-            var summonDamageBonus = (int)((player.GetDamage(DamageClass.Summon).ApplyTo(1) - 1) * 100);
+            var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
 
             if (!weaponPlayer.IsPaletteValid()) return;
 
