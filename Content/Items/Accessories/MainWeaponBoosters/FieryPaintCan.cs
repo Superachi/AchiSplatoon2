@@ -6,9 +6,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class FieryPaintCan : BaseWeaponBoosterAccessory
     {
-        public static float MissDamageModifier = 1.2f;
+        public static float MissDamageModifier = 1.3f;
         public static float MissRadiusModifier = 1.5f;
-        protected override string UsageHintParamA => ((MissDamageModifier - 1) * 100).ToString();
+        protected override string UsageHintParamA => ((int)((MissDamageModifier - 1) * 100)).ToString();
 
         public override void SetDefaults()
         {
