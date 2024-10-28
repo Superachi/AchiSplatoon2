@@ -179,10 +179,12 @@ namespace AchiSplatoon2.Content.Projectiles
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
 
+            int linewidth = 2;
             var lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
                 lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, 2f);
+                linewidth = 3;
             }
 
             Utils.DrawLine(
@@ -191,7 +193,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
                 new Color(initialColor.R, initialColor.G, initialColor.B, 0),
                 lineCol,
-                2f);
+                linewidth);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
