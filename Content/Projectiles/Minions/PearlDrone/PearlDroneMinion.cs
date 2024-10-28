@@ -99,8 +99,6 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
             if (GetOwner().numMinions > 0)
             {
-                ChatHelper.SendModNoticeToThisClient("Removing other summons, so that Pearl may have the spotlight. Sorry!", Color.Pink);
-
                 foreach (var projectile in Main.ActiveProjectiles)
                 {
                     if (projectile.minionSlots > 0

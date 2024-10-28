@@ -76,7 +76,7 @@ Hint: {
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
-	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity don't slow your movement afterwards"
+	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"
 	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
 	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
 	ThermalInkTank: Ink-based projectiles can pass through liquids

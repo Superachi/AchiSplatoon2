@@ -156,10 +156,10 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 2;
                     break;
                 case 3:
-                    baseDamage *= 5;
+                    baseDamage *= 4;
                     break;
                 case 4:
-                    baseDamage *= 8;
+                    baseDamage *= 6;
                     break;
             }
 
