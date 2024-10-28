@@ -54,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             Main.projPet[Projectile.type] = true;
 
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = false;
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
         }
 
@@ -96,6 +96,21 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             burstBombCooldown = burstBombCooldownMax;
             healCooldown = healCooldownMax;
             ownerName = GetOwner().name;
+
+            if (GetOwner().numMinions > 0)
+            {
+                ChatHelper.SendModNoticeToThisClient("Removing other summons, so that Pearl may have the spotlight. Sorry!", Color.Pink);
+
+                foreach (var projectile in Main.ActiveProjectiles)
+                {
+                    if (projectile.minionSlots > 0
+                        && projectile.identity != Projectile.identity
+                        && projectile.owner == Projectile.owner)
+                    {
+                        projectile.Kill();
+                    }
+                }
+            }
         }
 
         protected override void SetState(int targetState)
@@ -134,6 +149,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         public override void AI()
         {
+            Projectile.minionSlots = GetOwner().maxMinions;
+
             if (!CheckPlayerActive(GetOwner()))
             {
                 return;
@@ -396,7 +413,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             //Utils.DrawBorderString(Main.spriteBatch, $"Lv. {level}", Projectile.Center - Main.screenPosition + new Vector2(0, 32), Color.White, scale: 1f, anchorx: 0.5f, anchory: 0.5f);
 
             if (speechText.Length == 0) return;
-            Utils.DrawBorderString(Main.spriteBatch, speechText, Projectile.Center - Main.screenPosition + new Vector2(0, -50), Color.Pink, scale: speechScale, anchorx: 0.5f, anchory: 0.5f);
+            Utils.DrawBorderString(Main.spriteBatch, speechText, Projectile.Center - Main.screenPosition + new Vector2(0, -50), Color.HotPink, scale: speechScale, anchorx: 0.5f, anchory: 0.5f);
         }
 
         private bool CheckPlayerActive(Player owner)
