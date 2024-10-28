@@ -17,6 +17,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes() => AddRecipePumpkinMoon();
+        public override void AddRecipes()
+        {
+        }
     }
 }

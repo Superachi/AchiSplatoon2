@@ -202,7 +202,7 @@ namespace AchiSplatoon2.Content.Items
         protected Recipe AddRecipeGrizzco(int regularWeapon)
         {
             return AddRecipeWithSheldonLicenseGold(false)
-                .AddIngredient(ItemID.ChlorophyteBar, 8)
+                .AddIngredient(ItemID.ShroomiteBar, 8)
                 .AddIngredient(ItemID.IllegalGunParts, 1)
                 .AddIngredient(regularWeapon, 1)
                 .Register();

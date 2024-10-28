@@ -196,7 +196,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             #region Dungeon (post-plantera)
 
-            var dungeonDropChanceDenominator = 12;
+            var dungeonDropChanceDenominator = 8;
             switch (npc.type)
             {
                 case NPCID.SkeletonSniper:
@@ -215,8 +215,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 8));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 8));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 10));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 10));
             }
 
             #endregion
@@ -225,13 +225,10 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             switch (npc.type)
             {
-                case NPCID.Splinterling:
-                case NPCID.Hellhound:
-                case NPCID.Poltergeist:
-                case NPCID.HeadlessHorseman:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 25));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 25));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 25));
+                case NPCID.MourningWood:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 10));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 10));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 10));
                     break;
 
                 case NPCID.Pumpking:
@@ -245,13 +242,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             switch (npc.type)
             {
-                case NPCID.Nutcracker:
-                case NPCID.NutcrackerSpinning:
-                case NPCID.Yeti:
-                case NPCID.ElfCopter:
-                case NPCID.Krampus:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 25));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 25));
+                case NPCID.Everscream:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 20));
+                    break;
+
+                case NPCID.SantaNK1:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 20));
                     break;
 
                 case NPCID.IceQueen:

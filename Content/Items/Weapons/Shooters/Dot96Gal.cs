@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<Dot52GalProjectile>(),
-                singleShotTime: 12,
+                singleShotTime: 13,
                 shotVelocity: 9f);
 
             Item.damage = 96;
