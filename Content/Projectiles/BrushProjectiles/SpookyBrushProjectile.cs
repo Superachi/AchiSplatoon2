@@ -130,7 +130,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Vector2 origin = shotSprite.Size() / 2;
             float scale = 1 + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
-            Main.EntitySpriteDraw(shotSprite, position, null, currentColor, drawRotation, origin, scale + 0.6f, SpriteEffects.None);
+            Main.EntitySpriteDraw(shotSprite, position, null, new Color(currentColor.R, currentColor.G, currentColor.B, 0f), drawRotation, origin, scale + 0.6f, SpriteEffects.None);
             Main.EntitySpriteDraw(shotSprite, position, null, new Color(255, 255, 255, 0f), drawRotation, origin, scale + 0.4f, SpriteEffects.None);
         }
 
