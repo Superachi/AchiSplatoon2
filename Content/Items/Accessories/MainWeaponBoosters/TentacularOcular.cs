@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     {
         public static float TerrainPierceDamageMod = 0.8f;
         public static float TerrainPierceVelocityMod = 0.2f;
-        public static float BaseCritChance = 5f;
+        public static float BaseCritChance = 10f;
         public static int TerrainMaxPierceCount = 5;
 
         protected override string UsageHintParamA => "";

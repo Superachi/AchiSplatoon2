@@ -17,6 +17,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<RecycleBrella>());
+        public override void AddRecipes() => AddRecipePostPlanteraDungeon();
     }
 }
