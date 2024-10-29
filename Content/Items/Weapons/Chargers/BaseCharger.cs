@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System.Linq;
+using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
@@ -18,9 +19,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
             Item.noMelee = true;
             Item.channel = true;
             Item.crit = 5;
+        }
+
+        protected void SetItemUseTime()
+        {
+            Item.useTime = (int)ChargeTimeThresholds.Last() / 4;
+            if (Item.useTime < 12) Item.useTime = 12;
+
+            Item.useAnimation = Item.useTime;
         }
     }
 }

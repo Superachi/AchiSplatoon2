@@ -25,6 +25,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
                 projectileType: ModContent.ProjectileType<SplatChargerProjectile>(),
                 singleShotTime: 15,
                 shotVelocity: 12f);
+
+            SetItemUseTime();
             Item.damage = 52;
             Item.width = 82;
             Item.height = 26;

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Bows;
+﻿using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -8,9 +9,12 @@ using ReLogic.Utilities;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Markup;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -29,6 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float maxChargeTime;
         protected float[] chargeTimeThresholds = { 60f };
         protected bool chargeSlowerInAir = true;
+        private float prefixChargeSpeedModifier = 1f;
 
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
@@ -51,6 +56,12 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.ApplyWeaponInstanceData();
             chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                StatCalculationHelper.GetPrefixStats(GetOwner().HeldItem, out float _, out float _, out float speed, out float _, out float _, out float _, out float _);
+                prefixChargeSpeedModifier = 1 + (1f - speed);
+            }
         }
 
         public override void AfterSpawn()
@@ -75,7 +86,7 @@ namespace AchiSplatoon2.Content.Projectiles
             bool isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
 
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? 0.7f : 1f;
-            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier;
+            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
         }
 
         protected float MaxChargeTime()
@@ -193,20 +204,22 @@ namespace AchiSplatoon2.Content.Projectiles
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
 
+            var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
+
             int linewidth = 2;
             var lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
                 lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, 2f);
-                linewidth = 3;
+                linewidth = 4;
             }
 
             Utils.DrawLine(
                 spriteBatch,
-                GetOwner().Center,
+                GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 50,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
-                new Color(initialColor.R, initialColor.G, initialColor.B, 0),
-                lineCol,
+                new Color(initialColor.R, initialColor.G, initialColor.B, 0) * sinMult,
+                lineCol * sinMult,
                 linewidth);
 
             spriteBatch.End();

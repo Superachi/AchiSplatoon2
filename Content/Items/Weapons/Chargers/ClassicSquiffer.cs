@@ -23,6 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
                 singleShotTime: 12,
                 shotVelocity: 12f);
 
+            SetItemUseTime();
             Item.width = 90;
             Item.height = 26;
             Item.damage = 48;
