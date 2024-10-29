@@ -6,6 +6,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     internal class KensaSplatCharger : SplatCharger
     {
         public override float[] ChargeTimeThresholds { get => [48f]; }
+        public override bool SlowAerialCharge { get => false; }
 
         public override void SetDefaults()
         {

@@ -1,10 +1,15 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles
@@ -23,6 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         protected float maxChargeTime;
         protected float[] chargeTimeThresholds = { 60f };
+        protected bool chargeSlowerInAir = true;
 
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
@@ -41,12 +47,17 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = false;
         }
 
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
+        }
+
         public override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
-            PlayAudio(soundPath: "ChargeStart");
         }
 
         protected bool IsChargeMaxedOut()
@@ -61,7 +72,10 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
-            ChargeTime += 1f * chargeSpeedModifier;
+            bool isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
+
+            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? 0.7f : 1f;
+            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier;
         }
 
         protected float MaxChargeTime()

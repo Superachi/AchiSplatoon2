@@ -13,6 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override float RangeModifier => 0.15f;
         public override float MinPartialRange { get => 0.3f; }
         public override float MaxPartialRange { get => 0.6f; }
+        public override bool SlowAerialCharge { get => false; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();

@@ -13,6 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override string ShootSample { get => "Splatana/WiperStrongSlash"; }
         public override string ShootWeakSample { get => "Splatana/WiperWeakSlash"; }
         public virtual string ChargeSample { get => "Splatana/WiperCharge"; }
+        public override bool SlowAerialCharge { get => false; }
 
         // Splatana specific
         public virtual int BaseDamage { get => 5; }

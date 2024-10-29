@@ -62,6 +62,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         // Main weapon stats
         public virtual float AimDeviation { get => 0f; }
+        public virtual bool SlowAerialCharge { get => true; }
 
         // Sub weapon stats
         public virtual MainWeaponStyle WeaponStyle { get; set; } = MainWeaponStyle.Other;
