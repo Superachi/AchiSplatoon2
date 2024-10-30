@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Items.Consumables;
+﻿using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
@@ -246,6 +245,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
                 case NPCID.SantaNK1:
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 10));
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomHydraSplatling>(), 10));
                     break;
 
                 case NPCID.IceQueen:
