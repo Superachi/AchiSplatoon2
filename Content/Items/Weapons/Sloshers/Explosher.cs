@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.useAnimation = 30;
-            Item.damage = 280;
+            Item.damage = 240;
             Item.knockBack = 8;
 
             Item.value = Item.buyPrice(gold: 30);
