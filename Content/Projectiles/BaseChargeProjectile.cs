@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Markup;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,11 +33,15 @@ namespace AchiSplatoon2.Content.Projectiles
         }
         protected float maxChargeTime;
         protected float[] chargeTimeThresholds = { 60f };
-        protected bool chargeSlowerInAir = true;
+        private bool chargeSlowerInAir = true;
+        private bool isPlayerGrounded = true;
         private float prefixChargeSpeedModifier = 1f;
 
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
+
+        private Texture2D spriteChargeBar;
+        private float chargeBarBrightness = 0f;
 
         public override void SetDefaults()
         {
@@ -83,9 +88,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
-            bool isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
+            isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
 
-            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? 0.7f : 1f;
+            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? 0.6f : 1f;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
         }
 
@@ -133,7 +138,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (ChargeTime >= chargeTimeThresholds[chargeLevel] * FrameSpeed())
                 {
                     chargeLevel++;
-                    ChargeLevelDustBurst();
+                    ChargeLevelUpEffect();
 
                     PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
 
@@ -143,10 +148,6 @@ namespace AchiSplatoon2.Content.Projectiles
                     }
                 }
             }
-            else
-            {
-                MaxChargeDustStream();
-            }
 
             lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             SyncProjectilePosWithPlayer(owner);
@@ -154,19 +155,18 @@ namespace AchiSplatoon2.Content.Projectiles
             NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
-        protected void ChargeLevelDustBurst()
+        protected void ChargeLevelUpEffect()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
-            }
+            chargeBarBrightness = 1f;
         }
 
         protected void MaxChargeDustStream()
         {
             if (Main.rand.NextBool(50 * FrameSpeed()))
             {
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+                var d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.GoldCoin, 0, 0, 0, default, 1);
+                d.noLight = true;
+                d.noLightEmittence = true;
             }
         }
 
@@ -226,6 +226,57 @@ namespace AchiSplatoon2.Content.Projectiles
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
+        public override void PostDraw(Color lightColor)
+        {
+            if (!IsThisClientTheProjectileOwner()) return;
+            if (hasFired) return;
+
+            if (spriteChargeBar == null)
+            {
+                spriteChargeBar = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/WeaponCharge/ChargeUpBar").Value;
+                return;
+            }
+
+            // Draw gauge, animate a white flash when charge thresholds are met
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Vector2 position = GetOwner().Center - Main.screenPosition + new Vector2(0, 50 + GetOwner().gfxOffY);
+            Vector2 origin = spriteChargeBar.Size() / 2;
+
+            if (chargeBarBrightness > 0)
+            {
+                chargeBarBrightness -= 0.1f;
+            }
+
+            Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f + 0.2f);
+            Color color = new (initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(spriteChargeBar, new Vector2((int)position.X, (int)position.Y), null, Color.White, 0, origin, 1f, SpriteEffects.None);
+
+            var quotient = Math.Min(ChargeQuotient(), 1);
+            spriteBatch.Draw(
+                TextureAssets.MagicPixel.Value,
+                new Rectangle((int)position.X - (int)origin.X + 2,
+                (int)position.Y - 2,
+                (int)((spriteChargeBar.Size().X - 4) * quotient),
+                (int)spriteChargeBar.Size().Y - 4),
+                color);
+
+            // Darken the gauge when charge speed is reduced
+            if (!isPlayerGrounded && !IsChargeMaxedOut())
+            {
+                spriteBatch.Draw(
+                    TextureAssets.MagicPixel.Value,
+                    new Rectangle((int)position.X - (int)origin.X + 2,
+                    (int)position.Y - 2,
+                    (int)((spriteChargeBar.Size().X - 4) * quotient),
+                    (int)spriteChargeBar.Size().Y - 4),
+                    new Color(0, 0, 0, 0.5f));
+            }
+        }
+
         #region Netcode
         protected override void NetSendUpdateCharge(BinaryWriter writer)
         {
@@ -254,11 +305,6 @@ namespace AchiSplatoon2.Content.Projectiles
             if (chargeLevel != newChargeLevel)
             {
                 chargeLevel = newChargeLevel;
-                ChargeLevelDustBurst();
-            }
-            if (IsChargeMaxedOut())
-            {
-                MaxChargeDustStream();
             }
         }
         #endregion

@@ -130,7 +130,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
             var brellaLifePercentage = Math.Max(0, (int)(brellaMP.shieldLife / brellaMP.shieldLifeMax * 100));
 
-            Utils.DrawBorderString(Main.spriteBatch, $"{brellaLifePercentage}%", GetOwner().Center - Main.screenPosition + new Vector2(0, 60 + GetOwner().gfxOffY) , Color.White, anchorx: 0.5f);
+            var playerPos = GetOwner().Center;
+            Utils.DrawBorderString(
+                Main.spriteBatch, $"{brellaLifePercentage}%", new Vector2((int)playerPos.X, (int)playerPos.Y) - Main.screenPosition + new Vector2(0, 60 + GetOwner().gfxOffY),
+                Color.White,
+                anchorx: 0.5f);
         }
 
         protected virtual void BlockProjectileEffect(Projectile deflectedProjectile)
