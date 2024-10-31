@@ -265,7 +265,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 color);
 
             // Darken the gauge when charge speed is reduced
-            if (!isPlayerGrounded && !IsChargeMaxedOut())
+            if (!isPlayerGrounded && !IsChargeMaxedOut() && chargeSlowerInAir)
             {
                 spriteBatch.Draw(
                     TextureAssets.MagicPixel.Value,
