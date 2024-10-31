@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class IceStringerProjectile : TriStringerProjectile
     {
-        private int hitShrapnelCount = 8;
+        private int hitShrapnelCount = 5;
         private int hitShrapnelCooldown = 0;
         private int hitShrapnelCooldownMax = 6;
 
@@ -97,7 +97,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 var angleVector = radians.ToRotationVector2();
                 var velocity = Main.rand.NextFloat(minVelocity, maxVelocity);
 
-                CreateChildProjectile<IceStringerShrapnel>(Projectile.Center, angleVector * velocity, Projectile.damage / 2);
+                CreateChildProjectile<IceStringerShrapnel>(Projectile.Center, angleVector * velocity, Projectile.damage / 3);
             }
         }
     }
