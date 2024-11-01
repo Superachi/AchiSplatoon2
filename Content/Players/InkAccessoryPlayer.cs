@@ -36,6 +36,8 @@ namespace AchiSplatoon2.Content.Players
         public bool hasMarinatedNecklace;
         public bool hasThermalInkTank;
 
+        public bool hasChargedBattery;
+
         // Debug
         public bool hasDamageStabilizer;
 
@@ -95,6 +97,8 @@ namespace AchiSplatoon2.Content.Players
             hasPinkSponge = false;
             hasThermalInkTank = false;
             hasMarinatedNecklace = false;
+
+            hasChargedBattery = false;
 
             // Debug
             hasDamageStabilizer = false;

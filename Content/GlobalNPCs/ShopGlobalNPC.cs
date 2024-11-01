@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.CustomConditions;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Terraria;
@@ -19,6 +20,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 shop.Add<Sprinkler>(BossConditions.DownedEvilBoss);
                 shop.Add<InkMine>(BossConditions.DownedEvilBoss);
                 shop.Add<Torpedo>(Condition.Hardmode);
+            }
+
+            if (shop.NpcType == NPCID.Mechanic)
+            {
+                shop.Add<ChargedBattery>(Condition.DownedMechBossAny);
             }
 
             if (shop.NpcType == NPCID.Painter)

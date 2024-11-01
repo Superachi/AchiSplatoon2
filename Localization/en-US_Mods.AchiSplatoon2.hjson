@@ -82,6 +82,7 @@ Hint: {
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 	HypnoShades: Bombs used via the hotbar are thrown quicker
+	ChargedBattery: Main weapons that need charging will do so faster. They also fire automatically when fully charged
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -1504,6 +1505,13 @@ Items: {
 		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.CustomHydraSplatling.Flavor
 		DisplayName: Custom Hydra Splatling
+		Tooltip: ""
+	}
+
+	ChargedBattery: {
+		UsageHint: "{$Hint.ChargedBattery}"
+		Flavor: Mods.AchiSplatoon2.Items.ChargedBattery.Flavor
+		DisplayName: Charged Battery
 		Tooltip: ""
 	}
 }

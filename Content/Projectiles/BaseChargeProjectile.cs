@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
@@ -34,13 +35,15 @@ namespace AchiSplatoon2.Content.Projectiles
         protected float maxChargeTime;
         protected float[] chargeTimeThresholds = { 60f };
         private bool chargeSlowerInAir = true;
+        private float aerialChargeSpeedMod = 0.6f;
         private bool isPlayerGrounded = true;
         private float prefixChargeSpeedModifier = 1f;
+        private bool playerHasChargedBattery = false;
 
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
 
-        private Texture2D spriteChargeBar;
+        private Texture2D? spriteChargeBar;
         private float chargeBarBrightness = 0f;
 
         public override void SetDefaults()
@@ -61,6 +64,12 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.ApplyWeaponInstanceData();
             chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
+            playerHasChargedBattery = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasChargedBattery;
+            if (playerHasChargedBattery)
+            {
+                chargeSpeedModifier += ChargedBattery.ChargeSpeedFlatBonus;
+                aerialChargeSpeedMod = ChargedBattery.AerialChargeSpeedModOverride;
+            }
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -90,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
 
-            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? 0.6f : 1f;
+            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
         }
 
@@ -130,6 +139,13 @@ namespace AchiSplatoon2.Content.Projectiles
                 StartCharge();
             }
 
+            if (playerHasChargedBattery && IsChargeMaxedOut() && !hasFired)
+            {
+                GetOwner().channel = false;
+                ReleaseCharge(owner);
+                return;
+            }
+
             // Charge up mechanic
             var len = chargeTimeThresholds.Length;
             if (chargeLevel < len)
@@ -139,8 +155,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 {
                     chargeLevel++;
                     ChargeLevelUpEffect();
-
-                    PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
 
                     if (chargeLevel == len)
                     {
@@ -158,6 +172,11 @@ namespace AchiSplatoon2.Content.Projectiles
         protected void ChargeLevelUpEffect()
         {
             chargeBarBrightness = 1f;
+
+            if (!playerHasChargedBattery)
+            {
+                PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
+            }
         }
 
         protected void MaxChargeDustStream()
@@ -231,11 +250,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (!IsThisClientTheProjectileOwner()) return;
             if (hasFired) return;
 
-            if (spriteChargeBar == null)
-            {
-                spriteChargeBar = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/WeaponCharge/ChargeUpBar").Value;
-                return;
-            }
+            spriteChargeBar = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/WeaponCharge/ChargeUpBar").Value;
+            if (spriteChargeBar == null) return;
 
             // Draw gauge, animate a white flash when charge thresholds are met
             SpriteBatch spriteBatch = Main.spriteBatch;
