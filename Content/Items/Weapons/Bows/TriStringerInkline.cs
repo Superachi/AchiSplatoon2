@@ -17,6 +17,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes() => AddRecipeOrichalcum();
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

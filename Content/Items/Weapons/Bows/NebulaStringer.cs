@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override float ShotgunArc { get => 20f; }
         public override int ProjectileCount { get => 5; }
         public override bool AllowStickyProjectiles { get => false; }
-        public override bool SlowAerialCharge { get => false; }
 
         public override int ProjectileType => ModContent.ProjectileType<NebulaStringerProjectile>();
 
