@@ -12,6 +12,12 @@ namespace AchiSplatoon2.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
+            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            if (modPlayer.IsSpecialActive)
+            {
+                player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
+            }
+
             Main.buffNoSave[buffIndex] = true;
         }
 
