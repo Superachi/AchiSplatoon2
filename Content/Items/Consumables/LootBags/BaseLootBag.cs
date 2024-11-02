@@ -1,16 +1,7 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
-using AchiSplatoon2.Content.Items.Accessories.Palettes;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Consumables.LootBags
 {

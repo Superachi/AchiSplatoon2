@@ -1,15 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

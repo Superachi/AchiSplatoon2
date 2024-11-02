@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using System;
 using Terraria;
 using Terraria.ID;
 

@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone

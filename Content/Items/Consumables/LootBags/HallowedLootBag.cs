@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Consumables.LootBags

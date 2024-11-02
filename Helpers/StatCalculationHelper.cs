@@ -4,8 +4,6 @@ using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers.WeaponKits;
-using System.Drawing;
-using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 

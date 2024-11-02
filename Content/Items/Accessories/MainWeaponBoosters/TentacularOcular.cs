@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
-using Terraria.ID;
 using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters

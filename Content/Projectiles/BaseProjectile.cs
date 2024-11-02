@@ -3,7 +3,6 @@ using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
-using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;

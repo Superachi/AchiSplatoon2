@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
-using Microsoft.Extensions.Options;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

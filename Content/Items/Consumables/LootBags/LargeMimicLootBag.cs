@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
 using System.Collections.Generic;
 using Terraria;
