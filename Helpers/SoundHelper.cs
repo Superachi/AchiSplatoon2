@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 
@@ -7,7 +8,7 @@ namespace AchiSplatoon2.Helpers
 {
     internal static class SoundHelper
     {
-        private static void PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        private static SlotId PlaySoundFinal(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             if (position == null)
             {
@@ -23,23 +24,31 @@ namespace AchiSplatoon2.Helpers
                 Pitch = pitch,
             };
 
-            SoundEngine.PlaySound(sound, position);
+            return SoundEngine.PlaySound(sound, position);
         }
 
-        public static void PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        public static SlotId PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
             var style = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
-            PlaySoundFinal(style, volume, pitchVariance, maxInstances, pitch, position);
+            return PlaySoundFinal(style, volume, pitchVariance, maxInstances, pitch, position);
         }
 
-        public static void PlayAudio(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
+        public static SlotId PlayAudio(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
-            PlaySoundFinal(soundStyle, volume, pitchVariance, maxInstances, pitch, position);
+            return PlaySoundFinal(soundStyle, volume, pitchVariance, maxInstances, pitch, position);
         }
 
-        public static void PlayAudio(PlayAudioModel m)
+        public static SlotId PlayAudio(PlayAudioModel m)
         {
-            PlayAudio(soundPath: m.soundPath, volume: m.volume, pitchVariance: m.pitchVariance, maxInstances: m.maxInstances, pitch: m.pitch, position: m.position);
+            return PlayAudio(soundPath: m.soundPath, volume: m.volume, pitchVariance: m.pitchVariance, maxInstances: m.maxInstances, pitch: m.pitch, position: m.position);
+        }
+
+        public static bool TryGetActiveSound(SlotId? slotId, out ActiveSound? activeSound)
+        {
+            activeSound = null;
+            if (slotId == null) return false;
+
+            return SoundEngine.TryGetActiveSound((SlotId)slotId!, out activeSound);
         }
     }
 }

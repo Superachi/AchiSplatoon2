@@ -256,7 +256,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 chargeBarBrightness -= 0.1f;
             }
 
-            Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f + 0.2f);
+            Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
             Color color = new (initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
 
             spriteBatch.End();

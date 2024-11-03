@@ -595,7 +595,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 return modPlayer.ColorFromChips;
             }
 
-            return colorResult;
+            return ColorHelper.LerpBetweenColorsPerfect(colorResult, Color.White, 0.2f);
         }
 
         /// <summary>

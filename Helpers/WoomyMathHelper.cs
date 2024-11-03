@@ -15,5 +15,15 @@ namespace AchiSplatoon2.Helpers
         {
             return (int)(value * 100f);
         }
+
+        public static Vector2 AddRotationToVector2(Vector2 inputVector, float degreesToRotateBy)
+        {
+            float inputVectorLength = inputVector.Length();
+            float originalRadians = inputVector.ToRotation();
+            float newRadians = originalRadians + MathHelper.ToRadians(degreesToRotateBy);
+
+            Vector2 newVector = newRadians.ToRotationVector2() * inputVectorLength;
+            return newVector;
+        }
     }
 }
