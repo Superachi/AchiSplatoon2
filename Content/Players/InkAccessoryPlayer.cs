@@ -40,6 +40,7 @@ namespace AchiSplatoon2.Content.Players
 
         // Debug
         public bool hasDamageStabilizer;
+        public bool hasNetcodeInspector;
 
         public override void PreUpdate()
         {
@@ -102,6 +103,7 @@ namespace AchiSplatoon2.Content.Players
 
             // Debug
             hasDamageStabilizer = false;
+            hasNetcodeInspector = false;
         }
 
         public void SetBlasterBuff(bool hasHitTarget)

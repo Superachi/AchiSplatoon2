@@ -2,7 +2,7 @@
 using AchiSplatoon2.Helpers;
 using Terraria;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.Debug
 {
     internal class DamageStabilizer : BaseAccessory
     {
