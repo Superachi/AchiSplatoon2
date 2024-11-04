@@ -117,7 +117,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 Vector2 position = npc.Center;
                 Vector2 velocity = Main.rand.NextVector2Circular(15, 15);
                 dust = Main.dust[
-                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, modPlayer.ColorFromChips, Main.rand.NextFloat(0.5f, 1.5f))
+                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, modPlayer.GetColorFromChips(), Main.rand.NextFloat(0.5f, 1.5f))
                     ];
                 dust.noGravity = true;
                 dust.fadeIn = 1.5f;

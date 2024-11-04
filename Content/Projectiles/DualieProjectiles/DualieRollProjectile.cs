@@ -91,7 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
-                Color color = owner.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Color color = owner.GetModPlayer<InkWeaponPlayer>().GetColorFromChips();
                 Dust d = Dust.NewDustPerfect(
                     Position: Main.rand.NextVector2FromRectangle(rect),
                     Type: ModContent.DustType<ChargerBulletDust>(),
@@ -110,7 +110,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
-                Color color = owner.GetModPlayer<InkWeaponPlayer>().ColorFromChips;
+                Color color = owner.GetModPlayer<InkWeaponPlayer>().GetColorFromChips();
                 Dust d = Dust.NewDustPerfect(
                     Position: Main.rand.NextVector2FromRectangle(rect),
                     Type: ModContent.DustType<SplatterDropletDust>(),

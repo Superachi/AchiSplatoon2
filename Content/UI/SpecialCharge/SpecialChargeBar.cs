@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
             float quotient = (float)(modPlayer.SpecialPoints / modPlayer.SpecialPointsMax);
             quotient = Utils.Clamp(quotient, 0f, 1f);
-            barColor = modPlayer.ColorFromChips;
+            barColor = modPlayer.GetColorFromChips();
 
             float lerpAmount = 0.2f;
             if (modPlayer.SpecialReady || modPlayer.IsSpecialActive)

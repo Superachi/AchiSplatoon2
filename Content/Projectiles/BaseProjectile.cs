@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
@@ -63,10 +63,6 @@ namespace AchiSplatoon2.Content.Projectiles
         protected string shootAltSample = "SplattershotShoot";
 
         // Colors
-        public InkColor primaryColor = InkColor.Order;
-        public InkColor secondaryColor = InkColor.Order;
-        private int primaryHighest = 0;
-        private int secondaryHighest = 0;
         public Color? colorOverride = null;
         public Color initialColor;
 
@@ -196,40 +192,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 {
                     for (int i = 0; i < wepMP.ColorChipAmounts.Length; i++)
                     {
-                        // Apply color chip buffs
-                        // See also the calculations in InkWeaponPlayer.cs
-                        int value = wepMP.ColorChipAmounts[i];
-
-                        // Only consider the color if we have any chips for it
-                        if (value > 0)
-                        {
-                            // Change the primary color if we see a new highest count
-                            if (value > primaryHighest)
-                            {
-                                // If we've no other colors, make the secondary color match the primary one
-                                if (secondaryHighest == 0)
-                                {
-                                    secondaryColor = (InkColor)i;
-                                    secondaryHighest = value;
-                                }
-                                // If we do, mark the previous primary color as the secondary color
-                                else
-                                {
-                                    secondaryColor = primaryColor;
-                                    secondaryHighest = primaryHighest;
-                                }
-
-                                primaryColor = (InkColor)i;
-                                primaryHighest = value;
-                            }
-                            // What if we don't have the highest count?
-                            else if (primaryColor == secondaryColor || value > secondaryHighest)
-                            {
-                                secondaryColor = (InkColor)i;
-                                secondaryHighest = value;
-                            }
-                        }
-
                         // Red chips > more armor piercing
                         if (i == (int)InkWeaponPlayer.ChipColor.Red)
                         {
@@ -281,9 +243,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     wormDamageReduction = true;
                 }
 
-                var color = GenerateInkColor();
-                initialColor = color;
-                wepMP.UpdateInkColor(color);
+                SetInitialInkColor();
 
                 // Prevent double dipping modifiers
                 if (parentIdentity == -1)
@@ -314,8 +274,7 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.itemIdentifier = itemIdentifier;
             proj.parentIdentity = Projectile.identity;
             proj.parentProjectile = Projectile;
-            proj.primaryColor = primaryColor;
-            proj.secondaryColor = secondaryColor;
+            proj.colorOverride = initialColor;
             if (triggerAfterSpawn) proj.AfterSpawn();
             return proj;
         }
@@ -566,36 +525,22 @@ namespace AchiSplatoon2.Content.Projectiles
                 return (Color)colorOverride;
             }
 
+            return GetOwnerModPlayer<InkWeaponPlayer>().GetColorFromChips();
+        }
+
+        private void SetInitialInkColor()
+        {
+            if (colorOverride == null)
+            {
             var wepMP = GetOwnerModPlayer<InkWeaponPlayer>();
             if (wepMP.DoesPlayerHaveEqualAmountOfChips() && wepMP.CalculateColorChipTotal() != 0)
             {
-                var colorMP = GetOwnerModPlayer<InkColorPlayer>();
-                colorOverride = colorMP.IncreaseHueBy(5);
-                return (Color)colorOverride;
+                    colorOverride = ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f);
+                }
             }
 
-            // If there are two color chips being considered, add a bias towards the color that we have more chips of
-            var colorResult = ColorHelper.CombinePrimarySecondaryColors(
-                ColorHelper.GetInkColor(primaryColor),
-                ColorHelper.GetInkColor(secondaryColor));
-
-            if (primaryHighest != secondaryHighest)
-            {
-                colorResult = ColorHelper.CombinePrimarySecondaryColors(
-                ColorHelper.GetInkColor(primaryColor),
-                ColorHelper.GetInkColor(secondaryColor),
-                ColorHelper.GetInkColor(primaryColor));
-            };
-
-            if (primaryHighest == 0 && secondaryHighest == 0 && NetHelper.IsThisAClient())
-            {
-                // Failsave for if the bullet color data is missing during online play
-                var owner = Main.player[Projectile.owner];
-                var modPlayer = owner.GetModPlayer<InkWeaponPlayer>();
-                return modPlayer.ColorFromChips;
-            }
-
-            return ColorHelper.LerpBetweenColorsPerfect(colorResult, Color.White, 0.2f);
+            var color = GenerateInkColor();
+            initialColor = color;
         }
 
         /// <summary>
@@ -873,7 +818,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 PlayAudio("DirectHit", pitchVariance: 0.1f);
 
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.ColorFromChips;
+                Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
 
                 for (int i = 0; i < 10; i++)
                 {
@@ -924,7 +869,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (playSample) PlayAudio("TripleHit", pitchVariance: 0.1f);
 
                 var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                Color inkColor = modPlayer.ColorFromChips;
+                Color inkColor = modPlayer.GetColorFromChips();
 
                 for (int i = 0; i < 10; i++)
                 {

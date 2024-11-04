@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
@@ -29,8 +29,10 @@ namespace AchiSplatoon2.Content.Players
 
         // Color chip
         public int[] ColorChipAmounts = [0, 0, 0, 0, 0, 0];
+        public int[] oldColorChipAmounts = [0, 0, 0, 0, 0, 0];
         public int ColorChipTotal;
-        public Color ColorFromChips = ColorHelper.GetInkColor(InkColor.Order);
+        private Color _colorFromChips = ColorHelper.GetInkColor(InkColor.Order);
+        public bool didColorChipAmountChange = false;
 
         // Special gauge
         public float SpecialPoints;
@@ -114,7 +116,7 @@ namespace AchiSplatoon2.Content.Players
                         Type: DustID.AncientLight,
                         SpeedX: 0f,
                         SpeedY: -2.5f,
-                        newColor: ColorFromChips,
+                        newColor: _colorFromChips,
                         Scale: Main.rand.NextFloat(1f, 2f));
 
                     dustInst = Main.dust[dustId];
@@ -151,7 +153,7 @@ namespace AchiSplatoon2.Content.Players
                     SpeedX: Main.rand.NextFloat(-2f, 2f),
                     SpeedY: -5f,
                     Alpha: 40,
-                    newColor: ColorFromChips,
+                    newColor: _colorFromChips,
                     Scale: 2f);
 
                     dustInst = Main.dust[dustId];
@@ -169,6 +171,41 @@ namespace AchiSplatoon2.Content.Players
 
             AddSpecialPointsOnMovement();
             DrainSpecial();
+        }
+
+        public override void ResetEffects()
+        {
+            didColorChipAmountChange = false;
+            for (int i = 0; i < ColorChipAmounts.Length; i++)
+            {
+                if (ColorChipAmounts[i] != oldColorChipAmounts[i])
+                {
+                    didColorChipAmountChange = true;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < ColorChipAmounts.Length; i++)
+            {
+                oldColorChipAmounts[i] = ColorChipAmounts[i];
+            }
+
+            conflictingPalettes = false;
+            isPaletteEquipped = false;
+            paletteCapacity = 0;
+            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
+            ColorChipTotal = 0;
+        }
+
+        // UpdateInventory
+
+        public override void PostUpdate()
+        {
+            if (didColorChipAmountChange)
+            {
+                SetDefaultInkColorBasedOnColorChips();
+                SyncModPlayerData();
+            }
         }
 
         public override void PostUpdateMiscEffects()
@@ -248,15 +285,6 @@ namespace AchiSplatoon2.Content.Players
             Player.maxRunSpeed *= moveSpeedModifier;
             Player.runAcceleration *= moveAccelModifier;
             Player.runSlowdown *= moveFrictionModifier;
-        }
-
-        public override void ResetEffects()
-        {
-            conflictingPalettes = false;
-            isPaletteEquipped = false;
-            paletteCapacity = 0;
-            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
-            ColorChipTotal = 0;
         }
 
         public bool DoesPlayerHaveTooManyChips()
@@ -428,7 +456,7 @@ namespace AchiSplatoon2.Content.Players
             // Worth noting that, due to how special drain is applied every update + every time the special is used,
             // This packet may get sent twice
             // Haven't been able to fix it yet (TODO)
-            SyncModPlayerData();
+            // SyncModPlayerData();
         }
 
         public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
@@ -485,12 +513,69 @@ namespace AchiSplatoon2.Content.Players
             SendPacket(PlayerPacketType.SyncMoveSpeed, dto);
         }
 
-        public void UpdateInkColor(Color newColor)
+        public Color GetColorFromChips()
         {
-            if (ColorFromChips != newColor)
+            return _colorFromChips;
+        }
+
+        private void SetDefaultInkColorBasedOnColorChips()
+        {
+            var primaryHighest = 0;
+            var secondaryHighest = 0;
+            var primaryColor = InkColor.Order;
+            var secondaryColor = InkColor.Order;
+
+            for (int i = 0; i < ColorChipAmounts.Length; i++)
             {
-                ColorFromChips = newColor;
-                SyncModPlayerData();
+                int value = ColorChipAmounts[i];
+
+                // Only consider the color if we have any chips for it
+                if (value > 0)
+                {
+                    // Change the primary color if we see a new highest count
+                    if (value > primaryHighest)
+        {
+                        // If we've no other colors, make the secondary color match the primary one
+                        if (secondaryHighest == 0)
+                        {
+                            secondaryColor = (InkColor)i;
+                            secondaryHighest = value;
+                        }
+                        // If we do, mark the previous primary color as the secondary color
+                        else
+                        {
+                            secondaryColor = primaryColor;
+                            secondaryHighest = primaryHighest;
+                        }
+
+                        primaryColor = (InkColor)i;
+                        primaryHighest = value;
+                    }
+                    // What if we don't have the highest count?
+                    else if (primaryColor == secondaryColor || value > secondaryHighest)
+            {
+                        secondaryColor = (InkColor)i;
+                        secondaryHighest = value;
+                    }
+                }
+            }
+
+            // If there are two color chips being considered, add a bias towards the color that we have more chips of
+            _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(
+                ColorHelper.GetInkColor(primaryColor),
+                ColorHelper.GetInkColor(secondaryColor));
+
+            if (primaryHighest != secondaryHighest)
+            {
+                _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(
+                ColorHelper.GetInkColor(primaryColor),
+                ColorHelper.GetInkColor(secondaryColor),
+                ColorHelper.GetInkColor(primaryColor));
+            };
+
+            if (primaryHighest == 0 && secondaryHighest == 0)
+            {
+                _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(ColorHelper.GetInkColor(primaryColor), ColorHelper.GetInkColor(secondaryColor));
             }
         }
     }

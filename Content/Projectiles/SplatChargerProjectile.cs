@@ -296,7 +296,7 @@ namespace AchiSplatoon2.Content.Projectiles
             PlayAudio(SoundID.SplashWeak, volume: 1f, pitchVariance: 0.3f, maxInstances: 5, pitch: 2f);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            Color inkColor = modPlayer.ColorFromChips;
+            Color inkColor = modPlayer.GetColorFromChips();
 
             var vel = Vector2.Normalize(Projectile.velocity);
             var velX = vel.X;
