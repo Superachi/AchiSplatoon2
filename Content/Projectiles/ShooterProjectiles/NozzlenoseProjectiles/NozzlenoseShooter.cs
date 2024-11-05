@@ -5,11 +5,10 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
+namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles
 {
     internal class NozzlenoseShooter : BaseProjectile
     {
-        private L3Nozzlenose weaponData;
         private int shotsLeft = 3;
         private int shotSpeed;
         private float shotVelocity = 10f;
@@ -39,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            weaponData = WeaponInstance as L3Nozzlenose;
+            var weaponData = (L3Nozzlenose)WeaponInstance;
 
             shotVelocity = weaponData.ShotVelocity;
             shotSpeed = weaponData.BurstShotTime;
@@ -108,7 +107,7 @@ namespace AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles
             Player owner = Main.player[Projectile.owner];
 
             writer.Write((double)lastShotRadians);
-            writer.Write((Int16)owner.itemAnimationMax);
+            writer.Write((short)owner.itemAnimationMax);
         }
 
         protected override void NetReceiveShootAnimation(BinaryReader reader)

@@ -14,12 +14,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         private bool canFall = false;
         private int bouncesLeft = 3;
 
-        protected float Timer
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 8;
@@ -32,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            BaseSplattershot weaponData = WeaponInstance as BaseSplattershot;
+            BaseSplattershot weaponData = (BaseSplattershot)WeaponInstance;
 
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
@@ -49,22 +43,12 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 
         public override void AI()
         {
-            Timer++;
-            if (Timer >= FrameSpeed(delayUntilFall))
-            {
-                if (!canFall)
-                {
-                    canFall = true;
-                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
-                }
-            }
-
-            if (canFall)
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
-            Color dustColor = GenerateInkColor();
+            Color dustColor = initialColor;
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.5f);
         }
 
@@ -95,17 +79,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
-        }
-
-        // Netcode
-        protected override void NetSendSyncMovement(BinaryWriter writer)
-        {
-            writer.Write(canFall);
-        }
-
-        protected override void NetReceiveSyncMovement(BinaryReader reader)
-        {
-            canFall = reader.ReadBoolean();
         }
     }
 }

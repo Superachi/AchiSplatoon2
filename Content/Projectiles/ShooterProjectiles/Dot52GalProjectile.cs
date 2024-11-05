@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as Dot52Gal;
+            var weaponData = (Dot52Gal)WeaponInstance;
             Projectile.damage = weaponData.DamageOverride;
         }
 

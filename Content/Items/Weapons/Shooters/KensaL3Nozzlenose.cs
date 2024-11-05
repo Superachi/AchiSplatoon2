@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

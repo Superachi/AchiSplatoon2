@@ -1,7 +1,9 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
+using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,11 +15,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         private float fallSpeed;
         private bool canFall = false;
         private float terminalVelocity = 6f;
-        protected float Timer
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
 
         public override void SetDefaults()
         {
@@ -31,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            BaseSplattershot weaponData = WeaponInstance as BaseSplattershot;
+            BaseSplattershot weaponData = (BaseSplattershot)WeaponInstance;
 
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
@@ -48,27 +45,14 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 
         public override void AI()
         {
-            Timer++;
-            if (Timer >= FrameSpeed(delayUntilFall))
-            {
-                if (!canFall)
-                {
-                    canFall = true;
-                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
-                }
-            }
-
-            if (canFall)
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
-            Color dustColor = GenerateInkColor();
+            Color dustColor = initialColor;
+
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: 1.4f);
-            if (timeSpentAlive % 2 == 0)
-            {
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: 1f);
-            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -78,7 +62,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
                 float random = Main.rand.NextFloat(-2, 2);
                 float velX = (Projectile.velocity.X + random) * -0.5f;
                 float velY = (Projectile.velocity.Y + random) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: initialColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
             }
             return true;
         }
@@ -92,17 +76,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
-        }
-
-        // Netcode
-        protected override void NetSendSyncMovement(BinaryWriter writer)
-        {
-            writer.Write(canFall);
-        }
-
-        protected override void NetReceiveSyncMovement(BinaryReader reader)
-        {
-            canFall = reader.ReadBoolean();
         }
     }
 }
