@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Projectiles.Debug
             Projectile.timeLeft = 1_000_000;
         }
 
-        public override void OnSpawn(IEntitySource source)
+        public override void AfterSpawn()
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
