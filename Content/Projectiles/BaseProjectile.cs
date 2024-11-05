@@ -177,14 +177,12 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
             }
 
-            // Check the highest color chip amounts, set the ink color to match the top 2
-            // In BaseWeapon.cs -> Shoot(), we create an instance of said weapon class and store the object inside the ModPlayer
-            // This object is then referenced by child classes to get alter certain mechanics
+            var owner = Main.player[Projectile.owner];
+            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            SetInitialInkColor();
+
             if (IsThisClientTheProjectileOwner())
             {
-                var owner = Main.player[Projectile.owner];
-                var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
-
                 Projectile.usesLocalNPCImmunity = true;
                 Projectile.localNPCHitCooldown = 20 * FrameSpeed();
 
@@ -242,8 +240,6 @@ namespace AchiSplatoon2.Content.Projectiles
                     enablePierceDamagefalloff = true;
                     wormDamageReduction = true;
                 }
-
-                SetInitialInkColor();
 
                 // Prevent double dipping modifiers
                 if (parentIdentity == -1)
