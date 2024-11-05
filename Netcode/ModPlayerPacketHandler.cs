@@ -1,7 +1,7 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using log4net;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.IO;
 using Terraria;
@@ -13,7 +13,6 @@ namespace AchiSplatoon2.Netcode
     enum PlayerPacketType : byte
     {
         SyncModPlayer,
-        SyncMoveSpeed,
     }
 
     internal class ModPlayerPacketHandler
@@ -41,9 +40,6 @@ namespace AchiSplatoon2.Netcode
                 case (byte)PlayerPacketType.SyncModPlayer:
                     ReceiveSyncPlayer(_reader, fromWho, _logger);
                     break;
-                case (byte)PlayerPacketType.SyncMoveSpeed:
-                    ReceiveSyncMoveSpeed(_reader, fromWho, _logger);
-                    break;
                 default:
                     _logger.WarnFormat("Unknown Message type: {0}", msgType);
                     break;
@@ -61,42 +57,21 @@ namespace AchiSplatoon2.Netcode
             WritePacketHandlerType(packet, (int)PacketHandlerType.Player);
             WritePacketType(packet, (int)msgType);
             WritePacketFromWhoID(packet, fromWho);
-
-            switch (msgType)
-            {
-                case PlayerPacketType.SyncModPlayer:
-                    SendSyncPlayer(
-                        packet: packet,
-                        dto: JsonConvert.DeserializeObject<InkWeaponPlayerDTO>(json));
-                    break;
-                case PlayerPacketType.SyncMoveSpeed:
-                    SendSyncMoveSpeed(
-                        packet: packet,
-                        dto: JsonConvert.DeserializeObject<PlayerMoveSpeedDTO>(json));
-                    break;
-            }
+            packet.Write(json);
 
             SendPacket(packet, toClient: -1, ignoreClient: fromWho);
-        }
-
-        public static void SendSyncPlayer(ModPacket packet, InkWeaponPlayerDTO dto)
-        {
-            packet.Write(dto.SpecialReady);
-            packet.WriteRGB(dto.InkColor);
         }
 
         public static void ReceiveSyncPlayer(BinaryReader reader, int fromWho, ILog logger)
         {
             // 'Payload'
-            bool specialReady = reader.ReadBoolean();
-            Color colorFromChips = reader.ReadRGB();
+            string json = reader.ReadString();
+            var incomingDTO = InkWeaponPlayerDTO.Deserialize(json);
+            if (incomingDTO == null) return;
 
             // Respond
             if (IsThisTheServer())
             {
-                var dto = new InkWeaponPlayerDTO(specialReady, colorFromChips);
-                var json = JsonConvert.SerializeObject(dto);
-
                 // Forward
                 SendModPlayerPacket(
                     msgType: PlayerPacketType.SyncModPlayer,
@@ -107,44 +82,7 @@ namespace AchiSplatoon2.Netcode
             else
             {
                 var modPlayer = GetModPlayerFromPacket(fromWho);
-                modPlayer.SpecialReady = specialReady;
-                modPlayer.ColorFromChips = colorFromChips;
-            }
-        }
-
-        public static void SendSyncMoveSpeed(ModPacket packet, PlayerMoveSpeedDTO dto)
-        {
-            packet.Write((double)dto.moveSpeedMod);
-            packet.Write((double)dto.moveAccelMod);
-            packet.Write((double)dto.moveFrictionMod);
-        }
-
-        public static void ReceiveSyncMoveSpeed(BinaryReader reader, int fromWho, ILog logger)
-        {
-            // 'Payload'
-            float moveSpeedMod      = (float)reader.ReadDouble();
-            float moveAccelMod      = (float)reader.ReadDouble();
-            float moveFrictionMod   = (float)reader.ReadDouble();
-
-            // Respond
-            if (IsThisTheServer())
-            {
-                var dto = new PlayerMoveSpeedDTO(moveSpeedMod, moveAccelMod, moveFrictionMod);
-                var json = JsonConvert.SerializeObject(dto);
-
-                // Forward
-                SendModPlayerPacket(
-                    msgType: PlayerPacketType.SyncMoveSpeed,
-                    fromWho: fromWho,
-                    json: json,
-                    logger: logger);
-            }
-            else
-            {
-                InkWeaponPlayer modPlayer = GetModPlayerFromPacket(fromWho);
-                modPlayer.moveSpeedModifier = moveSpeedMod;
-                modPlayer.moveAccelModifier = moveAccelMod;
-                modPlayer.moveFrictionModifier = moveAccelMod;
+                incomingDTO.ApplyToModPlayer(modPlayer);
             }
         }
     }

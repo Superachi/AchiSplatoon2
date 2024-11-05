@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
@@ -94,7 +94,7 @@ namespace AchiSplatoon2.Content.Players
             if (CustomWeaponCooldown > 0) CustomWeaponCooldown--;
             if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
 
-            if (!Player.HasBuff<SpecialReadyBuff>())
+            if (SpecialReady && !Player.HasBuff<SpecialReadyBuff>())
             {
                 ResetSpecialStats();
             }
@@ -175,6 +175,8 @@ namespace AchiSplatoon2.Content.Players
 
         public override void ResetEffects()
         {
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
+
             didColorChipAmountChange = false;
             for (int i = 0; i < ColorChipAmounts.Length; i++)
             {
@@ -204,7 +206,7 @@ namespace AchiSplatoon2.Content.Players
             if (didColorChipAmountChange)
             {
                 SetDefaultInkColorBasedOnColorChips();
-                SyncModPlayerData();
+                SyncColorChipData();
             }
         }
 
@@ -379,7 +381,7 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
 
-                SyncModPlayerData();
+                SyncSpecialChargeData();
             }
         }
 
@@ -456,7 +458,7 @@ namespace AchiSplatoon2.Content.Players
             // Worth noting that, due to how special drain is applied every update + every time the special is used,
             // This packet may get sent twice
             // Haven't been able to fix it yet (TODO)
-            // SyncModPlayerData();
+            SyncSpecialChargeData();
         }
 
         public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
@@ -483,34 +485,47 @@ namespace AchiSplatoon2.Content.Players
         }
 
         // NetCode
-        private void SendPacket(PlayerPacketType msgType, object dto = null)
+        private void SendPacket(PlayerPacketType msgType, InkWeaponPlayerDTO dto)
         {
             if (!DoesModPlayerBelongToLocalClient()) return;
             if (NetHelper.IsSinglePlayer()) return;
 
-            string json = "";
-            if (dto != null)
-            {
-                json = JsonConvert.SerializeObject(dto);
-            }
-
             ModPlayerPacketHandler.SendModPlayerPacket(
                     msgType: msgType,
                     fromWho: Main.LocalPlayer.whoAmI,
-                    json: json,
+                    json: dto.Serialize(),
                     logger: Mod.Logger);
         }
 
-        private void SyncModPlayerData()
+        private void SyncColorChipData()
         {
-            var dto = new InkWeaponPlayerDTO(SpecialReady, ColorFromChips);
+            var dto = new InkWeaponPlayerDTO(
+                colorChipAmounts: ColorChipAmounts);
+
+            SendPacket(PlayerPacketType.SyncModPlayer, dto);
+        }
+
+        private void SyncSpecialChargeData()
+        {
+            var dto = new InkWeaponPlayerDTO(
+                specialReady: SpecialReady);
+
             SendPacket(PlayerPacketType.SyncModPlayer, dto);
         }
 
         private void SyncMoveSpeedData()
         {
-            var dto = new PlayerMoveSpeedDTO(moveSpeedModifier, moveAccelModifier, moveFrictionModifier);
-            SendPacket(PlayerPacketType.SyncMoveSpeed, dto);
+            var dto = new InkWeaponPlayerDTO(
+                moveSpeedMod: moveSpeedModifier,
+                moveAccelMod: moveAccelModifier,
+                moveFrictionMod: moveFrictionModifier);
+
+            SendPacket(PlayerPacketType.SyncModPlayer, dto);
+        }
+
+        public void UpdateInkColor()
+        {
+            SetDefaultInkColorBasedOnColorChips();
         }
 
         public Color GetColorFromChips()
@@ -534,7 +549,7 @@ namespace AchiSplatoon2.Content.Players
                 {
                     // Change the primary color if we see a new highest count
                     if (value > primaryHighest)
-        {
+                    {
                         // If we've no other colors, make the secondary color match the primary one
                         if (secondaryHighest == 0)
                         {
@@ -553,7 +568,7 @@ namespace AchiSplatoon2.Content.Players
                     }
                     // What if we don't have the highest count?
                     else if (primaryColor == secondaryColor || value > secondaryHighest)
-            {
+                    {
                         secondaryColor = (InkColor)i;
                         secondaryHighest = value;
                     }
