@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Netcode;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -105,6 +106,21 @@ namespace AchiSplatoon2.Helpers
         {
             Player p = GetPlayerFromPacket(fromWho);
             return p.GetModPlayer<InkWeaponPlayer>();
+        }
+
+        public static void SendPingToServer()
+        {
+            if (IsSinglePlayer()) { return; }
+            if (IsThisTheServer()) { return; }
+
+            int fromWho = Main.LocalPlayer.whoAmI;
+
+            ModPacket packet = GetNewPacket();
+            WritePacketHandlerType(packet, (int)PacketHandlerType.Generic);
+            WritePacketType(packet, (int)PacketType.PingRequest);
+            WritePacketFromWhoID(packet, fromWho);
+
+            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
         }
     }
 }

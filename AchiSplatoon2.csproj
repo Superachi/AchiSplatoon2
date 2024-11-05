@@ -40,6 +40,7 @@
 	  <None Remove="Content\Projectiles\BrushProjectiles\SpookyBrushProjectile.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerBlast.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\Debug\NetcodeInspectorProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
 	  <None Remove="Content\Projectiles\DualieProjectiles\DualieRollProjectile.png" />
 	  <None Remove="Content\Projectiles\DualieProjectiles\DualieShotProjectile.png" />

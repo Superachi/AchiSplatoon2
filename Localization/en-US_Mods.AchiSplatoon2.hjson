@@ -1514,6 +1514,13 @@ Items: {
 		DisplayName: Charged Battery
 		Tooltip: ""
 	}
+
+	NetcodeInspector: {
+		UsageHint: Mods.AchiSplatoon2.Items.NetcodeInspector.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.NetcodeInspector.Flavor
+		DisplayName: Netcode Inspector
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1617,6 +1624,7 @@ Projectiles: {
 	PearlDroneMinion.DisplayName: Pearl Drone Minion
 	PearlDroneSprinklerProjectile.DisplayName: Pearl Drone Sprinkler Projectile
 	PearlDroneBurstBomb.DisplayName: Pearl Drone Burst Bomb
+	NetcodeInspectorProjectile.DisplayName: Netcode Inspector Projectile
 }
 
 Buffs: {

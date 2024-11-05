@@ -1,4 +1,7 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Test;
+using AchiSplatoon2.Content.Projectiles.Debug;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+using AchiSplatoon2.Helpers;
 using log4net;
 using System.IO;
 using Terraria;
@@ -12,6 +15,8 @@ namespace AchiSplatoon2.Netcode
         TestRequest,
         TestResponse,
         PublicMessage,
+        PingRequest,
+        PingResponse,
     }
 
     internal class GenericPacketHandler
@@ -44,6 +49,12 @@ namespace AchiSplatoon2.Netcode
                 case (int)PacketType.PublicMessage:
                     string message = ReceiveMessage(_reader, _whoAmI);
                     break;
+                case (int)PacketType.PingRequest:
+                    ServerRespondToPingPacket(_reader, _whoAmI);
+                    break;
+                case (int)PacketType.PingResponse:
+                    ClientRespondToServerPingPacket();
+                    break;
                 default:
                     _logger.WarnFormat("Unknown Message type: {0}", msgType);
                     break;
@@ -51,6 +62,7 @@ namespace AchiSplatoon2.Netcode
         }
 
         #region Net code packet testing
+
         private static void SendTestPacket(int packetID, int fromWho, int toWho = -1)
         {
             ModPacket packet = GetNewPacket();
@@ -131,9 +143,47 @@ namespace AchiSplatoon2.Netcode
                 Main.NewText($"Received response test packet! (Message: '{message}'. From server: {fromServer})", ColorHelper.GetInkColor(InkColor.Green));
             }
         }
+
+        private static void ServerRespondToPingPacket(BinaryReader reader, int fromWho)
+        {
+            int originalSender = reader.ReadInt32();
+
+            if (IsThisTheServer())
+            {
+                // Return with a new packet back to sender
+                ModPacket packet = GetNewPacket();
+                WritePacketHandlerType(packet, (int)PacketHandlerType.Generic);
+                WritePacketType(packet, (int)PacketType.PingResponse);
+
+                SendPacket(packet, toClient: originalSender);
+            }
+        }
+
+        private static void ClientRespondToServerPingPacket()
+        {
+            if (IsThisTheServer()) { return; }
+
+            if (Main.LocalPlayer.ownedProjectileCounts[ModContent.ProjectileType<NetcodeInspectorProjectile>()] != 0)
+            {
+                foreach (var projectile in Main.ActiveProjectiles)
+                {
+                    if (projectile.ModProjectile is NetcodeInspectorProjectile
+                        && projectile.owner == Main.LocalPlayer.whoAmI)
+                    {
+                        var p = projectile.ModProjectile as NetcodeInspectorProjectile;
+                        p!.ReceiveServerPing();
+                    }
+                }
+            } else
+            {
+                DebugHelper.PrintInfo($"Received ping reponse from server. Use {nameof(NetcodeInspector)} item for more netcode debugging info.");
+            }
+        }
+
         #endregion
 
         #region Chat functions
+
         public static void SendPublicMessage(int fromWho, string message, bool appendName = true)
         {
             if (IsSinglePlayer()) { return; }
