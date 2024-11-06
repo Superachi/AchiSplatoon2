@@ -41,9 +41,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
             int damage = (int)(brellaItemData.damage * damageMod);
             var velocity = GetOwner().DirectionTo(Main.MouseWorld) * 10;
 
-            var p = CreateChildProjectile<MartianBrellaPelletProjectile>(Projectile.Center, velocity, damage, triggerAfterSpawn: false);
+            var p = CreateChildProjectile<MartianBrellaPelletProjectile>(Projectile.Center, velocity, damage, triggerSpawnMethods: false);
             p.isBigLightning = true;
-            p.AfterSpawn();
+            p.RunSpawnMethods();
 
             SoundHelper.PlayAudio(SoundID.Item72, 1f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.2f, position: Projectile.Center);
             SoundHelper.PlayAudio(SoundID.Item98, 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0f, position: Projectile.Center);

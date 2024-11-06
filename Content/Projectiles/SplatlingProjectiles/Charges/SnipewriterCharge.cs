@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageShotTime = weaponData.BarrageShotTime;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();

@@ -89,7 +89,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             return false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             sprinklerCooldown = sprinklerCooldownMax;

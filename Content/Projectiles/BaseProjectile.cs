@@ -139,16 +139,39 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
+        public void RunSpawnMethods()
+        {
+            AfterSpawn();
+            AdjustVariablesOnShoot();
+            CreateDustOnSpawn();
+        }
+
+        /// <summary>
+        /// This method is used to get data from the associated <seealso cref="BaseWeapon"/>.
+        /// </summary>
         public virtual void ApplyWeaponInstanceData()
         {
             // Cast the provided WeaponInstance to the correct child of BaseWeapon
             // Then use it to set the projectile's properties
         }
 
-        public virtual void AfterSpawn()
+        /// <summary>
+        /// Using this, rather than <seealso cref="ModProjectile.OnSpawn"/>, provides time to set properties of the projectile after it's spawned into the world.
+        /// </summary>
+        protected virtual void AfterSpawn()
         {
-            // Do something after spawning
-            // Using this, rather than OnSpawn, provides time to set properties of the projectile after its spawned into the world
+            // Add your code here
+        }
+
+        /// <summary>
+        /// This method is used to adjust parameters after the projectile has spawned in.
+        /// </summary>
+        protected virtual void AdjustVariablesOnShoot()
+        {
+        }
+
+        protected virtual void CreateDustOnSpawn()
+        {
         }
 
         public virtual void AfterInitialize()
@@ -254,7 +277,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return true;
         }
 
-        protected virtual BaseProjectile CreateChildProjectile(Vector2 position, Vector2 velocity, int type, int damage, bool triggerAfterSpawn = true)
+        protected virtual BaseProjectile CreateChildProjectile(Vector2 position, Vector2 velocity, int type, int damage, bool triggerSpawnMethods = true)
         {
             var p = Projectile.NewProjectileDirect(
                 spawnSource: Projectile.GetSource_FromThis(),
@@ -271,14 +294,14 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.parentIdentity = Projectile.identity;
             proj.parentProjectile = Projectile;
             proj.colorOverride = initialColor;
-            if (triggerAfterSpawn) proj.AfterSpawn();
+            if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;
         }
 
-        protected virtual T CreateChildProjectile<T>(Vector2 position, Vector2 velocity, int damage, bool triggerAfterSpawn = true)
+        protected virtual T CreateChildProjectile<T>(Vector2 position, Vector2 velocity, int damage, bool triggerSpawnMethods = true)
             where T : BaseProjectile
         {
-            return (T)CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerAfterSpawn);
+            return (T)CreateChildProjectile(position, velocity, ModContent.ProjectileType<T>(), damage, triggerSpawnMethods);
         }
 
         protected Projectile? GetParentProjectile(int projectileId)
@@ -537,7 +560,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             var color = GenerateInkColor();
-            initialColor = color;
+            initialColor = ColorHelper.IncreaseHueBy(Main.rand.Next(-5, 5), color);
         }
 
         /// <summary>
@@ -717,7 +740,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     position: Projectile.Center,
                     velocity: Vector2.Zero,
                     damage: 0,
-                    triggerAfterSpawn: false);
+                    triggerSpawnMethods: false);
 
                 if (colorOverride != null)
                 {
@@ -726,7 +749,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 p.explosionDustModel = expModel;
                 p.playAudioModel = audioModel;
-                p.AfterSpawn();
+                p.RunSpawnMethods();
 
                 return p;
             }

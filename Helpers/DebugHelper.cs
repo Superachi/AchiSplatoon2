@@ -53,6 +53,8 @@ namespace AchiSplatoon2.Helpers
             if (logger != null) LogMessage(message, logger, LogMessageType.Info);
         }
 
+        public static void Ping() => PrintInfo("Ping!");
+
         public static void PrintError(object message, ILog logger = null) => PrintError(JsonConvert.SerializeObject(message), logger);
         public static void PrintWarning(object message, ILog logger = null) => PrintWarning(JsonConvert.SerializeObject(message), logger);
         public static void PrintInfo(object message, ILog logger = null) => PrintInfo(JsonConvert.SerializeObject(message), logger);

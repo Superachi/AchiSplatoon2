@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             delayUntilFall = weaponData.DelayUntilFall;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

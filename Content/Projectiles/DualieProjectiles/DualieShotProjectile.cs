@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(aimDeviationOverride: aimDevOverride);
             ApplyWeaponInstanceData();

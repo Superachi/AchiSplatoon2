@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.extraUpdates = 2;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             bulletColor = GenerateInkColor();

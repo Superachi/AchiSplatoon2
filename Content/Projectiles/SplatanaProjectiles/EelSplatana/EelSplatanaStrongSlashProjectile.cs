@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             Main.projFrames[Projectile.type] = FrameCount;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             enablePierceDamagefalloff = false;

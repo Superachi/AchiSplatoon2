@@ -209,7 +209,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             return subname;
         }
 
-        public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
+        public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerSpawnMethods = true, BaseWeapon weaponType = null)
         {
             if (weaponType == null) weaponType = this;
 
@@ -238,7 +238,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
 
-            if (triggerAfterSpawn) proj.AfterSpawn();
+            if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;
         }
 
@@ -354,11 +354,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
                                 source: source,
                                 velocity: velocity * item.shootSpeed,
                                 weaponType: (BaseWeapon)item.ModItem,
-                                triggerAfterSpawn: false
+                                triggerSpawnMethods: false
                                 );
                             p.Projectile.position = player.Center;
                             p.itemIdentifier = item.type;
-                            p.AfterSpawn();
+                            p.RunSpawnMethods();
 
                             player.itemTime = item.useTime;
                             doneSearching = true;

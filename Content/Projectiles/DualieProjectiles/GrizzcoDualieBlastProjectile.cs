@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             enablePierceDamagefalloff = false;

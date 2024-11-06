@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             maxBounces = weaponData.MaxBounces;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

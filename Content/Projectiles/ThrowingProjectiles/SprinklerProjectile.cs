@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 

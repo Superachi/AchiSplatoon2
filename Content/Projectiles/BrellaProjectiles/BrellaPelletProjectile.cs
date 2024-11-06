@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

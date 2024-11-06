@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             DrawOriginOffsetY = 0;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
 

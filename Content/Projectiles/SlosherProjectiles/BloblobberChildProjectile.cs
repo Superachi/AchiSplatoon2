@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             fallSpeed = weaponData.ShotGravity / FrameSpeed();
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

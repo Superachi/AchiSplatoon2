@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
             Projectile.localNPCHitCooldown *= FrameSpeed();
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             colorOverride = Color.Aqua;
             Initialize(isDissolvable: false);

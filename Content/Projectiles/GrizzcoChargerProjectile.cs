@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles
             shootSample = weaponData.ShootSample;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

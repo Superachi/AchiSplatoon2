@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -73,7 +73,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         {
             var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, (int)(originalDamage * 0.5f), false);
             p.SetProperties(200);
-            p.AfterSpawn();
+            p.RunSpawnMethods();
             return true;
         }
 

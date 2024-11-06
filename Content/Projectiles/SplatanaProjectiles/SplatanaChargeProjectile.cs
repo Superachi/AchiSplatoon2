@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
@@ -96,11 +96,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 meleeProj.wasFullyCharged = true;
 
                 velocity *= maxChargeVelocityMod;
-                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false)
+                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
                     as SplatanaStrongSlashProjectile;
                 proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
                 proj.Projectile.penetrate = 3;
-                proj.AfterSpawn();
+                proj.RunSpawnMethods();
             }
             else
             {

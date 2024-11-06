@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             Initialize(isDissolvable: false);

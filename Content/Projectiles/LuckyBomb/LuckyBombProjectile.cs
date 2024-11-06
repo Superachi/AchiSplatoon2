@@ -44,7 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             SetState(stateSpawn);

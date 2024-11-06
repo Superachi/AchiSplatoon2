@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var weaponData = WeaponInstance as BaseBrush;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

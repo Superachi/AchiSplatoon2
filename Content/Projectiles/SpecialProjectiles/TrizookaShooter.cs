@@ -74,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             }
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

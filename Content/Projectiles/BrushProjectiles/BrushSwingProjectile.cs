@@ -79,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             shootAltSample = weaponData.ShootAltSample;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             owner = GetOwner();
             Initialize(isDissolvable: false);
@@ -420,9 +420,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             {
                 for (int i = -1; i < 2; i += 2)
                 {
-                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage / 2, triggerAfterSpawn: false);
+                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage / 2, triggerSpawnMethods: false);
                     p.sineDirection = i;
-                    p.AfterSpawn();
+                    p.RunSpawnMethods();
                 }
             }
         }

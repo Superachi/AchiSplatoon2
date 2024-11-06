@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             Projectile.knockBack = 5;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             enablePierceDamagefalloff = false;

@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             enablePierceDamagefalloff = false;

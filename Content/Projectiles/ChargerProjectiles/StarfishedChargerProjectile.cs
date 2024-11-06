@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 p.delayUntilBlast += npcHits * 5;
                 p.pitchAdd += npcHits * 0.2f;
                 p.npcTarget = target.whoAmI;
-                p.AfterSpawn();
+                p.RunSpawnMethods();
 
                 npcHits++;
             }

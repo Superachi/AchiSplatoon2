@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
             Projectile.timeLeft = 6;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             for (int i = 0; i < 20; i++)
             {

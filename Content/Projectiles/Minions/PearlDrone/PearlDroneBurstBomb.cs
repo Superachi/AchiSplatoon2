@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
     {
         private readonly int baseExplosionRadius = new BurstBomb().ExplosionRadius;
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             finalExplosionRadius = (int)(baseExplosionRadius * explosionRadiusModifier);

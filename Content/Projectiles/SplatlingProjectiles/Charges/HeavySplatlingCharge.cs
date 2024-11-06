@@ -44,7 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageShotTime = weaponData.BarrageShotTime;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
@@ -166,13 +166,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             velocity: velocity,
                             type: ProjectileType,
                             damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
-                            triggerAfterSpawn: false);
+                            triggerSpawnMethods: false);
                         var proj = p as HeavySplatlingProjectile;
 
                         proj.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         proj.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         proj.chargedShot = IsChargeMaxedOut();
-                        proj.AfterSpawn();
+                        proj.RunSpawnMethods();
 
                         for (int i = 0; i < 15; i++)
                         {

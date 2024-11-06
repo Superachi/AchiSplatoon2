@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             burstRequiredHits = pelletCount;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

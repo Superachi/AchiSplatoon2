@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);
@@ -69,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 BlastProjectile p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
                 p.SetProperties(finalExplosionRadius, audioModel);
-                p.AfterSpawn();
+                p.RunSpawnMethods();
                 Projectile.Kill();
             }
         }

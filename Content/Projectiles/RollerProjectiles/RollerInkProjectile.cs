@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 

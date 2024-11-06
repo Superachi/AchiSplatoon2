@@ -270,7 +270,7 @@ namespace AchiSplatoon2.Content.Players
 
                         drone.WeaponInstance = (PearlDroneStaff)Activator.CreateInstance(typeof(PearlDroneStaff))!;
                         drone.itemIdentifier = ModContent.ItemType<PearlDroneStaff>();
-                        drone.AfterSpawn();
+                        drone.RunSpawnMethods();
                     }
                 }
             }

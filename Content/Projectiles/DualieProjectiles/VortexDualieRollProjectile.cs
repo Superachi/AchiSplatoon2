@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         protected override bool DisplayDefaultDusts => false;
         private Player owner;
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
 

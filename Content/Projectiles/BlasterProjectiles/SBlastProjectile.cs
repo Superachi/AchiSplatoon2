@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             return PlayerHelper.IsPlayerGrounded(GetOwner());
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             var owner = GetOwner();

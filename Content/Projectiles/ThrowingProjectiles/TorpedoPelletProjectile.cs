@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

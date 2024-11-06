@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             ShotTimer = shotSpeed;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -94,7 +94,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
                     p.WeaponInstance = WeaponInstance;
                     p.Projectile.ai[2] = Projectile.whoAmI;
-                    p.AfterSpawn();
+                    p.RunSpawnMethods();
 
                     NetUpdate(ProjNetUpdateType.ShootAnimation);
                 }

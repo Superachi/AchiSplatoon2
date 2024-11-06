@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             set => Projectile.ai[1] = value;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             wormDamageReduction = true;

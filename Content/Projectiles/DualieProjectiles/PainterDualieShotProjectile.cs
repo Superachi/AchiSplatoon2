@@ -4,7 +4,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
     internal class PainterDualieShotProjectile : DualieShotProjectile
     {
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             var colorMP = GetOwner().GetModPlayer<ColorSettingPlayer>();

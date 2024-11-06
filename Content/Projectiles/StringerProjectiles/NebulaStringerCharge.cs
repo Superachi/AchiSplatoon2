@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
 
             projectile.Projectile.ai[2] = projectileNumber;
-            projectile.AfterSpawn();
+            projectile.RunSpawnMethods();
         }
 
         protected override void PlayShootSample()

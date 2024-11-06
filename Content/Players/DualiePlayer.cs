@@ -178,10 +178,10 @@ namespace AchiSplatoon2.Content.Players
                     BlockJumps();
 
                     // Roll!
-                    var proj = (DualieRollProjectile)ProjectileHelper.CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
+                    var proj = (DualieRollProjectile)ProjectileHelper.CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerSpawnMethods: false);
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
-                    proj.AfterSpawn();
+                    proj.RunSpawnMethods();
 
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);

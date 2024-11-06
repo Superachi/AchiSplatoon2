@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
@@ -12,6 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         private float fallSpeed;
         private readonly bool canFall = false;
         private int bouncesLeft = 3;
+        private int timeSinceLastBounce = 0;
 
         public override void SetDefaults()
         {
@@ -33,38 +36,56 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
             PlayShootSound();
         }
 
+        protected override void AdjustVariablesOnShoot()
+        {
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 3;
+            Projectile.velocity *= 0.5f;
+            fallSpeed *= 0.4f;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+            ProjectileDustHelper.ShooterSpawnVisual(this);
+        }
+
         public override void AI()
         {
+            timeSinceLastBounce++;
+
             if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
             Color dustColor = initialColor;
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.5f);
+            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.6f);
+
+            if (Main.rand.NextBool(10))
+            {
+                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.2f);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Dust.NewDustPerfect(
-                Position: Projectile.Center,
-                Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                Velocity: Main.rand.NextVector2CircularEdge(3, 3),
-                newColor: initialColor,
-                Scale: 0.8f);
-            }
-
             ProjectileBounce(oldVelocity, new Vector2(0.95f, 0.8f));
-            bouncesLeft--;
+
+            if (timeSinceLastBounce > FrameSpeed(15))
+            {
+                timeSinceLastBounce = 0;
+                bouncesLeft--;
+
+                ProjectileDustHelper.ShooterTileCollideVisual(this, false);
+                SoundHelper.PlayAudio(SoundID.ShimmerWeak2, volume: 0.1f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f);
+            }
 
             return bouncesLeft < 1;
         }
@@ -77,7 +98,10 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 
         protected override void PlayShootSound()
         {
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            SoundHelper.PlayAudio(SoundID.DD2_SonicBoomBladeSlash, volume: 0.2f, pitchVariance: 0.3f, maxInstances: 50, pitch: 0.5f);
+            SoundHelper.PlayAudio(SoundID.SplashWeak, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 50, pitch: 0f);
+            SoundHelper.PlayAudio(SoundID.SplashWeak, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 50, pitch: 0.5f);
+            SoundHelper.PlayAudio(SoundID.ShimmerWeak1, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 50, pitch: -0.5f);
         }
     }
 }

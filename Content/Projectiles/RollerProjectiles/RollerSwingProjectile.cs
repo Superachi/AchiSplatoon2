@@ -72,7 +72,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             jumpAttackVelocityMod = weaponData.JumpAttackVelocityModifier;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             ApplyWeaponInstanceData();

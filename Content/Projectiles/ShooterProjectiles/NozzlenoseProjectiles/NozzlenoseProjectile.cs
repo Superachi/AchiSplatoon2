@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -38,12 +39,24 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             damageIncreasePerHit = weaponData.DamageIncreasePerHit;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
-
             PlayShootSound();
+        }
+
+        protected override void AdjustVariablesOnShoot()
+        {
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 3;
+            Projectile.velocity *= 0.3f;
+            fallSpeed *= 0.2f;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+            ProjectileDustHelper.ShooterSpawnVisual(this);
         }
 
         public override void AI()
@@ -54,19 +67,17 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             }
 
             Color dustColor = initialColor;
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.4f);
+
+            if (Main.rand.NextBool(20))
+            {
+                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1f);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = (Projectile.velocity.X + random) * -0.5f;
-                float velY = (Projectile.velocity.Y + random) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 

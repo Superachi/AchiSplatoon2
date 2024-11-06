@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 

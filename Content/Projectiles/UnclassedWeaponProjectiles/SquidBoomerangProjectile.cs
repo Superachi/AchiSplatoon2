@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
             ProjectileID.Sets.TrailingMode[Type] = 3;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 

@@ -78,7 +78,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 player: player,
                 source: source,
                 velocity: velocity,
-                triggerAfterSpawn: false);
+                triggerSpawnMethods: false);
             var proj = p as DualieShotProjectile;
 
             if (dualieMP.isTurret)
@@ -88,7 +88,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 p.Projectile.velocity *= PostRollVelocityMod;
                 proj.aimDevOverride = AimDeviation * PostRollAimMod;
             }
-            proj.AfterSpawn();
+            proj.RunSpawnMethods();
 
             return false;
         }

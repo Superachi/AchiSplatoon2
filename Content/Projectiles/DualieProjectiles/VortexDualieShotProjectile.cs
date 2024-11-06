@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         private Texture2D spriteOpaque;
         private Color bulletColor;
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             dissolvable = false;

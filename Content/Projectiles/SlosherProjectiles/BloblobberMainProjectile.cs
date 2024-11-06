@@ -36,7 +36,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             burstShotDelay = weaponData.BurstShotDelay;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();

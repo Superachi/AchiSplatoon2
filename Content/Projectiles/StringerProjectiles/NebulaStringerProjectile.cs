@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.timeLeft = 600 * FrameSpeed();
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             colorOverride = Color.HotPink;
             Initialize(isDissolvable: false);

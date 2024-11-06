@@ -62,7 +62,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             explosionTileSample = weaponData.ExplosionSmallSample;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             // Mechanics
             Initialize();

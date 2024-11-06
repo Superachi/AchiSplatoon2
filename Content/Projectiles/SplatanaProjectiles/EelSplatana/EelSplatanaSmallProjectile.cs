@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             Projectile.extraUpdates = 5;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             Projectile.penetrate = 2;

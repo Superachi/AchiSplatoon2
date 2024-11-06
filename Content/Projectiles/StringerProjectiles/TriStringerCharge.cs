@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             projectileType = weaponData.ProjectileType;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
@@ -170,7 +170,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             projectile.Projectile.ai[2] = projectileNumber;
-            projectile.AfterSpawn();
+            projectile.RunSpawnMethods();
         }
 
         protected virtual void PlayShootSample()

@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.friendly = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
 

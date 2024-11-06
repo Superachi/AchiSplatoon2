@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles
             DirectHitEffect = weaponData.DirectHitEffect;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();

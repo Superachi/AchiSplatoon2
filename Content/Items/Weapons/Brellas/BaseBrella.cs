@@ -55,14 +55,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 player: player,
                 source: source,
                 velocity: velocity,
-                triggerAfterSpawn: false);
+                triggerSpawnMethods: false);
             var proj = p as BrellaShotgunProjectile;
 
             if (!brellaMP.shieldAvailable && accMP.hasMarinatedNecklace)
             {
                 player.itemTime = (int)(player.itemTime * MarinatedNecklace.RecoverAttackSpeedModifier);
             }
-            proj.AfterSpawn();
+            proj.RunSpawnMethods();
 
             return false;
         }

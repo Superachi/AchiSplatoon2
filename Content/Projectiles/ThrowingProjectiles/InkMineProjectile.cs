@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             explosionRadius = weaponData.ExplosionRadius;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -76,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     p.SetProperties(
                         explosionRadius,
                         new PlayAudioModel("Throwables/InkMineDetonate", _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
-                    p.AfterSpawn();
+                    p.RunSpawnMethods();
                     Projectile.timeLeft = 6;
                     break;
             }

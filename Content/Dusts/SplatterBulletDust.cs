@@ -4,7 +4,7 @@ namespace AchiSplatoon2.Content.Dusts
 {
     internal class SplatterBulletDust : BaseDust
     {
-        public virtual float ScaleSpeed { get; set; } = -0.15f;
+        public virtual float ScaleSpeed { get; set; } = -0.25f;
         public override void OnSpawn(Dust dust)
         {
             var random = Main.rand.NextFloat(-1, 1);
@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
-            dust.scale += ScaleSpeed;
+            dust.scale += -0.25f;
             dust.alpha -= (int)(dust.scale * 255);
 
             float light = 0.002f * dust.scale;

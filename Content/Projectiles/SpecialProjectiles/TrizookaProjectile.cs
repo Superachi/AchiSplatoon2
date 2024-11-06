@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();

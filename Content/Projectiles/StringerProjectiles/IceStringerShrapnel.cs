@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.localNPCHitCooldown = 30;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             drawScale = Main.rand.NextFloat(0.5f, 1f);
