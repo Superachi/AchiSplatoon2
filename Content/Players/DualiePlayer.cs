@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkDualiePlayer : ModPlayer
+    internal class DualiePlayer : ModPlayer
     {
         public bool isRolling;
         public bool isTurret;
@@ -95,7 +95,7 @@ namespace AchiSplatoon2.Content.Players
                 GetDualieStats((BaseDualie)inventoryPlayer.HeldModItem());
             }
 
-            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = Player.GetModPlayer<AccessoryPlayer>();
             if (hasSquidClipOns != accMP.hasSquidClipOns)
             {
                 hasSquidClipOns = accMP.hasSquidClipOns;

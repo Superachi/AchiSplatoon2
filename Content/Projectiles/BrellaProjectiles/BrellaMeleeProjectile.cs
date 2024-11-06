@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             shieldAngle = Projectile.velocity * shieldAngleOffsetMult;
             Projectile.velocity = Vector2.Zero;
 
-            var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = owner.GetModPlayer<BrellaPlayer>();
             canShield = brellaMP.shieldAvailable;
             Projectile.friendly = canShield;
         }
@@ -98,7 +98,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
             if (deflectedProj != null)
             {
-                var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+                var brellaMP = owner.GetModPlayer<BrellaPlayer>();
                 brellaMP.DamageShield(deflectedProj.damage);
 
                 BlockProjectileEffect(deflectedProj);
@@ -121,13 +121,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Projectile.knockBack += 5;
             modifiers.HitDirectionOverride = GetOwner().direction;
 
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             brellaMP.DamageShield((int)(target.damage * 0.25f));
         }
 
         public override void PostDraw(Color lightColor)
         {
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             var brellaLifePercentage = Math.Max(0, (int)(brellaMP.shieldLife / brellaMP.shieldLifeMax * 100));
 
             var playerPos = GetOwner().Center;

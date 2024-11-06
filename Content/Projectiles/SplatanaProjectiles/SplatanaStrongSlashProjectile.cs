@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             base.AfterSpawn();
 
             Player owner = GetOwner();
-            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = owner.GetModPlayer<AccessoryPlayer>();
             if (accMP.hasPinkSponge)
             {
                 Projectile.timeLeft = (int)(Projectile.timeLeft * PinkSponge.ChargeSlashLifetimeModifier);
@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             if (!IsThisClientTheProjectileOwner()) return;
 
             Player owner = GetOwner();
-            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = owner.GetModPlayer<AccessoryPlayer>();
             if (accMP.hasPinkSponge)
             {
                 var size = 80;

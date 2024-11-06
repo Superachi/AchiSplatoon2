@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public static bool DoesPaletteBoostMainWeapon(BaseWeapon usedWeapon, Player player)
         {
-            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = player.GetModPlayer<AccessoryPlayer>();
             if (accMP.paletteType == null) return false;
 
             ChipPalette palette = (ChipPalette)Activator.CreateInstance(accMP.paletteType);
@@ -125,7 +125,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                var accMP = player.GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasTentacleScope && WeaponStyle == MainWeaponStyle.Charger)
                 {
                     crit += TentacularOcular.BaseCritChance;

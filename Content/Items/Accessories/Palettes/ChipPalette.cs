@@ -54,7 +54,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             player.GetKnockback(DamageClass.Generic) +=
                 chips[(int)ChipColor.Purple] * modPlayer.PurpleChipBaseKnockbackBonus;
 
-            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = player.GetModPlayer<AccessoryPlayer>();
             accMP.paletteType = GetType();
         }
 

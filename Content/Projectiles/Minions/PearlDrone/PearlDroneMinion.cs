@@ -432,7 +432,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void FindTarget(float maxTargetDistance)
         {
-            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<InkAccessoryPlayer>().hasThermalInkTank;
+            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank;
             var success = false;
 
             float closestDistance = maxTargetDistance;

@@ -56,12 +56,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         public override bool CanUseItem(Player player)
         {
-            var dualieMP = player.GetModPlayer<InkDualiePlayer>();
+            var dualieMP = player.GetModPlayer<DualiePlayer>();
             if (PreventShootOnRoll)
             {
                 // Prevent shooting during a roll
                 // The second if-statement is to prevent single shots during a chained roll (by holding down the jump key)
-                if (dualieMP.isRolling || dualieMP.postRollCooldown > InkDualiePlayer.postRollCooldownDefault - 6)
+                if (dualieMP.isRolling || dualieMP.postRollCooldown > DualiePlayer.postRollCooldownDefault - 6)
                 {
                     return false;
                 }
@@ -72,7 +72,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var dualieMP = player.GetModPlayer<InkDualiePlayer>();
+            var dualieMP = player.GetModPlayer<DualiePlayer>();
             
             var p = CreateProjectileWithWeaponProperties(
                 player: player,

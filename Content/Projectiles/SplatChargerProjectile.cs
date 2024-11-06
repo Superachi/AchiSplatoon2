@@ -107,7 +107,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             Projectile.timeLeft = (int)(Projectile.timeLeft * RangeModifier);
 
-            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = owner.GetModPlayer<AccessoryPlayer>();
             if (accMP.hasTentacleScope && IsChargeMaxedOut())
             {
                 Projectile.tileCollide = false;

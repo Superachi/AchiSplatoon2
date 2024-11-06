@@ -179,7 +179,7 @@ namespace AchiSplatoon2.Content.Players
             if (Player.HeldItem.ModItem is BaseDualie)
             {
                 moveAccelModifier = 2f;
-                if (Player.GetModPlayer<InkDualiePlayer>().postRollCooldown > 0)
+                if (Player.GetModPlayer<DualiePlayer>().postRollCooldown > 0)
                 {
                     moveFrictionModifier = 2f;
                 }
@@ -216,7 +216,7 @@ namespace AchiSplatoon2.Content.Players
             if (SpecialIncrementCooldown > 0) return;
             if (Player.dead) return;
 
-            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = Player.GetModPlayer<AccessoryPlayer>();
 
             if (!IsSpecialActive)
             {
@@ -310,7 +310,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float CalculateSubDamageBonusModifier(bool hasMainWeaponBonus)
         {
-            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = Player.GetModPlayer<AccessoryPlayer>();
             var heldItem = Player.HeldItem.ModItem;
 
             float damageMod = 1f;
@@ -324,7 +324,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float CalculateSpecialDamageBonusModifier()
         {
-            var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = Player.GetModPlayer<AccessoryPlayer>();
 
             float damageMod = 1f;
             damageMod *= accMP.specialPowerMultiplier;

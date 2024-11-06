@@ -105,7 +105,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             // In the original Splatoon game, Undercover Brella instantly regains its shield when splatting an opponent
             var heldItem = GetOwner().HeldItem.ModItem;
             bool isUndercover = heldItem is UndercoverBrella;
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             if (target.life < 1 && !brellaMP.shieldAvailable && isUndercover)
             {
                 brellaMP.shieldCooldown = 1;

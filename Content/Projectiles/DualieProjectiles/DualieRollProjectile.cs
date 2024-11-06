@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         protected virtual bool DisplayDefaultDusts => true;
 
         private Player owner;
-        private InkDualiePlayer dualieMP;
+        private DualiePlayer dualieMP;
 
         public override void SetDefaults()
         {
@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Initialize(isDissolvable: false);
 
             owner = GetOwner();
-            dualieMP = owner.GetModPlayer<InkDualiePlayer>();
+            dualieMP = owner.GetModPlayer<DualiePlayer>();
 
             var xDir = InputHelper.GetInputX();
             if (xDir != 0)
@@ -72,7 +72,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void OnKill(int timeLeft)
         {
             owner.fullRotation = 0;
-            dualieMP.postRollCooldown = InkDualiePlayer.postRollCooldownDefault;
+            dualieMP.postRollCooldown = DualiePlayer.postRollCooldownDefault;
             dualieMP.DisplayRolls();
         }
 

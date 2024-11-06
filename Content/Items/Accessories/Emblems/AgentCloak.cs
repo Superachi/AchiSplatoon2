@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                var accMP = player.GetModPlayer<AccessoryPlayer>();
                 accMP.hasAgentCloak = true;
                 accMP.specialChargeMultiplier += specialChargeMultiplier;
                 accMP.subPowerMultiplier += subPowerMultiplier;

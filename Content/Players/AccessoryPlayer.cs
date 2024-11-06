@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkAccessoryPlayer : ModPlayer
+    internal class AccessoryPlayer : ModPlayer
     {
         public Type? paletteType = null;
 

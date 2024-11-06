@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkSpawnPlayer : ModPlayer
+    internal class SpawnPlayer : ModPlayer
     {
         // Useful info: https://www.youtube.com/watch?v=K3MpL3r2mjQ&list=PL2j68jF83kP1ffowiMIwbTndwLgmxGFpd&index=10
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)

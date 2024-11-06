@@ -330,7 +330,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             if (accMP.hasDamageStabilizer)
             {
                 modifiers.DamageVariationScale *= 0;
@@ -880,7 +880,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void Dissolve()
         {
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             var hasThermalInkTank = accMP.hasThermalInkTank;
             if (dissolvable && !hasThermalInkTank)
             {

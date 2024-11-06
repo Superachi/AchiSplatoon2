@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                var accMP = player.GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasSteelCoil)
                 {
                     damage *= AdamantiteCoil.DamageReductionMod;

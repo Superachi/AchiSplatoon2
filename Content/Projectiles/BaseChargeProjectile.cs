@@ -57,7 +57,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.ApplyWeaponInstanceData();
             chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
-            playerHasChargedBattery = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasChargedBattery;
+            playerHasChargedBattery = GetOwner().GetModPlayer<AccessoryPlayer>().hasChargedBattery;
             if (playerHasChargedBattery)
             {
                 chargeSpeedModifier += ChargedBattery.ChargeSpeedFlatBonus;

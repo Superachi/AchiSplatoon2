@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         protected override void PlayShootSound()
         {
-            var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
+            var dualieMP = GetOwner().GetModPlayer<DualiePlayer>();
             if (dualieMP.isTurret)
             {
                 PlayAudio(SoundID.Item158, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0);

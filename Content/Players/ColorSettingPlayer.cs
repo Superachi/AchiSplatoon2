@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkColorPlayer : ModPlayer
+    internal class ColorSettingPlayer : ModPlayer
     {
         public Color currentColor = Color.Red;
         public float currentHue = 0;

@@ -211,7 +211,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         {
             if (IsThisClientTheProjectileOwner())
             {
-                var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+                var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
             }
 

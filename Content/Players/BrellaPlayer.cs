@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkBrellaPlayer : ModPlayer
+    internal class BrellaPlayer : ModPlayer
     {
         public float shieldLife;
         public float shieldLifeMax;
@@ -48,7 +48,7 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("Brellas/BrellaBreak", volume: 1f, maxInstances: 5);
                 CombatTextHelper.DisplayText($"Brella broke!", Player.Center, Color.HotPink);
 
-                if (Player.GetModPlayer<InkAccessoryPlayer>().hasMarinatedNecklace)
+                if (Player.GetModPlayer<AccessoryPlayer>().hasMarinatedNecklace)
                 {
                     shieldCooldown = (int)(shieldCooldownMax * MarinatedNecklace.RecoverTimeModifier);
                 }

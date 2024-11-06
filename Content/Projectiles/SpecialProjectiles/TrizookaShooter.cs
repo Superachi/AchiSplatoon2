@@ -54,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 Color projColor = initialColor;
                 if (WeaponInstance is TrizookaUnleashed)
                 {
-                    projColor = GetOwnerModPlayer<InkColorPlayer>().IncreaseHueBy(40);
+                    projColor = GetOwnerModPlayer<ColorSettingPlayer>().IncreaseHueBy(40);
                 }
 
                 for (int i = 0; i < 3; i++)

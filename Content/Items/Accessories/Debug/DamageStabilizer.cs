@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Debug
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasDamageStabilizer = true;
             }
         }

@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasHypnoShades = true;
                 modPlayer.subPowerMultiplier += BombDamageBonus;
             }

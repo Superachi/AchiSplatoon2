@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void AfterSpawn()
         {
             base.AfterSpawn();
-            var colorMP = GetOwner().GetModPlayer<InkColorPlayer>();
+            var colorMP = GetOwner().GetModPlayer<ColorSettingPlayer>();
             colorOverride = colorMP.IncreaseHueBy(10);
         }
     }

@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             ApplyWeaponInstanceData();
             wormDamageReduction = true;
 
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             if (accMP.hasSteelCoil)
             {
                 Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             if (accMP.hasSteelCoil)
             {
                 target.immune[Projectile.owner] = 3;

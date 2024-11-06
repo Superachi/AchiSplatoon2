@@ -48,8 +48,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
-            var brellaMP = player.GetModPlayer<InkBrellaPlayer>();
+            var accMP = player.GetModPlayer<AccessoryPlayer>();
+            var brellaMP = player.GetModPlayer<BrellaPlayer>();
 
             var p = CreateProjectileWithWeaponProperties(
                 player: player,

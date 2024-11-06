@@ -58,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             Initialize();
             ApplyWeaponInstanceData();
             PlayShootSound();
-            firedWithCrayonBox = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasCrayonBox;
+            firedWithCrayonBox = GetOwner().GetModPlayer<AccessoryPlayer>().hasCrayonBox;
         }
 
         public override void AI()

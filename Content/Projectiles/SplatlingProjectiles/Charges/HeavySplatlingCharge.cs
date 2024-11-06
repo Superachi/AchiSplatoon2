@@ -88,7 +88,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     break;
             }
 
-            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = owner.GetModPlayer<AccessoryPlayer>();
             if (accMP.hasCrayonBox)
             {
                 velocityChargeMod *= CrayonBox.ShotVelocityMod;

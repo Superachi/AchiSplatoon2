@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasThermalInkTank = true;
             }
         }

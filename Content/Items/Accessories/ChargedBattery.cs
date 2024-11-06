@@ -25,7 +25,7 @@ internal class ChargedBattery : BaseAccessory
     {
         if (NetHelper.IsPlayerSameAsLocalPlayer(player))
         {
-            var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+            var modPlayer = player.GetModPlayer<AccessoryPlayer>();
             modPlayer.hasChargedBattery = true;
         }
     }

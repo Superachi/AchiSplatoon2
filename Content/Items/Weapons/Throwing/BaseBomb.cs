@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                if (player.GetModPlayer<InkAccessoryPlayer>().hasHypnoShades)
+                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
                     return HypnoShades.BombUseTimeMod;
                 }
@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                if (player.GetModPlayer<InkAccessoryPlayer>().hasHypnoShades)
+                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
                     player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMod);
                 }

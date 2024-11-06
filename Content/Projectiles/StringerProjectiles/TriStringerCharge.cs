@@ -76,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             SetChargeLevelModifiers(chargePercentage);
             PlayShootSample();
 
-            var mP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var mP = owner.GetModPlayer<AccessoryPlayer>();
             if (mP.hasFreshQuiver && IsChargeMaxedOut())
             {
                 finalArc *= mP.freshQuiverArcMod;
@@ -157,7 +157,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             if (!IsProjectileOfType<TriStringerProjectile>(projectile)) return;
 
-            var mP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var mP = GetOwner().GetModPlayer<AccessoryPlayer>();
             var modProj = projectile as TriStringerProjectile;
             modProj.parentFullyCharged = IsChargeMaxedOut();
             modProj.firedWithFreshQuiver = mP.hasFreshQuiver;

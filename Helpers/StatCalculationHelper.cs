@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Helpers
         {
             float damageModifier = 1f;
             var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
-            var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = player.GetModPlayer<AccessoryPlayer>();
             if (debug) DebugHelper.PrintInfo($"Start val: {damageModifier}");
 
             #region Additive
