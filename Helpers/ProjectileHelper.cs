@@ -1,9 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
-using System;
-using Terraria.DataStructures;
-using Terraria;
 using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.DataStructures;
 
 namespace AchiSplatoon2.Helpers
 {

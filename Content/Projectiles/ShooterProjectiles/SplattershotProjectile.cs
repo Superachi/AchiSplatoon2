@@ -1,9 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System.IO;
-using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 

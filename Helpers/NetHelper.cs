@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Netcode;
+﻿using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Terraria;
 using Terraria.ID;

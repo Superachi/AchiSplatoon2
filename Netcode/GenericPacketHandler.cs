@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Test;
 using AchiSplatoon2.Content.Projectiles.Debug;
-using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.Helpers;
 using log4net;
 using System.IO;
