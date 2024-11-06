@@ -1,4 +1,6 @@
 ﻿using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
@@ -233,10 +235,9 @@ namespace AchiSplatoon2.Content.Players
 
         private void SyncColorChipData()
         {
-            //var dto = new InkWeaponPlayerDTO(
-            //    colorChipAmounts: ColorChipAmounts);
+            var dto = new ColorChipPlayerDTO(colorChipAmounts: ColorChipAmounts);
 
-            //NetHelper.SendModPlayerPacket(this, PlayerPacketType.InkWeaponPlayer, dto);
+            NetHelper.SendModPlayerPacket(this, PlayerPacketType.ColorChipPlayer, dto);
         }
 
         #endregion

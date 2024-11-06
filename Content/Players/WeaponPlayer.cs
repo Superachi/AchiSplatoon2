@@ -337,16 +337,12 @@ namespace AchiSplatoon2.Content.Players
             SyncAllDataIfMultiplayer();
         }
 
-        private void SendPacket(PlayerPacketType msgType, InkWeaponPlayerDTO dto)
+        private void SendPacket(WeaponPlayerDTO dto)
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
             if (NetHelper.IsSinglePlayer()) return;
 
-            ModPlayerPacketHandler.SendModPlayerPacket(
-                    msgType: msgType,
-                    fromWho: Main.LocalPlayer.whoAmI,
-                    json: dto.Serialize(),
-                    logger: Mod.Logger);
+            NetHelper.SendModPlayerPacket(this, PlayerPacketType.WeaponPlayer, dto);
         }
 
         public void SyncAllDataManual()
@@ -364,20 +360,20 @@ namespace AchiSplatoon2.Content.Players
 
         private void SyncSpecialChargeData()
         {
-            var dto = new InkWeaponPlayerDTO(
+            var dto = new WeaponPlayerDTO(
                 specialReady: SpecialReady);
 
-            SendPacket(PlayerPacketType.InkWeaponPlayer, dto);
+            SendPacket(dto);
         }
 
         private void SyncMoveSpeedData()
         {
-            var dto = new InkWeaponPlayerDTO(
+            var dto = new WeaponPlayerDTO(
                 moveSpeedMod: moveSpeedModifier,
                 moveAccelMod: moveAccelModifier,
                 moveFrictionMod: moveFrictionModifier);
 
-            SendPacket(PlayerPacketType.InkWeaponPlayer, dto);
+            SendPacket(dto);
         }
     }
 }
