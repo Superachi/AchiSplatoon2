@@ -10,16 +10,16 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     {
         public override float ShotGravity { get => 0.1f; }
         public override int ShotGravityDelay { get => 12; }
-        public override int ShotExtraUpdates { get => 2; }
-        public override float AimDeviation { get => 4f; }
+        public override int ShotExtraUpdates { get => 4; }
+        public override float AimDeviation { get => 8f; }
         public override string ShootSample { get => "SplattershotShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 40f;
 
         // Dualie specific
         public override string RollSample { get => "Dualies/TetraDualieRoll"; }
-        public override float PostRollDamageMod { get => 1f; }
-        public override float PostRollAttackSpeedMod { get => 0.5f; }
+        public override float PostRollDamageMod { get => 0.6f; }
+        public override float PostRollAttackSpeedMod { get => 0.4f; }
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1f; }
         public override int MaxRolls { get => 1; }
@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<PainterDualieShotProjectile>(),
-                singleShotTime: 12,
+                singleShotTime: 15,
                 shotVelocity: 4f);
 
             Item.damage = 9;

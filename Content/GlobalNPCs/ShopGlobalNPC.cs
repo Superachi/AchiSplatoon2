@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (shop.NpcType == NPCID.Painter)
             {
-                shop.Add<PainterDualie>();
+                shop.Add<PainterDualie>(Condition.DownedEarlygameBoss);
             }
         }
     }

@@ -168,6 +168,8 @@ namespace AchiSplatoon2.Content.Projectiles
         /// </summary>
         protected virtual void AdjustVariablesOnShoot()
         {
+            // "by default projectile.netupdate syncs: .identity, .position, .velocity, .knockback, .damage, .owner, .type, .ai[0],.ai[1]"
+            // "https://discord.com/channels/103110554649894912/103115427491610624/385793560001249290"
         }
 
         protected virtual void CreateDustOnSpawn()
@@ -561,6 +563,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
             var color = GenerateInkColor();
             initialColor = ColorHelper.IncreaseHueBy(Main.rand.Next(-5, 5), color);
+        }
+
+        public void UpdateInitialInkColor(Color color)
+        {
+            initialColor = color;
         }
 
         /// <summary>
@@ -1078,7 +1085,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void NetReceiveInitialize(BinaryReader reader)
         {
-            AfterSpawn();
+            RunSpawnMethods();
         }
 
         private string NotImplementedWarning()
