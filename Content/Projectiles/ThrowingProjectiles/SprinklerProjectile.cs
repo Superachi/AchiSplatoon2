@@ -8,10 +8,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class SprinklerProjectile : BaseProjectile
     {
-        private float delayUntilFall = 12f;
-        private float delayUntilDust = 2f;
-        private float fallSpeed = 0.3f;
-        private float terminalVelocity = 12f;
+        private readonly float delayUntilFall = 12f;
+        private readonly float delayUntilDust = 2f;
+        private readonly float fallSpeed = 0.3f;
+        private readonly float terminalVelocity = 12f;
 
         public override void SetDefaults()
         {

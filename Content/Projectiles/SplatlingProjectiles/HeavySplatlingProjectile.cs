@@ -14,8 +14,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {
     internal class HeavySplatlingProjectile : BaseProjectile
     {
-        private float delayUntilFall = 20f;
-        private float fallSpeed = 0.1f;
+        private readonly float delayUntilFall = 20f;
+        private readonly float fallSpeed = 0.1f;
 
         public bool chargedShot = false;
         private bool firedWithCrayonBox = false;

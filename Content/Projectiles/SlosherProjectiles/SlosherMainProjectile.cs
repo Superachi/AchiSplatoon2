@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         private int weaponDamage;
         private float fallDelayCount = 0;
         private float fallSpeed;
-        private float terminalVelocity = 8f;
+        private readonly float terminalVelocity = 8f;
         private bool hasChildren = false;
 
         public override void SetDefaults()

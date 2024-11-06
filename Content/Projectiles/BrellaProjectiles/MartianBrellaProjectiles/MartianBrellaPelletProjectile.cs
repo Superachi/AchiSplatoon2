@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 {
     internal class MartianBrellaPelletProjectile : BaseProjectile
     {
-        private float brightness = 0.002f;
+        private readonly float brightness = 0.002f;
 
         private float angle = 0;
         private float speed = 0;

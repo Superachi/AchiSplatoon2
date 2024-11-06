@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
     {
         private int delayUntilFall;
         private float fallSpeed;
-        private bool canFall = false;
+        private readonly bool canFall = false;
 
         private bool countedForBurst = false;
         private float damageIncreasePerHit;

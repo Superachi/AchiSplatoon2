@@ -10,8 +10,8 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
     {
         private int delayUntilFall;
         private float fallSpeed;
-        private bool canFall = false;
-        private float terminalVelocity = 6f;
+        private readonly bool canFall = false;
+        private readonly float terminalVelocity = 6f;
 
         public override void SetDefaults()
         {

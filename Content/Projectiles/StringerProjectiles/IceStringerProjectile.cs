@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
     {
         private int hitShrapnelCount = 5;
         private int hitShrapnelCooldown = 0;
-        private int hitShrapnelCooldownMax = 6;
+        private readonly int hitShrapnelCooldownMax = 6;
 
         private bool hasLanded = false;
 

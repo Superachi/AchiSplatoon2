@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Helpers
             // Pallete bonus
             if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponInstance, player))
             {
-                damageModifier += colorChipPlayer.PaletteMainDamageMod  - 1;
+                damageModifier += colorChipPlayer.PaletteMainDamageMod - 1;
                 if (debug) DebugHelper.PrintInfo($"Val after palette: {damageModifier}");
             }
 
@@ -44,11 +44,12 @@ namespace AchiSplatoon2.Helpers
 
                     if (heldItem.BonusType == SubWeaponBonusType.Damage)
                     {
-                        if ((heldItem.BonusSub == SubWeaponType.SplatBomb       && weaponInstance is SplatBomb)
-                            || (heldItem.BonusSub == SubWeaponType.BurstBomb    && weaponInstance is BurstBomb)
+                        if ((heldItem.BonusSub == SubWeaponType.SplatBomb && weaponInstance is SplatBomb)
+                            || (heldItem.BonusSub == SubWeaponType.BurstBomb && weaponInstance is BurstBomb)
                             || (heldItem.BonusSub == SubWeaponType.AngleShooter && weaponInstance is AngleShooter)
-                            || (heldItem.BonusSub == SubWeaponType.Sprinkler    && weaponInstance is Sprinkler)
-                            || (heldItem.BonusSub == SubWeaponType.InkMine      && weaponInstance is InkMine)) {
+                            || (heldItem.BonusSub == SubWeaponType.Sprinkler && weaponInstance is Sprinkler)
+                            || (heldItem.BonusSub == SubWeaponType.InkMine && weaponInstance is InkMine))
+                        {
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
                     }
@@ -84,7 +85,7 @@ namespace AchiSplatoon2.Helpers
                 {
                     classMod = player.GetDamage(DamageClass.Ranged).ApplyTo(classMod);
                 }
-                   
+
                 classMod = player.GetDamage(DamageClass.Generic).ApplyTo(classMod);
                 damageModifier *= classMod;
                 if (debug) DebugHelper.PrintInfo($"Val after class bonuses: {damageModifier}");

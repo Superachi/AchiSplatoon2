@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         public override void AddRecipes()
         {
-            
+
         }
     }
 }

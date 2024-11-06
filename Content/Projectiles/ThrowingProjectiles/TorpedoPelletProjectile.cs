@@ -6,8 +6,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class TorpedoPelletProjectile : BaseProjectile
     {
-        private int delayUntilFall = 10;
-        private float fallSpeed = 0.2f;
+        private readonly int delayUntilFall = 10;
+        private readonly float fallSpeed = 0.2f;
         private bool canFall = false;
         private bool hasExploded = false;
 

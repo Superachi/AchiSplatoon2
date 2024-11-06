@@ -99,7 +99,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             }
         }
 
-        protected Recipe ColorChipRecipe(int dyeItemId, int gemItemId) {
+        protected Recipe ColorChipRecipe(int dyeItemId, int gemItemId)
+        {
             return CreateRecipe()
                 .AddIngredient(ModContent.ItemType<ColorChipEmpty>())
                 .AddIngredient(dyeItemId)

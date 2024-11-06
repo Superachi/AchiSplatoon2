@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private int detectionRadius;
         private int fuseTime = 0;
-        private int delayUntilExplosion = 30;
+        private readonly int delayUntilExplosion = 30;
         protected int explosionRadius;
 
         private float circleDrawMod;

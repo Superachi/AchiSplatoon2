@@ -42,7 +42,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             PlayAudio("Throwables/SplatBombThrow");
 
-            if (IsThisClientTheProjectileOwner()) {
+            if (IsThisClientTheProjectileOwner())
+            {
                 float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
                 float velocityMod = MathHelper.Clamp(distance / 250f, 0.4f, 1.2f);
                 Projectile.velocity *= velocityMod;

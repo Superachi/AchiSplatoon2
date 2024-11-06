@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private int maxFuseTime = 180;
         private bool hasCollided = false;
 
-        private float groundFriction = 0.95f;
+        private readonly float groundFriction = 0.95f;
         private bool applyGravity = false;
         private float xVelocityBeforeBump;
 

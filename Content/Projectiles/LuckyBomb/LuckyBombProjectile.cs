@@ -21,13 +21,13 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
         private NPC npcTarget = null;
         private float chaseSpeed = 0f;
         private int remainingTargetAttempts = 10;
-        private float maxTargetDistance = 800f;
+        private readonly float maxTargetDistance = 800f;
 
         private float drawScale = 0f;
         private float sizeMod = 1f;
-        private int frameCount = 8;
+        private readonly int frameCount = 8;
         private float frameTimer = 0f;
-        private int frameDelay = 4;
+        private readonly int frameDelay = 4;
 
         public override void SetStaticDefaults()
         {
@@ -181,7 +181,8 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
                         npcTarget = npc;
                     }
                 }
-            } else
+            }
+            else
             {
                 SetState(stateSequenceExplode);
             }

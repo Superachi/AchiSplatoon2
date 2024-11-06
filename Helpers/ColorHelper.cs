@@ -136,7 +136,8 @@ namespace AchiSplatoon2.Helpers
             if (hueA > hueB)
             {
                 hueB += hueMax;
-            } else
+            }
+            else
             {
                 hueA += hueMax;
             }

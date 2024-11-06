@@ -20,19 +20,19 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private NPC? target = null;
         private float chaseSpeed = 0f;
-        private float chaseSpeedMax = 15f;
+        private readonly float chaseSpeedMax = 15f;
 
         private int pelletCount;
         private float pelletDamageMod;
         private int explosionRadius = 150;
-        private int detectionRadius = 300;
+        private readonly int detectionRadius = 300;
         private Vector2? lockOnPosition;
 
         // Physics
         private float drawScale = 1f;
         private float drawRotation = 0f;
-        private int delayUntilFall = 10;
-        private float fallSpeed = 0.5f;
+        private readonly int delayUntilFall = 10;
+        private readonly float fallSpeed = 0.5f;
         private float xVelocityBeforeBump;
 
         // Audio
@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
                     if (oldState != stateRoll)
                     {
-                        for (int i = 0; i < pelletCount; i ++)
+                        for (int i = 0; i < pelletCount; i++)
                         {
                             var dir = MathHelper.ToRadians(i * (180 / pelletCount) + 180).ToRotationVector2();
                             var pellet = CreateChildProjectile<TorpedoPelletProjectile>(
@@ -164,7 +164,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     if (drawScale < 2)
                     {
                         drawScale += 0.2f;
-                    } else
+                    }
+                    else
                     {
                         SetState(stateLockOnShrink);
                     }
@@ -238,7 +239,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (state == stateFly)
             {
                 SetState(stateRoll);
-            } else if (state == stateChase)
+            }
+            else if (state == stateChase)
             {
                 SetState(stateExplode);
             }

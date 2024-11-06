@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         public bool wasFullyCharged;
         private bool firstHit = false;
 
-        private int baseAnimationTime = 22;
+        private readonly int baseAnimationTime = 22;
 
         public override void SetDefaults()
         {

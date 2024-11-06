@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Dualies;
 
         protected override string UsageHintParamA => MaxRolls.ToString();
-        
+
         // Shoot settings
         public virtual float ShotGravity { get => 0.3f; }
         public virtual int ShotGravityDelay { get => 20; }
@@ -66,14 +66,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                     return false;
                 }
             }
-            
+
             return base.CanUseItem(player);
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             var dualieMP = player.GetModPlayer<DualiePlayer>();
-            
+
             var p = CreateProjectileWithWeaponProperties(
                 player: player,
                 source: source,

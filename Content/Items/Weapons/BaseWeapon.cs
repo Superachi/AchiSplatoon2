@@ -257,7 +257,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
             var modPlayer = player.GetModPlayer<WeaponPlayer>();
             if (modPlayer.CustomWeaponCooldown > 0) return false;
 
-            if (!IsSpecialWeapon) {
+            if (!IsSpecialWeapon)
+            {
                 return base.CanUseItem(player);
             }
             else

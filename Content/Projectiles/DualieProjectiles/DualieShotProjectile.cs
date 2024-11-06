@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         private int delayUntilFall;
         private float fallSpeed;
         private bool canFall = false;
-        private float terminalVelocity = 6f;
+        private readonly float terminalVelocity = 6f;
         public float aimDevOverride = -1f;
 
         protected float Timer
@@ -99,7 +99,9 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             if (dualieMP.isTurret)
             {
                 PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0f);
-            } else {
+            }
+            else
+            {
                 PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.25f);
             }
         }

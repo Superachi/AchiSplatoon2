@@ -96,7 +96,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                     break;
             }
 
-            Timer ++;
+            Timer++;
             if (Timer >= delayUntilFall * FrameSpeed())
             {
                 if (!canFall)

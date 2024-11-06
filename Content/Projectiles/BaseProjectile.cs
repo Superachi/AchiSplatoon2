@@ -226,7 +226,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     float dev = WeaponInstance.AimDeviation;
                     if (aimDeviationOverride != -1f) dev = aimDeviationOverride;
-                    
+
                     float startRad = vel.ToRotation();
                     float startDeg = MathHelper.ToDegrees(startRad);
                     float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
@@ -404,7 +404,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 }
 
                 float loopCount = 1f + luckyBombChance;
-                for (float i = 0; i < loopCount; i ++)
+                for (float i = 0; i < loopCount; i++)
                 {
                     if (luckyBombChance > 0 && Main.rand.NextFloat() <= luckyBombChance)
                     {
@@ -450,7 +450,8 @@ namespace AchiSplatoon2.Content.Projectiles
                             closestDistance = distance;
                             npcTarget = npc;
                         }
-                    } else
+                    }
+                    else
                     {
                         closestDistance = distance;
                         npcTarget = npc;
@@ -528,9 +529,9 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             if (colorOverride == null)
             {
-            var colorChipPlayer = GetOwnerModPlayer<ColorChipPlayer>();
-            if (colorChipPlayer.DoesPlayerHaveEqualAmountOfChips() && colorChipPlayer.CalculateColorChipTotal() != 0)
-            {
+                var colorChipPlayer = GetOwnerModPlayer<ColorChipPlayer>();
+                if (colorChipPlayer.DoesPlayerHaveEqualAmountOfChips() && colorChipPlayer.CalculateColorChipTotal() != 0)
+                {
                     colorOverride = ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f);
                 }
             }

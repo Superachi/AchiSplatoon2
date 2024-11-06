@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Players
     {
         // Level mechanics
         public int PowerLevel { get; private set; } = 1;
-        private int levelCap = 4;
+        private readonly int levelCap = 4;
         private List<string> usedDroneDiscs = new();
 
         // Attack stats
@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Players
 
         // Misc.
         private bool isDroneActive = false;
-        private string droneName = "Pearl Drone";
+        private readonly string droneName = "Pearl Drone";
 
         // Usage stats
         public int DamageDealt => damageDealt;
@@ -123,7 +123,7 @@ namespace AchiSplatoon2.Content.Players
         {
             if (!DoesPlayerHavePearlDrone()) return null;
 
-            foreach(Projectile projectile in Main.ActiveProjectiles)
+            foreach (Projectile projectile in Main.ActiveProjectiles)
             {
                 if (projectile.type == ModContent.ProjectileType<PearlDroneMinion>() && projectile.owner == Player.whoAmI)
                 {

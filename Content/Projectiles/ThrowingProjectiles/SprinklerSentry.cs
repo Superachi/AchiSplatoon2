@@ -8,8 +8,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class SprinklerSentry : BaseBombProjectile
     {
         private Vector2 lockedPosition;
-        private float previousVelocityX;
-        private float previousVelocityY;
+        private readonly float previousVelocityX;
+        private readonly float previousVelocityY;
         private float prevX;
         private float prevY;
         private float prevXdiff;
@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float yFacing = 0;
 
         private bool hasCollided = false;
-        private bool sticking = false;
+        private readonly bool sticking = false;
         private bool isStickingVertically;
         private bool fallback = false;
         private Vector2 stickingDirection = new Vector2(0, 0);

@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles.Debug
     internal class NetcodeInspectorProjectile : BaseProjectile
     {
         private int pingTimer = 0;
-        private int pingTimerMax = 30;
+        private readonly int pingTimerMax = 30;
         private int pingMs = 0;
         private DateTime timeSincePingSent = DateTime.Now;
         private DateTime timeSincePingReceived = DateTime.Now;

@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {
     internal class BrushSwingProjectile : BaseProjectile
     {
-        private Texture2D weaponSprite;
+        private readonly Texture2D weaponSprite;
 
         private Player owner;
         private WeaponPlayer weaponPlayer;
@@ -415,7 +415,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 {
                     PlayAudio(shootAltSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
                 }
-            } else
+            }
+            else
             {
                 for (int i = -1; i < 2; i += 2)
                 {

@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
     {
         private UIElement area;
         private UIImage barFrame;
-        private UIImage barFill;
+        private readonly UIImage barFill;
         private Color barColor;
 
         public override void OnInitialize()

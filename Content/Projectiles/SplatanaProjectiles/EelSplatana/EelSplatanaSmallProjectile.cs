@@ -8,10 +8,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
     internal class EelSplatanaSmallProjectile : BaseProjectile
     {
-        private int delayUntilFall = 60;
-        private float fallSpeed = 0.1f;
+        private readonly int delayUntilFall = 60;
+        private readonly float fallSpeed = 0.1f;
         private bool canFall = false;
-        private float terminalVelocity = 6f;
+        private readonly float terminalVelocity = 6f;
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -83,7 +83,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 var spriteEffects = Projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
                 var alphaMod = (float)i / len;
 
-                DrawProjectile(Color.White, Projectile.oldRot[i], scale: 1, alphaMod: alphaMod, considerWorldLight: true, flipSpriteSettings: spriteEffects, positionOffset: posDiff); 
+                DrawProjectile(Color.White, Projectile.oldRot[i], scale: 1, alphaMod: alphaMod, considerWorldLight: true, flipSpriteSettings: spriteEffects, positionOffset: posDiff);
             }
             return false;
         }

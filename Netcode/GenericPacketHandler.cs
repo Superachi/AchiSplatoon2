@@ -173,7 +173,8 @@ namespace AchiSplatoon2.Netcode
                         p!.ReceiveServerPing();
                     }
                 }
-            } else
+            }
+            else
             {
                 DebugHelper.PrintInfo($"Received ping reponse from server. Use {nameof(NetcodeInspector)} item for more netcode debugging info.");
             }

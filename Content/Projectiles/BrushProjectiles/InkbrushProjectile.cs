@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private Color bulletColor;
         private float delayUntilFall;
         private float shotGravity = 0.05f;
-        private float airResist = 0.995f;
+        private readonly float airResist = 0.995f;
         private float drawScale = 0;
         private float drawRotation;
         protected float brightness = 0.001f;
@@ -63,7 +63,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         public override void AI()
         {
             Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
-            
+
             if (timeSpentAlive > 3 * FrameSpeed())
             {
                 if (drawScale < 1f)

@@ -189,9 +189,9 @@ namespace AchiSplatoon2.Content.Players
             if (colorChipPlayer.IsPaletteValid())
             {
                 int blueChipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Blue];
-                moveSpeedModifier       += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
-                moveAccelModifier       += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
-                moveFrictionModifier    += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveSpeedModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveAccelModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveFrictionModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
             }
 
             if (oldMoveSpeedMod != moveSpeedModifier

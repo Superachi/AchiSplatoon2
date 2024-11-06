@@ -37,7 +37,8 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             if (xDir != 0)
             {
                 owner.velocity.X = xDir * rollDistance;
-            } else
+            }
+            else
             {
                 owner.velocity.X = -Math.Sign(owner.DirectionTo(Main.MouseWorld).X) * rollDistance;
             }
@@ -51,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                 {
                     CreateChildProjectile(owner.Center, Vector2.Zero, ModContent.ProjectileType<GrizzcoDualieBlastProjectile>(), 800, true);
                     PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.1f, maxInstances: 3, pitch: 0.5f);
-                } 
+                }
             }
         }
 

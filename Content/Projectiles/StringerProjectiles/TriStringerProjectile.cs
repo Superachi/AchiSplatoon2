@@ -12,16 +12,16 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
     internal class TriStringerProjectile : BaseProjectile
     {
         public bool canStick = false;
-        private int networkExplodeDelayBuffer = 120;
+        private readonly int networkExplodeDelayBuffer = 120;
 
-        private float delayUntilFall = 12f;
-        private float fallSpeed = 0.001f;
+        private readonly float delayUntilFall = 12f;
+        private readonly float fallSpeed = 0.001f;
 
         protected bool sticking = false;
         protected bool hasExploded = false;
 
         protected virtual int ExplosionRadius { get => 120; }
-        private ExplosionDustModel explosionDustModel;
+        private readonly ExplosionDustModel explosionDustModel;
         protected int finalExplosionRadius = 0;
 
         private bool countedForBurst = false;

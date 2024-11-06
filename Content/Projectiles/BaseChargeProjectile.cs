@@ -257,7 +257,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color color = new (initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
+            Color color = new(initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);

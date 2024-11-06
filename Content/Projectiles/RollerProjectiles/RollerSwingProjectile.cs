@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private int stateTimer = 0;
 
         private int windUpTime = 20;
-        private int childVelocity = 20;
+        private readonly int childVelocity = 20;
         private bool startedJumpSwing = false;
 
         private float groundWindUpDelayMod;
@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private float jumpAttackVelocityMod;
         private float jumpAttackDamageMod;
 
-        private int swingTime = 15;
+        private readonly int swingTime = 15;
         private int facingDirection;
 
         private Player owner;
@@ -150,7 +150,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 {
                     modifiers.FinalDamage *= 0.5f;
                 }
-            } else
+            }
+            else
             {
                 modifiers.FinalDamage *= 1f;
             }
@@ -173,7 +174,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     if (startedJumpSwing)
                     {
                         windUpTime = (int)(windUpTime * jumpWindUpDelayMod);
-                    } else
+                    }
+                    else
                     {
                         windUpTime = (int)(windUpTime * groundWindUpDelayMod);
                     }
@@ -197,7 +199,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             if (startedJumpSwing)
             {
                 lerpAmount /= jumpWindUpDelayMod;
-            } else
+            }
+            else
             {
                 lerpAmount /= groundWindUpDelayMod;
             }
@@ -232,7 +235,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 {
                     damage = (int)(Projectile.damage * jumpAttackDamageMod);
                     velocity *= jumpAttackVelocityMod;
-                } else
+                }
+                else
                 {
                     velocity *= groundAttackVelocityMod;
                 }

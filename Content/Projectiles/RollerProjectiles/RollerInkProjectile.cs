@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
     {
         private Color bulletColor;
         public float delayUntilFall = 45;
-        private float fallSpeed = 0.4f;
+        private readonly float fallSpeed = 0.4f;
         private float drawScale;
         private float drawRotation;
         protected float brightness = 0.001f;

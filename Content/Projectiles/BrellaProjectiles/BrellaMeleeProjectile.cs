@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
     internal class BrellaMeleeProjectile : BaseProjectile
     {
         private Vector2 shieldAngle;
-        private float shieldAngleOffsetMult = 30f;
+        private readonly float shieldAngleOffsetMult = 30f;
         private bool canShield;
 
         public override void SetDefaults()

@@ -186,7 +186,8 @@ namespace AchiSplatoon2.Content.Players
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
 
-                    if (hasSquidClipOns) {
+                    if (hasSquidClipOns)
+                    {
                         maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
                         Player.immuneTime = (int)rollDuration + 12;
                         Player.immune = true;

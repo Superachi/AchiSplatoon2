@@ -56,7 +56,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
-            
+
             damageBeforePiercing = Projectile.damage;
         }
 

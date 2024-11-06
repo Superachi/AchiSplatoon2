@@ -112,7 +112,8 @@ namespace AchiSplatoon2.Content.Players
             if (lastBlasterShotHit)
             {
                 Player.ClearBuff(ModContent.BuffType<BigBlastBuff>());
-            } else
+            }
+            else
             {
                 int buffType = ModContent.BuffType<BigBlastBuff>();
                 Player.AddBuff(buffType, 2);

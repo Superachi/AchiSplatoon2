@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
         private float previousPositionX;
         private float previousPositionY;
-        private int shootSpeed = 9;
+        private readonly int shootSpeed = 9;
         private int shootCooldown = 0;
 
         public override void SetDefaults()

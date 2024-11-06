@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         private float maxChargeLifetimeMod;
         private float maxChargeVelocityMod;
 
-        private int soundDelayInterval = 6;
+        private readonly int soundDelayInterval = 6;
         private string chargeSample;
 
         private int weakSlashProjectile;

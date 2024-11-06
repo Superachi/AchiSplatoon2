@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             if (accMP.hasPinkSponge)
             {
                 var size = 80;
-                Rectangle projectileRect = new Rectangle((int)Projectile.Center.X - size/2, (int)Projectile.Center.Y - size / 2, size, size);
+                Rectangle projectileRect = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
                 Projectile deflectedProj = DeflectProjectileWithinRectangle(projectileRect);
 
                 if (deflectedProj != null)

@@ -13,9 +13,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaShooter : BaseProjectile
     {
-        private float shotArcIncrement = 1.5f;
-        private float shotVelocityBase = 20f;
-        private float shotVelocityRange = 3f;
+        private readonly float shotArcIncrement = 1.5f;
+        private readonly float shotVelocityBase = 20f;
+        private readonly float shotVelocityRange = 3f;
 
         public override void SetDefaults()
         {
@@ -78,7 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
-            
+
             EmitShotBurstDust();
             PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
 

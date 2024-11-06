@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float previousVelocityY;
         private int maxBounces;
         private float bounceDamageMod = 1f;
-        private float bounceDamageModMax = 10f;
+        private readonly float bounceDamageModMax = 10f;
         private int baseDamage;
 
         public override void SetDefaults()

@@ -27,23 +27,23 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private const int stateDropItem = 3;
 
         private int speechCooldownCurrent = 0;
-        private int speechCooldownMax = 600;
+        private readonly int speechCooldownMax = 600;
         private int speechDisplayTime = 0;
         private float speechScale = 0f;
         private string speechText = "";
         private string ownerName = "";
 
-        private string shoutSample = $"Voice\\Pearl\\Shout";
-        private int shoutSampleCount = 3;
-        private string talkSample = $"Voice\\Pearl\\ShortTalk";
-        private int talkSampleCount = 5;
+        private readonly string shoutSample = $"Voice\\Pearl\\Shout";
+        private readonly int shoutSampleCount = 3;
+        private readonly string talkSample = $"Voice\\Pearl\\ShortTalk";
+        private readonly int talkSampleCount = 5;
 
         private int sprinklerCooldown;
-        private int sprinklerCooldownMax = 20;
+        private readonly int sprinklerCooldownMax = 20;
         private int burstBombCooldown;
-        private int burstBombCooldownMax = 600;
+        private readonly int burstBombCooldownMax = 600;
         private int healCooldown;
-        private int healCooldownMax = 7200;
+        private readonly int healCooldownMax = 7200;
 
         private NPC? foundTarget = null;
 
@@ -215,7 +215,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 var inertia = 40f;
                 Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * distanceToGoal / 15) / inertia;
-            } else
+            }
+            else
             {
                 Projectile.velocity *= 0.9f;
             }

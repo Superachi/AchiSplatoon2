@@ -85,7 +85,7 @@ namespace AchiSplatoon2.Content.GlobalItems
                     itemLoot.Add(
                         ItemDropRule.Common(ModContent.ItemType<ColorChipEmpty>())
                     );
-                break;
+                    break;
             }
         }
     }

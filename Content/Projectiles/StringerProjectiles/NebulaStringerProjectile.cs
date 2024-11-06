@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public bool firedWithFreshQuiver = false;
 
         private int firedPenetrate;
-        private int chaseTime = 0;
+        private readonly int chaseTime = 0;
 
         public override void SetDefaults()
         {
@@ -71,7 +71,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = Vector2.Zero;
                     Projectile.Resize(ExplosionRadius, ExplosionRadius);
 
-                    for (int i = 0; i < 30; i ++)
+                    for (int i = 0; i < 30; i++)
                     {
                         var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Main.rand.NextVector2CircularEdge(6, 6), newColor: initialColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
                     }
@@ -117,7 +117,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         target = FindClosestEnemy(500);
                     }
-                } else
+                }
+                else
                 {
                     AdvanceState();
                 }
@@ -148,7 +149,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         Projectile.velocity *= 0.8f;
                     }
-                } else
+                }
+                else
                 {
                     SetState(stateStopChase);
                 }

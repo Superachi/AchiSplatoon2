@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Players
     internal class OnlinePlayer : ModPlayer
     {
         private int playerCountTimer = 15;
-        private int playerCountTimerMax = 15;
+        private readonly int playerCountTimerMax = 15;
         private int playerCount = 0;
         private bool playerCountChanged = false;
 

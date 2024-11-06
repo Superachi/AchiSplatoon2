@@ -13,9 +13,9 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherChildProjectile : BaseProjectile
     {
-        private float delayUntilFall = 3f;
+        private readonly float delayUntilFall = 3f;
         private float fallSpeed;
-        private float terminalVelocity = 12f;
+        private readonly float terminalVelocity = 12f;
 
         private Color bulletColor;
         private float drawScale = 0f;
@@ -58,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
             }
 
-            
+
             // Set visuals
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
             bulletColor = GenerateInkColor();

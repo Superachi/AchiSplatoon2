@@ -34,7 +34,8 @@ namespace AchiSplatoon2.Content.Dusts
 
                 spriteBatch.End();
                 spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
-            } else
+            }
+            else
             {
                 spriteBatch.Draw(Texture2D.Value, position, dust.frame, finalColor, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
             }
