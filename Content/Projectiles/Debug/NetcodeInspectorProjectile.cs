@@ -62,13 +62,13 @@ namespace AchiSplatoon2.Content.Projectiles.Debug
             {
                 if (player.whoAmI != GetOwner().whoAmI)
                 {
-                    var wepMP = player.GetModPlayer<InkWeaponPlayer>();
+                    var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
                     string allyText = $"Player {player.whoAmI} ({player.name})";
 
                     Utils.DrawBorderString(
                         Main.spriteBatch, $"{allyText}",
                         GetPlayerDrawPosition(player, 0, 60),
-                        wepMP.GetColorFromChips(),
+                        colorChipPlayer.GetColorFromChips(),
                         anchorx: 0.5f);
                 }
             }

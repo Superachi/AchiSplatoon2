@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkAccessoryPlayer : BaseModPlayer
+    internal class InkAccessoryPlayer : ModPlayer
     {
         public Type? paletteType = null;
 
@@ -44,7 +44,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
+            var wepMP = Player.GetModPlayer<WeaponPlayer>();
             if (Player.HasBuff<BigBlastBuff>() && !wepMP.SpecialReady)
             {
                 var w = Player.width;

@@ -10,30 +10,18 @@ using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkWeaponPlayer : BaseModPlayer
+    internal class WeaponPlayer : ModPlayer
     {
-        public int playerId = -1;
-        public bool isPaletteEquipped;
-        public int paletteCapacity;
-        public bool conflictingPalettes;    // Is true if the player tries equipping more than one palette
-
-        // Color chip
-        public int[] ColorChipAmounts = [0, 0, 0, 0, 0, 0];
-        public int[] oldColorChipAmounts = [0, 0, 0, 0, 0, 0];
-        public int ColorChipTotal;
-        private Color _colorFromChips = ColorHelper.GetInkColor(InkColor.Order);
-        public bool didColorChipAmountChange = false;
-
         // Special gauge
         public float SpecialPoints;
         public float SpecialPointsMax = 100;
@@ -44,41 +32,6 @@ namespace AchiSplatoon2.Content.Players
         public int SpecialIncrementCooldown = 0;
         public int SpecialIncrementCooldownDefault = 6;
 
-        public float RedChipBaseAttackDamageBonus { get => 0.03f; }
-        public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
-        public int RedChipBaseArmorPierceBonus { get => 3; }
-        public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
-        public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
-        public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
-        public float PurpleChipBaseChargeSpeedBonus { get => 0.08f; }
-        public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
-        public float YellowChipExplosionRadiusBonus { get => 0.1f; }
-        public string YellowChipExplosionRadiusBonusDisplay { get => $"{(int)(YellowChipExplosionRadiusBonus * 100)}%"; }
-        public int YellowChipPiercingBonus { get => 1; }
-        public string YellowChipPiercingBonusDisplay { get => $"{YellowChipPiercingBonus}"; }
-        public float GreenChipLuckyBombChance { get => 0.15f; }
-        public string GreenChipLuckyBombChanceDisplay { get => $"{(int)(GreenChipLuckyBombChance * 100)}%"; }
-        public float GreenChipLootBonusDivider { get => 2f; }
-        public float BlueChipBaseMoveSpeedBonus { get => 0.15f; }
-        public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
-        public float BlueChipBaseChargeBonus { get => 0.2f; }
-        public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
-        public float AquaChipBaseAttackCooldownReduction { get => 0.06f; }
-        public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
-
-        public float PaletteMainDamageMod { get => 1.1f; }
-        public string PaletteMainDamageModDisplay { get => $"+{(int)((PaletteMainDamageMod - 1) * 100)}%"; }
-
-        public enum ChipColor
-        {
-            Red,
-            Blue,
-            Yellow,
-            Purple,
-            Green,
-            Aqua,
-        }
-
         public int CustomWeaponCooldown = 0;
 
         public float moveSpeedModifier = 1f;
@@ -88,6 +41,8 @@ namespace AchiSplatoon2.Content.Players
         public bool isUsingRoller = false;
         public bool isBrushRolling = false;
         public bool isBrushAttacking = false;
+
+        private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
 
         public override void PreUpdate()
         {
@@ -116,7 +71,7 @@ namespace AchiSplatoon2.Content.Players
                         Type: DustID.AncientLight,
                         SpeedX: 0f,
                         SpeedY: -2.5f,
-                        newColor: _colorFromChips,
+                        newColor: colorChipPlayer.GetColorFromChips(),
                         Scale: Main.rand.NextFloat(1f, 2f));
 
                     dustInst = Main.dust[dustId];
@@ -153,7 +108,7 @@ namespace AchiSplatoon2.Content.Players
                     SpeedX: Main.rand.NextFloat(-2f, 2f),
                     SpeedY: -5f,
                     Alpha: 40,
-                    newColor: _colorFromChips,
+                    newColor: colorChipPlayer.GetColorFromChips(),
                     Scale: 2f);
 
                     dustInst = Main.dust[dustId];
@@ -173,46 +128,11 @@ namespace AchiSplatoon2.Content.Players
             DrainSpecial();
         }
 
-        public override void ResetEffects()
-        {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
-
-            didColorChipAmountChange = false;
-            for (int i = 0; i < ColorChipAmounts.Length; i++)
-            {
-                if (ColorChipAmounts[i] != oldColorChipAmounts[i])
-                {
-                    didColorChipAmountChange = true;
-                    break;
-                }
-            }
-
-            for (int i = 0; i < ColorChipAmounts.Length; i++)
-            {
-                oldColorChipAmounts[i] = ColorChipAmounts[i];
-            }
-
-            conflictingPalettes = false;
-            isPaletteEquipped = false;
-            paletteCapacity = 0;
-            ColorChipAmounts = [0, 0, 0, 0, 0, 0];
-            ColorChipTotal = 0;
-        }
-
         // UpdateInventory
-
-        public override void PostUpdate()
-        {
-            if (didColorChipAmountChange)
-            {
-                SetDefaultInkColorBasedOnColorChips();
-                SyncColorChipData();
-            }
-        }
 
         public override void PostUpdateMiscEffects()
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
 
             var oldMoveSpeedMod = moveSpeedModifier;
             var oldMoveAccelMod = moveAccelModifier;
@@ -266,12 +186,12 @@ namespace AchiSplatoon2.Content.Players
             }
 
             // Move speed bonus from holding blue color chips
-            if (IsPaletteValid())
+            if (colorChipPlayer.IsPaletteValid())
             {
-                int blueChipCount = ColorChipAmounts[(int)ChipColor.Blue];
-                moveSpeedModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
-                moveAccelModifier       += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
-                moveFrictionModifier    += blueChipCount * BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                int blueChipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Blue];
+                moveSpeedModifier       += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveAccelModifier       += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+                moveFrictionModifier    += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
             }
 
             if (oldMoveSpeedMod != moveSpeedModifier
@@ -289,80 +209,10 @@ namespace AchiSplatoon2.Content.Players
             Player.runSlowdown *= moveFrictionModifier;
         }
 
-        public bool DoesPlayerHaveTooManyChips()
-        {
-            int chipCount = CalculateColorChipTotal();
-            return (chipCount > paletteCapacity);
-        }
-
-        public bool DoesPlayerHaveEqualAmountOfChips()
-        {
-            int lastAmount = 0;
-            for (int i = 0; i < ColorChipAmounts.Length; i++)
-            {
-                if (i > 0 && ColorChipAmounts[i] != lastAmount)
-                {
-                    return false;
-                }
-
-                lastAmount = ColorChipAmounts[i];
-            }
-            return true;
-        }
-
-        public bool IsPaletteValid()
-        {
-            return !conflictingPalettes && !DoesPlayerHaveTooManyChips();
-        }
-
-        public int CalculateColorChipTotal()
-        {
-            var total = 0;
-            for (int i = 0; i < ColorChipAmounts.Length; i++)
-            {
-                total += ColorChipAmounts[i];
-            }
-            return total;
-        }
-
-        public float CalculateAttackDamageBonus()
-        {
-            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackDamageBonus;
-        }
-
-        public int CalculateArmorPierceBonus()
-        {
-            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseArmorPierceBonus;
-        }
-
-        public float CalculateChargeSpeedBonus()
-        {
-            return ColorChipAmounts[(int)ChipColor.Purple] * PurpleChipBaseChargeSpeedBonus;
-        }
-
-        public float CalculateExplosionRadiusBonus()
-        {
-            return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipExplosionRadiusBonus;
-        }
-
-        public int CalculatePiercingBonus()
-        {
-            return ColorChipAmounts[(int)ChipColor.Yellow];
-        }
-
-        public float CalculateLuckyBombChance()
-        {
-            return ColorChipAmounts[(int)ChipColor.Green] * GreenChipLuckyBombChance;
-        }
-
-        public float CalculateDroneAttackCooldownReduction()
-        {
-            return ColorChipAmounts[(int)ChipColor.Aqua] * AquaChipBaseAttackCooldownReduction;
-        }
 
         public void IncrementSpecialPoints(float amount)
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
             if (SpecialIncrementCooldown > 0) return;
             if (Player.dead) return;
 
@@ -395,14 +245,14 @@ namespace AchiSplatoon2.Content.Players
         {
             if (Math.Abs(Player.velocity.X) > 1f)
             {
-                float increment = 0.002f * Math.Abs(Player.velocity.X) * (ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus);
+                float increment = 0.002f * Math.Abs(Player.velocity.X) * (colorChipPlayer.ColorChipAmounts[(int)ChipColor.Blue] * colorChipPlayer.BlueChipBaseChargeBonus);
                 IncrementSpecialPoints(increment);
             }
         }
 
         public void ActivateSpecial(float drainSpeed, Item special)
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
             if (!IsSpecialActive)
             {
                 if (SpecialPoints == SpecialPointsMax)
@@ -419,7 +269,7 @@ namespace AchiSplatoon2.Content.Players
 
         public void DrainSpecial(float drainAmount = 0f)
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
             if (Player.dead) return;
 
             if (IsSpecialActive)
@@ -447,7 +297,7 @@ namespace AchiSplatoon2.Content.Players
 
         public void ResetSpecialStats()
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
 
             IsSpecialActive = false;
             SpecialPoints = 0;
@@ -455,9 +305,6 @@ namespace AchiSplatoon2.Content.Players
             SpecialReady = false;
             SpecialName = null;
 
-            // Worth noting that, due to how special drain is applied every update + every time the special is used,
-            // This packet may get sent twice
-            // Haven't been able to fix it yet (TODO)
             SyncSpecialChargeData();
         }
 
@@ -485,9 +332,14 @@ namespace AchiSplatoon2.Content.Players
         }
 
         // NetCode
+        public override void OnEnterWorld()
+        {
+            SyncAllDataIfMultiplayer();
+        }
+
         private void SendPacket(PlayerPacketType msgType, InkWeaponPlayerDTO dto)
         {
-            if (!DoesModPlayerBelongToLocalClient()) return;
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
             if (NetHelper.IsSinglePlayer()) return;
 
             ModPlayerPacketHandler.SendModPlayerPacket(
@@ -497,12 +349,17 @@ namespace AchiSplatoon2.Content.Players
                     logger: Mod.Logger);
         }
 
-        private void SyncColorChipData()
+        public void SyncAllDataManual()
         {
-            var dto = new InkWeaponPlayerDTO(
-                colorChipAmounts: ColorChipAmounts);
+            SyncAllDataIfMultiplayer();
+        }
 
-            SendPacket(PlayerPacketType.SyncModPlayer, dto);
+        private void SyncAllDataIfMultiplayer()
+        {
+            if (NetHelper.IsSinglePlayer()) return;
+
+            SyncSpecialChargeData();
+            SyncMoveSpeedData();
         }
 
         private void SyncSpecialChargeData()
@@ -510,7 +367,7 @@ namespace AchiSplatoon2.Content.Players
             var dto = new InkWeaponPlayerDTO(
                 specialReady: SpecialReady);
 
-            SendPacket(PlayerPacketType.SyncModPlayer, dto);
+            SendPacket(PlayerPacketType.InkWeaponPlayer, dto);
         }
 
         private void SyncMoveSpeedData()
@@ -520,78 +377,7 @@ namespace AchiSplatoon2.Content.Players
                 moveAccelMod: moveAccelModifier,
                 moveFrictionMod: moveFrictionModifier);
 
-            SendPacket(PlayerPacketType.SyncModPlayer, dto);
-        }
-
-        public void UpdateInkColor()
-        {
-            SetDefaultInkColorBasedOnColorChips();
-        }
-
-        public Color GetColorFromChips()
-        {
-            return _colorFromChips;
-        }
-
-        private void SetDefaultInkColorBasedOnColorChips()
-        {
-            var primaryHighest = 0;
-            var secondaryHighest = 0;
-            var primaryColor = InkColor.Order;
-            var secondaryColor = InkColor.Order;
-
-            for (int i = 0; i < ColorChipAmounts.Length; i++)
-            {
-                int value = ColorChipAmounts[i];
-
-                // Only consider the color if we have any chips for it
-                if (value > 0)
-                {
-                    // Change the primary color if we see a new highest count
-                    if (value > primaryHighest)
-                    {
-                        // If we've no other colors, make the secondary color match the primary one
-                        if (secondaryHighest == 0)
-                        {
-                            secondaryColor = (InkColor)i;
-                            secondaryHighest = value;
-                        }
-                        // If we do, mark the previous primary color as the secondary color
-                        else
-                        {
-                            secondaryColor = primaryColor;
-                            secondaryHighest = primaryHighest;
-                        }
-
-                        primaryColor = (InkColor)i;
-                        primaryHighest = value;
-                    }
-                    // What if we don't have the highest count?
-                    else if (primaryColor == secondaryColor || value > secondaryHighest)
-                    {
-                        secondaryColor = (InkColor)i;
-                        secondaryHighest = value;
-                    }
-                }
-            }
-
-            // If there are two color chips being considered, add a bias towards the color that we have more chips of
-            _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(
-                ColorHelper.GetInkColor(primaryColor),
-                ColorHelper.GetInkColor(secondaryColor));
-
-            if (primaryHighest != secondaryHighest)
-            {
-                _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(
-                ColorHelper.GetInkColor(primaryColor),
-                ColorHelper.GetInkColor(secondaryColor),
-                ColorHelper.GetInkColor(primaryColor));
-            };
-
-            if (primaryHighest == 0 && secondaryHighest == 0)
-            {
-                _colorFromChips = ColorHelper.CombinePrimarySecondaryColors(ColorHelper.GetInkColor(primaryColor), ColorHelper.GetInkColor(secondaryColor));
-            }
+            SendPacket(PlayerPacketType.InkWeaponPlayer, dto);
         }
     }
 }

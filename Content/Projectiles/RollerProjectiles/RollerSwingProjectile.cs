@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private int facingDirection;
 
         private Player owner;
-        private InkWeaponPlayer weaponPlayer;
+        private WeaponPlayer weaponPlayer;
 
         protected float SwingAngleDegrees
         {
@@ -79,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Initialize(isDissolvable: false);
 
             owner = GetOwner();
-            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+            weaponPlayer = owner.GetModPlayer<WeaponPlayer>();
 
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
@@ -250,7 +250,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         protected void StateRolling()
         {
-            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<BaseModPlayer>().HasHeldItemChanged())
+            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<InventoryPlayer>().HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;

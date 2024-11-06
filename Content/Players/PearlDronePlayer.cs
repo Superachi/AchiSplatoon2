@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class PearlDronePlayer : BaseModPlayer
+    internal class PearlDronePlayer : ModPlayer
     {
         // Level mechanics
         public int PowerLevel { get; private set; } = 1;
@@ -40,6 +40,9 @@ namespace AchiSplatoon2.Content.Players
         // Usage stats
         public int DamageDealt => damageDealt;
         private int damageDealt = 0;
+
+        // ModPlayers
+        private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
 
         public override void PreUpdate()
         {
@@ -133,8 +136,7 @@ namespace AchiSplatoon2.Content.Players
 
         public int GetDroneChipCount()
         {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.ColorChipAmounts[(int)ChipColor.Aqua];
+            return colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua];
         }
 
         public void AddDamageDealtStatistic(int damage)
@@ -208,8 +210,7 @@ namespace AchiSplatoon2.Content.Players
 
         private float GetDroneAttackCooldownReduction()
         {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.CalculateDroneAttackCooldownReduction();
+            return colorChipPlayer.CalculateDroneAttackCooldownReduction();
         }
 
         #endregion
@@ -246,10 +247,9 @@ namespace AchiSplatoon2.Content.Players
         {
             if (Player.dead) isDroneActive = false;
 
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
             if (!isDroneActive)
             {
-                if (wepMP.IsPaletteValid() && wepMP.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
+                if (colorChipPlayer.IsPaletteValid() && colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
                 {
                     if (GetPlayerDrone() == null)
                     {
@@ -276,7 +276,7 @@ namespace AchiSplatoon2.Content.Players
             }
             else
             {
-                if (!wepMP.IsPaletteValid() || wepMP.ColorChipAmounts[(int)ChipColor.Aqua] == 0)
+                if (!colorChipPlayer.IsPaletteValid() || colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua] == 0)
                 {
                     var drone = GetPlayerDrone();
                     if (drone != null)

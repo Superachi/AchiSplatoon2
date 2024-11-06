@@ -20,12 +20,13 @@ using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.GlobalNPCs
 {
     internal class LootGlobalNPC : BaseGlobalNPC
     {
+        private ColorChipPlayer colorChipPlayer => Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
         private void AddBossLootDisregardingDifficulty(LeadingConditionRule expertRule, int itemID)
         {
             expertRule.OnSuccess(ItemDropRule.Common(itemID));
@@ -37,8 +38,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             // Lucky drops, affected by lucky color chips
             if (Main.LocalPlayer.whoAmI == Main.myPlayer) // TODO: Might be a non-sensical if statement, needs testing
             {
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-                float chipCount = modPlayer.ColorChipAmounts[(int)ChipColor.Green];
+                float chipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Green];
 
                 if (npc.friendly) { return; }
                 if (Main.npcCatchable[npc.type]) { return; }
@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chanceModifier = 1f;
                 if (chipCount > 0)
                 {
-                    chanceModifier = 1f / (1f + chipCount / modPlayer.GreenChipLootBonusDivider);
+                    chanceModifier = 1f / (1f + chipCount / colorChipPlayer.GreenChipLootBonusDivider);
                     chanceModifier = Math.Max(1f, chanceModifier);
 
                     if (Main.rand.NextBool((int)(50f * chanceModifier)))
@@ -109,15 +109,13 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         private void RareLootDropPlayerFeedback(NPC npc)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-
             for (int i = 0; i < 15; i++)
             {
                 Dust dust;
                 Vector2 position = npc.Center;
                 Vector2 velocity = Main.rand.NextVector2Circular(15, 15);
                 dust = Main.dust[
-                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, modPlayer.GetColorFromChips(), Main.rand.NextFloat(0.5f, 1.5f))
+                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, colorChipPlayer.GetColorFromChips(), Main.rand.NextFloat(0.5f, 1.5f))
                     ];
                 dust.noGravity = true;
                 dust.fadeIn = 1.5f;

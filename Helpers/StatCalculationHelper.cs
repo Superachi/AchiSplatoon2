@@ -14,20 +14,20 @@ namespace AchiSplatoon2.Helpers
         public static float CalculateDamageModifiers(Player player, BaseWeapon weaponInstance, BaseProjectile projectile = null, bool debug = false)
         {
             float damageModifier = 1f;
-            var wepMP = player.GetModPlayer<InkWeaponPlayer>();
+            var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
             var accMP = player.GetModPlayer<InkAccessoryPlayer>();
             if (debug) DebugHelper.PrintInfo($"Start val: {damageModifier}");
 
             #region Additive
 
             // Red color chip bonus
-            damageModifier += wepMP.CalculateAttackDamageBonus();
+            damageModifier += colorChipPlayer.CalculateAttackDamageBonus();
             if (debug) DebugHelper.PrintInfo($"Val after red chip: {damageModifier}");
 
             // Pallete bonus
             if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponInstance, player))
             {
-                damageModifier += wepMP.PaletteMainDamageMod  - 1;
+                damageModifier += colorChipPlayer.PaletteMainDamageMod  - 1;
                 if (debug) DebugHelper.PrintInfo($"Val after palette: {damageModifier}");
             }
 

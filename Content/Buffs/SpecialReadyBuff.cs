@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<WeaponPlayer>();
             if (modPlayer.IsSpecialActive)
             {
                 player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Buffs
         public override bool RightClick(int buffIndex)
         {
             Player player = Main.LocalPlayer;
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<WeaponPlayer>();
             modPlayer.ResetSpecialStats();
             CombatTextHelper.DisplayText("Cancelled special!", player.Center);
             return true;

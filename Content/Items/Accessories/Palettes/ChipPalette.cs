@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {
@@ -33,25 +34,25 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
 
-            var wepMP = player.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<ColorChipPlayer>();
 
-            if (wepMP.isPaletteEquipped)
+            if (modPlayer.isPaletteEquipped)
             {
-                wepMP.conflictingPalettes = true;
+                modPlayer.conflictingPalettes = true;
                 return;
             }
 
-            wepMP.isPaletteEquipped = true;
-            wepMP.paletteCapacity = PaletteCapacity;
+            modPlayer.isPaletteEquipped = true;
+            modPlayer.paletteCapacity = PaletteCapacity;
 
             // Note that disabling the buffs here doesn't disable ALL the buffs
             // See also the calculations in BaseProjectile.cs
-            if (!wepMP.IsPaletteValid()) return;
+            if (!modPlayer.IsPaletteValid()) return;
 
-            var chips = wepMP.ColorChipAmounts;
+            var chips = modPlayer.ColorChipAmounts;
 
             player.GetKnockback(DamageClass.Generic) +=
-                chips[(int)InkWeaponPlayer.ChipColor.Purple] * wepMP.PurpleChipBaseKnockbackBonus;
+                chips[(int)ChipColor.Purple] * modPlayer.PurpleChipBaseKnockbackBonus;
 
             var accMP = player.GetModPlayer<InkAccessoryPlayer>();
             accMP.paletteType = GetType();
@@ -75,9 +76,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             var textColorWhite = "c/ffffff:";
             var textColorGray = "c/a8a8a8:";
             var textColorWarn = "c/ed3a4a:";
-            string ChipColor(InkColor color) => ColorHelper.GetChipTextColor(color);
+            string ChipTextColor(InkColor color) => ColorHelper.GetChipTextColor(color);
 
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<ColorChipPlayer>();
             int index = tooltips.FindIndex(l => l.Name == "ItemName");
             if (index != -1)
             {
@@ -119,45 +120,45 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     t.Text += $"\n[{textColorWhite}Currently active bonuses:]";
 
                     var chips = modPlayer.ColorChipAmounts;
-                    var red = (float)chips[(int)InkWeaponPlayer.ChipColor.Red];
-                    var blue = (float)chips[(int)InkWeaponPlayer.ChipColor.Blue];
-                    var yellow = (float)chips[(int)InkWeaponPlayer.ChipColor.Yellow];
-                    var purple = (float)chips[(int)InkWeaponPlayer.ChipColor.Purple];
-                    var green = (float)chips[(int)InkWeaponPlayer.ChipColor.Green];
-                    var aqua = (float)chips[(int)InkWeaponPlayer.ChipColor.Aqua];
+                    var red = (float)chips[(int)ChipColor.Red];
+                    var blue = (float)chips[(int)ChipColor.Blue];
+                    var yellow = (float)chips[(int)ChipColor.Yellow];
+                    var purple = (float)chips[(int)ChipColor.Purple];
+                    var green = (float)chips[(int)ChipColor.Green];
+                    var aqua = (float)chips[(int)ChipColor.Aqua];
 
                     if (red > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Red)}Power ({red}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Red)}Power ({red}) >]" +
                             $"\n[{textColorGray}Damage: +{(int)(red * modPlayer.RedChipBaseAttackDamageBonus * 100)}%]" +
                             $"\n[{textColorGray}Armor penetration: {(int)(red * modPlayer.RedChipBaseArmorPierceBonus)} Defense]";
                     }
                     if (blue > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Blue)}Mobility ({blue}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Blue)}Mobility ({blue}) >]" +
                             $"\n[{textColorGray}Move speed: +{(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]" +
                             $"\n[{textColorGray}Special charge while moving: +{(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
                     }
                     if (yellow > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Yellow)}Range ({yellow}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Yellow)}Range ({yellow}) >]" +
                             $"\n[{textColorGray}Explosion radius: +{(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]" +
                             $"\n[{textColorGray}Projectile piercing: +{(int)(yellow * modPlayer.YellowChipPiercingBonus)}]";
                     }
                     if (purple > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Purple)}Support ({purple}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Purple)}Support ({purple}) >]" +
                             $"\n[{textColorGray}Knockback: +{purple * modPlayer.PurpleChipBaseKnockbackBonus} unit(s)]" +
                             $"\n[{textColorGray}Weapon charge speed: +{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Green)}Lucky ({green}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Green)}Lucky ({green}) >]" +
                             $"\n[{textColorGray}Lucky bomb drop chance: +{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%]";
                     }
                     if (aqua > 0)
                     {
-                        t.Text += $"\n[{ChipColor(InkColor.Aqua)}Drone ({aqua}) >]" +
+                        t.Text += $"\n[{ChipTextColor(InkColor.Aqua)}Drone ({aqua}) >]" +
                             $"\n[{textColorGray}Pearl Drone attack speed: +{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%]";
                     }
                 }

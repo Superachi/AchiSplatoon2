@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 
         public override bool? UseItem(Player player)
         {
-            player.GetModPlayer<InkWeaponPlayer>().CustomWeaponCooldown = Item.useTime;
+            player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = Item.useTime;
             return base.UseItem(player);
         }
     }

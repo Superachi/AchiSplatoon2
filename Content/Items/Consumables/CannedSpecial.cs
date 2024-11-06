@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = player.GetModPlayer<WeaponPlayer>();
                 modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
                 return true;
             }
@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = player.GetModPlayer<WeaponPlayer>();
                 modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
             }
 

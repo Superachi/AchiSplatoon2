@@ -32,15 +32,15 @@ namespace AchiSplatoon2.Content.Buffs
         {
             var player = Main.LocalPlayer;
             var dronePlayer = player.GetModPlayer<PearlDronePlayer>();
-            var weaponPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
             var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
 
-            if (!weaponPlayer.IsPaletteValid()) return;
+            if (!colorChipPlayer.IsPaletteValid()) return;
 
             // Stat bonus section
             string tooltip = ColorHelper.TextWithPearlColor("Pearl is supporting you!") + "\n";
             tooltip += "Power level:" + ColorHelper.TextWithBonusColor($" {dronePlayer.PowerLevel}") + ColorHelper.TextWithFlavorColor(" (boosts attack damage and flight speed)") + "\n";
-            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(weaponPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
+            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(colorChipPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
             if (summonDamageBonus > 0)
             {
                 tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%") + "\n";

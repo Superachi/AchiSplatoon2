@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkDualiePlayer : BaseModPlayer
+    internal class InkDualiePlayer : ModPlayer
     {
         public bool isRolling;
         public bool isTurret;
@@ -30,6 +30,8 @@ namespace AchiSplatoon2.Content.Players
         private bool hasSquidClipOns;
 
         private int jumpInputBuffer = 0;
+
+        private InventoryPlayer inventoryPlayer => Player.GetModPlayer<InventoryPlayer>();
 
         public void DisplayRolls()
         {
@@ -86,15 +88,18 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
-            base.PreUpdate();
+            if (inventoryPlayer.HeldModItem() is not BaseDualie) return;
 
-            if (HeldModItem() is not BaseDualie) return;
+            if (inventoryPlayer.HasHeldItemChanged())
+            {
+                GetDualieStats((BaseDualie)inventoryPlayer.HeldModItem());
+            }
 
             var accMP = Player.GetModPlayer<InkAccessoryPlayer>();
             if (hasSquidClipOns != accMP.hasSquidClipOns)
             {
                 hasSquidClipOns = accMP.hasSquidClipOns;
-                UpdateMaxRolls(HeldModItem() as BaseDualie);
+                UpdateMaxRolls((BaseDualie)inventoryPlayer.HeldModItem());
             }
 
             if (jumpInputBuffer > 0) jumpInputBuffer--;
@@ -104,18 +109,12 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        protected override void HeldItemChangeTrigger()
-        {
-            if (HeldModItem() is not BaseDualie) return;
-            GetDualieStats(HeldModItem() as BaseDualie);
-        }
-
         public override void PreUpdateMovement()
         {
             int projType = ModContent.ProjectileType<DualieRollProjectile>();
-            if (HeldModItem() is BaseDualie)
+            if (inventoryPlayer.HeldModItem() is BaseDualie)
             {
-                var item = HeldModItem() as BaseDualie;
+                var item = (BaseDualie)inventoryPlayer.HeldModItem();
                 projType = item.RollProjectileType;
             }
 
@@ -179,8 +178,7 @@ namespace AchiSplatoon2.Content.Players
                     BlockJumps();
 
                     // Roll!
-                    var p = CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
-                    var proj = p as DualieRollProjectile;
+                    var proj = (DualieRollProjectile)ProjectileHelper.CreateProjectileWithWeaponProperties(Player, projType, (BaseWeapon)Player.HeldItem.ModItem, triggerAfterSpawn: false);
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
                     proj.AfterSpawn();

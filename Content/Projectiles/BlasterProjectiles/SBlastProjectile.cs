@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Helpers;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
@@ -18,8 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
         private bool IsPlayerGrounded()
         {
-            var baseMP = GetOwner().GetModPlayer<BaseModPlayer>();
-            return baseMP.IsPlayerGrounded();
+            return PlayerHelper.IsPlayerGrounded(GetOwner());
         }
 
         public override void AfterSpawn()

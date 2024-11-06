@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Netcode;
 using Terraria;
 using Terraria.ID;
@@ -102,10 +102,10 @@ namespace AchiSplatoon2.Helpers
             return $"{Main.player[fromWho].name} (#{fromWho})";
         }
 
-        public static InkWeaponPlayer GetModPlayerFromPacket(int fromWho)
+        public static WeaponPlayer GetModPlayerFromPacket(int fromWho)
         {
             Player p = GetPlayerFromPacket(fromWho);
-            return p.GetModPlayer<InkWeaponPlayer>();
+            return p.GetModPlayer<WeaponPlayer>();
         }
 
         public static void SendPingToServer()

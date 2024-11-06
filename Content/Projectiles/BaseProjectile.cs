@@ -178,7 +178,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             var owner = Main.player[Projectile.owner];
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var colorChipPlayer = owner.GetModPlayer<ColorChipPlayer>();
             SetInitialInkColor();
 
             if (IsThisClientTheProjectileOwner())
@@ -186,28 +186,28 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.usesLocalNPCImmunity = true;
                 Projectile.localNPCHitCooldown = 20 * FrameSpeed();
 
-                if (wepMP.IsPaletteValid())
+                if (colorChipPlayer.IsPaletteValid())
                 {
-                    for (int i = 0; i < wepMP.ColorChipAmounts.Length; i++)
+                    for (int i = 0; i < colorChipPlayer.ColorChipAmounts.Length; i++)
                     {
                         // Red chips > more armor piercing
-                        if (i == (int)InkWeaponPlayer.ChipColor.Red)
+                        if (i == (int)ColorChipPlayer.ChipColor.Red)
                         {
-                            armorPierceModifier += wepMP.CalculateArmorPierceBonus();
+                            armorPierceModifier += colorChipPlayer.CalculateArmorPierceBonus();
                             Projectile.ArmorPenetration += armorPierceModifier;
                         }
 
                         // Purple chips > faster charge speed
-                        if (i == (int)InkWeaponPlayer.ChipColor.Purple)
+                        if (i == (int)ColorChipPlayer.ChipColor.Purple)
                         {
-                            chargeSpeedModifier += wepMP.CalculateChargeSpeedBonus();
+                            chargeSpeedModifier += colorChipPlayer.CalculateChargeSpeedBonus();
                         }
 
                         // Yellow chips > bigger explosions + projectile piercing
-                        if (i == (int)InkWeaponPlayer.ChipColor.Yellow)
+                        if (i == (int)ColorChipPlayer.ChipColor.Yellow)
                         {
-                            explosionRadiusModifier += wepMP.CalculateExplosionRadiusBonus();
-                            piercingModifier += wepMP.CalculatePiercingBonus();
+                            explosionRadiusModifier += colorChipPlayer.CalculateExplosionRadiusBonus();
+                            piercingModifier += colorChipPlayer.CalculatePiercingBonus();
 
                             if (Projectile.penetrate != -1)
                             {
@@ -372,11 +372,11 @@ namespace AchiSplatoon2.Content.Projectiles
                 if (!IsTargetEnemy(target)) return;
 
                 var owner = GetOwner();
-                var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+                var colorChipPlayer = owner.GetModPlayer<ColorChipPlayer>();
                 var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
                 var luckyBombMinDamage = Main.expertMode ? 20 : 50;
                 var luckyBombDamage = Math.Max(luckyBombMinDamage, luckyBombStartDamage);
-                var luckyBombChance = wepMP.CalculateLuckyBombChance();
+                var luckyBombChance = colorChipPlayer.CalculateLuckyBombChance();
                 var createdBombs = 0;
 
                 void CreateLuckyBomb(int spawnOrder)
@@ -481,7 +481,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         protected T GetOwnerModPlayer<T>()
-            where T : BaseModPlayer
+            where T : ModPlayer
         {
             return GetOwner().GetModPlayer<T>();
         }
@@ -493,7 +493,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public void DamageToSpecialCharge(float damage, float targetMaxLife)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
 
             float increment = Math.Clamp(damage * 2 / targetMaxLife, 0.5f, 5f);
             modPlayer.AddSpecialPointsForDamage(increment);
@@ -521,15 +521,15 @@ namespace AchiSplatoon2.Content.Projectiles
                 return (Color)colorOverride;
             }
 
-            return GetOwnerModPlayer<InkWeaponPlayer>().GetColorFromChips();
+            return GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
         }
 
         private void SetInitialInkColor()
         {
             if (colorOverride == null)
             {
-            var wepMP = GetOwnerModPlayer<InkWeaponPlayer>();
-            if (wepMP.DoesPlayerHaveEqualAmountOfChips() && wepMP.CalculateColorChipTotal() != 0)
+            var colorChipPlayer = GetOwnerModPlayer<ColorChipPlayer>();
+            if (colorChipPlayer.DoesPlayerHaveEqualAmountOfChips() && colorChipPlayer.CalculateColorChipTotal() != 0)
             {
                     colorOverride = ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f);
                 }
@@ -813,7 +813,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 PlayAudio("DirectHit", pitchVariance: 0.1f);
 
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
                 Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
 
                 for (int i = 0; i < 10; i++)
@@ -864,7 +864,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 if (playSample) PlayAudio("TripleHit", pitchVariance: 0.1f);
 
-                var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+                var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
                 Color inkColor = modPlayer.GetColorFromChips();
 
                 for (int i = 0; i < 10; i++)

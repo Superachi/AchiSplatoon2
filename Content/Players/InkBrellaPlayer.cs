@@ -5,10 +5,11 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkBrellaPlayer : BaseModPlayer
+    internal class InkBrellaPlayer : ModPlayer
     {
         public float shieldLife;
         public float shieldLifeMax;
@@ -20,6 +21,8 @@ namespace AchiSplatoon2.Content.Players
 
         public int damageCooldown = 0;
         public int damageCooldownMax = 6;
+
+        private InventoryPlayer inventoryPlayer => Player.GetModPlayer<InventoryPlayer>();
 
         public void DamageShield(int damage)
         {
@@ -85,7 +88,7 @@ namespace AchiSplatoon2.Content.Players
             }
 
             var textPosition = Player.Center;
-            if (!Player.ItemTimeIsZero && HeldModItem() is BaseBrella)
+            if (!Player.ItemTimeIsZero && inventoryPlayer.HeldModItem() is BaseBrella)
             {
                 textPosition = new Vector2(Player.Center.X + Math.Sign(Player.direction) * 80, Player.Center.Y);
             }
@@ -95,7 +98,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void ResetEffects()
         {
-            if (HeldModItem() is not BaseBrella && shieldAvailable)
+            if (inventoryPlayer.HeldModItem() is not BaseBrella && shieldAvailable)
             {
                 shieldLife = 1;
                 shieldLifeMax = 1;
@@ -104,22 +107,22 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        protected override void HeldItemChangeTrigger()
+        private void GetBrellaStats()
         {
-            if (HeldModItem() is BaseBrella)
-            {
-                var brellaData = HeldModItem() as BaseBrella;
+            if (!inventoryPlayer.HasHeldItemChanged()) return;
+            if (inventoryPlayer.HeldModItem() is not BaseBrella) return;
 
-                shieldLife = brellaData.ShieldLife;
-                shieldLifeMax = brellaData.ShieldLife;
-                shieldCooldown = Math.Max(shieldCooldown, 0);
-                shieldCooldownMax = brellaData.ShieldCooldown;
-            }
+            var brellaData = (BaseBrella)inventoryPlayer.HeldModItem();
+
+            shieldLife = brellaData.ShieldLife;
+            shieldLifeMax = brellaData.ShieldLife;
+            shieldCooldown = Math.Max(shieldCooldown, 0);
+            shieldCooldownMax = brellaData.ShieldCooldown;
         }
 
         public override void PreUpdate()
         {
-            base.PreUpdate();
+            GetBrellaStats();
 
             if (Player.dead) return;
 

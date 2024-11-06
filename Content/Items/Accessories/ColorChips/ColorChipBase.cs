@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
@@ -29,14 +30,14 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         public override void UpdateInventory(Player player)
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
 
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] += RedValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] += BlueValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Red] += RedValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Blue] += BlueValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Yellow] += YellowValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Purple] += PurpleValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Green] += GreenValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Aqua] += AquaValue * this.Item.stack;
         }
 
         private string StatIncreaseDisplayString(string textColor, string stat, string amount)
@@ -46,7 +47,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             int index = tooltips.FindIndex(l => l.Name == "ItemName");
             if (index != -1)
             {

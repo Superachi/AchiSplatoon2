@@ -211,7 +211,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public BaseProjectile CreateProjectileWithWeaponProperties(Player player, IEntitySource source, Vector2 velocity, bool triggerAfterSpawn = true, BaseWeapon weaponType = null)
         {
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
             if (weaponType == null) weaponType = this;
 
             // Offset the projectile's position to match the weapon
@@ -255,7 +254,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = player.GetModPlayer<WeaponPlayer>();
             if (modPlayer.CustomWeaponCooldown > 0) return false;
 
             if (!IsSpecialWeapon) {

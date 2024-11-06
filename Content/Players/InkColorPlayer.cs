@@ -1,9 +1,10 @@
 ﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class InkColorPlayer : BaseModPlayer
+    internal class InkColorPlayer : ModPlayer
     {
         public Color currentColor = Color.Red;
         public float currentHue = 0;

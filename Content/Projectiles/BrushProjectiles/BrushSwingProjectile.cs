@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private Texture2D weaponSprite;
 
         private Player owner;
-        private InkWeaponPlayer weaponPlayer;
+        private WeaponPlayer weaponPlayer;
 
         private const int stateWindup = 0;
         private const int stateSwingForward = 1;
@@ -87,7 +87,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
 
-            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+            weaponPlayer = owner.GetModPlayer<WeaponPlayer>();
 
             Projectile.velocity = Vector2.Zero;
             SetSwingAngleFromMouse(direction: 1);
@@ -96,7 +96,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         protected override void SetState(int targetState)
         {
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
             base.SetState(targetState);
 
             switch (state)
@@ -138,10 +138,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
-            var baseMP = owner.GetModPlayer<BaseModPlayer>();
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var invMP = owner.GetModPlayer<InventoryPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
 
-            if (owner.dead || baseMP.HasHeldItemChanged())
+            if (owner.dead || invMP.HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;
@@ -172,7 +172,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void OnKill(int timeLeft)
         {
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
             wepMP.isBrushRolling = false;
             wepMP.isBrushAttacking = false;
         }
@@ -387,7 +387,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private bool IsPlayerGrounded()
         {
-            return owner.GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
+            return PlayerHelper.IsPlayerGrounded(GetOwner());
         }
 
         private void Shoot()
