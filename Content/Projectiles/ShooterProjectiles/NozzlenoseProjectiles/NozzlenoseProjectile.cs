@@ -48,9 +48,13 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
         protected override void AdjustVariablesOnShoot()
         {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.3f;
+            }
+            
             Projectile.extraUpdates *= 3;
             Projectile.timeLeft *= 3;
-            Projectile.velocity *= 0.3f;
             fallSpeed *= 0.2f;
         }
 

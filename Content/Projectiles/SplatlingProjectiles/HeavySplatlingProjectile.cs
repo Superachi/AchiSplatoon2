@@ -5,7 +5,6 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +13,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {
     internal class HeavySplatlingProjectile : BaseProjectile
     {
-        private readonly float delayUntilFall = 20f;
-        private readonly float fallSpeed = 0.1f;
+        private int delayUntilFall = 20;
+        private float fallSpeed = 0.1f;
 
         public bool chargedShot = false;
         private bool firedWithCrayonBox = false;
@@ -39,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         {
             base.ApplyWeaponInstanceData();
 
-            var weapon = WeaponInstance as BaseSplatling;
+            var weapon = (BaseSplatling)WeaponInstance;
             shootSample = weapon.ShootSample;
 
             if (weapon is HydraSplatling)
@@ -61,28 +60,38 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             firedWithCrayonBox = GetOwner().GetModPlayer<AccessoryPlayer>().hasCrayonBox;
         }
 
-        public override void AI()
+        protected override void AdjustVariablesOnShoot()
         {
-            Projectile.ai[0] += 1f;
-
-            // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (IsThisClientTheProjectileOwner())
             {
-                Projectile.velocity.Y += fallSpeed;
-
-                if (Projectile.velocity.Y >= 0)
-                {
-                    Projectile.velocity.X *= 0.98f;
-                }
+                Projectile.velocity *= 0.3f;
             }
 
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            for (int i = 0; i < 3; i++)
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 2;
+            fallSpeed *= 0.1f;
+            delayUntilFall *= 2;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+            ProjectileDustHelper.ShooterSpawnVisual(this);
+        }
+
+        public override void AI()
+        {
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
-                // Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                dust.alpha = 64;
+                Projectile.velocity.Y += fallSpeed;
+            }
+
+            Color dustColor = initialColor;
+
+            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.4f);
+
+            if (Main.rand.NextBool(20))
+            {
+                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1f);
             }
         }
 
@@ -127,13 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 ResetCrayonBoxCombo("Miss! ");
             }
 
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = (Projectile.velocity.X + random) * -0.5f;
-                float velY = (Projectile.velocity.Y + random) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 
@@ -175,19 +178,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             }
 
             base.ModifyHitNPC(target, ref modifiers);
-        }
-
-        // Netcode
-        protected override void NetSendInitialize(BinaryWriter writer)
-        {
-            writer.WriteVector2(Projectile.velocity);
-        }
-        protected override void NetReceiveInitialize(BinaryReader reader)
-        {
-            base.NetReceiveInitialize(reader);
-            Projectile.velocity = reader.ReadVector2();
-
-            PlayShootSound();
         }
     }
 }

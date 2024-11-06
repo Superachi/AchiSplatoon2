@@ -45,10 +45,15 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 
         protected override void AdjustVariablesOnShoot()
         {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.5f;
+            }
+            
             Projectile.extraUpdates *= 3;
             Projectile.timeLeft *= 3;
-            Projectile.velocity *= 0.5f;
             fallSpeed *= 0.4f;
+            delayUntilFall *= 2;
         }
 
         protected override void CreateDustOnSpawn()

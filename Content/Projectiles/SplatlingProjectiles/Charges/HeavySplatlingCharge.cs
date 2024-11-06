@@ -161,29 +161,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             spawnPositionOffset = Vector2.Zero;
                         }
 
-                        var p = CreateChildProjectile(
+                        var proj = CreateChildProjectile<HeavySplatlingProjectile>(
                             position: Projectile.position + spawnPositionOffset,
                             velocity: velocity,
-                            type: ProjectileType,
                             damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
                             triggerSpawnMethods: false);
-                        var proj = p as HeavySplatlingProjectile;
 
                         proj.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         proj.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         proj.chargedShot = IsChargeMaxedOut();
                         proj.RunSpawnMethods();
-
-                        for (int i = 0; i < 15; i++)
-                        {
-                            Color dustColor = GenerateInkColor();
-
-                            float random = Main.rand.NextFloat(-5, 5);
-                            float velX = ((velocity.X + random) * 0.5f);
-                            float velY = ((velocity.Y + random) * 0.5f);
-
-                            Dust.NewDust(Projectile.position + spawnPositionOffset, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                        }
 
                         // Sync shoot animation
                         // Set item use animation and angle
