@@ -78,6 +78,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual bool CountDamageForSpecialCharge { get => true; }
         protected bool wormDamageReduction = false;
+        protected int StandardNPCHitCooldown => 20 * FrameSpeed();
+        protected bool ResetNPCHitCooldownAfterSpawnMethods = true;
 
         // State machine
         protected int state = 0;
@@ -144,6 +146,15 @@ namespace AchiSplatoon2.Content.Projectiles
             AfterSpawn();
             AdjustVariablesOnShoot();
             CreateDustOnSpawn();
+
+            // If this isn't done, and extraUpdates are added, a projectile may hit the same target twice
+            if (ResetNPCHitCooldownAfterSpawnMethods)
+            {
+                if (IsThisClientTheProjectileOwner())
+                {
+                    Projectile.localNPCHitCooldown = StandardNPCHitCooldown;
+                }
+            }
         }
 
         /// <summary>
@@ -209,7 +220,7 @@ namespace AchiSplatoon2.Content.Projectiles
             if (IsThisClientTheProjectileOwner())
             {
                 Projectile.usesLocalNPCImmunity = true;
-                Projectile.localNPCHitCooldown = 20 * FrameSpeed();
+                Projectile.localNPCHitCooldown = StandardNPCHitCooldown;
 
                 if (colorChipPlayer.IsPaletteValid())
                 {
