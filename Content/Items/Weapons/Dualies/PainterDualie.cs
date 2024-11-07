@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1f; }
         public override int MaxRolls { get => 1; }
-        public override float RollDistance { get => 12f; }
+        public override float RollDistance { get => 10f; }
         public override float RollDuration { get => 14f; }
         public override bool SlowMoveAfterRoll { get => false; }
 
@@ -36,13 +36,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 shotVelocity: 4f);
 
             Item.damage = 9;
+            Item.ArmorPenetration = 3;
+
             Item.width = 46;
             Item.height = 28;
             Item.knockBack = 1f;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Green;
         }
-
-        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }
