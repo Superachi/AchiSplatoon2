@@ -6,8 +6,8 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class OnlinePlayer : ModPlayer
     {
-        private int playerCountTimer = 15;
-        private readonly int playerCountTimerMax = 15;
+        private int playerCountTimer = 30;
+        private readonly int playerCountTimerMax = 30;
         private int playerCount = 0;
         private bool playerCountChanged = false;
 
@@ -34,8 +34,8 @@ namespace AchiSplatoon2.Content.Players
 
             if (playerCountChanged)
             {
-                DebugHelper.PrintInfo("Player count changed!");
                 Player.GetModPlayer<WeaponPlayer>().SyncAllDataManual();
+                Player.GetModPlayer<ColorChipPlayer>().SyncAllDataManual();
             }
         }
     }

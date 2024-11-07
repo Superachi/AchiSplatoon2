@@ -233,6 +233,13 @@ namespace AchiSplatoon2.Content.Players
 
         #region Netcode
 
+        public void SyncAllDataManual()
+        {
+            if (NetHelper.IsSinglePlayer()) return;
+
+            SyncColorChipData();
+        }
+
         private void SyncColorChipData()
         {
             var dto = new ColorChipPlayerDTO(colorChipAmounts: ColorChipAmounts);
