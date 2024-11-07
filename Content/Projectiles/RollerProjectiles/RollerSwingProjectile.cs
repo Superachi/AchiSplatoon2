@@ -159,7 +159,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - owner.position.X);
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             weaponPlayer.isUsingRoller = false;
         }

@@ -141,6 +141,8 @@ namespace AchiSplatoon2.Content.Projectiles
             SetState(state);
         }
 
+        #region Spawn/Despawn methods
+
         public void RunSpawnMethods()
         {
             AfterSpawn();
@@ -186,6 +188,27 @@ namespace AchiSplatoon2.Content.Projectiles
         protected virtual void CreateDustOnSpawn()
         {
         }
+
+        public override void OnKill(int timeLeft)
+        {
+            RunDespawnMethods(timeLeft);
+        }
+
+        public void RunDespawnMethods(int timeLeft)
+        {
+            AfterKill(timeLeft);
+            CreateDustOnDespawn();
+        }
+
+        protected virtual void AfterKill(int timeLeft)
+        {
+        }
+
+        protected virtual void CreateDustOnDespawn()
+        {
+        }
+
+        #endregion
 
         public virtual void AfterInitialize()
         {

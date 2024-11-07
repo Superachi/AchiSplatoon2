@@ -170,7 +170,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             var wepMP = owner.GetModPlayer<WeaponPlayer>();
             wepMP.isBrushRolling = false;

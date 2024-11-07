@@ -158,7 +158,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 }
             }
         }
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             EmitBurstDust(20, 15, 1, 2);
             PlayAudio("Specials/KillerWailDespawn", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);

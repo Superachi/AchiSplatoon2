@@ -101,5 +101,14 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                 PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.25f);
             }
         }
+
+        protected override void CreateDustOnDespawn()
+        {
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
+        }
     }
 }

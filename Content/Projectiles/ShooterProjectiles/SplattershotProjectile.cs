@@ -9,6 +9,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 {
     internal class SplattershotProjectile : BaseProjectile
     {
+        // Creation
         private int delayUntilFall;
         private float fallSpeed;
 
@@ -57,6 +58,13 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             ProjectileDustHelper.ShooterSpawnVisual(this);
         }
 
+        protected override void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
+        // Act
+
         public override void AI()
         {
             if (timeSpentAlive >= FrameSpeed(delayUntilFall))
@@ -86,9 +94,13 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
-        protected override void PlayShootSound()
+        protected override void CreateDustOnDespawn()
         {
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
         }
     }
 }

@@ -179,5 +179,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
             base.ModifyHitNPC(target, ref modifiers);
         }
+
+        protected override void CreateDustOnDespawn()
+        {
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
+        }
     }
 }

@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             if (owner.velocity.X == 0) Projectile.Kill();
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             owner.fullRotation = 0;
             dualieMP.postRollCooldown = DualiePlayer.postRollCooldownDefault;

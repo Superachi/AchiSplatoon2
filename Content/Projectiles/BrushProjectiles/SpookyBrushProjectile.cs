@@ -164,7 +164,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             DustBurstSparkle();
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             if (timeLeft == 0)
             {

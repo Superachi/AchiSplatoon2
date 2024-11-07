@@ -206,7 +206,7 @@ namespace AchiSplatoon2.Content.Projectiles
             return false;
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             if (chargeLevel == 0) return;
             for (int i = 0; i < 15; i++)

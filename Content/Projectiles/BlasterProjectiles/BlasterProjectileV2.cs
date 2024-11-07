@@ -207,15 +207,13 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             return false;
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             if (IsThisClientTheProjectileOwner())
             {
                 var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
             }
-
-            base.OnKill(timeLeft);
         }
 
         public override bool? CanHitNPC(NPC target)

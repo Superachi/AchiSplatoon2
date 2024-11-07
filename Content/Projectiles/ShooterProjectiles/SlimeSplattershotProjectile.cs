@@ -108,5 +108,14 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             SoundHelper.PlayAudio(SoundID.SplashWeak, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 50, pitch: 0.5f);
             SoundHelper.PlayAudio(SoundID.ShimmerWeak1, volume: 0.5f, pitchVariance: 0.3f, maxInstances: 50, pitch: -0.5f);
         }
+
+        protected override void CreateDustOnDespawn()
+        {
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
+        }
     }
 }
