@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     internal class JetSquelcher : BaseSplattershot
     {
         public override string ShootSample { get => "JetSquelcherShoot"; }
-        public override int ShotGravityDelay => 20;
+        public override int ShotGravityDelay => 30;
         public override int ShotExtraUpdates { get => 8; }
         public override float MuzzleOffsetPx { get; set; } = 56f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 4); }
