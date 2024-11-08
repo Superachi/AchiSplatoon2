@@ -15,16 +15,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override float MuzzleOffsetPx { get; set; } = 60f;
         public override float[] ChargeTimeThresholds { get => [36f]; }
         public override int MaxPenetrate => 3;
+        public override int ProjectileType { get => ModContent.ProjectileType<StarfishedChargerProjectile>(); }
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
         {
             base.SetDefaults();
-            RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<StarfishedChargerProjectile>(),
-                singleShotTime: 15,
-                shotVelocity: 18f);
-
             SetItemUseTime();
             Item.damage = 120;
             Item.width = 86;

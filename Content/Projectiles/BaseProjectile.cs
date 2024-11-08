@@ -330,6 +330,7 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.parentIdentity = Projectile.identity;
             proj.parentProjectile = Projectile;
             proj.colorOverride = initialColor;
+
             if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;
         }
@@ -876,7 +877,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     dust.rotation = Main.rand.NextFloatDirection();
                 }
 
-                PlayAudio("DirectHit", pitchVariance: 0.1f);
+                PlayAudio("DirectHit", volume: 0.3f, pitchVariance: 0.1f);
 
                 var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
                 Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();

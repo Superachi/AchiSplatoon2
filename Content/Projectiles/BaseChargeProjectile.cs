@@ -78,14 +78,19 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.velocity = Vector2.Zero;
         }
 
-        protected bool IsChargeMaxedOut()
+        public bool IsChargeMaxedOut()
         {
             return (chargeLevel >= chargeTimeThresholds.Length);
         }
 
-        protected float ChargeQuotient()
+        public float ChargeQuotient()
         {
             return ChargeTime / MaxChargeTime();
+        }
+
+        public float MaxChargeTime()
+        {
+            return chargeTimeThresholds[chargeTimeThresholds.Length - 1] * FrameSpeed();
         }
 
         protected virtual void IncrementChargeTime()
@@ -94,11 +99,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
-        }
-
-        protected float MaxChargeTime()
-        {
-            return chargeTimeThresholds[chargeTimeThresholds.Length - 1] * FrameSpeed();
         }
 
         protected virtual void ReleaseCharge(Player owner)

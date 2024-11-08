@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -26,11 +26,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<SplatChargerProjectile>(),
-                singleShotTime: 12,
-                shotVelocity: 12f);
-
             SetItemUseTime();
             Item.width = 74;
             Item.height = 24;

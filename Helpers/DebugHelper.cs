@@ -1,63 +1,88 @@
 ﻿using log4net;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
-using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Helpers
 {
-    enum LogMessageType
+    enum LogLevel
     {
+        Debug,
         Info,
         Warn,
         Error,
     }
+
     internal static class DebugHelper
     {
-        private static void LogMessage(string message, ILog logger, LogMessageType type)
+        public static void PrintError(string message, ILog? logger = null)
         {
-            switch (type)
-            {
-                case LogMessageType.Info:
-                    logger.Info(message);
-                    break;
-                case LogMessageType.Warn:
-                    logger.Info(message);
-                    break;
-                case LogMessageType.Error:
-                    logger.Info(message);
-                    break;
-            }
+            LogMessage(LogLevel.Error, message, logger);
         }
 
-        private static DateTime GetTime()
+        public static void PrintWarning(string message, ILog? logger = null)
         {
-            DateTime now = DateTime.Now;
-            return now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond));
+            LogMessage(LogLevel.Warn, message, logger);
         }
 
-        public static void PrintError(string message, ILog logger = null)
+        public static void PrintInfo(string message, ILog? logger = null)
         {
-            Main.NewText($"<Error - {GetTime()}> {message}", ColorHelper.GetInkColor(InkColor.Red));
-            if (logger != null) LogMessage(message, logger, LogMessageType.Error);
+            LogMessage(LogLevel.Info, message, logger);
         }
 
-        public static void PrintWarning(string message, ILog logger = null)
+        public static void PrintDebug(string message, ILog? logger = null)
         {
-            Main.NewText($"<Warning - {GetTime()}> {message}", ColorHelper.GetInkColor(InkColor.Yellow));
-            if (logger != null) LogMessage(message, logger, LogMessageType.Warn);
-        }
-
-        public static void PrintInfo(string message, ILog logger = null)
-        {
-            Main.NewText($"<Info - {GetTime()}> {message}", ColorHelper.GetInkColor(InkColor.Aqua));
-            if (logger != null) LogMessage(message, logger, LogMessageType.Info);
+            LogMessage(LogLevel.Debug, message, logger);
         }
 
         public static void Ping() => PrintInfo("Ping!");
 
-        public static void PrintError(object message, ILog logger = null) => PrintError(JsonConvert.SerializeObject(message), logger);
-        public static void PrintWarning(object message, ILog logger = null) => PrintWarning(JsonConvert.SerializeObject(message), logger);
-        public static void PrintInfo(object message, ILog logger = null) => PrintInfo(JsonConvert.SerializeObject(message), logger);
+        public static void PrintError(object message, ILog? logger = null) => PrintError(JsonConvert.SerializeObject(message), logger);
+        public static void PrintWarning(object message, ILog? logger = null) => PrintWarning(JsonConvert.SerializeObject(message), logger);
+        public static void PrintInfo(object message, ILog? logger = null) => PrintInfo(JsonConvert.SerializeObject(message), logger);
+        public static void PrintDebug(object message, ILog? logger = null) => PrintDebug(JsonConvert.SerializeObject(message), logger);
+
+        private static void LogMessage(LogLevel logLevel, string message, ILog? logger = null)
+        {
+            string newMessage = FormatMessage(LogLevel.Debug, message);
+            Color messageColor = Color.White;
+
+            switch (logLevel)
+            {
+                case LogLevel.Debug:
+                    messageColor = Color.Gray;
+                    logger?.Debug(newMessage);
+                    break;
+                case LogLevel.Info:
+                    messageColor = Color.Turquoise;
+                    logger?.Info(newMessage);
+                    break;
+                case LogLevel.Warn:
+                    messageColor = Color.Orange;
+                    logger?.Warn(newMessage);
+                    SoundHelper.PlayAudio(SoundID.Item35);
+                    break;
+                case LogLevel.Error:
+                    messageColor = Color.Crimson;
+                    logger?.Error(newMessage);
+                    SoundHelper.PlayAudio(SoundID.Item47);
+                    break;
+            }
+
+            ChatHelper.SendChatToThisClient(newMessage, messageColor);
+        }
+
+        private static string GetTime()
+        {
+            DateTime now = DateTime.Now;
+            return now.ToString("HH:mm:ss");
+        }
+
+        private static string FormatMessage(LogLevel logLevel, string message)
+        {
+            return $"{logLevel} - {GetTime()} > {message}";
+        }
 
     }
 }

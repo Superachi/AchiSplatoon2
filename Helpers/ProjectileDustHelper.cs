@@ -50,7 +50,7 @@ namespace AchiSplatoon2.Helpers
             SoundHelper.PlayAudio(SoundID.Splash, volume: 0.1f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f);
         }
 
-        public static void ShooterSpawnVisual(BaseProjectile baseProjectile)
+        public static void ShooterSpawnVisual(BaseProjectile baseProjectile, float velocityMod = 1f)
         {
             Projectile projectile = baseProjectile.Projectile;
 
@@ -64,7 +64,7 @@ namespace AchiSplatoon2.Helpers
                     ModContent.DustType<ChargerBulletDust>(),
                     newColor: baseProjectile.initialColor,
                     Scale: Main.rand.NextFloat(1f, 1.4f));
-                d.velocity = WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-30, 30)) * 1.5f;
+                d.velocity = WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-30, 30)) * 1.5f * velocityMod;
             }
         }
     }

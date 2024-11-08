@@ -1625,6 +1625,8 @@ Projectiles: {
 	PearlDroneSprinklerProjectile.DisplayName: Pearl Drone Sprinkler Projectile
 	PearlDroneBurstBomb.DisplayName: Pearl Drone Burst Bomb
 	NetcodeInspectorProjectile.DisplayName: Netcode Inspector Projectile
+	ChargerCharge.DisplayName: Charger Charge
+	ChargerProjectile.DisplayName: Charger Projectile
 }
 
 Buffs: {

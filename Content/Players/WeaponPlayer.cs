@@ -159,15 +159,8 @@ namespace AchiSplatoon2.Content.Players
                         moveFrictionModifier = 2f * brush.RollMoveSpeedBonus;
                     }
                     break;
-                case ClassicSquiffer:
-                    if (Player.channel)
-                    {
-                        moveAccelModifier = 3f;
-                        moveFrictionModifier = 3f;
-                    }
-                    break;
                 case BaseRoller:
-                    var roller = Player.HeldItem.ModItem as BaseRoller;
+                    var roller = (BaseRoller)Player.HeldItem.ModItem;
                     if (isUsingRoller)
                     {
                         moveAccelModifier = Math.Max(1, roller.RollingAccelModifier);

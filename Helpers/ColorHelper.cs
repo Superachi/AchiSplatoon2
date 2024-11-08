@@ -97,6 +97,16 @@ namespace AchiSplatoon2.Helpers
             return $"c/{c.R:X2}{c.G:X2}{c.B:X2}:";
         }
 
+        public static Color ColorWithAlphaZero(Color input)
+        {
+            return new Color(input.R, input.G, input.B, 0);
+        }
+
+        public static Color ColorWithAlpha255(Color input)
+        {
+            return new Color(input.R, input.G, input.B, 255);
+        }
+
         // Source: https://stackoverflow.com/questions/11441055/how-to-change-color-hue-in-xna
         public static Color IncreaseHueBy(float value, Color colorInput)
         {
