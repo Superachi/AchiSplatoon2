@@ -107,6 +107,11 @@ namespace AchiSplatoon2.Helpers
             return new Color(input.R, input.G, input.B, 255);
         }
 
+        public static Color AddRandomHue(float hueVariance, Color colorInput)
+        {
+            return IncreaseHueBy(Main.rand.NextFloat(-hueVariance, hueVariance), colorInput);
+        }
+
         // Source: https://stackoverflow.com/questions/11441055/how-to-change-color-hue-in-xna
         public static Color IncreaseHueBy(float value, Color colorInput)
         {
