@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
-            Color dustColor = initialColor;
+            Color dustColor = CurrentColor;
             Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.6f);
 
             if (Main.rand.NextBool(10))

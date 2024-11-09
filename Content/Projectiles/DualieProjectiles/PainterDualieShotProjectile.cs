@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         protected override void AfterSpawn()
         {
             base.AfterSpawn();
-            UpdateInitialInkColor(ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f));
+            UpdateCurrentColor(ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f));
         }
 
         protected override void PlayShootSound()

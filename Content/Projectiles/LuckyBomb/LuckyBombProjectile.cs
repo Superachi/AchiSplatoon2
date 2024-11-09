@@ -79,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
         {
             if (state != stateExplode)
             {
-                DrawProjectile(inkColor: initialColor, rotation: 0, scale: drawScale, considerWorldLight: false);
+                DrawProjectile(inkColor: CurrentColor, rotation: 0, scale: drawScale, considerWorldLight: false);
             }
             return false;
         }
@@ -136,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
                     Position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
                     Type: ModContent.DustType<SplatterBulletLastingDust>(),
                     Velocity: Vector2.Zero,
-                    newColor: initialColor,
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(0.6f, 1.2f));
             }
         }

@@ -3,9 +3,11 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
@@ -49,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            weaponData = WeaponInstance as BaseBlaster;
+            weaponData = (BaseBlaster)WeaponInstance;
 
             // Explosion radius/timing
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
@@ -79,27 +81,27 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             SetState(stateFly);
         }
 
-        protected override void PlayShootSound()
+        protected override void AdjustVariablesOnShoot()
         {
-            PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.4f;
+            }
+
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 3;
         }
 
-        private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, Vector2? position = null)
+        protected override void CreateDustOnSpawn()
         {
-            var pos = Projectile.Center;
-            if (position != null) { position = pos; }
-            for (int i = 0; i < amount; i++)
-            {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(
-                    pos + Main.rand.NextVector2Circular(10, 10),
-                    ModContent.DustType<SplatterBulletLastingDust>(),
-                    Main.rand.NextVector2Circular(-dustMaxVelocity, dustMaxVelocity),
-                    255,
-                    dustColor,
-                    Main.rand.NextFloat(minScale, maxScale)
-                );
-            }
+            ProjectileDustHelper.BlasterSpawnVisual(this);
+        }
+
+        protected override void PlayShootSound()
+        {
+            PlayAudio(shootSample, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.3f);
+            PlayAudio(SoundID.Item38, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.5f);
+            PlayAudio(SoundID.Item45, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 1f);
         }
 
         private int CalculateExplosionRadius(int baseRadius)
@@ -127,14 +129,20 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
                     e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
                     a = new PlayAudioModel(_soundPath: explosionAirSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
                     CreateExplosionVisual(e, a);
+
+                    PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
+                    PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
+                    PlayAudio(SoundID.Splash, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
+
                     break;
                 case stateExplodeTile:
                     Projectile.damage = (int)(Projectile.damage * 0.4);
 
                     finalRadius = CalculateExplosionRadius(explosionRadiusTile);
                     e = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 1, _maxScale: 2, _radiusModifier: finalRadius);
-                    a = new PlayAudioModel(_soundPath: explosionTileSample, _volume: 0.1f, _pitchVariance: 0.1f, _maxInstances: 3);
+                    a = new PlayAudioModel(_soundPath: explosionTileSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
                     CreateExplosionVisual(e, a);
+
                     break;
                 case stateDespawn:
                     Projectile.Kill();
@@ -162,7 +170,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             switch (state)
             {
                 case stateFly:
-                    EmitTrailInkDust(dustMaxVelocity: 1f, amount: 3, minScale: 0.5f, maxScale: 2);
+                    ProjectileDustHelper.BlasterDustTrail(this);
 
                     if (Timer >= explosionDelay * FrameSpeed())
                     {

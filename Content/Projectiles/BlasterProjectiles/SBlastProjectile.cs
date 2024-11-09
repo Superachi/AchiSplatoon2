@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Helpers;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 {
@@ -45,6 +46,9 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             {
                 PlayAudio(shootSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             }
+
+            PlayAudio(SoundID.Item38, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.5f);
+            PlayAudio(SoundID.Item45, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 1f);
         }
     }
 }

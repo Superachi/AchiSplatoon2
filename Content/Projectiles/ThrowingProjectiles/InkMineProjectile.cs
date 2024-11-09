@@ -151,7 +151,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private void SpawnActivationDust()
         {
-            Color color = initialColor;
+            Color color = CurrentColor;
             Dust a = Dust.NewDustPerfect(
                 Position: Projectile.Center + Main.rand.NextVector2Circular(detectionRadius * circleDrawMod, detectionRadius * circleDrawMod),
                 Type: ModContent.DustType<ChargerBulletDust>(),
@@ -164,7 +164,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private void SpawnInkMineDust(Vector2 offset)
         {
             float scale = 1.2f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 3)) * 0.2f;
-            Color color = initialColor;
+            Color color = CurrentColor;
             Dust a = Dust.NewDustPerfect(
                 Position: Projectile.Center + offset,
                 Type: ModContent.DustType<SplatterBulletDust>(),

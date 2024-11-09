@@ -68,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             if (!hasExploded)
             {
-                Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+                Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
                 // Apply air friction
                 Projectile.velocity.X = Projectile.velocity.X * airFriction;

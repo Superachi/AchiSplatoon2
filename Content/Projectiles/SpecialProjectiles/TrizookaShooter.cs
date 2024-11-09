@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
                 float aimAngle = MathHelper.ToDegrees(Projectile.velocity.ToRotation());
 
-                Color projColor = initialColor;
+                Color projColor = CurrentColor;
                 if (WeaponInstance is TrizookaUnleashed)
                 {
                     projColor = GetOwnerModPlayer<ColorSettingPlayer>().IncreaseHueBy(40);

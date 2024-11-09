@@ -20,7 +20,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private int sineCooldown = 0;
 
         private Texture2D? shotSprite = null;
-        private Color currentColor;
         private float drawRotation = 0;
         private bool visible = false;
 
@@ -48,7 +47,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             Initialize(isDissolvable: false);
             startingVelocity = Projectile.velocity;
-            currentColor = initialColor;
 
             var pitch = sineDirection == -1 ? 0.6f : 0.4f;
             SoundHelper.PlayAudio(SoundID.NPCHit52, 0.3f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
@@ -77,7 +75,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
 
             drawRotation += Projectile.velocity.Length() / 200f;
-            currentColor = ColorHelper.IncreaseHueBy(0.25f, currentColor);
+            UpdateCurrentColor(ColorHelper.IncreaseHueBy(0.25f, CurrentColor));
 
             if (timeSpentAlive > 5 * FrameSpeed())
             {
@@ -91,7 +89,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Width: 1,
                     Height: 1,
                     Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                    newColor: currentColor,
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(0.8f, 1.2f));
                 dust.noGravity = true;
                 dust.velocity = Main.rand.NextVector2Circular(0.5f, 0.5f);
@@ -103,7 +101,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                         Projectile.width,
                         Projectile.height,
                         DustID.RainbowTorch,
-                        newColor: currentColor,
+                        newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(0.4f, 0.8f)
                     );
                     dust.noGravity = true;
@@ -130,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Vector2 origin = shotSprite.Size() / 2;
             float scale = 1 + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
-            Main.EntitySpriteDraw(shotSprite, position, null, new Color(currentColor.R, currentColor.G, currentColor.B, 0f), drawRotation, origin, scale + 0.6f, SpriteEffects.None);
+            Main.EntitySpriteDraw(shotSprite, position, null, new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0f), drawRotation, origin, scale + 0.6f, SpriteEffects.None);
             Main.EntitySpriteDraw(shotSprite, position, null, new Color(255, 255, 255, 0f), drawRotation, origin, scale + 0.4f, SpriteEffects.None);
         }
 
@@ -180,7 +178,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 Position: Projectile.Center,
                 Type: ModContent.DustType<SplatterBulletLastingDust>(),
                 Velocity: Main.rand.NextVector2CircularEdge(3, 3),
-                newColor: currentColor,
+                newColor: CurrentColor,
                 Scale: 0.8f);
             }
         }
@@ -193,7 +191,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Position: Projectile.Center,
                     Type: DustID.AncientLight,
                     Velocity: Main.rand.NextVector2Circular(20, 20),
-                    newColor: currentColor,
+                    newColor: CurrentColor,
                     Scale: 1.2f);
                 dust.noGravity = true;
             }

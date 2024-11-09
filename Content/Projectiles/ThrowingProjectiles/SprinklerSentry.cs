@@ -102,7 +102,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void AI()
         {
             bool debug = false;
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             // Apply gravity
             if (state == stateFly || fallback)
@@ -268,7 +268,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 

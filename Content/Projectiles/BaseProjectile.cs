@@ -64,7 +64,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         // Colors
         public Color? colorOverride = null;
-        public Color initialColor;
+        public Color CurrentColor { get; private set; }
+        public Color InitialColor { get; private set; }
 
         // Modifiers
         // See <InkWeaponPlayer.cs>
@@ -84,7 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles
         // State machine
         protected int state = 0;
         protected int timeSpentInState = 0;
-        protected int timeSpentAlive = 0;
+        public int timeSpentAlive = 0;
 
         // Netcode
         protected byte netUpdateType = (byte)ProjNetUpdateType.None;
@@ -329,7 +330,7 @@ namespace AchiSplatoon2.Content.Projectiles
             proj.itemIdentifier = itemIdentifier;
             proj.parentIdentity = Projectile.identity;
             proj.parentProjectile = Projectile;
-            proj.colorOverride = initialColor;
+            proj.colorOverride = CurrentColor;
 
             if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;
@@ -597,12 +598,13 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             var color = GenerateInkColor();
-            initialColor = ColorHelper.IncreaseHueBy(Main.rand.Next(-5, 5), color);
+            CurrentColor = ColorHelper.IncreaseHueBy(Main.rand.Next(-5, 5), color);
+            InitialColor = CurrentColor;
         }
 
-        public void UpdateInitialInkColor(Color color)
+        public void UpdateCurrentColor(Color color)
         {
-            initialColor = color;
+            CurrentColor = color;
         }
 
         /// <summary>
@@ -734,35 +736,49 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             float radiusMult = radiusModifier / 140;
             amount = Convert.ToInt32(amount * radiusMult);
-            Color dustColor = GenerateInkColor();
+            Color dustColor = CurrentColor;
 
             // Ink
             for (int i = 0; i < amount * 2; i++)
             {
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<BlasterExplosionDust>(),
+                var dust = Dust.NewDustPerfect(
+                    Projectile.Center,
+                    ModContent.DustType<BlasterExplosionDust>(),
                     Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
-                    255, dustColor, Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                    255,
+                    ColorHelper.AddRandomHue(10, dustColor),
+                    Main.rand.NextFloat(minScale / 2, maxScale / 2));
+
                 dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
             }
 
             for (int i = 0; i < amount; i++)
             {
-                var dust = Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SplatterBulletDust>(),
+                var dust = Dust.NewDustPerfect(
+                    Projectile.Center,
+                    ModContent.DustType<SplatterBulletDust>(),
                     Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * 0.25f,
-                    255, dustColor, Main.rand.NextFloat(minScale, maxScale));
+                    255,
+                    ColorHelper.AddRandomHue(10, dustColor),
+                    Main.rand.NextFloat(minScale, maxScale));
+
                 dust.velocity *= radiusMult;
             }
 
             // Firework
             for (int i = 0; i < amount / 4; i++)
             {
-                var dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB,
+                var dust = Dust.NewDustPerfect(
+                    Projectile.Center,
+                    DustID.FireworksRGB,
                     Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
-                    255, dustColor);
+                    255,
+                    ColorHelper.AddRandomHue(10, dustColor));
+
                 dust.velocity *= radiusMult / 2;
-                dust.noGravity = true;
             }
         }
+
         protected void EmitBurstDust(ExplosionDustModel dustModel)
         {
             EmitBurstDust(dustModel.dustMaxVelocity, dustModel.dustAmount, dustModel.minScale, dustModel.maxScale, dustModel.radiusModifier);

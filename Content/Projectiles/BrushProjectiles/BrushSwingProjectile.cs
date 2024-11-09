@@ -272,7 +272,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Position: Projectile.Center + drawPositionOffset * -offsetMod,
                     Type: ModContent.DustType<SplatterBulletLastingDust>(),
                     Velocity: angleVector * 3f,
-                    newColor: initialColor, Scale: 1.0f);
+                    newColor: CurrentColor, Scale: 1.0f);
             }
 
             if (timeSpentAlive % 10 == 0)
@@ -284,7 +284,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Position: Projectile.Center + drawPositionOffset * -offsetMod,
                     Type: DustID.AncientLight,
                     Velocity: Vector2.Zero,
-                    newColor: initialColor, Scale: 1.0f);
+                    newColor: CurrentColor, Scale: 1.0f);
                 lightDust.noGravity = true;
             }
         }

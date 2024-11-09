@@ -128,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             void LockOn()
             {
@@ -252,7 +252,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (state == stateExplode) return false;
 
-            DrawProjectile(inkColor: initialColor, rotation: drawRotation + MathHelper.ToRadians(45), scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 0.5f);
+            DrawProjectile(inkColor: CurrentColor, rotation: drawRotation + MathHelper.ToRadians(45), scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 0.5f);
             return false;
         }
 

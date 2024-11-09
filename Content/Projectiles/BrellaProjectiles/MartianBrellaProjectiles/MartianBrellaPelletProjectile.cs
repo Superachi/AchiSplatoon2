@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             if (timeSpentAlive == 6 * FrameSpeed())
             {

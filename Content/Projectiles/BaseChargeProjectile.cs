@@ -225,10 +225,10 @@ namespace AchiSplatoon2.Content.Projectiles
             var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
 
             int linewidth = 2;
-            var lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, ChargeTime / MaxChargeTime() * 0.5f);
+            var lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
-                lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, 2f);
+                lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 2f);
                 linewidth = 4;
             }
 
@@ -236,7 +236,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 spriteBatch,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 50,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
-                new Color(initialColor.R, initialColor.G, initialColor.B, 0) * sinMult,
+                new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0) * sinMult,
                 lineCol * sinMult,
                 linewidth);
 
@@ -263,7 +263,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color color = new(initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
+            Color color = new(CurrentColor.R + w.R, CurrentColor.G + w.G, CurrentColor.B + w.B);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);

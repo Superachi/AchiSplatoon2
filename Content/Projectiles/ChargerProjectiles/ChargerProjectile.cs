@@ -160,7 +160,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                         Position: Projectile.Center,
                         Type: ModContent.DustType<ChargerBulletDust>(),
                         Velocity: WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.Next(-15, 15)) * Main.rand.NextFloat(3, 6),
-                        newColor: initialColor,
+                        newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(1f, 2f));
                 }
 
@@ -170,7 +170,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                         Position: Projectile.Center,
                         Type: ModContent.DustType<SplatterDropletDust>(),
                         Velocity: Main.rand.NextVector2Circular(5, 5),
-                        newColor: initialColor,
+                        newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(0.8f, 1.6f));
                 }
             }
@@ -202,7 +202,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         protected virtual void DustTrail()
         {
-            Color dustColor = initialColor;
+            Color dustColor = CurrentColor;
             var bigShotScale = wasParentChargeMaxed ? Main.rand.NextFloat(1.2f, 1.8f) : 1.2f;
 
             Dust.NewDustPerfect(
@@ -266,8 +266,8 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             {
                 float speed = i * 2f;
                 float scale = 2 - i / 10 * 2;
-                spawnDust(new Vector2(velY * speed, -velX * speed), scale, initialColor);
-                spawnDust(new Vector2(-velY * speed, velX * speed), scale, initialColor);
+                spawnDust(new Vector2(velY * speed, -velX * speed), scale, CurrentColor);
+                spawnDust(new Vector2(-velY * speed, velX * speed), scale, CurrentColor);
             }
         }
 

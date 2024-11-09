@@ -69,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (!hasExploded)
             {
-                DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.5f);
+                DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.5f);
                 return false;
             }
             return true;

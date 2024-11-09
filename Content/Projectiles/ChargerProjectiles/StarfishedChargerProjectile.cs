@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                     Position: Projectile.Center,
                     Type: DustID.AncientLight,
                     Velocity: Main.rand.NextVector2Circular(10, 10),
-                    newColor: ColorHelper.ColorWithAlphaZero(initialColor),
+                    newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
                     Scale: Main.rand.NextFloat(1f, 2f));
                 dust.noGravity = true;
             }
@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 Position: Projectile.Center,
                 Type: DustID.AncientLight,
                 Velocity: Vector2.Zero,
-                newColor: ColorHelper.ColorWithAlphaZero(initialColor),
+                newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
                 Scale: Main.rand.NextFloat(0.4f, 1.0f));
             dust.noGravity = true;
 
@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                         Position: Projectile.Center,
                         Type: DustID.AncientLight,
                         Velocity: Main.rand.NextVector2CircularEdge(5, 5),
-                        newColor: ColorHelper.ColorWithAlphaZero(initialColor),
+                        newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
                         Scale: Main.rand.NextFloat(0.4f, 2.0f));
                     dust.noGravity = true;
                 }
@@ -72,7 +72,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                             Position: Projectile.Center,
                             Type: DustID.FireworksRGB,
                             Velocity: WoomyMathHelper.AddRotationToVector2(-Projectile.velocity, -20, 20) * Main.rand.Next(5, 10),
-                            newColor: ColorHelper.IncreaseHueBy(Main.rand.Next(-30, 30), ColorHelper.ColorWithAlpha255(initialColor)),
+                            newColor: ColorHelper.IncreaseHueBy(Main.rand.Next(-30, 30), ColorHelper.ColorWithAlpha255(CurrentColor)),
                             Scale: Main.rand.NextFloat(0.4f, 1.0f));
                         dust.noGravity = true;
                     }
@@ -108,7 +108,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                     Projectile.width,
                     Projectile.height,
                     DustID.AncientLight,
-                    newColor: ColorHelper.IncreaseHueBy(Main.rand.Next(-30, 30), ColorHelper.ColorWithAlphaZero(initialColor)),
+                    newColor: ColorHelper.IncreaseHueBy(Main.rand.Next(-30, 30), ColorHelper.ColorWithAlphaZero(CurrentColor)),
                     Scale: Main.rand.NextFloat(1f, 1.4f));
                 d.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.NextFloat(-20, 20)) * 1.5f * Main.rand.NextFloat(1, 4) * i;
                 d.noGravity = true;
