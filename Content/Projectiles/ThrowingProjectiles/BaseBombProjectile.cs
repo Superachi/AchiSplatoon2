@@ -59,7 +59,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.tileCollide = false;
             Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
-            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
+
+            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 2f, _maxScale: 4f, _radiusModifier: finalExplosionRadius);
             var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
             CreateExplosionVisual(e, a);
             StopAudio("Throwables/SplatBombFuse");

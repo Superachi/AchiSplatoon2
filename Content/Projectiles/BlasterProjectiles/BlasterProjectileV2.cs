@@ -139,7 +139,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
                     Projectile.damage = (int)(Projectile.damage * 0.4);
 
                     finalRadius = CalculateExplosionRadius(explosionRadiusTile);
-                    e = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 1, _maxScale: 2, _radiusModifier: finalRadius);
+                    e = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
                     a = new PlayAudioModel(_soundPath: explosionTileSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
                     CreateExplosionVisual(e, a);
 

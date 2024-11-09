@@ -47,8 +47,8 @@ namespace AchiSplatoon2.Helpers
 
             if (!playSound) return;
 
-            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.05f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f);
-            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.1f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f);
+            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.1f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f, position: projectile.position);
+            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.2f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f, position: projectile.position);
         }
 
         public static void ShooterSpawnVisual(BaseProjectile baseProjectile, float velocityMod = 1f)
