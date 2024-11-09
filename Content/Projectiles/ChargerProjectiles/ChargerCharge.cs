@@ -73,8 +73,6 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             var proj = c.Projectile;
             var modProj = (ChargerProjectile)c.Projectile.ModProjectile;
 
-            DebugHelper.PrintInfo(ChargeQuotient());
-
             if (IsChargeMaxedOut())
             {
                 // Range
@@ -116,7 +114,8 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (!GetOwner().channel) return false;
+            if (!IsThisClientTheProjectileOwner() && !GetOwner().channel) return false;
+
             DrawStraightTrajectoryLine();
             return false;
         }

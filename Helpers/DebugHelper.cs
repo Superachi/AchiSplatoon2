@@ -45,7 +45,7 @@ namespace AchiSplatoon2.Helpers
 
         private static void LogMessage(LogLevel logLevel, string message, ILog? logger = null)
         {
-            string newMessage = FormatMessage(LogLevel.Debug, message);
+            string newMessage = FormatMessage(logLevel, message);
             Color messageColor = Color.White;
 
             switch (logLevel)

@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
             if (wasParentChargeMaxed && target.life > 0 && npcHits < 5)
             {
-                var p = CreateChildProjectile<StarfishedChargerBlast>(Projectile.Center, Vector2.Zero, Projectile.damage * 4, false);
+                var p = CreateChildProjectile<StarfishedChargerBlast>(Projectile.Center, Vector2.Zero, Projectile.damage * 2, false);
                 p.delayUntilBlast += npcHits * 5;
                 p.pitchAdd += npcHits * 0.2f;
                 p.npcTarget = target.whoAmI;

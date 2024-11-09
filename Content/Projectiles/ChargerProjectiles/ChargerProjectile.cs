@@ -285,5 +285,17 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             isPiercingTile = reader.ReadBoolean();
             if (!isPiercingTile) TilePierceDustEffect();
         }
+
+        protected override void NetSendInitialize(BinaryWriter writer)
+        {
+            writer.Write(wasParentChargeMaxed);
+            base.NetSendInitialize(writer);
+        }
+
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            wasParentChargeMaxed = reader.ReadBoolean();
+            base.NetReceiveInitialize(reader);
+        }
     }
 }

@@ -76,6 +76,8 @@ namespace AchiSplatoon2.Content.Projectiles
             Initialize(isDissolvable: false);
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
+
+            NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
         public bool IsChargeMaxedOut()
@@ -159,7 +161,11 @@ namespace AchiSplatoon2.Content.Projectiles
             lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             SyncProjectilePosWithPlayer(owner);
             PlayerItemAnimationFaceCursor(owner);
-            NetUpdate(ProjNetUpdateType.UpdateCharge);
+
+            if (timeSpentAlive > 0 && timeSpentAlive % 6 == 0)
+            {
+                NetUpdate(ProjNetUpdateType.UpdateCharge);
+            }
         }
 
         protected void ChargeLevelUpEffect()
@@ -287,6 +293,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         #region Netcode
+
         protected override void NetSendUpdateCharge(BinaryWriter writer)
         {
             Player owner = Main.player[Projectile.owner];
@@ -302,7 +309,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             // Make weapon face client's cursor
             lastShotRadians = (float)reader.ReadDouble();
-            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
             PlayerItemAnimationFaceCursor(owner, null, lastShotRadians);
 
             // Set the animation time
@@ -316,6 +322,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 chargeLevel = newChargeLevel;
             }
         }
+
         #endregion
     }
 }
