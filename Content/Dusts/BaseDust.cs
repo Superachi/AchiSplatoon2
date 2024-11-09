@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Dusts
 {
     internal class BaseDust : ModDust
     {
-        protected void DrawDust(int dustIndex, Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, BlendState blendState = null)
+        protected void DrawDust(int dustIndex, Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, BlendState? blendState = null)
         {
             Dust dust = Main.dust[dustIndex];
 
@@ -43,7 +43,13 @@ namespace AchiSplatoon2.Content.Dusts
 
         public override bool PreDraw(Dust dust)
         {
-            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: BlendState.Additive);
+            BlendState? blendState = null;
+            if (!Main.IsItDay() || Main.LocalPlayer.ZoneDirtLayerHeight)
+            {
+                blendState = BlendState.Additive;
+            }
+
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: blendState);
             return false;
         }
     }
