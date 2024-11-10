@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Helpers
 
         private static string FormatMessage(LogLevel logLevel, string message)
         {
-            return $"{logLevel} - {GetTime()} > {message}";
+            return $"<WoomyMod {logLevel} @ {GetTime()}> {message}";
         }
 
     }

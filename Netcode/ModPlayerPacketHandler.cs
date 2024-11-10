@@ -119,10 +119,6 @@ namespace AchiSplatoon2.Netcode
             {
                 DebugHelper.PrintWarning($"Tried to deserialize DTO, but the result was {dto}");
             }
-            else
-            {
-                DebugHelper.PrintInfo($"Received JSON:\n{json}");
-            }
 
             return dto;
         }
