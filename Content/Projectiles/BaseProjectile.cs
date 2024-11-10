@@ -800,11 +800,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     damage: 0,
                     triggerSpawnMethods: false);
 
-                if (colorOverride != null)
-                {
-                    p.colorOverride = colorOverride;
-                }
-
+                p.colorOverride = colorOverride ?? CurrentColor;
                 p.explosionDustModel = expModel;
                 p.playAudioModel = audioModel;
                 p.RunSpawnMethods();

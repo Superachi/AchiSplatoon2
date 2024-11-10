@@ -1,42 +1,33 @@
 ﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 {
-    internal class BlasterProjectileV2 : BaseProjectile
+    internal class BlasterProjectile : BaseProjectile
     {
-        public BaseBlaster weaponData;
+        protected string? explosionAirSample;
+        protected string? explosionTileSample;
 
-        protected string explosionAirSample;
-        protected string explosionTileSample;
         protected int explosionRadiusAir;
-        protected int explosionRadiusTile;
+        protected float tileExplosionRadiusModifier = 0.6f;
         protected float explosionDelay;
         protected int damageBeforePiercing;
 
         private bool hasHadDirectHit = false;
-        private bool hasExploded = false;
         private bool hasHitTarget = false;
 
         private const int stateFly = 0;
         private const int stateExplodeAir = 1;
         private const int stateExplodeTile = 2;
-        private const int stateDespawn = 3;
 
-        protected float Timer
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
+        private List<int> hitTargets = new List<int>();
 
         public override void SetDefaults()
         {
@@ -51,11 +42,10 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            weaponData = (BaseBlaster)WeaponInstance;
+            var weaponData = (BaseBlaster)WeaponInstance;
 
             // Explosion radius/timing
             explosionRadiusAir = weaponData.ExplosionRadiusAir;
-            explosionRadiusTile = weaponData.ExplosionRadiusTile;
             explosionDelay = weaponData.ExplosionDelayInit;
 
             // Audio
@@ -114,8 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             base.SetState(targetState);
 
             int finalRadius = 0;
-            ExplosionDustModel e = new ExplosionDustModel(_dustMaxVelocity: 0, _dustAmount: 0, _minScale: 0, _maxScale: 0, _radiusModifier: 0);
-            PlayAudioModel a;
+            BlasterExplosion p;
 
             switch (state)
             {
@@ -124,12 +113,12 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
                     break;
                 case stateExplodeAir:
                     if (!hasHadDirectHit) Projectile.damage = (int)(Projectile.damage * 0.6);
-
                     finalRadius = CalculateExplosionRadius(explosionRadiusAir);
-                    e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
-                    a = new PlayAudioModel(_soundPath: explosionAirSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
-                    CreateExplosionVisual(e, a);
 
+                    if (explosionAirSample != null)
+                    {
+                        PlayAudio(explosionAirSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
+                    }
                     PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
                     PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
                     PlayAudio(SoundID.Splash, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
@@ -137,61 +126,51 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
                     break;
                 case stateExplodeTile:
                     Projectile.damage = (int)(Projectile.damage * 0.4);
+                    finalRadius = CalculateExplosionRadius((int)(explosionRadiusAir * tileExplosionRadiusModifier));
 
-                    finalRadius = CalculateExplosionRadius(explosionRadiusTile);
-                    e = new ExplosionDustModel(_dustMaxVelocity: 10, _dustAmount: 15, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
-                    a = new PlayAudioModel(_soundPath: explosionTileSample, _volume: 0.2f, _pitchVariance: 0.1f, _maxInstances: 3);
-                    CreateExplosionVisual(e, a);
+                    if (explosionTileSample != null)
+                    {
+                        PlayAudio(explosionTileSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0.5f);
+                    }
 
-                    break;
-                case stateDespawn:
-                    Projectile.Kill();
                     break;
             }
 
             if (state == stateExplodeAir || state == stateExplodeTile)
             {
-                Projectile.penetrate = -1;
-                wormDamageReduction = true;
+                p = CreateChildProjectile<BlasterExplosion>(
+                    Projectile.Center,
+                    Vector2.Zero,
+                    Projectile.damage,
+                    triggerSpawnMethods: false);
 
-                Projectile.tileCollide = false;
-                Timer = 0;
-                Projectile.position -= Projectile.velocity;
-                Projectile.velocity = Vector2.Zero;
-                Projectile.Resize(finalRadius, finalRadius);
-                hasExploded = true;
+                p.SetProperties(finalRadius, hitTargets);
+                p.RunSpawnMethods();
+
+                Projectile.Kill();
             }
         }
 
         public override void AI()
         {
-            Timer++;
-
-            switch (state)
+            if (state == stateFly)
             {
-                case stateFly:
-                    ProjectileDustHelper.BlasterDustTrail(this);
+                ProjectileDustHelper.BlasterDustTrail(this);
 
-                    if (Timer >= explosionDelay * FrameSpeed())
-                    {
-                        SetState(stateExplodeAir);
-                    }
-                    break;
-                case stateExplodeAir:
-                case stateExplodeTile:
-                    if (Timer >= 6 * FrameSpeed())
-                    {
-                        SetState(stateDespawn);
-                    }
-                    break;
+                if (timeSpentAlive >= explosionDelay * FrameSpeed())
+                {
+                    SetState(stateExplodeAir);
+                }
             }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            hitTargets.Add(target.whoAmI);
+
             if (state != stateExplodeTile) hasHitTarget = true;
 
-            if (!hasExploded && !hasHadDirectHit)
+            if (!hasHadDirectHit)
             {
                 hasHadDirectHit = true;
                 DirectHitDustBurst(target.Center);
@@ -222,11 +201,6 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
                 var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
             }
-        }
-
-        public override bool? CanHitNPC(NPC target)
-        {
-            return CanHitNPCWithLineOfSight(target);
         }
     }
 }

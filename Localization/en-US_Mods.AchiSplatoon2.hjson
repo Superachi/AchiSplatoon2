@@ -1627,6 +1627,7 @@ Projectiles: {
 	NetcodeInspectorProjectile.DisplayName: Netcode Inspector Projectile
 	ChargerCharge.DisplayName: Charger Charge
 	ChargerProjectile.DisplayName: Charger Projectile
+	BlasterExplosion.DisplayName: Blaster Explosion
 }
 
 Buffs: {

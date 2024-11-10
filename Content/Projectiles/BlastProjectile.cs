@@ -7,9 +7,9 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class BlastProjectile : BaseProjectile
     {
         private int blastRadius;
-        private PlayAudioModel playAudioModel;
+        private PlayAudioModel? playAudioModel;
 
-        public void SetProperties(int radius, PlayAudioModel audioModel = null)
+        public void SetProperties(int radius, PlayAudioModel? audioModel = null)
         {
             blastRadius = radius;
             playAudioModel = audioModel ?? new PlayAudioModel(_soundPath: "BlasterExplosion", _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3);

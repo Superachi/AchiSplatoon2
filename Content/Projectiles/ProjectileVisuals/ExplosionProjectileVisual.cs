@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.IO;
 using Terraria;
@@ -67,6 +68,8 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
         protected override void NetSendDustExplosion(BinaryWriter writer)
         {
+            writer.Write(ColorHelper.ColorToString(CurrentColor));
+
             string expJson = JsonConvert.SerializeObject(explosionDustModel);
             writer.Write((string)expJson);
 
@@ -82,6 +85,9 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
         protected override void NetReceiveDustExplosion(BinaryReader reader)
         {
+            var color = ColorHelper.StringToColor(reader.ReadString());
+            UpdateCurrentColor(color ?? CurrentColor);
+
             string expJson = reader.ReadString();
             explosionDustModel = JsonConvert.DeserializeObject<ExplosionDustModel>(expJson);
 

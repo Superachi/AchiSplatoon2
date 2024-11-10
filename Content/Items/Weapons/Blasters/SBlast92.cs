@@ -10,7 +10,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     {
         public override string ShootAltSample { get => "SBlastShoot"; }
         public override int ExplosionRadiusAir { get => 240; }
-        public override int ExplosionRadiusTile { get => 120; }
         public override float ExplosionDelayInit { get => 12f; }
 
         // Sprite offset

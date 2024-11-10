@@ -107,6 +107,35 @@ namespace AchiSplatoon2.Helpers
             return new Color(input.R, input.G, input.B, 255);
         }
 
+        public static string ColorToString(Color input)
+        {
+            return $"{input.R}-{input.G}-{input.B}-{input.A}";
+        }
+
+        public static Color? StringToColor(string input)
+        {
+            var subStrings = input.Split('-');
+            int[] colorValues = new int[4];
+            int i = 0;
+
+            foreach (var subString in subStrings)
+            {
+                if (int.TryParse(subString, out int colorValue))
+                {
+                    colorValues[i] = colorValue;
+                }
+                else
+                {
+                    DebugHelper.PrintError($"Failed to parse color value from string: {input}");
+                    return null;
+                }
+
+                i++;
+            }
+
+            return new Color(colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
+        }
+
         public static Color AddRandomHue(float hueVariance, Color colorInput)
         {
             return IncreaseHueBy(Main.rand.NextFloat(-hueVariance, hueVariance), colorInput);
