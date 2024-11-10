@@ -1,9 +1,13 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
@@ -64,8 +68,18 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            _targetsToIgnore.Add(target.whoAmI);
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - GetOwner().position.X);
             base.ModifyHitNPC(target, ref modifiers);
+        }
+
+        protected override void AfterKill(int timeLeft)
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
+                if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(_targetsToIgnore.Count != 0);
+            }
         }
     }
 }

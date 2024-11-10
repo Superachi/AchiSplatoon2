@@ -21,7 +21,6 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         protected int damageBeforePiercing;
 
         private bool hasHadDirectHit = false;
-        private bool hasHitTarget = false;
 
         private const int stateFly = 0;
         private const int stateExplodeAir = 1;
@@ -63,8 +62,11 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
             if (GetOwner().HasBuff<BigBlastBuff>())
             {
-                Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
-                explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
+                if (IsThisClientTheProjectileOwner())
+                {
+                    Projectile.damage = MultiplyProjectileDamage(FieryPaintCan.MissDamageModifier);
+                    explosionRadiusModifier *= FieryPaintCan.MissRadiusModifier;
+                }
             }
 
             damageBeforePiercing = Projectile.damage;
@@ -168,8 +170,6 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         {
             hitTargets.Add(target.whoAmI);
 
-            if (state != stateExplodeTile) hasHitTarget = true;
-
             if (!hasHadDirectHit)
             {
                 hasHadDirectHit = true;
@@ -192,15 +192,6 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             }
 
             return false;
-        }
-
-        protected override void AfterKill(int timeLeft)
-        {
-            if (IsThisClientTheProjectileOwner())
-            {
-                var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
-                if (accMP.hasFieryPaintCan) accMP.SetBlasterBuff(hasHitTarget);
-            }
         }
     }
 }
