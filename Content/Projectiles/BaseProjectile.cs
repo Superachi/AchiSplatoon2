@@ -2,6 +2,8 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
@@ -17,8 +19,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles
-{
+namespace AchiSplatoon2.Content.Projectiles;
+
     enum ProjNetUpdateType : byte
     {
         None,
@@ -46,6 +48,8 @@ namespace AchiSplatoon2.Content.Projectiles
                 weaponSource = value;
             }
         }
+
+        public int weaponSourcePrefix = -1;
 
         public bool dataReady = false;
         protected virtual bool FallThroughPlatforms => true;
@@ -147,6 +151,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public void RunSpawnMethods()
         {
             AfterSpawn();
+        ApplyWeaponPrefixData();
             AdjustVariablesOnShoot();
             CreateDustOnSpawn();
 
@@ -176,6 +181,12 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             // Add your code here
         }
+
+    protected virtual void ApplyWeaponPrefixData()
+    {
+        var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+        prefix?.ApplyProjectileStats(this);
+    }
 
         /// <summary>
         /// This method is used to adjust parameters after the projectile has spawned in.
@@ -1226,5 +1237,4 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
         #endregion
-    }
 }

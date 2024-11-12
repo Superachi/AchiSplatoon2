@@ -1653,3 +1653,31 @@ Buffs: {
 }
 
 NPCs.BrellaShield.DisplayName: Brella Shield
+
+Prefixes: {
+	BaseItemPrefix.DisplayName: Base Item Prefix
+	BaseWeaponPrefix.DisplayName: Base Weapon Prefix
+	BaseBlasterPrefix.DisplayName: Base Blaster Prefix
+	BaseChargerPrefix.DisplayName: Base Charger Prefix
+	BaseDualiePrefix.DisplayName: Base Dualie Prefix
+
+	AimVariationTooltip: -{0} degrees of accuracy
+	PierceTooltip: +{0} enemy piercing
+	PenetrationTooltip: Ignores {0} points of enemy Defense
+	ExtraDodgeRollsTooltip: +{0} dodge roll(s)
+
+	BigBlastPrefix.DisplayName: Big Blast Prefix
+	AmpedUpPrefix.DisplayName: Amped-Up
+	SkilledPrefix.DisplayName: Skilled
+	SwiftPrefix.DisplayName: Swift
+	TurboPrefix.DisplayName: Turbo
+	FreshPrefix.DisplayName: Fresh
+	HeavyDutyPrefix.DisplayName: Heavy-Duty
+	ChaoticPrefix.DisplayName: Chaotic
+	BacklinePrefix.DisplayName: Backline
+	DeepCutPrefix.DisplayName: Deep-Cut
+	PiercingPrefix.DisplayName: Piercing
+
+	PrincessPrefix.DisplayName: Princess
+	SlipperyPrefix.DisplayName: Slippery
+}

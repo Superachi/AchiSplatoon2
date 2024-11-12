@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -69,6 +70,14 @@ namespace AchiSplatoon2.Content.Players
             bool rollsLeftWasMax = rollsLeft == maxRolls;
 
             maxRolls = dualieData.MaxRolls;
+
+            var prefix = PrefixHelper.GetWeaponPrefixById(Player.HeldItem.prefix);
+            if (prefix != null && PrefixHelper.IsPrefixOfType<BaseDualiePrefix>(prefix))
+            {
+                maxRolls += ((BaseDualiePrefix)prefix).ExtraDodgeRolls;
+                DebugHelper.PrintDebug("Added dodge roll based on prefix!");
+            }
+
             if (hasSquidClipOns) maxRolls /= 2;
             if (maxRolls < 1) maxRolls = 1;
             if (rollsLeftWasMax) rollsLeft = maxRolls;

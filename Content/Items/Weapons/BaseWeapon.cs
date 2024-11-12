@@ -3,6 +3,8 @@ using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
@@ -14,6 +16,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons
 {
@@ -54,6 +57,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
     internal class BaseWeapon : BaseItem
     {
         public int ItemIdentifier { get; private set; }
+
         // Visual
         public virtual string ShootSample { get => "SplattershotShoot"; }
         public virtual string ShootWeakSample { get => "SplattershotShoot"; }
@@ -236,6 +240,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             var proj = p.ModProjectile as BaseProjectile;
 
             // Config variables after spawning
+            proj.weaponSourcePrefix = Item.prefix;
             proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
 
@@ -376,6 +381,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
 
             return false;
+        }
+
+        public override int ChoosePrefix(UnifiedRandom rand)
+        {
+            return rand.NextFromCollection<int>(PrefixHelper.ListGenericPrefixes());
         }
     }
 }

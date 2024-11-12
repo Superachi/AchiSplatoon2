@@ -26,6 +26,7 @@
 	  <None Remove="Content\Items\Weapons\Sloshers\TriSlosher.png" />
 	  <None Remove="Content\Items\Weapons\Specials\TrizookaUnleashed.png" />
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
+	  <None Remove="Content\Items\Weapons\Test\SuperBlaster.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectiles\BlasterExplosion.png" />
@@ -56,7 +57,6 @@
 	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
 	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />
-	  <None Remove="Content\Projectiles\ProjectileVisuals\StarFisherBlastVisual.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\RollerInkProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\CarbonRollerSwingProjectile.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaDynamoRollerSwingProjectile.png" />
