@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.GlobalNPCs;
 using AchiSplatoon2.Content.GlobalProjectiles;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
@@ -18,6 +19,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Projectiles;
 
@@ -417,8 +419,13 @@ namespace AchiSplatoon2.Content.Projectiles;
             }
 
             modifiers.Knockback *= knockbackModifier;
+            if (target.knockBackResist > 0)
+            {
+                var baseKnockbackResist = target.GetGlobalNPC<CombatGlobalNPC>().initialKnockbackResist;
+                target.knockBackResist = baseKnockbackResist * (1 + knockbackModifier / 16);
 
-            base.ModifyHitNPC(target, ref modifiers);
+                base.ModifyHitNPC(target, ref modifiers);
+            }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
