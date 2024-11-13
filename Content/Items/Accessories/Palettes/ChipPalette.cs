@@ -49,11 +49,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
             // See also the calculations in BaseProjectile.cs
             if (!modPlayer.IsPaletteValid()) return;
 
-            var chips = modPlayer.ColorChipAmounts;
-
-            player.GetKnockback(DamageClass.Generic) +=
-                chips[(int)ChipColor.Purple] * modPlayer.PurpleChipBaseKnockbackBonus;
-
             var accMP = player.GetModPlayer<AccessoryPlayer>();
             accMP.paletteType = GetType();
         }

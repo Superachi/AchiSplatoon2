@@ -77,6 +77,7 @@ namespace AchiSplatoon2.Content.Projectiles;
         protected float explosionRadiusModifier = 1f;
         protected int armorPierceModifier = 0;
         protected int piercingModifier = 0;
+        protected float knockbackModifier = 1f;
         protected int originalDamage = 0;
         protected virtual float DamageModifierAfterPierce => 0.7f;
         protected bool enablePierceDamagefalloff;
@@ -262,20 +263,21 @@ namespace AchiSplatoon2.Content.Projectiles;
                     for (int i = 0; i < colorChipPlayer.ColorChipAmounts.Length; i++)
                     {
                         // Red chips > more armor piercing
-                        if (i == (int)ColorChipPlayer.ChipColor.Red)
+                        if (i == (int)ChipColor.Red)
                         {
                             armorPierceModifier += colorChipPlayer.CalculateArmorPierceBonus();
                             Projectile.ArmorPenetration += armorPierceModifier;
                         }
 
                         // Purple chips > faster charge speed
-                        if (i == (int)ColorChipPlayer.ChipColor.Purple)
+                        if (i == (int)ChipColor.Purple)
                         {
                             chargeSpeedModifier += colorChipPlayer.CalculateChargeSpeedBonus();
+                            knockbackModifier += colorChipPlayer.CalculateKnockbackBonus();
                         }
 
                         // Yellow chips > bigger explosions + projectile piercing
-                        if (i == (int)ColorChipPlayer.ChipColor.Yellow)
+                        if (i == (int)ChipColor.Yellow)
                         {
                             explosionRadiusModifier += colorChipPlayer.CalculateExplosionRadiusBonus();
                             piercingModifier += colorChipPlayer.CalculatePiercingBonus();
@@ -413,6 +415,8 @@ namespace AchiSplatoon2.Content.Projectiles;
             {
                 modifiers.FinalDamage *= 0.6f;
             }
+
+            modifiers.Knockback *= knockbackModifier;
 
             base.ModifyHitNPC(target, ref modifiers);
         }
