@@ -14,34 +14,143 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public override PrefixCategory Category => PrefixCategory.Custom;
 
     // Weapon stat modifiers
-    public virtual float DamageModifier => 1f;
-    public virtual float UseTimeModifier => 1f;
-    public virtual float KnockbackModifier => 1f;
-    public virtual float VelocityModifier => 1f;
+    public virtual float DamageModifier => 0f;
+    public virtual float UseTimeModifier => 0f;
+    public virtual float KnockbackModifier => 0f;
+    public virtual float VelocityModifier => 0f;
     public virtual int CritChanceBonus => 0;
 
     // Projectile stat modifiers
     public virtual int AimVariation => 0;
     public virtual int EnemyPierceBonus => 0;
     public virtual int ArmorPenetrationBonus => 0;
-    public virtual float ChargeSpeedModifier => 1f;
-    public virtual float ExplosionRadiusModifier => 1f;
+    public virtual float ChargeSpeedModifier => 0f;
+    public virtual float ExplosionRadiusModifier => 0f;
+    public virtual int ExtraProjectileBonus => 0;
 
+    #region Tooltips
 
-    public override bool CanRoll(Item item)
+    // Localization
+    public static LocalizedText VelocityTooltip { get; private set; }
+    public static LocalizedText AimVariationTooltip { get; private set; }
+    public static LocalizedText EnemyPierceTooltip { get; private set; }
+    public static LocalizedText ArmorPenetrationTooltip { get; private set; }
+    public static LocalizedText ChargeSpeedTooltip { get; private set; }
+    public static LocalizedText ExtraProjectileTooltip { get; private set; }
+
+    public override void SetStaticDefaults()
     {
-        return item.ModItem is BaseWeapon;
+        VelocityTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(VelocityTooltip)}");
+        AimVariationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(AimVariationTooltip)}");
+        EnemyPierceTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(EnemyPierceTooltip)}");
+        ArmorPenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ArmorPenetrationTooltip)}");
+        ChargeSpeedTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ChargeSpeedTooltip)}");
+        ExtraProjectileTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExtraProjectileTooltip)}");
     }
+
+    public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
+    {
+        if (VelocityModifier != 0f)
+        {
+            yield return CreateTooltip(VelocityTooltip, VelocityModifier, false);
+        }
+
+        if (AimVariation != 0)
+        {
+            yield return CreateTooltip(AimVariationTooltip, AimVariation, true);
+        }
+
+        if (EnemyPierceBonus != 0)
+        {
+            yield return CreateTooltip(EnemyPierceTooltip, EnemyPierceBonus, false);
+        }
+
+        if (ArmorPenetrationBonus != 0)
+        {
+            yield return CreateTooltip(ArmorPenetrationTooltip, ArmorPenetrationBonus, false);
+        }
+
+        if (ChargeSpeedModifier != 0f)
+        {
+            yield return CreateTooltip(ChargeSpeedTooltip, ChargeSpeedModifier, false);
+        }
+
+        if (ExtraProjectileBonus != 0)
+        {
+            yield return CreateTooltip(ExtraProjectileTooltip, ExtraProjectileBonus, false);
+        }
+    }
+
+    private string FormatIntModifier(float modifier)
+    {
+        var symbol = "";
+        if (modifier > 0)
+        {
+            symbol = "+";
+        }
+
+        return $"{symbol}{modifier}";
+    }
+
+    private string FormatPercentageModifier(float modifier)
+    {
+        var symbol = "";
+        if (modifier > 0)
+        {
+            symbol = "+";
+        }
+
+        return $"{symbol}{(int)(modifier * 100)}%";
+    }
+
+    protected TooltipLine CreateTooltip(LocalizedText localizedText, int modifier, bool isModifierAboveZeroBad)
+    {
+        var text = FormatIntModifier(modifier);
+        return new TooltipLine(Mod, $"Prefix{localizedText.Key}", localizedText.Format(text))
+        {
+            IsModifier = true,
+            IsModifierBad = (isModifierAboveZeroBad && modifier > 0) || (!isModifierAboveZeroBad && modifier < 0)
+        };
+    }
+
+    protected TooltipLine CreateTooltip(LocalizedText localizedText, float modifier, bool isModifierAboveZeroBad)
+    {
+        var text = FormatPercentageModifier(modifier);
+        return new TooltipLine(Mod, $"Prefix{localizedText.Key}", localizedText.Format(text))
+        {
+            IsModifier = true,
+            IsModifierBad = (isModifierAboveZeroBad && modifier > 0) || (!isModifierAboveZeroBad && modifier < 0)
+        };
+    }
+
+    #endregion
+
+    #region Stat application
 
     // Use this function to modify these stats for items which have this prefix:
     // Damage Multiplier, Knockback Multiplier, Use Time Multiplier, Scale Multiplier (Size), Shoot Speed Multiplier, Mana Multiplier (Mana cost), Crit Bonus.
     public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
     {
-        damageMult *= DamageModifier;
-        knockbackMult *= KnockbackModifier;
-        shootSpeedMult *= VelocityModifier;
-        critBonus += CritChanceBonus;
+        damageMult *= (1 + DamageModifier);
+        knockbackMult *= (1 + KnockbackModifier);
+        critBonus += (CritChanceBonus);
     }
+
+    public override void Apply(Item item)
+    {
+        item.useTime = (int)(item.useTime * (1 + UseTimeModifier));
+        item.useAnimation = (int)(item.useAnimation * (1 + UseTimeModifier));
+    }
+
+    public virtual void ApplyProjectileStats(BaseProjectile projectile)
+    {
+        projectile.Projectile.velocity *= (1 + VelocityModifier);
+        projectile.Projectile.velocity = WoomyMathHelper.AddRotationToVector2(projectile.Projectile.velocity, -AimVariation, AimVariation);
+        projectile.Projectile.penetrate += EnemyPierceBonus;
+        projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
+    }
+
+    #endregion
 
     // Modify the cost of items with this modifier with this function.
     public override void ModifyValue(ref float valueMult)
@@ -49,57 +158,8 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         valueMult *= 1f * PrefixValueModifier;
     }
 
-    public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
+    public override bool CanRoll(Item item)
     {
-        if (AimVariation != 0)
-        {
-            yield return new TooltipLine(Mod, "PrefixAimVariation", AimVariationTooltip.Format(AimVariation * 2))
-            {
-                IsModifier = true,
-                IsModifierBad = true
-            };
-        }
-
-        if (EnemyPierceBonus != 0)
-        {
-            yield return new TooltipLine(Mod, "PrefixPierce", PierceTooltip.Format(EnemyPierceBonus))
-            {
-                IsModifier = true,
-                IsModifierBad = false
-            };
-        }
-
-        if (ArmorPenetrationBonus != 0)
-        {
-            yield return new TooltipLine(Mod, "PrefixPenetration", PenetrationTooltip.Format(ArmorPenetrationBonus))
-            {
-                IsModifier = true,
-                IsModifierBad = false
-            };
-        }
-    }
-
-    public static LocalizedText AimVariationTooltip { get; private set; }
-    public static LocalizedText PierceTooltip { get; private set; }
-    public static LocalizedText PenetrationTooltip { get; private set; }
-
-    public override void Apply(Item item)
-    {
-        item.useTime = (int)(item.useTime * UseTimeModifier);
-        item.useAnimation = (int)(item.useAnimation * UseTimeModifier);
-    }
-
-    public virtual void ApplyProjectileStats(BaseProjectile projectile)
-    {
-        projectile.Projectile.velocity = WoomyMathHelper.AddRotationToVector2(projectile.Projectile.velocity, -AimVariation, AimVariation);
-        projectile.Projectile.penetrate += EnemyPierceBonus;
-        projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
-    }
-
-    public override void SetStaticDefaults()
-    {
-        AimVariationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(AimVariationTooltip)}");
-        PierceTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(PierceTooltip)}");
-        PenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(PenetrationTooltip)}");
+        return item.ModItem is BaseWeapon;
     }
 }

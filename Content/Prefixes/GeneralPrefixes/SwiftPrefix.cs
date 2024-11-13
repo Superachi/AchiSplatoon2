@@ -2,5 +2,5 @@
 
 internal class SwiftPrefix : BaseWeaponPrefix
 {
-    public override float UseTimeModifier => 0.9f;
+    public override float UseTimeModifier => -0.1f;
 }

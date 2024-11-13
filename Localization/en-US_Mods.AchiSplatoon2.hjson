@@ -1655,29 +1655,35 @@ Buffs: {
 NPCs.BrellaShield.DisplayName: Brella Shield
 
 Prefixes: {
-	BaseItemPrefix.DisplayName: Base Item Prefix
-	BaseWeaponPrefix.DisplayName: Base Weapon Prefix
-	BaseBlasterPrefix.DisplayName: Base Blaster Prefix
-	BaseChargerPrefix.DisplayName: Base Charger Prefix
-	BaseDualiePrefix.DisplayName: Base Dualie Prefix
-
-	AimVariationTooltip: -{0} degrees of accuracy
-	PierceTooltip: +{0} enemy piercing
-	PenetrationTooltip: Ignores {0} points of enemy Defense
-	ExtraDodgeRollsTooltip: +{0} dodge roll(s)
-
-	BigBlastPrefix.DisplayName: Big Blast Prefix
-	AmpedUpPrefix.DisplayName: Amped-Up
-	SkilledPrefix.DisplayName: Skilled
-	SwiftPrefix.DisplayName: Swift
 	TurboPrefix.DisplayName: Turbo
-	FreshPrefix.DisplayName: Fresh
-	HeavyDutyPrefix.DisplayName: Heavy-Duty
-	ChaoticPrefix.DisplayName: Chaotic
-	BacklinePrefix.DisplayName: Backline
-	DeepCutPrefix.DisplayName: Deep-Cut
+	SwiftPrefix.DisplayName: Swift
+	SkilledPrefix.DisplayName: Skilled
+	RangedPrefix.DisplayName: Ranged
 	PiercingPrefix.DisplayName: Piercing
-
-	PrincessPrefix.DisplayName: Princess
+	HeavyDutyPrefix.DisplayName: Heavy-Duty
+	FreshPrefix.DisplayName: Fresh Prefix
+	DeepCutPrefix.DisplayName: Deep-Cut
+	ChaoticPrefix.DisplayName: Chaotic
+	AmpedUpPrefix.DisplayName: Amped-Up
 	SlipperyPrefix.DisplayName: Slippery
+	PrincessPrefix.DisplayName: Princess
+	BaseDualiePrefix.DisplayName: Base Dualie Prefix
+	SnappyPrefix.DisplayName: Snappy
+	BaseChargeWeaponPrefix.DisplayName: Base Charge Weapon Prefix
+	BacklinePrefix.DisplayName: Backline
+	BaseChargerPrefix.DisplayName: Base Charger Prefix
+	BaseBlasterPrefix.DisplayName: Base Blaster Prefix
+	BaseWeaponPrefix.DisplayName: Base Weapon Prefix
+	BaseItemPrefix.DisplayName: Base Item Prefix
+	ExtraDodgeRollsTooltip: "{0} dodge roll(s)"
+	ChargeSpeedTooltip: "{0} charge speed"
+	ArmorPenetrationTooltip: "{0} defense penetration"
+	EnemyPierceTooltip: "{0} piercing"
+	AimVariationTooltip: "{0} aim variation"
+	VelocityTooltip: "{0} velocity"
+	ExtraProjectileTooltip: "{0} projectile(s)"
+	BaseStringerPrefix.DisplayName: Base Stringer Prefix
+	CompactPrefix.DisplayName: Compact
+	WidePrefix.DisplayName: Wide
+	ShotgunArcTooltip: "{0} shotgun width"
 }

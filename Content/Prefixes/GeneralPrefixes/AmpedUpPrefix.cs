@@ -2,5 +2,5 @@
 
 internal class AmpedUpPrefix : BaseWeaponPrefix
 {
-    public override float DamageModifier => 1.15f;
+    public override float DamageModifier => 0.15f;
 }

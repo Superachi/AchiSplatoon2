@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles
         private bool chargeSlowerInAir = true;
         private float aerialChargeSpeedMod = 0.6f;
         private bool isPlayerGrounded = true;
-        private float prefixChargeSpeedModifier = 1f;
+        public float PrefixChargeTimeMultiplier { get; set; } = 1f;
         private bool playerHasChargedBattery = false;
 
         // Boolean to check whether we've released the charge
@@ -63,12 +63,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 chargeSpeedModifier += ChargedBattery.ChargeSpeedFlatBonus;
                 aerialChargeSpeedMod = ChargedBattery.AerialChargeSpeedModOverride;
             }
-
-            if (IsThisClientTheProjectileOwner())
-            {
-                StatCalculationHelper.GetPrefixStats(GetOwner().HeldItem, out float _, out float _, out float speed, out float _, out float _, out float _, out float _);
-                prefixChargeSpeedModifier = 1 + (1f - speed);
-            }
         }
 
         protected override void AfterSpawn()
@@ -100,7 +94,7 @@ namespace AchiSplatoon2.Content.Projectiles
             isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
 
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
-            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
+            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * PrefixChargeTimeMultiplier;
         }
 
         protected virtual void ReleaseCharge(Player owner)

@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
+using AchiSplatoon2.Helpers;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
@@ -39,6 +41,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             if (Item.useTime < 12) Item.useTime = 12;
 
             Item.useAnimation = Item.useTime;
+        }
+
+        public override int ChoosePrefix(UnifiedRandom rand)
+        {
+            return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
         }
     }
 }

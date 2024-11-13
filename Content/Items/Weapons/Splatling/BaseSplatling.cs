@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Helpers;
+using Terraria;
+using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
@@ -17,6 +19,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             base.SetDefaults();
             Item.noMelee = true;
             Item.channel = true;
+        }
+
+        public override int ChoosePrefix(UnifiedRandom rand)
+        {
+            return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
         }
     }
 }

@@ -10,9 +10,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerCharge : BaseChargeProjectile
     {
-        protected float velocityModifier = 0.75f;
-        protected float shotgunArc;
-        protected int projectileCount;
+        public float velocityModifier = 0.75f;
+        public float shotgunArc;
+        public int projectileCount;
         protected bool allowStickyProjectiles;
 
         public int burstHitCount = 0;

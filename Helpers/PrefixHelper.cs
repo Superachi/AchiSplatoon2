@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Content.Prefixes;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +15,18 @@ internal class PrefixHelper : ModSystem
 {
     public static BaseWeaponPrefix? GetWeaponPrefixById(int id)
     {
+        if (id == 0) return null; // No prefix
+        if (id == -1) return null; // Projectile spawned without the prefix being defined
+
         var value = WeaponPrefixDictionary.FirstOrDefault(x => x.Value == id).Key;
-        return value != null ? Activator.CreateInstance(value) as BaseWeaponPrefix : null;
+        var result = value != null ? Activator.CreateInstance(value) as BaseWeaponPrefix : null;
+
+        if (result == null)
+        {
+            DebugHelper.PrintWarning($"Called {nameof(GetWeaponPrefixById)} with prefix id {id}, but the result was null!");
+        }
+
+        return result;
     }
 
     public override void PostSetupContent()
@@ -28,27 +40,55 @@ internal class PrefixHelper : ModSystem
     {
         List<int> prefixes = new() {
             ModContent.PrefixType<AmpedUpPrefix>(),
-            ModContent.PrefixType<BacklinePrefix>(),
-            ModContent.PrefixType<ChaoticPrefix>(),
+            ModContent.PrefixType<RangedPrefix>(),
             ModContent.PrefixType<DeepCutPrefix>(),
-
-            ModContent.PrefixType<FreshPrefix>(),
-            ModContent.PrefixType<HeavyDutyPrefix>(),
             ModContent.PrefixType<PiercingPrefix>(),
             ModContent.PrefixType<SkilledPrefix>(),
-
-            ModContent.PrefixType<SwiftPrefix>(),
-            ModContent.PrefixType<TurboPrefix>()
         };
+
+        return prefixes;
+    }
+
+    public static List<int> ListShooterPrefixes()
+    {
+        var prefixes = ListGenericPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<ChaoticPrefix>());
+        prefixes.Add(ModContent.PrefixType<FreshPrefix>());
+        prefixes.Add(ModContent.PrefixType<HeavyDutyPrefix>());
+        prefixes.Add(ModContent.PrefixType<SwiftPrefix>());
+        prefixes.Add(ModContent.PrefixType<TurboPrefix>());
 
         return prefixes;
     }
 
     public static List<int> ListDualiePrefixes()
     {
-        var prefixes = ListGenericPrefixes();
+        var prefixes = ListShooterPrefixes();
+
         prefixes.Add(ModContent.PrefixType<SlipperyPrefix>());
         prefixes.Add(ModContent.PrefixType<PrincessPrefix>());
+
+        return prefixes;
+    }
+
+    public static List<int> ListChargeWeaponsPrefixes()
+    {
+        var prefixes = ListGenericPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<SnappyPrefix>());
+        prefixes.Add(ModContent.PrefixType<BacklinePrefix>());
+
+        return prefixes;
+    }
+
+    public static List<int> ListStringerPrefixes()
+    {
+        var prefixes = ListChargeWeaponsPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<CompactPrefix>());
+        prefixes.Add(ModContent.PrefixType<WidePrefix>());
+
         return prefixes;
     }
 
@@ -76,13 +116,9 @@ internal class PrefixHelper : ModSystem
     {
         Dictionary<Type, int> dict = new()
         {
-            // Dualies
-            { typeof(SlipperyPrefix), ModContent.PrefixType<SlipperyPrefix>() },
-            { typeof(PrincessPrefix), ModContent.PrefixType<PrincessPrefix>() },
-
             // Generic
             { typeof(AmpedUpPrefix), ModContent.PrefixType<AmpedUpPrefix>() },
-            { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
+            { typeof(RangedPrefix), ModContent.PrefixType<RangedPrefix>() },
             { typeof(ChaoticPrefix), ModContent.PrefixType<ChaoticPrefix>() },
             { typeof(DeepCutPrefix), ModContent.PrefixType<DeepCutPrefix>() },
 
@@ -93,6 +129,18 @@ internal class PrefixHelper : ModSystem
 
             { typeof(SwiftPrefix), ModContent.PrefixType<SwiftPrefix>() },
             { typeof(TurboPrefix), ModContent.PrefixType<TurboPrefix>() },
+
+            // Dualies
+            { typeof(SlipperyPrefix), ModContent.PrefixType<SlipperyPrefix>() },
+            { typeof(PrincessPrefix), ModContent.PrefixType<PrincessPrefix>() },
+
+            // Charge weapons
+            { typeof(SnappyPrefix), ModContent.PrefixType<SnappyPrefix>() },
+            { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
+
+            // Stringers
+            { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },
+            { typeof(WidePrefix), ModContent.PrefixType<WidePrefix>() },
         };
 
         return dict;

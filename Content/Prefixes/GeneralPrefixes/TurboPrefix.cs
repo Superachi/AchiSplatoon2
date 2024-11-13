@@ -2,6 +2,6 @@
 
 internal class TurboPrefix : BaseWeaponPrefix
 {
-    public override float DamageModifier => 0.8f;
-    public override float UseTimeModifier => 0.6f;
+    public override float DamageModifier => -0.2f;
+    public override float UseTimeModifier => -0.4f;
 }
