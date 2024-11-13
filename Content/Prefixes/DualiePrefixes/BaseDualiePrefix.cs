@@ -26,13 +26,7 @@ internal class BaseDualiePrefix : BaseWeaponPrefix
 
         if (ExtraDodgeRolls != 0)
         {
-            yield return new TooltipLine(Mod, "PrefixExtraDodgeRolls", ExtraDodgeRollsTooltip.Format(ExtraDodgeRolls))
-            {
-                IsModifier = true,
-                IsModifierBad = false
-            };
+            yield return CreateTooltip(ExtraDodgeRollsTooltip, ExtraDodgeRolls, false);
         }
     }
-
-
 }
