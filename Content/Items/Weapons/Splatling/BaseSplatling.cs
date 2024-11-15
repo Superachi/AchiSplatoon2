@@ -1,6 +1,4 @@
-﻿using AchiSplatoon2.Helpers;
-using Terraria;
-using Terraria.Utilities;
+﻿using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {

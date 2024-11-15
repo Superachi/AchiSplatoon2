@@ -1,10 +1,10 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Projectiles;
-using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
+using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 

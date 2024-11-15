@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using Microsoft.Xna.Framework;

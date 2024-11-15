@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             {
                 Projectile.velocity *= 0.5f;
             }
-            
+
             Projectile.extraUpdates *= 3;
             Projectile.timeLeft *= 3;
             fallSpeed *= 0.4f;

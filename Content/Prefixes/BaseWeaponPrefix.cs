@@ -1,10 +1,10 @@
-﻿using Terraria.Localization;
-using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Prefixes;
 

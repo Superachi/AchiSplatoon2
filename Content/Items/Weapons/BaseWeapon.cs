@@ -9,8 +9,6 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Prefixes;
-using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;

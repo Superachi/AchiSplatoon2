@@ -1,13 +1,7 @@
-﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Netcode.DataModels;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles

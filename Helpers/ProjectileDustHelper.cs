@@ -1,11 +1,11 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Projectiles;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
 
 namespace AchiSplatoon2.Helpers
 {

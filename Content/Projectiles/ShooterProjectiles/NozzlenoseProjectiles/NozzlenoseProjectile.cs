@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             {
                 Projectile.velocity *= 0.3f;
             }
-            
+
             Projectile.extraUpdates *= 3;
             Projectile.timeLeft *= 3;
             fallSpeed *= 0.2f;

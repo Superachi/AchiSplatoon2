@@ -1,4 +1,4 @@
-﻿namespace AchiSplatoon2.Content.Prefixes.GeneralPrefixes; 
+﻿namespace AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 
 internal class FreshPrefix : BaseWeaponPrefix
 {

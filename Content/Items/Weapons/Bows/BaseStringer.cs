@@ -1,8 +1,6 @@
 ﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
-using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {

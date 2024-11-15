@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         private const int stateExplodeAir = 1;
         private const int stateExplodeTile = 2;
 
-        private List<int> hitTargets = new List<int>();
+        private readonly List<int> hitTargets = new List<int>();
 
         public override void SetDefaults()
         {

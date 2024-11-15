@@ -1,12 +1,10 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {

@@ -2,7 +2,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Helpers;
