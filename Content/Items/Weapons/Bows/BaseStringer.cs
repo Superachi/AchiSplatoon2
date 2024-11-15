@@ -31,10 +31,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.channel = true;
             Item.crit = 5;
         }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.NextFromCollection<int>(PrefixHelper.ListStringerPrefixes());
-        }
     }
 }

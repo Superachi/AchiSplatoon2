@@ -20,10 +20,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.noMelee = true;
             Item.channel = true;
         }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
-        }
     }
 }

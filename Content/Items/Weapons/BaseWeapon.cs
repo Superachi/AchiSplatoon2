@@ -1,6 +1,12 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes;
@@ -385,6 +391,22 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override int ChoosePrefix(UnifiedRandom rand)
         {
+            switch (this)
+            {
+                case BaseSplattershot:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListShooterPrefixes());
+                case BaseBlaster:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListBlasterPrefixes());
+                case BaseDualie:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListDualiePrefixes());
+                case BaseCharger:
+                case BaseSplatana:
+                case BaseSplatling:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
+                case BaseStringer:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListStringerPrefixes());
+            }
+
             return rand.NextFromCollection<int>(PrefixHelper.ListGenericPrefixes());
         }
     }

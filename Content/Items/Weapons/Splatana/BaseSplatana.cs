@@ -59,10 +59,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         {
             return (int)(damage / MaxChargeRangeDamageMod);
         }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
-        }
     }
 }

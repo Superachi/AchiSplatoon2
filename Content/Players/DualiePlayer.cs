@@ -75,7 +75,6 @@ namespace AchiSplatoon2.Content.Players
             if (prefix != null && PrefixHelper.IsPrefixOfType<BaseDualiePrefix>(prefix))
             {
                 maxRolls += ((BaseDualiePrefix)prefix).ExtraDodgeRolls;
-                DebugHelper.PrintDebug("Added dodge roll based on prefix!");
             }
 
             if (hasSquidClipOns) maxRolls /= 2;

@@ -94,10 +94,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
             return false;
         }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.NextFromCollection<int>(PrefixHelper.ListDualiePrefixes());
-        }
     }
 }

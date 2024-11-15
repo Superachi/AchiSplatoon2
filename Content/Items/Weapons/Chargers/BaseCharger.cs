@@ -42,10 +42,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
             Item.useAnimation = Item.useTime;
         }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
-        }
     }
 }
