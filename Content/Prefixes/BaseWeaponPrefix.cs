@@ -36,6 +36,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public static LocalizedText EnemyPierceTooltip { get; private set; }
     public static LocalizedText ArmorPenetrationTooltip { get; private set; }
     public static LocalizedText ChargeSpeedTooltip { get; private set; }
+    public static LocalizedText ExplosionRadiusTooltip { get; private set; }
     public static LocalizedText ExtraProjectileTooltip { get; private set; }
 
     public override void SetStaticDefaults()
@@ -45,6 +46,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         EnemyPierceTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(EnemyPierceTooltip)}");
         ArmorPenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ArmorPenetrationTooltip)}");
         ChargeSpeedTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ChargeSpeedTooltip)}");
+        ExplosionRadiusTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExplosionRadiusTooltip)}");
         ExtraProjectileTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExtraProjectileTooltip)}");
     }
 
@@ -73,6 +75,11 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (ChargeSpeedModifier != 0f)
         {
             yield return CreateTooltip(ChargeSpeedTooltip, ChargeSpeedModifier, false);
+        }
+
+        if (ExplosionRadiusModifier != 0)
+        {
+            yield return CreateTooltip(ExplosionRadiusTooltip, ExplosionRadiusModifier, false);
         }
 
         if (ExtraProjectileBonus != 0)

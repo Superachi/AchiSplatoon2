@@ -38,6 +38,11 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             Projectile.tileCollide = true;
         }
 
+        public void ModifyExplosionRadius(float modifier)
+        {
+            explosionRadiusAir = (int)(explosionRadiusAir * modifier);
+        }
+
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Prefixes;
+using AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
@@ -92,6 +93,16 @@ internal class PrefixHelper : ModSystem
         return prefixes;
     }
 
+    public static List<int> ListBlasterPrefixes()
+    {
+        var prefixes = ListShooterPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<BigBangPrefix>());
+        prefixes.Add(ModContent.PrefixType<ConcentratedPrefix>());
+
+        return prefixes;
+    }
+
     public static bool IsPrefixOfType<T>(Item item)
     where T : BaseItemPrefix
     {
@@ -141,6 +152,10 @@ internal class PrefixHelper : ModSystem
             // Stringers
             { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },
             { typeof(WidePrefix), ModContent.PrefixType<WidePrefix>() },
+
+            // Blasters
+            { typeof(ConcentratedPrefix), ModContent.PrefixType<ConcentratedPrefix>() },
+            { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
         };
 
         return dict;

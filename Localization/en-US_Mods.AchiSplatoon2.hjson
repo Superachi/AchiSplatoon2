@@ -1661,12 +1661,12 @@ Prefixes: {
 	RangedPrefix.DisplayName: Ranged
 	PiercingPrefix.DisplayName: Piercing
 	HeavyDutyPrefix.DisplayName: Heavy-Duty
-	FreshPrefix.DisplayName: Fresh Prefix
+	FreshPrefix.DisplayName: Fresh
 	DeepCutPrefix.DisplayName: Deep-Cut
 	ChaoticPrefix.DisplayName: Chaotic
 	AmpedUpPrefix.DisplayName: Amped-Up
 	SlipperyPrefix.DisplayName: Slippery
-	PrincessPrefix.DisplayName: Princess
+	PrincessPrefix.DisplayName: Princess'
 	BaseDualiePrefix.DisplayName: Base Dualie Prefix
 	SnappyPrefix.DisplayName: Snappy
 	BaseChargeWeaponPrefix.DisplayName: Base Charge Weapon Prefix
@@ -1686,4 +1686,7 @@ Prefixes: {
 	CompactPrefix.DisplayName: Compact
 	WidePrefix.DisplayName: Wide
 	ShotgunArcTooltip: "{0} shotgun width"
+	ExplosionRadiusTooltip: "{0} blast radius"
+	BigBangPrefix.DisplayName: Big-Bang
+	ConcentratedPrefix.DisplayName: Concentrated
 }
