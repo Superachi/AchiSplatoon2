@@ -35,7 +35,6 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public static LocalizedText AimVariationTooltip { get; private set; }
     public static LocalizedText EnemyPierceTooltip { get; private set; }
     public static LocalizedText ArmorPenetrationTooltip { get; private set; }
-    public static LocalizedText ChargeSpeedTooltip { get; private set; }
     public static LocalizedText ExplosionRadiusTooltip { get; private set; }
     public static LocalizedText ExtraProjectileTooltip { get; private set; }
 
@@ -45,7 +44,6 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         AimVariationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(AimVariationTooltip)}");
         EnemyPierceTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(EnemyPierceTooltip)}");
         ArmorPenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ArmorPenetrationTooltip)}");
-        ChargeSpeedTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ChargeSpeedTooltip)}");
         ExplosionRadiusTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExplosionRadiusTooltip)}");
         ExtraProjectileTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExtraProjectileTooltip)}");
     }
@@ -70,11 +68,6 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (ArmorPenetrationBonus != 0)
         {
             yield return CreateTooltip(ArmorPenetrationTooltip, ArmorPenetrationBonus, false);
-        }
-
-        if (ChargeSpeedModifier != 0f)
-        {
-            yield return CreateTooltip(ChargeSpeedTooltip, ChargeSpeedModifier, false);
         }
 
         if (ExplosionRadiusModifier != 0)
@@ -153,7 +146,14 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     {
         projectile.Projectile.velocity *= (1 + VelocityModifier);
         projectile.Projectile.velocity = WoomyMathHelper.AddRotationToVector2(projectile.Projectile.velocity, -AimVariation, AimVariation);
-        projectile.Projectile.penetrate += EnemyPierceBonus;
+
+        // If this if-statement isn't here,
+        // the projectile will immediately despawn if the value increases from -1 (infinite penetrate) to 0
+        if (projectile.Projectile.penetrate > 0)
+        {
+            projectile.Projectile.penetrate += EnemyPierceBonus;
+        }
+
         projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
     }
 

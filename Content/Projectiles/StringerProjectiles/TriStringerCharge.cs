@@ -1,10 +1,13 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using AchiSplatoon2.ExtensionMethods;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
@@ -49,6 +52,25 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             if (IsThisClientTheProjectileOwner())
             {
                 PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix is BaseStringerPrefix stringerPrefix)
+            {
+                if (stringerPrefix.ExtraProjectileBonus > 0)
+                {
+                    if (shotgunArc == 0) shotgunArc = 2f;
+                    shotgunArc += shotgunArc * stringerPrefix.ExtraProjectileBonus;
+                }
+
+                shotgunArc = stringerPrefix.ShotgunArcModifier.NormalizePrefixMod();
+                projectileCount += stringerPrefix.ExtraProjectileBonus;
+                burstRequiredHits += stringerPrefix.ExtraProjectileBonus;
             }
         }
 

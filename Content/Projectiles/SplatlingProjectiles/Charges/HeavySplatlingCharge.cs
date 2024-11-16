@@ -1,6 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -13,7 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
     {
         protected virtual int ProjectileType { get => ModContent.ProjectileType<HeavySplatlingProjectile>(); }
         protected float muzzleDistance;
-        protected float barrageMaxAmmo;
+        protected int barrageMaxAmmo;
         protected float barrageVelocity;
         protected float barrageShotTime;
         protected float damageChargeMod = 1f;
@@ -53,6 +56,24 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
             Projectile.soundDelay = 30;
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix != null)
+            {
+                barrageVelocity *= prefix.VelocityModifier.NormalizePrefixMod();
+            }
+
+            if (prefix is BaseSplatlingPrefix splatlingPrefix)
+            {
+                barrageMaxAmmo = (int)(barrageMaxAmmo * splatlingPrefix.ShotsPerChargeModifier.NormalizePrefixMod());
+                barrageShotTime += splatlingPrefix.ShotTimeModifier;
+                spreadOffset *= splatlingPrefix.ShotSpreadModifier.NormalizePrefixMod();
+            }
         }
 
         protected override void StartCharge()

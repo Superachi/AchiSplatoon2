@@ -399,8 +399,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     return rand.NextFromCollection<int>(PrefixHelper.ListDualiePrefixes());
                 case BaseCharger:
                 case BaseSplatana:
-                case BaseSplatling:
                     return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
+                case BaseSplatling:
+                    return rand.NextFromCollection<int>(PrefixHelper.ListSplatlingPrefixes());
                 case BaseStringer:
                     return rand.NextFromCollection<int>(PrefixHelper.ListStringerPrefixes());
             }

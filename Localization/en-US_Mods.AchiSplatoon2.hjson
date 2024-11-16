@@ -1668,7 +1668,7 @@ Prefixes: {
 	SlipperyPrefix.DisplayName: Slippery
 	PrincessPrefix.DisplayName: Princess'
 	BaseDualiePrefix.DisplayName: Base Dualie Prefix
-	SnappyPrefix.DisplayName: Snappy
+	QuickPrefix.DisplayName: Quick
 	BaseChargeWeaponPrefix.DisplayName: Base Charge Weapon Prefix
 	BacklinePrefix.DisplayName: Backline
 	BaseChargerPrefix.DisplayName: Base Charger Prefix
@@ -1679,7 +1679,7 @@ Prefixes: {
 	ChargeSpeedTooltip: "{0} charge speed"
 	ArmorPenetrationTooltip: "{0} defense penetration"
 	EnemyPierceTooltip: "{0} piercing"
-	AimVariationTooltip: "{0} aim variation"
+	AimVariationTooltip: "{0} degrees of inaccuracy"
 	VelocityTooltip: "{0} velocity"
 	ExtraProjectileTooltip: "{0} projectile(s)"
 	BaseStringerPrefix.DisplayName: Base Stringer Prefix
@@ -1689,4 +1689,11 @@ Prefixes: {
 	ExplosionRadiusTooltip: "{0} blast radius"
 	BigBangPrefix.DisplayName: Big-Bang
 	ConcentratedPrefix.DisplayName: Concentrated
+	ShotsPerChargeTooltip: "{0} shots per charge"
+	ShotTimeTooltip: "{0} frame(s) delay between shots"
+	BaseSplatlingPrefix.DisplayName: Base Splatling Prefix
+	ChaoticSplatlingPrefix.DisplayName: Chaotic
+	CuratedPrefix.DisplayName: Curated
+	LoadedPrefix.DisplayName: Loaded
+	ShotSpreadTooltip: "{0} bullet spread"
 }

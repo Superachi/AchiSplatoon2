@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ internal class PrefixHelper : ModSystem
     {
         var prefixes = ListGenericPrefixes();
 
-        prefixes.Add(ModContent.PrefixType<SnappyPrefix>());
+        prefixes.Add(ModContent.PrefixType<QuickPrefix>());
         prefixes.Add(ModContent.PrefixType<BacklinePrefix>());
 
         return prefixes;
@@ -99,6 +100,17 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<BigBangPrefix>());
         prefixes.Add(ModContent.PrefixType<ConcentratedPrefix>());
+
+        return prefixes;
+    }
+
+    public static List<int> ListSplatlingPrefixes()
+    {
+        var prefixes = ListChargeWeaponsPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<LoadedPrefix>());
+        prefixes.Add(ModContent.PrefixType<CuratedPrefix>());
+        prefixes.Add(ModContent.PrefixType<ChaoticSplatlingPrefix>());
 
         return prefixes;
     }
@@ -146,7 +158,7 @@ internal class PrefixHelper : ModSystem
             { typeof(PrincessPrefix), ModContent.PrefixType<PrincessPrefix>() },
 
             // Charge weapons
-            { typeof(SnappyPrefix), ModContent.PrefixType<SnappyPrefix>() },
+            { typeof(QuickPrefix), ModContent.PrefixType<QuickPrefix>() },
             { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
 
             // Stringers
@@ -156,6 +168,12 @@ internal class PrefixHelper : ModSystem
             // Blasters
             { typeof(ConcentratedPrefix), ModContent.PrefixType<ConcentratedPrefix>() },
             { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
+
+            // Splatlings
+            { typeof(LoadedPrefix), ModContent.PrefixType<LoadedPrefix>() },
+            { typeof(CuratedPrefix), ModContent.PrefixType<CuratedPrefix>() },
+            { typeof(ChaoticSplatlingPrefix), ModContent.PrefixType<ChaoticSplatlingPrefix>() },
+
         };
 
         return dict;
