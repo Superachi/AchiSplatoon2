@@ -1,4 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -42,6 +44,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             shotSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
             PlayShootSound();
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+            prefix?.ApplyProjectileStats(this);
+
+            if (prefix is BaseBrellaPrefix brellaPrefix)
+            {
+                pelletCount += prefix.ExtraProjectileBonus;
+                shotgunArc += prefix.AimVariation;
+            }
         }
 
         protected override void PlayShootSound()

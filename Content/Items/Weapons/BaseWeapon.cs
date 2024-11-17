@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -407,6 +408,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     return rand.NextFromCollection(PrefixHelper.ListStringerPrefixes());
                 case BaseBrush:
                     return rand.NextFromCollection(PrefixHelper.ListBrushPrefixes());
+                case BaseBrella:
+                    return rand.NextFromCollection(PrefixHelper.ListBrellaPrefixes());
             }
 
             return rand.NextFromCollection(PrefixHelper.ListGenericPrefixes());

@@ -1704,4 +1704,11 @@ Prefixes: {
 	SeepingPrefix.DisplayName: Seeping
 	DryPrefix.DisplayName: Dry
 	TastelessPrefix.DisplayName: Tasteless
+	ShieldLifeTooltip: "{0} shield health"
+	ShieldCooldownTooltip: "{0} shield recovery cooldown"
+	BaseBrellaPrefix.DisplayName: Base Brella Prefix
+	BurstingPrefix.DisplayName: Bursting
+	CrispyPrefix.DisplayName: Crispy
+	ShelledPrefix.DisplayName: Shelled
+	SturdyPrefix.DisplayName: Sturdy
 }

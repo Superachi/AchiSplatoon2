@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -118,6 +120,13 @@ namespace AchiSplatoon2.Content.Players
             shieldLifeMax = brellaData.ShieldLife;
             shieldCooldown = Math.Max(shieldCooldown, 0);
             shieldCooldownMax = brellaData.ShieldCooldown;
+
+            var prefix = PrefixHelper.GetWeaponPrefixById(Player.HeldItem.prefix);
+            if (prefix is BaseBrellaPrefix brellaPrefix)
+            {
+                shieldLife = (int)(shieldLife * brellaPrefix.ShieldLifeModifier.NormalizePrefixMod());
+                shieldCooldownMax = (int)(shieldLife * brellaPrefix.ShieldCooldownModifier.NormalizePrefixMod());
+            }
         }
 
         public override void PreUpdate()

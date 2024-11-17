@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Prefixes;
 using AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
+using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
 using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
@@ -131,6 +132,18 @@ internal class PrefixHelper : ModSystem
         return prefixes;
     }
 
+    public static List<int> ListBrellaPrefixes()
+    {
+        var prefixes = ListShooterPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<BurstingPrefix>());
+        prefixes.Add(ModContent.PrefixType<CrispyPrefix>());
+        prefixes.Add(ModContent.PrefixType<ShelledPrefix>());
+        prefixes.Add(ModContent.PrefixType<SturdyPrefix>());
+
+        return prefixes;
+    }
+
     public static bool IsPrefixOfType<T>(Item item)
     where T : BaseItemPrefix
     {
@@ -197,6 +210,12 @@ internal class PrefixHelper : ModSystem
             { typeof(SlipperyPrefix), ModContent.PrefixType<SlipperyPrefix>() },
             { typeof(SteadfastPrefix), ModContent.PrefixType<SteadfastPrefix>() },
             { typeof(SeepingPrefix), ModContent.PrefixType<SeepingPrefix>() },
+
+            // Brellas
+            { typeof(BurstingPrefix), ModContent.PrefixType<BurstingPrefix>() },
+            { typeof(CrispyPrefix), ModContent.PrefixType<CrispyPrefix>() },
+            { typeof(ShelledPrefix), ModContent.PrefixType<ShelledPrefix>() },
+            { typeof(SturdyPrefix), ModContent.PrefixType<SturdyPrefix>() },
 
         };
 
