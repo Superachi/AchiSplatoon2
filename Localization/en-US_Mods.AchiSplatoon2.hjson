@@ -1521,6 +1521,27 @@ Items: {
 		DisplayName: Netcode Inspector
 		Tooltip: ""
 	}
+
+	EightSuit: {
+		Flavor: Freshly sanitized, not a stain to be found!
+		UsageHint: Mods.AchiSplatoon2.Items.EightSuit.UsageHint
+		DisplayName: Eight Suit Replica
+		Tooltip: Vanity item
+	}
+
+	EightMask: {
+		Flavor: I'm back in the flippin' building again!
+		UsageHint: Mods.AchiSplatoon2.Items.EightMask.UsageHint
+		DisplayName: Eight Mask Replica
+		Tooltip: Vanity item
+	}
+
+	EightBoots: {
+		Flavor: Naaa na-na-na-na-na
+		UsageHint: Mods.AchiSplatoon2.Items.EightBoots.UsageHint
+		DisplayName: Eight Boots Replica
+		Tooltip: Vanity item
+	}
 }
 
 Projectiles: {
