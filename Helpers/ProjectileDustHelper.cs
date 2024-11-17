@@ -114,7 +114,7 @@ namespace AchiSplatoon2.Helpers
                 d = Dust.NewDustPerfect(
                     Position: projectile.Center,
                     Type: DustID.FireworksRGB,
-                    newColor: ColorHelper.IncreaseHueBy(Main.rand.Next(-20, 20), baseProjectile.CurrentColor),
+                    newColor: baseProjectile.CurrentColor,
                     Scale: Main.rand.NextFloat(0.8f, 1.2f));
 
                 d.velocity = WoomyMathHelper.AddRotationToVector2(-projectile.velocity, -30, 30);

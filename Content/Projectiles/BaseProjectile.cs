@@ -620,7 +620,7 @@ internal class BaseProjectile : ModProjectile
         }
 
         var color = GenerateInkColor();
-        CurrentColor = ColorHelper.IncreaseHueBy(Main.rand.Next(-5, 5), color);
+        CurrentColor = color;
         InitialColor = CurrentColor;
     }
 
@@ -768,7 +768,7 @@ internal class BaseProjectile : ModProjectile
                 ModContent.DustType<BlasterExplosionDust>(),
                 Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
                 255,
-                ColorHelper.AddRandomHue(10, dustColor),
+                dustColor,
                 Main.rand.NextFloat(minScale / 2, maxScale / 2));
 
             dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
@@ -781,7 +781,7 @@ internal class BaseProjectile : ModProjectile
                 ModContent.DustType<SplatterBulletDust>(),
                 Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * 0.25f,
                 255,
-                ColorHelper.AddRandomHue(10, dustColor),
+                dustColor,
                 Main.rand.NextFloat(minScale, maxScale));
 
             dust.velocity *= radiusMult;
@@ -795,7 +795,7 @@ internal class BaseProjectile : ModProjectile
                 DustID.FireworksRGB,
                 Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
                 255,
-                ColorHelper.AddRandomHue(10, dustColor));
+                dustColor);
 
             dust.velocity *= radiusMult / 2;
         }

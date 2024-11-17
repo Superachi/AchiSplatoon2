@@ -68,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     shotgunArc += shotgunArc * stringerPrefix.ExtraProjectileBonus;
                 }
 
-                shotgunArc = stringerPrefix.ShotgunArcModifier.NormalizePrefixMod();
+                shotgunArc *= stringerPrefix.ShotgunArcModifier.NormalizePrefixMod();
                 projectileCount += stringerPrefix.ExtraProjectileBonus;
                 burstRequiredHits += stringerPrefix.ExtraProjectileBonus;
             }

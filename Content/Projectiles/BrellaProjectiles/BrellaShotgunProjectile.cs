@@ -89,9 +89,16 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     Vector2 angleVector = radians.ToRotationVector2();
                     Vector2 velocity = angleVector * shotSpeed * shotSpeedRand;
 
+                    Vector2 finalOffset = Vector2.Zero;
+                    Vector2 brellaOffset = Vector2.Normalize(velocity) * 40;
+                    if (Collision.CanHitLine(Projectile.Center, 1, 1, Projectile.Center + brellaOffset, 1, 1))
+                    {
+                        finalOffset = brellaOffset;
+                    }
+
                     // Pellet projectile
                     CreateChildProjectile(
-                        position: Projectile.position,
+                        position: Projectile.position + finalOffset,
                         velocity: velocity,
                         type: pelletProjectileType,
                         Projectile.damage);

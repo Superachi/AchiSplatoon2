@@ -82,7 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
                 ChangeLightningAngle();
             }
 
-            if (timeSpentAlive == 10)
+            if (timeSpentAlive == 2)
             {
                 var loopCount = 3;
                 if (isBigLightning) loopCount *= 2;
@@ -96,7 +96,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
                 }
             }
 
-            if (timeSpentAlive > 10)
+            if (timeSpentAlive > 2)
             {
                 Color dustColor = GenerateInkColor();
                 var pelletDust = Dust.NewDustDirect(Position: Projectile.position, Type: lightningDustId, Width: 1, Height: 1, newColor: dustColor, Scale: Main.rand.NextFloat(0.6f, 1f) * lightningDustScale);

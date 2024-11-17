@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,8 +15,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public bool canStick = false;
         private readonly int networkExplodeDelayBuffer = 120;
 
-        private readonly float delayUntilFall = 12f;
-        private readonly float fallSpeed = 0.001f;
+        private float delayUntilFall = 8f;
+        private float fallSpeed = 0.001f;
 
         protected bool sticking = false;
         protected bool hasExploded = false;
@@ -44,6 +45,22 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             Initialize();
             finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);
+        }
+
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.5f;
+            }
+
+            Projectile.extraUpdates *= 2;
+            Projectile.timeLeft *= 2;
+            fallSpeed *= 0.15f;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
         }
 
         private float ExtraUpdatesTime(float input)
@@ -127,13 +144,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
             else
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    float random = Main.rand.NextFloat(-2, 2);
-                    float velX = (Projectile.velocity.X + random) * -0.5f;
-                    float velY = (Projectile.velocity.Y + random) * -0.5f;
-                    int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-                }
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
                 Projectile.Kill();
             }
 
