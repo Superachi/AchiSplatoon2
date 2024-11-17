@@ -4,6 +4,8 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
+using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
@@ -156,6 +158,14 @@ namespace AchiSplatoon2.Content.Players
                         moveSpeedModifier = brush.RollMoveSpeedBonus;
                         moveAccelModifier = 2f * brush.RollMoveSpeedBonus;
                         moveFrictionModifier = 2f * brush.RollMoveSpeedBonus;
+
+                        var prefix = PrefixHelper.GetWeaponPrefixById(Player.HeldItem.prefix);
+                        if (prefix is BaseBrushPrefix brushPrefix)
+                        {
+                            moveSpeedModifier *= brushPrefix.DashSpeedModifier.NormalizePrefixMod();
+                            moveAccelModifier *= brushPrefix.DashSpeedModifier.NormalizePrefixMod();
+                            moveFrictionModifier *= brushPrefix.DashSpeedModifier.NormalizePrefixMod();
+                        }
                     }
                     break;
                 case BaseRoller:

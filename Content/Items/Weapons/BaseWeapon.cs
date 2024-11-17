@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
@@ -392,21 +393,23 @@ namespace AchiSplatoon2.Content.Items.Weapons
             switch (this)
             {
                 case BaseSplattershot:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListShooterPrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListShooterPrefixes());
                 case BaseBlaster:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListBlasterPrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListBlasterPrefixes());
                 case BaseDualie:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListDualiePrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListDualiePrefixes());
                 case BaseCharger:
                 case BaseSplatana:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListChargeWeaponsPrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListChargeWeaponsPrefixes());
                 case BaseSplatling:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListSplatlingPrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListSplatlingPrefixes());
                 case BaseStringer:
-                    return rand.NextFromCollection<int>(PrefixHelper.ListStringerPrefixes());
+                    return rand.NextFromCollection(PrefixHelper.ListStringerPrefixes());
+                case BaseBrush:
+                    return rand.NextFromCollection(PrefixHelper.ListBrushPrefixes());
             }
 
-            return rand.NextFromCollection<int>(PrefixHelper.ListGenericPrefixes());
+            return rand.NextFromCollection(PrefixHelper.ListGenericPrefixes());
         }
     }
 }

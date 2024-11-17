@@ -1665,6 +1665,7 @@ Prefixes: {
 	DeepCutPrefix.DisplayName: Deep-Cut
 	ChaoticPrefix.DisplayName: Chaotic
 	AmpedUpPrefix.DisplayName: Amped-Up
+	EvasivePrefix.DisplayName: Evasive
 	SlipperyPrefix.DisplayName: Slippery
 	PrincessPrefix.DisplayName: Princess'
 	BaseDualiePrefix.DisplayName: Base Dualie Prefix
@@ -1696,4 +1697,11 @@ Prefixes: {
 	CuratedPrefix.DisplayName: Curated
 	LoadedPrefix.DisplayName: Loaded
 	ShotSpreadTooltip: "{0} bullet spread"
+	DashSpeedTooltip: "{0} brush dash speed"
+	BaseBrushPrefix.DisplayName: Base Brush Prefix
+	MeleeDamageTooltip: "{0} melee damage"
+	SteadfastPrefix.DisplayName: Steadfast
+	SeepingPrefix.DisplayName: Seeping
+	DryPrefix.DisplayName: Dry
+	TastelessPrefix.DisplayName: Tasteless
 }

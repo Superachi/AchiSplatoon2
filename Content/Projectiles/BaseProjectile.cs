@@ -340,6 +340,8 @@ internal class BaseProjectile : ModProjectile
 
         var proj = p.ModProjectile as BaseProjectile;
         proj.WeaponInstance = WeaponInstance;
+        proj.weaponSourcePrefix = weaponSourcePrefix;
+
         proj.itemIdentifier = itemIdentifier;
         proj.parentIdentity = Projectile.identity;
         proj.parentProjectile = Projectile;
