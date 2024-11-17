@@ -16,6 +16,25 @@ namespace AchiSplatoon2.Helpers
 
     internal static class DebugHelper
     {
+        public static void PrintStackTrace(object caller, int amount, Color? color = null)
+        {
+            if (color == null) color = Color.White;
+
+            string currentClass = "";
+            ChatHelper.SendChatToThisClient($"{DateTime.Now.TimeOfDay} ==========", color);
+
+            if (currentClass != caller.GetType().Name)
+            {
+                currentClass = caller.GetType().Name;
+                ChatHelper.SendChatToThisClient($"Class: {currentClass}", Color.Orange);
+            }
+
+            for (var i = 0; i < amount; i++)
+            {
+                ChatHelper.SendChatToThisClient($"{i}>{(new System.Diagnostics.StackTrace()).GetFrame(i + 2).GetMethod().Name}", Color.Yellow);
+            }
+        }
+
         public static void PrintError(string message, ILog? logger = null)
         {
             LogMessage(LogLevel.Error, message, logger);

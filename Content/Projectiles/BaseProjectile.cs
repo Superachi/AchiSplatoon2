@@ -242,7 +242,7 @@ internal class BaseProjectile : ModProjectile
 
             if (WeaponInstance == null)
             {
-                PrintStackTrace(3);
+                DebugHelper.PrintStackTrace(this, 3);
                 DebugHelper.PrintWarning($"Data for this projectile is not ready yet! (weaponSource: {WeaponInstance}, itemIdentifier: {itemIdentifier})");
                 Projectile.Kill();
                 return false;
@@ -1159,7 +1159,7 @@ internal class BaseProjectile : ModProjectile
 
     private string NotImplementedWarning()
     {
-        PrintStackTrace(3);
+        DebugHelper.PrintStackTrace(this, 3);
         return $"No implementation for this projectile packet type yet.";
     }
 
@@ -1217,35 +1217,6 @@ internal class BaseProjectile : ModProjectile
     protected virtual void NetReceiveReleaseCharge(BinaryReader reader)
     {
         DebugHelper.PrintWarning(NotImplementedWarning());
-    }
-    #endregion
-
-    #region Debug
-    public void PrintAndLog(string message, Color? color = null)
-    {
-        if (color == null) color = Color.White;
-
-        Main.NewText(message, color);
-        Mod.Logger.Info(message);
-    }
-
-    public void PrintStackTrace(int amount, Color? color = null)
-    {
-        if (color == null) color = Color.White;
-
-        string currentClass = "";
-        PrintAndLog($"{DateTime.Now.TimeOfDay} ==========", color);
-
-        if (currentClass != this.GetType().Name)
-        {
-            currentClass = this.GetType().Name;
-            PrintAndLog($"Class: {currentClass}", Color.Orange);
-        }
-
-        for (var i = 0; i < amount; i++)
-        {
-            PrintAndLog($"{i}>{(new System.Diagnostics.StackTrace()).GetFrame(i + 2).GetMethod().Name}", Color.Yellow);
-        }
     }
     #endregion
 }
