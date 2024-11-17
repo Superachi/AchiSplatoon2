@@ -5,6 +5,6 @@
         public override float UseTimeModifier => 0.5f;
         public override int AimVariation => 10;
         public override float VelocityModifier => 0.3f;
-        public override int ExtraProjectileBonus => 4;
+        public override int ExtraProjectileBonus => 3;
     }
 }
