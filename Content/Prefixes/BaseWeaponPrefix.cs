@@ -27,6 +27,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public virtual float ChargeSpeedModifier => 0f;
     public virtual float ExplosionRadiusModifier => 0f;
     public virtual int ExtraProjectileBonus => 0;
+    public virtual float MeleeDamageModifier => 0f;
 
     #region Tooltips
 
@@ -37,6 +38,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public static LocalizedText ArmorPenetrationTooltip { get; private set; }
     public static LocalizedText ExplosionRadiusTooltip { get; private set; }
     public static LocalizedText ExtraProjectileTooltip { get; private set; }
+    public static LocalizedText MeleeDamageTooltip { get; private set; }
 
     public override void SetStaticDefaults()
     {
@@ -46,6 +48,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         ArmorPenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ArmorPenetrationTooltip)}");
         ExplosionRadiusTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExplosionRadiusTooltip)}");
         ExtraProjectileTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExtraProjectileTooltip)}");
+        MeleeDamageTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(MeleeDamageTooltip)}");
     }
 
     public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
@@ -78,6 +81,11 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (ExtraProjectileBonus != 0)
         {
             yield return CreateTooltip(ExtraProjectileTooltip, ExtraProjectileBonus, false);
+        }
+
+        if (MeleeDamageModifier != 0)
+        {
+            yield return CreateTooltip(MeleeDamageTooltip, MeleeDamageModifier, false);
         }
     }
 

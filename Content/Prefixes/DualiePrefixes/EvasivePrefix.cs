@@ -1,6 +1,6 @@
 ﻿namespace AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 
-internal class SlipperyPrefix : BaseDualiePrefix
+internal class EvasivePrefix : BaseDualiePrefix
 {
     public override int ExtraDodgeRolls => 1;
 }

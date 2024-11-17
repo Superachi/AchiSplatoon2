@@ -6,5 +6,6 @@
         public override int CritChanceBonus => 10;
         public override float ChargeSpeedModifier => 0.2f;
         public override float ShotsPerChargeModifier => -0.5f;
+        public override float ShotSpreadModifier => -0.3f;
     }
 }
