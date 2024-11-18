@@ -16,6 +16,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 using Color = Microsoft.Xna.Framework.Color;
 
@@ -43,10 +44,20 @@ namespace AchiSplatoon2.Content.Players
         public bool isBrushRolling = false;
         public bool isBrushAttacking = false;
 
+        public bool hardmodeEnabled = false;
+        public static float HardmodeSubWeaponDamageBonus => 0.5f;
+
         private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
 
         public override void PreUpdate()
         {
+            if (!hardmodeEnabled && Main.hardMode)
+            {
+                ChatHelper.SendChatToThisClient(
+                    ColorHelper.TextWithSubWeaponColor($"Your sub weapons have been powered up permanently! (+{(int)(HardmodeSubWeaponDamageBonus * 100)}% base damage)"));
+                hardmodeEnabled = true;
+            }
+
             if (CustomWeaponCooldown > 0) CustomWeaponCooldown--;
             if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
 
@@ -333,7 +344,22 @@ namespace AchiSplatoon2.Content.Players
             return damageMod;
         }
 
-        // NetCode
+        #region Saving/loading
+
+        public override void SaveData(TagCompound tag)
+        {
+            tag["hardmodeEnabled"] = hardmodeEnabled;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            hardmodeEnabled = tag.GetBool("hardmodeEnabled");
+        }
+
+        #endregion
+
+        # region NetCode
+
         public override void OnEnterWorld()
         {
             SyncAllDataIfMultiplayer();
@@ -377,5 +403,7 @@ namespace AchiSplatoon2.Content.Players
 
             SendPacket(dto);
         }
+
+        #endregion
     }
 }
