@@ -55,13 +55,14 @@ namespace AchiSplatoon2.Helpers
                     finalColor = new Color(0, 255, 190);
                     break;
                 case InkColor.Red:
-                    finalColor = new Color(255, 41, 0);
+                    finalColor = new Color(255, 0, 40);
                     break;
                 case InkColor.Order:
                 default:
                     finalColor = new Color(228, 203, 178);
                     break;
             }
+
             return finalColor;
         }
 

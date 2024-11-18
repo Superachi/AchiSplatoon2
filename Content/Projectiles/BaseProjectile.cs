@@ -452,9 +452,10 @@ internal class BaseProjectile : ModProjectile
 
         if (target.life <= 0)
         {
-            if (!IsTargetEnemy(target)) return;
-
             var owner = GetOwner();
+            if (!IsTargetEnemy(target)) return;
+            if (!owner.GetModPlayer<ColorChipPlayer>().IsPaletteValid()) return;
+
             var colorChipPlayer = owner.GetModPlayer<ColorChipPlayer>();
             var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
             var luckyBombMinDamage = Main.expertMode ? 20 : 50;
