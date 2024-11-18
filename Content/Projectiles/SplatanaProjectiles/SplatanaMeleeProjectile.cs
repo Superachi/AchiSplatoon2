@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -57,13 +58,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.ai[1] += 0.7f * (float)baseAnimationTime / (float)p.itemAnimationMax;
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
-            if (timeSpentAlive % 8 == 0)
+
+            if (timeSpentAlive % 4 == 0)
             {
                 Dust.NewDustPerfect(
-                Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
-                Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                Velocity: Vector2.Normalize(Projectile.position - oldPos) * 3f,
-                newColor: bulletColor, Scale: 1.0f);
+                    Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    Type: ModContent.DustType<ChargerBulletDust>(),
+                    Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    newColor: bulletColor, Scale: Main.rand.NextFloat(0.8f, 1.4f));
             }
         }
 

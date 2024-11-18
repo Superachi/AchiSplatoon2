@@ -1,7 +1,10 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
@@ -43,7 +46,52 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         public override void AI()
         {
-            base.AI();
+            if (Animate)
+            {
+                frameTimer += FrameSpeedDivide(1);
+                if (frameTimer >= FrameDelay)
+                {
+                    frameTimer = 0;
+                    Projectile.frame = (Projectile.frame + 1) % FrameCount;
+                }
+            }
+
+            if (Projectile.timeLeft <= timeLeftWhenFade && !fading)
+            {
+                fading = true;
+            }
+
+            if (ProjectileDust && timeSpentAlive > 16)
+            {
+                Color dustColor = GenerateInkColor();
+
+                if (timeSpentAlive % 4 == 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (Main.rand.NextBool(4))
+                        {
+                            Dust.NewDustPerfect(
+                                Position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, 90) * i * Main.rand.NextFloat(-2, 2),
+                                Type: ModContent.DustType<ChargerBulletDust>(),
+                                Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
+                                newColor: dustColor,
+                                Scale: Main.rand.NextFloat(1f, 1.5f));
+                        }
+
+                        if (i > 0 && Main.rand.NextBool(4))
+                        {
+                            Dust.NewDustPerfect(
+                                Position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
+                                Type: ModContent.DustType<ChargerBulletDust>(),
+                                Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
+                                newColor: dustColor,
+                                Scale: Main.rand.NextFloat(1f, 1.5f));
+                        }
+                    }
+                }
+            }
+
             if (!IsThisClientTheProjectileOwner()) return;
 
             Player owner = GetOwner();

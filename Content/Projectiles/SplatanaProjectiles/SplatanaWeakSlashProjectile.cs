@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -59,22 +60,19 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 fading = true;
             }
 
-            if (Main.rand.NextBool(5) && !fading && ProjectileDust)
+            if (ProjectileDust && timeSpentAlive > 16)
             {
                 Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width / 2, Projectile.height / 2),
-                    Type: ModContent.DustType<SplatterBulletDust>(),
-                    Velocity: Projectile.velocity / Main.rand.Next(4, 8),
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
 
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width / 2, Projectile.height / 2),
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: Projectile.velocity / Main.rand.Next(4, 8),
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                if (timeSpentAlive % 4 == 0)
+                {
+                    Dust.NewDustPerfect(
+                        Position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
+                        Type: ModContent.DustType<ChargerBulletDust>(),
+                        Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
+                        newColor: dustColor,
+                        Scale: Main.rand.NextFloat(1f, 1.5f));
+                }
             }
         }
 
