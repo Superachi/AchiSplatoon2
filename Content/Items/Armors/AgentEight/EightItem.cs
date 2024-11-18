@@ -11,6 +11,7 @@ namespace AchiSplatoon2.Content.Items.Armors.AgentEight
         {
             base.SetDefaults();
 
+            Item.vanity = true;
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.Quest;
         }

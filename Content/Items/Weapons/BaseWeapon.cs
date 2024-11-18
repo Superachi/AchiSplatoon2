@@ -11,6 +11,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
@@ -391,28 +392,54 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override int ChoosePrefix(UnifiedRandom rand)
         {
+            var possiblePrefixes = PrefixHelper.ListGenericPrefixes();
+
             switch (this)
             {
                 case BaseSplattershot:
-                    return rand.NextFromCollection(PrefixHelper.ListShooterPrefixes());
+                    possiblePrefixes = PrefixHelper.ListShooterPrefixes();
+                    break;
+
                 case BaseBlaster:
-                    return rand.NextFromCollection(PrefixHelper.ListBlasterPrefixes());
+                    possiblePrefixes = PrefixHelper.ListBlasterPrefixes();
+                    break;
+
                 case BaseDualie:
-                    return rand.NextFromCollection(PrefixHelper.ListDualiePrefixes());
+                    possiblePrefixes = PrefixHelper.ListDualiePrefixes();
+                    break;
+
                 case BaseCharger:
                 case BaseSplatana:
-                    return rand.NextFromCollection(PrefixHelper.ListChargeWeaponsPrefixes());
+                    possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();
+                    break;
+
                 case BaseSplatling:
-                    return rand.NextFromCollection(PrefixHelper.ListSplatlingPrefixes());
+                    possiblePrefixes = PrefixHelper.ListSplatlingPrefixes();
+                    if (WeaponStyle == MainWeaponStyle.Charger)
+                    {
+                        possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();
+                    }
+                    break;
+
                 case BaseStringer:
-                    return rand.NextFromCollection(PrefixHelper.ListStringerPrefixes());
+                    possiblePrefixes = PrefixHelper.ListStringerPrefixes();
+                    if (this is IceStringer)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<CompactPrefix>());
+                    }
+
+                    break;
+
                 case BaseBrush:
-                    return rand.NextFromCollection(PrefixHelper.ListBrushPrefixes());
+                    possiblePrefixes = PrefixHelper.ListBrushPrefixes();
+                    break;
+
                 case BaseBrella:
-                    return rand.NextFromCollection(PrefixHelper.ListBrellaPrefixes());
+                    possiblePrefixes = PrefixHelper.ListBrellaPrefixes();
+                    break;
             }
 
-            return rand.NextFromCollection(PrefixHelper.ListGenericPrefixes());
+            return rand.NextFromCollection(possiblePrefixes);
         }
     }
 }
