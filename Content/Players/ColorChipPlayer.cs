@@ -172,7 +172,7 @@ namespace AchiSplatoon2.Content.Players
 
         public Color GetColorFromChips()
         {
-            return _colorFromChips;
+            return IsPaletteValid() ? _colorFromChips : ColorHelper.GetInkColor(InkColor.Order);
         }
 
         private void SetDefaultInkColorBasedOnColorChips()
