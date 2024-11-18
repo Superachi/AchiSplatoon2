@@ -1,8 +1,11 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Helpers;
 using Humanizer;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Enums;
+using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -45,6 +48,17 @@ namespace AchiSplatoon2.Content.Items
                 var flavor = new TooltipLine(Mod, "Flavor", $"{ColorHelper.TextWithFlavorColorAndQuotes(flavorVal)}") { OverrideColor = null };
                 tooltips.Add(flavor);
             }
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            PlayPickupSound();
+            return true;
+        }
+
+        protected virtual void PlayPickupSound()
+        {
+            SoundHelper.PlayAudio("ItemGet2", 0.5f, 0f, 10, 0, Main.LocalPlayer.Center);
         }
 
         private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)

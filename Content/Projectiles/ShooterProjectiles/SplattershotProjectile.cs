@@ -48,7 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             }
 
             Projectile.extraUpdates *= 2;
-            Projectile.timeLeft *= 2;
+            Projectile.timeLeft *= 3;
             fallSpeed *= 0.04f;
             delayUntilFall *= 2;
         }
