@@ -3,12 +3,13 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 {
     internal class HoneyScepterProjectile : BaseProjectile
     {
-        private int _maxTargets = 8;
+        private int _maxTargets = 5;
         private NPC? _currentTarget = null;
         private List<int> _hitTargets = new List<int>();
 
@@ -21,6 +22,8 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
         public override void SetDefaults()
         {
+            Projectile.DamageType = DamageClass.Magic;
+
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
@@ -90,7 +93,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
                     if (_hitTargets.Count == 0)
                     {
-                        _currentTarget = FindTarget(Main.MouseWorld, 150, _hitTargets);
+                        _currentTarget = FindTarget(Main.MouseWorld, 250, _hitTargets);
                         
                         if (_currentTarget == null || !Collision.CanHitLine(Projectile.Center, 1, 1, _currentTarget.Center, 1, 1))
                         {
@@ -101,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                     }
                     else
                     {
-                        _currentTarget = FindTarget(Projectile.Center, 300, _hitTargets);
+                        _currentTarget = FindTarget(Projectile.Center, 400, _hitTargets);
                     }
 
                     if (_currentTarget != null)
