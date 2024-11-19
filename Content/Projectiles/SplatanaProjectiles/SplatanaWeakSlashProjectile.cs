@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
     internal class SplatanaWeakSlashProjectile : BaseProjectile
     {
-        protected virtual bool Animate => true;
         protected virtual bool ProjectileDust => true;
 
         protected Color bulletColor;
@@ -20,11 +18,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         protected int timeLeftWhenFade = 20;
         protected bool fading = false;
-
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Projectile.type] = FrameCount;
-        }
 
         public override void SetDefaults()
         {
@@ -40,21 +33,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         {
             Initialize();
             bulletColor = GenerateInkColor();
-            if (Animate) Projectile.frame = Main.rand.Next(FrameCount);
         }
 
         public override void AI()
         {
-            if (Animate)
-            {
-                frameTimer += FrameSpeedDivide(1);
-                if (frameTimer >= FrameDelay)
-                {
-                    frameTimer = 0;
-                    Projectile.frame = (Projectile.frame + 1) % FrameCount;
-                }
-            }
-
             if (Projectile.timeLeft <= timeLeftWhenFade && !fading)
             {
                 fading = true;

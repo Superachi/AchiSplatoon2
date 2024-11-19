@@ -6,7 +6,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
     internal class EelSplatanaStrongSlashProjectile : SplatanaStrongSlashProjectile
     {
-        protected override bool Animate => true;
         protected override bool ProjectileDust => false;
         protected override int FrameCount => 8;
         protected override int FrameDelay => 3;

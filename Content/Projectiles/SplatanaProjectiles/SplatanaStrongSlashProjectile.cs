@@ -4,20 +4,15 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
     internal class SplatanaStrongSlashProjectile : SplatanaWeakSlashProjectile
     {
-        protected override bool Animate => false;
         protected override int FrameCount => 1;
         protected override int FrameDelay => 1;
-
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Projectile.type] = 1;
-        }
 
         public override void SetDefaults()
         {
@@ -46,16 +41,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         public override void AI()
         {
-            if (Animate)
-            {
-                frameTimer += FrameSpeedDivide(1);
-                if (frameTimer >= FrameDelay)
-                {
-                    frameTimer = 0;
-                    Projectile.frame = (Projectile.frame + 1) % FrameCount;
-                }
-            }
-
             if (Projectile.timeLeft <= timeLeftWhenFade && !fading)
             {
                 fading = true;
@@ -88,6 +73,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                                 newColor: dustColor,
                                 Scale: Main.rand.NextFloat(1f, 1.5f));
                         }
+                    }
+
+                    if (Main.rand.NextBool(2))
+                    {
+                        var d = Dust.NewDustPerfect(
+                            Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width * 2, Projectile.height * 2),
+                            Type: DustID.AncientLight,
+                            Velocity: -Projectile.velocity,
+                            newColor: ColorHelper.ColorWithAlpha255(bulletColor),
+                            Scale: Main.rand.NextFloat(1.2f, 1.6f));
+                        d.noGravity = true;
                     }
                 }
             }

@@ -3,6 +3,7 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
@@ -59,13 +60,35 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
 
-            if (timeSpentAlive % 4 == 0)
+            if (wasFullyCharged && timeSpentAlive % 4 == 0)
             {
                 Dust.NewDustPerfect(
                     Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
                     Type: ModContent.DustType<ChargerBulletDust>(),
                     Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    newColor: bulletColor, Scale: Main.rand.NextFloat(0.8f, 1.4f));
+                    newColor: bulletColor,
+                    Scale: Main.rand.NextFloat(1.0f, 1.6f));
+
+                if (Main.rand.NextBool(4))
+                {
+                    var d = Dust.NewDustPerfect(
+                        Position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                        Type: DustID.AncientLight,
+                        Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                        newColor: ColorHelper.ColorWithAlpha255(bulletColor),
+                        Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                    d.noGravity = true;
+                }
+            }
+
+            if (!wasFullyCharged && timeSpentAlive % 6 == 0)
+            {
+                Dust.NewDustPerfect(
+                    Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    Type: ModContent.DustType<ChargerBulletDust>(),
+                    Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    newColor: bulletColor,
+                    Scale: Main.rand.NextFloat(0.8f, 1.4f));
             }
         }
 
