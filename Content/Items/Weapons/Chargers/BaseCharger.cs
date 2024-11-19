@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<ChargerCharge>(),
                 singleShotTime: 12,
-                shotVelocity: 0);
+                shotVelocity: 1);
 
             SetItemUseTime();
             Item.noMelee = true;

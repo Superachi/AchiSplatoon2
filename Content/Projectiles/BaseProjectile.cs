@@ -151,6 +151,16 @@ internal class BaseProjectile : ModProjectile
 
     public void RunSpawnMethods()
     {
+        if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
+        {
+            DebugHelper.PrintWarning($"Projectile '{Name}' has NaN value in its velocity");
+        }
+
+        if (float.IsNaN(Projectile.position.X) || float.IsNaN(Projectile.position.Y))
+        {
+            DebugHelper.PrintWarning($"Projectile '{Name}' has NaN value in its position");
+        }
+
         AfterSpawn();
         ApplyWeaponPrefixData();
         AdjustVariablesOnShoot();

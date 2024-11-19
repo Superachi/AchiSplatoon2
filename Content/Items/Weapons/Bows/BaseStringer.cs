@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<TriStringerCharge>(),
                 singleShotTime: 18,
-                shotVelocity: 0);
+                shotVelocity: 1);
 
             Item.noMelee = true;
             Item.channel = true;

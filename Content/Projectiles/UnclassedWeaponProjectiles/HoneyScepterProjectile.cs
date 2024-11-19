@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
             PlayerItemAnimationFaceCursor(GetOwner());
             Initialize();
             PlayShootSound();
+            SetState(stateSearch);
 
             Projectile.localNPCHitCooldown = -1;
             _initialVelocity = Projectile.Center.DirectionTo(Main.MouseWorld);
@@ -61,10 +62,10 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
         protected override void PlayShootSound()
         {
-            PlayAudio(SoundID.Splash, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.2f);
-            PlayAudio(SoundID.Item45, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.5f);
-            PlayAudio(SoundID.Item21, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.5f);
-            PlayAudio(SoundID.Item176, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.8f);
+            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.2f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item45, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.5f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item21, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.5f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item176, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 3, pitch: 0.8f, position: Projectile.Center);
         }
 
         protected override void SetState(int targetState)

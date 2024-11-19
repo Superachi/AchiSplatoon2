@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<HoneyScepterProjectile>(),
                 singleShotTime: 30,
-                shotVelocity: 0f);
+                shotVelocity: 1);
 
             Item.DamageType = DamageClass.Magic;
 
