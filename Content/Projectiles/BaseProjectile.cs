@@ -499,10 +499,14 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
-    protected bool IsTargetEnemy(NPC target)
+    protected bool IsTargetEnemy(NPC target, bool countDummyAsEnemy = false)
     {
         if (target.dontTakeDamage) return false;
-        if (target.type == NPCID.TargetDummy) return false;
+        if (target.type == NPCID.TargetDummy)
+        {
+            if (countDummyAsEnemy) return true;
+            return false;
+        }
 
         if (!target.friendly
                 && !Main.npcCatchable[target.type]

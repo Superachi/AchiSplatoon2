@@ -1542,6 +1542,13 @@ Items: {
 		DisplayName: Eight Boots Replica
 		Tooltip: ""
 	}
+
+	HoneyScepter: {
+		UsageHint: Mods.AchiSplatoon2.Items.HoneyScepter.UsageHint
+		Flavor: Not a Splatoon weapon. For the toaster!
+		DisplayName: Honey Scepter
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1649,6 +1656,7 @@ Projectiles: {
 	ChargerCharge.DisplayName: Charger Charge
 	ChargerProjectile.DisplayName: Charger Projectile
 	BlasterExplosion.DisplayName: Blaster Explosion
+	HoneyScepterProjectile.DisplayName: Honey Scepter Projectile
 }
 
 Buffs: {

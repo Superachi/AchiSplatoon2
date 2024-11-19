@@ -265,6 +265,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 25));
             }
 
+            if (npc.FullName.ToLowerInvariant().Contains("hornet") && npc.type != NPCID.VortexHornet && npc.type != NPCID.VortexHornetQueen)
+            {
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HoneyScepter>(), 100));
+            }
+
             #endregion
         }
     }
