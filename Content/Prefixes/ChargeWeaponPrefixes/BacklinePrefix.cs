@@ -6,5 +6,5 @@ internal class BacklinePrefix : BaseChargeWeaponPrefix
     public override float VelocityModifier => 0.3f;
     public override int CritChanceBonus => 10;
 
-    public override float ChargeSpeedModifier => -0.5f;
+    public override float ChargeSpeedModifier => -0.4f;
 }

@@ -2,5 +2,5 @@
 
 internal class QuickPrefix : BaseChargeWeaponPrefix
 {
-    public override float ChargeSpeedModifier => 0.2f;
+    public override float ChargeSpeedModifier => 0.15f;
 }
