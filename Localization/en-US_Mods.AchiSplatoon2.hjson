@@ -1657,6 +1657,7 @@ Projectiles: {
 	ChargerProjectile.DisplayName: Charger Projectile
 	BlasterExplosion.DisplayName: Blaster Explosion
 	HoneyScepterProjectile.DisplayName: Honey Scepter Projectile
+	SquidFormProjectile.DisplayName: Squid Form Projectile
 }
 
 Buffs: {

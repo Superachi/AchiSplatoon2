@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Players;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -81,7 +82,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead) { Projectile.Kill(); return; }
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                {
+                    Projectile.Kill();
+                    return;
+                }
 
                 if (owner.channel)
                 {

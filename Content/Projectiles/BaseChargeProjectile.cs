@@ -201,7 +201,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.player[Projectile.owner];
-                if (owner.dead)
+
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
                 {
                     Projectile.Kill();
                     return;

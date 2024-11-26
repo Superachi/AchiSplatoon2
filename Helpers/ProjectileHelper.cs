@@ -1,9 +1,11 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {
@@ -28,6 +30,26 @@ namespace AchiSplatoon2.Helpers
             // Config variables after spawning
             proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = weaponType.ItemIdentifier;
+
+            if (triggerSpawnMethods) proj.RunSpawnMethods();
+            return proj;
+        }
+
+        public static BaseProjectile CreateProjectile(Player player, int type, bool triggerSpawnMethods = true, Vector2? velocity = null, int damage = 0, float knockback = 0f)
+        {
+            Vector2 position = player.Center;
+            if (velocity == null) velocity = Vector2.Zero;
+
+            // Spawn the projectile
+            var p = Projectile.NewProjectileDirect(
+                spawnSource: new EntitySource_ItemUse(player, player.HeldItem),
+                position: position,
+                velocity: (Vector2)velocity,
+                type: type,
+                damage: damage,
+                knockback: knockback,
+                owner: player.whoAmI);
+            var proj = (BaseProjectile)p.ModProjectile;
 
             if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;

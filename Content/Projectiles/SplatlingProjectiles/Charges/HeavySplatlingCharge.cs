@@ -135,7 +135,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead) { Projectile.Kill(); return; }
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                {
+                    Projectile.Kill();
+                    return;
+                }
 
                 if (owner.channel)
                 {
