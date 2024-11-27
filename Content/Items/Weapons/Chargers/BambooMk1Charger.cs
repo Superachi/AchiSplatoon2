@@ -9,6 +9,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class BambooMk1Charger : BaseCharger
     {
+        public override float InkCost { get => 1f; }
+
         public override string ShootSample { get => "BambooChargerShoot"; }
         public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }

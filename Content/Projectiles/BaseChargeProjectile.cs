@@ -38,6 +38,8 @@ namespace AchiSplatoon2.Content.Projectiles
         private float prefixChargeSpeedModifier = 1f;
         private bool playerHasChargedBattery = false;
 
+        private float chargeInkCost = 1f;
+
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
 
@@ -63,6 +65,7 @@ namespace AchiSplatoon2.Content.Projectiles
             base.ApplyWeaponInstanceData();
             chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
             playerHasChargedBattery = GetOwner().GetModPlayer<AccessoryPlayer>().hasChargedBattery;
+
             if (playerHasChargedBattery)
             {
                 chargeSpeedModifier += ChargedBattery.ChargeSpeedFlatBonus;
@@ -87,7 +90,13 @@ namespace AchiSplatoon2.Content.Projectiles
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
 
+            CalculateChargeInkCost();
             NetUpdate(ProjNetUpdateType.UpdateCharge);
+        }
+
+        protected void CalculateChargeInkCost()
+        {
+            chargeInkCost = WeaponInstance.InkCost / MaxChargeTime() * 10;
         }
 
         public bool IsChargeMaxedOut()
@@ -107,13 +116,14 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
-            ConsumeInk();
-            var inkSpeedModifier = GetOwnerModPlayer<InkTankPlayer>().InkAmount > 0 ? 1f : 0.5f;
-
             isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
-
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
+            var inkSpeedModifier = GetOwnerModPlayer<InkTankPlayer>().InkAmount > 0 ? 1f : 0.2f;
+
+            var chargeIncrement = 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
+
+            ConsumeInk(inkCostOverride: chargeIncrement * chargeInkCost);
         }
 
         protected virtual void ReleaseCharge(Player owner)

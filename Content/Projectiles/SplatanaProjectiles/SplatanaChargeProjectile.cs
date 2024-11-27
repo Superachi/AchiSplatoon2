@@ -47,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             ApplyWeaponInstanceData();
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
+
+            CalculateChargeInkCost();
         }
 
         protected override void StartCharge()

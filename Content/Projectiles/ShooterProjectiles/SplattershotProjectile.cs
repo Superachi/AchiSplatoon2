@@ -38,6 +38,9 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             Initialize();
             ApplyWeaponInstanceData();
             PlayShootSound();
+
+            var velocity = Projectile.velocity * GetOwner().direction;
+            GetOwner().itemLocation += Vector2.Normalize(velocity) * 3;
         }
 
         protected override void AdjustVariablesOnShoot()

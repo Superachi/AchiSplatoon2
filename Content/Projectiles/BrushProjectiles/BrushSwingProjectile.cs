@@ -404,6 +404,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private void Shoot()
         {
+            if (!PlayerHasEnoughInk())
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            ConsumeInk();
+
             var startVelocity = owner.DirectionTo(Main.MouseWorld) * shotVelocity;
             var velocity = startVelocity;
 

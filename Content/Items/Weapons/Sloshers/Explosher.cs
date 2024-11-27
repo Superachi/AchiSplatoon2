@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class Explosher : BaseSlosher
     {
+        public override float InkCost { get => 20f; }
+
         public override float ShotGravity { get => 0.4f; }
         public int ShotGravityDelay => 30;
         public int ShotExtraUpdates => 3;

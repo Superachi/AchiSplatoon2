@@ -1681,6 +1681,11 @@ Buffs: {
 		DisplayName: ""
 		Description: ""
 	}
+
+	SwimFormBuff: {
+		DisplayName: Tentacular
+		Description: You recover ink faster, and take no fall damage. Water cancels this buff!
+	}
 }
 
 NPCs.BrellaShield.DisplayName: Brella Shield

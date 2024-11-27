@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     internal class BaseDualie : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Dualies;
+        public override float InkCost { get => 0.7f; }
+        public override float InkRecoveryDelay { get => 12f; }
 
         protected override string UsageHintParamA => MaxRolls.ToString();
 

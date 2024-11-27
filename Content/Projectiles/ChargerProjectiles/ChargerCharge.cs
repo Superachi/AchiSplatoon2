@@ -43,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            CalculateChargeInkCost();
 
             Projectile.velocity = Vector2.Zero;
 

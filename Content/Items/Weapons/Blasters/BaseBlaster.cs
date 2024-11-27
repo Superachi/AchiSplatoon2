@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     internal class BaseBlaster : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Blaster;
+        public override float InkCost { get => 8f; }
+        public override float InkRecoveryDelay { get => 20f; }
 
         // Audio
         public override string ShootSample { get => "BlasterFire"; }

@@ -13,7 +13,7 @@ internal class Torpedo : BaseBomb
     {
         base.SetDefaults();
         Item.shoot = ModContent.ProjectileType<TorpedoProjectile>();
-        Item.damage = 40;
+        Item.damage = 50;
         Item.knockBack = 6;
         Item.width = 26;
         Item.height = 26;

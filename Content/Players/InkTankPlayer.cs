@@ -73,6 +73,11 @@ namespace AchiSplatoon2.Content.Players
             return InkAmount >= inkCost;
         }
 
+        public bool HasMaxInk()
+        {
+            return InkAmount >= InkAmountFinalMax;
+        }
+
         public void CreateLowInkPopup()
         {
             if (_lowInkMessageCooldown == 0)

@@ -140,7 +140,7 @@ namespace AchiSplatoon2.Content.Players
             DrainSpecial();
         }
 
-        // UpdateInventory
+        // Between these two method calls, UpdateInventory is called
 
         public override void PostUpdateMiscEffects()
         {

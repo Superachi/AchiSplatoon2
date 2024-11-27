@@ -4,6 +4,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class ClassicSquiffer : SplatCharger
     {
+        public override float InkCost { get => 1.5f; }
+
         public override string ShootSample { get => "SquifferChargerShoot"; }
         public override string ShootWeakSample { get => "SquifferChargerShootWeak"; }
         public override bool ScreenShake => false;

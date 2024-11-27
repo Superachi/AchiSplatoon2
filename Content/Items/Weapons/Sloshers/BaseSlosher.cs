@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
     internal class BaseSlosher : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Slosher;
+        public override float InkCost { get => 8f; }
+        public override float InkRecoveryDelay { get => 20f; }
 
         public override string ShootSample { get => "SlosherShoot"; }
         public override string ShootWeakSample { get => "SlosherShootAlt"; }

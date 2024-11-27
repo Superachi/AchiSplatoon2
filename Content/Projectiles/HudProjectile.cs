@@ -16,7 +16,11 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private float _visualInkQuotient = 1f;
         private float _InkTankAlpha = 1f;
+        private float _InkTankAlphaGoal = 1f;
         private Player _owner;
+
+        InkTankPlayer InkTankMp => _owner.GetModPlayer<InkTankPlayer>();
+        SquidPlayer SquidMp => _owner.GetModPlayer<SquidPlayer>();
 
         public override void SetDefaults()
         {
@@ -37,8 +41,17 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.timeLeft = 2;
             Projectile.Center = _owner.Center;
 
-            SquidPlayer squidPlayer = _owner.GetModPlayer<SquidPlayer>();
-            _InkTankAlpha = squidPlayer.IsSquid() ? 1f : 0.2f;
+            _InkTankAlphaGoal = 0f;
+            if (SquidMp.IsSquid())
+            {
+                _InkTankAlphaGoal = 1f;
+            }
+            else if (!InkTankMp.HasMaxInk())
+            {
+                _InkTankAlphaGoal = 0.3f;
+            }
+
+            _InkTankAlpha = MathHelper.Lerp(_InkTankAlpha, _InkTankAlphaGoal, 0.2f);
         }
 
         public override bool? CanCutTiles()
@@ -51,14 +64,9 @@ namespace AchiSplatoon2.Content.Projectiles
             return false;
         }
 
-        public override void PostDraw(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (!IsThisClientTheProjectileOwner()) return;
-
-            SquidPlayer squidPlayer = _owner.GetModPlayer<SquidPlayer>();
-            InkTankPlayer inkTankPlayer = _owner.GetModPlayer<InkTankPlayer>();
-            var realInkQuotient = Math.Min(inkTankPlayer.InkQuotient(), 1);
-            if (!squidPlayer.IsSquid() && realInkQuotient == 1) return;
+            if (!IsThisClientTheProjectileOwner()) return false;
 
             barBack = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankBack").Value;
             barFront = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankFront").Value;
@@ -74,6 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             Main.EntitySpriteDraw(barBack, new Vector2((int)position.X, (int)position.Y), null, Color.White * _InkTankAlpha, 0, origin, 1f, SpriteEffects.None);
 
+            var realInkQuotient = Math.Min(InkTankMp.InkQuotient(), 1);
             _visualInkQuotient = MathHelper.Lerp(_visualInkQuotient, realInkQuotient, 0.1f);
             var verticalSize = (int)(44 * _visualInkQuotient);
 
@@ -84,12 +93,14 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)position.Y + 23 - verticalSize,
                     (int)barFront.Size().X,
                     (int)verticalSize),
-                ColorHelper.LerpBetweenColorsPerfect(color * _InkTankAlpha, Color.White * 0.75f, 0.2f));
+                ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f) * _InkTankAlpha);
 
             //Utils.DrawBorderString(
             //     Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0.0")}%", position + new Vector2(0, 40),
             //     ColorHelper.ColorWithAlpha(Color.Gray, 6),
             //     anchorx: 0.5f);
+
+            return false;
         }
     }
 }

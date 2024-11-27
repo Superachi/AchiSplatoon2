@@ -50,6 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            CalculateChargeInkCost();
 
             if (IsThisClientTheProjectileOwner())
             {

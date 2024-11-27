@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -88,6 +89,7 @@ namespace AchiSplatoon2.Content.Players
 
                 case stateSquid:
                     Player.noFallDmg = true;
+                    Player.AddBuff(ModContent.BuffType<SwimFormBuff>(), 2);
 
                     if (_squidFormProjectile == null)
                     {
