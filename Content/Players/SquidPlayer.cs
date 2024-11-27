@@ -73,7 +73,12 @@ namespace AchiSplatoon2.Content.Players
             switch (state)
             {
                 case stateHuman:
-                    if (InputHelper.GetInputY() == -1 && !Player.wet && Player.ItemTimeIsZero && Player.grappling[0] == -1 && !Player.mount.Active)
+                    if (InputHelper.GetInputY() == -1
+                        && !Player.wet
+                        && Player.ItemTimeIsZero
+                        && Player.grappling[0] == -1
+                        && !Player.mount.Active
+                        && !Player.GetModPlayer<DualiePlayer>().isRolling)
                     {
                         SetState(stateSquid);
                         return;
@@ -90,7 +95,7 @@ namespace AchiSplatoon2.Content.Players
                         return;
                     }
 
-                    if (InputHelper.GetInputY() != -1 || Player.wet)
+                    if (InputHelper.GetInputY() != -1 || Player.wet || Player.grappling[0] != -1)
                     {
                         _squidFormProjectile.StartDespawn();
                     }
