@@ -31,5 +31,10 @@ namespace AchiSplatoon2.Helpers
             var degrees = Main.rand.NextFloat(degreesMin, degreesMax);
             return AddRotationToVector2(inputVector, degrees);
         }
+
+        public static Vector2 RoundVector2(Vector2 inputVector)
+        {
+            return new Vector2((int)inputVector.X, (int)inputVector.Y);
+        }
     }
 }

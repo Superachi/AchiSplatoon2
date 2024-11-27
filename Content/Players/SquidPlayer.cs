@@ -178,5 +178,11 @@ namespace AchiSplatoon2.Content.Players
         {
             return state == stateSquid;
         }
+
+        public bool IsFlat()
+        {
+            var result = IsSquid() && PlayerHelper.IsPlayerGrounded(Player);
+            return result;
+        }
     }
 }
