@@ -86,6 +86,7 @@ internal class BaseProjectile : ModProjectile
     protected bool wormDamageReduction = false;
     protected int StandardNPCHitCooldown => 20 * FrameSpeed();
     protected bool ResetNPCHitCooldownAfterSpawnMethods = true;
+    protected virtual bool ConsumeInkAfterSpawn => true;
 
     // State machine
     protected int state = 0;
@@ -166,6 +167,11 @@ internal class BaseProjectile : ModProjectile
         AdjustVariablesOnShoot();
         CreateDustOnSpawn();
 
+        if (ConsumeInkAfterSpawn)
+        {
+            ConsumeInk();
+        }
+
         // If this isn't done, and extraUpdates are added, a projectile may hit the same target twice
         if (ResetNPCHitCooldownAfterSpawnMethods)
         {
@@ -210,6 +216,36 @@ internal class BaseProjectile : ModProjectile
 
     protected virtual void CreateDustOnSpawn()
     {
+    }
+
+    protected virtual void ConsumeInk(float? inkCostOverride = null, float? inkDelayOverride = null, bool consumeInkAsChildProj = false)
+    {
+        bool isChildProj = parentProjectile != null;
+        if (isChildProj && !consumeInkAsChildProj) return;
+
+        var inkTankPlayer = GetOwner().GetModPlayer<InkTankPlayer>();
+        if (weaponSource == null)
+        {
+            inkTankPlayer.InkAmount -= inkCostOverride ?? 0;
+            inkTankPlayer.InkRecoveryDelay = inkDelayOverride ?? 0;
+            return;
+        }
+
+        inkTankPlayer.InkAmount -= inkCostOverride ?? weaponSource.InkCost;
+        inkTankPlayer.InkRecoveryDelay = inkCostOverride ?? Math.Max(weaponSource.InkRecoveryDelay, inkTankPlayer.InkRecoveryDelay);
+
+        if (inkTankPlayer.InkAmount < 0)
+        {
+            inkTankPlayer.InkAmount = 0;
+        }
+    }
+
+    protected bool PlayerHasEnoughInk(float? inkCostOverride = null)
+    {
+        var inkTankPlayer = GetOwner().GetModPlayer<InkTankPlayer>();
+        bool hasEnough = inkTankPlayer.HasEnoughInk(inkCostOverride ?? weaponSource?.InkCost ?? 0);
+
+        return hasEnough;
     }
 
     public override void OnKill(int timeLeft)

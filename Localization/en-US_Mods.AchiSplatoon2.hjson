@@ -1658,6 +1658,7 @@ Projectiles: {
 	BlasterExplosion.DisplayName: Blaster Explosion
 	HoneyScepterProjectile.DisplayName: Honey Scepter Projectile
 	SquidFormProjectile.DisplayName: Squid Form Projectile
+	HudProjectile.DisplayName: Hud Projectile
 }
 
 Buffs: {

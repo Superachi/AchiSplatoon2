@@ -17,6 +17,7 @@ using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using Humanizer;
 using Microsoft.Xna.Framework;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -84,6 +85,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public SubWeaponBonusType BonusType { get; private set; }
 
         public float SubBonusAmount { get; private set; }
+
+        // Ink stats
+        public virtual float InkCost { get => 0f; }
+        public virtual float InkRecoveryDelay { get => 0f; }
 
         // Special weapon stats
         public virtual bool IsSpecialWeapon { get => false; }
@@ -267,8 +272,16 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool CanUseItem(Player player)
         {
-            var modPlayer = player.GetModPlayer<WeaponPlayer>();
-            if (modPlayer.CustomWeaponCooldown > 0) return false;
+            var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
+            if (inkTankPlayer.InkAmount < InkCost)
+            {
+                inkTankPlayer.CreateLowInkPopup();
+                inkTankPlayer.InkRecoveryDelay = Math.Max(inkTankPlayer.InkRecoveryDelay, 30);
+                return false;
+            }
+
+            var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
+            if (weaponPlayer.CustomWeaponCooldown > 0) return false;
 
             if (!IsSpecialWeapon)
             {
@@ -276,17 +289,17 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else
             {
-                if (!modPlayer.SpecialReady
-                    || (modPlayer.IsSpecialActive && IsDurationSpecial)
-                    || (modPlayer.SpecialName != null && modPlayer.SpecialName != player.HeldItem.Name)
+                if (!weaponPlayer.SpecialReady
+                    || (weaponPlayer.IsSpecialActive && IsDurationSpecial)
+                    || (weaponPlayer.SpecialName != null && weaponPlayer.SpecialName != player.HeldItem.Name)
                     || player.altFunctionUse == 2)
                 {
                     player.itemTime = 30;
                     return false;
                 }
 
-                modPlayer.DrainSpecial(SpecialDrainPerUse);
-                modPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem);
+                weaponPlayer.DrainSpecial(SpecialDrainPerUse);
+                weaponPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem);
                 return true;
             }
         }
@@ -320,36 +333,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
                         // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
                         if (item.type == subWeaponItemIDs[j])
                         {
-                            // Check if the main weapon has a bonus that discounts sub weapons of a matching type
-                            // Eg. Splattershot has a chance to not consume burst bombs
-                            bool luckyDiscount = false;
+                            var bomb = (BaseBomb)item.ModItem;
 
-                            if (BonusSub != SubWeaponType.None)
+                            if (!player.GetModPlayer<InkTankPlayer>().HasEnoughInk(bomb.InkCost))
                             {
-                                SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
-                                if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
-                                {
-                                    luckyDiscount = Main.rand.NextBool((int)(1f / SubBonusAmount));
-                                }
-                            }
-
-                            // Make it so subs thrown via the SplattershotJr (and its inheritors) don't cost ammo
-                            if (player.HeldItem.ModItem is not SplattershotJr)
-                            {
-                                if (!luckyDiscount)
-                                {
-                                    item.stack--;
-                                }
-                                else
-                                {
-                                    CombatTextHelper.DisplayText("Sub saved!", player.Center, new Color(140, 80, 255));
-                                }
-                            }
-
-                            // Warn player if last sub weapon was used
-                            if (item.stack == 0)
-                            {
-                                CombatTextHelper.DisplayText($"Used last {item.Name}!", player.Center);
+                                doneSearching = true;
+                                break;
                             }
 
                             // Calculate throw angle and spawn projectile
@@ -374,6 +363,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                             p.RunSpawnMethods();
 
                             player.itemTime = item.useTime;
+
                             doneSearching = true;
                             break;
                         }

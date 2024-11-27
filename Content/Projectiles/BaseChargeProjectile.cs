@@ -18,6 +18,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseChargeProjectile : BaseProjectile
     {
+        protected override bool ConsumeInkAfterSpawn => false;
+
         protected float lastShotRadians; // Used for networking
 
         // Charge mechanic
@@ -105,10 +107,13 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
+            ConsumeInk();
+            var inkSpeedModifier = GetOwnerModPlayer<InkTankPlayer>().InkAmount > 0 ? 1f : 0.5f;
+
             isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
 
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
-            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
+            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
         }
 
         protected virtual void ReleaseCharge(Player owner)
