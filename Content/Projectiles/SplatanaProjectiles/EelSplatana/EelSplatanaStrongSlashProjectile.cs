@@ -64,6 +64,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         {
             base.AI();
 
+            frameTimer += FrameSpeedDivide(1);
+            if (frameTimer >= FrameDelay)
+            {
+                frameTimer = 0;
+                Projectile.frame = (Projectile.frame + 1) % FrameCount;
+            }
 
             float animationTime = 40f;
             if (timeSpentAlive < (int)animationTime)
