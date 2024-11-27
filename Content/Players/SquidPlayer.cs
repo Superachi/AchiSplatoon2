@@ -24,6 +24,8 @@ namespace AchiSplatoon2.Content.Players
 
         private float _yCameraOffset = 0f;
         private float _yCameraOffsetGoal = 0f;
+        private float _squidJumpTime = 0f;
+        private float _squidJumpTimeMax = 0f;
 
         public void SetState(int state)
         {
@@ -42,6 +44,13 @@ namespace AchiSplatoon2.Content.Players
 
                 case stateSquid:
                     Player.mount.Dismount(Player);
+
+                    _squidJumpTime = 0f;
+                    _squidJumpTimeMax = 15f;
+                    if (PlayerHelper.IsPlayerGrounded(Player))
+                    {
+                        _squidJumpTime = _squidJumpTimeMax;
+                    }
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<SquidFormProjectile>()] == 0)
                     {
@@ -75,7 +84,7 @@ namespace AchiSplatoon2.Content.Players
             switch (state)
             {
                 case stateHuman:
-                    if (InputHelper.GetInputY() == -1 && !Player.wet && Player.ItemTimeIsZero && Player.grappling[0] == -1)
+                    if (InputHelper.GetInputY() == -1 && !Player.wet && Player.ItemTimeIsZero && Player.grappling[0] == -1 && !Player.mount.Active)
                     {
                         SetState(stateSquid);
                         return;
@@ -84,6 +93,8 @@ namespace AchiSplatoon2.Content.Players
                     break;
 
                 case stateSquid:
+                    Player.noFallDmg = true;
+
                     if (InputHelper.GetInputY() != -1 || Player.wet)
                     {
                         SetState(stateTransformBack);
@@ -97,17 +108,15 @@ namespace AchiSplatoon2.Content.Players
 
                     _yCameraOffsetGoal = PlayerHelper.IsPlayerGrounded(Player) ? 20 : 0;
 
-                    if (!PlayerHelper.IsPlayerGrounded(Player))
+                    if (InputHelper.GetInputJump() && _squidJumpTime > 0)
                     {
-                        _landed = false;
-                        _squidFormProjectile?.ResetDrawScale();
+                        _squidJumpTime--;
+                        Player.velocity.Y = -6;
                     }
-                    else
+
+                    if (PlayerHelper.IsPlayerGrounded(Player))
                     {
-                        if (InputHelper.GetInputJumpPressed())
-                        {
-                            Player.velocity.Y -= 10;
-                        }
+                        _squidJumpTime = _squidJumpTimeMax;
 
                         if (Math.Abs(Player.velocity.X) > 1)
                         {
@@ -121,11 +130,16 @@ namespace AchiSplatoon2.Content.Players
                         {
                             _landed = true;
 
-                            if(!PlayerHelper.IsPlayerOntopOfPlatform(Player))
+                            if (!PlayerHelper.IsPlayerOntopOfPlatform(Player))
                             {
                                 _squidFormProjectile?.LandingEffect();
                             }
                         }
+                    }
+                    else
+                    {
+                        _landed = false;
+                        _squidFormProjectile?.ResetDrawScale();
                     }
 
                     break;
