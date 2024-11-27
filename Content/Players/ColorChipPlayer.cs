@@ -22,8 +22,8 @@ namespace AchiSplatoon2.Content.Players
         public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
         public int RedChipBaseArmorPierceBonus { get => 2; }
         public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
-        public float PurpleChipBaseKnockbackBonus { get => 0.5f; }
-        public string PurpleChipBaseKnockbackBonusDisplay { get => $"{PurpleChipBaseKnockbackBonus} unit(s)"; }
+        public float PurpleSplatInkRecoveryBonus { get => 2f; }
+        public string PurpleSplatInkRecoveryBonusDisplay { get => $"{PurpleSplatInkRecoveryBonus}%"; }
         public float PurpleChipBaseChargeSpeedBonus { get => 0.06f; }
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
         public float YellowChipExplosionRadiusBonus { get => 0.08f; }
@@ -140,9 +140,9 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Purple] * PurpleChipBaseChargeSpeedBonus;
         }
 
-        public float CalculateKnockbackBonus()
+        public float CalculateSplatInkRecoveryBonus()
         {
-            return ColorChipAmounts[(int)ChipColor.Purple] * PurpleChipBaseKnockbackBonus;
+            return ColorChipAmounts[(int)ChipColor.Purple] * PurpleSplatInkRecoveryBonus;
         }
 
         public float CalculateExplosionRadiusBonus()

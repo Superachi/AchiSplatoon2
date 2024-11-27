@@ -143,7 +143,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (purple > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Purple)}Support ({purple}) >]" +
-                            $"\n[{textColorGray}Knockback: +{purple * modPlayer.PurpleChipBaseKnockbackBonus} unit(s)]" +
+                            $"\n[{textColorGray}Splat ink recovery: +{purple * modPlayer.PurpleSplatInkRecoveryBonus}%]" +
                             $"\n[{textColorGray}Weapon charge speed: +{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
                     }
                     if (green > 0)

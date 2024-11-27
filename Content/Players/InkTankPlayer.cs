@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -58,9 +59,17 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
+        public void HealInk(float amount)
+        {
+            InkAmount += amount;
+
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f)));
+        }
+
         public float InkQuotient()
         {
-            return InkAmount / InkAmountFinalMax;
+            return Math.Clamp(InkAmount / InkAmountFinalMax, 0, 1);
         }
 
         public bool HasEnoughInk(float inkCost)

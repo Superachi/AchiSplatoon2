@@ -319,7 +319,6 @@ internal class BaseProjectile : ModProjectile
                     if (i == (int)ChipColor.Purple)
                     {
                         chargeSpeedModifier += colorChipPlayer.CalculateChargeSpeedBonus();
-                        knockbackModifier += colorChipPlayer.CalculateKnockbackBonus();
                     }
 
                     // Yellow chips > bigger explosions + projectile piercing
@@ -463,15 +462,6 @@ internal class BaseProjectile : ModProjectile
         {
             modifiers.FinalDamage *= 0.6f;
         }
-
-        modifiers.Knockback *= knockbackModifier;
-        if (target.knockBackResist > 0)
-        {
-            var baseKnockbackResist = target.GetGlobalNPC<CombatGlobalNPC>().initialKnockbackResist;
-            target.knockBackResist = baseKnockbackResist * (1 + knockbackModifier / 16);
-
-            base.ModifyHitNPC(target, ref modifiers);
-        }
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -499,10 +489,17 @@ internal class BaseProjectile : ModProjectile
         if (target.life <= 0)
         {
             var owner = GetOwner();
-            if (!IsTargetEnemy(target)) return;
-            if (!owner.GetModPlayer<ColorChipPlayer>().IsPaletteValid()) return;
-
             var colorChipPlayer = owner.GetModPlayer<ColorChipPlayer>();
+
+            if (!IsTargetEnemy(target)) return;
+            if (!colorChipPlayer.IsPaletteValid()) return;
+
+            var splatInkRecoveryBonus = colorChipPlayer.CalculateSplatInkRecoveryBonus();
+            if (splatInkRecoveryBonus > 0)
+            {
+                owner.GetModPlayer<InkTankPlayer>().HealInk(splatInkRecoveryBonus);
+            }
+
             var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
             var luckyBombMinDamage = Main.expertMode ? 20 : 50;
             var luckyBombDamage = Math.Max(luckyBombMinDamage, luckyBombStartDamage);
@@ -515,6 +512,7 @@ internal class BaseProjectile : ModProjectile
                 p.spawnOrder = spawnOrder;
                 createdBombs++;
             }
+
             void CreateLuckyBombCluster()
             {
                 if (this is LuckyBombProjectile)

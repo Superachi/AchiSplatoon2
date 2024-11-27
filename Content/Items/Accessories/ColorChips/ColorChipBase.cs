@@ -75,7 +75,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 else if (PurpleValue > 0)
                 {
                     t.Text += StatIncreaseDisplayString(textColor, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "knockback", modPlayer.PurpleChipBaseKnockbackBonusDisplay);
+                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "splat ink recovery", modPlayer.PurpleSplatInkRecoveryBonusDisplay);
                 }
                 else if (GreenValue > 0)
                 {
