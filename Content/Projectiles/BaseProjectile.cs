@@ -859,15 +859,23 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
-    protected void DrawProjectile(Color inkColor, float rotation, float scale = 1f, float alphaMod = 1,
-        bool considerWorldLight = true, SpriteEffects flipSpriteSettings = SpriteEffects.None, Vector2? positionOffset = null,
-        float additiveAmount = 0f, Texture2D? spriteOverride = null)
+    protected void DrawProjectile(
+        Color inkColor,
+        float rotation,
+        float scale = 1f,
+        float alphaMod = 1,
+        bool considerWorldLight = true,
+        SpriteEffects flipSpriteSettings = SpriteEffects.None,
+        Vector2? positionOffset = null,
+        float additiveAmount = 0f,
+        Texture2D? spriteOverride = null,
+        int? frameOverride = null)
     {
         Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
         Texture2D texture = TextureAssets.Projectile[Type].Value;
         if (spriteOverride != null) texture = spriteOverride;
 
-        Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
+        Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: frameOverride ?? Projectile.frame); // The sourceRectangle says which frame to use.
         Vector2 origin = sourceRectangle.Size() / 2f;
 
         // The light value in the world

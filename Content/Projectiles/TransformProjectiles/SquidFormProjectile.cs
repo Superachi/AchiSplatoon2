@@ -23,9 +23,9 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
         private float _terminalVelocity = 5f;
         private float _jumpHeight = 4f;
 
-        private const int _stateGround = 0;
-        private const int _stateAir = 1;
-        private const int _stateDespawn = 2;
+        private const int _stateDefault = 0;
+        private const int _stateDespawn = 1;
+        private const int _stateRefill = 2;
 
         private float _drawScale = 1f;
         private bool _drawFlip = false;
@@ -39,7 +39,7 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -54,57 +54,44 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 
         protected override void AfterSpawn()
         {
+            if (GetOwner().ownedProjectileCounts[Projectile.type] > 0)
+            {
+                DebugHelper.Ping();
+            }
+
             dissolvable = false;
             squidPlayer = GetOwner().GetModPlayer<SquidPlayer>();
             _drawFlip = GetOwner().direction == -1;
 
-            SetState(_stateGround);
+            SetState(_stateDefault);
             TransformDust();
-        }
-
-        public void StartDespawn()
-        {
-            if (state != _stateDespawn)
-            {
-                SetState(_stateDespawn);
-            }
         }
 
         protected override void SetState(int targetState)
         {
             base.SetState(targetState);
-            switch (state)
-            {
-                case _stateGround:
-                    break;
-                case _stateDespawn:
-                    _drawScale = 2f;
-                    break;
-            }
         }
 
         public override void AI()
         {
             if (_splashCooldown > 0) _splashCooldown--;
 
-            if (timeSpentAlive < 5)
-            {
-                _drawScale += 0.2f;
-            }
-            else if (_drawScale > 1)
-            {
-                _drawScale -= 0.1f;
-            }
-
             Projectile.timeLeft = 2;
-            Projectile.frame = PlayerHelper.IsPlayerGrounded(GetOwner()) && !PlayerHelper.IsPlayerOntopOfPlatform(GetOwner()) ? 0 : 1;
 
             switch (state)
             {
+                case _stateDefault:
+                    StateDefault();
+                    break;
                 case _stateDespawn:
                     StateDespawn();
                     break;
             }
+        }
+
+        private void Animate()
+        {
+            Projectile.frame = PlayerHelper.IsPlayerGrounded(GetOwner()) && !PlayerHelper.IsPlayerOntopOfPlatform(GetOwner()) ? 0 : 1;
 
             if (!PlayerHelper.IsPlayerGrounded(GetOwner()) || Projectile.oldVelocity.Y != 0)
             {
@@ -129,9 +116,27 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
             Projectile.Center = GetOwner().Center + new Vector2(0, GetOwner().gfxOffY + GetOwner().height / 2 - 3);
         }
 
+        private void StateDefault()
+        {
+            if (timeSpentAlive < 5)
+            {
+                _drawScale += 0.2f;
+            }
+            else if (_drawScale > 1)
+            {
+                _drawScale -= 0.1f;
+            }
+
+            Animate();
+        }
+
         private void StateDespawn()
         {
-            if (timeSpentInState > 10)
+            _drawScale += 0.08f;
+
+            Animate();
+
+            if (timeSpentInState >= 12)
             {
                 Projectile.Kill();
             }
@@ -139,8 +144,55 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 
         public override void OnKill(int timeLeft)
         {
+            var wepMp = GetOwnerModPlayer<WeaponPlayer>();
+            if (wepMp.CustomWeaponCooldown < 6)
+            {
+                wepMp.CustomWeaponCooldown = 6;
+            }
+
             TransformDust();
             squidPlayer.SetState(SquidPlayer.stateHuman);
+        }
+
+
+        public override bool? CanCutTiles()
+        {
+            return false;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            var color = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+            DrawProjectile(
+                ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.9f),
+                Projectile.rotation,
+                scale: _drawScale,
+                alphaMod: GetOwner().immune ? 1 - (float)GetOwner().immuneAlpha / 255f : 1,
+                flipSpriteSettings: _drawFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                frameOverride: Projectile.frame + 2);
+
+            DrawProjectile(
+                ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f),
+                Projectile.rotation,
+                scale: _drawScale,
+                alphaMod: GetOwner().immune ? 1 - (float)GetOwner().immuneAlpha / 255f : 1,
+                flipSpriteSettings: _drawFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+
+            return false;
+        }
+
+        // Methods called from outside (by SquidPlayer for example)
+        public void StartDespawn()
+        {
+            if (state != _stateDespawn)
+            {
+                SetState(_stateDespawn);
+            }
         }
 
         public void TransformDust()
@@ -183,7 +235,6 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
             _splashCooldown = _splashCooldownMax;
 
             Color dustColor = GetOwner().GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-            _drawScale = 2f;
 
             for (int i = 0; i < 10; i++)
             {
@@ -214,29 +265,6 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
         public void ResetDrawScale()
         {
             _drawScale = 1f;
-        }
-
-        public override bool? CanCutTiles()
-        {
-            return false;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            var color = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
-            DrawProjectile(
-                Color.White,
-                Projectile.rotation,
-                scale: _drawScale,
-                alphaMod: GetOwner().immune ? 1 - (float)GetOwner().immuneAlpha / 255f : 1,
-                flipSpriteSettings: _drawFlip ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
-
-            return false;
         }
     }
 }

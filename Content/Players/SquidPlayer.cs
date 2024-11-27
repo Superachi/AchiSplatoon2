@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Players
         public int state = 0;
         public const int stateHuman = 0;
         public const int stateSquid = 1;
-        public const int stateTransformBack = 2;
 
         private SquidFormProjectile? _squidFormProjectile = null;
         private float _oldOpacityForAnimation = 1f;
@@ -64,16 +63,6 @@ namespace AchiSplatoon2.Content.Players
                     Player.opacityForAnimation = 0;
                     SoundHelper.PlayAudio("SwimForm/Enter", 0.3f, 0.2f, 10, 0, Player.Center);
                     break;
-
-                case stateTransformBack:
-                    var wepMP = Player.GetModPlayer<WeaponPlayer>();
-                    wepMP.CustomWeaponCooldown = 15;
-
-                    if (_squidFormProjectile != null)
-                    {
-                        _squidFormProjectile.StartDespawn();
-                    }
-                    break;
             }
         }
 
@@ -95,10 +84,15 @@ namespace AchiSplatoon2.Content.Players
                 case stateSquid:
                     Player.noFallDmg = true;
 
+                    if (_squidFormProjectile == null)
+                    {
+                        SetState(stateHuman);
+                        return;
+                    }
+
                     if (InputHelper.GetInputY() != -1 || Player.wet)
                     {
-                        SetState(stateTransformBack);
-                        return;
+                        _squidFormProjectile.StartDespawn();
                     }
 
                     if (Math.Abs(Player.velocity.X) > 4)
@@ -139,17 +133,13 @@ namespace AchiSplatoon2.Content.Players
                     else
                     {
                         _landed = false;
-                        _squidFormProjectile?.ResetDrawScale();
+
+                        if (InputHelper.GetInputJumpReleased())
+                        {
+                            _squidJumpTime = 0;
+                        }
                     }
 
-                    break;
-
-                case stateTransformBack:
-                    if (_squidFormProjectile == null)
-                    {
-                        SetState(stateHuman);
-                        return;
-                    }
                     break;
             }
         }
