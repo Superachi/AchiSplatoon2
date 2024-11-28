@@ -9,6 +9,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class DualieSquelcher : BaseDualie
     {
+        public override float InkCost { get => 1.5f; }
+
         public override float ShotGravity { get => 0.1f; }
         public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 8; }

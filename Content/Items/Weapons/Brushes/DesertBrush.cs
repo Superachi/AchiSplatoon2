@@ -7,8 +7,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class DesertBrush : BaseBrush
     {
-        public override float AimDeviation { get => 4f; }
+        public override float InkCost { get => 3f; }
 
+        public override float AimDeviation { get => 4f; }
         public override float ShotVelocity => 7f;
         public override float BaseWeaponUseTime => 24f;
         public override int WindupTime => 26;

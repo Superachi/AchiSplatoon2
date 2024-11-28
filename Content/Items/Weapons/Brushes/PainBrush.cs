@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class PainBrush : BaseBrush
     {
+        public override float InkCost { get => 4f; }
+
         public override float AimDeviation { get => 3f; }
         public override float DelayUntilFall => 12f;
 

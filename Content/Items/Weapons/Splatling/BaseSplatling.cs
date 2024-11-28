@@ -4,7 +4,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class BaseSplatling : BaseWeapon
     {
-        public override float InkCost { get => 1f; }
+        public override float InkCost { get => 1.5f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatling;
 
         public override string ShootSample { get => "SplatlingShoot"; }

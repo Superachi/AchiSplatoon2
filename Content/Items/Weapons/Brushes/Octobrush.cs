@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class Octobrush : BaseBrush
     {
+        public override float InkCost { get => 2f; }
+
         public override float AimDeviation { get => 6f; }
         public override float DelayUntilFall => 8f;
         protected override int ArmorPierce => 10;

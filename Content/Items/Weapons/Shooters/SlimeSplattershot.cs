@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SlimeSplattershot : Splattershot
     {
+        public override float InkCost { get => 3f; }
+
         public override string ShootSample => "Dot52GalShoot";
         public override float ShotGravity { get => 0.3f; }
         public override int ShotGravityDelay { get => 30; }
