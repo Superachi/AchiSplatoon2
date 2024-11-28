@@ -19,6 +19,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public virtual float KnockbackModifier => 0f;
     public virtual float VelocityModifier => 0f;
     public virtual int CritChanceBonus => 0;
+    public virtual float InkCostModifier => 0f;
 
     // Projectile stat modifiers
     public virtual int AimVariation => 0;
@@ -39,6 +40,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public static LocalizedText ExplosionRadiusTooltip { get; private set; }
     public static LocalizedText ExtraProjectileTooltip { get; private set; }
     public static LocalizedText MeleeDamageTooltip { get; private set; }
+    public static LocalizedText InkCostTooltip { get; private set; }
 
     public override void SetStaticDefaults()
     {
@@ -49,6 +51,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         ExplosionRadiusTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExplosionRadiusTooltip)}");
         ExtraProjectileTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ExtraProjectileTooltip)}");
         MeleeDamageTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(MeleeDamageTooltip)}");
+        InkCostTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(InkCostTooltip)}");
     }
 
     public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
@@ -86,6 +89,11 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (MeleeDamageModifier != 0)
         {
             yield return CreateTooltip(MeleeDamageTooltip, MeleeDamageModifier, false);
+        }
+
+        if (InkCostModifier != 0)
+        {
+            yield return CreateTooltip(InkCostTooltip, InkCostModifier, true);
         }
     }
 
@@ -163,6 +171,8 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         }
 
         projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
+
+        projectile.currentInkCost *= (1 + InkCostModifier);
     }
 
     #endregion

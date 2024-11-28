@@ -388,6 +388,21 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 case BaseSplattershot:
                     possiblePrefixes = PrefixHelper.ListShooterPrefixes();
+
+                    if (this is Dot52Gal)
+                    {
+                        possiblePrefixes = new()
+                        {
+                            ModContent.PrefixType<RangedPrefix>(),
+                            ModContent.PrefixType<PiercingPrefix>(),
+                            ModContent.PrefixType<SkilledPrefix>(),
+                            ModContent.PrefixType<SwiftPrefix>(),
+                            ModContent.PrefixType<SavouryPrefix>(),
+
+                            ModContent.PrefixType<TastelessPrefix>()
+                        };
+                    }
+
                     break;
 
                 case BaseBlaster:
@@ -413,6 +428,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseStringer:
                     possiblePrefixes = PrefixHelper.ListStringerPrefixes();
+
                     if (this is IceStringer)
                     {
                         possiblePrefixes.Remove(ModContent.PrefixType<CompactPrefix>());

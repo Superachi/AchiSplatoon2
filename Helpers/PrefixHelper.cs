@@ -5,11 +5,11 @@ using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -50,6 +50,10 @@ internal class PrefixHelper : ModSystem
             ModContent.PrefixType<PiercingPrefix>(),
             ModContent.PrefixType<SkilledPrefix>(),
 
+            ModContent.PrefixType<SavouryPrefix>(),
+            ModContent.PrefixType<HungryPrefix>(),
+            ModContent.PrefixType<CheapPrefix>(),
+
             ModContent.PrefixType<DryPrefix>(),
             ModContent.PrefixType<TastelessPrefix>()
         };
@@ -76,6 +80,7 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<EvasivePrefix>());
         prefixes.Add(ModContent.PrefixType<PrincessPrefix>());
+        prefixes.Add(ModContent.PrefixType<DivingPrefix>());
 
         return prefixes;
     }
@@ -86,6 +91,7 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<QuickPrefix>());
         prefixes.Add(ModContent.PrefixType<BacklinePrefix>());
+        prefixes.Add(ModContent.PrefixType<InstantPrefix>());
 
         return prefixes;
     }
@@ -179,6 +185,10 @@ internal class PrefixHelper : ModSystem
             { typeof(PiercingPrefix), ModContent.PrefixType<PiercingPrefix>() },
             { typeof(SkilledPrefix), ModContent.PrefixType<SkilledPrefix>() },
 
+            { typeof(SavouryPrefix), ModContent.PrefixType<SavouryPrefix>() },
+            { typeof(HungryPrefix), ModContent.PrefixType<HungryPrefix>() },
+            { typeof(CheapPrefix), ModContent.PrefixType<CheapPrefix>() },
+
             { typeof(SwiftPrefix), ModContent.PrefixType<SwiftPrefix>() },
             { typeof(TurboPrefix), ModContent.PrefixType<TurboPrefix>() },
 
@@ -188,10 +198,12 @@ internal class PrefixHelper : ModSystem
             // Dualies
             { typeof(EvasivePrefix), ModContent.PrefixType<EvasivePrefix>() },
             { typeof(PrincessPrefix), ModContent.PrefixType<PrincessPrefix>() },
+            { typeof(DivingPrefix), ModContent.PrefixType<DivingPrefix>() },
 
             // Charge weapons
             { typeof(QuickPrefix), ModContent.PrefixType<QuickPrefix>() },
             { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
+            { typeof(InstantPrefix), ModContent.PrefixType<InstantPrefix>() },
 
             // Stringers
             { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },

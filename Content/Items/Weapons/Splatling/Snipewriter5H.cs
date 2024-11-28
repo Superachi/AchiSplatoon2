@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class Snipewriter5H : BaseSplatling
     {
+        public override float InkCost { get => 2.4f; }
+
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Charger;
         public override string ShootSample { get => "SnipewriterShoot"; }
 

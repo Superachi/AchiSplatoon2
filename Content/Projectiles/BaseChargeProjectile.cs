@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.aiStyle = 1;
-            Projectile.timeLeft = 36000;
+            Projectile.timeLeft = 1_000_000;
             Projectile.penetrate = -1;
             AIType = ProjectileID.Bullet;
 
@@ -90,13 +90,12 @@ namespace AchiSplatoon2.Content.Projectiles
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
 
-            CalculateChargeInkCost();
             NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
         protected void CalculateChargeInkCost()
         {
-            chargeInkCost = WeaponInstance.InkCost / MaxChargeTime() * 10;
+            chargeInkCost = currentInkCost / MaxChargeTime() * 10;
         }
 
         public bool IsChargeMaxedOut()
@@ -123,6 +122,7 @@ namespace AchiSplatoon2.Content.Projectiles
             var chargeIncrement = 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
 
+            CalculateChargeInkCost();
             ConsumeInk(inkCostOverride: chargeIncrement * chargeInkCost);
         }
 

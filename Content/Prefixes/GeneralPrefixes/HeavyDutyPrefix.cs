@@ -7,5 +7,6 @@
         public override float KnockbackModifier => 0.2f;
         public override float UseTimeModifier => 1f;
         public override float VelocityModifier => 0.2f;
+        public override float InkCostModifier => 0.2f;
     }
 }

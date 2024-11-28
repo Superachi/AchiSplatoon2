@@ -5,6 +5,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -86,7 +87,11 @@ internal class BaseProjectile : ModProjectile
     protected bool wormDamageReduction = false;
     protected int StandardNPCHitCooldown => 20 * FrameSpeed();
     protected bool ResetNPCHitCooldownAfterSpawnMethods = true;
+
+    // Ink consumption
     protected virtual bool ConsumeInkAfterSpawn => true;
+    public float currentInkCost = 0f;
+    public float OriginalInkCost { get; private set; }
 
     // State machine
     protected int state = 0;
@@ -166,6 +171,7 @@ internal class BaseProjectile : ModProjectile
         ApplyWeaponPrefixData();
         AdjustVariablesOnShoot();
         CreateDustOnSpawn();
+        CalculateInkCostAfterModifiers();
 
         if (ConsumeInkAfterSpawn)
         {
@@ -218,6 +224,22 @@ internal class BaseProjectile : ModProjectile
     {
     }
 
+    private void CalculateInkCostAfterModifiers()
+    {
+        OriginalInkCost = WeaponInstance?.InkCost ?? 0;
+        currentInkCost = OriginalInkCost;
+
+        if (weaponSourcePrefix != -1)
+        {
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix != null)
+            {
+                currentInkCost *= prefix.InkCostModifier.NormalizePrefixMod();
+            }
+        }
+    }
+
     protected virtual void ConsumeInk(float? inkCostOverride = null, float? inkDelayOverride = null, bool consumeInkAsChildProj = false)
     {
         bool isChildProj = parentProjectile != null;
@@ -231,7 +253,7 @@ internal class BaseProjectile : ModProjectile
             return;
         }
 
-        inkTankPlayer.ConsumeInk(inkCostOverride ?? weaponSource.InkCost);
+        inkTankPlayer.ConsumeInk(inkCostOverride ?? currentInkCost);
         inkTankPlayer.InkRecoveryDelay = inkCostOverride ?? Math.Max(weaponSource.InkRecoveryDelay, inkTankPlayer.InkRecoveryDelay);
 
         if (inkTankPlayer.InkAmount < 0)
@@ -337,6 +359,7 @@ internal class BaseProjectile : ModProjectile
             }
 
             dissolvable = isDissolvable;
+
             if (!ignoreAimDeviation && WeaponInstance.AimDeviation != 0)
             {
                 var vel = Projectile.velocity;

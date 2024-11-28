@@ -1362,14 +1362,14 @@ Items: {
 	}
 
 	SplattershotJr: {
-		UsageHint: "{$Hint.SplattershotJr}"
+		UsageHint: ""
 		Flavor: Mods.AchiSplatoon2.Items.SplattershotJr.Flavor
 		DisplayName: Splattershot Jr.
 		Tooltip: ""
 	}
 
 	CustomSplattershotJr: {
-		UsageHint: "{$Hint.SplattershotJr}"
+		UsageHint: ""
 		Flavor: Mods.AchiSplatoon2.Items.CustomSplattershotJr.Flavor
 		DisplayName: Custom Splattershot Jr.
 		Tooltip: ""
@@ -1747,4 +1747,10 @@ Prefixes: {
 	CrispyPrefix.DisplayName: Crispy
 	ShelledPrefix.DisplayName: Shelled
 	SturdyPrefix.DisplayName: Sturdy
+	InkCostTooltip: "{0} ink cost"
+	CheapPrefix.DisplayName: Cheap
+	HungryPrefix.DisplayName: Hungry
+	SavouryPrefix.DisplayName: Savoury
+	InstantPrefix.DisplayName: Instant
+	DivingPrefix.DisplayName: Diving
 }

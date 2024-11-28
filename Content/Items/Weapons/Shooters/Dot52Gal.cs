@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+﻿using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -44,23 +45,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             recipe.AddIngredient(ItemID.GelBalloon, 15);
             recipe.AddIngredient(ItemID.PinkGel, 5);
             recipe.Register();
-        }
-
-        public override bool AllowPrefix(int pre)
-        {
-            switch (pre)
-            {
-                case PrefixID.Quick:
-                case PrefixID.Agile:
-                case PrefixID.Nimble:
-                case PrefixID.Rapid:
-                case PrefixID.Hasty:
-                case PrefixID.Lethargic:
-                case PrefixID.Awkward:
-                    return true;
-            }
-
-            return false;
         }
     }
 }

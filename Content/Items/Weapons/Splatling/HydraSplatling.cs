@@ -8,6 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class HydraSplatling : BaseSplatling
     {
+        public override float InkCost { get => 3.2f; }
         public override string ShootSample { get => "JetSquelcherShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-44, 2); }
         public override float MuzzleOffsetPx { get; set; } = 52f;
