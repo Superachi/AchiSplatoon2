@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,7 +18,6 @@ namespace AchiSplatoon2.Content.Players
         public float InkRecoveryRate = 0.05f;
         public float InkRecoveryStillMult = 2f;
         public float InkRecoverySwimMult = 5f;
-        public float InkRecoveryEquipMult = 1f;
         public float InkRecoveryDelay = 0f;
 
         private bool _isSubmerged = false;
@@ -42,7 +42,6 @@ namespace AchiSplatoon2.Content.Players
         public override void ResetEffects()
         {
             InkAmountMaxBonus = 0f;
-            InkRecoveryEquipMult = 1f;
         }
 
         public override void PostUpdateEquips()
@@ -50,6 +49,14 @@ namespace AchiSplatoon2.Content.Players
             if (Player.HeldItem.ModItem is SplattershotJr jr)
             {
                 InkAmountMaxBonus += jr.InkTankCapacityBonus;
+            }
+        }
+
+        public override void PostUpdateBuffs()
+        {
+            if (Player.HasBuff<InkCapacityBuff>())
+            {
+                InkAmountMaxBonus += InkCapacityBuff.InkCapacityBonus;
             }
         }
 
@@ -71,7 +78,14 @@ namespace AchiSplatoon2.Content.Players
                 var stillMult = Player.velocity.Length() < 1 ? InkRecoveryStillMult : 1f;
                 var swimMult = _isSubmerged ? InkRecoverySwimMult : 1f;
 
-                InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
+                if (Player.HasBuff<InkRegenerationBuff>())
+                {
+                    InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * InkRecoveryStillMult * InkRecoverySwimMult;
+                }
+                else
+                {
+                    InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
+                }
             }
         }
 
