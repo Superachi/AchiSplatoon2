@@ -59,12 +59,18 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        public void HealInk(float amount)
+        public void HealInk(float amount, bool hideText = false)
         {
             InkAmount += amount;
+            if (hideText) return;
 
             var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f)));
+        }
+
+        public void ConsumeInk(float amount)
+        {
+            InkAmount -= amount;
         }
 
         public float InkQuotient()
@@ -87,12 +93,17 @@ namespace AchiSplatoon2.Content.Players
             return InkAmount >= InkAmountFinalMax;
         }
 
+        public bool HasNoInk()
+        {
+            return InkAmount <= 0;
+        }
+
         public void CreateLowInkPopup()
         {
             if (_lowInkMessageCooldown == 0)
             {
                 _lowInkMessageCooldown = 120;
-                CombatTextHelper.DisplayText("Low ink!", Player.Center);
+                Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink!", 90, Color.Yellow);
             }
         }
     }

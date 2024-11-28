@@ -29,6 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         // Dualie specific
         public virtual string RollSample { get => "Dualies/SplatDualieRoll"; }
         public virtual int RollProjectileType { get => ModContent.ProjectileType<DualieRollProjectile>(); }
+        public virtual float RollInkCost { get => 5f; }
         public virtual float PostRollDamageMod { get => 2f; }
         public virtual float PostRollAttackSpeedMod { get => 0.8f; }
         public virtual float PostRollAimMod { get => 0.25f; }

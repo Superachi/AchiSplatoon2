@@ -45,12 +45,8 @@ namespace AchiSplatoon2.Content.Players
                 case stateSquid:
                     Player.mount.Dismount(Player);
 
-                    _squidJumpTime = 0f;
                     _squidJumpTimeMax = 15f;
-                    if (PlayerHelper.IsPlayerGrounded(Player))
-                    {
-                        _squidJumpTime = _squidJumpTimeMax;
-                    }
+                    _squidJumpTime = PlayerHelper.IsPlayerGrounded(Player) ? _squidJumpTimeMax : 0;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<SquidFormProjectile>()] == 0)
                     {
@@ -111,7 +107,6 @@ namespace AchiSplatoon2.Content.Players
 
                     if (InputHelper.GetInputJump() && _squidJumpTime > 0)
                     {
-                        _squidJumpTime--;
                         Player.velocity.Y = -6;
                     }
 
@@ -140,6 +135,7 @@ namespace AchiSplatoon2.Content.Players
                     else
                     {
                         _landed = false;
+                        _squidJumpTime--;
 
                         if (InputHelper.GetInputJumpReleased())
                         {

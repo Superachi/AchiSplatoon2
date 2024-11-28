@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Dot52Gal : BaseSplattershot
     {
+        public override float InkCost { get => 2f; }
+
         public virtual int DamageOverride => 52;
         protected override string UsageHintParamA => $"{DamageOverride}";
 

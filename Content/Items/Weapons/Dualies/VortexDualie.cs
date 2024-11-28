@@ -19,6 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         // Dualie specific
         public override string RollSample { get => "AchiGunBoost"; }
+        public override float RollInkCost { get => 10f; }
         public override int RollProjectileType => ModContent.ProjectileType<VortexDualieRollProjectile>();
         public override float PostRollDamageMod { get => 1.5f; }
         public override float PostRollAttackSpeedMod { get => 0.8f; }

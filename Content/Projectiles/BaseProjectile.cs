@@ -226,12 +226,12 @@ internal class BaseProjectile : ModProjectile
         var inkTankPlayer = GetOwner().GetModPlayer<InkTankPlayer>();
         if (weaponSource == null)
         {
-            inkTankPlayer.InkAmount -= inkCostOverride ?? 0;
+            inkTankPlayer.ConsumeInk(inkCostOverride ?? 0);
             inkTankPlayer.InkRecoveryDelay = inkDelayOverride ?? 0;
             return;
         }
 
-        inkTankPlayer.InkAmount -= inkCostOverride ?? weaponSource.InkCost;
+        inkTankPlayer.ConsumeInk(inkCostOverride ?? weaponSource.InkCost);
         inkTankPlayer.InkRecoveryDelay = inkCostOverride ?? Math.Max(weaponSource.InkRecoveryDelay, inkTankPlayer.InkRecoveryDelay);
 
         if (inkTankPlayer.InkAmount < 0)

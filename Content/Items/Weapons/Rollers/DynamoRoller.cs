@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class DynamoRoller : BaseRoller
     {
+        public override float InkCost { get => 20f; }
+
         public override float GroundWindUpDelayModifier => 2.1f;
         public override float GroundAttackVelocityModifier => 1.5f;
         public override float JumpWindUpDelayModifier => 2.8f;

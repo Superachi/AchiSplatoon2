@@ -21,6 +21,7 @@ namespace AchiSplatoon2.Content.Players
         public int postRollCooldown;
         public static int postRollCooldownDefault = 30;
 
+        private float rollInkCost = 0f;
         private int maxRolls;
         private int rollsLeft;
         private int maxRollCooldown;
@@ -85,6 +86,7 @@ namespace AchiSplatoon2.Content.Players
         public void GetDualieStats(BaseDualie dualieData)
         {
             UpdateMaxRolls(dualieData);
+            rollInkCost = dualieData.RollInkCost;
             rollDistance = dualieData.RollDistance;
             rollDuration = dualieData.RollDuration;
             rollSample = dualieData.RollSample;
@@ -190,6 +192,12 @@ namespace AchiSplatoon2.Content.Players
                     proj.rollDistance = rollDistance;
                     proj.rollDuration = rollDuration;
                     proj.RunSpawnMethods();
+
+                    var inkTankPlayer = Player.GetModPlayer<InkTankPlayer>();
+                    if (inkTankPlayer.HasEnoughInk(rollInkCost))
+                    {
+                        Player.GetModPlayer<InkTankPlayer>().ConsumeInk(rollInkCost);
+                    }
 
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);

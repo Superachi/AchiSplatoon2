@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 {
     internal class RollerSwingProjectile : BaseProjectile
     {
+        protected override bool ConsumeInkAfterSpawn => false;
+
         private string swingSample;
         private string windUpSample;
 
@@ -35,6 +37,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         private Player owner;
         private WeaponPlayer weaponPlayer;
+
+        private float rollInkCost = 0f;
 
         protected float SwingAngleDegrees
         {
@@ -70,6 +74,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             jumpWindUpDelayMod = weaponData.JumpWindUpDelayModifier;
             jumpAttackDamageMod = weaponData.JumpAttackDamageModifier;
             jumpAttackVelocityMod = weaponData.JumpAttackVelocityModifier;
+
+            rollInkCost = weaponData.InkCost / 40;
         }
 
         protected override void AfterSpawn()
@@ -184,6 +190,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     PlayAudio(windUpSample, pitchVariance: 0.1f, maxInstances: 5, pitch: -0.1f);
                     break;
                 case stateSwing:
+                    ConsumeInk();
+
                     Projectile.friendly = true;
                     PlayAudio(swingSample, pitchVariance: 0.1f, maxInstances: 5);
                     break;
@@ -289,6 +297,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                         Alpha: Main.rand.Next(0, 32),
                         newColor: GenerateInkColor(),
                         Scale: Main.rand.NextFloat(0.5f, 1f));
+                }
+
+                var inkTankPlayer = owner.GetModPlayer<InkTankPlayer>();
+                ConsumeInk(rollInkCost);
+
+                if (inkTankPlayer.HasNoInk())
+                {
+                    inkTankPlayer.CreateLowInkPopup();
+                    Projectile.Kill();
                 }
             }
             else

@@ -8,6 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class BaseRoller : BaseWeapon
     {
+        public override float InkCost { get => 12f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Roller;
         public virtual string WindUpSample { get => "Rollers/SwingMedium"; }
         public virtual string SwingSample { get => "Rollers/Fling1"; }
@@ -47,7 +48,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] == 0;
+            if (player.ownedProjectileCounts[Item.shoot] > 0) return false;
+            return base.CanUseItem(player);
         }
     }
 }

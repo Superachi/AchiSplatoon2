@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 
         // Dualie specific
         public override string RollSample { get => "Dualies/SplatDualieRoll"; }
+        public override float RollInkCost { get => 8f; }
         public override float PostRollDamageMod { get => 1.2f; }
         public override float PostRollAttackSpeedMod { get => 0.5f; }
         public override float PostRollAimMod { get => 0.25f; }

@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.useAnimation = Item.useTime;
             Item.noUseGraphic = true;
             Item.noMelee = true;
-            Item.value = Item.buyPrice(silver: 10);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Blue;
             Item.ammo = Item.type;
         }

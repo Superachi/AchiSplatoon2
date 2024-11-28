@@ -57,11 +57,6 @@ namespace AchiSplatoon2.Helpers
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
                     }
-
-                    if (heldItem is SplattershotJr)
-                    {
-                        damageModifier /= 2;
-                    }
                 }
                 if (debug) DebugHelper.PrintInfo($"Val after sub power bonuses: {damageModifier}");
             }

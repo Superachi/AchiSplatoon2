@@ -17,6 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float MuzzleOffsetPx { get; set; } = 50f;
 
         // Dualie specific
+        public override float RollInkCost { get => 3f; }
         public override int MaxRolls { get => 8; }
         public override float RollDistance { get => 15f; }
         public override float RollDuration { get => 15f; }
