@@ -5,6 +5,7 @@ BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
+InkCapacityBonus.Display: +{0}% ink capacity
 
 Hint: {
 	# ----------------------------------------
@@ -19,7 +20,7 @@ Hint: {
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
-	SplattershotJr: While equipped, sub weapons are free to use, but damage is halved
+	SplattershotJr: Increased ink tank capacity while equipped
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
@@ -1362,14 +1363,14 @@ Items: {
 	}
 
 	SplattershotJr: {
-		UsageHint: ""
+		UsageHint: "{$Hint.SplattershotJr}"
 		Flavor: Mods.AchiSplatoon2.Items.SplattershotJr.Flavor
 		DisplayName: Splattershot Jr.
 		Tooltip: ""
 	}
 
 	CustomSplattershotJr: {
-		UsageHint: ""
+		UsageHint: "{$Hint.SplattershotJr}"
 		Flavor: Mods.AchiSplatoon2.Items.CustomSplattershotJr.Flavor
 		DisplayName: Custom Splattershot Jr.
 		Tooltip: ""
@@ -1548,6 +1549,20 @@ Items: {
 		Flavor: Not a Splatoon weapon. For the toaster!
 		DisplayName: Honey Scepter
 		Tooltip: ""
+	}
+
+	EnchantedInkTank: {
+		UsageHint: Mods.AchiSplatoon2.Items.EnchantedInkTank.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.EnchantedInkTank.Flavor
+		DisplayName: Enchanted Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
+	}
+
+	InkTank: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkTank.UsageHint
+		Flavor: Woomy!
+		DisplayName: Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
 }
 

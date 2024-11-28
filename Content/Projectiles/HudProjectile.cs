@@ -109,6 +109,7 @@ namespace AchiSplatoon2.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             if (!IsThisClientTheProjectileOwner()) return false;
+            if (_owner.dead) return false;
 
             // Prepare to draw
             barBack = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankBack").Value;
@@ -146,16 +147,19 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)verticalSize),
                 ColorHelper.LerpBetweenColorsPerfect(finalColor, Color.White, 0.2f) * _InkTankAlpha);
 
-            return false;
 
-            //Utils.DrawBorderString(
-            //     Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0.0")}%", position + new Vector2(0, 40),
-            //     ColorHelper.ColorWithAlpha(Color.Gray, 6),
-            //     anchorx: 0.5f);
+            Utils.DrawBorderString(
+                 Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0")}%", position + new Vector2(0, 40),
+                 Color.White * _InkTankAlpha,
+                 anchorx: 0.5f);
+            return false;
         }
 
         public override void PostDraw(Color lightColor)
         {
+            if (!IsThisClientTheProjectileOwner()) return;
+            if (_owner.dead) return;
+
             Utils.DrawBorderString(
                 Main.spriteBatch,
                 _overheadText,

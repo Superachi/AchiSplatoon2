@@ -1,0 +1,44 @@
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Terraria.ID;
+using Terraria;
+using Terraria.Localization;
+
+namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
+{
+    internal class InkTank : BaseAccessory
+    {
+        public virtual int CapacityBonus => 20;
+
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(CapacityBonus);
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+
+            Item.width = 32;
+            Item.height = 32;
+
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = ItemRarityID.Orange;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
+                inkTankPlayer.InkAmountMaxBonus += CapacityBonus;
+            }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddTile(TileID.WorkBenches)
+                .AddIngredient(ItemID.Glass, 10)
+                .AddIngredient(ItemID.BlackInk, 1)
+                .Register();
+        }
+    }
+}

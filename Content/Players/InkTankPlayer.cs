@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -16,6 +17,7 @@ namespace AchiSplatoon2.Content.Players
         public float InkRecoveryRate = 0.05f;
         public float InkRecoveryStillMult = 2f;
         public float InkRecoverySwimMult = 5f;
+        public float InkRecoveryEquipMult = 1f;
         public float InkRecoveryDelay = 0f;
 
         private bool _isSubmerged = false;
@@ -37,6 +39,20 @@ namespace AchiSplatoon2.Content.Players
             InkAmount = Math.Clamp(InkAmount, 0, InkAmountFinalMax);
         }
 
+        public override void ResetEffects()
+        {
+            InkAmountMaxBonus = 0f;
+            InkRecoveryEquipMult = 1f;
+        }
+
+        public override void PostUpdateEquips()
+        {
+            if (Player.HeldItem.ModItem is SplattershotJr jr)
+            {
+                InkAmountMaxBonus += jr.InkTankCapacityBonus;
+            }
+        }
+
         private void RecoverInk()
         {
             if (InkRecoveryDelay > 0)
@@ -55,7 +71,7 @@ namespace AchiSplatoon2.Content.Players
                 var stillMult = Player.velocity.Length() < 1 ? InkRecoveryStillMult : 1f;
                 var swimMult = _isSubmerged ? InkRecoverySwimMult : 1f;
 
-                InkAmount += InkRecoveryRate * stillMult * swimMult;
+                InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
             }
         }
 

@@ -11,6 +11,8 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
@@ -178,7 +180,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 if (BonusType == SubWeaponBonusType.Discount)
                 {
-                    var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{ColorHelper.TextWithBonusColor($"{(int)(SubBonusAmount * 100f)}% chance to not consume {GetSubWeaponName(BonusSub)}")}") { OverrideColor = null };
+                    var tooltip = new TooltipLine(Mod, $"SubWeaponDiscountTooltip", $"{ColorHelper.TextWithBonusColor($"{GetSubWeaponName(BonusSub)} uses {(int)(SubBonusAmount * 100f)}% less ink")}") { OverrideColor = null };
                     tooltips.Add(tooltip);
                 }
 
@@ -326,47 +328,63 @@ namespace AchiSplatoon2.Content.Items.Weapons
             {
                 for (int j = 0; j < subWeaponItemIDs.Length; j++)
                 {
-                    if (!doneSearching)
+                    if (doneSearching) continue;
+
+                    var item = player.inventory[54 + i];
+                    // Ammo slots range from 54-57
+                    // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
+                    if (item.type == subWeaponItemIDs[j])
                     {
-                        var item = player.inventory[54 + i];
-                        // Ammo slots range from 54-57
-                        // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
-                        if (item.type == subWeaponItemIDs[j])
+                        var bomb = (BaseBomb)item.ModItem;
+                        var inkCostPostDiscount = bomb.InkCost;
+
+                        if (BonusSub != SubWeaponType.None)
                         {
-                            var bomb = (BaseBomb)item.ModItem;
-
-                            if (!player.GetModPlayer<InkTankPlayer>().HasEnoughInk(bomb.InkCost))
+                            SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
+                            if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
                             {
-                                doneSearching = true;
-                                break;
+                                inkCostPostDiscount = bomb.InkCost * (1 - SubBonusAmount);
                             }
+                        }
 
-                            // Calculate throw angle and spawn projectile
-                            float aimAngle = MathHelper.ToDegrees(
-                                player.DirectionTo(Main.MouseWorld).ToRotation()
-                            );
-
-                            float radians = MathHelper.ToRadians(aimAngle);
-                            Vector2 angleVector = radians.ToRotationVector2();
-                            Vector2 velocity = angleVector;
-                            var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
-
-                            var p = CreateProjectileWithWeaponProperties(
-                                player: player,
-                                source: source,
-                                velocity: velocity * item.shootSpeed,
-                                weaponType: (BaseWeapon)item.ModItem,
-                                triggerSpawnMethods: false
-                                );
-                            p.Projectile.position = player.Center;
-                            p.itemIdentifier = item.type;
-                            p.RunSpawnMethods();
-
-                            player.itemTime = item.useTime;
-
+                        var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
+                        if (!inkTankPlayer.HasEnoughInk(inkCostPostDiscount))
+                        {
                             doneSearching = true;
                             break;
                         }
+
+                        if (bomb.InkCost - inkCostPostDiscount > 0)
+                        {
+                            inkTankPlayer.HealInk(bomb.InkCost - inkCostPostDiscount);
+                        }
+
+                        // Calculate throw angle and spawn projectile
+                        float aimAngle = MathHelper.ToDegrees(
+                            player.DirectionTo(Main.MouseWorld).ToRotation()
+                        );
+
+                        float radians = MathHelper.ToRadians(aimAngle);
+                        Vector2 angleVector = radians.ToRotationVector2();
+                        Vector2 velocity = angleVector;
+                        var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
+
+                        var p = CreateProjectileWithWeaponProperties(
+                            player: player,
+                            source: source,
+                            velocity: velocity * item.shootSpeed,
+                            weaponType: (BaseWeapon)item.ModItem,
+                            triggerSpawnMethods: false
+                            );
+                        p.Projectile.position = player.Center;
+                        p.itemIdentifier = item.type;
+                        p.weaponSourcePrefix = item.prefix;
+                        p.RunSpawnMethods();
+
+                        player.itemTime = item.useTime;
+
+                        doneSearching = true;
+                        break;
                     }
                 }
             }

@@ -229,7 +229,7 @@ internal class BaseProjectile : ModProjectile
         OriginalInkCost = WeaponInstance?.InkCost ?? 0;
         currentInkCost = OriginalInkCost;
 
-        if (weaponSourcePrefix != -1)
+        if (weaponSourcePrefix > 0)
         {
             var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
 

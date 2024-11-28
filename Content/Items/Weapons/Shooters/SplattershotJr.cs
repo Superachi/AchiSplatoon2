@@ -8,7 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplattershotJr : BaseSplattershot
     {
-        public override float InkCost { get => 0.4f; }
+        public override float InkCost { get => 0.7f; }
+        public virtual float InkTankCapacityBonus { get => 40f; }
 
         public override float ShotGravity { get => 0.4f; }
         public override int ShotGravityDelay { get => 4; }
