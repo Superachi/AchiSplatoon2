@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         private void SpawnOrderWeapons(Player player)
         {
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SplatBomb>(), 10);
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SplatBomb>());
 
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ChipPalette>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipAqua>());
