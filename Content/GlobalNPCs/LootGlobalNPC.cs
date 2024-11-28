@@ -80,30 +80,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
                     RareLootDropPlayerFeedback(npc);
                 }
-
-                // Sub weapon drop chance
-                if (Main.rand.NextBool((int)(80f * chanceModifier)))
-                {
-                    int stackSize;
-                    if (!Main.hardMode) stackSize = Main.rand.Next(5, 10);
-                    else stackSize = Main.rand.Next(10, 20);
-
-                    var subWeapons = new List<int>
-                    {
-                        ModContent.ItemType<SplatBomb>(),
-                        ModContent.ItemType<BurstBomb>(),
-                        ModContent.ItemType<AngleShooter>(),
-                        ModContent.ItemType<Sprinkler>(),
-                    };
-
-                    int droppedSub = Main.rand.NextFromCollection<int>(subWeapons);
-                    Item.NewItem(
-                        source: npc.GetSource_Loot(),
-                        position: npc.Center,
-                        Type: droppedSub,
-                        Stack: stackSize
-                    );
-                }
             }
         }
 
