@@ -48,6 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            CalculateChargeInkCost();
 
             if (IsThisClientTheProjectileOwner())
             {
