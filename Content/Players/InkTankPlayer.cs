@@ -120,6 +120,7 @@ namespace AchiSplatoon2.Content.Players
             {
                 _lowInkMessageCooldown = 120;
                 Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink!", 90, Color.Yellow);
+                SoundHelper.PlayAudio("EmptyInkTank", volume: 0.5f);
             }
         }
     }
