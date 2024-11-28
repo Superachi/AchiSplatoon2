@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class ReefluxStringer : TriStringer
     {
+        public override float InkCost { get => 0.7f; }
+
         public override float[] ChargeTimeThresholds { get => [20f, 40f]; }
         public override float ShotgunArc { get => 5f; }
         public override int ProjectileCount { get => 3; }

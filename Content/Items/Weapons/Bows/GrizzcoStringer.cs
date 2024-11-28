@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class GrizzcoStringer : TriStringer
     {
+        public override float InkCost { get => 2f; }
+
         public override float[] ChargeTimeThresholds { get => [30f, 62f]; }
         public override float ShotgunArc { get => 110f; }
         public override int ProjectileCount { get => 9; }

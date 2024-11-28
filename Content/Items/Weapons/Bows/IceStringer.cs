@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
     internal class IceStringer : BaseStringer
     {
+        public override float InkCost { get => 2f; }
+
         public override float[] ChargeTimeThresholds { get => [20f, 40f]; }
         public override string ShootSample { get => "BambooChargerShoot"; }
         public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
@@ -23,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 190;
+            Item.damage = 200;
             Item.width = 36;
             Item.height = 82;
             Item.knockBack = 8;
