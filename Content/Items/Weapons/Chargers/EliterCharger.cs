@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class EliterCharger : SplatCharger
     {
-        public override float InkCost { get => 3f; }
+        public override float InkCost { get => 2.4f; }
 
         public override string ShootSample { get => "EliterChargerShoot"; }
         public override string ShootWeakSample { get => "EliterChargerShootWeak"; }

@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Dot96Gal : Dot52Gal
     {
-        public override float InkCost { get => 3f; }
+        public override float InkCost { get => 3.5f; }
 
         public override int DamageOverride => 96;
         public override string ShootSample { get => "Dot52GalShoot"; }
@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<Dot52GalProjectile>(),
-                singleShotTime: 13,
+                singleShotTime: 12,
                 shotVelocity: 9f);
 
             Item.damage = 96;
