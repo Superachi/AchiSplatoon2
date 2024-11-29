@@ -21,7 +21,15 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
             CreateRecipe()
                 .AddTile(TileID.WorkBenches)
                 .AddIngredient(ModContent.ItemType<InkTank>())
-                .AddIngredient(ItemID.FallenStar, 15)
+                .AddIngredient(ItemID.FallenStar, 5)
+                .AddIngredient(ItemID.DemoniteBar, 5)
+                .Register();
+
+            CreateRecipe()
+                .AddTile(TileID.WorkBenches)
+                .AddIngredient(ModContent.ItemType<InkTank>())
+                .AddIngredient(ItemID.FallenStar, 5)
+                .AddIngredient(ItemID.CrimtaneBar, 5)
                 .Register();
         }
     }

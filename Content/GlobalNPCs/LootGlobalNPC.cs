@@ -235,12 +235,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             {
                 npcLoot.Add(ItemDropRule.Common(
                     ModContent.ItemType<SquidBoomerang>(),
-                    chanceDenominator: 5));
+                    chanceDenominator: 10));
 
                 npcLoot.Add(ItemDropRule.Common(
-                    ItemID.Coral,
-                    chanceDenominator: 2,
-                    minimumDropped: 2,
+                    ModContent.ItemType<InkDroplet>(),
+                    chanceDenominator: 5,
+                    minimumDropped: 1,
                     maximumDropped: 5));
             }
 

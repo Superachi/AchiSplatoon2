@@ -3,6 +3,8 @@ using AchiSplatoon2.Helpers;
 using Terraria.ID;
 using Terraria;
 using Terraria.Localization;
+using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 
 namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
@@ -37,7 +39,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
             CreateRecipe()
                 .AddTile(TileID.WorkBenches)
                 .AddIngredient(ItemID.Glass, 10)
-                .AddIngredient(ItemID.BlackInk, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
                 .Register();
         }
     }
