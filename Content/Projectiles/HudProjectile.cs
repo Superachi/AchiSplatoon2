@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected override void AfterSpawn()
         {
-            base.AfterSpawn();
+            dissolvable = false;
             _owner = GetOwner();
         }
 

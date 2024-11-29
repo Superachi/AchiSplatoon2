@@ -15,10 +15,13 @@ namespace AchiSplatoon2.Content.Players
         public float InkAmountMaxBonus = 0f;
         public float InkAmountFinalMax => InkAmountBaseMax + InkAmountMaxBonus;
 
-        public float InkRecoveryRate = 0.05f;
-        public float InkRecoveryStillMult = 2f;
+        public float InkRecoveryRate = 0.1f;
+        public float InkRecoveryStillMult = 1.5f;
         public float InkRecoverySwimMult = 5f;
         public float InkRecoveryDelay = 0f;
+
+        public int DropletCooldown = 0;
+        public int DropletCooldownMax = 180;
 
         private bool _isSubmerged = false;
         private int _lowInkMessageCooldown = 0;
@@ -31,6 +34,7 @@ namespace AchiSplatoon2.Content.Players
         public override void PreUpdate()
         {
             if (_lowInkMessageCooldown > 0) _lowInkMessageCooldown--;
+            if (DropletCooldown > 0) DropletCooldown--;
 
             _isSubmerged = Player.GetModPlayer<SquidPlayer>().IsSquid();
 
@@ -98,9 +102,9 @@ namespace AchiSplatoon2.Content.Players
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f)));
         }
 
-        public void ConsumeInk(float amount)
+        public void ConsumeInk(float amount, float inkSaverModifier = 0f)
         {
-            InkAmount -= amount;
+            InkAmount -= amount / (1 + inkSaverModifier);
         }
 
         public float InkQuotient()
@@ -126,6 +130,11 @@ namespace AchiSplatoon2.Content.Players
         public bool HasNoInk()
         {
             return InkAmount <= 0;
+        }
+
+        public void ResetDropletCooldown()
+        {
+            DropletCooldown = DropletCooldownMax;
         }
 
         public void CreateLowInkPopup()

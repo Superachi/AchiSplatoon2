@@ -117,6 +117,8 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            base.OnHitNPC(target, hit, damageDone);
+
             if (!countedForBurst)
             {
                 countedForBurst = true;

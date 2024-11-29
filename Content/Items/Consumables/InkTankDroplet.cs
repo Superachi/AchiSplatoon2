@@ -1,0 +1,111 @@
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Terraria.ID;
+using Terraria;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using AchiSplatoon2.Content.Dusts;
+using Terraria.ModLoader;
+
+namespace AchiSplatoon2.Content.Items.Consumables
+{
+    internal class InkTankDroplet : BaseItem
+    {
+        private Color _inkColor = Color.Orange;
+        private int _timeSpentAlive = 0;
+        private float _alphaMod = 1f;
+        private float _lightAmount = 0.005f;
+
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.IgnoresEncumberingStone[Item.type] = true;
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 32;
+            Item.height = 32;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.useAnimation = 17;
+            Item.useTime = Item.useAnimation;
+            Item.useTurn = true;
+            Item.UseSound = SoundID.Item3;
+            Item.maxStack = Item.CommonMaxStack;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+        }
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+
+            SoundHelper.PlayAudio(SoundID.Item154, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            gravity *= 0.5f;
+            maxFallSpeed *= 0.5f;
+
+            var lightCol = _inkColor * _lightAmount;
+            Lighting.AddLight(Item.position, lightCol.R, lightCol.G, lightCol.B);
+
+            _timeSpentAlive++;
+            if (_timeSpentAlive > 1500)
+            {
+                _alphaMod -= 0.05f;
+                if (_alphaMod <= 0)
+                {
+                    Item.TurnToAir(true);
+                    Item.active = false;
+                }
+            }
+
+            if (_timeSpentAlive % 10 == 0)
+            {
+                Dust.NewDustPerfect(
+                    Position: Item.Center + Main.rand.NextVector2Circular(15, 15),
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: new Vector2(0, -Main.rand.NextFloat(3, 5)),
+                    newColor: _inkColor,
+                    Scale: 1.0f);
+            }
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            return Consume(player);
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            Consume(player);
+            SoundHelper.PlayAudio(SoundID.Item87, 0.5f, 0.2f, 10, 0.2f, Main.LocalPlayer.Center);
+
+            return false;
+        }
+
+        public override bool CanPickup(Player player)
+        {
+            return base.CanPickup(player);
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return ColorHelper.ColorWithAlpha255(_inkColor) * _alphaMod;
+        }
+
+        private bool Consume(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
+                inkTankPlayer.HealInk(inkTankPlayer.InkAmountFinalMax / 2);
+
+                return true;
+            }
+
+            return false;
+        }
+    }
+}

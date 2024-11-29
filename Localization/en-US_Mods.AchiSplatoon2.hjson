@@ -1578,6 +1578,12 @@ Items: {
 		DisplayName: Ink Regeneration Potion
 		Tooltip: ""
 	}
+	InkTankDroplet: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkTankDroplet.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkTankDroplet.Flavor
+		DisplayName: Ink Droplet
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

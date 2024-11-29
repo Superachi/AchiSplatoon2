@@ -1,8 +1,8 @@
-﻿using AchiSplatoon2.Helpers;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 
 namespace AchiSplatoon2.Content.Items.Consumables.Potions
 {
@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
         {
             CreateRecipe()
                 .AddIngredient(ItemID.BottledWater, 1)
-                .AddIngredient(ItemID.Coral, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 1)
                 .AddIngredient(ItemID.FallenStar, 1)
                 .AddIngredient(ItemID.GlowingMushroom, 1)
                 .AddTile(TileID.Bottles)

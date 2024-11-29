@@ -1,7 +1,9 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.GlobalNPCs;
 using AchiSplatoon2.Content.GlobalProjectiles;
+using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
@@ -157,6 +159,16 @@ internal class BaseProjectile : ModProjectile
 
     public void RunSpawnMethods()
     {
+        if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
+        {
+            Projectile.velocity = Vector2.Zero;
+        }
+
+        if (float.IsNaN(Projectile.position.X) || float.IsNaN(Projectile.position.Y))
+        {
+            Projectile.position = GetOwner().Center;
+        }
+
         if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
         {
             DebugHelper.PrintWarning($"Projectile '{Name}' has NaN value in its velocity");
@@ -489,7 +501,9 @@ internal class BaseProjectile : ModProjectile
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
+        var owner = GetOwner();
         bool canGetSpecialPoints = true;
+
         if ((target.friendly)
             || (target.type == NPCID.TargetDummy)
             || (target.SpawnedFromStatue)
@@ -511,7 +525,6 @@ internal class BaseProjectile : ModProjectile
 
         if (target.life <= 0)
         {
-            var owner = GetOwner();
             var colorChipPlayer = owner.GetModPlayer<ColorChipPlayer>();
 
             if (!IsTargetEnemy(target)) return;
@@ -562,6 +575,20 @@ internal class BaseProjectile : ModProjectile
                     CreateLuckyBombCluster();
                 }
                 luckyBombChance--;
+            }
+        }
+
+        var inkTankPlayer = GetOwnerModPlayer<InkTankPlayer>();
+        bool isCooldownDepleted = inkTankPlayer.DropletCooldown == 0;
+        bool isBoss = target.boss;
+        bool otherChecks = isBoss || (target.life <= 0 && Main.rand.NextBool(3)) || Main.rand.NextBool(30);
+
+        if (!inkTankPlayer.HasMaxInk() && IsTargetEnemy(target, true) && isCooldownDepleted && otherChecks)
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                inkTankPlayer.ResetDropletCooldown();
+                Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }
         }
     }

@@ -7,6 +7,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
 {
     internal class CannedSpecial : BaseItem
     {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.IgnoresEncumberingStone[Item.type] = true;
+        }
+
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -19,7 +24,6 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(gold: 1);
         }
 
         public override bool? UseItem(Player player)
