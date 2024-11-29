@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             base.SetDefaults();
             Item.shoot = ModContent.ProjectileType<BurstBombProjectile>();
-            Item.damage = 50;
+            Item.damage = 40;
             Item.knockBack = 6;
             Item.useTime = 20;
             Item.useAnimation = Item.useTime;
