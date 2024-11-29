@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class L3Nozzlenose : BaseSplattershot
     {
-        public override float InkCost { get => 4f; }
+        public override float InkCost { get => 3f; }
 
         public virtual float ShotVelocity { get => 8f; }
         public virtual int BurstShotTime { get => 4; }

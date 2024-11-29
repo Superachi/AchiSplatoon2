@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class RapidBlaster : Blaster
     {
+        public override float InkCost { get => 6.5f; }
+
         public override int ExplosionRadiusAir { get => 160; }
         public override float ExplosionDelayInit { get => 15f; }
 

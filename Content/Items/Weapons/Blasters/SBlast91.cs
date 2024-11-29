@@ -5,8 +5,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class SBlast91 : SBlast92
     {
-        public override float InkCost { get => 12f; }
-
         public override void SetDefaults()
         {
             base.SetDefaults();

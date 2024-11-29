@@ -5,7 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaStamper : BaseSplatana
     {
-        public override float InkCost { get => 2f; }
+        public override float InkCost { get => 0.8f; }
 
         public override string ShootSample { get => "Splatana/StamperStrongSlash"; }
         public override string ShootWeakSample { get => "Splatana/StamperWeakSlash"; }

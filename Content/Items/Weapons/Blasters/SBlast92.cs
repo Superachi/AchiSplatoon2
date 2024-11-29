@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class SBlast92 : Blaster
     {
+        public override float InkCost { get => 10f; }
+
         public override string ShootAltSample { get => "SBlastShoot"; }
         public override int ExplosionRadiusAir { get => 240; }
         public override float ExplosionDelayInit { get => 12f; }

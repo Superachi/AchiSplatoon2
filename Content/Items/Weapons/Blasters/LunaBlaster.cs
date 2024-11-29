@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class LunaBlaster : Blaster
     {
+        public override float InkCost { get => 6.5f; }
+
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 280; }
         public override float ExplosionDelayInit { get => 10f; }

@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class EelSplatana : BaseSplatana
     {
-        public override float InkCost { get => 3f; }
+        public override float InkCost { get => 2f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
 
         public override string ShootSample { get => "Splatana/StamperStrongSlash"; }

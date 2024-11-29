@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brush;
         public override float InkCost { get => 1f; }
-        public override float InkRecoveryDelay { get => 12f; }
+        public override float InkRecoveryDelay { get => 30f; }
 
         public override float AimDeviation { get => 12f; }
         public override string ShootSample { get => "BrushShoot"; }
