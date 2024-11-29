@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using AchiSplatoon2.Content.Dusts;
 using Terraria.ModLoader;
+using System;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {
@@ -15,6 +16,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         private int _timeSpentAlive = 0;
         private float _alphaMod = 1f;
         private float _lightAmount = 0.005f;
+        private float _lifeTime = 1500;
 
         public override void SetStaticDefaults()
         {
@@ -38,38 +40,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         public override void OnSpawn(IEntitySource source)
         {
             _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-
             SoundHelper.PlayAudio(SoundID.Item154, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            gravity *= 0.5f;
-            maxFallSpeed *= 0.5f;
-
-            var lightCol = _inkColor * _lightAmount;
-            Lighting.AddLight(Item.position, lightCol.R, lightCol.G, lightCol.B);
-
-            _timeSpentAlive++;
-            if (_timeSpentAlive > 1500)
-            {
-                _alphaMod -= 0.05f;
-                if (_alphaMod <= 0)
-                {
-                    Item.TurnToAir(true);
-                    Item.active = false;
-                }
-            }
-
-            if (_timeSpentAlive % 10 == 0)
-            {
-                Dust.NewDustPerfect(
-                    Position: Item.Center + Main.rand.NextVector2Circular(15, 15),
-                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                    Velocity: new Vector2(0, -Main.rand.NextFloat(3, 5)),
-                    newColor: _inkColor,
-                    Scale: 1.0f);
-            }
         }
 
         public override bool? UseItem(Player player)
@@ -85,16 +56,6 @@ namespace AchiSplatoon2.Content.Items.Consumables
             return false;
         }
 
-        public override bool CanPickup(Player player)
-        {
-            return base.CanPickup(player);
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return ColorHelper.ColorWithAlpha255(_inkColor) * _alphaMod;
-        }
-
         private bool Consume(Player player)
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
@@ -106,6 +67,76 @@ namespace AchiSplatoon2.Content.Items.Consumables
             }
 
             return false;
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            var lightCol = _inkColor * _lightAmount;
+            Lighting.AddLight(Item.position, lightCol.R, lightCol.G, lightCol.B);
+
+            _timeSpentAlive++;
+            if (_timeSpentAlive > _lifeTime)
+            {
+                _alphaMod -= 0.05f;
+                if (_alphaMod <= 0)
+                {
+                    Item.TurnToAir(true);
+                    Item.active = false;
+                }
+            }
+
+            if (_timeSpentAlive % 10 == 0)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    Dust.NewDustPerfect(
+                        Position: Item.Center + Main.rand.NextVector2Circular(15, 15),
+                        Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                        Velocity: new Vector2(0, -Main.rand.NextFloat(3, 5)),
+                        newColor: _inkColor,
+                        Scale: 1.0f);
+                }
+                    
+                if (Main.rand.NextBool(5))
+                {
+                    var dust = Dust.NewDustPerfect(
+                        Position: Item.Center + Main.rand.NextVector2Circular(15, 15),
+                        Type: DustID.AncientLight,
+                        Velocity: Vector2.Zero,
+                        newColor: _inkColor,
+                        Scale: 1.0f);
+                    dust.noGravity = true;
+                    dust.noLight = true;
+                    dust.noLightEmittence = true;
+                }
+            }
+        }
+
+        public override void GrabRange(Player player, ref int grabRange)
+        {
+            grabRange = 300;
+        }
+
+        public override bool GrabStyle(Player player)
+        {
+            Item.velocity += Item.Center.DirectionTo(player.Center);
+
+            if (Item.velocity.Length() > 5f)
+            {
+                Item.velocity *= 0.9f;
+            }
+
+            return true;
+        }
+
+        public override bool CanPickup(Player player)
+        {
+            return base.CanPickup(player);
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return ColorHelper.ColorWithAlpha255(_inkColor) * _alphaMod;
         }
     }
 }

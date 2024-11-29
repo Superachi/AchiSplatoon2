@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void OnEnterWorld()
         {
-            InkAmount = InkAmountBaseMax;
+            InkAmount = InkAmountFinalMax;
         }
 
         public override void PreUpdate()
