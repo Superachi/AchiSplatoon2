@@ -233,12 +233,15 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (npc.type == NPCID.Squid)
             {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 5));
-            }
+                npcLoot.Add(ItemDropRule.Common(
+                    ModContent.ItemType<SquidBoomerang>(),
+                    chanceDenominator: 5));
 
-            if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SquidBoomerang>(), 25));
+                npcLoot.Add(ItemDropRule.Common(
+                    ItemID.Coral,
+                    chanceDenominator: 2,
+                    minimumDropped: 2,
+                    maximumDropped: 5));
             }
 
             if (npc.FullName.ToLowerInvariant().Contains("hornet") && npc.type != NPCID.VortexHornet && npc.type != NPCID.VortexHornetQueen)
