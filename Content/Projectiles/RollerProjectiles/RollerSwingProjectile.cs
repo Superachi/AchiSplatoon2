@@ -105,7 +105,9 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         public override void AI()
         {
             Player owner = GetOwner();
-            if (owner.dead)
+            var squidMP = owner.GetModPlayer<SquidPlayer>();
+
+            if (owner.dead || squidMP.IsSquid())
             {
                 Projectile.Kill();
                 return;
