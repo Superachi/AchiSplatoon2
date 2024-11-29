@@ -1564,6 +1564,20 @@ Items: {
 		DisplayName: Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
+
+	InkCapacityPotion: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkCapacityPotion.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkCapacityPotion.Flavor
+		DisplayName: Ink Capacity Potion
+		Tooltip: ""
+	}
+
+	InkRegenerationPotion: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkRegenerationPotion.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkRegenerationPotion.Flavor
+		DisplayName: Ink Regeneration Potion
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1698,8 +1712,18 @@ Buffs: {
 	}
 
 	SwimFormBuff: {
-		DisplayName: Tentacular
+		DisplayName: Swim form
 		Description: You recover ink faster, and take no fall damage. Water cancels this buff!
+	}
+
+	InkCapacityBuff: {
+		DisplayName: Ink capacity up
+		Description: Your ink tank can now hold {0}% more ink
+	}
+
+	InkRegenerationBuff: {
+		DisplayName: Super ink recovery
+		Description: You always recover ink at the same speed as when in swim form
 	}
 }
 

@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Helpers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
@@ -25,6 +24,17 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.rare = ItemRarityID.Blue;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.BottledWater, 1)
+                .AddIngredient(ItemID.Coral, 1)
+                .AddIngredient(ItemID.FallenStar, 1)
+                .AddIngredient(ItemID.Fireblossom, 1)
+                .AddTile(TileID.Bottles)
+                .Register();
         }
     }
 }
