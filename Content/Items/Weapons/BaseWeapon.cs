@@ -315,6 +315,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             bool doneSearching = false;
 
             int[] subWeaponItemIDs = {
+                ModContent.ItemType<StarterSplatBomb>(),
                 ModContent.ItemType<SplatBomb>(),
                 ModContent.ItemType<BurstBomb>(),
                 ModContent.ItemType<AngleShooter>(),

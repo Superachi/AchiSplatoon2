@@ -1592,6 +1592,13 @@ Items: {
 		DisplayName: Ink Droplet
 		Tooltip: ""
 	}
+
+	StarterSplatBomb: {
+		UsageHint: Detonates shortly after hitting the ground
+		Flavor: Mods.AchiSplatoon2.Items.StarterSplatBomb.Flavor
+		DisplayName: Splat Bomb Jr.
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

@@ -10,8 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
 {
     internal class BaseBomb : BaseWeapon
     {
-        public override float InkCost { get => 60f; }
-        public override float InkRecoveryDelay { get => 30f; }
+        public override float InkCost { get => 70f; }
+        public override float InkRecoveryDelay { get => 60f; }
 
         public virtual int ExplosionRadius { get => 100; }
         public virtual int MaxBounces { get => 12; }
