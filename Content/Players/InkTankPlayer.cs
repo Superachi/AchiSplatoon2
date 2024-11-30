@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Players
         public float InkRecoveryDelay = 0f;
 
         public int DropletCooldown = 0;
-        public int DropletCooldownMax = 180;
+        public int DropletCooldownMax = 300;
 
         private bool _isSubmerged = false;
         private int _lowInkMessageCooldown = 0;
