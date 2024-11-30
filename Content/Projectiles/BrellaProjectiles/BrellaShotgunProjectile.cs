@@ -8,14 +8,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {
     internal class BrellaShotgunProjectile : BaseProjectile
     {
-        private bool hasFired = false;
+        protected bool hasFired = false;
 
-        private int meleeProjectileType;
-        private int pelletProjectileType;
-        private int pelletCount;
+        protected int meleeProjectileType;
+        protected int pelletProjectileType;
+        protected int pelletCount;
         protected float shotSpeed;
-        private float shotgunArc;
-        private float shotVelocityRandomRange;
+        protected float shotgunArc;
+        protected float shotVelocityRandomRange;
 
         public int burstNPCTarget = -1;
         public int burstHitCount = 0;

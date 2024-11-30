@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                         Projectile.width,
                         Projectile.height,
                         DustID.RainbowTorch,
-                        newColor: GenerateInkColor(),
+                        newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(0.5f, 1f)
                     );
                     dust.noGravity = true;
@@ -142,7 +142,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             // Ink
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = GenerateInkColor();
+                Color dustColor = CurrentColor;
                 Dust.NewDustPerfect(deflectedProjectile.Center, ModContent.DustType<SplatterDropletDust>(),
                     Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
                     255, dustColor, Main.rand.NextFloat(0.5f, 1f));
@@ -151,7 +151,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             // Firework
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = GenerateInkColor();
+                Color dustColor = CurrentColor;
                 Dust.NewDustPerfect(deflectedProjectile.Center, DustID.FireworksRGB,
                     Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
                     255, dustColor, Main.rand.NextFloat(0.5f, 1f));
