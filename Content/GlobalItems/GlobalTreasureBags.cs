@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.GlobalItems
                 );
             }
 
-            if (item.type == ItemID.EaterOfWorldsBossBag || item.type == ItemID.BrainOfCthulhuBossBag)
+            if (item.type == ItemID.SkeletronBossBag)
             {
                 itemLoot.Add(
                     ItemDropRule.Common(ModContent.ItemType<DroneDiscA>())
