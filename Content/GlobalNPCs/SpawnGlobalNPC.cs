@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         {
             if (spawnInfo.Water)
             {
-                pool.Add(NPCID.Squid, 0.2f);
+                pool.Add(NPCID.Squid, 0.1f);
             }
         }
     }
