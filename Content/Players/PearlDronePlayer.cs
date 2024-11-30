@@ -50,6 +50,11 @@ namespace AchiSplatoon2.Content.Players
             UpdateDroneExistence();
         }
 
+        public override void OnRespawn()
+        {
+            UpdateDroneExistence();
+        }
+
         #region Saving/loading
 
         public override void SaveData(TagCompound tag)
