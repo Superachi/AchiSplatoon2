@@ -21,6 +21,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         public override void SetStaticDefaults()
         {
             ItemID.Sets.IgnoresEncumberingStone[Item.type] = true;
+            ItemID.Sets.IsAPickup[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -39,8 +40,21 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
         public override void OnSpawn(IEntitySource source)
         {
+            _alphaMod = 0.8f;
             _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
             SoundHelper.PlayAudio(SoundID.Item154, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
+
+            for (int i = 0; i < 10; i++)
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Item.Center,
+                    Type: DustID.FireworksRGB,
+                    Velocity: Main.rand.NextVector2CircularEdge(5, 5),
+                    newColor: _inkColor,
+                    Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                d.noGravity = true;
+                d.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
+            }
         }
 
         public override bool? UseItem(Player player)
@@ -114,7 +128,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
         public override void GrabRange(Player player, ref int grabRange)
         {
-            grabRange = 300;
+            grabRange = 200;
         }
 
         public override bool GrabStyle(Player player)

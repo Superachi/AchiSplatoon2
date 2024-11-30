@@ -581,7 +581,7 @@ internal class BaseProjectile : ModProjectile
         var inkTankPlayer = GetOwnerModPlayer<InkTankPlayer>();
         bool isCooldownDepleted = inkTankPlayer.DropletCooldown == 0;
         bool isBoss = target.boss;
-        bool otherChecks = isBoss || (target.life <= 0 && Main.rand.NextBool(10)) || Main.rand.NextBool(50);
+        bool otherChecks = isBoss || (target.life <= 0 && Main.rand.NextBool(20)) || Main.rand.NextBool(100);
 
         if (!inkTankPlayer.HasMaxInk() && IsTargetEnemy(target, true) && isCooldownDepleted && otherChecks)
         {

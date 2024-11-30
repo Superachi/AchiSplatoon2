@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Content.Players
             if (hideText) return;
 
             var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-            CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.2f)));
+            CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
         public void ConsumeInk(float amount, float inkSaverModifier = 0f)
