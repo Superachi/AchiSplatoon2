@@ -67,6 +67,7 @@ Hint: {
 		Undercover: The shield is weak, but recovers instantly when defeating an enemy
 		Recycle: The shield is weak, but recovers quickly
 		Martian: When the shield takes damage, it fires off a large lightning bolt
+		Plague: Creates a miasma that inflicts venom on enemies
 	}
 
 	# ----------------------------------------
@@ -306,7 +307,7 @@ Items: {
 
 	ColorChipEmpty: {
 		DisplayName: Color Chip (Empty)
-		Tooltip: Combine with a dye to unlock its power!
+		Tooltip: Combine with a Dye, Gem and Meteorite to unlock its power!
 	}
 
 	HeavySplatling: {
@@ -1599,6 +1600,13 @@ Items: {
 		DisplayName: Splat Bomb Jr.
 		Tooltip: ""
 	}
+
+	CorruptionBrella: {
+		UsageHint: "{$Hint.Brella.Plague}"
+		Flavor: Mods.AchiSplatoon2.Items.CorruptionBrella.Flavor
+		DisplayName: Plague Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
 }
 
 Projectiles: {
@@ -1709,6 +1717,9 @@ Projectiles: {
 	HoneyScepterProjectile.DisplayName: Honey Scepter Projectile
 	SquidFormProjectile.DisplayName: Squid Form Projectile
 	HudProjectile.DisplayName: Hud Projectile
+	CorruptionBrellaMeleeProjectile.DisplayName: Corruption Brella Melee Projectile
+	CorruptionBrellaPelletProjectile.DisplayName: Corruption Brella Pellet Projectile
+	CorruptionBrellaShotgunProjectile.DisplayName: Corruption Brella Shotgun Projectile
 }
 
 Buffs: {
