@@ -117,7 +117,12 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
-            var inkSpeedModifier = GetOwnerModPlayer<InkTankPlayer>().InkAmount > 0 ? 1f : 0.2f;
+            
+            var inkSpeedModifier = 1f;
+            if (!GetOwnerModPlayer<InkTankPlayer>().HasEnoughInk(currentInkCost))
+            {
+                inkSpeedModifier = 0.3f;
+            }
 
             var chargeIncrement = 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
             ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
