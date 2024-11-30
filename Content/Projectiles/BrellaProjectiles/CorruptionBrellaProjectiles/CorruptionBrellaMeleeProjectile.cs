@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaPr
     {
         protected override void AfterSpawn()
         {
-            colorOverride = Color.LimeGreen;
+            colorOverride = Color.Pink;
             base.AfterSpawn();
         }
 

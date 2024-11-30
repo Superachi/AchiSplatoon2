@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.damage = 10;
             Item.width = 54;
             Item.height = 64;
-            Item.knockBack = 12;
+            Item.knockBack = 9;
             Item.ArmorPenetration = 10;
 
             Item.value = Item.buyPrice(gold: 5);

@@ -12,8 +12,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaPr
         {
             base.AfterSpawn();
             dissolvable = false;
+
             Projectile.position = GetOwner().Center;
             _initialDirection = GetOwner().direction;
+
+            Projectile.knockBack = 0;
         }
 
         public override void SetDefaults()
