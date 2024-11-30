@@ -17,17 +17,23 @@ namespace AchiSplatoon2.Content.GlobalItems
         {
             if (item.type == ItemID.KingSlimeBossBag)
             {
-                ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>());
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>())
+                );
             }
 
-            if (item.type == ItemID.EyeOfCthulhuBossBag)
+            if (item.type == ItemID.EaterOfWorldsBossBag || item.type == ItemID.BrainOfCthulhuBossBag)
             {
-                ItemDropRule.Common(ModContent.ItemType<DroneDiscA>());
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<DroneDiscA>())
+                );
             }
 
             if (item.type == ItemID.WallOfFleshBossBag)
             {
-                ItemDropRule.Common(ModContent.ItemType<DroneDiscB>());
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<DroneDiscB>())
+                );
 
                 itemLoot.Add(
                     ItemDropRule.OneFromOptions(
