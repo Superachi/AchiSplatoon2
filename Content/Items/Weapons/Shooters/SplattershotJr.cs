@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 8,
                 shotVelocity: 4f);
 
-            Item.damage = 9;
+            Item.damage = 7;
             Item.width = 48;
             Item.height = 30;
             Item.knockBack = 0.5f;
@@ -37,6 +37,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipeMeteorite();
+        public override void AddRecipes() => AddRecipePostEOC();
     }
 }
