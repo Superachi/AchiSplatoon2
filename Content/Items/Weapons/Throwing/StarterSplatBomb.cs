@@ -1,4 +1,6 @@
-﻿namespace AchiSplatoon2.Content.Items.Weapons.Throwing
+﻿using Terraria;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Throwing
 {
     internal class StarterSplatBomb : SplatBomb
     {
@@ -8,6 +10,7 @@
             base.SetDefaults();
             Item.damage = 40;
             Item.knockBack = 6;
+            Item.value = Item.buyPrice(gold: 1);
         }
     }
 }
