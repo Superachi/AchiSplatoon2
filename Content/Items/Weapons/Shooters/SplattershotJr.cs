@@ -24,10 +24,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
-                singleShotTime: 8,
+                singleShotTime: 6,
                 shotVelocity: 4f);
 
-            Item.damage = 7;
+            Item.damage = 6;
             Item.width = 48;
             Item.height = 30;
             Item.knockBack = 0.5f;
@@ -37,6 +37,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipePostEOC();
+        public override void AddRecipes() => AddRecipeWithSheldonLicenseBasic();
     }
 }

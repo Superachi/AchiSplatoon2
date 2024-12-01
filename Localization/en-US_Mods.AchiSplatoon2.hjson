@@ -1600,6 +1600,34 @@ Items: {
 		DisplayName: Plague Brella
 		Tooltip: "{$BrellaPelletCount.Display}"
 	}
+
+	ClashBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClashBlaster.UsageHint
+		Flavor: It's so annoying to fight against!
+		DisplayName: Clash Blaster
+		Tooltip: ""
+	}
+
+	ClashBlasterNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClashBlasterNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ClashBlasterNeo.Flavor
+		DisplayName: Clash Blaster Neo
+		Tooltip: ""
+	}
+
+	ForgeSplattershotPro: {
+		UsageHint: Mods.AchiSplatoon2.Items.ForgeSplattershotPro.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ForgeSplattershotPro.Flavor
+		DisplayName: Forge Splattershot Pro
+		Tooltip: ""
+	}
+
+	SplattershotPro: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplattershotPro.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplattershotPro.Flavor
+		DisplayName: Splattershot Pro
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

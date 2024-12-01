@@ -37,6 +37,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipeOrichalcum();
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }
