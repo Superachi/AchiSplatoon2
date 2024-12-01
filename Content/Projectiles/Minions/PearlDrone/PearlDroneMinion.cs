@@ -6,6 +6,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -92,6 +93,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+
             sprinklerCooldown = sprinklerCooldownMax;
             burstBombCooldown = burstBombCooldownMax;
             healCooldown = healCooldownMax;
@@ -709,7 +712,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     }
                     break;
 
-                case EelSplatana:
+                case EelSplatanaWeapon:
                     strings.Add("You think Frye names each of her eels?");
                     break;
             }
