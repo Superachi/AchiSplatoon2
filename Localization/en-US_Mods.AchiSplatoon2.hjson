@@ -1279,7 +1279,7 @@ Items: {
 		Tooltip: ""
 	}
 
-	EelSplatana: {
+	EelSplatanaWeapon: {
 		Flavor: Say it with sizzle!
 		UsageHint: "{$Hint.EelSplatana}"
 		DisplayName: Moray Claymore
@@ -1563,14 +1563,14 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkCapacityPotion.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.InkCapacityPotion.Flavor
 		DisplayName: Ink Capacity Potion
-		Tooltip: ""
+		Tooltip: Increases ink capacity by 50%
 	}
 
 	InkRegenerationPotion: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkRegenerationPotion.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.InkRegenerationPotion.Flavor
 		DisplayName: Ink Regeneration Potion
-		Tooltip: ""
+		Tooltip: Boosts ink recovery to match the recovery speed in swim form
 	}
 
 	InkDroplet: {
@@ -1633,7 +1633,7 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkCrystal.UsageHint
 		Flavor: It reacts to the thoughts and feelings of humans.
 		DisplayName: Liquid Crystal
-		Tooltip: Increases your ink capacity by {0}% (up to {1} times)
+		Tooltip: Permanently increases your ink capacity by {0}% (up to {1} times)
 	}
 }
 

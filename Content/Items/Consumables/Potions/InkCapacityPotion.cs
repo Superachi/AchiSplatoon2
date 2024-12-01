@@ -3,11 +3,13 @@ using Terraria;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Consumables.Potions
 {
     internal class InkCapacityPotion : BaseItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(InkCapacityBuff.InkCapacityBonus);
         public override void SetDefaults()
         {
             Item.width = 32;
