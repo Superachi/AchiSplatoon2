@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -13,7 +14,7 @@ namespace AchiSplatoon2.Content.Players
         public float InkAmount = 0f;
         public float InkAmountBaseMax = 100f;
         public float InkAmountMaxBonus = 0f;
-        public float InkAmountFinalMax => InkAmountBaseMax + InkAmountMaxBonus;
+        public float InkAmountFinalMax => InkAmountBaseMax + InkAmountMaxBonus + _inkCrystalsUsed * ValuePerCrystal;
 
         public float InkRecoveryRate = 0.1f;
         public float InkRecoveryStillMult = 1.5f;
@@ -25,6 +26,12 @@ namespace AchiSplatoon2.Content.Players
 
         private bool _isSubmerged = false;
         private int _lowInkMessageCooldown = 0;
+
+        private int _inkCrystalsUsed = 0;
+        public static int InkCrystalsMax => 10;
+        public static int ValuePerCrystal => 5;
+
+        #region Built-in hooks
 
         public override void OnEnterWorld()
         {
@@ -63,6 +70,10 @@ namespace AchiSplatoon2.Content.Players
                 InkAmountMaxBonus += InkCapacityBuff.InkCapacityBonus;
             }
         }
+
+        #endregion
+
+        #region Ink management
 
         private void RecoverInk()
         {
@@ -137,6 +148,31 @@ namespace AchiSplatoon2.Content.Players
             DropletCooldown = DropletCooldownMax;
         }
 
+        public bool ConsumeInkCrystal()
+        {
+            if (_inkCrystalsUsed >= InkCrystalsMax)
+            {
+                _inkCrystalsUsed = InkCrystalsMax;
+
+                var hudPlayer = Player.GetModPlayer<HudPlayer>();
+
+                if (!hudPlayer.IsTextActive())
+                {
+                    hudPlayer.SetOverheadText("You can't use any more Liquid Crystals!", 90, Color.White);
+                    SoundHelper.PlayAudio("EmptyInkTank", volume: 0.5f);
+                }
+                return false;
+            }
+
+            _inkCrystalsUsed++;
+            HealInk(ValuePerCrystal);
+            return true;
+        }
+
+        #endregion
+
+        #region Interface
+
         public void CreateLowInkPopup()
         {
             if (_lowInkMessageCooldown == 0)
@@ -146,5 +182,21 @@ namespace AchiSplatoon2.Content.Players
                 SoundHelper.PlayAudio("EmptyInkTank", volume: 0.5f);
             }
         }
+
+        #endregion
+
+        #region Saving/loading
+
+        public override void SaveData(TagCompound tag)
+        {
+            tag[nameof(_inkCrystalsUsed)] = _inkCrystalsUsed;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            _inkCrystalsUsed = tag.GetInt(nameof(_inkCrystalsUsed));
+        }
+
+        #endregion
     }
 }

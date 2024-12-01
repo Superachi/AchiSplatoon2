@@ -1628,6 +1628,13 @@ Items: {
 		DisplayName: Splattershot Pro
 		Tooltip: ""
 	}
+
+	InkCrystal: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkCrystal.UsageHint
+		Flavor: It reacts to the thoughts and feelings of humans.
+		DisplayName: Liquid Crystal
+		Tooltip: Increases your ink capacity by {0}% (up to {1} times)
+	}
 }
 
 Projectiles: {

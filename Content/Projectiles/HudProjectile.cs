@@ -96,6 +96,11 @@ namespace AchiSplatoon2.Content.Projectiles
             _overheadTextColor = color ?? Color.White;
         }
 
+        public bool IsTextActive()
+        {
+            return _overheadTextDisplayTime > 0;
+        }
+
         public override bool? CanCutTiles()
         {
             return false;

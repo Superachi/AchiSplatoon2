@@ -38,5 +38,11 @@ namespace AchiSplatoon2.Content.Players
                 }
             }
         }
+
+        public bool IsTextActive()
+        {
+            if (_hudProjectile == null) return true;
+            return _hudProjectile.IsTextActive();
+        }
     }
 }
