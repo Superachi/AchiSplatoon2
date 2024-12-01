@@ -1,4 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -32,7 +34,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         protected override void AfterSpawn()
         {
             Initialize();
-            bulletColor = GenerateInkColor();
+            bulletColor = CurrentColor;
         }
 
         public override void AI()
@@ -44,7 +46,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             if (ProjectileDust && timeSpentAlive > 16)
             {
-                Color dustColor = GenerateInkColor();
+                Color dustColor = CurrentColor;
 
                 if (timeSpentAlive % 4 == 0)
                 {
@@ -70,7 +72,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     alpha = (float)Projectile.timeLeft / (float)timeLeftWhenFade;
                 }
                 float scale = 1f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 8)) * 0.1f;
-                DrawProjectile(bulletColor, rotation, scale: scale, alphaMod: alpha, considerWorldLight: false);
+                DrawProjectile(ColorHelper.ColorWithAlpha255(bulletColor), rotation, scale: scale, alphaMod: alpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
             }
 
             return false;

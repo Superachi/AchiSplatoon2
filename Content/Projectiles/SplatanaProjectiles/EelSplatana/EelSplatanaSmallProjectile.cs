@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             Projectile.penetrate = 2;
             enablePierceDamagefalloff = true;
             wormDamageReduction = true;
-            PlayAudio("BrushShootAlt", volume: 0.1f, pitchVariance: 0.3f, pitch: 1f, maxInstances: 3);
+            PlayAudio("BrushShootAlt", volume: 0.1f, pitchVariance: 0.3f, pitch: 0.5f, maxInstances: 3);
         }
 
         public override void AI()

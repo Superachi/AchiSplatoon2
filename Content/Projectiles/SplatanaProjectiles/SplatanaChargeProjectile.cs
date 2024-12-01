@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
@@ -39,6 +40,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             strongSlashProjectile = weaponData.StrongSlashProjectile;
 
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
+
+            if (WeaponInstance is EelSplatanaWeapon)
+            {
+                UpdateCurrentColor(ColorHelper.AddRandomHue(30, Color.MediumPurple));
+            }
         }
 
         protected override void AfterSpawn()

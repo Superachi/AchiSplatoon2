@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
-    internal class EelSplatana : BaseSplatana
+    internal class EelSplatanaWeapon : BaseSplatana
     {
-        public override float InkCost { get => 2f; }
+        public override float InkCost { get => 5f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
 
-        public override string ShootSample { get => "Splatana/StamperStrongSlash"; }
+        public override string ShootSample { get => "Silence"; }
         public override string ShootWeakSample { get => "Splatana/StamperWeakSlash"; }
         public override string ChargeSample { get => "Splatana/StamperCharge"; }
 

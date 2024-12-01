@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.FishronBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<EelSplatana>())
+                    ItemDropRule.Common(ModContent.ItemType<EelSplatanaWeapon>())
                 );
             }
 

@@ -1,14 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
     internal class EelSplatanaStrongSlashProjectile : SplatanaStrongSlashProjectile
     {
         protected override bool ProjectileDust => false;
-        protected override int FrameCount => 8;
-        protected override int FrameDelay => 3;
+        protected override int FrameCount => 6;
+        protected override int FrameDelay => 2;
 
         private float drawAlpha;
         private bool movementStuck = false;
@@ -22,8 +29,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Projectile.width = 24;
-            Projectile.height = 24;
+            Projectile.width = 20;
+            Projectile.height = 20;
         }
 
         public override void SetStaticDefaults()
@@ -45,6 +52,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             Projectile.frame = Main.rand.Next(FrameCount);
             drawAlpha = 0f;
             drawScale = 0.5f;
+
+            PlayAudio(SoundID.DD2_WyvernDiveDown, volume: 0.8f, pitchVariance: 0.3f, pitch: 0.5f, maxInstances: 10);
+            PlayAudio(SoundID.Item117, volume: 0.2f, pitchVariance: 0.3f, pitch: -0.5f, maxInstances: 10);
+            PlayAudio(SoundID.Item131, volume: 0.2f, pitchVariance: 0.3f, pitch: 0f, maxInstances: 10);
+            PlayAudio(SoundID.Drown, volume: 0.3f, pitchVariance: 0.3f, pitch: 0.5f, maxInstances: 10);
         }
 
         private void DespawnOtherTornados()
@@ -78,7 +90,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 if (drawScale < 2) drawScale += 1f / animationTime;
             }
 
-            if (Projectile.velocity.Length() > 1)
+            Projectile.velocity += Projectile.Center.DirectionTo(Main.MouseWorld) / 60f;
+            if (Projectile.velocity.Length() > 2)
             {
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, directionVector, 0.03f);
             }
@@ -90,7 +103,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 else
                 {
                     shootCooldown = shootSpeed * FrameSpeed();
-                    NPC target = FindClosestEnemy(500);
+                    NPC? target = FindClosestEnemy(500);
                     if (target != null && CanHitNPCWithLineOfSight(target))
                     {
                         var shotPosition = Projectile.Center + Main.rand.NextVector2Circular(32, 32);
@@ -100,6 +113,64 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                         CreateChildProjectile<EelSplatanaSmallProjectile>(shotPosition, targetDir * shotSpeed, Projectile.damage * 2);
                     }
                 }
+            }
+
+            // Visuals
+            Projectile.direction = Math.Sign(Projectile.velocity.X);
+            Projectile.rotation = MathHelper.Lerp(Projectile.rotation, Projectile.velocity.X * 0.1f, 0.1f);
+
+            if (Main.rand.NextBool(3))
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center + Vector2.UnitY * 10 + Main.rand.NextVector2Circular(20, 20),
+                    Type: ModContent.DustType<ChargerBulletDust>(),
+                    Velocity: WoomyMathHelper.AddRotationToVector2(-Vector2.UnitY * 3, -30, 30),
+                    newColor: ColorHelper.AddRandomHue(30, Color.MediumPurple),
+                    Scale: Main.rand.NextFloat(1f, 1.5f));
+            }
+
+            if (timeSpentAlive % 4 == 0)
+            {
+                var rect = new Rectangle(Projectile.Hitbox.Left - 30, Projectile.Hitbox.Top - 50, 80, 80);
+                var sparkleColor = Main.rand.NextBool(2) ? Color.Orange : Color.MediumPurple;
+                sparkleColor = ColorHelper.ColorWithAlpha255(sparkleColor);
+
+                if (Main.rand.NextBool(5))
+                {
+                    var d = Dust.NewDustPerfect(
+                        Position: Main.rand.NextVector2FromRectangle(rect),
+                        Type: DustID.AncientLight,
+                        Velocity: Vector2.Zero,
+                        newColor: sparkleColor,
+                        Scale: Main.rand.NextFloat(1f, 1.5f));
+
+                    d.noGravity = true;
+                }
+            }
+
+            // Audio
+            if (fading) return;
+
+            if (timeSpentAlive % 30 == 0)
+            {
+                PlayAudio(SoundID.Item131, volume: 0.2f, pitchVariance: 0.3f, pitch: -3f, maxInstances: 10);
+            }
+
+            if (timeSpentAlive % 40 == 0 && Main.rand.NextBool(2))
+            {
+                PlayAudio(SoundID.Drown, volume: 0.2f, pitchVariance: 0.3f, pitch: 0.8f, maxInstances: 10);
+            }
+
+            if (timeSpentAlive % 20 == 0 && Main.rand.NextBool(5))
+            {
+                List<SoundStyle> sounds = new()
+                {
+                    SoundID.Item85,
+                    SoundID.Item86,
+                    SoundID.Item87,
+                };
+
+                PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.2f, pitchVariance: 0.3f, pitch: 0f, maxInstances: 10);
             }
         }
 
@@ -117,8 +188,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 {
                     drawAlpha = Projectile.timeLeft / (float)timeLeftWhenFade;
                 }
-                float scale = drawScale + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.05f;
-                DrawProjectile(Color.White, rotation: 0, scale: scale, alphaMod: drawAlpha, considerWorldLight: false, positionOffset: new Vector2(0, -32));
+
+                float scale = drawScale;
+
+                DrawProjectile(
+                    Color.White,
+                    rotation: Projectile.rotation,
+                    scale: scale,
+                    alphaMod: drawAlpha,
+                    considerWorldLight: true,
+                    positionOffset: new Vector2(0, -16),
+                    flipSpriteSettings: (SpriteEffects)(Projectile.direction == 0 ? 0 : 1));
             }
 
             return false;
@@ -133,14 +213,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (Math.Abs(Projectile.position.X) - Math.Abs(previousPositionX) < 0.05f
-                && Math.Abs(Projectile.position.Y) - Math.Abs(previousPositionY) < 0.05f
-                && !movementStuck)
-            {
-                movementStuck = true;
-                Projectile.timeLeft /= 2;
-                Projectile.timeLeft = Math.Max(Projectile.timeLeft, timeLeftWhenFade);
-            }
             return false;
         }
     }

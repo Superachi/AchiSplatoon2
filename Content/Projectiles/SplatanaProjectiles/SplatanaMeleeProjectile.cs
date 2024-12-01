@@ -35,7 +35,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Initialize(isDissolvable: false);
             enablePierceDamagefalloff = false;
 
-            bulletColor = GenerateInkColor();
             Projectile.velocity = Vector2.Zero;
 
             swingDirection = GetOwner().direction;
@@ -66,7 +65,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
                     Type: ModContent.DustType<ChargerBulletDust>(),
                     Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    newColor: bulletColor,
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(1.0f, 1.6f));
 
                 if (Main.rand.NextBool(4))
@@ -75,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                         Position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
                         Type: DustID.AncientLight,
                         Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                        newColor: ColorHelper.ColorWithAlpha255(bulletColor),
+                        newColor: ColorHelper.ColorWithAlpha255(CurrentColor),
                         Scale: Main.rand.NextFloat(0.8f, 1.2f));
                     d.noGravity = true;
                 }
@@ -87,7 +86,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
                     Type: ModContent.DustType<ChargerBulletDust>(),
                     Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    newColor: bulletColor,
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(0.8f, 1.4f));
             }
         }
