@@ -1,11 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Helpers;
 using Humanizer;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Enums;
-using Terraria.GameContent.UI;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -52,7 +49,7 @@ namespace AchiSplatoon2.Content.Items
 
         public override bool OnPickup(Player player)
         {
-            PlayPickupSound();
+            // PlayPickupSound();
             return true;
         }
 
