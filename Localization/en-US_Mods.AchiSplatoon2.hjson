@@ -810,13 +810,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	ThermalInkTank: {
-		UsageHint: "{$Hint.ThermalInkTank}"
-		Flavor: Mods.AchiSplatoon2.Items.ThermalInkTank.Flavor
-		DisplayName: Thermal Ink Tank
-		Tooltip: ""
-	}
-
 	BigManPalette: {
 		UsageHint: Mods.AchiSplatoon2.Items.BigManPalette.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.BigManPalette.Flavor
@@ -1553,7 +1546,7 @@ Items: {
 	}
 
 	EnchantedInkTank: {
-		UsageHint: Mods.AchiSplatoon2.Items.EnchantedInkTank.UsageHint
+		UsageHint: "{$Hint.ThermalInkTank}"
 		Flavor: Mods.AchiSplatoon2.Items.EnchantedInkTank.Flavor
 		DisplayName: Enchanted Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
