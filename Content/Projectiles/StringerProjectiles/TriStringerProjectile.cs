@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
 
-            var audioModel = new PlayAudioModel("BlasterExplosionLight", _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
+            var audioModel = new PlayAudioModel(SoundPaths.BlasterExplosionLight, _volume: 0.1f, _pitchVariance: 0.2f, _maxInstances: 10, _position: Projectile.Center);
 
             if (IsThisClientTheProjectileOwner())
             {

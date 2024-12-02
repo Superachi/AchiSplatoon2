@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -47,7 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
         }
 
@@ -58,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 Math.Ceiling(barrageMaxAmmo * (ChargeTime / MaxChargeTime()))
             );
             ChargeTime = barrageShotTime;
-            // StopAudio(soundPath: "ChargeStart");
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
 
             // Set the damage modifier
             switch (chargeLevel)

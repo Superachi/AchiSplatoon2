@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
         }
 
@@ -136,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 degreesOffset += degreesPerProjectile;
             }
 
-            // StopAudio("ChargeStart");
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
             Projectile.timeLeft = 60;
             FakeDestroy();
             NetUpdate(ProjNetUpdateType.ReleaseCharge);

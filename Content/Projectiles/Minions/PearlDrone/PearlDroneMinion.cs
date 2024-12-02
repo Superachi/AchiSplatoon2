@@ -538,10 +538,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         #region Speech methods
 
-        private void PlaySpeechSample(string sample, int amountOfVariations)
+        private void PlaySpeechSample(string firstAudioPath, int amountOfVariations)
         {
-            string path = sample + Main.rand.Next(1, amountOfVariations + 1).ToString();
-            SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
+            int soundId = Main.rand.Next(amountOfVariations) + 1;
+            var path = firstAudioPath + soundId;
+
+            SoundHelper.PlayAudio(path.ToSoundStyle(appendAudioRootPath: true), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
         }
 
         public void TriggerDialoguePearlAppears()

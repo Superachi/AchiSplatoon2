@@ -6,8 +6,15 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
 {
     internal static class SoundPaths
     {
-        public static SoundStyle ToSoundStyle(this string soundPath)
+        private static string _audioRootPath = $"AchiSplatoon2/Content/Assets/Sounds/";
+
+        public static SoundStyle ToSoundStyle(this string soundPath, bool appendAudioRootPath = false)
         {
+            if (appendAudioRootPath)
+            {
+                soundPath = Path.Combine(_audioRootPath, soundPath);
+            }
+
             return new SoundStyle(soundPath);
         }
 
@@ -40,8 +47,8 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
                 directory = "Splatanas";
             }
 
-            var path = Path.Combine($"AchiSplatoon2/Content/Assets/Sounds/", directory, filename);
-            // DebugHelper.PrintInfo(path);
+            var path = Path.Combine(_audioRootPath, directory, filename);
+            //DebugHelper.PrintInfo(path);
             return path;
         }
 

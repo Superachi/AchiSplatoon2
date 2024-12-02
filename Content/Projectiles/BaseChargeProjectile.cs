@@ -7,6 +7,7 @@ using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private Texture2D? spriteChargeBar;
         private float chargeBarBrightness = 0f;
+
+        protected SlotId? chargeStartAudio;
 
         public override void SetDefaults()
         {
@@ -182,7 +185,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     if (chargeLevel == len)
                     {
-                        // StopAudio(soundPath: "ChargeStart");
+                        SoundHelper.StopSoundIfActive(chargeStartAudio);
                     }
                 }
             }

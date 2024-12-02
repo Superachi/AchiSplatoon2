@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System.IO;
 using Terraria;
 
@@ -26,6 +28,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
+        protected SlotId? throwAudio = null;
+
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
@@ -41,7 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             enablePierceDamagefalloff = false;
 
-            PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -62,9 +66,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.velocity = Vector2.Zero;
 
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 2f, _maxScale: 4f, _radiusModifier: finalExplosionRadius);
-            var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
+            var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
             CreateExplosionVisual(e, a);
-            // StopAudio("Throwables/SplatBombFuse");
+
+            SoundHelper.StopSoundIfActive(throwAudio);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -62,7 +62,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (timeSpentAlive > 5)
+            if (timeSpentAlive > 8)
             {
                 var rotation = Projectile.velocity.ToRotation();
 

@@ -51,9 +51,9 @@ namespace AchiSplatoon2.Helpers
             return SoundEngine.TryGetActiveSound((SlotId)slotId!, out activeSound);
         }
 
-        public static void StopSoundIfActive(SlotId slotId)
+        public static void StopSoundIfActive(SlotId? slotId)
         {
-            var soundExists = SoundEngine.TryGetActiveSound(slotId, out var sound);
+            var soundExists = TryGetActiveSound(slotId, out var sound);
             if (soundExists)
             {
                 sound?.Stop();

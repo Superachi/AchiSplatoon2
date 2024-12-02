@@ -91,7 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         protected override void ReleaseCharge(Player owner)
         {
-            // StopAudio(chargeSample);
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
             hasFired = true;
             var velocity = owner.DirectionTo(Main.MouseWorld) * weakSlashShotSpeed;
 

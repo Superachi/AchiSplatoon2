@@ -104,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
                 case stateExplode:
                     var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
-                    var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
+                    var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
 
                     p.SetProperties(explosionRadius, a);
                     p.RunSpawnMethods();
