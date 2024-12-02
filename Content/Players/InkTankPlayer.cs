@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,8 @@ namespace AchiSplatoon2.Content.Players
         public float InkRecoveryStillMult = 1.5f;
         public float InkRecoverySwimMult = 5f;
         public float InkRecoveryDelay = 0f;
+
+        public float InkSaverModifier = 1f;
 
         public int DropletCooldown = 0;
         public int DropletCooldownMax = 300;
@@ -54,9 +57,10 @@ namespace AchiSplatoon2.Content.Players
         public override void ResetEffects()
         {
             InkAmountMaxBonus = 0f;
+            InkSaverModifier = 1f;
         }
 
-        public override void PostUpdateEquips()
+    public override void PostUpdateEquips()
         {
             if (Player.HeldItem.ModItem is SplattershotJr jr)
             {
@@ -69,6 +73,14 @@ namespace AchiSplatoon2.Content.Players
             if (Player.HasBuff<InkCapacityBuff>())
             {
                 InkAmountMaxBonus += InkCapacityBuff.InkCapacityBonus;
+            }
+
+            if (Player.HasBuff<LastDitchEffortBuff>())
+            {
+                if ((float)Player.statLife / (float)Player.statLifeMax2 <= LastDitchEffortEmblem.LifePercentageThreshold)
+                {
+                    InkSaverModifier -= LastDitchEffortEmblem.InkSaverAmount;
+                }
             }
         }
 
@@ -114,9 +126,9 @@ namespace AchiSplatoon2.Content.Players
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
-        public void ConsumeInk(float amount, float inkSaverModifier = 0f)
+        public void ConsumeInk(float amount)
         {
-            InkAmount -= amount / (1 + inkSaverModifier);
+            InkAmount -= amount * InkSaverModifier;
         }
 
         public float InkQuotient()
@@ -126,12 +138,13 @@ namespace AchiSplatoon2.Content.Players
 
         public bool HasEnoughInk(float inkCost)
         {
-            if (InkAmount < inkCost)
+            var finalCost = inkCost * InkSaverModifier;
+            if (InkAmount < finalCost)
             {
                 CreateLowInkPopup();
             }
 
-            return InkAmount >= inkCost;
+            return InkAmount >= finalCost;
         }
 
         public bool HasMaxInk()

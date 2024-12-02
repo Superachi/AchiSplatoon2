@@ -6,6 +6,7 @@ SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
 InkCapacityBonus.Display: +{0}% ink capacity
+LastDitchEffortBonus.Display: While you have {0}% or less life remaining, reduce weapon ink consumption by {1}%
 
 Hint: {
 	# ----------------------------------------
@@ -1635,6 +1636,13 @@ Items: {
 		DisplayName: Liquid Crystal
 		Tooltip: Permanently increases your ink capacity by {0}% (up to {1} times)
 	}
+
+	LastDitchEffortEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.LastDitchEffortEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LastDitchEffortEmblem.Flavor
+		DisplayName: Last-Ditch Effort Emblem
+		Tooltip: "{$LastDitchEffortBonus.Display}"
+	}
 }
 
 Projectiles: {
@@ -1784,6 +1792,11 @@ Buffs: {
 	InkRegenerationBuff: {
 		DisplayName: Super ink recovery
 		Description: You always recover ink at the same speed as when in swim form
+	}
+
+	LastDitchEffortBuff: {
+		DisplayName: Last-Ditch Effort
+		Description: Drastically reduced ink consumption
 	}
 }
 
