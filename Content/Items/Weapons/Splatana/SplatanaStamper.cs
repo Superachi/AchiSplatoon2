@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override SoundStyle ShootSample { get => SoundPaths.SplatanaStamperStrongSlash.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.SplatanaStamperWeakSlash.ToSoundStyle(); }
 
-        public override string ChargeSample { get => "Splatana/StamperCharge"; }
+        public override SoundStyle ChargeSample { get => SoundPaths.SplatanaStamperCharge.ToSoundStyle(); }
 
         // Splatana specific
         public override int BaseDamage { get => 50; }

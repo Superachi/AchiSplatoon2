@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -38,7 +39,7 @@ namespace AchiSplatoon2.Content.Players
                     Player.wingTime = _oldWingTime;
 
                     Player.opacityForAnimation = 1;
-                    SoundHelper.PlayAudio("SwimForm/Exit", 0.2f, 0.2f, 10, 0, Player.Center);
+                    SoundHelper.PlayAudio(SoundPaths.SwimFormExit.ToSoundStyle(), 0.2f, 0.2f, 10, 0, Player.Center);
                     _yCameraOffsetGoal = 0;
                     break;
 
@@ -58,7 +59,7 @@ namespace AchiSplatoon2.Content.Players
                     _oldWingTime = Player.wingTime;
 
                     Player.opacityForAnimation = 0;
-                    SoundHelper.PlayAudio("SwimForm/Enter", 0.3f, 0.2f, 10, 0, Player.Center);
+                    SoundHelper.PlayAudio(SoundPaths.SwimFormEnter.ToSoundStyle(), 0.3f, 0.2f, 10, 0, Player.Center);
                     break;
             }
         }
@@ -118,7 +119,11 @@ namespace AchiSplatoon2.Content.Players
                         {
                             if (Main.time % 30 == 0)
                             {
-                                SoundHelper.PlayAudio($"SwimForm/slime0{Main.rand.Next(5)}", 0.2f, 0.2f, 10, 0, Player.Center);
+                                int soundId = Main.rand.Next(5);
+                                var path = SoundPaths.Slime00;
+                                path = path.Remove(path.Length - 1) + soundId;
+
+                                SoundHelper.PlayAudio(path.ToSoundStyle(), 0.2f, 0.2f, 10, 0, Player.Center);
                             }
                         }
 

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -113,7 +114,10 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                 AdvanceState();
 
                 int soundId = Main.rand.Next(8);
-                SoundHelper.PlayAudio($"Voice/InklingGirl/Voice_SquidGirl_Damage_0{soundId}", volume: 0.5f, pitchVariance: 0.2f);
+                var path = SoundPaths.InklingHurt00;
+                path = path.Remove(path.Length-1) + soundId;
+
+                SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.2f);
             }
 
             return false;

@@ -74,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             explosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             wormDamageReduction = true;
 
-            throwAudio = PlayAudio(SoundPaths.SplatBombThrow);
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         sound.Stop();
                     }
 
-                    PlayAudio("Throwables/TorpedoLockOn", volume: 0.2f, maxInstances: 5, position: Projectile.Center);
+                    PlayAudio(SoundPaths.TorpedoLockOn.ToSoundStyle(), volume: 0.2f, maxInstances: 5, position: Projectile.Center);
                     Projectile.frame++;
                     break;
                 case stateExplode:
@@ -221,7 +221,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     if (Projectile.soundDelay == 0)
                     {
                         Projectile.soundDelay = 5;
-                        PlayAudio(soundPath: "Throwables/TorpedoChase", volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
+                        PlayAudio(SoundPaths.TorpedoChase.ToSoundStyle(), volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
                     }
                     break;
 

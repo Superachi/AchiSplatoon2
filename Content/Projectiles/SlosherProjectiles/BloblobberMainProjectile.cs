@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
@@ -11,7 +12,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         public int burstRequiredHits;
         private int burstShotDelay;
 
-        private string shootSampleAlt;
         private int weaponDamage;
         private int shotsLeft;
 
@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             // The slosher child projectiles should do the damage here
             weaponDamage = Projectile.damage;
             shootSample = weaponData.ShootSample;
-            shootSampleAlt = weaponData.ShootWeakSample;
+            shootAltSample = weaponData.ShootWeakSample;
 
             burstRequiredHits = weaponData.BurstShotCount;
             shotsLeft = weaponData.BurstShotCount;
@@ -47,7 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
             else
             {
-                PlayAudio(shootSampleAlt, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             }
         }
 

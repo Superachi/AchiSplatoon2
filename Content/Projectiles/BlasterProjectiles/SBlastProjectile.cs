@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 
@@ -56,7 +57,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
         {
             if (CanUseLongRange())
             {
-                PlayAudio("SBlastShoot", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+                PlayAudio(SoundPaths.SBlastShoot.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
             }
             else
             {

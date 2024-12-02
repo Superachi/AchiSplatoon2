@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -159,7 +160,7 @@ namespace AchiSplatoon2.Content.Players
                 if (!hudPlayer.IsTextActive())
                 {
                     hudPlayer.SetOverheadText("You can't use any more Liquid Crystals!", 90, Color.White);
-                    SoundHelper.PlayAudio("EmptyInkTank", volume: 0.5f);
+                    SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
                 }
                 return false;
             }
@@ -179,7 +180,7 @@ namespace AchiSplatoon2.Content.Players
             {
                 _lowInkMessageCooldown = 120;
                 Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink!", 90, Color.Yellow);
-                SoundHelper.PlayAudio("EmptyInkTank", volume: 0.5f);
+                SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
@@ -123,7 +124,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     wepMP.isBrushRolling = false;
                     weaponPlayer.isBrushAttacking = true;
 
-                    PlayAudio("Rollers/SwingMedium", volume: 0.2f, maxInstances: 5, position: Projectile.Center, pitch: 1);
+                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.2f, pitchVariance: 0, maxInstances: 5);
+
                     swingAngleCurrent = facingDirection == 1 ? 180 : 0;
                     break;
 

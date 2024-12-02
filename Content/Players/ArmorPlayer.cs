@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Armors.AgentEight;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Armors.AgentEight;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ModLoader;
@@ -22,7 +23,10 @@ namespace AchiSplatoon2.Content.Players
             if (info.SoundDisabled)
             {
                 int soundId = Main.rand.Next(8);
-                SoundHelper.PlayAudio($"Voice/InklingGirl/Voice_SquidGirl_Damage_0{soundId}", volume: 1f, pitchVariance: 0.2f);
+                var path = SoundPaths.InklingHurt00;
+                path = path.Remove(path.Length - 1) + soundId;
+
+                SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 1f, pitchVariance: 0.2f);
             }
         }
 

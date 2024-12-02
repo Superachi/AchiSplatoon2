@@ -8,7 +8,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherMainProjectile : BaseProjectile
     {
-        private string shootSampleAlt;
         private int weaponDamage;
         private float fallDelayCount = 0;
         private float fallSpeed;
@@ -36,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             weaponDamage = Projectile.damage;
 
             shootSample = weaponData.ShootSample;
-            shootSampleAlt = weaponData.ShootWeakSample;
+            shootAltSample = weaponData.ShootWeakSample;
             fallSpeed = weaponData.ShotGravity;
         }
 
@@ -52,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
             else
             {
-                PlayAudio(shootSampleAlt, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             }
         }
 

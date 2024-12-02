@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
@@ -133,7 +134,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 if (!sticking)
                 {
                     Projectile.alpha = 0;
-                    PlayAudio("InkHitSplash00", volume: 0.2f, pitchVariance: 0.3f, maxInstances: 9);
+                    PlayAudio(SoundPaths.InkHitSplash00.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.3f, maxInstances: 9);
                     sticking = true;
                     Projectile.friendly = false;
                     Projectile.tileCollide = false;

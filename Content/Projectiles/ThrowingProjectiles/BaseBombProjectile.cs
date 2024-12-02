@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -40,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             enablePierceDamagefalloff = false;
 
-            PlayAudio("Throwables/SplatBombThrow");
+            PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -63,7 +64,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 2f, _maxScale: 4f, _radiusModifier: finalExplosionRadius);
             var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
             CreateExplosionVisual(e, a);
-            StopAudio("Throwables/SplatBombFuse");
+            // StopAudio("Throwables/SplatBombFuse");
         }
 
         public override bool PreDraw(ref Color lightColor)

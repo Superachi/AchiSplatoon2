@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
@@ -51,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
         }
 
@@ -135,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 degreesOffset += degreesPerProjectile;
             }
 
-            StopAudio("ChargeStart");
+            // StopAudio("ChargeStart");
             Projectile.timeLeft = 60;
             FakeDestroy();
             NetUpdate(ProjNetUpdateType.ReleaseCharge);
@@ -210,15 +211,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected override void NetSendReleaseCharge(BinaryWriter writer)
         {
             writer.Write((byte)chargeLevel);
-            writer.Write((string)shootSample);
-            writer.Write((string)shootWeakSample);
+            writer.Write(shootSample.SoundPath);
+            writer.Write(shootWeakSample.SoundPath);
         }
 
         protected override void NetReceiveReleaseCharge(BinaryReader reader)
         {
             chargeLevel = reader.ReadByte();
-            shootSample = reader.ReadString();
-            shootWeakSample = reader.ReadString();
+            shootSample = reader.ReadString().ToSoundStyle();
+            shootWeakSample = reader.ReadString().ToSoundStyle();
 
             PlayShootSample();
             hasFired = true;

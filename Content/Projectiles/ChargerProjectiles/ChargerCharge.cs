@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -48,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
             if (IsThisClientTheProjectileOwner())
             {
-                chargeStartAudio = PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
         }
 

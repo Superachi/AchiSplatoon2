@@ -66,9 +66,10 @@ internal class BaseProjectile : ModProjectile
     protected bool dissolvable = true;
 
     // Audio
-    protected string shootSample = "SplattershotShoot";
-    protected string shootWeakSample = "SplattershotShoot";
-    protected string shootAltSample = "SplattershotShoot";
+    private static SoundStyle _defaultSoundStyle = new SoundStyle(Path.Combine($"AchiSplatoon2/Content/Assets/Sounds/", "SplattershotShoot"));
+    protected SoundStyle shootSample = _defaultSoundStyle;
+    protected SoundStyle shootWeakSample = _defaultSoundStyle;
+    protected SoundStyle shootAltSample = _defaultSoundStyle;
 
     // Colors
     public Color? colorOverride = null;
@@ -984,7 +985,7 @@ internal class BaseProjectile : ModProjectile
                 dust.rotation = Main.rand.NextFloatDirection();
             }
 
-            PlayAudio("DirectHit", volume: 0.3f, pitchVariance: 0.1f);
+            PlayAudio(SoundPaths.DirectHit.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
@@ -1035,7 +1036,7 @@ internal class BaseProjectile : ModProjectile
                 dust.rotation = Main.rand.NextFloatDirection();
             }
 
-            if (playSample) PlayAudio("TripleHit", pitchVariance: 0.1f);
+            if (playSample) PlayAudio(SoundPaths.TripleHit.ToSoundStyle(), pitchVariance: 0.1f);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             Color inkColor = modPlayer.GetColorFromChips();

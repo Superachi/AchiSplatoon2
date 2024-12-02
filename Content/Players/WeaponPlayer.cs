@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -241,7 +242,7 @@ namespace AchiSplatoon2.Content.Players
             {
                 Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 60 * 30);
                 CombatTextHelper.DisplayText("SPECIAL CHARGED!", Player.Center, color: new Color(255, 155, 0));
-                SoundHelper.PlayAudio("Specials/SpecialReady", volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
+                SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
                 SpecialReady = true;
 
                 SyncSpecialChargeData();

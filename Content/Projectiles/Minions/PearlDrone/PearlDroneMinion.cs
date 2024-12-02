@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -539,7 +540,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void PlaySpeechSample(string sample, int amountOfVariations)
         {
-            SoundHelper.PlayAudio(sample + Main.rand.Next(1, amountOfVariations + 1).ToString(), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
+            string path = sample + Main.rand.Next(1, amountOfVariations + 1).ToString();
+            SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
         }
 
         public void TriggerDialoguePearlAppears()

@@ -15,8 +15,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         public override SoundStyle ShootSample { get => SoundPaths.SplatanaWiperStrongSlash.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.SplatanaWiperWeakSlash.ToSoundStyle(); }
+        public virtual SoundStyle ChargeSample { get => SoundPaths.SplatanaWiperCharge.ToSoundStyle(); }
 
-        public virtual string ChargeSample { get => "SplatanaWiperCharge"; }
         public override bool SlowAerialCharge { get => false; }
 
         // Splatana specific

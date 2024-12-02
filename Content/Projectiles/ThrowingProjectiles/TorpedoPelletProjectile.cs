@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 
@@ -68,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.velocity = Vector2.Zero;
                 Projectile.Resize(explosionRadius, explosionRadius);
 
-                PlayAudio("BlasterExplosion", volume: 0.1f, pitchVariance: 0.3f, maxInstances: 20, pitch: 0.5f, position: Projectile.Center);
+                PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.1f, pitchVariance: 0.3f, maxInstances: 20, pitch: 0.5f, position: Projectile.Center);
                 TripleHitDustBurst(Projectile.Center, false);
             }
 

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -121,7 +122,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
 
-                    PlayAudio("Throwables/SplatBombFuse", volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
+                    PlayAudio(SoundPaths.SplatBombFuse.ToSoundStyle(), volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
                     break;
                 case stateExplode:
                     maxFuseTime = 6;

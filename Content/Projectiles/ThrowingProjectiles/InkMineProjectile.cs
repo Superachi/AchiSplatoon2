@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -48,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             enablePierceDamagefalloff = false;
             wormDamageReduction = true;
 
-            PlayAudio("Throwables/SprinklerDeployNew", volume: 0.2f, maxInstances: 10, position: Projectile.Center);
+            PlayAudio(SoundPaths.SprinklerDeployNew.ToSoundStyle(), volume: 0.2f, maxInstances: 10, position: Projectile.Center);
             SetState(stateSpawn);
         }
 
@@ -68,14 +69,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
 
                 case stateActivate:
-                    PlayAudio("Throwables/InkMineActivate", volume: 0.2f, pitchVariance: 0.05f, maxInstances: 10, position: Projectile.Center);
+                    PlayAudio(SoundPaths.InkMineActivate.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.05f, maxInstances: 10, position: Projectile.Center);
                     break;
 
                 case stateExplode:
                     var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
                     p.SetProperties(
                         explosionRadius,
-                        new PlayAudioModel("Throwables/InkMineDetonate", _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
+                        new PlayAudioModel(SoundPaths.InkMineDetonate, _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
                     p.RunSpawnMethods();
                     Projectile.timeLeft = 6;
                     break;

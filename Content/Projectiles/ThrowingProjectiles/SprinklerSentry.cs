@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -77,7 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
 
-            PlayAudio("Throwables/SplatBombThrow");
+            PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -183,8 +184,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.position.Y = prevY;
                     Projectile.netUpdate = true;
 
-                    StopAudio("Throwables/SplatBombThrow");
-                    PlayAudio("Throwables/SprinklerDeployNew", volume: 0.3f, pitchVariance: 0.2f);
+                    // StopAudio("Throwables/SplatBombThrow");
+                    PlayAudio(SoundPaths.SprinklerDeployNew.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.2f);
                     Timer = 30 * FrameSpeed();
                     AdvanceState();
                     break;

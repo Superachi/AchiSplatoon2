@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using AchiSplatoon2.Helpers;
+using System.IO;
 using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.EnumsAndConstants
@@ -39,7 +40,9 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
                 directory = "Splatanas";
             }
 
-            return Path.Combine($"AchiSplatoon2/Content/Assets/Sounds/", directory, name);
+            var path = Path.Combine($"AchiSplatoon2/Content/Assets/Sounds/", directory, filename);
+            DebugHelper.PrintInfo(path);
+            return path;
         }
 
         // Root directory
@@ -131,7 +134,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string SplatanaWiperWeakSlash => FormatPath(nameof(SplatanaWiperWeakSlash));
 
         // Swim Form
-        private static readonly string _directorySwimForm = "Specials";
+        private static readonly string _directorySwimForm = "SwimForm";
         public static string SwimFormEnter => FormatPath("Enter", _directorySwimForm);
         public static string SwimFormExit => FormatPath("Exit", _directorySwimForm);
         public static string Slime00 => FormatPath(nameof(Slime00), _directorySwimForm);

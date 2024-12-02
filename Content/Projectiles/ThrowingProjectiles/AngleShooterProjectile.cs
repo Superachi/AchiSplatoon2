@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
 using System;
@@ -46,7 +47,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             baseDamage = Projectile.damage;
 
-            PlayAudio("Throwables/AngleShooterThrow", volume: 0.3f, pitchVariance: 0.2f);
+            PlayAudio(SoundPaths.AngleShooterThrow.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.2f);
         }
 
         public override bool PreAI()
