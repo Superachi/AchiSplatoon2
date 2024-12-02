@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -73,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             explosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             wormDamageReduction = true;
 
-            throwAudio = PlayAudio("Throwables/SplatBombThrow");
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow);
 
             if (IsThisClientTheProjectileOwner())
             {

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
@@ -181,7 +182,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     if (chargeLevel == len)
                     {
-                        StopAudio(soundPath: "ChargeStart");
+                        // StopAudio(soundPath: "ChargeStart");
                     }
                 }
             }
@@ -202,7 +203,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (!playerHasChargedBattery)
             {
-                PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
+                PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
             }
         }
 

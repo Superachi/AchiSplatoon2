@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Helpers
 
         public static SlotId PlayAudio(string soundPath, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
         {
-            var style = new SoundStyle($"AchiSplatoon2/Content/Assets/Sounds/{soundPath}");
+            var style = new SoundStyle(soundPath);
             return PlaySoundFinal(style, volume, pitchVariance, maxInstances, pitch, position);
         }
 

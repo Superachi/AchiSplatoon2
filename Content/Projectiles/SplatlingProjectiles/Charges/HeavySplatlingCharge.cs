@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
@@ -53,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
             Projectile.soundDelay = 30;
         }
@@ -78,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
         protected override void StartCharge()
         {
-            PlayAudio(soundPath: "SplatlingChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            PlayAudio(SoundPaths.SplatlingChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
         protected override void ReleaseCharge(Player owner)
@@ -86,9 +87,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             hasFired = true;
             ChargedAmmo = Convert.ToInt32(barrageMaxAmmo * (ChargeTime / MaxChargeTime()));
             ChargeTime = 0;
-            StopAudio(soundPath: "ChargeStart");
-            StopAudio(soundPath: "SplatlingChargeStart");
-            StopAudio(soundPath: "SplatlingChargeLoop");
+            //StopAudio(soundPath: "ChargeStart");
+            //StopAudio(soundPath: "SplatlingChargeStart");
+            //StopAudio(soundPath: "SplatlingChargeLoop");
 
             // Set the damage modifier
             switch (chargeLevel)
@@ -125,7 +126,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 Projectile.soundDelay = 5;
                 var pitchValue = 0.6f + (ChargeTime / MaxChargeTime()) * 0.5f;
 
-                PlayAudio(soundPath: "SplatlingChargeLoop", volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
+                PlayAudio(SoundPaths.SplatlingChargeLoop.ToSoundStyle(), volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
             }
         }
 
