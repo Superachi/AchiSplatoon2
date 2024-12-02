@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using Terraria;
 
@@ -14,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             finalExplosionRadius = (int)(baseExplosionRadius * explosionRadiusModifier);
             enablePierceDamagefalloff = false;
 
-            PlayAudio("Throwables/SplatBombThrow");
+            PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

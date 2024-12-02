@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -73,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             explosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             wormDamageReduction = true;
 
-            throwAudio = PlayAudio("Throwables/SplatBombThrow");
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -98,12 +99,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         sound.Stop();
                     }
 
-                    PlayAudio("Throwables/TorpedoLockOn", volume: 0.2f, maxInstances: 5, position: Projectile.Center);
+                    PlayAudio(SoundPaths.TorpedoLockOn.ToSoundStyle(), volume: 0.2f, maxInstances: 5, position: Projectile.Center);
                     Projectile.frame++;
                     break;
                 case stateExplode:
                     var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
-                    var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
+                    var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
 
                     p.SetProperties(explosionRadius, a);
                     p.RunSpawnMethods();
@@ -220,7 +221,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     if (Projectile.soundDelay == 0)
                     {
                         Projectile.soundDelay = 5;
-                        PlayAudio(soundPath: "Throwables/TorpedoChase", volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
+                        PlayAudio(SoundPaths.TorpedoChase.ToSoundStyle(), volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
                     }
                     break;
 

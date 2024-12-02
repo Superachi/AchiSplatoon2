@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
@@ -11,9 +13,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override float InkRecoveryDelay { get => 20f; }
 
         // Audio
-        public override string ShootSample { get => "BlasterFire"; }
-        public virtual string ExplosionBigSample { get => "BlasterExplosion"; }
-        public virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BlasterFire.ToSoundStyle(); }
+        public virtual SoundStyle ExplosionBigSample { get => SoundPaths.BlasterExplosion.ToSoundStyle(); }
+        public virtual SoundStyle ExplosionSmallSample { get => SoundPaths.BlasterExplosionLight.ToSoundStyle(); }
 
         // Explosion radius and delay
         public virtual int ExplosionRadiusAir { get => 100; }

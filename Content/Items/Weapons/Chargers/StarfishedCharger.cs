@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class StarfishedCharger : BaseCharger
     {
-        public override string ShootSample { get => "BambooChargerShoot"; }
-        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override bool ScreenShake => false;
         public override Vector2? HoldoutOffset() { return new Vector2(-20, 2); }
         public override float MuzzleOffsetPx { get; set; } = 60f;

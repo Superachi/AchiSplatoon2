@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     {
         public override float InkCost { get => 3f; }
 
-        public override string ShootSample => "Dot52GalShoot";
+        public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override float ShotGravity { get => 0.3f; }
         public override int ShotGravityDelay { get => 30; }
         public override int ShotExtraUpdates { get => 2; }

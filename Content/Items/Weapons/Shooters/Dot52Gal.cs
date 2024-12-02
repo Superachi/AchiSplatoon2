@@ -1,7 +1,9 @@
-﻿using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public virtual int DamageOverride => 52;
         protected override string UsageHintParamA => $"{DamageOverride}";
 
-        public override string ShootSample { get => "Dot52GalShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.Dot52GalShoot.ToSoundStyle(); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
 

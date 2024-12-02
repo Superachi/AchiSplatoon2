@@ -1,5 +1,7 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
@@ -9,8 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class SplatCharger : BaseCharger
     {
-        public override string ShootSample { get => "SplatChargerShoot"; }
-        public override string ShootWeakSample { get => "SplatChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SplatChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.SplatChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-20, 2); }
         public override float MuzzleOffsetPx { get; set; } = 60f;
         public override float[] ChargeTimeThresholds { get => [55f]; }

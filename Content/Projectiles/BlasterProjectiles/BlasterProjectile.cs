@@ -5,14 +5,15 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 {
     internal class BlasterProjectile : BaseProjectile
     {
-        protected string? explosionAirSample;
-        protected string? explosionTileSample;
+        protected SoundStyle? explosionAirSample;
+        protected SoundStyle? explosionTileSample;
 
         protected int explosionRadiusAir;
         protected float tileExplosionRadiusModifier = 0.6f;
@@ -123,7 +124,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
                     if (explosionAirSample != null)
                     {
-                        PlayAudio(explosionAirSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
+                        PlayAudio((SoundStyle)explosionAirSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
                     }
                     PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
                     PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
@@ -136,7 +137,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
                     if (explosionTileSample != null)
                     {
-                        PlayAudio(explosionTileSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0.5f);
+                        PlayAudio((SoundStyle)explosionTileSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0.5f);
                     }
 
                     break;

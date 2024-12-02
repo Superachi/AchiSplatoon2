@@ -7,6 +7,7 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +28,7 @@ namespace AchiSplatoon2.Content.Players
         private int maxRollCooldown;
         private float rollDistance = 0f;
         private float rollDuration = 0f;
-        private string rollSample = "";
+        private SoundStyle rollSample;
         private bool slowMoveAfterRoll = true;
         private bool hasSquidClipOns;
 

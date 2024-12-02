@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 2f; }
-        public override string ShootSample { get => "SplattershotShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
 

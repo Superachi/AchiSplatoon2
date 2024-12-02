@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
     internal class HydraSplatling : BaseSplatling
     {
         public override float InkCost { get => 3.2f; }
-        public override string ShootSample { get => "JetSquelcherShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.JetSquelcherShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-44, 2); }
         public override float MuzzleOffsetPx { get; set; } = 52f;
         public override float[] ChargeTimeThresholds { get => [120f, 150f]; }

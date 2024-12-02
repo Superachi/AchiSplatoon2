@@ -27,6 +27,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using AchiSplatoon2.Content.EnumsAndConstants;
+using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.Items.Weapons
 {
@@ -69,9 +71,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public int ItemIdentifier { get; private set; }
 
         // Visual
-        public virtual string ShootSample { get => "SplattershotShoot"; }
-        public virtual string ShootWeakSample { get => "SplattershotShoot"; }
-        public virtual string ShootAltSample { get => "SplattershotShoot"; }
+        public virtual SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
+        public virtual SoundStyle ShootWeakSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
+        public virtual SoundStyle ShootAltSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public virtual float MuzzleOffsetPx { get; set; } = 0f;
         public virtual Vector2 MuzzleOffset => Vector2.Zero;
 

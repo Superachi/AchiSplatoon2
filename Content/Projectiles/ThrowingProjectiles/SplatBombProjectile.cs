@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
@@ -22,6 +24,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateRollFuse = 2;
         private const int stateExplode = 3;
         private const int stateDespawn = 4;
+
+        protected SlotId? fuseSound;
 
         protected float FuseTime
         {
@@ -121,7 +125,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
 
-                    PlayAudio("Throwables/SplatBombFuse", volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
+                    fuseSound = PlayAudio(SoundPaths.SplatBombFuse.ToSoundStyle(), volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
                     break;
                 case stateExplode:
                     maxFuseTime = 6;
@@ -134,6 +138,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     {
                         GameFeelHelper.ShakeScreenNearPlayer(owner, true, strength: 3, speed: 4, duration: 20);
                     }
+
+                    SoundHelper.StopSoundIfActive(fuseSound);
                     break;
                 case stateDespawn:
                     Projectile.Kill();

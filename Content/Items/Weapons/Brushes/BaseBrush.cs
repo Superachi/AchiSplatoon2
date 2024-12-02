@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -13,8 +15,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         public override float InkRecoveryDelay { get => 30f; }
 
         public override float AimDeviation { get => 12f; }
-        public override string ShootSample { get => "BrushShoot"; }
-        public override string ShootAltSample { get => "BrushShootAlt"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BrushShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => SoundPaths.BrushShootAlt.ToSoundStyle(); }
         protected virtual int ArmorPierce => 0;
         public virtual float DelayUntilFall => 10f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);

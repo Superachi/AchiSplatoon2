@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
@@ -6,6 +7,7 @@ using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -45,6 +47,8 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private Texture2D? spriteChargeBar;
         private float chargeBarBrightness = 0f;
+
+        protected SlotId? chargeStartAudio;
 
         public override void SetDefaults()
         {
@@ -181,7 +185,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     if (chargeLevel == len)
                     {
-                        StopAudio(soundPath: "ChargeStart");
+                        SoundHelper.StopSoundIfActive(chargeStartAudio);
                     }
                 }
             }
@@ -202,7 +206,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             if (!playerHasChargedBattery)
             {
-                PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
+                PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
             }
         }
 

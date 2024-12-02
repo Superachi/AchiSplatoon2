@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -101,7 +102,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 if (deflectedProj != null)
                 {
                     TripleHitDustBurst(Projectile.Center, false);
-                    PlayAudio("HitNoDamage", volume: 0.5f, pitchVariance: 0.4f, maxInstances: 5);
+                    PlayAudio(SoundPaths.HitNoDamage.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.4f, maxInstances: 5);
 
                     deflectedProj.velocity = Vector2.Normalize(deflectedProj.velocity) * PinkSponge.DeflectVelocityModifier;
                     deflectedProj.friendly = true;

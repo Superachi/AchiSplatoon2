@@ -149,7 +149,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             }
 
             // Audio
-            if (fading) return;
+            if (Projectile.timeLeft <= timeLeftWhenFade * 2)
+            {
+                return;
+            }
 
             if (timeSpentAlive % 30 == 0)
             {

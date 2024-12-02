@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
 using AchiSplatoon2.ExtensionMethods;
@@ -47,7 +48,7 @@ namespace AchiSplatoon2.Content.Players
 
             if (shieldLife < 1)
             {
-                SoundHelper.PlayAudio("Brellas/BrellaBreak", volume: 1f, maxInstances: 5);
+                SoundHelper.PlayAudio(SoundPaths.BrellaBreak.ToSoundStyle(), volume: 1f, maxInstances: 5);
                 CombatTextHelper.DisplayText($"Brella broke!", Player.Center, Color.HotPink);
 
                 if (Player.GetModPlayer<AccessoryPlayer>().hasMarinatedNecklace)
@@ -67,7 +68,7 @@ namespace AchiSplatoon2.Content.Players
             }
             else
             {
-                SoundHelper.PlayAudio("Brellas/BrellaDeflect", volume: 0.4f, pitchVariance: 0.4f, maxInstances: 5);
+                SoundHelper.PlayAudio(SoundPaths.BrellaDeflect.ToSoundStyle(), volume: 0.4f, pitchVariance: 0.4f, maxInstances: 5);
                 DisplayBrellaLife();
             }
         }
@@ -148,7 +149,7 @@ namespace AchiSplatoon2.Content.Players
 
                     DisplayBrellaLife();
                     BrellaRecoveryDust();
-                    SoundHelper.PlayAudio("Brellas/BrellaRecover", volume: 0.8f, maxInstances: 5);
+                    SoundHelper.PlayAudio(SoundPaths.BrellaRecover.ToSoundStyle(), volume: 0.8f, maxInstances: 5);
                 }
 
                 return;

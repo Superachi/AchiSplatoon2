@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,8 +9,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class Bloblobber : BaseSlosher
     {
-        public override string ShootSample { get => "Sloshers/BloblobberShoot"; }
-        public override string ShootWeakSample { get => "Sloshers/BloblobberShootAlt"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SlosherBloblobberShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.SlosherBloblobberShootAlt.ToSoundStyle(); }
+
         public override float ShotGravity { get => 0.4f; }
         public virtual int BurstShotCount { get => 4; }
         public virtual int BurstShotDelay { get => 5; }

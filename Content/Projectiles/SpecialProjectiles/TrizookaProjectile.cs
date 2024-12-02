@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Netcode.DataModels;
@@ -95,7 +96,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Projectile.velocity = Vector2.Zero;
 
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.3f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
+            var s = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.4f, _pitchVariance: 0.3f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
             var p = CreateChildProjectile<ExplosionProjectileVisual>(
                 position: Projectile.Center,
                 velocity: Vector2.Zero,

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Helpers;
 using Humanizer;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace AchiSplatoon2.Content.Items
 
         protected virtual void PlayPickupSound()
         {
-            SoundHelper.PlayAudio("ItemGet2", 0.5f, 0f, 10, 0, Main.LocalPlayer.Center);
+            SoundHelper.PlayAudio(SoundPaths.ItemGet2.ToSoundStyle(), 0.5f, 0f, 10, 0, Main.LocalPlayer.Center);
         }
 
         private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)

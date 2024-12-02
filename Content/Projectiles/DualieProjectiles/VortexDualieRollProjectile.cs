@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -78,7 +79,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         protected override void PlayRollSound()
         {
-            PlayAudio("AchiGunBoost", 0.3f, 0.1f, 5, 0);
+            PlayAudio(SoundPaths.AchiGunBoost.ToSoundStyle(), 0.3f, 0.1f, 5, 0);
         }
 
         private void CreateDust(Vector2 velocity, Vector2 position)

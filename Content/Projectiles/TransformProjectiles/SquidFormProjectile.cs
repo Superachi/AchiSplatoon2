@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria.Audio;
 using Terraria.ID;
+using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 {
@@ -248,7 +249,11 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
                     Scale: Main.rand.NextFloat(1f, 2f));
             }
 
-            SoundHelper.PlayAudio($"SwimForm/slime0{Main.rand.Next(5)}", 0.4f, 0.2f, 10, 0, GetOwner().Center);
+            int soundId = Main.rand.Next(5);
+            var path = SoundPaths.Slime00;
+            path = path.Remove(path.Length - 1) + soundId;
+
+            SoundHelper.PlayAudio(path.ToSoundStyle(), 0.4f, 0.2f, 10, 0, GetOwner().Center);
 
             List<SoundStyle> sounds = new()
             {

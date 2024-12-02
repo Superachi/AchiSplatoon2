@@ -1,12 +1,14 @@
-﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class TrizookaSpecial : BaseSpecial
     {
-        public override string ShootSample { get => "Specials/TrizookaLaunch"; }
+        public override SoundStyle ShootSample { get => SoundPaths.TrizookaLaunch.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-40, -8); }
         public override float MuzzleOffsetPx { get; set; } = 80f;
         public static readonly int ProjPerShot = 3;

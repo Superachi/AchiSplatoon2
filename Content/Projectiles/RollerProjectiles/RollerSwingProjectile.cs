@@ -5,6 +5,7 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
@@ -13,8 +14,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
     {
         protected override bool ConsumeInkAfterSpawn => false;
 
-        private string swingSample;
-        private string windUpSample;
+        private SoundStyle swingSample;
+        private SoundStyle windUpSample;
 
         private const int stateInit = 0;
         private const int stateWindUp = 1;

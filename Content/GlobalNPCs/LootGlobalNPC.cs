@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Consumables;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
@@ -97,7 +98,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 dust.fadeIn = 1.5f;
             }
 
-            SoundHelper.PlayAudio("ItemGet", volume: 0.6f, maxInstances: 1, position: npc.position);
+            SoundHelper.PlayAudio(SoundPaths.ItemGet.ToSoundStyle(), volume: 0.6f, maxInstances: 1, position: npc.position);
         }
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
