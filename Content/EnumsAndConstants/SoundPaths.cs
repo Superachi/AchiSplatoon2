@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
             }
 
             var path = Path.Combine($"AchiSplatoon2/Content/Assets/Sounds/", directory, filename);
-            DebugHelper.PrintInfo(path);
+            // DebugHelper.PrintInfo(path);
             return path;
         }
 
