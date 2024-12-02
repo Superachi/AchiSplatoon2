@@ -143,6 +143,11 @@ namespace AchiSplatoon2.Helpers
         }
 
         // Source: https://stackoverflow.com/questions/11441055/how-to-change-color-hue-in-xna
+        public static Color IncreaseHueBy(this Color colorInput, float value)
+        {
+            return IncreaseHueBy(value, colorInput);
+        }
+
         public static Color IncreaseHueBy(float value, Color colorInput)
         {
             float h, s, v;

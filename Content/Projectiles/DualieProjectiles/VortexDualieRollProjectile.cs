@@ -79,7 +79,9 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         protected override void PlayRollSound()
         {
-            PlayAudio(SoundPaths.AchiGunBoost.ToSoundStyle(), 0.3f, 0.1f, 5, 0);
+            PlayAudio(SoundID.Item25, 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
+            PlayAudio(SoundID.Item67, 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0.8f);
+            PlayAudio(SoundID.Item60, 0.5f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
         }
 
         private void CreateDust(Vector2 velocity, Vector2 position)
