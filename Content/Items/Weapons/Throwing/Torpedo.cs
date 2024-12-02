@@ -18,7 +18,7 @@ internal class Torpedo : BaseBomb
         Item.width = 26;
         Item.height = 26;
 
-        Item.useTime = 50;
+        Item.useTime = 30;
         Item.useAnimation = Item.useTime;
     }
 }
