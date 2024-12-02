@@ -314,6 +314,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
             if (!player.ItemTimeIsZero) return false;
             if (!AllowSubWeaponUsage) return false;
 
+            if (player.HasBuff(BuffID.Cursed)) return false;
+            if (player.HasBuff(BuffID.Frozen)) return false;
+            if (player.HasBuff(BuffID.Stoned)) return false;
+
             bool doneSearching = false;
 
             int[] subWeaponItemIDs = {

@@ -64,6 +64,14 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
+        private bool PlayerHasBuffThatPreventsSwimForm()
+        {
+            return Player.HasBuff(BuffID.Frozen)
+                || Player.HasBuff(BuffID.Stoned)
+                || Player.HasBuff(BuffID.VortexDebuff)
+                || Player.HasBuff(BuffID.TheTongue);
+        }
+
         public override void PreUpdate()
         {
             _yCameraOffset = MathHelper.Lerp(_yCameraOffset, _yCameraOffsetGoal, 0.1f);
@@ -76,7 +84,8 @@ namespace AchiSplatoon2.Content.Players
                         && Player.ItemTimeIsZero
                         && Player.grappling[0] == -1
                         && !Player.mount.Active
-                        && !Player.GetModPlayer<DualiePlayer>().isRolling)
+                        && !Player.GetModPlayer<DualiePlayer>().isRolling
+                        && !PlayerHasBuffThatPreventsSwimForm())
                     {
                         SetState(stateSquid);
                         return;
@@ -88,7 +97,7 @@ namespace AchiSplatoon2.Content.Players
                     Player.noFallDmg = true;
                     Player.AddBuff(ModContent.BuffType<SwimFormBuff>(), 2);
 
-                    if (_squidFormProjectile == null)
+                    if (_squidFormProjectile == null || PlayerHasBuffThatPreventsSwimForm())
                     {
                         SetState(stateHuman);
                         return;
