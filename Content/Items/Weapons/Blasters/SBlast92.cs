@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     {
         public override float InkCost { get => 10f; }
 
-        public override string ShootAltSample { get => "SBlastShoot"; }
+        public override SoundStyle ShootAltSample { get => SoundPaths.SBlastShoot.ToSoundStyle(); }
         public override int ExplosionRadiusAir { get => 240; }
         public override float ExplosionDelayInit { get => 12f; }
 

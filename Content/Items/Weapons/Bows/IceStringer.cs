@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,8 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override float InkCost { get => 2f; }
 
         public override float[] ChargeTimeThresholds { get => [20f, 40f]; }
-        public override string ShootSample { get => "BambooChargerShoot"; }
-        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
         public override float ShotgunArc { get => 0f; }
         public override int ProjectileCount { get => 1; }
         public override bool AllowStickyProjectiles { get => true; }

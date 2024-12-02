@@ -1,8 +1,10 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -19,7 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public virtual int ShotGravityDelay { get => 18; }
         public virtual int ShotExtraUpdates { get => 3; }
         public override float AimDeviation { get => 6f; }
-        public override string ShootSample { get => "Brellas/BrellaShot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BrellaShot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
         public override float MuzzleOffsetPx { get; set; } = 44f;
 

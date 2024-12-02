@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Terraria;
+using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
@@ -6,8 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     {
         public override float InkCost { get => 1.5f; }
 
-        public override string ShootSample { get => "SquifferChargerShoot"; }
-        public override string ShootWeakSample { get => "SquifferChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SquifferChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.SquifferChargerShootWeak.ToSoundStyle(); }
         public override bool ScreenShake => false;
         public override float[] ChargeTimeThresholds { get => [42f]; }
         public override float RangeModifier => 0.4f;

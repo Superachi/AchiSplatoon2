@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
@@ -8,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     {
         public override float InkCost { get => 1.5f; }
 
-        public override string ShootSample { get => "JetSquelcherShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.JetSquelcherShoot.ToSoundStyle(); }
         public override int ShotGravityDelay => 30;
         public override int ShotExtraUpdates { get => 8; }
         public override float MuzzleOffsetPx { get; set; } = 56f;

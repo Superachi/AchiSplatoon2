@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class TrizookaUnleashed : TrizookaSpecial
     {
-        public override string ShootSample { get => "Specials/TrizookaLaunchAlly"; }
+        public override SoundStyle ShootSample { get => SoundPaths.TrizookaLaunchAlly.ToSoundStyle(); }
+
         public override float MuzzleOffsetPx { get; set; } = 80f;
         protected override string UsageHintParamA => "";
         protected override string UsageHintParamB => "";

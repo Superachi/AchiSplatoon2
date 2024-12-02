@@ -1,5 +1,7 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
@@ -11,8 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     {
         public override float InkCost { get => 1f; }
 
-        public override string ShootSample { get => "BambooChargerShoot"; }
-        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override float[] ChargeTimeThresholds { get => [18f]; }

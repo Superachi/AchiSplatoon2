@@ -1,5 +1,7 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
@@ -11,8 +13,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     {
         public override float InkCost { get => 2.4f; }
 
-        public override string ShootSample { get => "EliterChargerShoot"; }
-        public override string ShootWeakSample { get => "EliterChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.EliterChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.EliterChargerShootWeak.ToSoundStyle(); }
         public override float[] ChargeTimeThresholds { get => [75f]; }
         public override void SetDefaults()
         {

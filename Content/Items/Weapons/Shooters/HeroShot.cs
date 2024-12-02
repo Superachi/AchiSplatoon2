@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override int ShotGravityDelay => 10;
         public override int ShotExtraUpdates { get => 5; }
         public override float AimDeviation { get => 2f; }
-        public override string ShootSample { get => "HeroShotShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.HeroShotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 56f;
 

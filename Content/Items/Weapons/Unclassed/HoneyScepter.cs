@@ -2,8 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Microsoft.Xna.Framework;
-using Humanizer;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
 {

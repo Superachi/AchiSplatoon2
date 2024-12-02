@@ -7,7 +7,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class KensaGloogaDualie : GloogaDualie
     {
-        public override string RollSample { get => "Dualies/GloogaDualieRoll"; }
         public override float PostRollDamageMod { get => 2f; }
 
         public override void SetDefaults()

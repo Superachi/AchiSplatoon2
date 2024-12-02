@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,8 +12,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override float InkCost { get => 5f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
 
-        public override string ShootSample { get => "Silence"; }
-        public override string ShootWeakSample { get => "Splatana/StamperWeakSlash"; }
+        public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.SplatanaWiperWeakSlash.ToSoundStyle(); }
+
         public override string ChargeSample { get => "Splatana/StamperCharge"; }
 
         // Splatana specific

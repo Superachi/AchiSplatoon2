@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,13 +14,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float ShotGravity { get => 0f; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 3f; }
-        public override string ShootSample { get => "AchiGunBlast"; }
-        public override string ShootAltSample { get => ShootSample; }
+        public override SoundStyle ShootSample { get => SoundPaths.AchiGunBlast.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => ShootSample; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 36f;
 
         // Dualie specific
-        public override string RollSample { get => "AchiGunBoost"; }
+        public override SoundStyle RollSample { get => SoundPaths.AchiGunBoost.ToSoundStyle(); }
         public override float RollInkCost { get => 10f; }
         public override int RollProjectileType => ModContent.ProjectileType<VortexDualieRollProjectile>();
         public override float PostRollDamageMod { get => 1.5f; }
