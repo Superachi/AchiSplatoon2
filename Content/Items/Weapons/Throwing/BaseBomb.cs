@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             {
                 if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
-                    return HypnoShades.BombUseTimeMod;
+                    return HypnoShades.BombUseTimeMult;
                 }
             }
 
@@ -50,7 +50,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             {
                 if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
-                    player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMod);
+                    player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMult);
                 }
             }
 

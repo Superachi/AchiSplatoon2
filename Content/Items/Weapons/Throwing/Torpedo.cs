@@ -7,7 +7,7 @@ internal class Torpedo : BaseBomb
 {
     public override int ExplosionRadius { get => 150; }
     public int PelletCount { get => 10; }
-    public float PelletDamageMod { get => 0.75f; }
+    public float PelletDamageMod { get => 0.25f; }
 
     public override void SetDefaults()
     {
