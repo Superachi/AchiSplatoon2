@@ -381,11 +381,7 @@ internal class BaseProjectile : ModProjectile
                 Projectile.velocity = angleVec * projSpeed;
             }
 
-            if (Projectile.penetrate != 1)
-            {
-                enablePierceDamagefalloff = true;
-                wormDamageReduction = true;
-            }
+            UpdatePierceDamageModifiers();
 
             // Prevent double dipping modifiers
             if (parentIdentity == -1)
@@ -719,6 +715,15 @@ internal class BaseProjectile : ModProjectile
     public void UpdateCurrentColor(Color color)
     {
         CurrentColor = color;
+    }
+
+    public void UpdatePierceDamageModifiers()
+    {
+        if (Projectile.penetrate != 1)
+        {
+            enablePierceDamagefalloff = true;
+            wormDamageReduction = true;
+        }
     }
 
     /// <summary>
