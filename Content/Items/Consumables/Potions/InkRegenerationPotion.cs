@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
             Item.useTurn = true;
             Item.UseSound = SoundID.Item3;
 
-            Item.buffTime = 60 * 120;
+            Item.buffTime = 60 * 180;
             Item.buffType = ModContent.BuffType<InkRegenerationBuff>();
 
             Item.maxStack = Item.CommonMaxStack;
