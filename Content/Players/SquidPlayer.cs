@@ -21,6 +21,7 @@ namespace AchiSplatoon2.Content.Players
         private SquidFormProjectile? _squidFormProjectile = null;
         private float _oldOpacityForAnimation = 1f;
         private float _oldWingTime = 0f;
+        private int _oldRocketTime = 0;
         private bool _landed = false;
 
         private float _yCameraOffset = 0f;
@@ -37,6 +38,7 @@ namespace AchiSplatoon2.Content.Players
                 case stateHuman:
                     _squidFormProjectile = null;
                     Player.wingTime = _oldWingTime;
+                    Player.rocketTime = _oldRocketTime;
 
                     Player.opacityForAnimation = 1;
                     SoundHelper.PlayAudio(SoundPaths.SwimFormExit.ToSoundStyle(), 0.2f, 0.2f, 10, 0, Player.Center);
@@ -57,6 +59,7 @@ namespace AchiSplatoon2.Content.Players
                     }
 
                     _oldWingTime = Player.wingTime;
+                    _oldRocketTime = Player.rocketTime;
 
                     Player.opacityForAnimation = 0;
                     SoundHelper.PlayAudio(SoundPaths.SwimFormEnter.ToSoundStyle(), 0.3f, 0.2f, 10, 0, Player.Center);
