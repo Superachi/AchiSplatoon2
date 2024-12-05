@@ -23,6 +23,7 @@ namespace AchiSplatoon2.Content.Players
         // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
         public int SprinklerBaseDamage { get; private set; } = 5;
+        public int SprinklerBaseArmorPenetration { get; private set; } = 5;
         public int BurstBombBaseDamage { get; private set; } = 30;
         public int KillerWailBaseDamage { get; private set; } = 30;
         public int InkStrikeBaseDamage { get; private set; } = 50;
@@ -172,6 +173,11 @@ namespace AchiSplatoon2.Content.Players
 
             baseDamage *= GetSummonDamageModifier();
             return (int)baseDamage;
+        }
+
+        public int GetSprinklerArmorPenetration()
+        {
+            return SprinklerBaseArmorPenetration * PowerLevel;
         }
 
         public int GetBurstBombDamage()

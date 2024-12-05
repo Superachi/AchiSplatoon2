@@ -343,7 +343,9 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
                     droneMP.GetSprinklerDamage());
+
                 WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-15, 15));
+                p.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
             }
 
             if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)
