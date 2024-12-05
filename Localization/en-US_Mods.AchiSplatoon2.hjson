@@ -1643,6 +1643,13 @@ Items: {
 		DisplayName: Last-Ditch Effort Emblem
 		Tooltip: "{$LastDitchEffortBonus.Display}"
 	}
+
+	CoralStringer: {
+		UsageHint: Mods.AchiSplatoon2.Items.CoralStringer.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CoralStringer.Flavor
+		DisplayName: Coral Harp
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1756,6 +1763,8 @@ Projectiles: {
 	CorruptionBrellaMeleeProjectile.DisplayName: Corruption Brella Melee Projectile
 	CorruptionBrellaPelletProjectile.DisplayName: Corruption Brella Pellet Projectile
 	CorruptionBrellaShotgunProjectile.DisplayName: Corruption Brella Shotgun Projectile
+	CoralStringerCharge.DisplayName: Coral Stringer Charge
+	CoralStringerProjectile.DisplayName: Coral Stringer Projectile
 }
 
 Buffs: {

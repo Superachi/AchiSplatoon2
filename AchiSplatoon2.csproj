@@ -79,6 +79,8 @@
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\SnipewriterCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\SnipewriterProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\CoralStringerCharge.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\CoralStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerCharge.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
