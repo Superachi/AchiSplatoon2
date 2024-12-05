@@ -100,6 +100,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
+        public override bool? UseItem(Player player)
+        {
+            player.GetModPlayer<StatisticsPlayer>().attacksUsed++;
+            return base.UseItem(player);
+        }
+
         public override void SetDefaults()
         {
             ItemIdentifier = Item.type;
