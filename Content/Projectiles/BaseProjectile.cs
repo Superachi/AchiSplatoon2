@@ -2,12 +2,14 @@ using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.GlobalNPCs;
 using AchiSplatoon2.Content.GlobalProjectiles;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
@@ -185,7 +187,6 @@ internal class BaseProjectile : ModProjectile
         ApplyWeaponPrefixData();
         AdjustVariablesOnShoot();
         CreateDustOnSpawn();
-        CalculateInkCostAfterModifiers();
 
         if (ConsumeInkAfterSpawn)
         {
@@ -238,20 +239,10 @@ internal class BaseProjectile : ModProjectile
     {
     }
 
-    private void CalculateInkCostAfterModifiers()
+    public void SetInkCost(float inkCost)
     {
-        OriginalInkCost = WeaponInstance?.InkCost ?? 0;
+        OriginalInkCost = inkCost;
         currentInkCost = OriginalInkCost;
-
-        if (weaponSourcePrefix > 0)
-        {
-            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
-
-            if (prefix != null)
-            {
-                currentInkCost *= prefix.InkCostModifier.NormalizePrefixMod();
-            }
-        }
     }
 
     protected virtual void ConsumeInk(float? inkCostOverride = null, float? inkDelayOverride = null, bool consumeInkAsChildProj = false)

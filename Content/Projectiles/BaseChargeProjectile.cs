@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected void CalculateChargeInkCost()
         {
-            chargeInkCost = currentInkCost / MaxChargeTime() * 10;
+            chargeInkCost = WoomyMathHelper.CalculateChargeInkCost(currentInkCost, WeaponInstance, fullCharge: false);
         }
 
         public bool IsChargeMaxedOut()

@@ -8,10 +8,14 @@ namespace AchiSplatoon2.Content.Items.Accessories
 {
     internal class HypnoShades : BaseAccessory
     {
-        public static float BombDamageBonus = 1f;
-        public static float BombUseTimeMod = 0.6f;
+        public static float BombDamageBonus => 0.2f;
+        public static float BombUseTimeMult => 0.7f;
+        public static float BombInkCostMult => 0.3f;
 
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(BombDamageBonus * 100));
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
+            (int)(BombDamageBonus * 100),
+            ((int)(BombInkCostMult * 100) - 1) * 1
+            );
 
         public override void SetDefaults()
         {

@@ -29,6 +29,7 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using Terraria.Audio;
+using AchiSplatoon2.Content.Items.Accessories;
 
 namespace AchiSplatoon2.Content.Items.Weapons
 {
@@ -265,6 +266,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             proj.weaponSourcePrefix = Item.prefix;
             proj.WeaponInstance = (BaseWeapon)Activator.CreateInstance(weaponType.GetType());
             proj.itemIdentifier = ItemIdentifier;
+            proj.SetInkCost(WoomyMathHelper.CalculateWeaponInkCost(weaponType, player));
 
             if (triggerSpawnMethods) proj.RunSpawnMethods();
             return proj;
@@ -283,7 +285,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public override bool CanUseItem(Player player)
         {
             var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
-            if (inkTankPlayer.InkAmount < InkCost)
+            if (inkTankPlayer.InkAmount < WoomyMathHelper.CalculateWeaponInkCost(this, player))
             {
                 inkTankPlayer.CreateLowInkPopup();
                 inkTankPlayer.InkRecoveryDelay = Math.Max(inkTankPlayer.InkRecoveryDelay, 30);
@@ -348,28 +350,29 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
                     if (item.type == subWeaponItemIDs[j])
                     {
-                        var bomb = (BaseBomb)item.ModItem;
-                        var inkCostPostDiscount = bomb.InkCost;
+                        var subWeapon = (BaseBomb)item.ModItem;
+                        var baseInkCost = WoomyMathHelper.CalculateWeaponInkCost(subWeapon, player);
+                        var discount = 0f;
 
                         if (BonusSub != SubWeaponType.None)
                         {
                             SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
                             if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
                             {
-                                inkCostPostDiscount = bomb.InkCost * (1 - SubBonusAmount);
+                                discount = baseInkCost * SubBonusAmount;
                             }
                         }
 
                         var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
-                        if (!inkTankPlayer.HasEnoughInk(inkCostPostDiscount))
+                        if (!inkTankPlayer.HasEnoughInk(baseInkCost - discount))
                         {
                             doneSearching = true;
                             break;
                         }
 
-                        if (bomb.InkCost - inkCostPostDiscount > 0)
+                        if (discount > 0)
                         {
-                            inkTankPlayer.HealInk(bomb.InkCost - inkCostPostDiscount);
+                            inkTankPlayer.HealInk(discount, false);
                         }
 
                         // Calculate throw angle and spawn projectile
