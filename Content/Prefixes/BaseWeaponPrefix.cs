@@ -168,6 +168,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (projectile.Projectile.penetrate > 0)
         {
             projectile.Projectile.penetrate += EnemyPierceBonus;
+            projectile.UpdatePierceDamageModifiers();
         }
 
         projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
