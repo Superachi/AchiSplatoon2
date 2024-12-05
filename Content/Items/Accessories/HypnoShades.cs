@@ -10,11 +10,11 @@ namespace AchiSplatoon2.Content.Items.Accessories
     {
         public static float BombDamageBonus => 0.2f;
         public static float BombUseTimeMult => 0.7f;
-        public static float BombInkCostMult => 0.3f;
+        public static float BombInkCostMult => 0.4f;
 
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
             (int)(BombDamageBonus * 100),
-            ((int)(BombInkCostMult * 100) - 1) * 1
+            (int)((1f - BombInkCostMult) * 100)
             );
 
         public override void SetDefaults()
