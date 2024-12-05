@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
@@ -32,7 +33,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.WallOfFleshBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<DroneDiscB>())
+                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>())
                 );
 
                 itemLoot.Add(
@@ -41,14 +42,6 @@ namespace AchiSplatoon2.Content.GlobalItems
                         ModContent.ItemType<SpecialChargeEmblem>(),
                         ModContent.ItemType<SpecialPowerEmblem>(),
                         ModContent.ItemType<SubPowerEmblem>()
-                    )
-                );
-
-                itemLoot.Add(
-                    ItemDropRule.OneFromOptions(
-                        5,
-                        ModContent.ItemType<SplooshOMatic>(),
-                        ModContent.ItemType<SplashOMatic>()
                     )
                 );
             }
