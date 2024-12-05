@@ -11,6 +11,12 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = (Dot52Gal)WeaponInstance;
             Projectile.damage = weaponData.DamageOverride;
+
+            if (Projectile.penetrate != 1)
+            {
+                enablePierceDamagefalloff = true;
+                wormDamageReduction = true;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
