@@ -110,6 +110,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             int middleProjectile = projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
 
+            if (projectileCount % 2 == 0)
+            {
+                degreesOffset += degreesPerProjectile / 2;
+            }
+
             // Convert angle: degrees -> radians -> vector
             float aimAngle = MathHelper.ToDegrees(
                 owner.DirectionTo(Main.MouseWorld).ToRotation()
