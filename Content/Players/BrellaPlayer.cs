@@ -118,7 +118,6 @@ namespace AchiSplatoon2.Content.Players
             var brellaData = (BaseBrella)inventoryPlayer.HeldModItem();
 
             shieldLife = brellaData.ShieldLife;
-            shieldLifeMax = brellaData.ShieldLife;
             shieldCooldown = Math.Max(shieldCooldown, 0);
             shieldCooldownMax = brellaData.ShieldCooldown;
 
@@ -128,6 +127,7 @@ namespace AchiSplatoon2.Content.Players
                 shieldLife = (int)(shieldLife * brellaPrefix.ShieldLifeModifier.NormalizePrefixMod());
                 shieldCooldownMax = (int)(shieldLife * brellaPrefix.ShieldCooldownModifier.NormalizePrefixMod());
             }
+            shieldLifeMax = shieldLife;
         }
 
         public override void PreUpdate()
