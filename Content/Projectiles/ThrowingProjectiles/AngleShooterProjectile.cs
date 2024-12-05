@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -60,9 +61,18 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
-            Color dustColor = GenerateInkColor();
-            var dust = Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-            dust.alpha = 64;
+            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletLastingDust>(), Velocity: Projectile.velocity / 5, newColor: CurrentColor, Scale: 1f);
+
+            if (Main.rand.NextBool(100))
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center,
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: WoomyMathHelper.AddRotationToVector2(Projectile.velocity, 90 * (Main.rand.NextBool(2) ? 1 : -1)),
+                    newColor: CurrentColor,
+                    Scale: 1f);
+                d.noGravity = true;
+            }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -108,6 +118,17 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (maxBounces == 0)
             {
                 Projectile.Kill();
+            }
+
+            for (int i = 0; i < 15; i ++)
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center,
+                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                    newColor: CurrentColor,
+                    Scale: 1f);
+                d.noGravity = true;
             }
 
             return false;
