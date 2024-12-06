@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private float amplitude = 0;
         private int sineCooldown = 0;
 
-        private bool _canBounce = false;
+        private bool _upgradedWeapon = false;
 
         public override void SetDefaults()
         {
@@ -47,6 +47,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 sineDirection = GetOwnerModPlayer<StatisticsPlayer>().attacksUsed % 2 == 0 ? 1 : -1;
             }
+
+            if (_upgradedWeapon)
+            {
+                Projectile.timeLeft *= 2;
+            }
         }
 
         public override void ApplyWeaponInstanceData()
@@ -55,7 +60,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             if (WeaponInstance is CoralStringer coralStringer)
             {
-                _canBounce = coralStringer.CanShotBounce;
+                _upgradedWeapon = coralStringer.CanShotBounce;
             };
         }
 
@@ -137,7 +142,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (_canBounce)
+            if (_upgradedWeapon)
             {
                 ProjectileBounce(oldVelocity, Vector2.One);
                 return false;
