@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class BaseSplatana : BaseWeapon
     {
-        public override float InkCost { get => 0.5f; }
+        public override float InkCost { get => 0.8f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
 
         public override SoundStyle ShootSample { get => SoundPaths.SplatanaWiperStrongSlash.ToSoundStyle(); }
