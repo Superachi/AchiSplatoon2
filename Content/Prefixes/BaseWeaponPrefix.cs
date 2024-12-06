@@ -172,8 +172,6 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         }
 
         projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
-
-        projectile.currentInkCost *= (1 + InkCostModifier);
     }
 
     #endregion

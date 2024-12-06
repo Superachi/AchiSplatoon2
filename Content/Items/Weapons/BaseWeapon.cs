@@ -163,6 +163,20 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
+            if (Item != null)
+            {
+                var baseInkCost = WoomyMathHelper.CalculateWeaponInkCost(this, Main.LocalPlayer, Item.prefix);
+                if (IsChargingWeapon(this))
+                {
+                    baseInkCost = WoomyMathHelper.CalculateChargeInkCost(baseInkCost, this, true);
+                }
+
+                if (baseInkCost > 0)
+                {
+                    tooltips.Add(new TooltipLine(Mod, $"InkCost", $"Uses {baseInkCost}% ink") { OverrideColor = null });
+                }
+            }
+
             // Usage hint 
             string usageVal = this.GetLocalizedValue("UsageHint").FormatWith(UsageHintParamA, UsageHintParamB);
             if (usageVal != this.GetLocalizationKey("UsageHint"))
@@ -207,6 +221,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 var flavor = new TooltipLine(Mod, "Flavor", $"{ColorHelper.TextWithFlavorColorAndQuotes(flavorVal)}") { OverrideColor = null };
                 tooltips.Add(flavor);
             }
+        }
+
+        public static bool IsChargingWeapon(BaseWeapon weapon)
+        {
+            return weapon.WeaponStyle == MainWeaponStyle.Charger || weapon.WeaponStyle == MainWeaponStyle.Stringer || weapon.WeaponStyle == MainWeaponStyle.Splatana || weapon.WeaponStyle == MainWeaponStyle.Splatling;
         }
 
         private string GetSubWeaponName(SubWeaponType type)
