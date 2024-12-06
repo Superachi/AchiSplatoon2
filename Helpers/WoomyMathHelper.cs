@@ -78,7 +78,7 @@ namespace AchiSplatoon2.Helpers
                 }
             }
 
-            DebugHelper.PrintInfo($"Cost modifier: {(int)(inkCostModifier * 100)}. Reduction: {baseInkCost} -> {baseInkCost * inkCostModifier}");
+            // DebugHelper.PrintInfo($"Cost modifier: {(int)(inkCostModifier * 100)}. Reduction: {baseInkCost} -> {baseInkCost * inkCostModifier}");
             return baseInkCost * inkCostModifier;
         }
 
