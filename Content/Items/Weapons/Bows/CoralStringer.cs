@@ -23,6 +23,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override int ProjectileType => ModContent.ProjectileType<CoralStringerProjectile>();
 
+        public virtual bool CanShotBounce => false;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

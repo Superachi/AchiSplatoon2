@@ -29,7 +29,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaPr
 
         public override void AI()
         {
-            Projectile.damage = 5;
             Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, 1f * _initialDirection);
             Projectile.velocity *= 0.99f;
 

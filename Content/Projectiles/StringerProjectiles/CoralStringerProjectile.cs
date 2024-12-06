@@ -4,6 +4,7 @@ using AchiSplatoon2.Helpers;
 using Terraria.ID;
 using System;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
@@ -16,6 +17,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private float currentRadians;
         private float amplitude = 0;
         private int sineCooldown = 0;
+
+        private bool _canBounce = false;
 
         public override void SetDefaults()
         {
@@ -30,6 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected override void AfterSpawn()
         {
             Initialize();
+            ApplyWeaponInstanceData();
             UpdateCurrentColor(parentFullyCharged ? CurrentColor.IncreaseHueBy(-20) : CurrentColor);
 
             sineCooldown = 3 * FrameSpeed();
@@ -43,6 +47,16 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 sineDirection = GetOwnerModPlayer<StatisticsPlayer>().attacksUsed % 2 == 0 ? 1 : -1;
             }
+        }
+
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+
+            if (WeaponInstance is CoralStringer coralStringer)
+            {
+                _canBounce = coralStringer.CanShotBounce;
+            };
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -123,8 +137,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (_canBounce)
+            {
+                ProjectileBounce(oldVelocity, Vector2.One);
+                return false;
+            }
+
             PlayAudio(SoundID.NPCDeath9, volume: 0.2f, maxInstances: 10, pitch: 0f);
             PlayAudio(SoundID.Item86, volume: 0.2f, maxInstances: 10, pitch: 0.5f);
+
             return true;
         }
     }

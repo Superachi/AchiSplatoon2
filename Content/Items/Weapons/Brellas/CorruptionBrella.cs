@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 30,
                 shotVelocity: 4f);
 
-            Item.damage = 10;
+            Item.damage = 5;
             Item.width = 54;
             Item.height = 64;
             Item.knockBack = 9;

@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -9,6 +8,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaPr
     {
         protected override void AfterSpawn()
         {
+            Projectile.damage *= 2;
             colorOverride = Color.Pink;
             base.AfterSpawn();
         }

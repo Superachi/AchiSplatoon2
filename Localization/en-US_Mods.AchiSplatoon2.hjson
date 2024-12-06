@@ -68,7 +68,7 @@ Hint: {
 		Undercover: The shield is weak, but recovers instantly when defeating an enemy
 		Recycle: The shield is weak, but recovers quickly
 		Martian: When the shield takes damage, it fires off a large lightning bolt
-		Plague: Creates a miasma that inflicts venom on enemies
+		Plague: Inflicts venom on enemies. Can hit in melee even when broken
 	}
 
 	# ----------------------------------------
@@ -368,7 +368,7 @@ Items: {
 	}
 
 	RoyalHeavySplatling: {
-		DisplayName: Royal Heavy Splatling
+		DisplayName: Heavy Splatling Deco
 		Tooltip: ""
 		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.Flavor
@@ -378,7 +378,7 @@ Items: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
 		UsageHint: "{$Hint.Splatling}"
-		Flavor: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.Flavor
+		Flavor: Zimi!
 	}
 
 	SplatBomb: {
@@ -1652,6 +1652,27 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.CoralStringer.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.CoralStringer.Flavor
 		DisplayName: Coral Harp
+		Tooltip: ""
+	}
+
+	CoralStringerB: {
+		UsageHint: Mods.AchiSplatoon2.Items.CoralStringerB.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CoralStringerB.Flavor
+		DisplayName: Coral Song
+		Tooltip: ""
+	}
+
+	CorruptionBrellaB: {
+		UsageHint: "{$Hint.Brella.Plague}"
+		Flavor: Mods.AchiSplatoon2.Items.CorruptionBrellaB.Flavor
+		DisplayName: Wither Brella
+		Tooltip: ""
+	}
+
+	SlimeSplattershotB: {
+		UsageHint: Mods.AchiSplatoon2.Items.SlimeSplattershotB.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SlimeSplattershotB.Flavor
+		DisplayName: Royal Gloop Shot
 		Tooltip: ""
 	}
 }
