@@ -119,7 +119,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.velocity.X = Projectile.velocity.X * airFriction;
 
                     // Rotation increased by velocity.X 
-                    Projectile.rotation += Projectile.velocity.X * 0.04f;
+                    Projectile.rotation += Projectile.velocity.X * 0.02f;
                     break;
                 case stateGetStickAxis:
                     // When sticking to a wall, we'll stop moving along one axis, but keep moving slightly along the other
