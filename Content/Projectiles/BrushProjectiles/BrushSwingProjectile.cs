@@ -31,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private float WeaponUseTime() => baseWeaponUseTime * FrameSpeed();
         private float baseWeaponUseTime = 6f;
         private float shotVelocity;
+        private float rollInkCost = 0f;
 
         private float swingAngleCurrent;
         private float swingArc = 80;
@@ -79,6 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
+            rollInkCost = weaponData.InkCost / 40;
         }
 
         protected override void AfterSpawn()
@@ -365,6 +367,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Alpha: Main.rand.Next(0, 32),
                     newColor: GenerateInkColor(),
                     Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            }
+
+            if (isFastEnough)
+            {
+                ConsumeInk(rollInkCost);
             }
 
             float lerpAmount = 0.05f;

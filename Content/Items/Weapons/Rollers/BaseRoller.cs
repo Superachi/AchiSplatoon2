@@ -11,6 +11,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
     internal class BaseRoller : BaseWeapon
     {
         public override float InkCost { get => 12f; }
+        public override float InkRecoveryDelay { get => 30f; }
+
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Roller;
         public virtual SoundStyle WindUpSample { get => SoundPaths.RollerSwingMedium.ToSoundStyle(); }
         public virtual SoundStyle SwingSample { get => SoundPaths.RollerFling1.ToSoundStyle(); }
