@@ -339,22 +339,29 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (sprinklerCooldown <= 0)
             {
                 sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
-                SprinklerProjectile p = CreateChildProjectile<PearlDroneSprinklerProjectile>(
+                SprinklerProjectile sprinklerShot = CreateChildProjectile<PearlDroneSprinklerProjectile>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetSprinklerDamage());
+                    droneMP.GetSprinklerDamage(),
+                    triggerSpawnMethods: false);
 
-                WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-15, 15));
-                p.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
+                sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                sprinklerShot.RunSpawnMethods();
             }
 
             if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
-                CreateChildProjectile<PearlDroneBurstBomb>(
+                PearlDroneBurstBomb burstShot = CreateChildProjectile<PearlDroneBurstBomb>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetBurstBombDamage());
+                    droneMP.GetBurstBombDamage(),
+                    triggerSpawnMethods: false);
+
+                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                burstShot.RunSpawnMethods();
             }
         }
 
