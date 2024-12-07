@@ -67,6 +67,17 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
+        public bool PlayerHasConditionThatPreventsSwimForm()
+        {
+            return Player.dead
+                || Player.wet
+                || !Player.ItemTimeIsZero
+                || Player.grappling[0] != -1
+                || Player.mount.Active
+                || Player.GetModPlayer<DualiePlayer>().isRolling
+                || PlayerHasBuffThatPreventsSwimForm();
+        }
+
         private bool PlayerHasBuffThatPreventsSwimForm()
         {
             return Player.HasBuff(BuffID.Frozen)
@@ -77,18 +88,22 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            if (Player.dead)
+            {
+                _squidFormProjectile?.Projectile.Kill();
+                if (state != stateHuman)
+                {
+                    SetState(stateHuman);
+                }
+                return;
+            }
+
             _yCameraOffset = MathHelper.Lerp(_yCameraOffset, _yCameraOffsetGoal, 0.1f);
 
             switch (state)
             {
                 case stateHuman:
-                    if (InputHelper.GetInputY() == -1
-                        && !Player.wet
-                        && Player.ItemTimeIsZero
-                        && Player.grappling[0] == -1
-                        && !Player.mount.Active
-                        && !Player.GetModPlayer<DualiePlayer>().isRolling
-                        && !PlayerHasBuffThatPreventsSwimForm())
+                    if (InputHelper.GetInputY() == -1 && !PlayerHasConditionThatPreventsSwimForm())
                     {
                         SetState(stateSquid);
                         return;
@@ -100,7 +115,7 @@ namespace AchiSplatoon2.Content.Players
                     Player.noFallDmg = true;
                     Player.AddBuff(ModContent.BuffType<SwimFormBuff>(), 2);
 
-                    if (_squidFormProjectile == null || PlayerHasBuffThatPreventsSwimForm())
+                    if (_squidFormProjectile == null || PlayerHasConditionThatPreventsSwimForm())
                     {
                         SetState(stateHuman);
                         return;
