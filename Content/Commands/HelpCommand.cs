@@ -72,6 +72,7 @@ namespace AchiSplatoon2.Content.Commands
             // HARDMODE
             else
             {
+                list.Add("You can use Shimmer to convert weapons into different ones!");
                 list.Add("All enemies can drop Silver Sheldon Licenses, but mimics are guaranteed to drop them!");
                 list.Add("Large mimics are dangerous, but they drop accessories that can alter the effects of certain main weapons.");
                 list.Add("Certain flying invasion bosses drop parts of an extremely powerful Color Chip Palette.");
