@@ -6,12 +6,23 @@ using Microsoft.Xna.Framework;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using System.Collections.Generic;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {
     internal class InkCrystal : BaseItem
     {
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(InkTankPlayer.ValuePerCrystal, InkTankPlayer.InkCrystalsMax);
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer != null)
+            {
+                var useCount = Main.LocalPlayer.GetModPlayer<InkTankPlayer>().CrystalUseCount();
+                var timesWord = useCount == 1 ? "time" : "times";
+                tooltips.Add(new TooltipLine(Mod, "UseCount", $"You've used this {ColorHelper.TextWithFunctionalColor($"{useCount}")} {timesWord}."));
+            }
+        }
 
         public override void SetDefaults()
         {

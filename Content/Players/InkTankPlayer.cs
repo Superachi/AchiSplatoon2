@@ -177,6 +177,11 @@ namespace AchiSplatoon2.Content.Players
             return _inkCrystalsUsed >= InkCrystalsMax;
         }
 
+        public int CrystalUseCount()
+        {
+            return _inkCrystalsUsed;
+        }
+
         #endregion
 
         #region Interface
