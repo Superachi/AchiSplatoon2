@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Consumables;
+using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -13,6 +14,11 @@ namespace AchiSplatoon2.Content.Players
             var starterItem = new Item();
             starterItem.SetDefaults(ModContent.ItemType<OrderBag>(), false);
             yield return starterItem;
+        }
+
+        public override void OnEnterWorld()
+        {
+            ChatHelper.SendModNoticeToThisClient($"Hi {Player.name}! Thanks for playing with my mod. Type {ColorHelper.TextWithFunctionalColor("/woomyTip")} if you want advice on where to go next!");
         }
     }
 }
