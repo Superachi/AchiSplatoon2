@@ -7,6 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
 {
     internal class HoneyScepter : BaseWeapon
     {
+        public override float InkCost { get => 8f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Other;
 
         public override void SetStaticDefaults()
@@ -25,7 +26,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             Item.DamageType = DamageClass.Magic;
 
             Item.damage = 18;
-            Item.mana = 18;
             Item.knockBack = 0;
             Item.autoReuse = false;
             Item.noMelee = true;
