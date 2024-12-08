@@ -121,7 +121,7 @@ namespace AchiSplatoon2.Content.Projectiles
             barFront = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankFront").Value;
 
             SpriteBatch spriteBatch = Main.spriteBatch;
-            Vector2 position = WoomyMathHelper.RoundVector2(_owner.Center) - Main.screenPosition + new Vector2(-70 * _owner.direction, 0 + _owner.gfxOffY);
+            Vector2 position = _owner.Center.RoundVector2() - Main.screenPosition + new Vector2(-70 * _owner.direction, 0 + _owner.gfxOffY);
             Vector2 origin = barBack.Size() / 2;
 
             spriteBatch.End();

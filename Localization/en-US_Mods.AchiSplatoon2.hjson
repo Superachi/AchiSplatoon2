@@ -1813,6 +1813,7 @@ Projectiles: {
 	CoralStringerProjectile.DisplayName: Coral Stringer Projectile
 	SheldonDrone.DisplayName: Sheldon Drone
 	PearlDroneLaserProjectile.DisplayName: Pearl Drone Laser Projectile
+	TrizookaHeldProjectile.DisplayName: Trizooka Held Projectile
 }
 
 Buffs: {

@@ -80,7 +80,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             ApplyWeaponInstanceData();
 
             EmitShotBurstDust();
-            PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
 
             CreateZookaShots();
 

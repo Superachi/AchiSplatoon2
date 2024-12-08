@@ -1,0 +1,261 @@
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
+
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
+{
+    internal class TrizookaHeldProjectile : BaseProjectile
+    {
+        // State machine
+        private const int _stateFlip = 0;
+        private const int _stateReady = 1;
+        private const int _stateFire = 2;
+        private const int _stateDespawn = 3;
+
+        // Visuals
+        private float _drawScale = 1f;
+        private float _drawRotation = 0f;
+        private int _drawDirection = 0;
+        private Vector2 _drawPosition = Vector2.Zero;
+        private Vector2 _holdOffset = Vector2.Zero;
+        private Vector2 _holdOffsetDefault = Vector2.Zero;
+
+        // Mechanics
+        private int _shotsRemaining = 0;
+        private int _shotDelay = 0;
+        private int _startDelay = 0;
+
+        // Misc
+        private Vector2 _mouseDirection = Vector2.Zero;
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 0;
+            Projectile.height = 0;
+            Projectile.timeLeft = 30;
+            Projectile.tileCollide = false;
+        }
+
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+
+            var weaponData = (TrizookaSpecial)WeaponInstance;
+            _shotDelay = 48;
+            _startDelay = 30;
+        }
+
+        protected override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+            SetState(_stateFlip);
+
+            _shotsRemaining = 3;
+
+            _holdOffsetDefault = new Vector2(Owner.direction * -2, -4);
+        }
+
+        public override void AI()
+        {
+            _mouseDirection = Owner.DirectionTo(Main.MouseWorld);
+
+            Owner.channel = true;
+            Owner.heldProj = Projectile.whoAmI;
+            Projectile.rotation = Owner.fullRotation;
+            Projectile.timeLeft++;
+            Projectile.Center = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
+            _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
+            _drawDirection = Owner.direction;
+            _holdOffset = Vector2.Lerp(_holdOffset, _holdOffsetDefault, 0.2f);
+
+            switch (state)
+            {
+                case _stateFlip:
+                    StateFlip();
+                    break;
+                case _stateReady:
+                    StateReady();
+                    break;
+                case _stateFire:
+                    StateFire();
+                    break;
+                case _stateDespawn:
+                    StateDespawn();
+                    break;
+            }
+        }
+
+        protected override void SetState(int targetState)
+        {
+            base.SetState(targetState);
+            switch (state)
+            {
+                case _stateFlip:
+                    _drawScale = 0f;
+                    PlayAudio(SoundPaths.TrizookaActivate.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
+                    break;
+
+                case _stateReady:
+                    Owner.fullRotation = 0;
+                    _drawScale = 1f;
+                    break;
+
+                case _stateFire:
+                    CreateChildProjectile<TrizookaShooter>(Owner.Center, _mouseDirection, Projectile.damage, true);
+                    _shotsRemaining--;
+
+                    _drawScale = 1.2f;
+                    _holdOffset = _holdOffsetDefault + -_mouseDirection * 30;
+                    PlayAudio(SoundID.Item66, volume: 0.5f, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.2f, position: Owner.Center);
+                    break;
+
+                case _stateDespawn:
+                    _drawScale = 1f;
+                    _holdOffset = _holdOffsetDefault;
+                    PlayAudio(SoundPaths.TrizookaDeactivate.ToSoundStyle(), volume: 0.3f, position: Owner.Center);
+                    break;
+            }
+        }
+
+        private void StateFlip()
+        {
+            Owner.itemAnimation = Owner.itemAnimationMax;
+            Owner.itemTime = Owner.itemTimeMax;
+
+            if (timeSpentInState < 15)
+            {
+                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.1f);
+                Owner.fullRotation += -Owner.direction * 0.4f;
+                Owner.fullRotationOrigin = new Vector2(10f, 20f);
+            }
+            else
+            {
+                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.3f);
+                Owner.fullRotation = 0;
+            }
+
+            if (timeSpentInState > _startDelay)
+            {
+                AdvanceState();
+            }
+        }
+
+        private void StateReady()
+        {
+            MakeProjectileFaceCursor(Owner);
+
+            if (InputHelper.GetInputMouseLeftHold())
+            {
+                SetState(_stateFire);
+            }
+        }
+
+        private void StateFire()
+        {
+            MakeProjectileFaceCursor(Owner);
+            _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.3f);
+
+            if (timeSpentInState > _shotDelay)
+            {
+                _drawScale = 1f;
+                if (_shotsRemaining > 0)
+                {
+                    SetState(_stateReady);
+                }
+                else
+                {
+                    SetState(_stateDespawn);
+                }
+            }
+
+            // Extend special buff
+            // Lock zooka rotation
+            // Spawn projectile
+        }
+
+        private void StateDespawn()
+        {
+            _drawScale = MathHelper.Lerp(_drawScale, 0f, 0.2f);
+
+            if (timeSpentInState > 15)
+            {
+                Owner.heldProj = -1;
+                Projectile.Kill();
+            }
+
+            // Despawn animation
+            // Kill projectile
+            // Cancel special buff
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Vector2 position = _drawPosition - Main.screenPosition + _holdOffset;
+            Texture2D texture = TextureAssets.Item[itemIdentifier].Value;
+
+            Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
+            Vector2 origin = sourceRectangle.Size() / 2f + new Vector2(-8 * _drawDirection, 8);
+
+            // The light value in the world
+            var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
+            var finalColor = new Color(lightInWorld.R, lightInWorld.G, lightInWorld.G);
+
+            SpriteBatch spriteBatch = Main.spriteBatch;
+
+            Main.EntitySpriteDraw(
+                texture,
+                position,
+                sourceRectangle,
+                finalColor,
+                Projectile.rotation,
+                origin,
+                _drawScale,
+                _drawDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                0f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
+        }
+
+        private void MakeProjectileFaceCursor(Player owner)
+        {
+            PlayerItemAnimationFaceCursor(owner);
+
+            // Change player direction depending on what direction the charger is held when charging
+            float mouseDirRadians;
+            mouseDirRadians = _mouseDirection.ToRotation();
+            var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
+
+            if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
+            {
+                owner.direction = 1;
+                Projectile.rotation = mouseDirRadians;
+            }
+            else
+            {
+                owner.direction = -1;
+                var sign = Math.Sign(mouseDirDegrees);
+                if (sign > 0)
+                {
+                    Projectile.rotation = MathHelper.ToRadians((mouseDirDegrees - 180));
+                }
+                else
+                {
+                    Projectile.rotation = MathHelper.ToRadians(mouseDirDegrees + 180);
+                }
+            }
+        }
+    }
+}

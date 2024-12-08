@@ -42,6 +42,8 @@ enum ProjNetUpdateType : byte
 
 internal class BaseProjectile : ModProjectile
 {
+    public Player Owner => GetOwner();
+
     public int itemIdentifier = -1;
     private BaseWeapon weaponSource;
     public BaseWeapon WeaponInstance
@@ -913,9 +915,10 @@ internal class BaseProjectile : ModProjectile
         Vector2? positionOffset = null,
         float additiveAmount = 0f,
         Texture2D? spriteOverride = null,
-        int? frameOverride = null)
+        int? frameOverride = null,
+        Vector2? positionOverride = null)
     {
-        Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
+        Vector2 position = (positionOverride ?? Projectile.Center) - Main.screenPosition + (positionOffset ?? Vector2.Zero);
         Texture2D texture = TextureAssets.Projectile[Type].Value;
         if (spriteOverride != null) texture = spriteOverride;
 
