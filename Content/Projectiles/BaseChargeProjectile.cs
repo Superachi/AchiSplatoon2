@@ -166,13 +166,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 StartCharge();
             }
 
-            if (playerHasChargedBattery && IsChargeMaxedOut() && !hasFired)
-            {
-                GetOwner().channel = false;
-                ReleaseCharge(owner);
-                return;
-            }
-
             // Charge up mechanic
             var len = chargeTimeThresholds.Length;
             if (chargeLevel < len)
@@ -203,11 +196,7 @@ namespace AchiSplatoon2.Content.Projectiles
         protected void ChargeLevelUpEffect()
         {
             chargeBarBrightness = 1f;
-
-            if (!playerHasChargedBattery)
-            {
-                PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
-            }
+            PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
         }
 
         protected void MaxChargeDustStream()
@@ -313,7 +302,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 color);
 
             // Darken the gauge when charge speed is reduced
-            if (!isPlayerGrounded && !IsChargeMaxedOut() && chargeSlowerInAir)
+            if (!isPlayerGrounded && !IsChargeMaxedOut() && chargeSlowerInAir && !playerHasChargedBattery)
             {
                 spriteBatch.Draw(
                     TextureAssets.MagicPixel.Value,

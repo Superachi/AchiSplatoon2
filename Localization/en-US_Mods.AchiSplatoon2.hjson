@@ -85,7 +85,7 @@ Hint: {
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 	HypnoShades: Sub-weapons are used faster via your hotbar
-	ChargedBattery: Main weapons that need charging will do so faster. They also fire automatically when fully charged
+	ChargedBattery: Weapons charge at full speed, even when in the air
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -1512,7 +1512,7 @@ Items: {
 		UsageHint: "{$Hint.ChargedBattery}"
 		Flavor: Mods.AchiSplatoon2.Items.ChargedBattery.Flavor
 		DisplayName: Charged Battery
-		Tooltip: ""
+		Tooltip: +{0}% weapon charge speed
 	}
 
 	NetcodeInspector: {

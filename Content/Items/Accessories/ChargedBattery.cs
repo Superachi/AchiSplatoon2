@@ -2,13 +2,18 @@
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories;
 
 internal class ChargedBattery : BaseAccessory
 {
-    public static float ChargeSpeedFlatBonus => 0.2f;
-    public static float AerialChargeSpeedModOverride => 0.8f;
+    public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
+        WoomyMathHelper.FloatToPercentage(ChargeSpeedFlatBonus)
+        );
+
+    public static float ChargeSpeedFlatBonus => 0.1f;
+    public static float AerialChargeSpeedModOverride => 1f;
 
     public override void SetDefaults()
     {
