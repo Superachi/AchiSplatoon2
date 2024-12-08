@@ -21,7 +21,7 @@ Hint: {
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
-	SplattershotJr: Increased ink capacity while equipped
+	SplattershotJr: +{0}% ink capacity while equipped
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
@@ -1687,6 +1687,13 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.HoneyScepterSupreme.UsageHint
 		DisplayName: Honey Scepter Supreme
 		Flavor: Transformation not included.
+		Tooltip: ""
+	}
+
+	KensaSplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplattershotJr.Flavor
+		DisplayName: Kensa Splattershot Jr.
 		Tooltip: ""
 	}
 }

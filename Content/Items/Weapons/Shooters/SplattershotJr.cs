@@ -11,14 +11,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     internal class SplattershotJr : BaseSplattershot
     {
         public override float InkCost { get => 0.7f; }
-        public virtual float InkTankCapacityBonus { get => 40f; }
+        public virtual float InkTankCapacityBonus { get => 20f; }
+        protected override string UsageHintParamA => InkTankCapacityBonus.ToString("0");
 
         public override float ShotGravity { get => 0.4f; }
         public override int ShotGravityDelay { get => 4; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 8f; }
         public override SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
-        public override Vector2? HoldoutOffset() { return new Vector2(-4, 0); }
+        public override Vector2? HoldoutOffset() { return new Vector2(-8, -2); }
         public override float MuzzleOffsetPx { get; set; } = 44f;
 
         public override void SetDefaults()
