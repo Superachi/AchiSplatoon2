@@ -173,7 +173,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 if (baseInkCost > 0)
                 {
-                    tooltips.Add(new TooltipLine(Mod, $"InkCost", $"Uses {baseInkCost}% ink") { OverrideColor = null });
+                    tooltips.Add(new TooltipLine(Mod, $"InkCost", $"Uses {baseInkCost.ToString("0.0")}% ink") { OverrideColor = null });
                 }
             }
 
