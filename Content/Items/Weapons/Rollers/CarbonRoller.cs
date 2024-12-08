@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class CarbonRoller : BaseRoller
     {
-        public override float InkCost { get => 7f; }
+        public override float InkCost { get => 4f; }
 
         public override float GroundWindUpDelayModifier => 0.5f;
         public override float GroundAttackVelocityModifier => 0.9f;
