@@ -1,6 +1,9 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +12,7 @@ namespace AchiSplatoon2.Content.Players
 {
     internal class AccessoryPlayer : ModPlayer
     {
+        public HashSet<int> equippedAccessories = new HashSet<int>();
         public Type? paletteType = null;
 
         public bool hasAgentCloak;
@@ -71,8 +75,39 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
+        public bool TryEquipAccessory(int type)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(Player))
+            {
+                return equippedAccessories.Add(type);
+            }
+
+            return false;
+        }
+
+        public bool TryEquipAccessory<T>() where T : ModItem
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(Player))
+            {
+                return TryEquipAccessory(ModContent.ItemType<T>());
+            }
+
+            return false;
+        }
+
+        public bool HasAccessory(int type)
+        {
+            return equippedAccessories.Contains(type);
+        }
+
+        public bool HasAccessory<T>() where T : ModItem
+        {
+            return HasAccessory(ModContent.ItemType<T>());
+        }
+
         public override void ResetEffects()
         {
+            equippedAccessories.Clear();
             paletteType = null;
 
             hasAgentCloak = false;

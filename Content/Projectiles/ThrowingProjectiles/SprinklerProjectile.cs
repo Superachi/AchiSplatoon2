@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -19,12 +18,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
             Projectile.ArmorPenetration = 5;
-            AIType = ProjectileID.Bullet;
         }
 
         protected override void AdjustVariablesOnShoot()

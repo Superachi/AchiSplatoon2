@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -10,13 +11,11 @@ using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -248,6 +247,13 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (npc.FullName.ToLowerInvariant().Contains("hornet") && npc.type != NPCID.VortexHornet && npc.type != NPCID.VortexHornetQueen)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HoneyScepter>(), 100));
+            }
+
+            if (npc.type == NPCID.Eyezor)
+            {
+                npcLoot.Add(ItemDropRule.Common(
+                    ModContent.ItemType<LaserAddon>(),
+                    chanceDenominator: 3));
             }
 
             #endregion

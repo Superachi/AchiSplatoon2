@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -33,6 +34,7 @@ namespace AchiSplatoon2.Content.Buffs
             var player = Main.LocalPlayer;
             var dronePlayer = player.GetModPlayer<PearlDronePlayer>();
             var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
+            var accPlayer = player.GetModPlayer<AccessoryPlayer>();
             var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
 
             if (!colorChipPlayer.IsPaletteValid()) return;
@@ -49,7 +51,15 @@ namespace AchiSplatoon2.Content.Buffs
 
             // Enabled attacks section
             tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
-            tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+
+            if (accPlayer.HasAccessory<LaserAddon>())
+            {
+                tooltip += ColorHelper.TextWithPearlColor("Laser beams!") + "\n";
+            }
+            else
+            {
+                tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+            }
             tooltip += ColorHelper.TextWithSubWeaponColor("Life drops") + "\n";
 
             if (dronePlayer.IsBurstBombEnabled)

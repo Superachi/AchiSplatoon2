@@ -338,17 +338,35 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             // Attacks
             if (sprinklerCooldown <= 0)
             {
-                sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
-                SprinklerProjectile sprinklerShot = CreateChildProjectile<PearlDroneSprinklerProjectile>(
-                    Projectile.Center,
-                    Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetSprinklerDamage(),
-                    triggerSpawnMethods: false);
+                if (droneMP.IsLaserSprinklerEnabled)
+                {
+                    sprinklerCooldown = GetCooldownValue((int)(sprinklerCooldownMax * droneMP.LaserCooldownMod));
 
-                WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
-                sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
-                sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
-                sprinklerShot.RunSpawnMethods();
+                    PearlDroneLaserProjectile laserShot = CreateChildProjectile<PearlDroneLaserProjectile>(
+                        Projectile.Center + Projectile.Center.DirectionTo(foundTarget.Center) * 20,
+                        Projectile.Center.DirectionTo(foundTarget.Center) * 10,
+                        (int)(droneMP.GetSprinklerDamage() * droneMP.LaserDamageMod),
+                        triggerSpawnMethods: false);
+
+                    laserShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    laserShot.RunSpawnMethods();
+                }
+                else
+                {
+                    sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
+
+                    SprinklerProjectile sprinklerShot = CreateChildProjectile<PearlDroneSprinklerProjectile>(
+                        Projectile.Center,
+                        Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
+                        droneMP.GetSprinklerDamage(),
+                        triggerSpawnMethods: false);
+
+                    WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
+                    sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    sprinklerShot.RunSpawnMethods();
+                }
             }
 
             if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)

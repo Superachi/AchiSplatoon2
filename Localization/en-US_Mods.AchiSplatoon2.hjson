@@ -21,7 +21,7 @@ Hint: {
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
 	}
 
-	SplattershotJr: Increased ink tank capacity while equipped
+	SplattershotJr: Increased ink capacity while equipped
 	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
@@ -1568,7 +1568,7 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkCapacityPotion.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.InkCapacityPotion.Flavor
 		DisplayName: Ink Capacity Potion
-		Tooltip: Increases ink capacity by 50%
+		Tooltip: Temporarily grants +{0}% ink capacity
 	}
 
 	InkRegenerationPotion: {
@@ -1638,7 +1638,7 @@ Items: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkCrystal.UsageHint
 		Flavor: It reacts to the thoughts and feelings of humans.
 		DisplayName: Liquid Crystal
-		Tooltip: Permanently increases your ink capacity by {0}% (up to {1} times)
+		Tooltip: Permanently increases your ink capacity by +{0}% (up to {1} times)
 	}
 
 	LastDitchEffortEmblem: {
@@ -1674,6 +1674,13 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.SlimeSplattershotB.Flavor
 		DisplayName: Royal Gloop Shot
 		Tooltip: ""
+	}
+
+	LaserAddon: {
+		UsageHint: Pearl Drone's sprinkler attack is replaced with lasers, which pierce enemies and fire faster
+		Flavor: Mods.AchiSplatoon2.Items.LaserAddon.Flavor
+		DisplayName: Eye Laser Add-On
+		Tooltip: Your ink capacity is REDUCED by {0}% (multiplied after bonuses)
 	}
 }
 
@@ -1790,6 +1797,8 @@ Projectiles: {
 	CorruptionBrellaShotgunProjectile.DisplayName: Corruption Brella Shotgun Projectile
 	CoralStringerCharge.DisplayName: Coral Stringer Charge
 	CoralStringerProjectile.DisplayName: Coral Stringer Projectile
+	SheldonDrone.DisplayName: Sheldon Drone
+	PearlDroneLaserProjectile.DisplayName: Pearl Drone Laser Projectile
 }
 
 Buffs: {

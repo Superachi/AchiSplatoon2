@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Players
         public float InkAmount = 0f;
         public float InkAmountBaseMax = 100f;
         public float InkAmountMaxBonus = 0f;
-        public float InkAmountFinalMax => InkAmountBaseMax + InkAmountMaxBonus + _inkCrystalsUsed * ValuePerCrystal;
+        public float InkAmountFinalMax => CalculateInkCapacity();
 
         public float InkRecoveryRate = 0.1f;
         public float InkRecoveryStillMult = 1.5f;
@@ -76,6 +76,16 @@ namespace AchiSplatoon2.Content.Players
         #endregion
 
         #region Ink management
+
+        private float CalculateInkCapacity()
+        {
+            var result = InkAmountBaseMax + InkAmountMaxBonus + _inkCrystalsUsed * ValuePerCrystal;
+            if (Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>())
+            {
+                result *= LaserAddon.InkCapacityMult;
+            }
+            return result;
+        }
 
         private void RecoverInk()
         {
