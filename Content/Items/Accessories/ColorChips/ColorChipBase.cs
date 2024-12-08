@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
                 else if (YellowValue > 0)
                 {
                     t.Text += StatIncreaseDisplayString(textColor, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "projectile piercing", modPlayer.YellowChipPiercingBonusDisplay);
+                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "shot velocity & accuracy", modPlayer.YellowChipVelocityBonusDisplay);
                 }
                 else if (PurpleValue > 0)
                 {

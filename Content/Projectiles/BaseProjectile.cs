@@ -6,6 +6,7 @@ using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
@@ -84,6 +85,7 @@ internal class BaseProjectile : ModProjectile
     protected float explosionRadiusModifier = 1f;
     protected int armorPierceModifier = 0;
     protected int piercingModifier = 0;
+    protected float velocityModifier = 1f;
     protected float knockbackModifier = 1f;
     protected int originalDamage = 0;
     protected virtual float DamageModifierAfterPierce => 0.7f;
@@ -352,13 +354,7 @@ internal class BaseProjectile : ModProjectile
                     if (i == (int)ChipColor.Yellow)
                     {
                         explosionRadiusModifier += colorChipPlayer.CalculateExplosionRadiusBonus();
-                        piercingModifier += colorChipPlayer.CalculatePiercingBonus();
-
-                        if (Projectile.penetrate != -1)
-                        {
-                            Projectile.maxPenetrate += piercingModifier;
-                            Projectile.penetrate += piercingModifier;
-                        }
+                        velocityModifier += colorChipPlayer.CalculateProjectileVelocityBonus();
                     }
                 }
             }
@@ -372,13 +368,14 @@ internal class BaseProjectile : ModProjectile
 
                 float dev = WeaponInstance.AimDeviation;
                 if (aimDeviationOverride != -1f) dev = aimDeviationOverride;
+                dev /= velocityModifier;
 
-                float startRad = vel.ToRotation();
-                float startDeg = MathHelper.ToDegrees(startRad);
-                float endDeg = startDeg + Main.rand.NextFloat(-dev, dev);
-                float endRad = MathHelper.ToRadians(endDeg);
-                Vector2 angleVec = endRad.ToRotationVector2();
-                Projectile.velocity = angleVec * projSpeed;
+                Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -dev, dev);
+            }
+
+            if (weaponSource != null && weaponSource.WeaponStyle is not MainWeaponStyle.Other)
+            {
+                Projectile.velocity *= velocityModifier;
             }
 
             UpdatePierceDamageModifiers();

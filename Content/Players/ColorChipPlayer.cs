@@ -28,8 +28,8 @@ namespace AchiSplatoon2.Content.Players
         public string PurpleChipBaseChargeSpeedBonusDisplay { get => $"{(int)(PurpleChipBaseChargeSpeedBonus * 100)}%"; }
         public float YellowChipExplosionRadiusBonus { get => 0.08f; }
         public string YellowChipExplosionRadiusBonusDisplay { get => $"{(int)(YellowChipExplosionRadiusBonus * 100)}%"; }
-        public int YellowChipPiercingBonus { get => 1; }
-        public string YellowChipPiercingBonusDisplay { get => $"{YellowChipPiercingBonus}"; }
+        public float YellowChipVelocityBonus { get => 0.1f; }
+        public string YellowChipVelocityBonusDisplay { get => $"{YellowChipVelocityBonus * 100}%"; }
         public float GreenChipLuckyBombChance { get => 0.15f; }
         public string GreenChipLuckyBombChanceDisplay { get => $"{(int)(GreenChipLuckyBombChance * 100)}%"; }
         public float GreenChipLootBonusDivider { get => 2f; }
@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Players
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
         public float BlueChipBaseChargeBonus { get => 0.2f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
-        public float AquaChipBaseAttackCooldownReduction { get => 0.06f; }
+        public float AquaChipBaseAttackCooldownReduction { get => 0.05f; }
         public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
 
         public float PaletteMainDamageMod { get => 1.1f; }
@@ -150,9 +150,9 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipExplosionRadiusBonus;
         }
 
-        public int CalculatePiercingBonus()
+        public float CalculateProjectileVelocityBonus()
         {
-            return ColorChipAmounts[(int)ChipColor.Yellow];
+            return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipVelocityBonus;
         }
 
         public float CalculateLuckyBombChance()

@@ -138,7 +138,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Yellow)}Range ({yellow}) >]" +
                             $"\n[{textColorGray}Explosion radius: +{(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]" +
-                            $"\n[{textColorGray}Projectile piercing: +{(int)(yellow * modPlayer.YellowChipPiercingBonus)}]";
+                            $"\n[{textColorGray}Shot velocity & accuracy: +{(int)(yellow * modPlayer.YellowChipVelocityBonus * 100)}%]";
                     }
                     if (purple > 0)
                     {
