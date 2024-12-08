@@ -88,7 +88,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
-            if (Player.dead)
+            if (PlayerHasConditionThatPreventsSwimForm())
             {
                 _squidFormProjectile?.Projectile.Kill();
                 if (state != stateHuman)

@@ -60,7 +60,6 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
                 DebugHelper.Ping();
             }
 
-            dissolvable = false;
             squidPlayer = GetOwner().GetModPlayer<SquidPlayer>();
             _drawFlip = GetOwner().direction == -1;
 
