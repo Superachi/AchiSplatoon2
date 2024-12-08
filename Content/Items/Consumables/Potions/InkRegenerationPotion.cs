@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
         {
             CreateRecipe()
                 .AddIngredient(ItemID.BottledWater, 1)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .AddIngredient(ItemID.FallenStar, 1)
                 .AddIngredient(ItemID.Fireblossom, 1)
                 .AddTile(TileID.Bottles)

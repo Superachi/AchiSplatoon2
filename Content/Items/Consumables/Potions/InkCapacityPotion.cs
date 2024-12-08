@@ -33,9 +33,9 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
         {
             CreateRecipe()
                 .AddIngredient(ItemID.BottledWater, 1)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .AddIngredient(ItemID.FallenStar, 1)
-                .AddIngredient(ItemID.GlowingMushroom, 1)
+                .AddIngredient(ItemID.GlowingMushroom, 5)
                 .AddTile(TileID.Bottles)
                 .Register();
         }
