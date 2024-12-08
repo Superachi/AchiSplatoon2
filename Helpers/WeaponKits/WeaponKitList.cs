@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(SplattershotJr),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SplattershotPro),      new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 0.2f) },
 
-            { typeof(CustomSplattershotJr), new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(CustomSplattershotJr), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(ForgeSplattershotPro), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
             { typeof(TentatekSplattershot), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
@@ -136,6 +136,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(GoldDynamoRoller),     new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
             // Kensa weapons
+            { typeof(KensaSplattershotJr),      new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(KensaDot52Gal),            new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(KensaDynamoRoller),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(KensaGloogaDualie),        new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
