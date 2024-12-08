@@ -61,6 +61,11 @@ namespace AchiSplatoon2.Content.Commands
                     list.Add("The Demolitionist can sell you different kinds of sub weapons! If you can get him to move in...");
                 }
 
+                if (!Condition.NpcIsPresent(NPCID.Painter).IsMet())
+                {
+                    list.Add("The Painter can sell you Black Ink, necessary for certain crafting recipes.");
+                }
+
                 if (Condition.DownedEowOrBoc.IsMet())
                 {
                     list.Add("Meteorite and Hellstone both give you access to powerful weapons to help defeat upcoming bosses.");
