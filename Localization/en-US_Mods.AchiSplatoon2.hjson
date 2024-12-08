@@ -1682,6 +1682,13 @@ Items: {
 		DisplayName: Eye Laser Add-On
 		Tooltip: Your ink capacity is REDUCED by {0}% (multiplied after bonuses)
 	}
+
+	HoneyScepterSupreme: {
+		UsageHint: Mods.AchiSplatoon2.Items.HoneyScepterSupreme.UsageHint
+		DisplayName: Honey Scepter Supreme
+		Flavor: Transformation not included.
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

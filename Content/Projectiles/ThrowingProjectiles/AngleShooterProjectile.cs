@@ -76,6 +76,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             }
         }
 
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (bounceDamageMod > 5f)
