@@ -27,14 +27,11 @@ namespace AchiSplatoon2.Content.Players
         public int SprinklerBaseArmorPenetration { get; private set; } = 5;
         public int BurstBombBaseDamage { get; private set; } = 30;
         public int KillerWailBaseDamage { get; private set; } = 30;
-        public int InkStrikeBaseDamage { get; private set; } = 50;
         public int MinimumChipsForBurstBomb => 4;
-        public int MinimumChipsForKillerWail => 6;
-        public int MinimumChipsForInkStrike => 8;
+        public int MinimumChipsForKillerWail => 8;
         public bool IsBurstBombEnabled => GetDroneChipCount() >= MinimumChipsForBurstBomb;
         public bool IsKillerWailEnabled => GetDroneChipCount() >= MinimumChipsForKillerWail;
-        public bool IsInkStrikeEnabled => GetDroneChipCount() >= MinimumChipsForInkStrike;
-        public bool IsLaserSprinklerEnabled => GetLaserAccessory();
+        public bool IsLaserSprinklerEnabled => Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
         public float LaserDamageMod => 1.1f;
         public float LaserCooldownMod => 0.8f;
 
@@ -147,11 +144,6 @@ namespace AchiSplatoon2.Content.Players
         public int GetDroneChipCount()
         {
             return colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua];
-        }
-
-        public bool GetLaserAccessory()
-        {
-            return Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
         }
 
         public void AddDamageDealtStatistic(int damage)

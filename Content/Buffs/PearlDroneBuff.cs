@@ -72,10 +72,6 @@ namespace AchiSplatoon2.Content.Buffs
                 tooltip += ColorHelper.TextWithSpecialWeaponColor("Killer Wail 5.1") + $" ({dronePlayer.MinimumChipsForKillerWail}+ chips)" + "\n";
             }
 
-            if (dronePlayer.IsInkStrikeEnabled)
-            {
-                tooltip += ColorHelper.TextWithSpecialWeaponColor("Inkstrike") + $" ({dronePlayer.MinimumChipsForInkStrike}+ chips)" + "\n";
-            }
             tooltip += "\n";
 
             tooltip += ColorHelper.TextWithPearlColor("Damage dealt by this summon:") + $" {dronePlayer.DamageDealt}" + "\n";
