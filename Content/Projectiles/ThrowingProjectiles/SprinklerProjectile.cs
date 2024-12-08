@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
-            Projectile.ArmorPenetration = 5;
+            Projectile.ArmorPenetration = 10;
         }
 
         protected override void AdjustVariablesOnShoot()
