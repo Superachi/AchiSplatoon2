@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float bounceDamageMod = 1f;
         private readonly float bounceDamageModMax = 10f;
         private int baseDamage;
+        private int bounceTimestamp = -1;
 
         public override void SetDefaults()
         {
@@ -67,8 +68,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             {
                 var d = Dust.NewDustPerfect(
                     Position: Projectile.Center,
-                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                    Velocity: WoomyMathHelper.AddRotationToVector2(Projectile.velocity, 90 * (Main.rand.NextBool(2) ? 1 : -1)),
+                    Type: DustID.RainbowTorch,
+                    Velocity: Main.rand.NextVector2CircularEdge(3, 3),
                     newColor: CurrentColor,
                     Scale: 1f);
                 d.noGravity = true;
@@ -120,15 +121,20 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.Kill();
             }
 
-            for (int i = 0; i < 15; i ++)
+            if (bounceTimestamp == -1 || timeSpentAlive - bounceTimestamp > 30)
             {
-                var d = Dust.NewDustPerfect(
-                    Position: Projectile.Center,
-                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                    Velocity: Main.rand.NextVector2CircularEdge(3, 3),
-                    newColor: CurrentColor,
-                    Scale: 1f);
-                d.noGravity = true;
+                bounceTimestamp = timeSpentAlive;
+
+                for (int i = 0; i < 15; i++)
+                {
+                    var d = Dust.NewDustPerfect(
+                        Position: Projectile.Center,
+                        Type: DustID.RainbowTorch,
+                        Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                        newColor: CurrentColor,
+                        Scale: 1f);
+                    d.noGravity = true;
+                }
             }
 
             return false;
