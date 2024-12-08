@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             {
                 if (IsThisClientTheProjectileOwner())
                 {
-                    Projectile.damage = MultiplyProjectileDamage(1.5f);
+                    Projectile.damage = MultiplyProjectileDamage(1.2f);
                     Projectile.velocity *= 1.5f;
                     explosionRadiusAir /= 2;
                 }
