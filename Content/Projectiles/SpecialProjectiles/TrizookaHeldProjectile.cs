@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         private Vector2 _drawPosition = Vector2.Zero;
         private Vector2 _holdOffset = Vector2.Zero;
         private Vector2 _holdOffsetDefault = Vector2.Zero;
+        private float _rotationOffset = 0;
 
         // Mechanics
         private int _shotsRemaining = 0;
@@ -65,11 +66,12 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override void AI()
         {
+            Owner.itemAnimation = Owner.itemAnimationMax;
+            Owner.itemTime = Owner.itemTimeMax;
             _mouseDirection = Owner.DirectionTo(Main.MouseWorld);
 
             Owner.channel = true;
             Owner.heldProj = Projectile.whoAmI;
-            Projectile.rotation = Owner.fullRotation;
             Projectile.timeLeft++;
             Projectile.Center = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
             _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
@@ -129,8 +131,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         private void StateFlip()
         {
-            Owner.itemAnimation = Owner.itemAnimationMax;
-            Owner.itemTime = Owner.itemTimeMax;
+            Projectile.rotation = Owner.fullRotation;
 
             if (timeSpentInState < 15)
             {
@@ -162,8 +163,16 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         private void StateFire()
         {
-            MakeProjectileFaceCursor(Owner);
             _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.3f);
+
+            if (timeSpentInState < _shotDelay / 4)
+            {
+                _rotationOffset = MathHelper.Lerp(_rotationOffset, -Owner.direction * 20, 0.2f);
+            }
+            else
+            {
+                _rotationOffset = MathHelper.Lerp(_rotationOffset, 0, 0.1f);
+            }
 
             if (timeSpentInState > _shotDelay)
             {
@@ -189,6 +198,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
             if (timeSpentInState > 15)
             {
+                Owner.itemAnimation = 0;
+                Owner.itemTime = 0;
+
                 Owner.heldProj = -1;
                 Projectile.Kill();
             }
@@ -217,7 +229,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 position,
                 sourceRectangle,
                 finalColor,
-                Projectile.rotation,
+                Projectile.rotation + MathHelper.ToRadians(_rotationOffset),
                 origin,
                 _drawScale,
                 _drawDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
