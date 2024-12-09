@@ -19,8 +19,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         private const float explosionRadius = 200;
         private int finalExplosionRadius;
-        private const float explosionTime = 6f;
-        protected int damageBeforePiercing;
 
         private float delayUntilFall = 0;
         private float fallSpeed = 0;
@@ -57,12 +55,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         protected override void AfterSpawn()
         {
-            _hitboxLocation = Projectile.Center;
-
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
-            damageBeforePiercing = Projectile.damage;
+            _hitboxLocation = Projectile.Center;
 
             delayUntilFall = 20f;
             fallSpeed = 0.1f;
@@ -121,11 +117,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         protected void Explode()
         {
-            if (Projectile.Center.Distance(Owner.Center) < 200)
-            {
-                GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 3, speed: 4, duration: 20);
-            }
-
             var p = CreateChildProjectile<BlastProjectile>(
                 position: _hitboxLocation,
                 velocity: Vector2.Zero,
@@ -141,6 +132,24 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             PlayAudio(SoundID.Item38, volume: 0.2f * volumeMod, maxInstances: 10, pitch: -2f);
             PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.05f * volumeMod, pitchVariance: 0.2f, maxInstances: 10, pitch: -2f);
             PlayAudio(SoundPaths.TrizookaSplash.ToSoundStyle(), volume: 0.1f * volumeMod, pitchVariance: 0.2f, maxInstances: 10);
+
+            for (int i = 0; i < 3; i++)
+            {
+                var g = Gore.NewGoreDirect(
+                    Terraria.Entity.GetSource_None(),
+                    Projectile.Center + new Vector2(-20, -15),
+                    Vector2.Zero,
+                    GoreID.Smoke1,
+                    Main.rand.NextFloat(1f, 2f));
+
+                g.velocity = Main.rand.NextVector2Circular(2, 2);
+                g.alpha = 196;
+            }
+
+            if (Projectile.Center.Distance(Owner.Center) < 200)
+            {
+                GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 3, speed: 4, duration: 20);
+            }
 
             Projectile.Kill();
         }

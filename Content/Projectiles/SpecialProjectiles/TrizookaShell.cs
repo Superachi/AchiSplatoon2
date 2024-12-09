@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             }
             else
             {
-                if (Main.rand.NextBool(1 + (timeSpentAlive / 8)))
+                if (timeSpentAlive > 10 && Main.rand.NextBool(1 + (timeSpentAlive / 8)))
                 {
                     Dust.NewDustPerfect(
                         Projectile.Center,

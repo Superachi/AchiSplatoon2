@@ -55,7 +55,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         protected override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
             SetState(_stateFlip);
 
@@ -159,6 +159,16 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
                         d.velocity = WoomyMathHelper.AddRotationToVector2(_mouseDirection * 4, Main.rand.NextFloat(-30, 30)) * Main.rand.NextFloat(0.25f, 0.5f) * i;
                         d.noGravity = true;
+                    }
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var g = Gore.NewGoreDirect(Terraria.Entity.GetSource_None(), Owner.Center - _mouseDirection * 60 + new Vector2(-20, -15), Vector2.Zero, GoreID.Smoke1, Main.rand.NextFloat(0.8f, 1.2f));
+                        g.velocity = WoomyMathHelper.AddRotationToVector2(
+                            -_mouseDirection * Main.rand.NextFloat(1, 4),
+                            -30,
+                            30);
+                        g.alpha = 128;
                     }
 
                     // Discard shell
