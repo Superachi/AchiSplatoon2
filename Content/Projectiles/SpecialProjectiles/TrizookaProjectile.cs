@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -63,9 +64,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
             damageBeforePiercing = Projectile.damage;
 
-            delayUntilFall = 12f;
+            delayUntilFall = 20f;
             fallSpeed = 0.1f;
             terminalVelocity = 18f;
+
+            Projectile.penetrate = 2;
         }
 
         private void SetHitboxLocation()
@@ -118,17 +121,26 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         protected void Explode()
         {
-            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var s = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.4f, _pitchVariance: 0.3f, _maxInstances: 5, _pitch: -0.6f, _position: _hitboxLocation);
+            if (Projectile.Center.Distance(Owner.Center) < 200)
+            {
+                GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 3, speed: 4, duration: 20);
+            }
+
             var p = CreateChildProjectile<BlastProjectile>(
                 position: _hitboxLocation,
                 velocity: Vector2.Zero,
                 damage: Projectile.damage);
 
-            p.SetProperties(radius: (int)finalExplosionRadius, s);
+            var s = new PlayAudioModel(_soundPath: SoundPaths.Silence, _volume: 0f);
+            p.SetProperties(radius: finalExplosionRadius, audioModel: s, ignoredTargets: _hitTargets);
             p.colorOverride = colorOverride;
-            // p.targetsToIgnore = _hitTargets;
             p.RunSpawnMethods();
+
+            var volumeMod = 0.7f;
+            PlayAudio(SoundID.Splash, volume: 0.1f * volumeMod, maxInstances: 10, pitch: -0.5f);
+            PlayAudio(SoundID.Item38, volume: 0.2f * volumeMod, maxInstances: 10, pitch: -2f);
+            PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.05f * volumeMod, pitchVariance: 0.2f, maxInstances: 10, pitch: -2f);
+            PlayAudio(SoundPaths.TrizookaSplash.ToSoundStyle(), volume: 0.1f * volumeMod, pitchVariance: 0.2f, maxInstances: 10);
 
             Projectile.Kill();
         }
@@ -164,7 +176,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         return Framing.GetTileSafely(_hitboxLocation).HasTile && Collision.SolidCollision(_hitboxLocation, Projectile.width, Projectile.height);
                     }
 
-                    if (Timer > 300 || CheckSolid())
+                    if (Timer > 600 || CheckSolid())
                     {
                         Explode();
                     }
@@ -177,18 +189,20 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
             var size = 40;
-            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+            hitbox = new Rectangle((int)_hitboxLocation.X - size / 2, (int)_hitboxLocation.Y - size / 2, size, size);
         }
 
         public override bool? CanHitNPC(NPC target)
         {
+            if (target.friendly) return false;
+
             var oldPosition = Projectile.Center;
             Projectile.Center = _hitboxLocation;
-
             bool? check = Rectangle.Intersect(target.Hitbox, Projectile.Hitbox) != Rectangle.Empty;
-
             if (check == true)
             {
+                DebugHelper.PrintDebug(shotNumber);
+
                 _hitTargets.Add(target.whoAmI);
                 if (state == 0) Explode();
             }

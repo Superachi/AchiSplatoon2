@@ -15,6 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override void SetDefaults()
         {
+            Projectile.extraUpdates = 1;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = false;
@@ -25,14 +26,14 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         protected override void AfterSpawn()
         {
             _delayUntilFall = 20;
-            _fallSpeed = 0.1f;
+            _fallSpeed = 0.05f;
             _remainingBounces = 3;
             Projectile.scale = 1f;
         }
 
         public override void AI()
         {
-            Projectile.velocity.X *= 0.99f;
+            Projectile.velocity.X *= 0.995f;
             Projectile.rotation += Projectile.velocity.X * 0.03f;
 
             if (timeSpentAlive >= FrameSpeed(_delayUntilFall))

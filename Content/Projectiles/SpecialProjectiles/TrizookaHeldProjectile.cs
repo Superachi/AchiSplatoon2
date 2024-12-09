@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         private Vector2 _holdOffset = Vector2.Zero;
         private Vector2 _holdOffsetDefault = Vector2.Zero;
         private float _rotationOffset = 0;
+        private bool _flipDone = false;
 
         // Mechanics
         private int _shotsRemaining = 0;
@@ -49,7 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
             var weaponData = (TrizookaSpecial)WeaponInstance;
             _shotDelay = 48;
-            _startDelay = 30;
+            _startDelay = 36;
         }
 
         protected override void AfterSpawn()
@@ -59,7 +60,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             SetState(_stateFlip);
 
             _shotsRemaining = 3;
-
             _holdOffsetDefault = new Vector2(Owner.direction * -2, -4);
         }
 
@@ -102,7 +102,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             {
                 case _stateFlip:
                     _drawScale = 0f;
-                    PlayAudio(SoundPaths.TrizookaActivate.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
                     break;
 
                 case _stateReady:
@@ -111,28 +110,63 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     break;
 
                 case _stateFire:
-                    // Mechanical
+                    // --- Mechanical
                     _shotsRemaining--;
 
+                    // Shoot
                     var shotPosition = Owner.Center;
                     if (Collision.CanHitLine(Owner.Center, 0, 0, Main.MouseWorld, 0, 0))
                     {
                         shotPosition = Owner.Center + _mouseDirection * 40;
                     }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var p = CreateChildProjectile<TrizookaProjectile>(
+                            position: shotPosition,
+                            velocity: _mouseDirection * 10,
+                            damage: Projectile.damage);
 
-                    CreateChildProjectile<TrizookaShooter>(shotPosition, _mouseDirection, Projectile.damage, true);
-                    Owner.velocity.X += (Owner.Center.X < Main.MouseWorld.X ? -1 : 1) * 4f;
+                        p.colorOverride = CurrentColor;
+                        p.shotNumber = i;
+                    }
 
-                    // Audio/visual
+                    DebugHelper.PrintInfo("fired!");
+
+                    // Recoil
+                    Owner.velocity -= _mouseDirection * 3;
+
+                    // --- Audio/visual
+                    // Recoil
                     _drawScale = 1.2f;
-                    _holdOffset = _holdOffsetDefault + -_mouseDirection * 30;
+                    _holdOffset = _holdOffsetDefault + -_mouseDirection * 20;
+
+                    // Sound
                     PlayAudio(SoundID.Item66, volume: 0.5f, position: Owner.Center);
                     PlayAudio(SoundID.Item80, volume: 0.2f, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.2f, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.2f, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
 
+                    // Muzzle flare
+                    for (int i = 1; i < 20; i++)
+                    {
+                        var d = Dust.NewDustDirect(
+                            shotPosition,
+                            0,
+                            0,
+                            DustID.RainbowTorch,
+                            newColor: ColorHelper.ColorWithAlpha255(CurrentColor),
+                            Scale: Main.rand.NextFloat(0.5f, 2f));
+
+                        d.velocity = WoomyMathHelper.AddRotationToVector2(_mouseDirection * 4, Main.rand.NextFloat(-30, 30)) * Main.rand.NextFloat(0.25f, 0.5f) * i;
+                        d.noGravity = true;
+                    }
+
+                    // Discard shell
                     var shellVelocity = WoomyMathHelper.AddRotationToVector2(-_mouseDirection * 8, Main.rand.Next(-30, 30));
                     CreateChildProjectile<TrizookaShell>(Owner.Center, shellVelocity, 0, true);
+
+                    // Camera shake
+                    GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 4, speed: 2, duration: 15);
                     break;
 
                 case _stateDespawn:
@@ -146,17 +180,41 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         private void StateFlip()
         {
             Projectile.rotation = Owner.fullRotation;
-
-            if (!Owner.mount.Active && timeSpentInState < 15)
+            if (timeSpentInState > 15)
             {
-                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.1f);
-                Owner.fullRotation += -Owner.direction * 0.4f;
-                Owner.fullRotationOrigin = new Vector2(10f, 20f);
+                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.2f);
             }
-            else
+
+            if (!Owner.mount.Active && !_flipDone)
             {
-                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.3f);
-                Owner.fullRotation = 0;
+                if (timeSpentInState < 8)
+                {
+                    Owner.fullRotation = MathHelper.Lerp(Owner.fullRotation, Owner.direction, 0.1f);
+                    Owner.fullRotationOrigin = new Vector2(10f, 20f);
+                }
+                else if (timeSpentInState > 12)
+                {
+                    if (Math.Abs(Owner.fullRotation) < 6)
+                    {
+                        Owner.fullRotation += -Owner.direction * 0.5f;
+                        Owner.fullRotationOrigin = new Vector2(10f, 20f);
+                    }
+                    else
+                    {
+                        _flipDone = true;
+                        Owner.fullRotation = 0;
+                    }
+                }
+            }
+
+            if (timeSpentAlive == 12)
+            {
+                PlayAudio(SoundID.Item18, volume: 2f, position: Owner.Center, pitch: 0.5f);
+            }
+
+            if (timeSpentAlive == 15)
+            {
+                PlayAudio(SoundPaths.TrizookaActivate.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
             }
 
             if (timeSpentInState > _startDelay)
