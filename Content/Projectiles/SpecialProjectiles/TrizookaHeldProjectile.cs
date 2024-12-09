@@ -1,13 +1,12 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
@@ -74,7 +73,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Owner.heldProj = Projectile.whoAmI;
             Projectile.timeLeft++;
             Projectile.Center = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
-            _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
+            var heightBoost = Owner.mount.Active ? -Owner.mount.HeightBoost * 0.6f : 0;
+            _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
             _drawDirection = Owner.direction;
             _holdOffset = Vector2.Lerp(_holdOffset, _holdOffsetDefault, 0.2f);
 
@@ -111,14 +111,28 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     break;
 
                 case _stateFire:
-                    CreateChildProjectile<TrizookaShooter>(Owner.Center, _mouseDirection, Projectile.damage, true);
+                    // Mechanical
                     _shotsRemaining--;
 
+                    var shotPosition = Owner.Center;
+                    if (Collision.CanHitLine(Owner.Center, 0, 0, Main.MouseWorld, 0, 0))
+                    {
+                        shotPosition = Owner.Center + _mouseDirection * 40;
+                    }
+
+                    CreateChildProjectile<TrizookaShooter>(shotPosition, _mouseDirection, Projectile.damage, true);
+                    Owner.velocity.X += (Owner.Center.X < Main.MouseWorld.X ? -1 : 1) * 4f;
+
+                    // Audio/visual
                     _drawScale = 1.2f;
                     _holdOffset = _holdOffsetDefault + -_mouseDirection * 30;
                     PlayAudio(SoundID.Item66, volume: 0.5f, position: Owner.Center);
+                    PlayAudio(SoundID.Item80, volume: 0.2f, position: Owner.Center);
                     PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
                     PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.2f, position: Owner.Center);
+
+                    var shellVelocity = WoomyMathHelper.AddRotationToVector2(-_mouseDirection * 8, Main.rand.Next(-30, 30));
+                    CreateChildProjectile<TrizookaShell>(Owner.Center, shellVelocity, 0, true);
                     break;
 
                 case _stateDespawn:
@@ -133,7 +147,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             Projectile.rotation = Owner.fullRotation;
 
-            if (timeSpentInState < 15)
+            if (!Owner.mount.Active && timeSpentInState < 15)
             {
                 _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.1f);
                 Owner.fullRotation += -Owner.direction * 0.4f;
@@ -213,9 +227,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 position = _drawPosition - Main.screenPosition + _holdOffset;
-            Texture2D texture = TextureAssets.Item[itemIdentifier].Value;
+            Texture2D texture = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/Specials/ZookaStages").Value;
 
-            Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
+            Rectangle sourceRectangle = texture.Frame(horizontalFrames: 4, frameX: 3 - _shotsRemaining);
             Vector2 origin = sourceRectangle.Size() / 2f + new Vector2(-8 * _drawDirection, 8);
 
             // The light value in the world

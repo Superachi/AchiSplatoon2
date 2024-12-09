@@ -1814,6 +1814,7 @@ Projectiles: {
 	SheldonDrone.DisplayName: Sheldon Drone
 	PearlDroneLaserProjectile.DisplayName: Pearl Drone Laser Projectile
 	TrizookaHeldProjectile.DisplayName: Trizooka Held Projectile
+	TrizookaShell.DisplayName: Trizooka Shell
 }
 
 Buffs: {
