@@ -1,11 +1,15 @@
-﻿using AchiSplatoon2.Netcode.DataModels;
+﻿using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using System;
+using System.Collections.Generic;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BlastProjectile : BaseProjectile
     {
+        public List<int> targetsToIgnore = new List<int>();
+
         private int blastRadius;
         private PlayAudioModel? playAudioModel;
 
@@ -36,6 +40,16 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 Projectile.Resize(finalRadius, finalRadius);
             }
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (targetsToIgnore.Contains(target.whoAmI))
+            {
+                return false;
+            }
+
+            return base.CanHitNPC(target);
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
