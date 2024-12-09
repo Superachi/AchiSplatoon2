@@ -320,17 +320,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else
             {
-                if (!weaponPlayer.SpecialReady
-                    || (weaponPlayer.IsSpecialActive && IsDurationSpecial)
-                    || (weaponPlayer.SpecialName != null && weaponPlayer.SpecialName != player.HeldItem.Name)
-                    || player.altFunctionUse == 2)
-                {
-                    player.itemTime = 30;
-                    return false;
-                }
+                // SPEC-TODO: Change special activation system
 
-                weaponPlayer.DrainSpecial(SpecialDrainPerUse);
-                weaponPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem);
                 return true;
             }
         }
@@ -339,12 +330,20 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
             if (!player.ItemTimeIsZero) return false;
-            if (!AllowSubWeaponUsage) return false;
 
             if (player.HasBuff(BuffID.Cursed)) return false;
             if (player.HasBuff(BuffID.Frozen)) return false;
             if (player.HasBuff(BuffID.Stoned)) return false;
 
+            if (!AllowSubWeaponUsage) return false;
+
+            SearchAndUseSubWeapon(player);
+
+            return false;
+        }
+
+        private void SearchAndUseSubWeapon(Player player)
+        {
             bool doneSearching = false;
 
             int[] subWeaponItemIDs = {
@@ -426,11 +425,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             if (!doneSearching)
             {
-                CombatTextHelper.DisplayText("No sub weapon equipped!", player.Center);
-                return false;
+                player.GetModPlayer<HudPlayer>().SetOverheadText("No sub weapon equipped!", displayTime: 90);
+                SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
             }
-
-            return false;
         }
 
         public override int ChoosePrefix(UnifiedRandom rand)

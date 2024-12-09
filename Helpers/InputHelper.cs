@@ -61,5 +61,10 @@ namespace AchiSplatoon2.Helpers
         {
             return PlayerInput.Triggers.JustPressed.MouseRight;
         }
+
+        public static bool GetInputMiddleClicked()
+        {
+            return PlayerInput.Triggers.JustPressed.MouseMiddle;
+        }
     }
 }

@@ -667,7 +667,7 @@ internal class BaseProjectile : ModProjectile
         var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
 
         float increment = Math.Clamp(damage * 2 / targetMaxLife, 0.5f, 5f);
-        modPlayer.AddSpecialPointsForDamage(increment);
+        // SPEC-TODO: Make projectile add to special gauge
     }
 
     protected int FrameSpeed(int frames = 1)

@@ -46,14 +46,14 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
         // Here we draw our UI
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            var weaponPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
+            var specialPlayer = Main.LocalPlayer.GetModPlayer<SpecialPlayer>();
             var colorChipPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            float quotient = (float)(weaponPlayer.SpecialPoints / weaponPlayer.SpecialPointsMax);
+            float quotient = (float)(specialPlayer.SpecialPoints / specialPlayer.SpecialPointsMax);
             quotient = Utils.Clamp(quotient, 0f, 1f);
             barColor = colorChipPlayer.GetColorFromChips();
 
             float lerpAmount = 0.2f;
-            if (weaponPlayer.SpecialReady || weaponPlayer.IsSpecialActive)
+            if (specialPlayer.SpecialReady || specialPlayer.IsSpecialActive)
             {
                 lerpAmount = (float)Math.Sin(Main.time / 8) * 0.4f + 0.4f;
             }
