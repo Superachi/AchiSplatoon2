@@ -130,8 +130,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         p.shotNumber = i;
                     }
 
-                    DebugHelper.PrintInfo("fired!");
-
                     // Recoil
                     Owner.velocity -= _mouseDirection * 3;
 

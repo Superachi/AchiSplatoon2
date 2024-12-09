@@ -210,8 +210,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             bool? check = Rectangle.Intersect(target.Hitbox, Projectile.Hitbox) != Rectangle.Empty;
             if (check == true)
             {
-                DebugHelper.PrintDebug(shotNumber);
-
                 _hitTargets.Add(target.whoAmI);
                 if (state == 0) Explode();
             }

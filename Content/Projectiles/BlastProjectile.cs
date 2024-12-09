@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,15 @@ namespace AchiSplatoon2.Content.Projectiles
         private int blastRadius;
         private PlayAudioModel? playAudioModel;
 
-        public void SetProperties(int radius, PlayAudioModel? audioModel = null)
+        public void SetProperties(int radius, PlayAudioModel? audioModel = null, List<int>? ignoredTargets = null)
         {
             blastRadius = radius;
-            playAudioModel = audioModel ?? new PlayAudioModel(_soundPath: "BlasterExplosion", _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3);
+            playAudioModel = audioModel ?? new PlayAudioModel(_soundPath: SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3);
+
+            if (ignoredTargets != null)
+            {
+                targetsToIgnore = ignoredTargets;
+            }
         }
 
         public override void SetDefaults()
