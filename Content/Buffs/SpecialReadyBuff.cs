@@ -12,13 +12,9 @@ namespace AchiSplatoon2.Content.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             Main.buffNoSave[buffIndex] = true;
-            Main.buffNoTimeDisplay[Type] = false;
+            Main.buffNoTimeDisplay[Type] = true;
 
-            if (player.GetModPlayer<SpecialPlayer>().SpecialActivated)
-            {
-                Main.buffNoTimeDisplay[Type] = true;
-                player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
-            }
+            player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
         }
 
         public override bool RightClick(int buffIndex)
