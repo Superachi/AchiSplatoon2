@@ -16,6 +16,8 @@ namespace AchiSplatoon2.Helpers
 
     internal static class DebugHelper
     {
+        public static string PreviousMessage { get; private set; } = "";
+
         public static void PrintStackTrace(object caller, int amount, Color? color = null)
         {
             if (color == null) color = Color.White;
@@ -64,6 +66,9 @@ namespace AchiSplatoon2.Helpers
 
         private static void LogMessage(LogLevel logLevel, string message, ILog? logger = null)
         {
+            bool repeatedMessage = message == PreviousMessage;
+            PreviousMessage = message;
+
             string newMessage = FormatMessage(logLevel, message);
             Color messageColor = Color.White;
 
@@ -80,12 +85,12 @@ namespace AchiSplatoon2.Helpers
                 case LogLevel.Warn:
                     messageColor = Color.Orange;
                     logger?.Warn(newMessage);
-                    SoundHelper.PlayAudio(SoundID.Item35);
+                    if (!repeatedMessage) SoundHelper.PlayAudio(SoundID.Item35);
                     break;
                 case LogLevel.Error:
                     messageColor = Color.Crimson;
                     logger?.Error(newMessage);
-                    SoundHelper.PlayAudio(SoundID.Item47);
+                    if (!repeatedMessage) SoundHelper.PlayAudio(SoundID.Item47);
                     break;
             }
 
