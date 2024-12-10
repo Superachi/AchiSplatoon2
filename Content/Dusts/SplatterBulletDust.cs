@@ -17,8 +17,6 @@ namespace AchiSplatoon2.Content.Dusts
             
             if (customData is BaseDustData data)
             {
-                dust.scale += data.scaleIncrement;
-
                 if (data.emitLight)
                 {
                     float light = 0.001f * dust.scale;
@@ -30,6 +28,7 @@ namespace AchiSplatoon2.Content.Dusts
                     dust.velocity.Y += data.gravity;
                 }
 
+                dust.scale += data.scaleIncrement;
                 dust.velocity *= data.frictionMult;
             }
             else

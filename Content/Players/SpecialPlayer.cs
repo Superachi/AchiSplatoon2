@@ -1,13 +1,13 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Players
         private void ReadySpecial()
         {
             SpecialReady = true;
-            Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 60 * 60);
+            Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
             _hudPlayer!.SetOverheadText("Special charged!", 90, color: new Color(255, 155, 0));
             SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), 0.6f, maxInstances: 1, position: Player.Center);
         }
@@ -107,6 +107,9 @@ namespace AchiSplatoon2.Content.Players
                 if (item.ModItem is BaseSpecial special)
                 {
                     SpecialDrainRate = special.SpecialDrainPerTick;
+
+                    var dronePlayer = Player.GetModPlayer<PearlDronePlayer>();
+                    dronePlayer.TriggerDialoguePlayerActivatesSpecial(item.type);
                 }
 
                 if (item.ModItem is TrizookaSpecial trizooka)
@@ -134,63 +137,37 @@ namespace AchiSplatoon2.Content.Players
 
         private void SpecialDustStream()
         {
-            var w = 40;
-            var h = 60;
-            var pos = Player.position - new Vector2(w / 2, 0);
-            int dustId;
-            Dust dustInst;
-
-            if (Main.rand.NextBool(2))
-            {
-                dustId = Dust.NewDust(Position: pos,
-                    Width: w,
-                    Height: h,
-                    Type: DustID.AncientLight,
-                    SpeedX: 0f,
-                    SpeedY: -2.5f,
-                    newColor: _colorChipPlayer!.GetColorFromChips(),
-                    Scale: Main.rand.NextFloat(1f, 2f));
-
-                dustInst = Main.dust[dustId];
-                dustInst.noGravity = true;
-                dustInst.fadeIn = 1.05f;
-            }
-
-            if (Main.rand.NextBool(10))
-            {
-                dustId = Dust.NewDust(Position: pos,
-                    Width: w,
-                    Height: h,
-                    Type: DustID.ShadowbeamStaff,
-                    SpeedX: 0f,
-                    SpeedY: 0f,
-                    newColor: new Color(255, 255, 255),
-                    Scale: Main.rand.NextFloat(1f, 2f));
-
-                dustInst = Main.dust[dustId];
-                dustInst.noLight = true;
-                dustInst.noLightEmittence = true;
-                dustInst.noGravity = true;
-                dustInst.fadeIn = 0f;
-            }
-
             if (Main.rand.NextBool(4))
             {
-                h = 20;
-                pos = Player.position - new Vector2(w / 2, h);
-                dustId = Dust.NewDust(Position: pos,
-                Width: w,
-                Height: h,
-                Type: ModContent.DustType<SplatterBulletDust>(),
-                SpeedX: Main.rand.NextFloat(-2f, 2f),
-                SpeedY: -5f,
-                Alpha: 40,
-                newColor: _colorChipPlayer!.GetColorFromChips(),
-                Scale: 2f);
+                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width), -10),
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-4, -1)),
+                    color: _colorChipPlayer!.GetColorFromChips(),
+                    scale: 1.5f,
+                    data: new(emitLight: false));
+            }
 
-                dustInst = Main.dust[dustId];
-                dustInst.noGravity = true;
-                dustInst.fadeIn = 1.35f;
+            if (Main.rand.NextBool(20))
+            {
+                var d = DustHelper.NewDust(
+                    position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4),
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Vector2.Zero,
+                    color: _colorChipPlayer!.GetColorFromChips(),
+                    scale: 2f,
+                    data: new(emitLight: false, scaleIncrement: -0.05f, gravity: -0.1f));
+
+                d.velocity = d.position.DirectionTo(Player.Center) * -2;
+            }
+
+            if (Main.rand.NextBool(20))
+            {
+                DustHelper.NewDust(
+                    position: Player.TopLeft + new Vector2(Main.rand.Next(Player.width), Main.rand.Next(Player.height)),
+                    dustType: DustID.YellowStarDust,
+                    velocity: new Vector2(0, Main.rand.NextFloat(-1, -2)),
+                    color: Color.White,
+                    scale: Main.rand.NextFloat(1f, 2f));
             }
         }
 
@@ -207,132 +184,12 @@ namespace AchiSplatoon2.Content.Players
         }
 
         /*
-        // Special gauge
-        public float SpecialPoints;
-        public float SpecialPointsMax = 100;
-        public bool SpecialReady;
-        public bool IsSpecialActive;
-        public string? SpecialName = null;
-        public float SpecialDrain;
-        public int SpecialIncrementCooldown = 0;
-        public int SpecialIncrementCooldownDefault = 6;
-
-        private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
-
-        public override void PreUpdate()
-        {
-            if (SpecialIncrementCooldown > 0) SpecialIncrementCooldown--;
-
-            if (SpecialReady && !Player.HasBuff<SpecialReadyBuff>())
-            {
-                ResetSpecialStats();
-            }
-
-            // Emit dusts when special is ready
-            if (SpecialReady)
-            {
-                var w = 40;
-                var h = 60;
-                var pos = Player.position - new Vector2(w / 2, 0);
-                int dustId;
-                Dust dustInst;
-
-                if (Main.rand.NextBool(2))
-                {
-                    dustId = Dust.NewDust(Position: pos,
-                        Width: w,
-                        Height: h,
-                        Type: DustID.AncientLight,
-                        SpeedX: 0f,
-                        SpeedY: -2.5f,
-                        newColor: colorChipPlayer.GetColorFromChips(),
-                        Scale: Main.rand.NextFloat(1f, 2f));
-
-                    dustInst = Main.dust[dustId];
-                    dustInst.noGravity = true;
-                    dustInst.fadeIn = 1.05f;
-                }
-
-                if (Main.rand.NextBool(10))
-                {
-                    dustId = Dust.NewDust(Position: pos,
-                        Width: w,
-                        Height: h,
-                        Type: DustID.ShadowbeamStaff,
-                        SpeedX: 0f,
-                        SpeedY: 0f,
-                        newColor: new Color(255, 255, 255),
-                        Scale: Main.rand.NextFloat(1f, 2f));
-
-                    dustInst = Main.dust[dustId];
-                    dustInst.noLight = true;
-                    dustInst.noLightEmittence = true;
-                    dustInst.noGravity = true;
-                    dustInst.fadeIn = 0f;
-                }
-
-                if (Main.rand.NextBool(4))
-                {
-                    h = 20;
-                    pos = Player.position - new Vector2(w / 2, h);
-                    dustId = Dust.NewDust(Position: pos,
-                    Width: w,
-                    Height: h,
-                    Type: ModContent.DustType<SplatterBulletDust>(),
-                    SpeedX: Main.rand.NextFloat(-2f, 2f),
-                    SpeedY: -5f,
-                    Alpha: 40,
-                    newColor: colorChipPlayer.GetColorFromChips(),
-                    Scale: 2f);
-
-                    dustInst = Main.dust[dustId];
-                    dustInst.noGravity = true;
-                    dustInst.fadeIn = 1.35f;
-                }
-            }
-            else
-            {
-                if (Player.HasBuff<SpecialReadyBuff>())
-                {
-                    Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
-                }
-            }
-
             AddSpecialPointsOnMovement();
-            DrainSpecial();
-        }
-
-        public void IncrementSpecialPoints(float amount)
-        {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
-            if (SpecialIncrementCooldown > 0) return;
             if (Player.dead) return;
-
-            var accMP = Player.GetModPlayer<AccessoryPlayer>();
-
-            if (!IsSpecialActive)
             {
                 amount *= accMP.specialChargeMultiplier;
                 SpecialPoints = Math.Clamp(SpecialPoints + amount, 0, SpecialPointsMax);
             }
-
-            if (SpecialPoints == SpecialPointsMax && !SpecialReady)
-            {
-                Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 60 * 30);
-                CombatTextHelper.DisplayText("SPECIAL CHARGED!", Player.Center, color: new Color(255, 155, 0));
-                SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), volume: 0.8f, pitchVariance: 0.1f, maxInstances: 1);
-                SpecialReady = true;
-
-                SyncSpecialChargeData();
-            }
-        }
-
-        public void AddSpecialPointsForDamage(float amount)
-        {
-            IncrementSpecialPoints(amount);
-            SpecialIncrementCooldown += SpecialIncrementCooldownDefault;
-        }
-
         private void AddSpecialPointsOnMovement()
         {
             if (Math.Abs(Player.velocity.X) > 1f)
