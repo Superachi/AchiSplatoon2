@@ -156,22 +156,21 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
                 for (int i = 0; i < 10; i++)
                 {
-                    Dust.NewDustPerfect(
-                        Position: Projectile.Center,
-                        Type: ModContent.DustType<ChargerBulletDust>(),
-                        Velocity: WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.Next(-15, 15)) * Main.rand.NextFloat(3, 6),
-                        newColor: CurrentColor,
-                        Scale: Main.rand.NextFloat(1f, 2f));
+                    DustHelper.NewChargerBulletDust(
+                        position: Projectile.Center,
+                        velocity: WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.Next(-15, 15)) * Main.rand.NextFloat(3, 6),
+                        color: CurrentColor,
+                        minScale: 1f,
+                        maxScale: 2f);
                 }
 
                 for (int i = 0; i < 5; i++)
                 {
-                    Dust.NewDustPerfect(
-                        Position: Projectile.Center,
-                        Type: ModContent.DustType<SplatterDropletDust>(),
-                        Velocity: Main.rand.NextVector2Circular(5, 5),
-                        newColor: CurrentColor,
-                        Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Main.rand.NextVector2Circular(5, 5),
+                        color: CurrentColor,
+                        scale: Main.rand.NextFloat(0.8f, 1.6f));
                 }
             }
         }
@@ -202,31 +201,29 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         protected virtual void DustTrail()
         {
-            Color dustColor = CurrentColor;
             var bigShotScale = wasParentChargeMaxed ? Main.rand.NextFloat(1.2f, 1.8f) : 1.2f;
 
-            Dust.NewDustPerfect(
-                Position: Projectile.Center,
-                Type: ModContent.DustType<SplatterBulletDust>(),
-                Velocity: Projectile.velocity / 2,
-                newColor: dustColor,
-                Scale: bigShotScale);
+            DustHelper.NewSplatterBulletDust(
+                position: Projectile.Center,
+                velocity: Projectile.velocity / 2,
+                color: CurrentColor,
+                scale: bigShotScale);
 
-            Dust.NewDustPerfect(
-                Position: Projectile.Center,
-                Type: ModContent.DustType<ChargerBulletDust>(),
-                Velocity: Projectile.velocity / 2,
-                newColor: dustColor,
-                Scale: Main.rand.NextFloat(0.5f, 1f));
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.Center,
+                velocity: Projectile.velocity / 2,
+                color: CurrentColor,
+                minScale: 0.5f,
+                maxScale: 1f);
 
             if (Main.rand.NextBool(10))
             {
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center,
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: Projectile.velocity / 2,
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(0.5f, 1f));
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 2,
+                    color: CurrentColor,
+                    minScale: 0.5f,
+                    maxScale: 1f);
             }
         }
 

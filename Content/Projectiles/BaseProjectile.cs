@@ -824,43 +824,26 @@ internal class BaseProjectile : ModProjectile
         Color dustColor = CurrentColor;
 
         // Ink
+        for (int i = 0; i < amount / 2; i++)
+        {
+            DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
+                color: dustColor,
+                scale: Main.rand.NextFloat(minScale * 0.8f, maxScale * 0.8f),
+                data: new(scaleIncrement: -0.1f, frictionMult: 0.9f, gravity: 0.2f));
+        }
+
         for (int i = 0; i < amount * 2; i++)
         {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                ModContent.DustType<BlasterExplosionDust>(),
-                Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
-                255,
-                dustColor,
-                Main.rand.NextFloat(minScale / 2, maxScale / 2));
-
-            dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
-        }
-
-        for (int i = 0; i < amount; i++)
-        {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                ModContent.DustType<SplatterBulletDust>(),
-                Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * 0.25f,
-                255,
-                dustColor,
-                Main.rand.NextFloat(minScale, maxScale));
-
-            dust.velocity *= radiusMult;
-        }
-
-        // Firework
-        for (int i = 0; i < amount / 4; i++)
-        {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                DustID.FireworksRGB,
-                Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
-                255,
-                dustColor);
-
-            dust.velocity *= radiusMult / 2;
+            DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity) * radiusMult,
+                color: dustColor,
+                scale: Main.rand.NextFloat(minScale * 0.5f, maxScale * 0.5f),
+                data: new(scaleIncrement: -0.1f, frictionMult: 0.8f));
         }
     }
 

@@ -11,10 +11,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Content\Dusts\BaseDust.png" />
-	  <None Remove="Content\Dusts\BlasterExplosionDust.png" />
-	  <None Remove="Content\Dusts\BlasterTrailDust.png" />
-	  <None Remove="Content\Dusts\ChargerBulletDust.png" />
-	  <None Remove="Content\Dusts\SlosherProjectileDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletLastingDust.png" />
 	  <None Remove="Content\Dusts\VortexDualieDust.png" />

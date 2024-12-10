@@ -77,17 +77,24 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             _hitboxLocation.Y = Projectile.Center.Y - (int)(Math.Sin(radians) * distance);
         }
 
-        private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
+        private void EmitTrailInkDust(int amount = 1, float minScale = 0.5f, float maxScale = 1f)
         {
             for (int i = 0; i < amount; i++)
             {
-                Dust.NewDustPerfect(
-                    _hitboxLocation,
-                    ModContent.DustType<BlasterTrailDust>(),
-                    Main.rand.NextVector2Circular(1, 1),
-                    255,
-                    CurrentColor,
-                    Main.rand.NextFloat(minScale, maxScale));
+                DustHelper.NewDust(
+                    position: _hitboxLocation,
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Projectile.velocity / 3,
+                    color: CurrentColor,
+                    scale: Main.rand.NextFloat(minScale, maxScale) * 1.2f,
+                    data: new(scaleIncrement: -0.5f));
+
+                DustHelper.NewChargerBulletDust(
+                    position: _hitboxLocation,
+                    velocity: Main.rand.NextVector2Circular(1, 1),
+                    color: CurrentColor,
+                    minScale: minScale / 2,
+                    maxScale: maxScale / 2);
             }
 
             if (Main.rand.NextBool(5))
@@ -178,7 +185,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         }
                     }
 
-                    EmitTrailInkDust(dustMaxVelocity: 0.5f, amount: 4, minScale: 0.8f, maxScale: 3);
+                    EmitTrailInkDust(amount: 4, minScale: 0.8f, maxScale: 3);
 
                     bool CheckSolid()
                     {

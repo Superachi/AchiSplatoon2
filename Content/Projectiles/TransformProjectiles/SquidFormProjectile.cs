@@ -206,24 +206,22 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    Dust.NewDustPerfect(
-                        Position: position,
-                        Type: ModContent.DustType<ChargerBulletDust>(),
-                        Velocity: Main.rand.NextVector2Circular(5, 2),
-                        newColor: dustColor,
-                        Scale: Main.rand.NextFloat(1f, 2f));
+                    DustHelper.NewChargerBulletDust(
+                        position: position,
+                        velocity: Main.rand.NextVector2Circular(5, 5),
+                        color: dustColor,
+                        scale: Main.rand.NextFloat(1f, 2f));
                 }
             }
             else
             {
                 for (int i = 0; i < 25; i++)
                 {
-                    Dust.NewDustPerfect(
-                        Position: position,
-                        Type: ModContent.DustType<ChargerBulletDust>(),
-                        Velocity: Main.rand.NextVector2Circular(5, 5),
-                        newColor: dustColor,
-                        Scale: Main.rand.NextFloat(1f, 2f));
+                    DustHelper.NewChargerBulletDust(
+                        position: position,
+                        velocity: Main.rand.NextVector2Circular(5, 5),
+                        color: dustColor,
+                        scale: Main.rand.NextFloat(1f, 2f));
                 }
             }
 
@@ -240,12 +238,11 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
             {
                 var velocity = i < 5 ? new Vector2(4, 0) : new Vector2(-4, 0);
 
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center,
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: velocity + Main.rand.NextVector2Circular(2, 2),
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(1f, 2f));
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: velocity + Main.rand.NextVector2Circular(2, 2),
+                    color: dustColor,
+                    scale: Main.rand.NextFloat(1f, 2f));
             }
 
             int soundId = Main.rand.Next(5);

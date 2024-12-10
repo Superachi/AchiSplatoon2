@@ -61,33 +61,33 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             if (wasFullyCharged && timeSpentAlive % 4 == 0)
             {
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                    Type: ModContent.DustType<ChargerBulletDust>(),
-                    Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    newColor: CurrentColor,
-                    Scale: Main.rand.NextFloat(1.0f, 1.6f));
+                DustHelper.NewChargerBulletDust(
+                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    color: CurrentColor,
+                    minScale: 1.0f,
+                    1.6f);
 
                 if (Main.rand.NextBool(4))
                 {
-                    var d = Dust.NewDustPerfect(
-                        Position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                        Type: DustID.AncientLight,
-                        Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                        newColor: ColorHelper.ColorWithAlpha255(CurrentColor),
-                        Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                    d.noGravity = true;
+                    DustHelper.NewDust(
+                        position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                        dustType: DustID.AncientLight,
+                        velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                        color: ColorHelper.ColorWithAlpha255(CurrentColor),
+                        scale: Main.rand.NextFloat(0.8f, 1.2f),
+                        data: new(gravity: 0));
                 }
             }
 
             if (!wasFullyCharged && timeSpentAlive % 6 == 0)
             {
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                    Type: ModContent.DustType<ChargerBulletDust>(),
-                    Velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    newColor: CurrentColor,
-                    Scale: Main.rand.NextFloat(0.8f, 1.4f));
+                DustHelper.NewChargerBulletDust(
+                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    color: CurrentColor,
+                    minScale: 0.8f,
+                    maxScale: 1.4f);
             }
         }
 

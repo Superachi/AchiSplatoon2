@@ -1,11 +1,9 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {
@@ -17,23 +15,19 @@ namespace AchiSplatoon2.Helpers
 
             for (int i = 0; i < 10; i++)
             {
-                var d = Dust.NewDustDirect(
-                    projectile.Center,
-                    1,
-                    1,
-                    ModContent.DustType<ChargerBulletDust>(),
-                    newColor: baseProjectile.CurrentColor,
-                    Scale: Main.rand.NextFloat(1f, 1.4f));
-                d.velocity = Main.rand.NextVector2CircularEdge(3, 3);
+                DustHelper.NewSplatterBulletDust(
+                    position: projectile.Center,
+                    velocity: Main.rand.NextVector2Circular(3, 3),
+                    color: baseProjectile.CurrentColor,
+                    minScale: 0.8f,
+                    maxScale: 1.4f);
 
-                d = Dust.NewDustDirect(
-                    projectile.Center,
-                    1,
-                    1,
-                    ModContent.DustType<SplatterBulletLastingDust>(),
-                    newColor: baseProjectile.CurrentColor,
-                    Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                d.velocity = Main.rand.NextVector2Circular(3, 3);
+                DustHelper.NewLastingDust(
+                    position: projectile.Center,
+                    velocity: Main.rand.NextVector2Circular(4, 4),
+                    color: baseProjectile.CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.4f);
             }
 
             List<SoundStyle> sounds = new()
@@ -57,15 +51,12 @@ namespace AchiSplatoon2.Helpers
 
             for (int i = 0; i < 5; i++)
             {
-                float random = Main.rand.NextFloat(-2, 2);
-                var d = Dust.NewDustDirect(
-                    projectile.position,
-                    projectile.width,
-                    projectile.height,
-                    ModContent.DustType<ChargerBulletDust>(),
-                    newColor: baseProjectile.CurrentColor,
-                    Scale: Main.rand.NextFloat(1f, 1.4f));
-                d.velocity = WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-30, 30)) * 1.5f * velocityMod;
+                var d = DustHelper.NewChargerBulletDust(
+                    position: projectile.position,
+                    velocity: WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-30, 30)) * 1.5f * velocityMod,
+                    color: baseProjectile.CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.4f);
             }
         }
 
@@ -76,15 +67,12 @@ namespace AchiSplatoon2.Helpers
 
             for (int i = 1; i < 20; i++)
             {
-                var d = Dust.NewDustDirect(
-                    projectile.Center,
-                    projectile.width,
-                    projectile.height,
-                    DustID.AncientLight,
-                    newColor: ColorHelper.ColorWithAlpha255(baseProjectile.InitialColor),
-                    Scale: Main.rand.NextFloat(0.5f, 2f));
-                d.velocity = WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-20, 20)) * Main.rand.NextFloat(0.25f, 0.5f) * i;
-                d.noGravity = true;
+                var d = DustHelper.NewDust(
+                    position: projectile.Center,
+                    dustType: DustID.AncientLight,
+                    velocity: WoomyMathHelper.AddRotationToVector2(projectile.velocity, Main.rand.NextFloat(-20, 20)) * Main.rand.NextFloat(0.25f, 0.5f) * i,
+                    color: ColorHelper.ColorWithAlpha255(baseProjectile.InitialColor),
+                    scale: Main.rand.NextFloat(0.5f, 2f));
             }
         }
 
@@ -98,27 +86,22 @@ namespace AchiSplatoon2.Helpers
             {
                 baseProjectile.UpdateCurrentColor(ColorHelper.LerpBetweenColorsPerfect(baseProjectile.CurrentColor, baseProjectile.InitialColor, 0.1f));
 
-                d = Dust.NewDustDirect(
-                projectile.Center,
-                0,
-                0,
-                ModContent.DustType<ChargerBulletDust>(),
-                newColor: baseProjectile.CurrentColor,
-                Scale: Main.rand.NextFloat(1.2f, 2f));
-
-                d.velocity = Main.rand.NextVector2Circular(0.5f, 1);
+                d = DustHelper.NewChargerBulletDust(
+                    position: projectile.Center,
+                    velocity: Main.rand.NextVector2Circular(1, 1),
+                    color: baseProjectile.CurrentColor,
+                    minScale: 1.2f,
+                    maxScale: 2f);
             }
 
             if (baseProjectile.timeSpentAlive > 20 && Main.rand.NextBool(30))
             {
-                d = Dust.NewDustPerfect(
-                    Position: projectile.Center,
-                    Type: DustID.FireworksRGB,
-                    newColor: baseProjectile.CurrentColor,
-                    Scale: Main.rand.NextFloat(0.8f, 1.2f));
-
-                d.velocity = WoomyMathHelper.AddRotationToVector2(-projectile.velocity, -30, 30);
-                d.noGravity = true;
+                d = DustHelper.NewDust(
+                    position: projectile.Center,
+                    dustType: DustID.FireworksRGB,
+                    velocity: WoomyMathHelper.AddRotationToVector2(-projectile.velocity, -30, 30),
+                    color: baseProjectile.CurrentColor,
+                    scale: Main.rand.NextFloat(0.8f, 1.2f));
             }
         }
     }

@@ -1,9 +1,8 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -113,12 +112,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             if (Main.rand.NextBool(200) && state < stateDespawn)
             {
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + Main.rand.NextVector2Circular(20f * drawScale, 20f * drawScale),
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: Projectile.velocity * 2,
-                    newColor: GenerateInkColor(),
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center + Main.rand.NextVector2Circular(20f * drawScale, 20f * drawScale),
+                    velocity: Projectile.velocity * 2,
+                    color: CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.5f);
             }
         }
 
