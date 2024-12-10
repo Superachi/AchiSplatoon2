@@ -127,7 +127,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             p.colorOverride = colorOverride;
             p.RunSpawnMethods();
 
-            var volumeMod = 0.7f;
+            var volumeMod = 1.2f;
             PlayAudio(SoundID.Splash, volume: 0.1f * volumeMod, maxInstances: 10, pitch: -0.5f);
             PlayAudio(SoundID.Item38, volume: 0.2f * volumeMod, maxInstances: 10, pitch: -2f);
             PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.05f * volumeMod, pitchVariance: 0.2f, maxInstances: 10, pitch: -2f);
@@ -199,6 +199,16 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             var size = 40;
             hitbox = new Rectangle((int)_hitboxLocation.X - size / 2, (int)_hitboxLocation.Y - size / 2, size, size);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+
+            if (target.boss)
+            {
+                modifiers.FinalDamage /= 3;
+            }
         }
 
         public override bool? CanHitNPC(NPC target)

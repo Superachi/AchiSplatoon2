@@ -26,6 +26,28 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.rare = ItemRarityID.Orange;
         }
 
-        // SPEC-TODO: Re-implement this item's functionality
+        public override bool? UseItem(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
+            }
+
+            return false;
+        }
     }
 }

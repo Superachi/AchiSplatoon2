@@ -493,7 +493,7 @@ internal class BaseProjectile : ModProjectile
         bool canGetSpecialPoints = true;
 
         if ((target.friendly)
-            || (target.type == NPCID.TargetDummy)
+            //SPEC-TODO: re-add || (target.type == NPCID.TargetDummy)
             || (target.SpawnedFromStatue)
             || (Main.npcCatchable[target.type])
             || (!CountDamageForSpecialCharge))
@@ -501,14 +501,14 @@ internal class BaseProjectile : ModProjectile
             canGetSpecialPoints = false;
         }
 
-        if (canGetSpecialPoints)
-        {
-            DamageToSpecialCharge(damageDone, target.lifeMax);
-        }
-
         if (enablePierceDamagefalloff && !IsTargetWorm(target))
         {
             Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
+        }
+
+        if (canGetSpecialPoints)
+        {
+            DamageToSpecialCharge(damageDone, target);
         }
 
         if (target.life <= 0)
@@ -662,12 +662,14 @@ internal class BaseProjectile : ModProjectile
         return (int)(Projectile.damage * multiplier);
     }
 
-    public void DamageToSpecialCharge(float damage, float targetMaxLife)
+    public void DamageToSpecialCharge(float damage, NPC target)
     {
-        var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
-
-        float increment = Math.Clamp(damage * 2 / targetMaxLife, 0.5f, 5f);
-        // SPEC-TODO: Make projectile add to special gauge
+        // var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
+        // float increment = Math.Clamp(damage * 2 / target.lifeMax, 0.5f, 5f);
+        if (!Owner.GetModPlayer<SpecialPlayer>().SpecialReady)
+        {
+            CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+        }
     }
 
     protected int FrameSpeed(int frames = 1)

@@ -192,7 +192,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else if (IsSpecialWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} can't be reforged and is only usable when special gauge is filled") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} only usable when your special gauge is filled (click the middle mouse button)") { OverrideColor = null });
             }
             else
             {
@@ -320,9 +320,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else
             {
-                // SPEC-TODO: Change special activation system
-
-                return true;
+                return false;
             }
         }
 

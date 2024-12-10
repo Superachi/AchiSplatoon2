@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -65,18 +66,29 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         public override void AI()
         {
-            Owner.itemAnimation = Owner.itemAnimationMax;
-            Owner.itemTime = Owner.itemTimeMax;
+            Projectile.timeLeft++;
             _mouseDirection = Owner.DirectionTo(Main.MouseWorld);
 
             Owner.channel = true;
             Owner.heldProj = Projectile.whoAmI;
-            Projectile.timeLeft++;
+
+            // Rotate and position the zooka + player arm
             Projectile.Center = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
             var heightBoost = Owner.mount.Active ? -Owner.mount.HeightBoost * 0.6f : 0;
+
             _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
+            Owner.direction = Owner.position.X > Main.MouseWorld.X ? -1 : 1;
             _drawDirection = Owner.direction;
             _holdOffset = Vector2.Lerp(_holdOffset, _holdOffsetDefault, 0.2f);
+
+            var armRotateDeg = 90f;
+            if (_drawDirection == -1) armRotateDeg = -90f;
+            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
+
+            // Hide the player's regular item, and prevent other item usage by setting the itemAnimation/itemTime
+            Owner.itemLocation = new Vector2(-1000, -1000);
+            Owner.itemAnimation = Owner.itemAnimationMax;
+            Owner.itemTime = Owner.itemTimeMax;
 
             switch (state)
             {
@@ -139,10 +151,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     _holdOffset = _holdOffsetDefault + -_mouseDirection * 20;
 
                     // Sound
-                    PlayAudio(SoundID.Item66, volume: 0.5f, position: Owner.Center);
-                    PlayAudio(SoundID.Item80, volume: 0.2f, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.2f, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
+                    var volumeMod = 1.4f;
+                    PlayAudio(SoundID.Item66, volume: 0.5f * volumeMod, position: Owner.Center);
+                    PlayAudio(SoundID.Item80, volume: 0.2f * volumeMod, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.2f * volumeMod, position: Owner.Center);
+                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.5f * volumeMod, position: Owner.Center);
 
                     // Muzzle flare
                     for (int i = 1; i < 20; i++)
@@ -235,6 +248,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             MakeProjectileFaceCursor(Owner);
 
+            if (!Owner.GetModPlayer<SpecialPlayer>().SpecialActivated)
+            {
+                SetState(_stateDespawn);
+            }
+
             if (InputHelper.GetInputMouseLeftHold())
             {
                 SetState(_stateFire);
@@ -268,8 +286,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             }
 
             // Extend special buff
-            // Lock zooka rotation
-            // Spawn projectile
         }
 
         private void StateDespawn()
@@ -278,16 +294,14 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
             if (timeSpentInState > 15)
             {
+                Owner.GetModPlayer<SpecialPlayer>().UnreadySpecial();
+
                 Owner.itemAnimation = 0;
                 Owner.itemTime = 0;
 
                 Owner.heldProj = -1;
                 Projectile.Kill();
             }
-
-            // Despawn animation
-            // Kill projectile
-            // Cancel special buff
         }
 
         public override bool PreDraw(ref Color lightColor)

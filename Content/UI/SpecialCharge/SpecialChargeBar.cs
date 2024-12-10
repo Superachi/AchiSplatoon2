@@ -48,16 +48,17 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
         {
             var specialPlayer = Main.LocalPlayer.GetModPlayer<SpecialPlayer>();
             var colorChipPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            float quotient = (float)(specialPlayer.SpecialPoints / specialPlayer.SpecialPointsMax);
-            quotient = Utils.Clamp(quotient, 0f, 1f);
-            barColor = colorChipPlayer.GetColorFromChips();
+            float quotient = specialPlayer.GetSpecialPercentageDisplay();
+            var barColorOriginal = colorChipPlayer.GetColorFromChips();
+            var barColorDark = colorChipPlayer.GetColorFromChips() * 0.7f;
+            barColor = barColorDark;
 
             float lerpAmount = 0.2f;
-            if (specialPlayer.SpecialReady || specialPlayer.IsSpecialActive)
+            if (specialPlayer.SpecialReady || specialPlayer.SpecialActivated)
             {
                 lerpAmount = (float)Math.Sin(Main.time / 8) * 0.4f + 0.4f;
             }
-            barColor = ColorHelper.LerpBetweenColorsPerfect(barColor, Color.White, lerpAmount);
+            barColor = ColorHelper.LerpBetweenColorsPerfect(barColorDark, barColorOriginal, lerpAmount);
 
             Rectangle hitbox = barFrame.GetInnerDimensions().ToRectangle();
             hitbox.X += 12;

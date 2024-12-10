@@ -1,4 +1,13 @@
-﻿using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Dusts;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria;
+using Terraria.ModLoader;
+using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -7,11 +16,195 @@ namespace AchiSplatoon2.Content.Players
         public float SpecialPoints;
         public float SpecialPointsMax = 100;
         public bool SpecialReady;
-        public bool IsSpecialActive;
-        public string? SpecialName = null;
-        public float SpecialDrain;
-        public int SpecialIncrementCooldown = 0;
-        public int SpecialIncrementCooldownDefault = 6;
+        public bool SpecialActivated;
+        public float SpecialDrainRate;
+
+        private ColorChipPlayer? _colorChipPlayer;
+        private HudPlayer? _hudPlayer;
+
+        public float SpecialPercentage => MathHelper.Clamp(SpecialPoints / SpecialPointsMax, 0, 1);
+        private float _specialDisplayPercentage;
+
+        public override void Initialize()
+        {
+            _specialDisplayPercentage = 0f;
+            _colorChipPlayer = Player.GetModPlayer<ColorChipPlayer>();
+            _hudPlayer = Player.GetModPlayer<HudPlayer>();
+        }
+
+        public override void PreUpdate()
+        {
+            _specialDisplayPercentage = MathHelper.Lerp(_specialDisplayPercentage, SpecialPercentage, 0.2f);
+
+            if (SpecialPercentage >= 1 && !SpecialReady)
+            {
+                ReadySpecial();
+            }
+
+            if (SpecialReady ^ Player.HasBuff<SpecialReadyBuff>())
+            {
+                UnreadySpecial();
+                return;
+            }
+
+            bool middleClicked = InputHelper.GetInputMiddleClicked();
+            if (!SpecialReady)
+            {
+                if (middleClicked && !_hudPlayer!.IsTextActive())
+                {
+                    _hudPlayer!.SetOverheadText("Your special isn't ready yet!", 60);
+                    SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
+                }
+                return;
+            }
+
+            if (middleClicked)
+            {
+                var success = TryActivateSpecial();
+                if (success)
+                {
+                    SpecialActivated = true;
+
+                    var inkTankPlayer = Player.GetModPlayer<InkTankPlayer>();
+                    inkTankPlayer.HealInk(inkTankPlayer.InkAmountFinalMax, true);
+                }
+            }
+
+            if (SpecialActivated)
+            {
+                DrainSpecialCharge();
+            }
+
+            SpecialDustStream();
+        }
+
+        private void ReadySpecial()
+        {
+            SpecialReady = true;
+            Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 60 * 60);
+            _hudPlayer!.SetOverheadText("Special charged!", 90, color: new Color(255, 155, 0));
+            SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), 0.6f, maxInstances: 1, position: Player.Center);
+        }
+
+        public void UnreadySpecial()
+        {
+            SpecialReady = false;
+            SpecialPoints = 0;
+            SpecialActivated = false;
+            Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
+        }
+
+        private bool TryActivateSpecial()
+        {
+            if (SpecialActivated || !Player.ItemTimeIsZero)
+            {
+                return false;
+            }
+
+            Item? item = InventoryHelper.FirstInInventory<TrizookaSpecial>(Player);
+            if (item != null)
+            {
+                if (item.ModItem is BaseSpecial special)
+                {
+                    SpecialDrainRate = special.SpecialDrainPerTick;
+                }
+
+                if (item.ModItem is TrizookaSpecial trizooka)
+                {
+                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<TrizookaHeldProjectile>(), trizooka, true, null, damage: item.damage, item.knockBack);
+                    return true;
+                }
+            }
+
+            _hudPlayer!.SetOverheadText("No special weapon equipped!", 60);
+            SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
+
+            return false;
+        }
+
+        private void DrainSpecialCharge()
+        {
+            SpecialPoints -= SpecialDrainRate;
+            if (SpecialPoints <= 0)
+            {
+                SpecialPoints = 0;
+                UnreadySpecial();
+            }
+        }
+
+        private void SpecialDustStream()
+        {
+            var w = 40;
+            var h = 60;
+            var pos = Player.position - new Vector2(w / 2, 0);
+            int dustId;
+            Dust dustInst;
+
+            if (Main.rand.NextBool(2))
+            {
+                dustId = Dust.NewDust(Position: pos,
+                    Width: w,
+                    Height: h,
+                    Type: DustID.AncientLight,
+                    SpeedX: 0f,
+                    SpeedY: -2.5f,
+                    newColor: _colorChipPlayer!.GetColorFromChips(),
+                    Scale: Main.rand.NextFloat(1f, 2f));
+
+                dustInst = Main.dust[dustId];
+                dustInst.noGravity = true;
+                dustInst.fadeIn = 1.05f;
+            }
+
+            if (Main.rand.NextBool(10))
+            {
+                dustId = Dust.NewDust(Position: pos,
+                    Width: w,
+                    Height: h,
+                    Type: DustID.ShadowbeamStaff,
+                    SpeedX: 0f,
+                    SpeedY: 0f,
+                    newColor: new Color(255, 255, 255),
+                    Scale: Main.rand.NextFloat(1f, 2f));
+
+                dustInst = Main.dust[dustId];
+                dustInst.noLight = true;
+                dustInst.noLightEmittence = true;
+                dustInst.noGravity = true;
+                dustInst.fadeIn = 0f;
+            }
+
+            if (Main.rand.NextBool(4))
+            {
+                h = 20;
+                pos = Player.position - new Vector2(w / 2, h);
+                dustId = Dust.NewDust(Position: pos,
+                Width: w,
+                Height: h,
+                Type: ModContent.DustType<SplatterBulletDust>(),
+                SpeedX: Main.rand.NextFloat(-2f, 2f),
+                SpeedY: -5f,
+                Alpha: 40,
+                newColor: _colorChipPlayer!.GetColorFromChips(),
+                Scale: 2f);
+
+                dustInst = Main.dust[dustId];
+                dustInst.noGravity = true;
+                dustInst.fadeIn = 1.35f;
+            }
+        }
+
+        // Public methods for other classes
+        public void IncrementSpecialCharge(float amount)
+        {
+            SpecialPoints += amount;
+            if (SpecialPoints > SpecialPointsMax) SpecialPoints = SpecialPointsMax;
+        }
+
+        public float GetSpecialPercentageDisplay()
+        {
+            return _specialDisplayPercentage;
+        }
 
         /*
         // Special gauge

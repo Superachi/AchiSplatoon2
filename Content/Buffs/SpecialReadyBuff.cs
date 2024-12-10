@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -12,18 +11,19 @@ namespace AchiSplatoon2.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            var modPlayer = player.GetModPlayer<WeaponPlayer>();
-            // SPEC-TODO: add to buff tickrate if special ready
-
             Main.buffNoSave[buffIndex] = true;
+            Main.buffNoTimeDisplay[Type] = false;
+
+            if (player.GetModPlayer<SpecialPlayer>().SpecialActivated)
+            {
+                Main.buffNoTimeDisplay[Type] = true;
+                player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
+            }
         }
 
         public override bool RightClick(int buffIndex)
         {
-            Player player = Main.LocalPlayer;
-            var modPlayer = player.GetModPlayer<WeaponPlayer>();
-            // SPEC-TODO: Reset special stats and buff
-            CombatTextHelper.DisplayText("Cancelled special!", player.Center);
+            Main.LocalPlayer.GetModPlayer<HudPlayer>().SetOverheadText("Cancelled special!", 90);
             return true;
         }
     }
