@@ -67,7 +67,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
 
                 // Canned special drop chance
-                if (Main.rand.NextBool((int)(100f * chanceModifier)))
+                if (Main.rand.NextBool((int)(200f * chanceModifier)))
                 {
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
                     RareLootDropPlayerFeedback(npc);
