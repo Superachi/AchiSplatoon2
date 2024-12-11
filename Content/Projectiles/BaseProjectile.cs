@@ -675,7 +675,7 @@ internal class BaseProjectile : ModProjectile
         if (target.boss && specialPlayer.bossSpecialDropCooldown == 0)
         {
             var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
-            p.chargeValue = 2f;
+            p.chargeValue = 2;
 
             specialPlayer.ApplyBossSpecialDropCooldown();
         }

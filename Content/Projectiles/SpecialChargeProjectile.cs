@@ -9,6 +9,7 @@ namespace AchiSplatoon2.Content.Projectiles
     internal class SpecialChargeProjectile : BaseProjectile
     {
         public Player target = Main.LocalPlayer;
+        public float chargeValue = 0;
 
         private float _turnWideness;
         private SpecialPlayer _specialPlayer = new SpecialPlayer();
@@ -79,7 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void Collect()
         {
-            _specialPlayer.IncrementSpecialCharge(2);
+            _specialPlayer.IncrementSpecialCharge(chargeValue);
 
             PlayAudio(SoundID.Item86, volume: 0.5f, pitch: -1 + _specialPlayer.SpecialPercentage);
 
