@@ -641,6 +641,7 @@ internal class BaseProjectile : ModProjectile
 
         var specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
         if (specialPlayer.SpecialReady) return;
+        if (!specialPlayer.PlayerCarriesSpecialWeapon) return;
 
         if (target.life <= 0 && !target.boss)
         {

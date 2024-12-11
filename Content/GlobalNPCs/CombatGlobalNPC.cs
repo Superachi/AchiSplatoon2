@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            bool isFlat = target.GetModPlayer<Players.SquidPlayer>().IsFlat();
+            bool isFlat = target.GetModPlayer<SquidPlayer>().IsFlat();
             if (isFlat)
             {
                 var hitbox = new Rectangle((int)target.Left.X, (int)target.Bottom.Y - 20, target.width, 20);
