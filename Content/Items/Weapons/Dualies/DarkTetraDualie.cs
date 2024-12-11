@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,13 +14,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 3; }
         public override float AimDeviation { get => 6f; }
-        public override string ShootSample { get => "SplatlingShoot"; }
         public override Vector2? HoldoutOffset() { return new Vector2(-4, 0); }
         public override float MuzzleOffsetPx => 42f;
-        public override string RollSample { get => "Dualies/TetraDualieRoll"; }
 
 
         // Dualie specific
+        public override SoundStyle RollSample { get => SoundPaths.DualieTetraRoll.ToSoundStyle(); }
+        public override float RollInkCost { get => 3f; }
         public override float PostRollDamageMod { get => 1.2f; }
         public override float PostRollAttackSpeedMod { get => 0.9f; }
         public override float PostRollAimMod { get => 0.25f; }

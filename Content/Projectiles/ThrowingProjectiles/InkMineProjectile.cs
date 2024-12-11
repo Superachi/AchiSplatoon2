@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -19,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private int detectionRadius;
         private int fuseTime = 0;
-        private int delayUntilExplosion = 30;
+        private readonly int delayUntilExplosion = 30;
         protected int explosionRadius;
 
         private float circleDrawMod;
@@ -40,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             explosionRadius = weaponData.ExplosionRadius;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -48,7 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             enablePierceDamagefalloff = false;
             wormDamageReduction = true;
 
-            PlayAudio("Throwables/SprinklerDeployNew", volume: 0.2f, maxInstances: 10, position: Projectile.Center);
+            PlayAudio(SoundPaths.SprinklerDeployNew.ToSoundStyle(), volume: 0.2f, maxInstances: 10, position: Projectile.Center);
             SetState(stateSpawn);
         }
 
@@ -68,15 +70,15 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
 
                 case stateActivate:
-                    PlayAudio("Throwables/InkMineActivate", volume: 0.2f, pitchVariance: 0.05f, maxInstances: 10, position: Projectile.Center);
+                    PlayAudio(SoundPaths.InkMineActivate.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.05f, maxInstances: 10, position: Projectile.Center);
                     break;
 
                 case stateExplode:
                     var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
                     p.SetProperties(
                         explosionRadius,
-                        new PlayAudioModel("Throwables/InkMineDetonate", _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
-                    p.AfterSpawn();
+                        new PlayAudioModel(SoundPaths.InkMineDetonate, _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
+                    p.RunSpawnMethods();
                     Projectile.timeLeft = 6;
                     break;
             }
@@ -151,20 +153,20 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private void SpawnActivationDust()
         {
-            Color color = initialColor;
-            Dust a = Dust.NewDustPerfect(
-                Position: Projectile.Center + Main.rand.NextVector2Circular(detectionRadius * circleDrawMod, detectionRadius * circleDrawMod),
-                Type: ModContent.DustType<ChargerBulletDust>(),
-                Velocity: new Vector2(0, Main.rand.NextFloat(-1, -4)),
-                Alpha: 0,
-                newColor: color,
-                Scale: Main.rand.NextFloat(1f, 1.5f));
+            Color color = CurrentColor;
+
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.Center + Main.rand.NextVector2Circular(detectionRadius * circleDrawMod, detectionRadius * circleDrawMod),
+                velocity: new Vector2(0, Main.rand.NextFloat(-1, -4)),
+                color: color,
+                minScale: 1f,
+                maxScale: 1.5f);
         }
 
         private void SpawnInkMineDust(Vector2 offset)
         {
             float scale = 1.2f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 3)) * 0.2f;
-            Color color = initialColor;
+            Color color = CurrentColor;
             Dust a = Dust.NewDustPerfect(
                 Position: Projectile.Center + offset,
                 Type: ModContent.DustType<SplatterBulletDust>(),

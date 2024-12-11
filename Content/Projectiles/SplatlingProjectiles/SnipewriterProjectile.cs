@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             shootSample = weaponData.ShootSample;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -40,11 +41,23 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         {
             Color dustColor = GenerateInkColor();
             var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: randomDustVelocity, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                DustHelper.NewSplatterBulletDust(
+                    position: Projectile.position,
+                    velocity: randomDustVelocity,
+                    color: dustColor,
+                    minScale: 0.8f,
+                    maxScale: 1.6f);
             }
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<ChargerBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.position,
+                velocity: Projectile.velocity / 2,
+                color: dustColor,
+                minScale: 0.8f,
+                maxScale: 1.2f);
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

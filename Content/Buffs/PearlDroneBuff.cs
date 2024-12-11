@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -32,15 +33,16 @@ namespace AchiSplatoon2.Content.Buffs
         {
             var player = Main.LocalPlayer;
             var dronePlayer = player.GetModPlayer<PearlDronePlayer>();
-            var weaponPlayer = player.GetModPlayer<InkWeaponPlayer>();
+            var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
+            var accPlayer = player.GetModPlayer<AccessoryPlayer>();
             var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
 
-            if (!weaponPlayer.IsPaletteValid()) return;
+            if (!colorChipPlayer.IsPaletteValid()) return;
 
             // Stat bonus section
             string tooltip = ColorHelper.TextWithPearlColor("Pearl is supporting you!") + "\n";
             tooltip += "Power level:" + ColorHelper.TextWithBonusColor($" {dronePlayer.PowerLevel}") + ColorHelper.TextWithFlavorColor(" (boosts attack damage and flight speed)") + "\n";
-            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(weaponPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
+            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(colorChipPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
             if (summonDamageBonus > 0)
             {
                 tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%") + "\n";
@@ -49,7 +51,15 @@ namespace AchiSplatoon2.Content.Buffs
 
             // Enabled attacks section
             tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
-            tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+
+            if (accPlayer.HasAccessory<LaserAddon>())
+            {
+                tooltip += ColorHelper.TextWithPearlColor("Laser beams!") + "\n";
+            }
+            else
+            {
+                tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+            }
             tooltip += ColorHelper.TextWithSubWeaponColor("Life drops") + "\n";
 
             if (dronePlayer.IsBurstBombEnabled)
@@ -62,10 +72,6 @@ namespace AchiSplatoon2.Content.Buffs
                 tooltip += ColorHelper.TextWithSpecialWeaponColor("Killer Wail 5.1") + $" ({dronePlayer.MinimumChipsForKillerWail}+ chips)" + "\n";
             }
 
-            if (dronePlayer.IsInkStrikeEnabled)
-            {
-                tooltip += ColorHelper.TextWithSpecialWeaponColor("Inkstrike") + $" ({dronePlayer.MinimumChipsForInkStrike}+ chips)" + "\n";
-            }
             tooltip += "\n";
 
             tooltip += ColorHelper.TextWithPearlColor("Damage dealt by this summon:") + $" {dronePlayer.DamageDealt}" + "\n";

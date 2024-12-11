@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             base.SetDefaults();
             Item.shoot = ModContent.ProjectileType<SplatBombProjectile>();
-            Item.damage = 60;
+            Item.damage = 70;
             Item.knockBack = 8;
             Item.width = 28;
             Item.height = 28;

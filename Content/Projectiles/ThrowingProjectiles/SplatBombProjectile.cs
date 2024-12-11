@@ -1,5 +1,7 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
@@ -12,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private int maxFuseTime = 180;
         private bool hasCollided = false;
 
-        private float groundFriction = 0.95f;
+        private readonly float groundFriction = 0.95f;
         private bool applyGravity = false;
         private float xVelocityBeforeBump;
 
@@ -22,6 +24,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateRollFuse = 2;
         private const int stateExplode = 3;
         private const int stateDespawn = 4;
+
+        protected SlotId? fuseSound;
 
         protected float FuseTime
         {
@@ -41,7 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             DrawOriginOffsetY = -12;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             FuseTime = maxFuseTime;
@@ -121,7 +125,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
 
-                    PlayAudio("Throwables/SplatBombFuse", volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
+                    fuseSound = PlayAudio(SoundPaths.SplatBombFuse.ToSoundStyle(), volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
                     break;
                 case stateExplode:
                     maxFuseTime = 6;
@@ -134,6 +138,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     {
                         GameFeelHelper.ShakeScreenNearPlayer(owner, true, strength: 3, speed: 4, duration: 20);
                     }
+
+                    SoundHelper.StopSoundIfActive(fuseSound);
                     break;
                 case stateDespawn:
                     Projectile.Kill();
@@ -178,7 +184,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
             }
 
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             if (FuseTime <= 0)
             {

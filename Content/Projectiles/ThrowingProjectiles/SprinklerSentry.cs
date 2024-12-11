@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,8 +10,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class SprinklerSentry : BaseBombProjectile
     {
         private Vector2 lockedPosition;
-        private float previousVelocityX;
-        private float previousVelocityY;
+        private readonly float previousVelocityX;
+        private readonly float previousVelocityY;
         private float prevX;
         private float prevY;
         private float prevXdiff;
@@ -19,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float yFacing = 0;
 
         private bool hasCollided = false;
-        private bool sticking = false;
+        private readonly bool sticking = false;
         private bool isStickingVertically;
         private bool fallback = false;
         private Vector2 stickingDirection = new Vector2(0, 0);
@@ -70,14 +72,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
 
-            PlayAudio("Throwables/SplatBombThrow");
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -102,7 +104,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void AI()
         {
             bool debug = false;
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             // Apply gravity
             if (state == stateFly || fallback)
@@ -117,7 +119,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.velocity.X = Projectile.velocity.X * airFriction;
 
                     // Rotation increased by velocity.X 
-                    Projectile.rotation += Projectile.velocity.X * 0.04f;
+                    Projectile.rotation += Projectile.velocity.X * 0.02f;
                     break;
                 case stateGetStickAxis:
                     // When sticking to a wall, we'll stop moving along one axis, but keep moving slightly along the other
@@ -183,8 +185,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.position.Y = prevY;
                     Projectile.netUpdate = true;
 
-                    StopAudio("Throwables/SplatBombThrow");
-                    PlayAudio("Throwables/SprinklerDeployNew", volume: 0.3f, pitchVariance: 0.2f);
+                    SoundHelper.StopSoundIfActive(throwAudio);
+                    PlayAudio(SoundPaths.SprinklerDeployNew.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.2f);
                     Timer = 30 * FrameSpeed();
                     AdvanceState();
                     break;
@@ -268,7 +270,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: initialColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 

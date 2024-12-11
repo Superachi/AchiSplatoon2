@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -12,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private Color bulletColor;
         private float delayUntilFall;
         private float shotGravity = 0.05f;
-        private float airResist = 0.995f;
+        private readonly float airResist = 0.995f;
         private float drawScale = 0;
         private float drawRotation;
         protected float brightness = 0.001f;
@@ -49,7 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             delayUntilFall = weaponData.DelayUntilFall;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -63,7 +64,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         public override void AI()
         {
             Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
-            
+
             if (timeSpentAlive > 3 * FrameSpeed())
             {
                 if (drawScale < 1f)
@@ -73,12 +74,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
                 if (Timer % 8 == 0 && Main.rand.NextBool(10))
                 {
-                    Dust.NewDustPerfect(
-                        Position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
-                        Type: ModContent.DustType<SplatterDropletDust>(),
-                        Velocity: Projectile.velocity * 0.2f,
-                        newColor: GenerateInkColor(),
-                        Scale: Main.rand.NextFloat(1f, 1.5f)
+                    DustHelper.NewSplatterBulletDust(
+                        position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
+                        velocity: Projectile.velocity * 0.2f,
+                        color: GenerateInkColor(),
+                        minScale: 0.8f,
+                        maxScale: 1.6f
                     );
                 }
             }

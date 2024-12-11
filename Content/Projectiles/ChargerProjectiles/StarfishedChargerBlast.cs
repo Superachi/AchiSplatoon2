@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
     internal class StarfishedChargerBlast : BaseProjectile
     {
         protected string explosionSample = "BlasterExplosion";
-        private int baseRadius = 100;
+        private readonly int baseRadius = 100;
         private bool hasExploded = false;
 
         public float pitchAdd = 0f;
@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             Projectile.knockBack = 5;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             enablePierceDamagefalloff = false;
@@ -50,19 +50,20 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 if (IsThisClientTheProjectileOwner())
                 {
                     Projectile.friendly = true;
-                    
+
                     var finalRadius = (int)(baseRadius * explosionRadiusModifier);
                     Projectile.Resize(finalRadius, finalRadius);
                     Projectile.Center = target.Center;
 
-                    var e = new ExplosionDustModel(_dustMaxVelocity: 28, _dustAmount: 10, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
+                    var e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 20, _minScale: 3, _maxScale: 4, _radiusModifier: finalRadius);
                     var a = new PlayAudioModel(_soundPath: explosionSample, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: -0.4f + pitchAdd, _position: Projectile.Center);
                     CreateExplosionVisual(e, a);
 
                     hasExploded = true;
                     Projectile.timeLeft = 6;
                 }
-            } else
+            }
+            else
             {
                 if (Main.rand.NextBool(4))
                 {

@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<HeavySplatlingCharge>(),
                 singleShotTime: BarrageShotTime + 10,
-                shotVelocity: BarrageVelocity);
+                shotVelocity: 1);
             Item.damage = 12;
             Item.width = 72;
             Item.height = 28;

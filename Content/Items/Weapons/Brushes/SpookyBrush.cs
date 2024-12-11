@@ -5,6 +5,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class SpookyBrush : BaseBrush
     {
+        public override float InkCost { get => 3f; }
+
         public override float AimDeviation { get => 0f; }
         protected override int ArmorPierce => 20;
 

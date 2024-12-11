@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -11,7 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
     internal class BrellaMeleeProjectile : BaseProjectile
     {
         private Vector2 shieldAngle;
-        private float shieldAngleOffsetMult = 30f;
+        private readonly float shieldAngleOffsetMult = 30f;
         private bool canShield;
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             Initialize(isDissolvable: false);
@@ -35,7 +36,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             shieldAngle = Projectile.velocity * shieldAngleOffsetMult;
             Projectile.velocity = Vector2.Zero;
 
-            var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = owner.GetModPlayer<BrellaPlayer>();
             canShield = brellaMP.shieldAvailable;
             Projectile.friendly = canShield;
         }
@@ -51,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                         Projectile.width,
                         Projectile.height,
                         DustID.RainbowTorch,
-                        newColor: GenerateInkColor(),
+                        newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(0.5f, 1f)
                     );
                     dust.noGravity = true;
@@ -98,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
             if (deflectedProj != null)
             {
-                var brellaMP = owner.GetModPlayer<InkBrellaPlayer>();
+                var brellaMP = owner.GetModPlayer<BrellaPlayer>();
                 brellaMP.DamageShield(deflectedProj.damage);
 
                 BlockProjectileEffect(deflectedProj);
@@ -121,13 +122,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Projectile.knockBack += 5;
             modifiers.HitDirectionOverride = GetOwner().direction;
 
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             brellaMP.DamageShield((int)(target.damage * 0.25f));
         }
 
         public override void PostDraw(Color lightColor)
         {
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             var brellaLifePercentage = Math.Max(0, (int)(brellaMP.shieldLife / brellaMP.shieldLifeMax * 100));
 
             var playerPos = GetOwner().Center;
@@ -142,19 +143,26 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             // Ink
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(deflectedProjectile.Center, ModContent.DustType<SplatterDropletDust>(),
-                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+                Color dustColor = CurrentColor;
+
+                DustHelper.NewDropletDust(
+                    position: deflectedProjectile.Center,
+                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    color: CurrentColor,
+                    minScale: 0.5f,
+                    maxScale: 1f);
             }
 
             // Firework
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(deflectedProjectile.Center, DustID.FireworksRGB,
-                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+                DustHelper.NewDust(
+                    position: deflectedProjectile.Center,
+                    dustType: DustID.FireworksRGB,
+                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    color: CurrentColor,
+                    scale: Main.rand.NextFloat(0.5f, 1f),
+                    data: new(gravity: 1));
             }
         }
     }

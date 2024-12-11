@@ -1,8 +1,8 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -12,15 +12,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
     {
         private int delayUntilFall;
         private float fallSpeed;
-        private bool canFall = false;
-        private float terminalVelocity = 6f;
         public float aimDevOverride = -1f;
-
-        protected float Timer
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
 
         public override void SetDefaults()
         {
@@ -34,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            BaseDualie weaponData = WeaponInstance as BaseDualie;
+            BaseDualie weaponData = (BaseDualie)WeaponInstance;
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
@@ -43,47 +35,59 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(aimDeviationOverride: aimDevOverride);
             ApplyWeaponInstanceData();
             PlayShootSound();
         }
 
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.4f;
+            }
+
+            Projectile.extraUpdates *= 2;
+            Projectile.timeLeft *= 2;
+            fallSpeed *= 0.04f;
+            delayUntilFall *= 2;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+            ProjectileDustHelper.ShooterSpawnVisual(this);
+        }
+
         public override void AI()
         {
-            Timer++;
-            if (Timer >= FrameSpeed(delayUntilFall))
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
-                if (!canFall)
-                {
-                    canFall = true;
-                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
-                }
+                Projectile.velocity.Y += fallSpeed;
             }
 
-            if (canFall)
-            {
-                Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
-            }
+            Color dustColor = CurrentColor;
 
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: 1.4f);
-            if (timeSpentAlive % 2 == 0)
+            DustHelper.NewSplatterBulletDust(
+                position: Projectile.Center,
+                velocity: Projectile.velocity / 4,
+                color: dustColor,
+                scale: 1.2f);
+
+            if (Main.rand.NextBool(20))
             {
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 2, newColor: dustColor, Scale: 1f);
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 4,
+                    color: dustColor,
+                    scale: 0.8f);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 
@@ -95,24 +99,24 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         protected override void PlayShootSound()
         {
-            var dualieMP = GetOwner().GetModPlayer<InkDualiePlayer>();
+            var dualieMP = GetOwner().GetModPlayer<DualiePlayer>();
             if (dualieMP.isTurret)
             {
                 PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0f);
-            } else {
+            }
+            else
+            {
                 PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.25f);
             }
         }
 
-        // Netcode
-        protected override void NetSendSyncMovement(BinaryWriter writer)
+        protected override void CreateDustOnDespawn()
         {
-            writer.Write((bool)canFall);
-        }
-
-        protected override void NetReceiveSyncMovement(BinaryReader reader)
-        {
-            canFall = reader.ReadBoolean();
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
         }
     }
 }

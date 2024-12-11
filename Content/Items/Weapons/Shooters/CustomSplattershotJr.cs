@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class CustomSplattershotJr : SplattershotJr
     {
+        public override float InkTankCapacityBonus { get => 40f; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -15,10 +17,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 5,
                 shotVelocity: 4.5f);
 
-            Item.damage = 20;
+            Item.damage = 16;
             Item.width = 48;
             Item.height = 30;
-            Item.knockBack = 4f;
+            Item.knockBack = 3f;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
         }

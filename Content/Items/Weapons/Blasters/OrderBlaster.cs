@@ -9,7 +9,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     internal class OrderBlaster : BaseBlaster
     {
         public override int ExplosionRadiusAir { get => 160; }
-        public override int ExplosionRadiusTile { get => 120; }
         public override float ExplosionDelayInit { get => 10f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-10, -10); }
@@ -19,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 58,
                 shotVelocity: 6f);
 

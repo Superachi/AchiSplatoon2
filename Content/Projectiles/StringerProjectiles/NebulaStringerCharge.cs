@@ -32,13 +32,13 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             if (!IsProjectileOfType<NebulaStringerProjectile>(projectile)) return;
 
-            var mP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var mP = GetOwner().GetModPlayer<AccessoryPlayer>();
             var modProj = projectile as NebulaStringerProjectile;
             modProj.parentFullyCharged = IsChargeMaxedOut();
             modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
 
             projectile.Projectile.ai[2] = projectileNumber;
-            projectile.AfterSpawn();
+            projectile.RunSpawnMethods();
         }
 
         protected override void PlayShootSample()

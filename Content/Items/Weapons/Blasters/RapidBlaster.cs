@@ -11,8 +11,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class RapidBlaster : Blaster
     {
+        public override float InkCost { get => 6.5f; }
+
         public override int ExplosionRadiusAir { get => 160; }
-        public override int ExplosionRadiusTile { get => 120; }
         public override float ExplosionDelayInit { get => 15f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 4); }
@@ -22,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 35,
                 shotVelocity: 11f);
 

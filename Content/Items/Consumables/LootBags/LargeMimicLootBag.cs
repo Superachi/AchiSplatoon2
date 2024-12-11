@@ -1,4 +1,6 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
 using System.Collections.Generic;
 using Terraria;
@@ -54,6 +56,13 @@ namespace AchiSplatoon2.Content.Items.Consumables.LootBags
 
         protected override void OpenLootBag(Player player)
         {
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<SheldonLicenseSilver>());
+
+            if (Main.rand.NextBool(5))
+            {
+                player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<LastDitchEffortEmblem>());
+            }
+
             if (Main.rand.NextBool(10))
             {
                 player.QuickSpawnItem(player.GetSource_DropAsItem(), RollRandomWeapon());

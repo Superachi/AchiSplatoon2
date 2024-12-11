@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -6,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,23 +29,23 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private const int stateDropItem = 3;
 
         private int speechCooldownCurrent = 0;
-        private int speechCooldownMax = 600;
+        private readonly int speechCooldownMax = 600;
         private int speechDisplayTime = 0;
         private float speechScale = 0f;
         private string speechText = "";
         private string ownerName = "";
 
-        private string shoutSample = $"Voice\\Pearl\\Shout";
-        private int shoutSampleCount = 3;
-        private string talkSample = $"Voice\\Pearl\\ShortTalk";
-        private int talkSampleCount = 5;
+        private readonly string shoutSample = $"Voice\\Pearl\\Shout";
+        private readonly int shoutSampleCount = 3;
+        private readonly string talkSample = $"Voice\\Pearl\\ShortTalk";
+        private readonly int talkSampleCount = 5;
 
         private int sprinklerCooldown;
-        private int sprinklerCooldownMax = 20;
+        private readonly int sprinklerCooldownMax = 20;
         private int burstBombCooldown;
-        private int burstBombCooldownMax = 600;
+        private readonly int burstBombCooldownMax = 600;
         private int healCooldown;
-        private int healCooldownMax = 7200;
+        private readonly int healCooldownMax = 7200;
 
         private NPC? foundTarget = null;
 
@@ -89,9 +91,11 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             return false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+
             sprinklerCooldown = sprinklerCooldownMax;
             burstBombCooldown = burstBombCooldownMax;
             healCooldown = healCooldownMax;
@@ -215,7 +219,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 var inertia = 40f;
                 Projectile.velocity = (Projectile.velocity * (inertia - 1) + goalDirection * distanceToGoal / 15) / inertia;
-            } else
+            }
+            else
             {
                 Projectile.velocity *= 0.9f;
             }
@@ -333,21 +338,48 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             // Attacks
             if (sprinklerCooldown <= 0)
             {
-                sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
-                SprinklerProjectile p = CreateChildProjectile<PearlDroneSprinklerProjectile>(
-                    Projectile.Center,
-                    Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetSprinklerDamage());
-                WoomyMathHelper.AddRotationToVector2(p.Projectile.velocity, Main.rand.NextFloat(-15, 15));
+                if (droneMP.IsLaserSprinklerEnabled)
+                {
+                    sprinklerCooldown = GetCooldownValue((int)(sprinklerCooldownMax * droneMP.LaserCooldownMod));
+
+                    PearlDroneLaserProjectile laserShot = CreateChildProjectile<PearlDroneLaserProjectile>(
+                        Projectile.Center + Projectile.Center.DirectionTo(foundTarget.Center) * 20,
+                        Projectile.Center.DirectionTo(foundTarget.Center) * 10,
+                        (int)(droneMP.GetSprinklerDamage() * droneMP.LaserDamageMod),
+                        triggerSpawnMethods: false);
+
+                    laserShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    laserShot.RunSpawnMethods();
+                }
+                else
+                {
+                    sprinklerCooldown = GetCooldownValue(sprinklerCooldownMax);
+
+                    SprinklerProjectile sprinklerShot = CreateChildProjectile<PearlDroneSprinklerProjectile>(
+                        Projectile.Center,
+                        Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
+                        droneMP.GetSprinklerDamage(),
+                        triggerSpawnMethods: false);
+
+                    WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
+                    sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
+                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    sprinklerShot.RunSpawnMethods();
+                }
             }
 
             if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
-                CreateChildProjectile<PearlDroneBurstBomb>(
+                PearlDroneBurstBomb burstShot = CreateChildProjectile<PearlDroneBurstBomb>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetBurstBombDamage());
+                    droneMP.GetBurstBombDamage(),
+                    triggerSpawnMethods: false);
+
+                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                burstShot.RunSpawnMethods();
             }
         }
 
@@ -432,7 +464,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void FindTarget(float maxTargetDistance)
         {
-            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<InkAccessoryPlayer>().hasThermalInkTank;
+            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank;
             var success = false;
 
             float closestDistance = maxTargetDistance;
@@ -533,9 +565,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         #region Speech methods
 
-        private void PlaySpeechSample(string sample, int amountOfVariations)
+        private void PlaySpeechSample(string firstAudioPath, int amountOfVariations)
         {
-            SoundHelper.PlayAudio(sample + Main.rand.Next(1, amountOfVariations + 1).ToString(), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
+            int soundId = Main.rand.Next(amountOfVariations) + 1;
+            var path = firstAudioPath + soundId;
+
+            SoundHelper.PlayAudio(path.ToSoundStyle(appendAudioRootPath: true), volume: 0.5f, maxInstances: 1, position: Projectile.Center);
         }
 
         public void TriggerDialoguePearlAppears()
@@ -611,14 +646,11 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         {
             if (speechCooldownCurrent > 0) return;
 
-            if (Main.rand.NextBool(2))
-            {
-                var list = PlayerActivatesSpecial(specialItemId);
-                if (list.Count == 0) return;
+            var list = PlayerActivatesSpecial(specialItemId);
+            if (list.Count == 0) return;
 
-                Speak(list);
-                PlaySpeechSample(talkSample, talkSampleCount);
-            }
+            Speak(list);
+            PlaySpeechSample(talkSample, talkSampleCount);
         }
 
         private void Speak(string message)
@@ -708,7 +740,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     }
                     break;
 
-                case EelSplatana:
+                case EelSplatanaWeapon:
                     strings.Add("You think Frye names each of her eels?");
                     break;
             }
@@ -796,8 +828,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (specialItemId == ModContent.ItemType<TrizookaSpecial>())
             {
                 strings.Add("Fire away!");
-                strings.Add("BOOM! BOOM! BOOM!");
-                strings.Add("React to that, chumps!");
+                strings.Add($"Let's see some explosions, {ownerName}!");
+                strings.Add("React to this, chumps!");
             }
 
             if (specialItemId == ModContent.ItemType<KillerWail>())

@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,10 +10,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class GrizzcoCharger : BaseWeapon
     {
+        public override float InkCost { get => 5f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Charger;
 
-        public override string ShootSample { get => "BambooChargerShoot"; }
-        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
         public override float MuzzleOffsetPx { get; set; } = 80f;
         public override void SetDefaults()
         {

@@ -14,11 +14,12 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         {
             if (shop.NpcType == NPCID.Demolitionist)
             {
-                shop.Add<SplatBomb>();
+                shop.Add<StarterSplatBomb>();
+                shop.Add<SplatBomb>(Condition.DownedEarlygameBoss);
                 shop.Add<BurstBomb>(Condition.DownedEarlygameBoss);
-                shop.Add<AngleShooter>(Condition.DownedEarlygameBoss);
+                shop.Add<AngleShooter>(BossConditions.DownedEvilBoss);
                 shop.Add<Sprinkler>(BossConditions.DownedEvilBoss);
-                shop.Add<InkMine>(BossConditions.DownedEvilBoss);
+                shop.Add<InkMine>(Condition.DownedSkeletron);
                 shop.Add<Torpedo>(Condition.Hardmode);
             }
 
@@ -29,7 +30,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (shop.NpcType == NPCID.Painter)
             {
-                shop.Add<PainterDualie>();
+                shop.Add(ItemID.BlackInk);
+                shop.Add<PainterDualie>(Condition.DownedEarlygameBoss);
             }
         }
     }

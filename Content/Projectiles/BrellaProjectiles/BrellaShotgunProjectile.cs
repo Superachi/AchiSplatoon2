@@ -1,4 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -6,14 +8,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 {
     internal class BrellaShotgunProjectile : BaseProjectile
     {
-        private bool hasFired = false;
+        protected bool hasFired = false;
 
-        private int meleeProjectileType;
-        private int pelletProjectileType;
-        private int pelletCount;
+        protected int meleeProjectileType;
+        protected int pelletProjectileType;
+        protected int pelletCount;
         protected float shotSpeed;
-        private float shotgunArc;
-        private float shotVelocityRandomRange;
+        protected float shotgunArc;
+        protected float shotVelocityRandomRange;
 
         public int burstNPCTarget = -1;
         public int burstHitCount = 0;
@@ -34,7 +36,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             burstRequiredHits = pelletCount;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -42,6 +44,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             shotSpeed = Vector2.Distance(Main.LocalPlayer.Center, Main.LocalPlayer.Center + Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
             PlayShootSound();
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+            prefix?.ApplyProjectileStats(this);
+
+            if (prefix is BaseBrellaPrefix brellaPrefix)
+            {
+                pelletCount += prefix.ExtraProjectileBonus;
+                shotgunArc += prefix.AimVariation;
+            }
         }
 
         protected override void PlayShootSound()
@@ -75,9 +89,16 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     Vector2 angleVector = radians.ToRotationVector2();
                     Vector2 velocity = angleVector * shotSpeed * shotSpeedRand;
 
+                    Vector2 finalOffset = Vector2.Zero;
+                    Vector2 brellaOffset = Vector2.Normalize(velocity) * 40;
+                    if (Collision.CanHitLine(Projectile.Center, 1, 1, Projectile.Center + brellaOffset, 1, 1))
+                    {
+                        finalOffset = brellaOffset;
+                    }
+
                     // Pellet projectile
                     CreateChildProjectile(
-                        position: Projectile.position,
+                        position: Projectile.position + finalOffset,
                         velocity: velocity,
                         type: pelletProjectileType,
                         Projectile.damage);

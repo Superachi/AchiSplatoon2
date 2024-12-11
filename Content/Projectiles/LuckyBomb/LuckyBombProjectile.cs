@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -21,13 +22,13 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
         private NPC npcTarget = null;
         private float chaseSpeed = 0f;
         private int remainingTargetAttempts = 10;
-        private float maxTargetDistance = 800f;
+        private readonly float maxTargetDistance = 800f;
 
         private float drawScale = 0f;
         private float sizeMod = 1f;
-        private int frameCount = 8;
+        private readonly int frameCount = 8;
         private float frameTimer = 0f;
-        private int frameDelay = 4;
+        private readonly int frameDelay = 4;
 
         public override void SetStaticDefaults()
         {
@@ -44,7 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             SetState(stateSpawn);
@@ -79,7 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
         {
             if (state != stateExplode)
             {
-                DrawProjectile(inkColor: initialColor, rotation: 0, scale: drawScale, considerWorldLight: false);
+                DrawProjectile(inkColor: CurrentColor, rotation: 0, scale: drawScale, considerWorldLight: false);
             }
             return false;
         }
@@ -136,7 +137,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
                     Position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
                     Type: ModContent.DustType<SplatterBulletLastingDust>(),
                     Velocity: Vector2.Zero,
-                    newColor: initialColor,
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(0.6f, 1.2f));
             }
         }
@@ -181,7 +182,8 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
                         npcTarget = npc;
                     }
                 }
-            } else
+            }
+            else
             {
                 SetState(stateSequenceExplode);
             }
@@ -194,7 +196,7 @@ namespace AchiSplatoon2.Content.Projectiles.LuckyBomb
             Projectile.alpha = 255;
             Projectile.velocity = Vector2.Zero;
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 20, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
+            var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
             SoundHelper.PlayAudio(a);
             TripleHitDustBurst(playSample: false);
         }

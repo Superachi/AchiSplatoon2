@@ -24,5 +24,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Lime;
         }
+
+        public override void AddRecipes()
+        {
+        }
     }
 }

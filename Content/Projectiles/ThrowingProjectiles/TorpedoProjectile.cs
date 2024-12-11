@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -20,19 +21,19 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         private NPC? target = null;
         private float chaseSpeed = 0f;
-        private float chaseSpeedMax = 15f;
+        private readonly float chaseSpeedMax = 15f;
 
         private int pelletCount;
         private float pelletDamageMod;
         private int explosionRadius = 150;
-        private int detectionRadius = 300;
+        private readonly int detectionRadius = 300;
         private Vector2? lockOnPosition;
 
         // Physics
         private float drawScale = 1f;
         private float drawRotation = 0f;
-        private int delayUntilFall = 10;
-        private float fallSpeed = 0.5f;
+        private readonly int delayUntilFall = 10;
+        private readonly float fallSpeed = 0.5f;
         private float xVelocityBeforeBump;
 
         // Audio
@@ -66,14 +67,14 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             pelletDamageMod = weaponData.PelletDamageMod;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
             explosionRadius = (int)(explosionRadius * explosionRadiusModifier);
             wormDamageReduction = true;
 
-            throwAudio = PlayAudio("Throwables/SplatBombThrow");
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -98,20 +99,20 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         sound.Stop();
                     }
 
-                    PlayAudio("Throwables/TorpedoLockOn", volume: 0.2f, maxInstances: 5, position: Projectile.Center);
+                    PlayAudio(SoundPaths.TorpedoLockOn.ToSoundStyle(), volume: 0.2f, maxInstances: 5, position: Projectile.Center);
                     Projectile.frame++;
                     break;
                 case stateExplode:
                     var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, Projectile.damage, false);
-                    var a = new PlayAudioModel("Throwables/SplatBombDetonate", _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
+                    var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.4f, _pitchVariance: 0.5f, _pitch: 4f, _maxInstances: 3, _position: Projectile.Center);
 
                     p.SetProperties(explosionRadius, a);
-                    p.AfterSpawn();
+                    p.RunSpawnMethods();
                     Projectile.timeLeft = 6;
 
                     if (oldState != stateRoll)
                     {
-                        for (int i = 0; i < pelletCount; i ++)
+                        for (int i = 0; i < pelletCount; i++)
                         {
                             var dir = MathHelper.ToRadians(i * (180 / pelletCount) + 180).ToRotationVector2();
                             var pellet = CreateChildProjectile<TorpedoPelletProjectile>(
@@ -128,7 +129,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             void LockOn()
             {
@@ -164,7 +165,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     if (drawScale < 2)
                     {
                         drawScale += 0.2f;
-                    } else
+                    }
+                    else
                     {
                         SetState(stateLockOnShrink);
                     }
@@ -219,7 +221,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     if (Projectile.soundDelay == 0)
                     {
                         Projectile.soundDelay = 5;
-                        PlayAudio(soundPath: "Throwables/TorpedoChase", volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
+                        PlayAudio(SoundPaths.TorpedoChase.ToSoundStyle(), volume: 0.3f * (chaseSpeed / chaseSpeedMax), pitchVariance: 0.2f, maxInstances: 5, pitch: 0.05f);
                     }
                     break;
 
@@ -238,7 +240,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (state == stateFly)
             {
                 SetState(stateRoll);
-            } else if (state == stateChase)
+            }
+            else if (state == stateChase)
             {
                 SetState(stateExplode);
             }
@@ -250,7 +253,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (state == stateExplode) return false;
 
-            DrawProjectile(inkColor: initialColor, rotation: drawRotation + MathHelper.ToRadians(45), scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 0.5f);
+            DrawProjectile(inkColor: CurrentColor, rotation: drawRotation + MathHelper.ToRadians(45), scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 0.5f);
             return false;
         }
 

@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
@@ -14,7 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         public bool wasFullyCharged;
         private bool firstHit = false;
 
-        private int baseAnimationTime = 22;
+        private readonly int baseAnimationTime = 22;
 
         public override void SetDefaults()
         {
@@ -27,13 +29,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             Initialize(isDissolvable: false);
             enablePierceDamagefalloff = false;
 
-            bulletColor = GenerateInkColor();
             Projectile.velocity = Vector2.Zero;
 
             swingDirection = GetOwner().direction;
@@ -57,13 +58,36 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.ai[1] += 0.7f * (float)baseAnimationTime / (float)p.itemAnimationMax;
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
-            if (timeSpentAlive % 8 == 0)
+
+            if (wasFullyCharged && timeSpentAlive % 4 == 0)
             {
-                Dust.NewDustPerfect(
-                Position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.5f, Projectile.height * 0.5f),
-                Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                Velocity: Vector2.Normalize(Projectile.position - oldPos) * 3f,
-                newColor: bulletColor, Scale: 1.0f);
+                DustHelper.NewChargerBulletDust(
+                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    color: CurrentColor,
+                    minScale: 1.0f,
+                    1.6f);
+
+                if (Main.rand.NextBool(4))
+                {
+                    DustHelper.NewDust(
+                        position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                        dustType: DustID.AncientLight,
+                        velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                        color: ColorHelper.ColorWithAlpha255(CurrentColor),
+                        scale: Main.rand.NextFloat(0.8f, 1.2f),
+                        data: new(gravity: 0));
+                }
+            }
+
+            if (!wasFullyCharged && timeSpentAlive % 6 == 0)
+            {
+                DustHelper.NewChargerBulletDust(
+                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
+                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
+                    color: CurrentColor,
+                    minScale: 0.8f,
+                    maxScale: 1.4f);
             }
         }
 

@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     {
         protected override bool FallThroughPlatforms => true;
 
-        private float indirectHitDamageFalloff = 0.6f;
+        private readonly float indirectHitDamageFalloff = 0.6f;
         public override void SetDefaults()
         {
             Projectile.width = 14;
@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             set => Projectile.ai[1] = value;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             wormDamageReduction = true;
@@ -68,7 +68,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             if (!hasExploded)
             {
-                Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+                Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
                 // Apply air friction
                 Projectile.velocity.X = Projectile.velocity.X * airFriction;

@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -12,7 +13,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
     {
         private int delayUntilFall;
         private float fallSpeed;
-        private bool canFall = false;
 
         private bool countedForBurst = false;
 
@@ -42,7 +42,20 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
         }
 
-        public override void AfterSpawn()
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.4f;
+            }
+
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 2;
+            fallSpeed *= 0.5f;
+            delayUntilFall *= 2;
+        }
+
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -50,26 +63,36 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
         public override void AI()
         {
-            Timer++;
-            if (Timer >= FrameSpeed(delayUntilFall))
-            {
-                if (!canFall)
-                {
-                    canFall = true;
-                    NetUpdate(ProjNetUpdateType.SyncMovement, true);
-                }
-            }
-
-            if (canFall)
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
             if (timeSpentAlive > 6)
             {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
+                Color dustColor = CurrentColor;
+
+                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.2f);
+
+                if (Main.rand.NextBool(20))
+                {
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Projectile.velocity / 4,
+                        color: dustColor,
+                        scale: 0.8f);
+                }
             }
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
+            return true;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -105,22 +128,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             // In the original Splatoon game, Undercover Brella instantly regains its shield when splatting an opponent
             var heldItem = GetOwner().HeldItem.ModItem;
             bool isUndercover = heldItem is UndercoverBrella;
-            var brellaMP = GetOwner().GetModPlayer<InkBrellaPlayer>();
+            var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
             if (target.life < 1 && !brellaMP.shieldAvailable && isUndercover)
             {
                 brellaMP.shieldCooldown = 1;
             }
-        }
-
-        // Netcode
-        protected override void NetSendSyncMovement(BinaryWriter writer)
-        {
-            writer.Write((bool)canFall);
-        }
-
-        protected override void NetReceiveSyncMovement(BinaryReader reader)
-        {
-            canFall = reader.ReadBoolean();
         }
     }
 }

@@ -1,8 +1,13 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
+using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,6 +20,8 @@ namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BaseChargeProjectile : BaseProjectile
     {
+        protected override bool ConsumeInkAfterSpawn => false;
+
         protected float lastShotRadians; // Used for networking
 
         // Charge mechanic
@@ -33,18 +40,22 @@ namespace AchiSplatoon2.Content.Projectiles
         private float prefixChargeSpeedModifier = 1f;
         private bool playerHasChargedBattery = false;
 
+        private float chargeInkCost = 1f;
+
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
 
         private Texture2D? spriteChargeBar;
         private float chargeBarBrightness = 0f;
 
+        protected SlotId? chargeStartAudio;
+
         public override void SetDefaults()
         {
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.aiStyle = 1;
-            Projectile.timeLeft = 36000;
+            Projectile.timeLeft = 1_000_000;
             Projectile.penetrate = -1;
             AIType = ProjectileID.Bullet;
 
@@ -57,48 +68,71 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             base.ApplyWeaponInstanceData();
             chargeSlowerInAir = WeaponInstance.SlowAerialCharge;
-            playerHasChargedBattery = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasChargedBattery;
+            playerHasChargedBattery = GetOwner().GetModPlayer<AccessoryPlayer>().hasChargedBattery;
+
             if (playerHasChargedBattery)
             {
                 chargeSpeedModifier += ChargedBattery.ChargeSpeedFlatBonus;
                 aerialChargeSpeedMod = ChargedBattery.AerialChargeSpeedModOverride;
             }
+        }
 
-            if (IsThisClientTheProjectileOwner())
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix is BaseChargeWeaponPrefix chargeWeaponPrefix)
             {
-                StatCalculationHelper.GetPrefixStats(GetOwner().HeldItem, out float _, out float _, out float speed, out float _, out float _, out float _, out float _);
-                prefixChargeSpeedModifier = 1 + (1f - speed);
+                prefixChargeSpeedModifier = chargeWeaponPrefix.ChargeSpeedModifier.NormalizePrefixMod();
             }
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
+
+            NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
-        protected bool IsChargeMaxedOut()
+        protected void CalculateChargeInkCost()
+        {
+            chargeInkCost = WoomyMathHelper.CalculateChargeInkCost(currentInkCost, WeaponInstance, fullCharge: false);
+        }
+
+        public bool IsChargeMaxedOut()
         {
             return (chargeLevel >= chargeTimeThresholds.Length);
         }
 
-        protected float ChargeQuotient()
+        public float ChargeQuotient()
         {
             return ChargeTime / MaxChargeTime();
         }
 
-        protected virtual void IncrementChargeTime()
-        {
-            isPlayerGrounded = GetOwner().GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
-
-            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
-            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier;
-        }
-
-        protected float MaxChargeTime()
+        public float MaxChargeTime()
         {
             return chargeTimeThresholds[chargeTimeThresholds.Length - 1] * FrameSpeed();
+        }
+
+        protected virtual void IncrementChargeTime()
+        {
+            isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
+            float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
+            
+            var inkSpeedModifier = 1f;
+            if (!GetOwnerModPlayer<InkTankPlayer>().HasEnoughInk(currentInkCost))
+            {
+                inkSpeedModifier = 0.3f;
+            }
+
+            var chargeIncrement = 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
+            ChargeTime += 1f * chargeSpeedModifier * groundedSpeedModifier * prefixChargeSpeedModifier * inkSpeedModifier;
+
+            CalculateChargeInkCost();
+            ConsumeInk(inkCostOverride: chargeIncrement * chargeInkCost);
         }
 
         protected virtual void ReleaseCharge(Player owner)
@@ -132,13 +166,6 @@ namespace AchiSplatoon2.Content.Projectiles
                 StartCharge();
             }
 
-            if (playerHasChargedBattery && IsChargeMaxedOut() && !hasFired)
-            {
-                GetOwner().channel = false;
-                ReleaseCharge(owner);
-                return;
-            }
-
             // Charge up mechanic
             var len = chargeTimeThresholds.Length;
             if (chargeLevel < len)
@@ -151,7 +178,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
                     if (chargeLevel == len)
                     {
-                        StopAudio(soundPath: "ChargeStart");
+                        SoundHelper.StopSoundIfActive(chargeStartAudio);
                     }
                 }
             }
@@ -159,17 +186,17 @@ namespace AchiSplatoon2.Content.Projectiles
             lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
             SyncProjectilePosWithPlayer(owner);
             PlayerItemAnimationFaceCursor(owner);
-            NetUpdate(ProjNetUpdateType.UpdateCharge);
+
+            if (timeSpentAlive > 0 && timeSpentAlive % 6 == 0)
+            {
+                NetUpdate(ProjNetUpdateType.UpdateCharge);
+            }
         }
 
         protected void ChargeLevelUpEffect()
         {
             chargeBarBrightness = 1f;
-
-            if (!playerHasChargedBattery)
-            {
-                PlayAudio(soundPath: "ChargeReady", volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
-            }
+            PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
         }
 
         protected void MaxChargeDustStream()
@@ -187,7 +214,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.player[Projectile.owner];
-                if (owner.dead)
+
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
                 {
                     Projectile.Kill();
                     return;
@@ -219,10 +247,10 @@ namespace AchiSplatoon2.Content.Projectiles
             var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
 
             int linewidth = 2;
-            var lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, ChargeTime / MaxChargeTime() * 0.5f);
+            var lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
-                lineCol = new Color(initialColor.R, initialColor.G, initialColor.B, 2f);
+                lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 2f);
                 linewidth = 4;
             }
 
@@ -230,7 +258,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 spriteBatch,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 50,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
-                new Color(initialColor.R, initialColor.G, initialColor.B, 0) * sinMult,
+                new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0) * sinMult,
                 lineCol * sinMult,
                 linewidth);
 
@@ -257,7 +285,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color color = new (initialColor.R + w.R, initialColor.G + w.G, initialColor.B + w.B);
+            Color color = new(CurrentColor.R + w.R, CurrentColor.G + w.G, CurrentColor.B + w.B);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
@@ -274,7 +302,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 color);
 
             // Darken the gauge when charge speed is reduced
-            if (!isPlayerGrounded && !IsChargeMaxedOut() && chargeSlowerInAir)
+            if (!isPlayerGrounded && !IsChargeMaxedOut() && chargeSlowerInAir && !playerHasChargedBattery)
             {
                 spriteBatch.Draw(
                     TextureAssets.MagicPixel.Value,
@@ -287,6 +315,7 @@ namespace AchiSplatoon2.Content.Projectiles
         }
 
         #region Netcode
+
         protected override void NetSendUpdateCharge(BinaryWriter writer)
         {
             Player owner = Main.player[Projectile.owner];
@@ -302,7 +331,6 @@ namespace AchiSplatoon2.Content.Projectiles
 
             // Make weapon face client's cursor
             lastShotRadians = (float)reader.ReadDouble();
-            Vector2 rotationVector = lastShotRadians.ToRotationVector2();
             PlayerItemAnimationFaceCursor(owner, null, lastShotRadians);
 
             // Set the animation time
@@ -316,6 +344,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 chargeLevel = newChargeLevel;
             }
         }
+
         #endregion
     }
 }

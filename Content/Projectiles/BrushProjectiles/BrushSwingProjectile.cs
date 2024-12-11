@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,10 +16,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {
     internal class BrushSwingProjectile : BaseProjectile
     {
-        private Texture2D weaponSprite;
+        private readonly Texture2D weaponSprite;
 
         private Player owner;
-        private InkWeaponPlayer weaponPlayer;
+        private WeaponPlayer weaponPlayer;
 
         private const int stateWindup = 0;
         private const int stateSwingForward = 1;
@@ -29,6 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         private float WeaponUseTime() => baseWeaponUseTime * FrameSpeed();
         private float baseWeaponUseTime = 6f;
         private float shotVelocity;
+        private float rollInkCost = 0f;
 
         private float swingAngleCurrent;
         private float swingArc = 80;
@@ -77,9 +80,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
+            rollInkCost = weaponData.InkCost / 40;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             owner = GetOwner();
             Initialize(isDissolvable: false);
@@ -87,16 +91,27 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
 
-            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+            weaponPlayer = owner.GetModPlayer<WeaponPlayer>();
 
             Projectile.velocity = Vector2.Zero;
             SetSwingAngleFromMouse(direction: 1);
             SetState(stateWindup);
         }
 
+        protected override void ApplyWeaponPrefixData()
+        {
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+            prefix?.ApplyProjectileStats(this);
+
+            if (prefix != null)
+            {
+                baseWeaponUseTime *= prefix.UseTimeModifier.NormalizePrefixMod();
+            }
+        }
+
         protected override void SetState(int targetState)
         {
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
             base.SetState(targetState);
 
             switch (state)
@@ -111,7 +126,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     wepMP.isBrushRolling = false;
                     weaponPlayer.isBrushAttacking = true;
 
-                    PlayAudio("Rollers/SwingMedium", volume: 0.2f, maxInstances: 5, position: Projectile.Center, pitch: 1);
+                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.2f, pitchVariance: 0, maxInstances: 5);
+
                     swingAngleCurrent = facingDirection == 1 ? 180 : 0;
                     break;
 
@@ -138,10 +154,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
-            var baseMP = owner.GetModPlayer<BaseModPlayer>();
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var invMP = owner.GetModPlayer<InventoryPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
+            var squidMP = owner.GetModPlayer<SquidPlayer>();
 
-            if (owner.dead || baseMP.HasHeldItemChanged())
+            if (owner.dead || invMP.HasHeldItemChanged() || squidMP.IsSquid())
             {
                 Projectile.Kill();
                 return;
@@ -170,9 +187,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
-            var wepMP = owner.GetModPlayer<InkWeaponPlayer>();
+            var wepMP = owner.GetModPlayer<WeaponPlayer>();
             wepMP.isBrushRolling = false;
             wepMP.isBrushAttacking = false;
         }
@@ -272,7 +289,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Position: Projectile.Center + drawPositionOffset * -offsetMod,
                     Type: ModContent.DustType<SplatterBulletLastingDust>(),
                     Velocity: angleVector * 3f,
-                    newColor: initialColor, Scale: 1.0f);
+                    newColor: CurrentColor, Scale: 1.0f);
             }
 
             if (timeSpentAlive % 10 == 0)
@@ -284,7 +301,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Position: Projectile.Center + drawPositionOffset * -offsetMod,
                     Type: DustID.AncientLight,
                     Velocity: Vector2.Zero,
-                    newColor: initialColor, Scale: 1.0f);
+                    newColor: CurrentColor, Scale: 1.0f);
                 lightDust.noGravity = true;
             }
         }
@@ -335,13 +352,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 var xVelocityRand = Main.rand.NextFloat(1, 3);
                 var finalXVel = SignPlayerSpeed() * AbsPlayerSpeed() / 4;
 
-                Dust d = Dust.NewDustPerfect(
-                    Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height) + posRand,
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: new Vector2(finalXVel * 2, -AbsPlayerSpeed() * 0.7f),
-                    Alpha: Main.rand.Next(0, 32),
-                    newColor: GenerateInkColor(),
-                    Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                DustHelper.NewDropletDust(
+                    position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height) + posRand,
+                    velocity: new Vector2(finalXVel * 2, -AbsPlayerSpeed() * 0.7f),
+                    color: GenerateInkColor(),
+                    minScale: 0.8f,
+                    maxScale: 1.6f);
 
                 Dust.NewDustPerfect(
                     Position: new Vector2(owner.Center.X + facingDirection * 72, owner.position.Y + owner.height),
@@ -350,6 +366,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Alpha: Main.rand.Next(0, 32),
                     newColor: GenerateInkColor(),
                     Scale: Main.rand.NextFloat(0.8f, 1.2f));
+            }
+
+            if (isFastEnough)
+            {
+                ConsumeInk(rollInkCost);
             }
 
             float lerpAmount = 0.05f;
@@ -387,11 +408,22 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private bool IsPlayerGrounded()
         {
-            return owner.GetModPlayer<BaseModPlayer>().IsPlayerGrounded();
+            return PlayerHelper.IsPlayerGrounded(GetOwner());
         }
 
         private void Shoot()
         {
+            if (!PlayerHasEnoughInk())
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            ConsumeInk();
+
+            var startVelocity = owner.DirectionTo(Main.MouseWorld) * shotVelocity;
+            var velocity = startVelocity;
+
             if (WeaponInstance is not SpookyBrush)
             {
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
@@ -399,10 +431,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     switch (WeaponInstance)
                     {
                         case DesertBrush:
-                            CreateChildProjectile<DesertBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                            CreateChildProjectile<DesertBrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                             break;
                         default:
-                            CreateChildProjectile<InkbrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                            CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                             break;
                     }
                 }
@@ -415,13 +447,20 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 {
                     PlayAudio(shootAltSample, volume: 0.08f, pitchVariance: 0.3f, maxInstances: 10);
                 }
-            } else
+            }
+            else
             {
+                var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+                if (prefix != null)
+                {
+                    velocity = WoomyMathHelper.AddRotationToVector2(startVelocity, -prefix.AimVariation, prefix.AimVariation);
+                }
+
                 for (int i = -1; i < 2; i += 2)
                 {
-                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, owner.DirectionTo(Main.MouseWorld) * shotVelocity, Projectile.damage / 2, triggerAfterSpawn: false);
+                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, velocity, Projectile.damage / 2, triggerSpawnMethods: false);
                     p.sineDirection = i;
-                    p.AfterSpawn();
+                    p.RunSpawnMethods();
                 }
             }
         }

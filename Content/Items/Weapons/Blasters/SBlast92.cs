@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,9 +10,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class SBlast92 : Blaster
     {
-        public override string ShootAltSample { get => "SBlastShoot"; }
+        public override float InkCost { get => 10f; }
+
+        public override SoundStyle ShootAltSample { get => SoundPaths.SBlastShoot.ToSoundStyle(); }
         public override int ExplosionRadiusAir { get => 240; }
-        public override int ExplosionRadiusTile { get => 120; }
         public override float ExplosionDelayInit { get => 12f; }
 
         // Sprite offset
@@ -26,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 52,
                 shotVelocity: 7f);
 
-            Item.damage = 170;
+            Item.damage = 160;
             Item.width = 60;
             Item.height = 32;
             Item.knockBack = 7;

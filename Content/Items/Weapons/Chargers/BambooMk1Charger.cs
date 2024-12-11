@@ -1,8 +1,8 @@
-using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
@@ -11,8 +11,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class BambooMk1Charger : BaseCharger
     {
-        public override string ShootSample { get => "BambooChargerShoot"; }
-        public override string ShootWeakSample { get => "BambooChargerShootWeak"; }
+        public override float InkCost { get => 1f; }
+
+        public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override float[] ChargeTimeThresholds { get => [18f]; }
@@ -26,11 +28,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<SplatChargerProjectile>(),
-                singleShotTime: 12,
-                shotVelocity: 12f);
-
             SetItemUseTime();
             Item.width = 74;
             Item.height = 24;

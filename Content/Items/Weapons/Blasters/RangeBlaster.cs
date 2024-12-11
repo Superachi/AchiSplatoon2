@@ -13,7 +13,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     {
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 240; }
-        public override int ExplosionRadiusTile { get => 160; }
         public override float ExplosionDelayInit { get => 15f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-12, -2); }
@@ -24,11 +23,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 58,
                 shotVelocity: 9f);
 
-            Item.damage = 180;
+            Item.damage = 160;
             Item.width = 64;
             Item.height = 34;
             Item.knockBack = 6;

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -10,7 +11,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
     {
         private Color bulletColor;
         public float delayUntilFall = 45;
-        private float fallSpeed = 0.4f;
+        private readonly float fallSpeed = 0.4f;
         private float drawScale;
         private float drawRotation;
         protected float brightness = 0.001f;
@@ -39,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Projectile.tileCollide = true;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 
@@ -81,14 +82,13 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             if (visible && Main.rand.NextBool(4))
             {
                 Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
-                Dust.NewDust(
-                    Position: Projectile.position,
-                    Width: Projectile.width,
-                    Height: Projectile.height,
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    newColor: GenerateInkColor(),
-                    Scale: Main.rand.NextFloat(1f, 1.5f)
-                );
+
+                DustHelper.NewDropletDust(
+                    position: Projectile.position,
+                    velocity: Vector2.Zero,
+                    color: CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.5f);
             }
         }
 

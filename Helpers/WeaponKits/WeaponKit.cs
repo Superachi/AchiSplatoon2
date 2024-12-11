@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
         public SubWeaponBonusType BonusType;
         public float BonusAmount;
 
-        public WeaponKit(SubWeaponType subType, SubWeaponBonusType bonusType, float bonusAmount = 0.5f)
+        public WeaponKit(SubWeaponType subType, SubWeaponBonusType bonusType, float bonusAmount = 0f)
         {
             SubType = subType;
             BonusType = bonusType;

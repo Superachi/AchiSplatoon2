@@ -1,9 +1,11 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
-using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,29 +14,28 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaProjectile : BaseProjectile
     {
+        public int shotNumber = 0;
         protected override bool CountDamageForSpecialCharge { get => false; }
-
-        private int state = 0;
 
         private const float explosionRadius = 200;
         private int finalExplosionRadius;
-        private const float explosionTime = 6f;
-        protected int damageBeforePiercing;
 
-        private const float delayUntilFall = 12f;
-        private const float fallSpeed = 0.2f;
-        private const float terminalVelocity = 24f;
+        private float delayUntilFall = 0;
+        private float fallSpeed = 0;
+        private float terminalVelocity = 0;
+        private float orbitDistance = 0;
 
-        private const float recoilAmount = 5f;
+        private Vector2 _hitboxLocation;
+        private List<int> _hitTargets = new List<int>();
 
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 2;
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.timeLeft = 600;
-            Projectile.tileCollide = true;
+            Projectile.timeLeft = 1200;
+            Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
         }
 
@@ -52,70 +53,125 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
-            
-            damageBeforePiercing = Projectile.damage;
+
+            _hitboxLocation = Projectile.Center;
+
+            delayUntilFall = 20f;
+            fallSpeed = 0.1f;
+            terminalVelocity = 18f;
+
+            Projectile.penetrate = 2;
         }
 
-        private void EmitTrailInkDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f)
+        private void SetHitboxLocation()
+        {
+            double degrees = timeSpentAlive * 3 + shotNumber * 120;
+            double radians = degrees * (Math.PI / 180);
+            double distance = orbitDistance;
+
+            _hitboxLocation.X = Projectile.Center.X - (int)(Math.Cos(radians) * distance);
+            _hitboxLocation.Y = Projectile.Center.Y - (int)(Math.Sin(radians) * distance);
+        }
+
+        private void EmitTrailInkDust(int amount = 1, float minScale = 0.5f, float maxScale = 1f)
         {
             for (int i = 0; i < amount; i++)
             {
-                Dust.NewDustPerfect(Projectile.position, ModContent.DustType<BlasterTrailDust>(),
-                    Main.rand.NextVector2Circular(1, 1),
-                    255, GenerateInkColor(), Main.rand.NextFloat(minScale, maxScale));
+                DustHelper.NewDust(
+                    position: _hitboxLocation,
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Projectile.velocity / 3,
+                    color: CurrentColor,
+                    scale: Main.rand.NextFloat(minScale, maxScale) * 1.2f,
+                    data: new(scaleIncrement: -0.5f));
+
+                DustHelper.NewChargerBulletDust(
+                    position: _hitboxLocation,
+                    velocity: Main.rand.NextVector2Circular(1, 1),
+                    color: CurrentColor,
+                    minScale: minScale / 2,
+                    maxScale: maxScale / 2);
             }
 
             if (Main.rand.NextBool(5))
             {
-                var d = Dust.NewDustPerfect(Projectile.position, DustID.AncientLight,
+                var d = Dust.NewDustPerfect(
+                    _hitboxLocation,
+                    DustID.AncientLight,
                     Main.rand.NextVector2Circular(5, 5),
-                    255, GenerateInkColor(), Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                    255,
+                    CurrentColor,
+                    Main.rand.NextFloat(minScale / 2, maxScale / 2));
                 d.noGravity = true;
             }
 
             if (Main.rand.NextBool(15))
             {
-                var d = Dust.NewDustPerfect(Projectile.position, DustID.FireworksRGB,
+                var d = Dust.NewDustPerfect(
+                    _hitboxLocation,
+                    DustID.FireworksRGB,
                     -Projectile.velocity / 2 + Main.rand.NextVector2Circular(3, 3),
-                    255, GenerateInkColor(), Main.rand.NextFloat(minScale / 2, maxScale / 2));
+                    255,
+                    CurrentColor,
+                    Main.rand.NextFloat(minScale / 2, maxScale / 2));
                 d.noGravity = true;
             }
         }
 
         protected void Explode()
         {
-            Projectile.penetrate = -1;
-            Projectile.Resize(finalExplosionRadius, finalExplosionRadius);
-            Projectile.tileCollide = false;
-            Projectile.position -= Projectile.velocity;
-            Projectile.velocity = Vector2.Zero;
-
-            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 1.5f, _maxScale: 3f, _radiusModifier: finalExplosionRadius);
-            var s = new PlayAudioModel("BlasterExplosion", _volume: 0.4f, _pitchVariance: 0.3f, _maxInstances: 5, _pitch: -0.6f, _position: Projectile.Center);
-            var p = CreateChildProjectile<ExplosionProjectileVisual>(
-                position: Projectile.Center,
+            var p = CreateChildProjectile<TrizookaBlast>(
+                position: _hitboxLocation,
                 velocity: Vector2.Zero,
-                damage: 0);
+                damage: Projectile.damage);
 
-            p.explosionDustModel = e;
-            p.playAudioModel = s;
+            var s = new PlayAudioModel(_soundPath: SoundPaths.Silence, _volume: 0f);
+            p.SetProperties(radius: finalExplosionRadius, audioModel: s, ignoredTargets: _hitTargets);
             p.colorOverride = colorOverride;
+            p.RunSpawnMethods();
 
-            AdvanceState();
+            var volumeMod = 1.2f;
+            PlayAudio(SoundID.Splash, volume: 0.1f * volumeMod, maxInstances: 10, pitch: -0.5f);
+            PlayAudio(SoundID.Item38, volume: 0.2f * volumeMod, maxInstances: 10, pitch: -2f);
+            PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.05f * volumeMod, pitchVariance: 0.2f, maxInstances: 10, pitch: -2f);
+            PlayAudio(SoundPaths.TrizookaSplash.ToSoundStyle(), volume: 0.1f * volumeMod, pitchVariance: 0.2f, maxInstances: 10);
+
+            for (int i = 0; i < 3; i++)
+            {
+                var g = Gore.NewGoreDirect(
+                    Terraria.Entity.GetSource_None(),
+                    Projectile.Center + new Vector2(-20, -15),
+                    Vector2.Zero,
+                    GoreID.Smoke1,
+                    Main.rand.NextFloat(1f, 2f));
+
+                g.velocity = Main.rand.NextVector2Circular(2, 2);
+                g.alpha = 196;
+            }
+
+            if (Projectile.Center.Distance(Owner.Center) < 200)
+            {
+                GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 3, speed: 4, duration: 20);
+            }
+
+            Projectile.Kill();
         }
 
-        private void AdvanceState()
+        protected override void AdvanceState()
         {
-            state++;
+            base.AdvanceState();
             Timer = 0;
         }
 
         public override void AI()
         {
+            if (timeSpentAlive > 20 && orbitDistance < 48) orbitDistance += 1f;
+            SetHitboxLocation();
+
             switch (state)
             {
                 case 0:
@@ -129,17 +185,16 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                         }
                     }
 
-                    EmitTrailInkDust(dustMaxVelocity: 0.5f, amount: 4, minScale: 0.8f, maxScale: 3);
+                    EmitTrailInkDust(amount: 4, minScale: 0.8f, maxScale: 3);
 
-                    if (Timer > 300)
+                    bool CheckSolid()
                     {
-                        AdvanceState();
+                        return Framing.GetTileSafely(_hitboxLocation).HasTile && Collision.SolidCollision(_hitboxLocation, Projectile.width, Projectile.height);
                     }
-                    break;
-                case 1:
-                    if (Timer >= explosionTime)
+
+                    if (Timer > 600 || CheckSolid())
                     {
-                        Projectile.Kill();
+                        Explode();
                     }
                     break;
             }
@@ -147,15 +202,38 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Timer += 1f;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            if (state == 0 && Projectile.penetrate <= 1) { Explode(); }
-            base.OnHitNPC(target, hit, damageDone);
+            var size = 40;
+            hitbox = new Rectangle((int)_hitboxLocation.X - size / 2, (int)_hitboxLocation.Y - size / 2, size, size);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+            modifiers.FinalDamage *= WoomyMathHelper.CalculateZookaDamageModifier(target);
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (target.friendly) return false;
+
+            var oldPosition = Projectile.Center;
+            Projectile.Center = _hitboxLocation;
+            bool? check = Rectangle.Intersect(target.Hitbox, Projectile.Hitbox) != Rectangle.Empty;
+            if (check == true)
+            {
+                _hitTargets.Add(target.whoAmI);
+                if (state == 0) Explode();
+            }
+
+            Projectile.Center = oldPosition;
+
+            return check;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (state == 0) { Explode(); }
             return false;
         }
     }

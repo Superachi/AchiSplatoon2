@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SlimeSplattershot : Splattershot
     {
-        public override string ShootSample => "Dot52GalShoot";
+        public override float InkCost { get => 3f; }
+
+        public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override float ShotGravity { get => 0.3f; }
         public override int ShotGravityDelay { get => 30; }
         public override int ShotExtraUpdates { get => 2; }
@@ -32,6 +36,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.value = Item.buyPrice(gold: 3);
             Item.rare = ItemRarityID.Blue;
         }
-        public override void AddRecipes() {}
+        public override void AddRecipes() { }
     }
 }

@@ -11,9 +11,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class LunaBlaster : Blaster
     {
+        public override float InkCost { get => 6.5f; }
+
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 280; }
-        public override int ExplosionRadiusTile { get => 150; }
         public override float ExplosionDelayInit { get => 10f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-10, -10); }
@@ -24,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 40,
                 shotVelocity: 6f);
 
@@ -36,6 +37,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes() => AddRecipeOrichalcum();
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

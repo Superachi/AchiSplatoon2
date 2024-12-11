@@ -10,6 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
 {
     internal class BaseBomb : BaseWeapon
     {
+        public override float InkCost { get => 70f; }
+        public override float InkRecoveryDelay { get => 60f; }
+
         public virtual int ExplosionRadius { get => 100; }
         public virtual int MaxBounces { get => 12; }
         public override bool IsSubWeapon => true;
@@ -19,13 +22,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             Item.useStyle = ItemUseStyleID.Swing;
             Item.shootSpeed = 20f;
-            Item.maxStack = 9999;
-            Item.consumable = true;
             Item.useTime = 30;
             Item.useAnimation = Item.useTime;
             Item.noUseGraphic = true;
             Item.noMelee = true;
-            Item.value = Item.buyPrice(silver: 10);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Blue;
             Item.ammo = Item.type;
         }
@@ -34,9 +35,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                if (player.GetModPlayer<InkAccessoryPlayer>().hasHypnoShades)
+                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
-                    return HypnoShades.BombUseTimeMod;
+                    return HypnoShades.BombUseTimeMult;
                 }
             }
 
@@ -47,9 +48,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                if (player.GetModPlayer<InkAccessoryPlayer>().hasHypnoShades)
+                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
                 {
-                    player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMod);
+                    player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMult);
                 }
             }
 

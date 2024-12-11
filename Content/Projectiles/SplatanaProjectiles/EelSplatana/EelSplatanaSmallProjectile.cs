@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -8,10 +9,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
     internal class EelSplatanaSmallProjectile : BaseProjectile
     {
-        private int delayUntilFall = 60;
-        private float fallSpeed = 0.1f;
+        private readonly int delayUntilFall = 60;
+        private readonly float fallSpeed = 0.1f;
         private bool canFall = false;
-        private float terminalVelocity = 6f;
+        private readonly float terminalVelocity = 6f;
         protected float Timer
         {
             get => Projectile.ai[1];
@@ -31,13 +32,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             Projectile.extraUpdates = 5;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             Projectile.penetrate = 2;
             enablePierceDamagefalloff = true;
             wormDamageReduction = true;
-            PlayAudio("BrushShootAlt", volume: 0.1f, pitchVariance: 0.3f, pitch: 1f, maxInstances: 3);
+            PlayAudio(SoundPaths.BrushShootAlt.ToSoundStyle(), volume: 0.1f, pitchVariance: 0.3f, pitch: 0.5f, maxInstances: 3);
         }
 
         public override void AI()
@@ -83,7 +84,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 var spriteEffects = Projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
                 var alphaMod = (float)i / len;
 
-                DrawProjectile(Color.White, Projectile.oldRot[i], scale: 1, alphaMod: alphaMod, considerWorldLight: true, flipSpriteSettings: spriteEffects, positionOffset: posDiff); 
+                DrawProjectile(Color.White, Projectile.oldRot[i], scale: 1, alphaMod: alphaMod, considerWorldLight: true, flipSpriteSettings: spriteEffects, positionOffset: posDiff);
             }
             return false;
         }

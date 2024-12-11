@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SplooshOMatic : BaseSplattershot
     {
+        public override float InkCost { get => 0.8f; }
 
-        public override string ShootSample => "SplatlingShoot";
+        public override SoundStyle ShootSample { get => SoundPaths.SplatlingShoot.ToSoundStyle(); }
         public override float MuzzleOffsetPx { get; set; } = 62f;
         public override Vector2? HoldoutOffset() { return new Vector2(-10, 0); }
         public override float ShotGravity { get => 0.5f; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 
@@ -6,8 +7,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class TorpedoPelletProjectile : BaseProjectile
     {
-        private int delayUntilFall = 10;
-        private float fallSpeed = 0.2f;
+        private readonly int delayUntilFall = 10;
+        private readonly float fallSpeed = 0.2f;
         private bool canFall = false;
         private bool hasExploded = false;
 
@@ -23,7 +24,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.penetrate = -1;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -68,7 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.velocity = Vector2.Zero;
                 Projectile.Resize(explosionRadius, explosionRadius);
 
-                PlayAudio("BlasterExplosion", volume: 0.1f, pitchVariance: 0.3f, maxInstances: 20, pitch: 0.5f, position: Projectile.Center);
+                PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.1f, pitchVariance: 0.3f, maxInstances: 20, pitch: 0.5f, position: Projectile.Center);
                 TripleHitDustBurst(Projectile.Center, false);
             }
 
@@ -79,7 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             if (hasExploded) return false;
 
-            DrawProjectile(inkColor: initialColor, rotation: 0, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(inkColor: CurrentColor, rotation: 0, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 

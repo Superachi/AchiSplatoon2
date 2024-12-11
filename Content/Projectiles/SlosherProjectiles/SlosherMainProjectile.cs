@@ -8,11 +8,10 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherMainProjectile : BaseProjectile
     {
-        private string shootSampleAlt;
         private int weaponDamage;
         private float fallDelayCount = 0;
         private float fallSpeed;
-        private float terminalVelocity = 8f;
+        private readonly float terminalVelocity = 8f;
         private bool hasChildren = false;
 
         public override void SetDefaults()
@@ -36,11 +35,11 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             weaponDamage = Projectile.damage;
 
             shootSample = weaponData.ShootSample;
-            shootSampleAlt = weaponData.ShootWeakSample;
+            shootAltSample = weaponData.ShootWeakSample;
             fallSpeed = weaponData.ShotGravity;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -52,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
             else
             {
-                PlayAudio(shootSampleAlt, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             }
         }
 

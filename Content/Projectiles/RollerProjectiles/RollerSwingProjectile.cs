@@ -5,14 +5,17 @@ using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 {
     internal class RollerSwingProjectile : BaseProjectile
     {
-        private string swingSample;
-        private string windUpSample;
+        protected override bool ConsumeInkAfterSpawn => false;
+
+        private SoundStyle swingSample;
+        private SoundStyle windUpSample;
 
         private const int stateInit = 0;
         private const int stateWindUp = 1;
@@ -21,7 +24,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private int stateTimer = 0;
 
         private int windUpTime = 20;
-        private int childVelocity = 20;
+        private readonly int childVelocity = 20;
         private bool startedJumpSwing = false;
 
         private float groundWindUpDelayMod;
@@ -30,11 +33,13 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private float jumpAttackVelocityMod;
         private float jumpAttackDamageMod;
 
-        private int swingTime = 15;
+        private readonly int swingTime = 15;
         private int facingDirection;
 
         private Player owner;
-        private InkWeaponPlayer weaponPlayer;
+        private WeaponPlayer weaponPlayer;
+
+        private float rollInkCost = 0f;
 
         protected float SwingAngleDegrees
         {
@@ -70,16 +75,18 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             jumpWindUpDelayMod = weaponData.JumpWindUpDelayModifier;
             jumpAttackDamageMod = weaponData.JumpAttackDamageModifier;
             jumpAttackVelocityMod = weaponData.JumpAttackVelocityModifier;
+
+            rollInkCost = weaponData.InkCost / 40;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
             ApplyWeaponInstanceData();
             Initialize(isDissolvable: false);
 
             owner = GetOwner();
-            weaponPlayer = owner.GetModPlayer<InkWeaponPlayer>();
+            weaponPlayer = owner.GetModPlayer<WeaponPlayer>();
 
             enablePierceDamagefalloff = false;
             wormDamageReduction = false;
@@ -99,7 +106,9 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         public override void AI()
         {
             Player owner = GetOwner();
-            if (owner.dead)
+            var squidMP = owner.GetModPlayer<SquidPlayer>();
+
+            if (owner.dead || squidMP.IsSquid())
             {
                 Projectile.Kill();
                 return;
@@ -150,7 +159,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 {
                     modifiers.FinalDamage *= 0.5f;
                 }
-            } else
+            }
+            else
             {
                 modifiers.FinalDamage *= 1f;
             }
@@ -158,7 +168,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             modifiers.HitDirectionOverride = Math.Sign(target.position.X - owner.position.X);
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             weaponPlayer.isUsingRoller = false;
         }
@@ -173,7 +183,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     if (startedJumpSwing)
                     {
                         windUpTime = (int)(windUpTime * jumpWindUpDelayMod);
-                    } else
+                    }
+                    else
                     {
                         windUpTime = (int)(windUpTime * groundWindUpDelayMod);
                     }
@@ -182,6 +193,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     PlayAudio(windUpSample, pitchVariance: 0.1f, maxInstances: 5, pitch: -0.1f);
                     break;
                 case stateSwing:
+                    ConsumeInk();
+
                     Projectile.friendly = true;
                     PlayAudio(swingSample, pitchVariance: 0.1f, maxInstances: 5);
                     break;
@@ -197,7 +210,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             if (startedJumpSwing)
             {
                 lerpAmount /= jumpWindUpDelayMod;
-            } else
+            }
+            else
             {
                 lerpAmount /= groundWindUpDelayMod;
             }
@@ -232,7 +246,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 {
                     damage = (int)(Projectile.damage * jumpAttackDamageMod);
                     velocity *= jumpAttackVelocityMod;
-                } else
+                }
+                else
                 {
                     velocity *= groundAttackVelocityMod;
                 }
@@ -250,7 +265,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         protected void StateRolling()
         {
-            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<BaseModPlayer>().HasHeldItemChanged())
+            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<InventoryPlayer>().HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;
@@ -266,16 +281,14 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     for (int i = 0; i < 3; i++)
                     {
                         var posRand = Main.rand.NextVector2Circular(12, 12);
-                        var xVelocityRand = Main.rand.NextFloat(1, 3);
                         var finalXVel = Math.Sign(owner.velocity.X) * AbsPlayerSpeed() / 4;
 
-                        Dust d = Dust.NewDustPerfect(
-                            Position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
-                            Type: ModContent.DustType<SplatterDropletDust>(),
-                            Velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
-                            Alpha: Main.rand.Next(0, 32),
-                            newColor: GenerateInkColor(),
-                            Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                        DustHelper.NewDropletDust(
+                            position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
+                            velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
+                            color: GenerateInkColor(),
+                            minScale: 0.8f,
+                            maxScale: 1.6f);
                     }
 
                     Dust.NewDustPerfect(
@@ -285,6 +298,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                         Alpha: Main.rand.Next(0, 32),
                         newColor: GenerateInkColor(),
                         Scale: Main.rand.NextFloat(0.5f, 1f));
+                }
+
+                var inkTankPlayer = owner.GetModPlayer<InkTankPlayer>();
+                ConsumeInk(rollInkCost);
+
+                if (inkTankPlayer.HasNoInk())
+                {
+                    inkTankPlayer.CreateLowInkPopup();
+                    Projectile.Kill();
                 }
             }
             else

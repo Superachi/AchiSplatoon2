@@ -1,5 +1,8 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -38,14 +41,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             barrageShotTime = weaponData.BarrageShotTime;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
         }
 
@@ -56,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 Math.Ceiling(barrageMaxAmmo * (ChargeTime / MaxChargeTime()))
             );
             ChargeTime = barrageShotTime;
-            StopAudio(soundPath: "ChargeStart");
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
 
             // Set the damage modifier
             switch (chargeLevel)
@@ -81,7 +84,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead) { Projectile.Kill(); return; }
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                {
+                    Projectile.Kill();
+                    return;
+                }
 
                 if (owner.channel)
                 {

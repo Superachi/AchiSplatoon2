@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -30,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
             ProjectileID.Sets.TrailingMode[Type] = 3;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
 
@@ -113,7 +114,10 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                 AdvanceState();
 
                 int soundId = Main.rand.Next(8);
-                SoundHelper.PlayAudio($"Voice/InklingGirl/Voice_SquidGirl_Damage_0{soundId}", volume: 0.5f, pitchVariance: 0.2f);
+                var path = SoundPaths.InklingHurt00;
+                path = path.Remove(path.Length-1) + soundId;
+
+                SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.2f);
             }
 
             return false;
@@ -128,12 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
         {
             if (Main.rand.NextBool(4)) return;
 
-            Dust.NewDustPerfect(
-                Position: Projectile.Center + new Vector2(0, -5) + Main.rand.NextVector2Circular(30, 30),
-                Type: ModContent.DustType<ChargerBulletDust>(),
-                Velocity: Projectile.velocity / 5,
-                newColor: Color.OrangeRed,
-                Scale: 1.2f);
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.Center + new Vector2(0, -5) + Main.rand.NextVector2Circular(30, 30),
+                velocity: Projectile.velocity / 5,
+                color: Color.OrangeRed,
+                scale: 1.2f);
         }
 
         private void DustBurst()

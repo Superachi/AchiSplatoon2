@@ -1,18 +1,22 @@
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class TriStringerCharge : BaseChargeProjectile
     {
-        protected float velocityModifier = 0.75f;
-        protected float shotgunArc;
-        protected int projectileCount;
+        public float velocityModifier = 0.75f;
+        public float shotgunArc;
+        public int projectileCount;
         protected bool allowStickyProjectiles;
 
         public int burstHitCount = 0;
@@ -41,14 +45,33 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             projectileType = weaponData.ProjectileType;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            }
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix is BaseStringerPrefix stringerPrefix)
+            {
+                if (stringerPrefix.ExtraProjectileBonus > 0)
+                {
+                    if (shotgunArc == 0) shotgunArc = 2f;
+                    shotgunArc += shotgunArc * stringerPrefix.ExtraProjectileBonus;
+                }
+
+                shotgunArc *= stringerPrefix.ShotgunArcModifier.NormalizePrefixMod();
+                projectileCount += stringerPrefix.ExtraProjectileBonus;
+                burstRequiredHits += stringerPrefix.ExtraProjectileBonus;
             }
         }
 
@@ -76,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             SetChargeLevelModifiers(chargePercentage);
             PlayShootSample();
 
-            var mP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var mP = owner.GetModPlayer<AccessoryPlayer>();
             if (mP.hasFreshQuiver && IsChargeMaxedOut())
             {
                 finalArc *= mP.freshQuiverArcMod;
@@ -86,6 +109,11 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             float degreesPerProjectile = finalArc / projectileCount;
             int middleProjectile = projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
+
+            if (projectileCount % 2 == 0)
+            {
+                degreesOffset += degreesPerProjectile / 2;
+            }
 
             // Convert angle: degrees -> radians -> vector
             float aimAngle = MathHelper.ToDegrees(
@@ -113,7 +141,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 degreesOffset += degreesPerProjectile;
             }
 
-            StopAudio("ChargeStart");
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
             Projectile.timeLeft = 60;
             FakeDestroy();
             NetUpdate(ProjNetUpdateType.ReleaseCharge);
@@ -157,7 +185,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             if (!IsProjectileOfType<TriStringerProjectile>(projectile)) return;
 
-            var mP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var mP = GetOwner().GetModPlayer<AccessoryPlayer>();
             var modProj = projectile as TriStringerProjectile;
             modProj.parentFullyCharged = IsChargeMaxedOut();
             modProj.firedWithFreshQuiver = mP.hasFreshQuiver;
@@ -170,7 +198,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             projectile.Projectile.ai[2] = projectileNumber;
-            projectile.AfterSpawn();
+            projectile.RunSpawnMethods();
         }
 
         protected virtual void PlayShootSample()
@@ -188,15 +216,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected override void NetSendReleaseCharge(BinaryWriter writer)
         {
             writer.Write((byte)chargeLevel);
-            writer.Write((string)shootSample);
-            writer.Write((string)shootWeakSample);
+            writer.Write(shootSample.SoundPath);
+            writer.Write(shootWeakSample.SoundPath);
         }
 
         protected override void NetReceiveReleaseCharge(BinaryReader reader)
         {
             chargeLevel = reader.ReadByte();
-            shootSample = reader.ReadString();
-            shootWeakSample = reader.ReadString();
+            shootSample = reader.ReadString().ToSoundStyle();
+            shootWeakSample = reader.ReadString().ToSoundStyle();
 
             PlayShootSample();
             hasFired = true;

@@ -1,13 +1,18 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaStamper : BaseSplatana
     {
-        public override string ShootSample { get => "Splatana/StamperStrongSlash"; }
-        public override string ShootWeakSample { get => "Splatana/StamperWeakSlash"; }
-        public override string ChargeSample { get => "Splatana/StamperCharge"; }
+        public override float InkCost { get => 1.2f; }
+
+        public override SoundStyle ShootSample { get => SoundPaths.SplatanaStamperStrongSlash.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.SplatanaStamperWeakSlash.ToSoundStyle(); }
+
+        public override SoundStyle ChargeSample { get => SoundPaths.SplatanaStamperCharge.ToSoundStyle(); }
 
         // Splatana specific
         public override int BaseDamage { get => 50; }

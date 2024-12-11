@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +10,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class Snipewriter5H : BaseSplatling
     {
+        public override float InkCost { get => 2.4f; }
+
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Charger;
-        public override string ShootSample { get => "SnipewriterShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SnipewriterShoot.ToSoundStyle(); }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-24, 0); }
         public override float MuzzleOffsetPx { get; set; } = 52f;

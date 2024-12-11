@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var weaponData = WeaponInstance as BaseBrush;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
@@ -65,7 +65,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (Projectile.timeLeft < 18)
             {
                 drawScale -= 0.05f;
-            } else if (drawScale < 1f && timeSpentAlive > 2 * FrameSpeed())
+            }
+            else if (drawScale < 1f && timeSpentAlive > 2 * FrameSpeed())
             {
                 drawScale += 0.1f;
             }

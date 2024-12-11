@@ -7,7 +7,35 @@ namespace AchiSplatoon2.Content.Dusts
 {
     internal class BaseDust : ModDust
     {
-        protected void DrawDust(int dustIndex, Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, BlendState blendState = null)
+        protected int timeSpentAlive = 0;
+        protected float defaultScaleSpeed = -0.2f;
+
+        public override void OnSpawn(Dust dust)
+        {
+            AfterSpawn(dust);
+        }
+
+        public override bool Update(Dust dust)
+        {
+            timeSpentAlive++;
+
+            CustomUpdate(dust);
+            dust.position += dust.velocity;
+
+            return false;
+        }
+
+        public virtual void AfterSpawn(Dust dust)
+        {
+
+        }
+
+        public virtual void CustomUpdate(Dust dust)
+        {
+
+        }
+
+        protected void DrawDust(int dustIndex, Color inkColor, float rotation, float scale = 1f, float alphaMod = 1, bool considerWorldLight = true, BlendState? blendState = null)
         {
             Dust dust = Main.dust[dustIndex];
 
@@ -34,7 +62,8 @@ namespace AchiSplatoon2.Content.Dusts
 
                 spriteBatch.End();
                 spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
-            } else
+            }
+            else
             {
                 spriteBatch.Draw(Texture2D.Value, position, dust.frame, finalColor, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
             }
@@ -42,7 +71,13 @@ namespace AchiSplatoon2.Content.Dusts
 
         public override bool PreDraw(Dust dust)
         {
-            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: BlendState.Additive);
+            BlendState? blendState = null;
+            if (!Main.IsItDay() || Main.LocalPlayer.ZoneDirtLayerHeight)
+            {
+                blendState = BlendState.Additive;
+            }
+
+            DrawDust(dust.dustIndex, dust.color, rotation: 0f, considerWorldLight: false, blendState: blendState);
             return false;
         }
     }

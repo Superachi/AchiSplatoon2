@@ -7,7 +7,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class KensaGloogaDualie : GloogaDualie
     {
-        public override string RollSample { get => "Dualies/GloogaDualieRoll"; }
         public override float PostRollDamageMod { get => 2f; }
 
         public override void SetDefaults()
@@ -18,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 9,
                 shotVelocity: 6f);
 
-            Item.damage = 56;
+            Item.damage = 48;
             Item.width = 40;
             Item.height = 30;
             Item.knockBack = 5;

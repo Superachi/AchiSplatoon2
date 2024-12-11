@@ -7,6 +7,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class DynamoRoller : BaseRoller
     {
+        public override float InkCost { get => 12f; }
+
         public override float GroundWindUpDelayModifier => 2.1f;
         public override float GroundAttackVelocityModifier => 1.5f;
         public override float JumpWindUpDelayModifier => 2.8f;
@@ -17,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 50;
+            Item.damage = 60;
             Item.knockBack = 7;
             Item.shoot = ModContent.ProjectileType<DynamoRollerSwingProjectile>();
 

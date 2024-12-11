@@ -1,7 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,9 +11,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaShooter : BaseProjectile
     {
-        private float shotArcIncrement = 1.5f;
-        private float shotVelocityBase = 20f;
-        private float shotVelocityRange = 3f;
+        private readonly float shotArcIncrement = 1.5f;
+        private readonly float shotVelocityBase = 20f;
+        private readonly float shotVelocityRange = 3f;
 
         public override void SetDefaults()
         {
@@ -49,38 +47,31 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     frames: 30, 80f, FullName);
                 Main.instance.CameraModifiers.Add(modifier);
 
-                float aimAngle = MathHelper.ToDegrees(Projectile.velocity.ToRotation());
-
-                Color projColor = initialColor;
-                if (WeaponInstance is TrizookaUnleashed)
-                {
-                    projColor = GetOwnerModPlayer<InkColorPlayer>().IncreaseHueBy(40);
-                }
+                Color projColor = CurrentColor;
+                //if (WeaponInstance is TrizookaUnleashed)
+                //{
+                //    projColor = GetOwnerModPlayer<ColorSettingPlayer>().IncreaseHueBy(40);
+                //}
 
                 for (int i = 0; i < 3; i++)
                 {
-                    float degrees = aimAngle - shotArcIncrement + (i * shotArcIncrement);
-                    float shotSpeed = shotVelocityBase + Main.rand.NextFloat(-shotVelocityRange, shotVelocityRange);
-                    Vector2 velocity = WoomyMathHelper.DegreesToVector(degrees) * shotSpeed;
-
                     var p = CreateChildProjectile<TrizookaProjectile>(
                         position: Projectile.Center,
-                        velocity: velocity,
+                        velocity: Projectile.velocity * shotVelocityBase / 2,
                         damage: Projectile.damage);
 
                     p.colorOverride = projColor;
-                    p.Projectile.velocity *= 1 - (i * 0.1f);
+                    p.shotNumber = i;
                 }
             }
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
-            
+
             EmitShotBurstDust();
-            PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
 
             CreateZookaShots();
 

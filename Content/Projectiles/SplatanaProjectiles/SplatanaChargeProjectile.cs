@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
@@ -13,8 +15,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         private float maxChargeLifetimeMod;
         private float maxChargeVelocityMod;
 
-        private int soundDelayInterval = 6;
-        private string chargeSample;
+        private readonly int soundDelayInterval = 6;
+        private SoundStyle chargeSample;
 
         private int weakSlashProjectile;
         private int strongSlashProjectile;
@@ -39,9 +41,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             strongSlashProjectile = weaponData.StrongSlashProjectile;
 
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
+
+            if (WeaponInstance is EelSplatanaWeapon)
+            {
+                UpdateCurrentColor(ColorHelper.AddRandomHue(30, Color.MediumPurple));
+            }
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
@@ -78,13 +85,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 Projectile.soundDelay = soundDelayInterval;
 
                 var pitchValue = -0.5f + (ChargeQuotient() * 0.5f);
-                PlayAudio(soundPath: chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
+                PlayAudio(chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
             }
         }
 
         protected override void ReleaseCharge(Player owner)
         {
-            StopAudio(chargeSample);
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
             hasFired = true;
             var velocity = owner.DirectionTo(Main.MouseWorld) * weakSlashShotSpeed;
 
@@ -96,11 +103,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 meleeProj.wasFullyCharged = true;
 
                 velocity *= maxChargeVelocityMod;
-                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerAfterSpawn: false)
+                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
                     as SplatanaStrongSlashProjectile;
                 proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
                 proj.Projectile.penetrate = 3;
-                proj.AfterSpawn();
+                proj.RunSpawnMethods();
             }
             else
             {

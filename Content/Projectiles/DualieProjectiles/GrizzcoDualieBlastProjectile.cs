@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
     internal class GrizzcoDualieBlastProjectile : BaseProjectile
     {
         protected string explosionSample = "BlasterExplosion";
-        private int baseRadius = 220;
+        private readonly int baseRadius = 220;
         private bool hasExploded = false;
 
         public override void SetDefaults()
@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             enablePierceDamagefalloff = false;

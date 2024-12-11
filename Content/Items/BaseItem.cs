@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Helpers;
 using Humanizer;
 using System.Collections.Generic;
@@ -45,6 +46,17 @@ namespace AchiSplatoon2.Content.Items
                 var flavor = new TooltipLine(Mod, "Flavor", $"{ColorHelper.TextWithFlavorColorAndQuotes(flavorVal)}") { OverrideColor = null };
                 tooltips.Add(flavor);
             }
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            // PlayPickupSound();
+            return true;
+        }
+
+        protected virtual void PlayPickupSound()
+        {
+            SoundHelper.PlayAudio(SoundPaths.ItemGet2.ToSoundStyle(), 0.5f, 0f, 10, 0, Main.LocalPlayer.Center);
         }
 
         private Recipe AddRecipeWithSheldonLicense(int itemType, bool registerNow = true)
@@ -169,7 +181,7 @@ namespace AchiSplatoon2.Content.Items
         protected Recipe AddRecipeChlorophyteUpgrade(bool registerNow, int requiredWeapon)
         {
             Recipe recipe = CreateRecipe()
-                .AddIngredient(ItemID.ChlorophyteBar, 5)
+                .AddIngredient(ItemID.ChlorophyteBar, 8)
                 .AddIngredient(requiredWeapon, 1);
 
             return RegisterRecipe(recipe, registerNow);

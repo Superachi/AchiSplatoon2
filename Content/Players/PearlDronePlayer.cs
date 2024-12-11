@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Weapons.Test;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
@@ -9,41 +10,50 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using static AchiSplatoon2.Content.Players.InkWeaponPlayer;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Players
 {
-    internal class PearlDronePlayer : BaseModPlayer
+    internal class PearlDronePlayer : ModPlayer
     {
         // Level mechanics
         public int PowerLevel { get; private set; } = 1;
-        private int levelCap = 4;
+        private readonly int levelCap = 4;
         private List<string> usedDroneDiscs = new();
 
         // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
         public int SprinklerBaseDamage { get; private set; } = 5;
+        public int SprinklerBaseArmorPenetration { get; private set; } = 5;
         public int BurstBombBaseDamage { get; private set; } = 30;
         public int KillerWailBaseDamage { get; private set; } = 30;
-        public int InkStrikeBaseDamage { get; private set; } = 50;
-        public int MinimumChipsForBurstBomb => 3;
-        public int MinimumChipsForKillerWail => 6;
-        public int MinimumChipsForInkStrike => 8;
+        public int MinimumChipsForBurstBomb => 4;
+        public int MinimumChipsForKillerWail => 8;
         public bool IsBurstBombEnabled => GetDroneChipCount() >= MinimumChipsForBurstBomb;
         public bool IsKillerWailEnabled => GetDroneChipCount() >= MinimumChipsForKillerWail;
-        public bool IsInkStrikeEnabled => GetDroneChipCount() >= MinimumChipsForInkStrike;
+        public bool IsLaserSprinklerEnabled => Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
+        public float LaserDamageMod => 1.1f;
+        public float LaserCooldownMod => 0.8f;
 
         // Misc.
         private bool isDroneActive = false;
-        private string droneName = "Pearl Drone";
+        private readonly string droneName = "Pearl Drone";
 
         // Usage stats
         public int DamageDealt => damageDealt;
         private int damageDealt = 0;
 
+        // ModPlayers
+        private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
+
         public override void PreUpdate()
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
+            UpdateDroneExistence();
+        }
+
+        public override void OnRespawn()
+        {
             UpdateDroneExistence();
         }
 
@@ -120,7 +130,7 @@ namespace AchiSplatoon2.Content.Players
         {
             if (!DoesPlayerHavePearlDrone()) return null;
 
-            foreach(Projectile projectile in Main.ActiveProjectiles)
+            foreach (Projectile projectile in Main.ActiveProjectiles)
             {
                 if (projectile.type == ModContent.ProjectileType<PearlDroneMinion>() && projectile.owner == Player.whoAmI)
                 {
@@ -133,8 +143,7 @@ namespace AchiSplatoon2.Content.Players
 
         public int GetDroneChipCount()
         {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.ColorChipAmounts[(int)ChipColor.Aqua];
+            return colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua];
         }
 
         public void AddDamageDealtStatistic(int damage)
@@ -153,7 +162,7 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 1;
                     break;
                 case 2:
-                    baseDamage *= 2;
+                    baseDamage *= 2.5f;
                     break;
                 case 3:
                     baseDamage *= 4;
@@ -165,6 +174,11 @@ namespace AchiSplatoon2.Content.Players
 
             baseDamage *= GetSummonDamageModifier();
             return (int)baseDamage;
+        }
+
+        public int GetSprinklerArmorPenetration()
+        {
+            return SprinklerBaseArmorPenetration * PowerLevel;
         }
 
         public int GetBurstBombDamage()
@@ -208,8 +222,7 @@ namespace AchiSplatoon2.Content.Players
 
         private float GetDroneAttackCooldownReduction()
         {
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
-            return wepMP.CalculateDroneAttackCooldownReduction();
+            return colorChipPlayer.CalculateDroneAttackCooldownReduction();
         }
 
         #endregion
@@ -246,10 +259,9 @@ namespace AchiSplatoon2.Content.Players
         {
             if (Player.dead) isDroneActive = false;
 
-            var wepMP = Player.GetModPlayer<InkWeaponPlayer>();
             if (!isDroneActive)
             {
-                if (wepMP.IsPaletteValid() && wepMP.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
+                if (colorChipPlayer.IsPaletteValid() && colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua] > 0)
                 {
                     if (GetPlayerDrone() == null)
                     {
@@ -270,13 +282,13 @@ namespace AchiSplatoon2.Content.Players
 
                         drone.WeaponInstance = (PearlDroneStaff)Activator.CreateInstance(typeof(PearlDroneStaff))!;
                         drone.itemIdentifier = ModContent.ItemType<PearlDroneStaff>();
-                        drone.AfterSpawn();
+                        drone.RunSpawnMethods();
                     }
                 }
             }
             else
             {
-                if (!wepMP.IsPaletteValid() || wepMP.ColorChipAmounts[(int)ChipColor.Aqua] == 0)
+                if (!colorChipPlayer.IsPaletteValid() || colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua] == 0)
                 {
                     var drone = GetPlayerDrone();
                     if (drone != null)

@@ -32,6 +32,7 @@ namespace AchiSplatoon2.Helpers
         public static string TextWithSubWeaponColor(string input) => TextWithColor(input, "3479de");
         public static string TextWithSpecialWeaponColor(string input) => TextWithColor(input, "7d45ff");
         public static string TextWithBonusColor(string input) => TextWithColor(input, "63a864");
+        public static string TextWithErrorColor(string input) => TextWithColor(input, "f23b55");
         public static string TextWithPearlColor(string input) => TextWithColor(input, "eea39b");
 
         public static Color GetInkColor(InkColor enumVal)
@@ -55,13 +56,14 @@ namespace AchiSplatoon2.Helpers
                     finalColor = new Color(0, 255, 190);
                     break;
                 case InkColor.Red:
-                    finalColor = new Color(255, 41, 0);
+                    finalColor = new Color(255, 0, 40);
                     break;
                 case InkColor.Order:
                 default:
                     finalColor = new Color(228, 203, 178);
                     break;
             }
+
             return finalColor;
         }
 
@@ -97,7 +99,56 @@ namespace AchiSplatoon2.Helpers
             return $"c/{c.R:X2}{c.G:X2}{c.B:X2}:";
         }
 
+        public static Color ColorWithAlphaZero(Color input)
+        {
+            return new Color(input.R, input.G, input.B, 0);
+        }
+
+        public static Color ColorWithAlpha255(Color input)
+        {
+            return new Color(input.R, input.G, input.B, 255);
+        }
+
+        public static string ColorToString(Color input)
+        {
+            return $"{input.R}-{input.G}-{input.B}-{input.A}";
+        }
+
+        public static Color? StringToColor(string input)
+        {
+            var subStrings = input.Split('-');
+            int[] colorValues = new int[4];
+            int i = 0;
+
+            foreach (var subString in subStrings)
+            {
+                if (int.TryParse(subString, out int colorValue))
+                {
+                    colorValues[i] = colorValue;
+                }
+                else
+                {
+                    DebugHelper.PrintError($"Failed to parse color value from string: {input}");
+                    return null;
+                }
+
+                i++;
+            }
+
+            return new Color(colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
+        }
+
+        public static Color AddRandomHue(float hueVariance, Color colorInput)
+        {
+            return IncreaseHueBy(Main.rand.NextFloat(-hueVariance, hueVariance), colorInput);
+        }
+
         // Source: https://stackoverflow.com/questions/11441055/how-to-change-color-hue-in-xna
+        public static Color IncreaseHueBy(this Color colorInput, float value)
+        {
+            return IncreaseHueBy(value, colorInput);
+        }
+
         public static Color IncreaseHueBy(float value, Color colorInput)
         {
             float h, s, v;
@@ -136,7 +187,8 @@ namespace AchiSplatoon2.Helpers
             if (hueA > hueB)
             {
                 hueB += hueMax;
-            } else
+            }
+            else
             {
                 hueA += hueMax;
             }

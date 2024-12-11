@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.RollerProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.RollerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,9 +10,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class BaseRoller : BaseWeapon
     {
+        public override float InkCost { get => 6f; }
+        public override float InkRecoveryDelay { get => 30f; }
+
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Roller;
-        public virtual string WindUpSample { get => "Rollers/SwingMedium"; }
-        public virtual string SwingSample { get => "Rollers/Fling1"; }
+        public virtual SoundStyle WindUpSample { get => SoundPaths.RollerSwingMedium.ToSoundStyle(); }
+        public virtual SoundStyle SwingSample { get => SoundPaths.RollerFling1.ToSoundStyle(); }
 
         public virtual float ShotGravity { get => 0.1f; }
         public virtual int ShotGravityDelay { get => 0; }
@@ -47,7 +52,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[Item.shoot] == 0;
+            if (player.ownedProjectileCounts[Item.shoot] > 0) return false;
+            return base.CanUseItem(player);
         }
     }
 }

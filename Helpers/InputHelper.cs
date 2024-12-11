@@ -37,9 +37,19 @@ namespace AchiSplatoon2.Helpers
             return PlayerInput.Triggers.JustPressed.Right ? 1 : PlayerInput.Triggers.JustPressed.Left ? -1 : 0;
         }
 
+        public static bool GetInputJump()
+        {
+            return PlayerInput.Triggers.Current.Jump;
+        }
+
         public static bool GetInputJumpPressed()
         {
             return PlayerInput.Triggers.JustPressed.Jump;
+        }
+
+        public static bool GetInputJumpReleased()
+        {
+            return PlayerInput.Triggers.JustReleased.Jump;
         }
 
         public static bool GetInputMouseLeftHold()
@@ -50,6 +60,11 @@ namespace AchiSplatoon2.Helpers
         public static bool GetInputRightClicked()
         {
             return PlayerInput.Triggers.JustPressed.MouseRight;
+        }
+
+        public static bool GetInputMiddleClicked()
+        {
+            return PlayerInput.Triggers.JustPressed.MouseMiddle;
         }
     }
 }

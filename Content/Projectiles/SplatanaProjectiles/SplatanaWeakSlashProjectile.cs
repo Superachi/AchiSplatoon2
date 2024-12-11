@@ -1,14 +1,13 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
     internal class SplatanaWeakSlashProjectile : BaseProjectile
     {
-        protected virtual bool Animate => true;
         protected virtual bool ProjectileDust => true;
 
         protected Color bulletColor;
@@ -20,11 +19,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         protected int timeLeftWhenFade = 20;
         protected bool fading = false;
 
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Projectile.type] = FrameCount;
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 16;
@@ -35,52 +29,38 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.extraUpdates = 2;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
-            bulletColor = GenerateInkColor();
-            if (Animate) Projectile.frame = Main.rand.Next(FrameCount);
+            bulletColor = CurrentColor;
         }
 
         public override void AI()
         {
-            if (Animate)
-            {
-                frameTimer += FrameSpeedDivide(1);
-                if (frameTimer >= FrameDelay)
-                {
-                    frameTimer = 0;
-                    Projectile.frame = (Projectile.frame + 1) % FrameCount;
-                }
-            }
-
             if (Projectile.timeLeft <= timeLeftWhenFade && !fading)
             {
                 fading = true;
             }
 
-            if (Main.rand.NextBool(5) && !fading && ProjectileDust)
+            if (ProjectileDust && timeSpentAlive > 16)
             {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width / 2, Projectile.height / 2),
-                    Type: ModContent.DustType<SplatterBulletDust>(),
-                    Velocity: Projectile.velocity / Main.rand.Next(4, 8),
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                Color dustColor = CurrentColor;
 
-                Dust.NewDustPerfect(
-                    Position: Projectile.Center + Main.rand.NextVector2Circular(Projectile.width / 2, Projectile.height / 2),
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: Projectile.velocity / Main.rand.Next(4, 8),
-                    newColor: dustColor,
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                if (timeSpentAlive % 4 == 0 && !fading)
+                {
+                    DustHelper.NewChargerBulletDust(
+                        position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
+                        velocity: Projectile.velocity / Main.rand.Next(2, 4),
+                        color: dustColor,
+                        minScale: 1f,
+                        maxScale: 1.5f);
+                }
             }
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (timeSpentAlive > 5)
+            if (timeSpentAlive > 8)
             {
                 var rotation = Projectile.velocity.ToRotation();
 
@@ -90,9 +70,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     alpha = (float)Projectile.timeLeft / (float)timeLeftWhenFade;
                 }
                 float scale = 1f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 8)) * 0.1f;
-                DrawProjectile(bulletColor, rotation, scale: scale, alphaMod: alpha, considerWorldLight: false);
+                DrawProjectile(ColorHelper.ColorWithAlpha255(bulletColor), rotation, scale: scale, alphaMod: alpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
             }
-            
+
             return false;
         }
     }

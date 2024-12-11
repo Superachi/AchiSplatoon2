@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public bool firedWithFreshQuiver = false;
 
         private int firedPenetrate;
-        private int chaseTime = 0;
+        private readonly int chaseTime = 0;
 
         public override void SetDefaults()
         {
@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             Projectile.timeLeft = 600 * FrameSpeed();
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             colorOverride = Color.HotPink;
             Initialize(isDissolvable: false);
@@ -71,9 +71,9 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity = Vector2.Zero;
                     Projectile.Resize(ExplosionRadius, ExplosionRadius);
 
-                    for (int i = 0; i < 30; i ++)
+                    for (int i = 0; i < 30; i++)
                     {
-                        var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Main.rand.NextVector2CircularEdge(6, 6), newColor: initialColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
+                        var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Main.rand.NextVector2CircularEdge(6, 6), newColor: CurrentColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
                     }
                     break;
                 case stateStopChase:
@@ -92,7 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 if (timeSpentAlive % FrameSpeed() == 0 && state != stateExplode)
                 {
-                    var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Vector2.Zero, newColor: initialColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
+                    var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Vector2.Zero, newColor: CurrentColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
                     d.velocity = Vector2.Zero;
                 }
             }
@@ -117,7 +117,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         target = FindClosestEnemy(500);
                     }
-                } else
+                }
+                else
                 {
                     AdvanceState();
                 }
@@ -148,7 +149,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     {
                         Projectile.velocity *= 0.8f;
                     }
-                } else
+                }
+                else
                 {
                     SetState(stateStopChase);
                 }
@@ -254,7 +256,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Main.rand.NextVector2CircularEdge(2, 2), newColor: initialColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
+                    var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: 164, Velocity: Main.rand.NextVector2CircularEdge(2, 2), newColor: CurrentColor, Scale: Main.rand.NextFloat(0.6f, 1.2f));
                 }
                 return true;
             }
@@ -288,7 +290,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 position = Projectile.Center - Main.screenPosition;
             Vector2 origin = spriteToRender.Size() / 2;
-            Color color = initialColor;
+            Color color = CurrentColor;
             float scale = 0.5f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
             spriteBatch.End();

@@ -13,9 +13,9 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherChildProjectile : BaseProjectile
     {
-        private float delayUntilFall = 3f;
+        private readonly float delayUntilFall = 3f;
         private float fallSpeed;
-        private float terminalVelocity = 12f;
+        private readonly float terminalVelocity = 12f;
 
         private Color bulletColor;
         private float drawScale = 0f;
@@ -46,19 +46,19 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             fallSpeed = weaponData.ShotGravity;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
             wormDamageReduction = true;
 
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             if (accMP.hasSteelCoil)
             {
                 Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
             }
 
-            
+
             // Set visuals
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
             bulletColor = GenerateInkColor();
@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            var accMP = GetOwner().GetModPlayer<InkAccessoryPlayer>();
+            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
             if (accMP.hasSteelCoil)
             {
                 target.immune[Projectile.owner] = 3;

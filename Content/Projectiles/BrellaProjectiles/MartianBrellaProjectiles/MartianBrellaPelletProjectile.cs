@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 {
     internal class MartianBrellaPelletProjectile : BaseProjectile
     {
-        private float brightness = 0.002f;
+        private readonly float brightness = 0.002f;
 
         private float angle = 0;
         private float speed = 0;
@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
             Projectile.localNPCHitCooldown *= FrameSpeed();
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             colorOverride = Color.Aqua;
             Initialize(isDissolvable: false);
@@ -70,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, initialColor.R * brightness, initialColor.G * brightness, initialColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             if (timeSpentAlive == 6 * FrameSpeed())
             {
@@ -82,7 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
                 ChangeLightningAngle();
             }
 
-            if (timeSpentAlive == 10)
+            if (timeSpentAlive == 2)
             {
                 var loopCount = 3;
                 if (isBigLightning) loopCount *= 2;
@@ -96,7 +96,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
                 }
             }
 
-            if (timeSpentAlive > 10)
+            if (timeSpentAlive > 2)
             {
                 Color dustColor = GenerateInkColor();
                 var pelletDust = Dust.NewDustDirect(Position: Projectile.position, Type: lightningDustId, Width: 1, Height: 1, newColor: dustColor, Scale: Main.rand.NextFloat(0.6f, 1f) * lightningDustScale);
@@ -122,7 +122,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.MartianBrellaProje
             return true;
         }
 
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             if (timeLeft == 0)
             {

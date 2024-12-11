@@ -1,18 +1,27 @@
-﻿using AchiSplatoon2.Netcode.DataModels;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Netcode.DataModels;
 using System;
+using System.Collections.Generic;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
     internal class BlastProjectile : BaseProjectile
     {
-        private int blastRadius;
-        private PlayAudioModel playAudioModel;
+        public List<int> targetsToIgnore = new List<int>();
 
-        public void SetProperties(int radius, PlayAudioModel audioModel = null)
+        private int blastRadius;
+        private PlayAudioModel? playAudioModel;
+
+        public void SetProperties(int radius, PlayAudioModel? audioModel = null, List<int>? ignoredTargets = null)
         {
             blastRadius = radius;
-            playAudioModel = audioModel ?? new PlayAudioModel(_soundPath: "BlasterExplosion", _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3);
+            playAudioModel = audioModel ?? new PlayAudioModel(_soundPath: SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3);
+
+            if (ignoredTargets != null)
+            {
+                targetsToIgnore = ignoredTargets;
+            }
         }
 
         public override void SetDefaults()
@@ -23,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
             enablePierceDamagefalloff = false;
@@ -36,6 +45,16 @@ namespace AchiSplatoon2.Content.Projectiles
 
                 Projectile.Resize(finalRadius, finalRadius);
             }
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (targetsToIgnore.Contains(target.whoAmI))
+            {
+                return false;
+            }
+
+            return base.CanHitNPC(target);
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
