@@ -22,17 +22,23 @@ namespace AchiSplatoon2.Content.Players
         public int bossSpecialDropCooldown = 0;
         public int bossSpecialDropCooldownMax = 0;
 
+        private bool _playerCarriesSpecialWeapon;
+        public bool PlayerCarriesSpecialWeapon => _playerCarriesSpecialWeapon;
+
         private ColorChipPlayer? _colorChipPlayer;
         private HudPlayer? _hudPlayer;
 
         public float SpecialPercentage => MathHelper.Clamp(SpecialPoints / SpecialPointsMax, 0, 1);
         private float _specialDisplayPercentage;
+        private float _UIOffsetY = 0;
+        private float _UIOffsetYSpeed = 0;
 
         public override void Initialize()
         {
             _specialDisplayPercentage = 0f;
             _colorChipPlayer = Player.GetModPlayer<ColorChipPlayer>();
             _hudPlayer = Player.GetModPlayer<HudPlayer>();
+            _playerCarriesSpecialWeapon = false;
 
             bossSpecialDropCooldown = 0;
             bossSpecialDropCooldownMax = 120;
@@ -40,7 +46,14 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            // UI stuff
             _specialDisplayPercentage = MathHelper.Lerp(_specialDisplayPercentage, SpecialPercentage, 0.2f);
+            _playerCarriesSpecialWeapon = InventoryHelper.FirstInInventory<BaseSpecial>(player: Player) != null;
+
+            // Determines at what height to draw the charge bar UI (makes it 'hop' when special charge is collected)
+            _UIOffsetY += _UIOffsetYSpeed;
+            if (_UIOffsetYSpeed < 4) _UIOffsetYSpeed += 0.5f;
+            if (_UIOffsetY > 0) _UIOffsetY = 0;
 
             if (bossSpecialDropCooldown > 0) bossSpecialDropCooldown--;
 
@@ -182,8 +195,11 @@ namespace AchiSplatoon2.Content.Players
         // Public methods for other classes
         public void IncrementSpecialCharge(float amount)
         {
+            var oldAmount = SpecialPoints;
             SpecialPoints += amount;
             if (SpecialPoints > SpecialPointsMax) SpecialPoints = SpecialPointsMax;
+
+            HopChargeUI(SpecialPoints - oldAmount);
         }
 
         public void ApplyBossSpecialDropCooldown()
@@ -194,6 +210,17 @@ namespace AchiSplatoon2.Content.Players
         public float GetSpecialPercentageDisplay()
         {
             return _specialDisplayPercentage;
+        }
+
+        public float GetChargeUIOffsetY()
+        {
+            return _UIOffsetY;
+        }
+
+        public void HopChargeUI(float pointsGained)
+        {
+            _UIOffsetY = 0;
+            _UIOffsetYSpeed = -MathHelper.Clamp(pointsGained / 2, 1, 4);
         }
 
         /*

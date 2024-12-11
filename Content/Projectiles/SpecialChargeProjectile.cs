@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Content.Items.Weapons.Test;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -80,6 +81,9 @@ namespace AchiSplatoon2.Content.Projectiles
 
         private void Collect()
         {
+            // For testing
+            if (Owner.HeldItem.ModItem is SpecialChargeGun) chargeValue = 5;
+
             _specialPlayer.IncrementSpecialCharge(chargeValue);
 
             PlayAudio(SoundID.Item86, volume: 0.5f, pitch: -1 + _specialPlayer.SpecialPercentage);
