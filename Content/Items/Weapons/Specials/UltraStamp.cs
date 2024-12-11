@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             base.SetDefaults();
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 90;
+            Item.damage = 50;
             Item.knockBack = 8;
             Item.scale = 2;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -31,12 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.value = Item.buyPrice(gold: 5);
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.Bone, 30);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostSkeletron();
 
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
@@ -46,7 +42,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 
         public override void UseAnimation(Player player)
         {
-            SoundHelper.PlayAudio("Specials/UltraStamp/UltraStampSwing", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5);
+            SoundHelper.PlayAudio(SoundPaths.UltraStampSwing.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5);
 
             if (player.whoAmI == Main.myPlayer)
             {

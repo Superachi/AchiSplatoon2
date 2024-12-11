@@ -1,0 +1,33 @@
+﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Brellas
+{
+    internal class SplatBrella : BaseBrella
+    {
+        public override int ProjectileCount { get => 4; }
+        public override int ShieldLife => 200;
+        public override int ShieldCooldown => 450;
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BrellaShotgunProjectile>(),
+                singleShotTime: 36,
+                shotVelocity: 8f);
+
+            Item.damage = 12;
+            Item.width = 50;
+            Item.height = 58;
+            Item.knockBack = 2;
+
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = ItemRarityID.Green;
+        }
+
+        public override void AddRecipes() => AddRecipePostBee();
+    }
+}

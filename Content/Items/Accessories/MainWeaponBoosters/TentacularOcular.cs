@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
-using Terraria.ID;
 using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
@@ -10,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
     {
         public static float TerrainPierceDamageMod = 0.8f;
         public static float TerrainPierceVelocityMod = 0.2f;
-        public static float BaseCritChance = 15f;
+        public static float BaseCritChance = 10f;
         public static int TerrainMaxPierceCount = 5;
 
         protected override string UsageHintParamA => "";
@@ -28,18 +27,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasTentacleScope = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.BlackLens, 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.Register();
         }
     }
 }

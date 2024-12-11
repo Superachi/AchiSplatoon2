@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles.NozzlenoseProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     {
         public override float ShotVelocity { get => 10f; }
         public override int BurstShotTime { get => 5; }
-        public override float DamageIncreasePerHit { get => 1.5f; }
+        public override float DamageIncreasePerHit { get => 1.0f; }
 
         public override int ShotGravityDelay { get => 30; }
         public override float AimDeviation { get => 1f; }
@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 18,
                 shotVelocity: 1f);
 
-            Item.damage = 34;
+            Item.damage = 28;
             Item.width = 50;
             Item.height = 32;
             Item.knockBack = 2;
@@ -33,11 +33,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeAdamantite();
     }
 }

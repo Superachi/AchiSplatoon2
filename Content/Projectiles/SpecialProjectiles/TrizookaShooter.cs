@@ -11,7 +11,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class TrizookaShooter : BaseProjectile
     {
-        private const float recoilAmount = 5f;
+        private readonly float shotArcIncrement = 1.5f;
+        private readonly float shotVelocityBase = 20f;
+        private readonly float shotVelocityRange = 3f;
 
         public override void SetDefaults()
         {
@@ -23,19 +25,19 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as TrizookaSpecial;
 
-            TrizookaSpecial weaponData = (TrizookaSpecial)weaponSource;
             shootSample = weaponData.ShootSample;
-            EmitShotBurstDust();
-            PlayAudio(shootSample, volume: 2f, pitchVariance: 0.05f, maxInstances: 3);
+        }
 
+        private void CreateZookaShots()
+        {
             if (IsThisClientTheProjectileOwner())
             {
                 Player owner = Main.LocalPlayer;
-                owner.velocity -= Vector2.Normalize(Projectile.velocity) * recoilAmount;
 
                 PunchCameraModifier modifier = new PunchCameraModifier(
                     startPosition: owner.Center,
@@ -45,15 +47,33 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                     frames: 30, 80f, FullName);
                 Main.instance.CameraModifiers.Add(modifier);
 
+                Color projColor = CurrentColor;
+                //if (WeaponInstance is TrizookaUnleashed)
+                //{
+                //    projColor = GetOwnerModPlayer<ColorSettingPlayer>().IncreaseHueBy(40);
+                //}
+
                 for (int i = 0; i < 3; i++)
                 {
-                    CreateChildProjectile(
+                    var p = CreateChildProjectile<TrizookaProjectile>(
                         position: Projectile.Center,
-                        velocity: Projectile.velocity,
-                        type: ModContent.ProjectileType<TrizookaProjectile>(),
+                        velocity: Projectile.velocity * shotVelocityBase / 2,
                         damage: Projectile.damage);
+
+                    p.colorOverride = projColor;
+                    p.shotNumber = i;
                 }
             }
+        }
+
+        protected override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+
+            EmitShotBurstDust();
+
+            CreateZookaShots();
 
             Projectile.Kill();
         }

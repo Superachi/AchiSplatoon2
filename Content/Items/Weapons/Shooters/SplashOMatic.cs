@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,17 +19,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 5,
                 shotVelocity: 6f);
 
-            Item.damage = 18;
+            Item.damage = 16;
             Item.width = 60;
             Item.height = 32;
-            Item.knockBack = 2;
+            Item.knockBack = 3f;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver();
-        }
+        public override void AddRecipes() => AddRecipeWithSheldonLicenseSilver();
     }
 }

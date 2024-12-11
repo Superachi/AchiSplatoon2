@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,9 +11,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class LunaBlaster : Blaster
     {
+        public override float InkCost { get => 6.5f; }
+
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 280; }
-        public override int ExplosionRadiusTile { get => 150; }
         public override float ExplosionDelayInit { get => 10f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-10, -10); }
@@ -24,22 +25,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 40,
                 shotVelocity: 6f);
 
-            Item.damage = 140;
+            Item.damage = 120;
             Item.width = 42;
             Item.height = 44;
+            Item.knockBack = 6;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

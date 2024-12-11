@@ -8,6 +8,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class HeavySplatling : BaseSplatling
     {
+        public override float InkCost { get => 2f; }
+
         public override Vector2? HoldoutOffset() { return new Vector2(-46, 6); }
         public override float MuzzleOffsetPx { get; set; } = 42f;
         public override float[] ChargeTimeThresholds { get => [50f, 75f]; }
@@ -22,19 +24,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
                 projectileType: ModContent.ProjectileType<HeavySplatlingCharge>(),
                 singleShotTime: BarrageShotTime + 10,
                 shotVelocity: BarrageVelocity);
-            Item.damage = 18;
+            Item.damage = 16;
             Item.width = 92;
             Item.height = 50;
-            Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.knockBack = 3;
+            Item.value = Item.buyPrice(gold: 8);
+            Item.rare = ItemRarityID.LightRed;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostSkeletron();
     }
 }

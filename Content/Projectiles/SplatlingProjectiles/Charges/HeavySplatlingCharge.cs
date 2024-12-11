@@ -1,9 +1,12 @@
-﻿using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
@@ -14,18 +17,21 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
     internal class HeavySplatlingCharge : BaseChargeProjectile
     {
         protected virtual int ProjectileType { get => ModContent.ProjectileType<HeavySplatlingProjectile>(); }
-        private float muzzleDistance;
-        private float barrageMaxAmmo;
-        private float barrageVelocity;
-        private float barrageShotTime;
-        private float damageChargeMod = 1f;
-        private float velocityChargeMod = 1f;
-        private float spreadOffset = 0.5f;
-        private int soundDelayInterval = 5;
+        protected float muzzleDistance;
+        protected int barrageMaxAmmo;
+        protected float barrageVelocity;
+        protected float barrageShotTime;
+        protected float damageChargeMod = 1f;
+        protected float velocityChargeMod = 1f;
+        protected float spreadOffset = 0.5f;
+        protected int soundDelayInterval = 5;
 
         public int barrageTarget = -1;
         public int barrageCombo = 0;
         private bool barrageDone = false;
+
+        protected SlotId? splatlingChargeStartAudio;
+        protected SlotId? splatlingChargeLoopAudio;
 
         public float ChargedAmmo
         {
@@ -33,27 +39,51 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             private set => Projectile.ai[2] = value;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSplatling;
 
-            BaseSplatling weaponData = (BaseSplatling)weaponSource;
             muzzleDistance = weaponData.MuzzleOffsetPx;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
             barrageShotTime = weaponData.BarrageShotTime;
+        }
+
+        protected override void AfterSpawn()
+        {
+            Initialize(isDissolvable: false);
+            ApplyWeaponInstanceData();
 
             if (IsThisClientTheProjectileOwner())
             {
-                PlayAudio("ChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+                chargeStartAudio = PlayAudio(SoundPaths.ChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
             }
             Projectile.soundDelay = 30;
         }
 
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix != null)
+            {
+                barrageVelocity *= prefix.VelocityModifier.NormalizePrefixMod();
+            }
+
+            if (prefix is BaseSplatlingPrefix splatlingPrefix)
+            {
+                barrageMaxAmmo = (int)(barrageMaxAmmo * splatlingPrefix.ShotsPerChargeModifier.NormalizePrefixMod());
+                barrageShotTime += splatlingPrefix.ShotTimeModifier;
+                spreadOffset *= splatlingPrefix.ShotSpreadModifier.NormalizePrefixMod();
+            }
+        }
+
         protected override void StartCharge()
         {
-            PlayAudio(soundPath: "SplatlingChargeStart", volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
+            splatlingChargeStartAudio = PlayAudio(SoundPaths.SplatlingChargeStart.ToSoundStyle(), volume: 0.2f, pitchVariance: 0.1f, maxInstances: 1);
         }
 
         protected override void ReleaseCharge(Player owner)
@@ -61,9 +91,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             hasFired = true;
             ChargedAmmo = Convert.ToInt32(barrageMaxAmmo * (ChargeTime / MaxChargeTime()));
             ChargeTime = 0;
-            StopAudio(soundPath: "ChargeStart");
-            StopAudio(soundPath: "SplatlingChargeStart");
-            StopAudio(soundPath: "SplatlingChargeLoop");
+
+            SoundHelper.StopSoundIfActive(chargeStartAudio);
+            SoundHelper.StopSoundIfActive(splatlingChargeStartAudio);
+            SoundHelper.StopSoundIfActive(splatlingChargeLoopAudio);
 
             // Set the damage modifier
             switch (chargeLevel)
@@ -83,7 +114,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     break;
             }
 
-            var accMP = owner.GetModPlayer<InkAccessoryPlayer>();
+            var accMP = owner.GetModPlayer<AccessoryPlayer>();
             if (accMP.hasCrayonBox)
             {
                 velocityChargeMod *= CrayonBox.ShotVelocityMod;
@@ -97,10 +128,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (Projectile.soundDelay == 0)
             {
-                Projectile.soundDelay = (int)(soundDelayInterval * (MaxChargeTime() / ChargeTime));
+                Projectile.soundDelay = 5;
                 var pitchValue = 0.6f + (ChargeTime / MaxChargeTime()) * 0.5f;
 
-                PlayAudio(soundPath: "SplatlingChargeLoop", volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
+                splatlingChargeLoopAudio = PlayAudio(SoundPaths.SplatlingChargeLoop.ToSoundStyle(), volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
             }
         }
 
@@ -110,7 +141,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead) { Projectile.Kill(); return; }
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                {
+                    Projectile.Kill();
+                    return;
+                }
+
                 if (owner.channel)
                 {
                     UpdateCharge(owner);
@@ -126,6 +162,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                 if (ChargedAmmo > 0)
                 {
                     SyncProjectilePosWithPlayer(owner, 0, 8);
+
+                    AllowChargeCancel();
+                    if (chargeCanceled) return;
 
                     ChargeTime++;
                     if (ChargeTime >= barrageShotTime)
@@ -152,27 +191,16 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                             spawnPositionOffset = Vector2.Zero;
                         }
 
-                        var p = CreateChildProjectile(
+                        var proj = CreateChildProjectile<HeavySplatlingProjectile>(
                             position: Projectile.position + spawnPositionOffset,
                             velocity: velocity,
-                            type: ProjectileType,
                             damage: Convert.ToInt32(Projectile.damage * damageChargeMod),
-                            triggerAfterSpawn: false);
+                            triggerSpawnMethods: false);
 
-                        p.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-                        p.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
-                        p.AfterSpawn();
-
-                        for (int i = 0; i < 15; i++)
-                        {
-                            Color dustColor = GenerateInkColor();
-
-                            float random = Main.rand.NextFloat(-5, 5);
-                            float velX = ((velocity.X + random) * 0.5f);
-                            float velY = ((velocity.Y + random) * 0.5f);
-
-                            Dust.NewDust(Projectile.position + spawnPositionOffset, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                        }
+                        proj.Projectile.velocity.X += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        proj.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
+                        proj.chargedShot = IsChargeMaxedOut();
+                        proj.RunSpawnMethods();
 
                         // Sync shoot animation
                         // Set item use animation and angle

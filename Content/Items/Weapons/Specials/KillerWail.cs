@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
                 singleShotTime: 30,
                 shotVelocity: -10f);
 
-            Item.damage = 50;
+            Item.damage = 30;
             Item.knockBack = 1;
             Item.ArmorPenetration = ArmorPierce;
 
@@ -32,11 +32,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.useTurn = true;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

@@ -5,17 +5,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class Inkbrush : BaseBrush
     {
-        protected override int ArmorPierce => 5;
+        public override float AimDeviation { get => 12f; }
+        protected override int ArmorPierce => 20;
+
+
+        // Brush-specific properties
+        public override float ShotVelocity => 6f;
+        public override float BaseWeaponUseTime => 10f;
+        public override int SwingArc => 100;
+        public override float RollMoveSpeedBonus => 2f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 6;
-            Item.knockBack = 3;
+            SetItemUseTime();
 
+            Item.damage = 6;
+            Item.knockBack = 4;
             Item.scale = 1;
-            Item.useTime = 8;
-            Item.useAnimation = Item.useTime;
 
             Item.width = 56;
             Item.height = 64;
@@ -24,11 +31,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

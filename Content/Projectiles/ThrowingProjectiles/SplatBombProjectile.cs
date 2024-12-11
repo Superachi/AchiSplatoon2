@@ -1,5 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 
@@ -10,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private int maxFuseTime = 180;
         private bool hasCollided = false;
 
-        private float groundFriction = 0.95f;
+        private readonly float groundFriction = 0.95f;
         private bool applyGravity = false;
         private float xVelocityBeforeBump;
 
@@ -20,6 +24,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateRollFuse = 2;
         private const int stateExplode = 3;
         private const int stateDespawn = 4;
+
+        protected SlotId? fuseSound;
 
         protected float FuseTime
         {
@@ -39,11 +45,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             DrawOriginOffsetY = -12;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             base.AfterSpawn();
-            Initialize();
             FuseTime = maxFuseTime;
+            wormDamageReduction = true;
         }
 
         public override void SetStaticDefaults()
@@ -85,7 +91,10 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.rotation += Projectile.velocity.X * rotateMod;
 
             // Apply gravity
-            Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + 0.3f, -terminalVelocity, terminalVelocity);
+            if (canFall)
+            {
+                Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y + fallSpeed, -terminalVelocity, terminalVelocity);
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -106,6 +115,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             switch (state)
             {
                 case stateRoll:
+                    canFall = true;
                     hasCollided = true;
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
@@ -115,24 +125,33 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     maxFuseTime = 30;
                     FuseTime = maxFuseTime;
 
-                    PlayAudio("Throwables/SplatBombFuse", volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
+                    fuseSound = PlayAudio(SoundPaths.SplatBombFuse.ToSoundStyle(), volume: 0.4f, pitchVariance: 0.05f, maxInstances: 5);
                     break;
                 case stateExplode:
                     maxFuseTime = 6;
                     FuseTime = maxFuseTime;
                     hasExploded = true;
                     Detonate();
+
+                    Player owner = GetOwner();
+                    if (Projectile.Center.Distance(owner.Center) < 200)
+                    {
+                        GameFeelHelper.ShakeScreenNearPlayer(owner, true, strength: 3, speed: 4, duration: 20);
+                    }
+
+                    SoundHelper.StopSoundIfActive(fuseSound);
                     break;
                 case stateDespawn:
                     Projectile.Kill();
                     break;
             }
 
-            Projectile.netUpdate = true;
+            NetUpdate(ProjNetUpdateType.SyncMovement, true);
         }
 
         private void AdvanceState()
         {
+            if (!IsThisClientTheProjectileOwner()) return;
             state++;
             SetState(state);
         }
@@ -140,9 +159,17 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void AI()
         {
             FuseTime--;
+            fallTimer++;
+
             switch (state)
             {
                 case stateFly:
+                    if (fallTimer >= delayUntilFall)
+                    {
+                        canFall = true;
+                        NetUpdate(ProjNetUpdateType.SyncMovement, true);
+                    }
+
                     if (FuseTime < maxFuseTime - 30)
                     {
                         applyGravity = true;
@@ -157,7 +184,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     break;
             }
 
-            Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             if (FuseTime <= 0)
             {
@@ -171,6 +198,18 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             }
         }
 
+        #endregion
+
+        #region Netcode
+
+        protected override void NetSendSyncMovement(BinaryWriter writer)
+        {
+            writer.Write((int)state);
+        }
+        protected override void NetReceiveSyncMovement(BinaryReader reader)
+        {
+            SetState(reader.Read());
+        }
         #endregion
     }
 }

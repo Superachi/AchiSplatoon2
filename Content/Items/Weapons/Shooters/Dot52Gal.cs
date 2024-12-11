@@ -1,6 +1,9 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +11,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class Dot52Gal : BaseSplattershot
     {
-        public override string ShootSample { get => "Dot52GalShoot"; }
+        public override float InkCost { get => 2.5f; }
+
+        public virtual int DamageOverride => 52;
+        protected override string UsageHintParamA => $"{DamageOverride}";
+
+        public override SoundStyle ShootSample { get => SoundPaths.Dot52GalShoot.ToSoundStyle(); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
 
@@ -21,16 +29,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
-                singleShotTime: 9,
+                projectileType: ModContent.ProjectileType<Dot52GalProjectile>(),
+                singleShotTime: 10,
                 shotVelocity: 8f);
 
             Item.damage = 52;
             Item.width = 52;
             Item.height = 30;
-            Item.knockBack = 4;
-            Item.crit = 8;
-            Item.value = Item.buyPrice(gold: 5);
+            Item.knockBack = 6f;
+            Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;
         }
 

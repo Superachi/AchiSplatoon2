@@ -11,11 +11,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     {
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
+        public override float ShotgunArc { get => 8f; }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 24;
+            Item.damage = 28;
             Item.width = 34;
             Item.height = 74;
             Item.knockBack = 3;
@@ -23,15 +24,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.Register();
-
-            var altRecipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            altRecipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            altRecipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostEOC();
     }
 }

@@ -1,7 +1,7 @@
-﻿using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
-using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using Terraria;
-using Terraria.DataStructures;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -10,33 +10,55 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class BaseBrush : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brush;
+        public override float InkCost { get => 1f; }
+        public override float InkRecoveryDelay { get => 30f; }
+
         public override float AimDeviation { get => 12f; }
-        public override string ShootSample { get => "BrushShoot"; }
-        public override string ShootAltSample { get => "BrushShootAlt"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BrushShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => SoundPaths.BrushShootAlt.ToSoundStyle(); }
         protected virtual int ArmorPierce => 0;
-        public virtual float DelayUntilFall => 3f;
+        public virtual float DelayUntilFall => 10f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);
+
+        // Brush-specific properties
+        public virtual float ShotVelocity => 7f;
+        public virtual float ShotGravity => 0.2f;
+        public virtual float BaseWeaponUseTime => 15f;
+        public virtual int SwingArc => 80;
+        public virtual int WindupTime => 0;
+        public virtual float RollMoveSpeedBonus => 2f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
             Item.ArmorPenetration = ArmorPierce;
-            Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<InkbrushProjectile>();
-            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
+            Item.shootSpeed = 6f;
+
+            Item.useTime = 6;
+            Item.useAnimation = Item.useTime;
+
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool CanUseItem(Player player)
         {
-            // Occasionally, shoot an extra projectile
-            if (Main.rand.NextBool(5))
-            {
-                CreateProjectileWithWeaponProperties(player, source, velocity + Main.rand.NextVector2Circular(-2, 2));
-            }
+            if (player.ownedProjectileCounts[Item.shoot] > 0) return false;
+            return base.CanUseItem(player);
+        }
 
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+        protected void SetItemUseTime()
+        {
+            Item.useTime = (int)BaseWeaponUseTime;
+            Item.useAnimation = Item.useTime;
         }
     }
 }

@@ -1,34 +1,98 @@
 # This file will automatically update with entries for new content after a build and reload.
 
 ArmorPierce.Display: Ignores {0} points of enemy Defense
+BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
+InkCapacityBonus.Display: +{0}% ink capacity
+LastDitchEffortBonus.Display: While you have {0}% or less life remaining, reduce weapon ink consumption by {1}%
 
 Hint: {
-	SplatCharger: Hold the fire button to charge up a piercing shot
-	BambooCharger: Hold the fire button to charge up a high velocity shot
+	# ----------------------------------------
+	# Weapons
+	# ----------------------------------------
+	
+	Chargers: {
+		Generic: Hold left-click to charge up a piercing shot
+		Bamboo: Hold left-click to charge up a high velocity shot
+		Squiffer: Increased mobility while charging, but has shorter range
+		StarFisher: Fully charged shots cause a blast after a short delay
+		Snipewriter: Hold left-click to charge up multiple high velocity shots
+	}
+
+	SplattershotJr: +{0}% ink capacity while equipped
+	Dot52Gal: Shots always deal a base damage of {0}, ignoring defense
 	Blaster: Has a smaller blast when hitting a wall
-	TriStringer: Hold the fire button to charge up a volley of explosive shots
-	Reeflux: Hold the fire button to charge up a volley of shots
-	Splatling: Hold the fire button to charge up a long barrage of shots
-	MiniSplatling: Hold the fire button to charge up a short barrage of shots
-	Slosher: Throws a stream of projectiles that cover a wide area
-	Inkbrush: Decreases mobility while attacking, but drastically improves it when not
-	Octobrush: Decreases mobility while attacking, but slightly improves it when not
-	Nozzlenose: Increased damage per consecutive hit on the same target within the same three-round burst
+	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
+	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
+	Nozzlenose: Increased damage per consecutive hit on the same target
+	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+
+	Stringers: {
+		Tri: Hold left-click to charge up a volley of explosive shots
+		Reeflux: Hold left-click to charge up a volley of shots
+		Wellstring: Fires a wider volley of explosive shots when fully charged
+		Nebula: Hold left-click to charge up a volley of homing stars
+		Ice: Hold left-click to charge up a piercing shot that releases icy shrapnel
+	}
+
+	Sloshers: {
+		Slosher: Throws a stream of projectiles that cover a wide area
+		Bloblobber: Throws a stream of bubbles that bounce against walls
+		Explosher: Throws a piercing projectile that explodes when hitting a wall
+	}
+
+	Brushes: {
+		Generic: While you run and aim downwards, you gain a speed boost
+		Desert: Projectiles linger in place shortly
+		Spooky: Fires magic projectiles that bounce against walls
+	}
+
+	Dualies: {
+		Generic: Right-click while attacking to dodge roll. Stand still afterwards for a stronger attack
+		Grizzco: Has {0} dodge rolls! Rolling creates an explosion at your location
+		Tetra: Has {0} dodge rolls. Can attack while rolling and has no movement penalty after a roll
+		Dapple: Has {0} dodge rolls. Stand still after a roll for a stronger attack
+		Douser: Has one dodge roll, but increased range when not rolling
+		Squelcher: Has no increased damage after rolling, but also no movement penalty
+		Vortex: Has {0} dodges. Instead of just rolling, you zip towards a given direction
+	}
+
+	Splatana: Hold left-click to charge up a powerful, piercing slash
+	EelSplatana: Hold left-click to charge up a tornado that fires eels
+	Roller: Hold left-click and run to roll over enemies
+
+	Brella: {
+		Generic: The brella protects you while you attack (until it breaks!)
+		Undercover: The shield is weak, but recovers instantly when defeating an enemy
+		Recycle: The shield is weak, but recovers quickly
+		Martian: When the shield takes damage, it fires off a large lightning bolt
+		Plague: Inflicts venom on enemies. Can hit in melee even when broken
+	}
+
+	# ----------------------------------------
+	# Accessories
+	# ----------------------------------------
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
+	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"
+	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
+	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
+	ThermalInkTank: Ink-based projectiles can pass through liquids
+	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
+	HypnoShades: Sub-weapons are used faster via your hotbar
+	ChargedBattery: Weapons charge at full speed, even when in the air
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
 		CritBonus: "{0}% increased critical strike chance on Chargers"
 	}
 
-	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
+	DroneDisc: Adds +1 to the level of your Pearl Drone, making them deal more damage permanently. This specific type of disc is usable only once.
 }
 
 Items: {
@@ -90,7 +154,7 @@ Items: {
 
 	SplatCharger: {
 		DisplayName: Splat Charger
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.SplatCharger.Flavor
 	}
@@ -99,13 +163,13 @@ Items: {
 		DisplayName: E-liter 4K
 		Flavor: I love hallways!
 		Tooltip: ""
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 	}
 
 	BambooMk1Charger: {
 		DisplayName: Bamboozler 14 Mk I
 		Tooltip: ""
-		UsageHint: "{$Hint.BambooCharger}"
+		UsageHint: "{$Hint.Chargers.Bamboo}"
 		Flavor: Mods.AchiSplatoon2.Items.BambooMk1Charger.Flavor
 	}
 
@@ -113,7 +177,7 @@ Items: {
 		DisplayName: Bamboozler 14 Mk II
 		Flavor: Now with Main Power Up!
 		Tooltip: ""
-		UsageHint: "{$Hint.BambooCharger}"
+		UsageHint: "{$Hint.Chargers.Bamboo}"
 	}
 
 	BaseWeapon: {
@@ -132,7 +196,7 @@ Items: {
 
 	TriStringer: {
 		DisplayName: Tri-Stringer
-		UsageHint: "{$Hint.TriStringer}"
+		UsageHint: "{$Hint.Stringers.Tri}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.TriStringer.Flavor
 	}
@@ -140,7 +204,7 @@ Items: {
 	TriStringerInkline: {
 		DisplayName: Inkline Tri-Stringer
 		Tooltip: ""
-		UsageHint: "{$Hint.TriStringer}"
+		UsageHint: "{$Hint.Stringers.Tri}"
 		Flavor: Mods.AchiSplatoon2.Items.TriStringerInkline.Flavor
 	}
 
@@ -148,12 +212,12 @@ Items: {
 		DisplayName: Grizzco Stringer
 		Flavor: That fancy weapon you have there? That's one of my special models.
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.GrizzcoStringer.UsageHint
+		UsageHint: "{$Hint.Stringers.Tri}"
 	}
 
 	ReefluxStringer: {
 		DisplayName: REEF-LUX 450
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxStringer.Flavor
 	}
@@ -161,7 +225,7 @@ Items: {
 	ReefluxDecoStringer: {
 		DisplayName: REEF-LUX 450 Deco
 		Tooltip: ""
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Flavor: Mods.AchiSplatoon2.Items.ReefluxDecoStringer.Flavor
 	}
 
@@ -222,29 +286,29 @@ Items: {
 	}
 
 	ChipPalette: {
-		DisplayName: Smoll Color Palette
+		DisplayName: Smoll Palette
 		Tooltip: ""
 		UsageHint: Mods.AchiSplatoon2.Items.ChipPalette.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ChipPalette.Flavor
 	}
 
-	HyperfreshPalette: {
-		DisplayName: Hyperfresh Color Palette
+	MarinaPalette: {
+		DisplayName: Marina's Palette
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.HyperfreshPalette.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.HyperfreshPalette.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.MarinaPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MarinaPalette.Flavor
 	}
 
-	PrincessPalette: {
-		DisplayName: Princess Color Palette
+	PearlPalette: {
+		DisplayName: Pearl's Palette
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.PrincessPalette.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.PrincessPalette.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.PearlPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PearlPalette.Flavor
 	}
 
 	ColorChipEmpty: {
-		DisplayName: Color Chip Empty
-		Tooltip: ""
+		DisplayName: Color Chip (Empty)
+		Tooltip: Combine with a Dye, Gem and Meteorite to unlock its power!
 	}
 
 	HeavySplatling: {
@@ -264,7 +328,7 @@ Items: {
 	MiniSplatling: {
 		DisplayName: Mini Splatling
 		Tooltip: ""
-		UsageHint: "{$Hint.MiniSplatling}"
+		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.MiniSplatling.Flavor
 	}
 
@@ -304,7 +368,7 @@ Items: {
 	}
 
 	RoyalHeavySplatling: {
-		DisplayName: Royal Heavy Splatling
+		DisplayName: Heavy Splatling Deco
 		Tooltip: ""
 		UsageHint: "{$Hint.Splatling}"
 		Flavor: Mods.AchiSplatoon2.Items.RoyalHeavySplatling.Flavor
@@ -313,8 +377,8 @@ Items: {
 	ZinkMiniSplatling: {
 		DisplayName: Zink Mini Splatling
 		Tooltip: ""
-		UsageHint: "{$Hint.MiniSplatling}"
-		Flavor: Mods.AchiSplatoon2.Items.ZinkMiniSplatling.Flavor
+		UsageHint: "{$Hint.Splatling}"
+		Flavor: Zimi!
 	}
 
 	SplatBomb: {
@@ -375,9 +439,9 @@ Items: {
 
 	Dot52Gal: {
 		DisplayName: .52 Gal
-		Flavor: leTS GO GAMBLING!1
+		Flavor: Mods.AchiSplatoon2.Items.Dot52Gal.Flavor
 		Tooltip: ""
-		UsageHint: Mods.AchiSplatoon2.Items.Dot52Gal.UsageHint
+		UsageHint: "{$Hint.Dot52Gal}"
 	}
 
 	SplooshOMatic: {
@@ -433,7 +497,7 @@ Items: {
 		DisplayName: Basic Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft basic Splatlandian gear.
+			Often obtained from pre-Hardmode bosses. Used to craft basic Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		Flavor: U got a loicense fer that?
@@ -444,7 +508,7 @@ Items: {
 		DisplayName: Golden Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses. Used to craft some of the best Splatlandian gear available.
+			Obtained from endgame bosses (post-Plantera). Used to craft the best Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseGold.UsageHint
@@ -455,7 +519,7 @@ Items: {
 		DisplayName: Silver Sheldon License
 		Tooltip:
 			'''
-			Obtained from bosses (and mimics). Used to craft higher quality Splatlandian gear.
+			Often obtained from Hardmode bosses and mimics. Used to craft better Splatlandian gear.
 			Show it to the Guide and see what you can make!
 			'''
 		UsageHint: Mods.AchiSplatoon2.Items.SheldonLicenseSilver.UsageHint
@@ -471,7 +535,7 @@ Items: {
 
 	Slosher: {
 		Flavor: I barely know her!
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		DisplayName: Slosher
 		Tooltip: ""
 	}
@@ -484,21 +548,21 @@ Items: {
 	}
 
 	SlosherDeco: {
-		UsageHint: "{$Hint.Slosher}"
+		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: Mods.AchiSplatoon2.Items.SlosherDeco.Flavor
 		DisplayName: Slosher Deco
 		Tooltip: ""
 	}
 
 	Inkbrush: {
-		UsageHint: "{$Hint.Inkbrush}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: I can brush the base all by myself!
 		DisplayName: Inkbrush
 		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	InkbrushNouveau: {
-		UsageHint: "{$Hint.Inkbrush}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.InkbrushNouveau.Flavor
 		DisplayName: Inkbrush Nouveau
 		Tooltip: "{$ArmorPierce.Display}"
@@ -512,42 +576,42 @@ Items: {
 	}
 
 	Octobrush: {
-		UsageHint: "{$Hint.Octobrush}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.Octobrush.Flavor
 		DisplayName: Octobrush
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	OctobrushNouveau: {
-		UsageHint: "{$Hint.Octobrush}"
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.OctobrushNouveau.Flavor
 		DisplayName: Octobrush Nouveau
-		Tooltip: ""
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	ZFSplatCharger: {
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.ZFSplatCharger.Flavor
 		DisplayName: Z+F Splat Charger
 		Tooltip: ""
 	}
 
 	OrderStringer: {
-		UsageHint: "{$Hint.Reeflux}"
+		UsageHint: "{$Hint.Stringers.Reeflux}"
 		Flavor: Humble beginnings
 		DisplayName: Order Stringer
 		Tooltip: ""
 	}
 
 	OrderBrush: {
-		UsageHint: Decreases mobility while attacking
+		UsageHint: "{$Hint.Brushes.Generic}"
 		Flavor: Humble beginnings
 		DisplayName: Order Brush
 		Tooltip: ""
 	}
 
 	OrderCharger: {
-		UsageHint: "{$Hint.SplatCharger}"
+		UsageHint: "{$Hint.Chargers.Generic}"
 		Flavor: Humble beginnings
 		DisplayName: Order Charger
 		Tooltip: ""
@@ -578,7 +642,7 @@ Items: {
 		DisplayName: Fresh Quiver
 		Tooltip: ""
 		UsageHint: "{$Hint.FreshQuiver}"
-		Flavor: Stay fresh!
+		Flavor: Niko wins!
 	}
 
 	CrayonBox: {
@@ -641,6 +705,1004 @@ Items: {
 		Flavor: You're breaking the game, dude!
 		Tooltip: ""
 	}
+
+	ClassicSplattershotS1: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClassicSplattershotS1.UsageHint
+		Flavor: Stay fresh!
+		DisplayName: Ancient Splattershot
+		Tooltip: ""
+	}
+
+	ClassicSplattershotS2: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClassicSplattershotS2.UsageHint
+		Flavor: Stay off the hook!
+		DisplayName: Vintage Splattershot
+		Tooltip: ""
+	}
+
+	ClassicSquiffer: {
+		UsageHint: "{$Hint.Chargers.Squiffer}"
+		Flavor: Mods.AchiSplatoon2.Items.ClassicSquiffer.Flavor
+		DisplayName: Classic Squiffer
+		Tooltip: ""
+	}
+
+	BaseDualie: {
+		Tooltip: ""
+		DisplayName: Base Dualie
+		Flavor: Mods.AchiSplatoon2.Items.BaseDualie.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.BaseDualie.UsageHint
+	}
+
+	SplatDualie: {
+		UsageHint: "{$Hint.Dualies.Generic}"
+		Flavor: Inkoming!
+		DisplayName: Splat Dualies
+		Tooltip: ""
+	}
+
+	SquidClipOns: {
+		UsageHint: "{$Hint.SquidClipOns}"
+		Flavor: Mods.AchiSplatoon2.Items.SquidClipOns.Flavor
+		DisplayName: Squid Clip Ons
+		Tooltip: ""
+	}
+
+	EnperrySplatDualie: {
+		UsageHint: "{$Hint.Dualies.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.EnperrySplatDualie.Flavor
+		DisplayName: Enperry Splat Dualies
+		Tooltip: ""
+	}
+
+	GrizzcoDualie: {
+		UsageHint: "{$Hint.Dualies.Grizzco}"
+		Flavor: Mods.AchiSplatoon2.Items.GrizzcoDualie.Flavor
+		DisplayName: Grizzco Dualies
+		Tooltip: ""
+	}
+
+	DarkTetraDualie: {
+		UsageHint: "{$Hint.Dualies.Tetra}"
+		Flavor: Mods.AchiSplatoon2.Items.DarkTetraDualie.Flavor
+		DisplayName: Dark Tetra Dualies
+		Tooltip: ""
+	}
+
+	DappleDualie: {
+		UsageHint: "{$Hint.Dualies.Dapple}"
+		Flavor: Mods.AchiSplatoon2.Items.DappleDualie.Flavor
+		DisplayName: Dapple Dualies
+		Tooltip: ""
+	}
+
+	GloogaDualie: {
+		UsageHint: "{$Hint.Dualies.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.GloogaDualie.Flavor
+		DisplayName: Glooga Dualies
+		Tooltip: ""
+	}
+
+	DouserDualie: {
+		UsageHint: "{$Hint.Dualies.Douser}"
+		Flavor: Mods.AchiSplatoon2.Items.DouserDualie.Flavor
+		DisplayName: Douser Dualies FF
+		Tooltip: ""
+	}
+
+	SplatanaWiper: {
+		UsageHint: "{$Hint.Splatana}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiper.Flavor
+		DisplayName: Splatana Wiper
+		Tooltip: ""
+	}
+
+	BaseSplatana: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSplatana.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSplatana.Flavor
+		DisplayName: Base Splatana
+		Tooltip: ""
+	}
+
+	SplatanaStamper: {
+		UsageHint: "{$Hint.Splatana}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaStamper.Flavor
+		DisplayName: Splatana Stamper
+		Tooltip: ""
+	}
+
+	BigManPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.BigManPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BigManPalette.Flavor
+		DisplayName: Big Man's Palette
+		Tooltip: ""
+	}
+
+	CalliePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.CalliePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CalliePalette.Flavor
+		DisplayName: Callie's Palette
+		Tooltip: ""
+	}
+
+	EightPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.EightPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.EightPalette.Flavor
+		DisplayName: Eight's Palette
+		Tooltip: ""
+	}
+
+	FryePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.FryePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.FryePalette.Flavor
+		DisplayName: Frye's Palette
+		Tooltip: ""
+	}
+
+	MariePalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.MariePalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MariePalette.Flavor
+		DisplayName: Marie's Palette
+		Tooltip: ""
+	}
+
+	MurchPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.MurchPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MurchPalette.Flavor
+		DisplayName: Murch's Palette
+		Tooltip: ""
+	}
+
+	OctavioPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.OctavioPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.OctavioPalette.Flavor
+		DisplayName: DJ Octavio's Palette
+		Tooltip: ""
+	}
+
+	SheldonPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.SheldonPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SheldonPalette.Flavor
+		DisplayName: Sheldon's Palette
+		Tooltip: ""
+	}
+
+	ShiverPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.ShiverPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ShiverPalette.Flavor
+		DisplayName: Shiver's Palette
+		Tooltip: ""
+	}
+
+	DamageStabilizer: {
+		UsageHint: "{$Hint.DamageStabilizer}"
+		Flavor: Mods.AchiSplatoon2.Items.DamageStabilizer.Flavor
+		DisplayName: Damage Stabilizer
+		Tooltip: ""
+	}
+
+	BaseBrella: {
+		Flavor: Mods.AchiSplatoon2.Items.BaseBrella.Flavor
+		UsageHint: Mods.AchiSplatoon2.Items.BaseBrella.UsageHint
+		DisplayName: Base Brella
+		Tooltip: ""
+	}
+
+	SplatBrella: {
+		UsageHint: "{$Hint.Brella.Generic}"
+		Flavor: You deserve some time in the sun again.
+		DisplayName: Splat Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	PinkSponge: {
+		UsageHint: "{$Hint.PinkSponge}"
+		Flavor: Right back at ya!
+		DisplayName: Pink Sponge
+		Tooltip: ""
+	}
+
+	SorellaSplatBrella: {
+		UsageHint: "{$Hint.Brella.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.SorellaSplatBrella.Flavor
+		DisplayName: Sorella Splat Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	MarinatedNecklace: {
+		UsageHint: "{$Hint.MarinatedNecklace}"
+		Flavor: I wish humans were real.
+		DisplayName: Marinated Necklace
+		Tooltip: ""
+	}
+
+	UndercoverBrella: {
+		UsageHint: "{$Hint.Brella.Undercover}"
+		Flavor: Mods.AchiSplatoon2.Items.UndercoverBrella.Flavor
+		DisplayName: Undercover Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	RecycleBrella: {
+		UsageHint: "{$Hint.Brella.Recycle}"
+		Flavor: When a Bamboozler and Brella love each other very much...
+		DisplayName: Recycled Brella 24 Mk I
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	BaseRoller: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseRoller.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseRoller.Flavor
+		DisplayName: Base Roller
+		Tooltip: ""
+	}
+
+	SplatRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatRoller.Flavor
+		DisplayName: Splat Roller
+		Tooltip: ""
+	}
+
+	KrakonSplatRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.KrakonSplatRoller.Flavor
+		DisplayName: Krak-On Splat Roller
+		Tooltip: ""
+	}
+
+	CarbonRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.CarbonRoller.Flavor
+		DisplayName: Carbon Roller
+		Tooltip: ""
+	}
+
+	DynamoRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.DynamoRoller.Flavor
+		DisplayName: Dynamo Roller
+		Tooltip: ""
+	}
+
+	CarbonRollerDeco: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.CarbonRollerDeco.Flavor
+		DisplayName: Carbon Roller Deco
+		Tooltip: ""
+	}
+
+	OrderRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Humble beginnings
+		DisplayName: Order Roller
+		Tooltip: ""
+	}
+
+	StarfishedCharger: {
+		UsageHint: "{$Hint.Chargers.StarFisher}"
+		Flavor: Mods.AchiSplatoon2.Items.StarfishedCharger.Flavor
+		DisplayName: Starfish Sniper
+		Tooltip: ""
+	}
+
+	HydraSplatling: {
+		UsageHint: "{$Hint.Splatling}"
+		Flavor: Mods.AchiSplatoon2.Items.HydraSplatling.Flavor
+		DisplayName: Hydra Splatling
+		Tooltip: ""
+	}
+
+	Bloblobber: {
+		UsageHint: "{$Hint.Sloshers.Bloblobber}"
+		Flavor: Mods.AchiSplatoon2.Items.Bloblobber.Flavor
+		DisplayName: Bloblobber
+		Tooltip: ""
+	}
+
+	CustomEliterCharger: {
+		UsageHint: "{$Hint.Chargers.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomEliterCharger.Flavor
+		DisplayName: Custom E-liter 4K
+		Tooltip: ""
+	}
+
+	GoldDynamoRoller: {
+		UsageHint: "{$Hint.Roller}"
+		Flavor: Mods.AchiSplatoon2.Items.GoldDynamoRoller.Flavor
+		DisplayName: Gold Dynamo Roller
+		Tooltip: ""
+	}
+
+	KensaMiniSplatling: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaMiniSplatling.Flavor
+		UsageHint: "{$Hint.Splatling}"
+		DisplayName: Kensa Mini Splatling
+		Tooltip: ""
+	}
+
+	KensaSplatanaStamper: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatanaStamper.Flavor
+		UsageHint: "{$Hint.Splatana}"
+		DisplayName: Kensa Splatana Stamper
+		Tooltip: ""
+	}
+
+	KensaL3Nozzlenose: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaL3Nozzlenose.Flavor
+		UsageHint: "{$Hint.Nozzlenose}"
+		DisplayName: Kensa L3 Nozzlenose
+		Tooltip: ""
+	}
+
+	KensaDot52Gal: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaDot52Gal.Flavor
+		UsageHint: "{$Hint.Dot52Gal}"
+		DisplayName: Kensa .52 Gal
+		Tooltip: ""
+	}
+
+	KensaSplatRoller: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatRoller.Flavor
+		UsageHint: "{$Hint.Roller}"
+		DisplayName: Kensa Splat Roller
+		Tooltip: ""
+	}
+
+	KensaDynamoRoller: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaDynamoRoller.Flavor
+		UsageHint: "{$Hint.Roller}"
+		DisplayName: Kensa Dynamo Roller
+		Tooltip: ""
+	}
+
+	KensaSplatDualie: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatDualie.Flavor
+		UsageHint: "{$Hint.Dualies.Generic}"
+		DisplayName: Kensa Splat Dualies
+		Tooltip: ""
+	}
+
+	KensaGloogaDualie: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaGloogaDualie.Flavor
+		UsageHint: "{$Hint.Dualies.Generic}"
+		DisplayName: Kensa Glooga Dualies
+		Tooltip: ""
+	}
+
+	KensaSplatCharger: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplatCharger.Flavor
+		UsageHint: "{$Hint.Chargers.Generic}"
+		DisplayName: Kensa Splat Charger
+		Tooltip: ""
+	}
+
+	KensaOctobrush: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaOctobrush.Flavor
+		UsageHint: "{$Hint.Brushes.Generic}"
+		DisplayName: Kensa Octobrush
+		Tooltip: "{$ArmorPierce.Display}"
+	}
+
+	KensaUndercoverBrella: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaUndercoverBrella.Flavor
+		UsageHint: "{$Hint.Brella.Undercover}"
+		DisplayName: Kensa Undercover Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	KensaReefluxStringer: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaReefluxStringer.Flavor
+		UsageHint: "{$Hint.Stringers.Reeflux}"
+		DisplayName: Kensa REEF-LUX 450
+		Tooltip: ""
+	}
+
+	KensaRapidBlaster: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaRapidBlaster.Flavor
+		UsageHint: "{$Hint.Blaster}"
+		DisplayName: Kensa Rapid Blaster
+		Tooltip: ""
+	}
+
+	KensaLunaBlaster: {
+		Flavor: Mods.AchiSplatoon2.Items.KensaLunaBlaster.Flavor
+		UsageHint: "{$Hint.Blaster}"
+		DisplayName: Kensa Luna Blaster
+		Tooltip: ""
+	}
+
+	SBlast92: {
+		UsageHint: "{$Hint.SBlast}"
+		Flavor: This will take over the meta!
+		DisplayName: S-BLAST '92
+		Tooltip: ""
+	}
+
+	OrderBag: {
+		UsageHint: Gives you an Order Shot, a Palette and Color Chips
+		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
+		DisplayName: Order Starter Bag
+		Tooltip: Right click to open
+	}
+
+	SlimeSplattershot: {
+		UsageHint: Mods.AchiSplatoon2.Items.SlimeSplattershot.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SlimeSplattershot.Flavor
+		DisplayName: Gloop Shot
+		Tooltip: ""
+	}
+
+	DesertBrush: {
+		UsageHint: "{$Hint.Brushes.Desert}"
+		Flavor: Mods.AchiSplatoon2.Items.DesertBrush.Flavor
+		DisplayName: Dune Stainer
+		Tooltip: ""
+	}
+
+	FreshSquiffer: {
+		UsageHint: "{$Hint.Chargers.Squiffer}"
+		Flavor: Mods.AchiSplatoon2.Items.FreshSquiffer.Flavor
+		DisplayName: Fresh Squiffer
+		Tooltip: ""
+	}
+
+	SplatanaWiperDeco: {
+		UsageHint: "{$Hint.Splatana}"
+		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiperDeco.Flavor
+		DisplayName: Splatana Wiper Deco
+		Tooltip: ""
+	}
+
+	RecycleBrellaMk2: {
+		UsageHint: "{$Hint.Brella.Recycle}"
+		Flavor: Mods.AchiSplatoon2.Items.RecycleBrellaMk2.Flavor
+		DisplayName: Recycled Brella 24 Mk II
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	CustomDouserDualie: {
+		UsageHint: "{$Hint.Dualies.Douser}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomDouserDualie.Flavor
+		DisplayName: Custom Douser Dualies FF
+		Tooltip: ""
+	}
+
+	LightTetraDualie: {
+		UsageHint: Mods.AchiSplatoon2.Items.LightTetraDualie.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LightTetraDualie.Flavor
+		DisplayName: Light Tetra Dualies
+		Tooltip: ""
+	}
+
+	SplashOMaticNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplashOMaticNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplashOMaticNeo.Flavor
+		DisplayName: Neo Splash-O-Matic
+		Tooltip: ""
+	}
+
+	SplooshOMaticNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplooshOMaticNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplooshOMaticNeo.Flavor
+		DisplayName: Neo Sploosh-O-Matic
+		Tooltip: ""
+	}
+
+	BloblobberDeco: {
+		UsageHint: "{$Hint.Sloshers.Bloblobber}"
+		Flavor: Mods.AchiSplatoon2.Items.BloblobberDeco.Flavor
+		DisplayName: Bloblobber Deco
+		Tooltip: ""
+	}
+
+	SBlast91: {
+		UsageHint: "{$Hint.SBlast}"
+		Flavor: Okay trust me, THIS will take over the meta!
+		DisplayName: S-BLAST '91
+		Tooltip: ""
+	}
+
+	HypnoShades: {
+		UsageHint: "{$Hint.HypnoShades}"
+		Flavor: BOMB! RUSH! BLUSH!
+		DisplayName: Callie's Hypnoshades
+		Tooltip:
+			'''
+			{$SubPowerEmblem.Multiplier@0}
+			{1}% reduced sub weapon ink usage
+			'''
+	}
+
+	SodaSlosher: {
+		UsageHint: "{$Hint.Sloshers.Slosher}"
+		Flavor: SODAAAAA!!
+		DisplayName: Soda Slosher
+		Tooltip: ""
+	}
+
+	TriSlosher: {
+		UsageHint: "{$Hint.Sloshers.Slosher}"
+		Flavor: It just takes no skill!
+		DisplayName: Tri-Slosher
+		Tooltip: ""
+	}
+
+	TriSlosherNouveau: {
+		UsageHint: "{$Hint.Sloshers.Slosher}"
+		Flavor: Mods.AchiSplatoon2.Items.TriSlosherNouveau.Flavor
+		DisplayName: Tri-Slosher Nouveau
+		Tooltip: ""
+	}
+
+	LuckyBombGun: {
+		UsageHint: Mods.AchiSplatoon2.Items.LuckyBombGun.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LuckyBombGun.Flavor
+		DisplayName: Lucky Bomb Test Gun
+		Tooltip: ""
+	}
+
+	Snipewriter5H: {
+		UsageHint: "{$Hint.Chargers.Snipewriter}"
+		Flavor: From rags to riches
+		DisplayName: Snipewriter 5H
+		Tooltip: ""
+	}
+
+	Snipewriter5B: {
+		UsageHint: "{$Hint.Chargers.Snipewriter}"
+		Flavor: Mods.AchiSplatoon2.Items.Snipewriter5B.Flavor
+		DisplayName: Snipewriter 5B
+		Tooltip: ""
+	}
+
+	SuperPalette: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPalette.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPalette.Flavor
+		DisplayName: Digital Palette
+		Tooltip: ""
+	}
+
+	SuperPaletteLeftPart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteLeftPart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteLeftPart.Flavor
+		DisplayName: L-Type Motion Stick
+		Tooltip: ""
+	}
+
+	SuperPaletteMiddlePart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteMiddlePart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteMiddlePart.Flavor
+		DisplayName: Light-Emitting Display
+		Tooltip: ""
+	}
+
+	SuperPaletteRightPart: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperPaletteRightPart.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperPaletteRightPart.Flavor
+		DisplayName: R-Type Camera Stick
+		Tooltip: ""
+	}
+
+	EelSplatanaWeapon: {
+		Flavor: Say it with sizzle!
+		UsageHint: "{$Hint.EelSplatana}"
+		DisplayName: Moray Claymore
+		Tooltip: ""
+	}
+
+	DappleDualieNouveau: {
+		UsageHint: "{$Hint.Dualies.Dapple}"
+		Flavor: Mods.AchiSplatoon2.Items.DappleDualieNouveau.Flavor
+		DisplayName: Dapple Dualies Nouveau
+		Tooltip: ""
+	}
+
+	DualieSquelcher: {
+		UsageHint: "{$Hint.Dualies.Squelcher}"
+		Flavor: Mods.AchiSplatoon2.Items.DualieSquelcher.Flavor
+		DisplayName: Dualie Squelchers
+		Tooltip: ""
+	}
+
+	HeroShot: {
+		UsageHint: Mods.AchiSplatoon2.Items.HeroShot.UsageHint
+		Flavor: I'm the captain now
+		DisplayName: Hero Shot
+		Tooltip: ""
+	}
+
+	Dot96Gal: {
+		UsageHint: "{$Hint.Dot52Gal}"
+		Flavor: Mods.AchiSplatoon2.Items.Dot96Gal.Flavor
+		DisplayName: .96 Gal
+		Tooltip: ""
+	}
+
+	Explosher: {
+		UsageHint: "{$Hint.Sloshers.Explosher}"
+		Flavor: Mods.AchiSplatoon2.Items.Explosher.Flavor
+		DisplayName: Explosher
+		Tooltip: ""
+	}
+
+	PainterDualie: {
+		UsageHint: Mods.AchiSplatoon2.Items.PainterDualie.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PainterDualie.Flavor
+		DisplayName: Paintball Dualies
+		Tooltip: ""
+	}
+
+	VortexDualie: {
+		UsageHint: "{$Hint.Dualies.Vortex}"
+		Flavor: I can dance all day, try and hit me!
+		DisplayName: Interstellar Dualies
+		Tooltip: ""
+	}
+
+	NebulaStringer: {
+		UsageHint: "{$Hint.Stringers.Nebula}"
+		Flavor: Mods.AchiSplatoon2.Items.NebulaStringer.Flavor
+		DisplayName: Star-Touched Stringer
+		Tooltip: ""
+	}
+
+	InkMine: {
+		UsageHint: A stationary weapon, activating whenever an enemy gets close to it
+		Flavor: Mods.AchiSplatoon2.Items.InkMine.Flavor
+		DisplayName: Ink Mine
+		Tooltip: ""
+	}
+
+	Torpedo: {
+		UsageHint: Homes in on enemies after being thrown, exploding into smaller pellets
+		Flavor: Mods.AchiSplatoon2.Items.Torpedo.Flavor
+		DisplayName: Torpedo
+		Tooltip: ""
+	}
+
+	SplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.SplattershotJr.Flavor
+		DisplayName: Splattershot Jr.
+		Tooltip: ""
+	}
+
+	CustomSplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomSplattershotJr.Flavor
+		DisplayName: Custom Splattershot Jr.
+		Tooltip: ""
+	}
+
+	PainBrush: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrush.Flavor
+		DisplayName: Painbrush
+		Tooltip: ""
+	}
+
+	PainBrushNouveau: {
+		UsageHint: "{$Hint.Brushes.Generic}"
+		Flavor: Mods.AchiSplatoon2.Items.PainBrushNouveau.Flavor
+		DisplayName: Painbrush Nouveau
+		Tooltip: ""
+	}
+
+	IceStringer: {
+		UsageHint: "{$Hint.Stringers.Ice}"
+		Flavor: Don't lick it!
+		DisplayName: Shivering Stringer
+		Tooltip: ""
+	}
+
+	SpookyBrush: {
+		UsageHint: "{$Hint.Brushes.Spooky}"
+		Flavor: What's a broom, if not an oversized brush?
+		DisplayName: Hexing Broom
+		Tooltip: "{$ArmorPierce.Display}"
+	}
+
+	Wellstring: {
+		UsageHint: "{$Hint.Stringers.Wellstring}"
+		Flavor: Mods.AchiSplatoon2.Items.Wellstring.Flavor
+		DisplayName: Wellstring V
+		Tooltip: ""
+	}
+
+	MartianBrella: {
+		UsageHint: "{$Hint.Brella.Martian}"
+		Flavor: Mods.AchiSplatoon2.Items.MartianBrella.Flavor
+		DisplayName: Spark Brella
+		Tooltip: ""
+	}
+
+	CustomWellstring: {
+		UsageHint: "{$Hint.Stringers.Wellstring}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomWellstring.Flavor
+		DisplayName: Custom Wellstring V
+		Tooltip: ""
+	}
+
+	OrderBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.OrderBlaster.UsageHint
+		Flavor: Humble beginnings
+		DisplayName: Order Blaster
+		Tooltip: ""
+	}
+
+	OrderBrella: {
+		UsageHint: Mods.AchiSplatoon2.Items.OrderBrella.UsageHint
+		Flavor: Humble beginnings
+		DisplayName: Order Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	SquidBoomerang: {
+		UsageHint: Mods.AchiSplatoon2.Items.SquidBoomerang.UsageHint
+		Flavor: This is stupid
+		DisplayName: Woomerang
+		Tooltip: ""
+	}
+
+	PearlDroneStaff: {
+		DisplayName: Pearl Drone Test Staff
+		Tooltip: ""
+	}
+
+	DroneDiscBase: {
+		UsageHint: Mods.AchiSplatoon2.Items.DroneDiscBase.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscBase.Flavor
+		DisplayName: Drone Disc Base
+		Tooltip: ""
+	}
+
+	DroneDiscA: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscA.Flavor
+		DisplayName: Type-A Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscB: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscB.Flavor
+		DisplayName: Type-B Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscC: {
+		UsageHint: "{$Hint.DroneDisc}"
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscC.Flavor
+		DisplayName: Type-C Drone Upgrade Disc
+		Tooltip: ""
+	}
+
+	DroneDiscDowngrade: {
+		UsageHint: CAUTION! Resets Pearl Drone's level back to 1.
+		Flavor: Mods.AchiSplatoon2.Items.DroneDiscDowngrade.Flavor
+		DisplayName: Type-X Drone Downgrade Disc
+		Tooltip: ""
+	}
+
+	CorruptLootBag: {
+		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
+		DisplayName: Corrupt Splash Bag
+		Tooltip: Right click to open
+	}
+
+	CrimsonLootBag: {
+		DisplayName: Crimson Splash Bag
+		Tooltip: Right click to open
+	}
+
+	HallowedLootBag: {
+		DisplayName: Hallowed Splash Bag
+		Tooltip: Right click to open
+	}
+
+	CustomHydraSplatling: {
+		UsageHint: "{$Hint.Splatling}"
+		Flavor: Mods.AchiSplatoon2.Items.CustomHydraSplatling.Flavor
+		DisplayName: Custom Hydra Splatling
+		Tooltip: ""
+	}
+
+	ChargedBattery: {
+		UsageHint: "{$Hint.ChargedBattery}"
+		Flavor: Mods.AchiSplatoon2.Items.ChargedBattery.Flavor
+		DisplayName: Charged Battery
+		Tooltip: +{0}% weapon charge speed
+	}
+
+	NetcodeInspector: {
+		UsageHint: Mods.AchiSplatoon2.Items.NetcodeInspector.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.NetcodeInspector.Flavor
+		DisplayName: Netcode Inspector
+		Tooltip: ""
+	}
+
+	EightSuit: {
+		Flavor: Freshly sanitized, not a stain to be found!
+		UsageHint: Mods.AchiSplatoon2.Items.EightSuit.UsageHint
+		DisplayName: Eight Suit Replica
+		Tooltip: ""
+	}
+
+	EightMask: {
+		Flavor: I'm back in the flippin' building again!
+		UsageHint: Mods.AchiSplatoon2.Items.EightMask.UsageHint
+		DisplayName: Eight Mask Replica
+		Tooltip: ""
+	}
+
+	EightBoots: {
+		Flavor: Naaa na-na-na-na-na
+		UsageHint: Mods.AchiSplatoon2.Items.EightBoots.UsageHint
+		DisplayName: Eight Boots Replica
+		Tooltip: ""
+	}
+
+	HoneyScepter: {
+		UsageHint: Mods.AchiSplatoon2.Items.HoneyScepter.UsageHint
+		Flavor: Not a Splatoon weapon. For the toaster!
+		DisplayName: Honey Scepter
+		Tooltip: ""
+	}
+
+	EnchantedInkTank: {
+		UsageHint: "{$Hint.ThermalInkTank}"
+		Flavor: Mods.AchiSplatoon2.Items.EnchantedInkTank.Flavor
+		DisplayName: Enchanted Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
+	}
+
+	InkTank: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkTank.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkTank.Flavor
+		DisplayName: Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
+	}
+
+	InkCapacityPotion: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkCapacityPotion.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkCapacityPotion.Flavor
+		DisplayName: Ink Capacity Potion
+		Tooltip: Temporarily grants +{0}% ink capacity
+	}
+
+	InkRegenerationPotion: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkRegenerationPotion.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkRegenerationPotion.Flavor
+		DisplayName: Ink Regeneration Potion
+		Tooltip: Boosts ink recovery to match the recovery speed in swim form
+	}
+
+	InkDroplet: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkDroplet.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkDroplet.Flavor
+		DisplayName: Drop of Black Ink
+		Tooltip: ""
+	}
+
+	InkTankDroplet: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkTankDroplet.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkTankDroplet.Flavor
+		DisplayName: Ink Droplet
+		Tooltip: ""
+	}
+
+	StarterSplatBomb: {
+		UsageHint: Detonates shortly after hitting the ground
+		Flavor: Mods.AchiSplatoon2.Items.StarterSplatBomb.Flavor
+		DisplayName: Splat Bomb Jr.
+		Tooltip: ""
+	}
+
+	CorruptionBrella: {
+		UsageHint: "{$Hint.Brella.Plague}"
+		Flavor: Mods.AchiSplatoon2.Items.CorruptionBrella.Flavor
+		DisplayName: Plague Brella
+		Tooltip: "{$BrellaPelletCount.Display}"
+	}
+
+	ClashBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClashBlaster.UsageHint
+		Flavor: It's so annoying to fight against!
+		DisplayName: Clash Blaster
+		Tooltip: ""
+	}
+
+	ClashBlasterNeo: {
+		UsageHint: Mods.AchiSplatoon2.Items.ClashBlasterNeo.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ClashBlasterNeo.Flavor
+		DisplayName: Clash Blaster Neo
+		Tooltip: ""
+	}
+
+	ForgeSplattershotPro: {
+		UsageHint: Mods.AchiSplatoon2.Items.ForgeSplattershotPro.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ForgeSplattershotPro.Flavor
+		DisplayName: Forge Splattershot Pro
+		Tooltip: ""
+	}
+
+	SplattershotPro: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplattershotPro.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SplattershotPro.Flavor
+		DisplayName: Splattershot Pro
+		Tooltip: ""
+	}
+
+	InkCrystal: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkCrystal.UsageHint
+		Flavor: It reacts to the thoughts and feelings of humans.
+		DisplayName: Liquid Crystal
+		Tooltip: Permanently increases your ink capacity by +{0}% (up to {1} times)
+	}
+
+	LastDitchEffortEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.LastDitchEffortEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.LastDitchEffortEmblem.Flavor
+		DisplayName: Last-Ditch Effort Emblem
+		Tooltip: "{$LastDitchEffortBonus.Display}"
+	}
+
+	CoralStringer: {
+		UsageHint: Mods.AchiSplatoon2.Items.CoralStringer.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CoralStringer.Flavor
+		DisplayName: Coral Harp
+		Tooltip: ""
+	}
+
+	CoralStringerB: {
+		UsageHint: Mods.AchiSplatoon2.Items.CoralStringerB.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.CoralStringerB.Flavor
+		DisplayName: Coral Song
+		Tooltip: ""
+	}
+
+	CorruptionBrellaB: {
+		UsageHint: "{$Hint.Brella.Plague}"
+		Flavor: Mods.AchiSplatoon2.Items.CorruptionBrellaB.Flavor
+		DisplayName: Wither Brella
+		Tooltip: ""
+	}
+
+	SlimeSplattershotB: {
+		UsageHint: Mods.AchiSplatoon2.Items.SlimeSplattershotB.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SlimeSplattershotB.Flavor
+		DisplayName: Royal Gloop Shot
+		Tooltip: ""
+	}
+
+	LaserAddon: {
+		UsageHint: Pearl Drone's sprinkler attack is replaced with lasers, which pierce enemies and fire faster
+		Flavor: Mods.AchiSplatoon2.Items.LaserAddon.Flavor
+		DisplayName: Eye Laser Add-On
+		Tooltip: Your ink capacity is REDUCED by {0}% (multiplied after bonuses)
+	}
+
+	HoneyScepterSupreme: {
+		UsageHint: Mods.AchiSplatoon2.Items.HoneyScepterSupreme.UsageHint
+		DisplayName: Honey Scepter Supreme
+		Flavor: Transformation not included.
+		Tooltip: ""
+	}
+
+	KensaSplattershotJr: {
+		UsageHint: "{$Hint.SplattershotJr}"
+		Flavor: Mods.AchiSplatoon2.Items.KensaSplattershotJr.Flavor
+		DisplayName: Kensa Splattershot Jr.
+		Tooltip: ""
+	}
+
+	SpecialChargeGun: {
+		UsageHint: Mods.AchiSplatoon2.Items.SpecialChargeGun.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SpecialChargeGun.Flavor
+		DisplayName: Special Charge Gun
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -683,6 +1745,85 @@ Projectiles: {
 	NozzlenoseProjectile.DisplayName: Nozzlenose Projectile
 	NozzlenoseShooter.DisplayName: Nozzlenose Shooter
 	FreshQuiverBlast.DisplayName: Fresh Quiver Blast
+	RollProjectile.DisplayName: Roll Projectile
+	DualieRollProjectile.DisplayName: Dualie Roll Projectile
+	DualieShotProjectile.DisplayName: Dualie Shot Projectile
+	GrizzcoDualieBlastProjectile.DisplayName: Grizzco Dualie Blast Projectile
+	SplatanaWeakSlashProjectile.DisplayName: Splatana Weak Slash Projectile
+	SplatanaChargeProjectile.DisplayName: Splatana Charge Projectile
+	SplatanaMeleeProjectile.DisplayName: Splatana Melee Projectile
+	SplatanaStrongSlashProjectile.DisplayName: Splatana Strong Slash Projectile
+	BrellaPelletProjectile.DisplayName: Brella Pellet Projectile
+	BrellaShotgunProjectile.DisplayName: Brella Shotgun Projectile
+	BrellaMeleeProjectile.DisplayName: Brella Melee Projectile
+	RollerSwingProjectile.DisplayName: Roller Swing Projectile
+	RollerInkProjectile.DisplayName: Roller Ink Projectile
+	RollerRollingProjectile.DisplayName: Roller Rolling Projectile
+	KrakonRollerSwingProjectile.DisplayName: Krakon Roller Swing Projectile
+	CarbonRollerSwingProjectile.DisplayName: Carbon Roller Swing Projectile
+	DynamoRollerSwingProjectile.DisplayName: Dynamo Roller Swing Projectile
+	CarbonDecoSwingProjectile.DisplayName: Carbon Deco Swing Projectile
+	KrakonSwingProjectile.DisplayName: Krakon Swing Projectile
+	CarbonSwingProjectile.DisplayName: Carbon Swing Projectile
+	OrderSwingProjectile.DisplayName: Order Swing Projectile
+	StarfishedChargerBlast.DisplayName: Starfish Sniper Blast
+	StarfishedChargerProjectile.DisplayName: Starfish Sniper Projectile
+	StarFisherBlastVisual.DisplayName: Starfish Sniper Blast Visual
+	BloblobberChildProjectile.DisplayName: Bloblobber Child Projectile
+	BloblobberMainProjectile.DisplayName: Bloblobber Main Projectile
+	GoldDynamoRollerSwingProjectile.DisplayName: Gold Dynamo Roller Swing Projectile
+	KensaDynamoRollerSwingProjectile.DisplayName: Kensa Dynamo Roller Swing Projectile
+	KensaSplatRollerSwingProjectile.DisplayName: Kensa Splat Roller Swing Projectile
+	SBlastProjectile.DisplayName: S-Blast Projectile
+	DesertBrushProjectile.DisplayName: Desert Brush Projectile
+	LuckyBombProjectile.DisplayName: Lucky Bomb Projectile
+	LuckyBombBlast.DisplayName: Lucky Bomb Blast
+	SnipewriterCharge.DisplayName: Snipewriter Charge
+	SnipewriterProjectile.DisplayName: Snipewriter Projectile
+	EelSplatanaStrongSlashProjectile.DisplayName: Eel Splatana Strong Slash Projectile
+	EelSplatanaSmallProjectile.DisplayName: Eel Splatana Small Projectile
+	ExplosherProjectile.DisplayName: Explosher Projectile
+	BlastProjectile.DisplayName: Blast Projectile
+	PainterDualieShotProjectile.DisplayName: Painter Dualie Shot Projectile
+	VortexDualieShotProjectile.DisplayName: Vortex Dualie Shot Projectile
+	VortexDualieRollProjectile.DisplayName: Vortex Dualie Roll Projectile
+	NebulaStringerProjectile.DisplayName: Nebula Stringer Projectile
+	NebulaStringerCharge.DisplayName: Nebula Stringer Charge
+	SlimeSplattershotProjectile.DisplayName: Slime Splattershot Projectile
+	TrizookaUnleashedProjectile.DisplayName: Trizooka Unleashed Projectile
+	InkMineProjectile.DisplayName: Ink Mine Projectile
+	TorpedoProjectile.DisplayName: Torpedo Projectile
+	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
+	BrushSwingProjectile.DisplayName: Brush Swing Projectile
+	IceStringerProjectile.DisplayName: Shivering Stringer Projectile
+	IceStringerShrapnel.DisplayName: Shivering Stringer Shrapnel
+	SpookyBrushProjectile.DisplayName: Hexing Broom
+	WellstringCharge.DisplayName: Wellstring Charge
+	MartianBrellaPelletProjectile.DisplayName: Spark Brella
+	MartianBrellaMeleeProjectile.DisplayName: Spark Brella
+	MartianBrellaShotgunProjectile.DisplayName: Martian Brella Shotgun Projectile
+	SquidBoomerangProjectile.DisplayName: Squid Boomerang Projectile
+	PearlDroneMinion.DisplayName: Pearl Drone Minion
+	PearlDroneSprinklerProjectile.DisplayName: Pearl Drone Sprinkler Projectile
+	PearlDroneBurstBomb.DisplayName: Pearl Drone Burst Bomb
+	NetcodeInspectorProjectile.DisplayName: Netcode Inspector Projectile
+	ChargerCharge.DisplayName: Charger Charge
+	ChargerProjectile.DisplayName: Charger Projectile
+	BlasterExplosion.DisplayName: Blaster Explosion
+	HoneyScepterProjectile.DisplayName: Honey Scepter Projectile
+	SquidFormProjectile.DisplayName: Squid Form Projectile
+	HudProjectile.DisplayName: Hud Projectile
+	CorruptionBrellaMeleeProjectile.DisplayName: Corruption Brella Melee Projectile
+	CorruptionBrellaPelletProjectile.DisplayName: Corruption Brella Pellet Projectile
+	CorruptionBrellaShotgunProjectile.DisplayName: Corruption Brella Shotgun Projectile
+	CoralStringerCharge.DisplayName: Coral Stringer Charge
+	CoralStringerProjectile.DisplayName: Coral Stringer Projectile
+	SheldonDrone.DisplayName: Sheldon Drone
+	PearlDroneLaserProjectile.DisplayName: Pearl Drone Laser Projectile
+	TrizookaHeldProjectile.DisplayName: Trizooka Held Projectile
+	TrizookaShell.DisplayName: Trizooka Shell
+	SpecialChargeProjectile.DisplayName: Special Charge Projectile
+	TrizookaBlast.DisplayName: Trizooka Blast
 }
 
 Buffs: {
@@ -695,6 +1836,101 @@ Buffs: {
 		DisplayName: Special charged!
 		Description: If you have a special-type weapon, you can now use it!
 	}
+
+	BigBlastBuff: {
+		Description: Your next Blaster shot deals {0}% more damage in a {1}% bigger radius
+		DisplayName: Compensating Blast
+	}
+
+	PearlDroneBuff: {
+		DisplayName: ""
+		Description: ""
+	}
+
+	SwimFormBuff: {
+		DisplayName: Swim form
+		Description: You recover ink faster, and take no fall damage. Water cancels this buff!
+	}
+
+	InkCapacityBuff: {
+		DisplayName: Ink capacity up
+		Description: Your ink tank can now hold {0}% more ink
+	}
+
+	InkRegenerationBuff: {
+		DisplayName: Super ink recovery
+		Description: You always recover ink at the same speed as when in swim form
+	}
+
+	LastDitchEffortBuff: {
+		DisplayName: Last-Ditch Effort
+		Description: Drastically reduced ink consumption
+	}
 }
 
 NPCs.BrellaShield.DisplayName: Brella Shield
+
+Prefixes: {
+	TurboPrefix.DisplayName: Turbo
+	SwiftPrefix.DisplayName: Swift
+	SkilledPrefix.DisplayName: Skilled
+	RangedPrefix.DisplayName: Ranged
+	PiercingPrefix.DisplayName: Piercing
+	HeavyDutyPrefix.DisplayName: Heavy-Duty
+	FreshPrefix.DisplayName: Fresh
+	DeepCutPrefix.DisplayName: Deep-Cut
+	ChaoticPrefix.DisplayName: Chaotic
+	AmpedUpPrefix.DisplayName: Amped-Up
+	EvasivePrefix.DisplayName: Evasive
+	SlipperyPrefix.DisplayName: Slippery
+	PrincessPrefix.DisplayName: Princess'
+	BaseDualiePrefix.DisplayName: Base Dualie Prefix
+	QuickPrefix.DisplayName: Quick
+	BaseChargeWeaponPrefix.DisplayName: Base Charge Weapon Prefix
+	BacklinePrefix.DisplayName: Backline
+	BaseChargerPrefix.DisplayName: Base Charger Prefix
+	BaseBlasterPrefix.DisplayName: Base Blaster Prefix
+	BaseWeaponPrefix.DisplayName: Base Weapon Prefix
+	BaseItemPrefix.DisplayName: Base Item Prefix
+	ExtraDodgeRollsTooltip: "{0} dodge roll(s)"
+	ChargeSpeedTooltip: "{0} charge speed"
+	ArmorPenetrationTooltip: "{0} defense penetration"
+	EnemyPierceTooltip: "{0} piercing"
+	AimVariationTooltip: "{0} degrees of inaccuracy"
+	VelocityTooltip: "{0} velocity"
+	ExtraProjectileTooltip: "{0} projectile(s)"
+	BaseStringerPrefix.DisplayName: Base Stringer Prefix
+	CompactPrefix.DisplayName: Compact
+	WidePrefix.DisplayName: Wide
+	ShotgunArcTooltip: "{0} shotgun width"
+	ExplosionRadiusTooltip: "{0} blast radius"
+	BigBangPrefix.DisplayName: Big-Bang
+	ConcentratedPrefix.DisplayName: Concentrated
+	ShotsPerChargeTooltip: "{0} shots per charge"
+	ShotTimeTooltip: "{0} frame(s) delay between shots"
+	BaseSplatlingPrefix.DisplayName: Base Splatling Prefix
+	ChaoticSplatlingPrefix.DisplayName: Chaotic
+	CuratedPrefix.DisplayName: Curated
+	LoadedPrefix.DisplayName: Loaded
+	ShotSpreadTooltip: "{0} bullet spread"
+	DashSpeedTooltip: "{0} brush dash speed"
+	BaseBrushPrefix.DisplayName: Base Brush Prefix
+	MeleeDamageTooltip: "{0} melee damage"
+	SteadfastPrefix.DisplayName: Steadfast
+	SeepingPrefix.DisplayName: Seeping
+	DryPrefix.DisplayName: Dry
+	TastelessPrefix.DisplayName: Tasteless
+	ShieldLifeTooltip: "{0} shield health"
+	ShieldCooldownTooltip: "{0} shield recovery cooldown"
+	BaseBrellaPrefix.DisplayName: Base Brella Prefix
+	BurstingPrefix.DisplayName: Bursting
+	CrispyPrefix.DisplayName: Crispy
+	ShelledPrefix.DisplayName: Shelled
+	SturdyPrefix.DisplayName: Sturdy
+	InkCostTooltip: "{0} ink cost"
+	CheapPrefix.DisplayName: Cheap
+	HungryPrefix.DisplayName: Hungry
+	SavouryPrefix.DisplayName: Savoury
+	InstantPrefix.DisplayName: Instant
+	DivingPrefix.DisplayName: Diving
+}

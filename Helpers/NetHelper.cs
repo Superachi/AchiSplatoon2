@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Netcode;
+using AchiSplatoon2.Netcode.DataTransferObjects;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -101,10 +102,31 @@ namespace AchiSplatoon2.Helpers
             return $"{Main.player[fromWho].name} (#{fromWho})";
         }
 
-        public static InkWeaponPlayer GetModPlayerFromPacket(int fromWho)
+        public static void SendPingToServer()
         {
-            Player p = GetPlayerFromPacket(fromWho);
-            return p.GetModPlayer<InkWeaponPlayer>();
+            if (IsSinglePlayer()) { return; }
+            if (IsThisTheServer()) { return; }
+
+            int fromWho = Main.LocalPlayer.whoAmI;
+
+            ModPacket packet = GetNewPacket();
+            WritePacketHandlerType(packet, (int)PacketHandlerType.Generic);
+            WritePacketType(packet, (int)PacketType.PingRequest);
+            WritePacketFromWhoID(packet, fromWho);
+
+            SendPacket(packet, toClient: -1, ignoreClient: fromWho);
+        }
+
+        public static void SendModPlayerPacket(ModPlayer modPlayer, PlayerPacketType msgType, BaseDTO dto)
+        {
+            if (IsSinglePlayer()) return;
+            if (!IsPlayerSameAsLocalPlayer(modPlayer.Player)) return;
+
+            ModPlayerPacketHandler.SendModPlayerPacket(
+                    messageType: msgType,
+                    fromWho: Main.LocalPlayer.whoAmI,
+                    json: dto.Serialize(),
+                    logger: modPlayer.Mod.Logger);
         }
     }
 }

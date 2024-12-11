@@ -11,16 +11,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.damage = 32;
             Item.width = 92;
             Item.height = 50;
-            Item.knockBack = 2;
+            Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.OrichalcumBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeOrichalcum();
     }
 }

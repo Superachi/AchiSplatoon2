@@ -6,6 +6,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class KillerWailProjectile : BaseProjectile
     {
+        protected override bool CountDamageForSpecialCharge { get => false; }
         protected virtual bool enableDust => true;
         protected float Timer
         {
@@ -25,12 +26,13 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize(ignoreAimDeviation: true);
             Projectile.alpha = 255;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.scale = 0;
+            enablePierceDamagefalloff = false;
         }
 
         public override void AI()

@@ -1,7 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
@@ -12,6 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.rare = ItemRarityID.Expert;
             Item.value = Item.buyPrice(gold: 5);
         }
@@ -24,15 +23,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         public override bool AllowPrefix(int pre)
         {
             return false;
-        }
-
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                var accMP = Main.LocalPlayer.GetModPlayer<InkAccessoryPlayer>();
-                damage *= accMP.specialPowerMultiplier;
-            }
         }
     }
 }

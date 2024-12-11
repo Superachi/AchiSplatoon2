@@ -5,19 +5,28 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class Octobrush : BaseBrush
     {
+        public override float InkCost { get => 2f; }
+
         public override float AimDeviation { get => 6f; }
-        public override float DelayUntilFall => 12f;
+        public override float DelayUntilFall => 8f;
+        protected override int ArmorPierce => 10;
+
+        public override float ShotVelocity => 8f;
+        public override float ShotGravity => 0.2f;
+        public override float BaseWeaponUseTime => 15f;
+        public override int SwingArc => 130;
+        public override float RollMoveSpeedBonus => 1.85f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 10;
-            Item.knockBack = 4;
-            Item.shootSpeed = 10f;
+            SetItemUseTime();
 
-            Item.scale = 1.5f;
-            Item.useTime = 12;
-            Item.useAnimation = Item.useTime;
+            Item.damage = 14;
+            Item.knockBack = 5;
+            Item.shootSpeed = 8f;
+
+            Item.scale = 1f;
 
             Item.width = 60;
             Item.height = 60;
@@ -26,11 +35,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

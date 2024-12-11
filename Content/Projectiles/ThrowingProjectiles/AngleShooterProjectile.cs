@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -16,8 +18,9 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private float previousVelocityY;
         private int maxBounces;
         private float bounceDamageMod = 1f;
-        private float bounceDamageModMax = 10f;
+        private readonly float bounceDamageModMax = 10f;
         private int baseDamage;
+        private int bounceTimestamp = -1;
 
         public override void SetDefaults()
         {
@@ -26,19 +29,27 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.height = 1;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.timeLeft = 20 * FrameSpeed();
+            Projectile.timeLeft = 40 * FrameSpeed();
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseBomb;
+
+            maxBounces = weaponData.MaxBounces;
+        }
+
+        protected override void AfterSpawn()
         {
             Initialize();
-            BaseBomb weaponData = (BaseBomb)weaponSource;
-            maxBounces = weaponData.MaxBounces;
+            ApplyWeaponInstanceData();
+
             baseDamage = Projectile.damage;
 
-            PlayAudio("Throwables/AngleShooterThrow", volume: 0.3f, pitchVariance: 0.2f);
+            PlayAudio(SoundPaths.AngleShooterThrow.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.2f);
         }
 
         public override bool PreAI()
@@ -51,9 +62,24 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
-            Color dustColor = GenerateInkColor();
-            var dust = Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-            dust.alpha = 64;
+            Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletLastingDust>(), Velocity: Projectile.velocity / 5, newColor: CurrentColor, Scale: 1f);
+
+            if (Main.rand.NextBool(100))
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center,
+                    Type: DustID.RainbowTorch,
+                    Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                    newColor: CurrentColor,
+                    Scale: 1f);
+                d.noGravity = true;
+            }
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -83,7 +109,15 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (bounced)
             {
                 maxBounces--;
-                bounceDamageMod *= 2f;
+                if (bounceDamageMod == 1f)
+                {
+                    bounceDamageMod += 2f;
+                }
+                else
+                {
+                    bounceDamageMod += 1.5f;
+                }
+
                 bounceDamageMod = Math.Clamp(bounceDamageMod, 1, bounceDamageModMax);
                 Projectile.damage = (int)(baseDamage * bounceDamageMod);
             }
@@ -91,6 +125,22 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             if (maxBounces == 0)
             {
                 Projectile.Kill();
+            }
+
+            if (bounceTimestamp == -1 || timeSpentAlive - bounceTimestamp > 30)
+            {
+                bounceTimestamp = timeSpentAlive;
+
+                for (int i = 0; i < 15; i++)
+                {
+                    var d = Dust.NewDustPerfect(
+                        Position: Projectile.Center,
+                        Type: DustID.RainbowTorch,
+                        Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                        newColor: CurrentColor,
+                        Scale: 1f);
+                    d.noGravity = true;
+                }
             }
 
             return false;

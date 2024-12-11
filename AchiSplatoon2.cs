@@ -7,7 +7,7 @@ namespace AchiSplatoon2
     enum PacketHandlerType : byte
     {
         Generic,
-        Player
+        ModPlayer
     }
 
     // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
@@ -22,7 +22,7 @@ namespace AchiSplatoon2
                     Logger.Info("Received generic packet, handling it via GenericPacketHandler...");
                     new GenericPacketHandler(reader, whoAmI, this.Logger).HandlePacket();
                     break;
-                case (int)PacketHandlerType.Player:
+                case (int)PacketHandlerType.ModPlayer:
                     Logger.Info("Received player-related packet, handling it via ModPlayerPacketHandler...");
                     new ModPlayerPacketHandler(reader, whoAmI, this.Logger).HandlePacket();
                     break;

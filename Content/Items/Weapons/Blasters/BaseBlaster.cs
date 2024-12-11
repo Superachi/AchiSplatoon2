@@ -1,19 +1,24 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class BaseBlaster : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Blaster;
+        public override float InkCost { get => 8f; }
+        public override float InkRecoveryDelay { get => 20f; }
+
         // Audio
-        public override string ShootSample { get => "BlasterFire"; }
-        public virtual string ExplosionBigSample { get => "BlasterExplosion"; }
-        public virtual string ExplosionSmallSample { get => "BlasterExplosionLight"; }
+        public override SoundStyle ShootSample { get => SoundPaths.BlasterFire.ToSoundStyle(); }
+        public virtual SoundStyle ExplosionBigSample { get => SoundPaths.BlasterExplosion.ToSoundStyle(); }
+        public virtual SoundStyle ExplosionSmallSample { get => SoundPaths.BlasterExplosionLight.ToSoundStyle(); }
 
         // Explosion radius and delay
         public virtual int ExplosionRadiusAir { get => 100; }
-        public virtual int ExplosionRadiusTile { get => 50; }
         public virtual float ExplosionDelayInit { get => 5f; }
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
@@ -21,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
                 singleShotTime: 15,
                 shotVelocity: 4f);
 

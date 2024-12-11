@@ -8,31 +8,32 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float AimDeviation { get => 8f; }
 
+        // Brush-specific properties
+        public override float ShotVelocity => 6f;
+        public override float BaseWeaponUseTime => 25f;
+        public override int SwingArc => 120;
+        public override float RollMoveSpeedBonus => 1.4f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 8;
-            Item.knockBack = 2f;
-            Item.shootSpeed = 6f;
+            SetItemUseTime();
 
-            Item.useTime = 18;
-            Item.useAnimation = Item.useTime;
+            Item.damage = 8;
+            Item.knockBack = 1f;
+            Item.shootSpeed = 4f;
 
             Item.width = 58;
             Item.height = 58;
 
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
+
+            // Note: hide this stat from the player-- the Order Brush shouldn't be seen as a swapout for high-def enemies
+            Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddRecipeGroup("IronBar", 5);
-            recipe.AddIngredient(ItemID.Gel, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeOrder();
 
         public override void UseAnimation(Player player)
         {

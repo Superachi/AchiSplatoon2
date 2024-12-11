@@ -2,7 +2,6 @@
 using AchiSplatoon2.Helpers;
 using System;
 using Terraria;
-using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
@@ -23,17 +22,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasSteelCoil = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.Register();
         }
     }
 }

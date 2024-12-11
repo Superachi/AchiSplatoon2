@@ -12,16 +12,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 140;
+            Item.damage = 100;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

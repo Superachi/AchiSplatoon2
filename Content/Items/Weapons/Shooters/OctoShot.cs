@@ -7,6 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class OctoShot : Splattershot
     {
+        public override float AimDeviation { get => 4f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
 
@@ -16,21 +17,26 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
             Item.useTime = 6;
             Item.useAnimation = Item.useTime;
-            Item.damage = 70;
-            Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 30);
+            Item.damage = 36;
+            Item.knockBack = 4f;
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
+        }
+
+        protected Recipe CraftingReqs()
+        {
+            var recipe = AddRecipeWithSheldonLicenseSilver(false)
+                .AddIngredient(ModContent.ItemType<TentatekSplattershot>())
+                .AddIngredient(ItemID.HallowedBar, 8);
+
+            return recipe;
         }
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ModContent.ItemType<TentatekSplattershot>());
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.BlackInk);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+            Recipe recipe = CraftingReqs()
+                .AddIngredient(ItemID.BlackDye)
+                .Register();
         }
     }
 }

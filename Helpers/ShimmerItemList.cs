@@ -2,13 +2,15 @@
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria.ModLoader;
@@ -19,15 +21,7 @@ namespace AchiSplatoon2.Helpers
     {
         public static Dictionary<int, int> ShimmerItemDictionary = new Dictionary<int, int> {
             // Regular Mains
-            { ModContent.ItemType<Blaster>(),               ModContent.ItemType<RapidBlaster>() },
-            { ModContent.ItemType<ReefluxStringer>(),       ModContent.ItemType<TriStringer>() },
             { ModContent.ItemType<SplooshOMatic>(),         ModContent.ItemType<SplashOMatic>() },
-
-            // Subs
-            { ModContent.ItemType<SplatBomb>(),             ModContent.ItemType<BurstBomb>() },
-            { ModContent.ItemType<BurstBomb>(),             ModContent.ItemType<AngleShooter>() },
-            { ModContent.ItemType<AngleShooter>(),          ModContent.ItemType<Sprinkler>() },
-            { ModContent.ItemType<Sprinkler>(),             ModContent.ItemType<SplatBomb>() },
 
             // Specials
             { ModContent.ItemType<TrizookaSpecial>(),       ModContent.ItemType<KillerWail>() },
@@ -36,8 +30,10 @@ namespace AchiSplatoon2.Helpers
 
             // Cobalt <-> Palladium
             { ModContent.ItemType<ZinkMiniSplatling>(),     ModContent.ItemType<InkbrushNouveau>() },
+            { ModContent.ItemType<KrakonSplatRoller>(),     ModContent.ItemType<CarbonRollerDeco>() },
 
             // Mythril <-> Orichalcum
+            { ModContent.ItemType<DarkTetraDualie>(),       ModContent.ItemType<DappleDualie>() },
             { ModContent.ItemType<Octobrush>(),             ModContent.ItemType<RoyalHeavySplatling>() },
             { ModContent.ItemType<ReefluxDecoStringer>(),   ModContent.ItemType<TriStringerInkline>() },
             { ModContent.ItemType<BambooMk2Charger>(),      ModContent.ItemType<ZFSplatCharger>() },
@@ -45,6 +41,12 @@ namespace AchiSplatoon2.Helpers
 
             // Adamantite <-> Titanium
             { ModContent.ItemType<RapidBlasterDeco>(),      ModContent.ItemType<RangeBlaster>() },
+            { ModContent.ItemType<UndercoverBrella>(),      ModContent.ItemType<SorellaSplatBrella>() },
+            { ModContent.ItemType<GloogaDualie>(),          ModContent.ItemType<DouserDualie>() },
+            { ModContent.ItemType<H3Nozzlenose>(),          ModContent.ItemType<L3Nozzlenose>() },
+
+            // Reskins
+            { ModContent.ItemType<ClassicSplattershotS1>(), ModContent.ItemType<ClassicSplattershotS2>() },
 
             // Accessories
             { ModContent.ItemType<SpecialChargeEmblem>(),   ModContent.ItemType<SpecialPowerEmblem>() },

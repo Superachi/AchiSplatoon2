@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<!-- Import tModLoader mod properties -->
 	<Import Project="..\tModLoader.targets" />
@@ -6,33 +6,87 @@
 	<!-- General -->
 	<PropertyGroup>
 		
+	<Nullable>enable</Nullable>
+		
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Content\Dusts\BlasterExplosionDust.png" />
-	  <None Remove="Content\Dusts\BlasterTrailDust.png" />
-	  <None Remove="Content\Dusts\SlosherProjectileDust.png" />
+	  <None Remove="Content\Dusts\BaseDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
+	  <None Remove="Content\Dusts\SplatterBulletLastingDust.png" />
+	  <None Remove="Content\Dusts\VortexDualieDust.png" />
 	  <None Remove="Content\Items\BaseItem.png" />
 	  <None Remove="Content\Items\Weapons\Bows\GrizzcoStringer.png" />
 	  <None Remove="Content\Items\Weapons\Bows\ReefluxStringer.png" />
+	  <None Remove="Content\Items\Weapons\Brushes\PainBrush.png" />
+	  <None Remove="Content\Items\Weapons\Dualies\SplatDualie.png" />
+	  <None Remove="Content\Items\Weapons\Sloshers\TriSlosher.png" />
+	  <None Remove="Content\Items\Weapons\Specials\TrizookaUnleashed.png" />
 	  <None Remove="Content\Items\Weapons\Specials\UltraStampNew.png" />
+	  <None Remove="Content\Items\Weapons\Test\SuperBlaster.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
+	  <None Remove="Content\Projectiles\BlasterProjectiles\BlasterExplosion.png" />
+	  <None Remove="Content\Projectiles\BlasterProjectiles\SBlastProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectileV2.png" />
+	  <None Remove="Content\Projectiles\BlastProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaPelletProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\BrellaShotgunProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\CorruptionBrellaProjectiles\CorruptionBrellaMeleeProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\CorruptionBrellaProjectiles\CorruptionBrellaPelletProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\CorruptionBrellaProjectiles\CorruptionBrellaShotgunProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\MartianBrellaMeleeProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\MartianBrellaPelletProjectile.png" />
+	  <None Remove="Content\Projectiles\BrellaProjectiles\MartianBrellaProjectiles\MartianBrellaShotgunProjectile.png" />
+	  <None Remove="Content\Projectiles\BrushProjectiles\DesertBrushProjectile.png" />
+	  <None Remove="Content\Projectiles\BrushProjectiles\SpookyBrushProjectile.png" />
+	  <None Remove="Content\Projectiles\ChargerProjectiles\ChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerBlast.png" />
+	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerProjectile.png" />
+	  <None Remove="Content\Projectiles\Debug\NetcodeInspectorProjectile.png" />
 	  <None Remove="Content\Projectiles\Dot52GalProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\DualieRollProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\DualieShotProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\GrizzcoDualieBlastProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\PainterDualieShotProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\VortexDualieRollProjectile.png" />
+	  <None Remove="Content\Projectiles\DualieProjectiles\VortexDualieShotProjectile.png" />
 	  <None Remove="Content\Projectiles\GrizzcoChargerProjectile.png" />
-	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
-	  <None Remove="Content\Projectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
+	  <None Remove="Content\Projectiles\HudProjectile.png" />
+	  <None Remove="Content\Projectiles\Minions\PearlDrone\PearlDroneBurstBomb.png" />
+	  <None Remove="Content\Projectiles\Minions\PearlDrone\PearlDroneLaserProjectile.png" />
+	  <None Remove="Content\Projectiles\Minions\PearlDrone\PearlDroneSprinklerProjectile.png" />
+	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
+	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />
+	  <None Remove="Content\Projectiles\RollerProjectiles\RollerInkProjectile.png" />
+	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\CarbonRollerSwingProjectile.png" />
+	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaDynamoRollerSwingProjectile.png" />
+	  <None Remove="Content\Projectiles\RollerProjectiles\SwingProjectiles\KensaSplatRollerSwingProjectile.png" />
+	  <None Remove="Content\Projectiles\ShooterProjectiles\Dot52GalProjectile - Copy.png" />
+	  <None Remove="Content\Projectiles\SlosherProjectiles\BloblobberMainProjectile.png" />
+	  <None Remove="Content\Projectiles\SlosherProjectiles\ExplosherProjectile.png" />
+	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherChildProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherMainProjectile.png" />
+	  <None Remove="Content\Projectiles\SpecialChargeProjectile.png" />
+	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaBlast.png" />
+	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaHeldProjectile.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\TrizookaShooter.png" />
 	  <None Remove="Content\Projectiles\SpecialProjectiles\UltraStampProjectile.png" />
+	  <None Remove="Content\Projectiles\SplatanaProjectiles\SplatanaChargeProjectile.png" />
+	  <None Remove="Content\Projectiles\SplatanaProjectiles\SplatanaWeakSlashProjectile.png" />
 	  <None Remove="Content\Projectiles\SplatChargerProjectile - Copy.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingCharge.png" />
 	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\HeavySplatlingProjectile.png" />
-	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerCharge - Copy.png" />
+	  <None Remove="Content\Projectiles\SplatlingProjectiles\Charges\SnipewriterCharge.png" />
+	  <None Remove="Content\Projectiles\SplatlingProjectiles\SnipewriterProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\CoralStringerCharge.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\CoralStringerProjectile.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerCharge.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\NebulaStringerProjectile.png" />
 	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectile.png" />
-	  <None Remove="Content\Projectiles\StringerProjectiles\TriStringerProjectileWeak.png" />
+	  <None Remove="Content\Projectiles\StringerProjectiles\WellstringCharge.png" />
+	  <None Remove="Content\Projectiles\ThrowingProjectiles\InkMineProjectile.png" />
+	  <None Remove="Content\Projectiles\ThrowingProjectiles\TorpedoProjectile.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Content\UI\Elements\" />

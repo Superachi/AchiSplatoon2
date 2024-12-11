@@ -5,10 +5,8 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {
     internal class FreshQuiverBlast : BaseProjectile
     {
-        protected override bool EnablePierceDamageFalloff { get => false; }
-
         protected string explosionSample = "BlasterExplosion";
-        private int baseRadius = 150;
+        private readonly int baseRadius = 150;
         private bool hasExploded = false;
 
         public override void SetDefaults()
@@ -16,11 +14,13 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 6;
             Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
+            enablePierceDamagefalloff = false;
             Projectile.CritChance = 100;
 
             if (IsThisClientTheProjectileOwner())
@@ -38,6 +38,8 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             modifiers.Knockback *= 2;
+            modifiers.HitDirectionOverride = GetOwner().direction;
+            base.ModifyHitNPC(target, ref modifiers);
         }
     }
 }

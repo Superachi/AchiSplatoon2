@@ -1,44 +1,58 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using System.IO;
 using Terraria;
-using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
     internal class BaseBombProjectile : BaseProjectile
     {
         protected override bool FallThroughPlatforms => false;
-        protected override bool EnablePierceDamageFalloff { get => false; }
+
         protected bool hasExploded = false;
         protected int explosionRadius;
         protected int finalExplosionRadius;
 
-        protected float airFriction = 0.995f;
-        protected float terminalVelocity = 10f;
+        protected int fallTimer = 0;
+        protected int delayUntilFall = 15;
+        protected float fallSpeed = 0.5f;
+        protected bool canFall = false;
 
-        protected Color glowColor;
+        protected float airFriction = 0.995f;
+        protected float terminalVelocity = 20f;
+
         protected float brightness = 0.002f;
         protected float drawScale = 1f;
 
-        public override void AfterSpawn()
-        {
-            Initialize();
-            PlayAudio("Throwables/SplatBombThrow");
-            glowColor = GenerateInkColor();
+        protected SlotId? throwAudio = null;
 
-            BaseBomb weaponData = (BaseBomb)weaponSource;
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseBomb;
+
             explosionRadius = weaponData.ExplosionRadius;
-            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        protected override void AfterSpawn()
         {
-            if (Main.expertMode)
+            Initialize();
+            ApplyWeaponInstanceData();
+            finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
+            enablePierceDamagefalloff = false;
+
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
+
+            if (IsThisClientTheProjectileOwner())
             {
-                if (target.type >= NPCID.EaterofWorldsHead && target.type <= NPCID.EaterofWorldsTail)
-                {
-                    modifiers.FinalDamage /= 3;
-                }
+                float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
+                float velocityMod = MathHelper.Clamp(distance / 250f, 0.4f, 1.2f);
+                Projectile.velocity *= velocityMod;
+                NetUpdate(ProjNetUpdateType.SyncMovement);
             }
         }
 
@@ -48,20 +62,40 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.alpha = 255;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
+            Projectile.position -= Projectile.velocity;
             Projectile.velocity = Vector2.Zero;
-            EmitBurstDust(dustMaxVelocity: 25, amount: 20, minScale: 1.5f, maxScale: 3, radiusModifier: finalExplosionRadius);
-            StopAudio("Throwables/SplatBombFuse");
-            PlayAudio("Throwables/SplatBombDetonate", volume: 0.6f, pitchVariance: 0.2f, maxInstances: 5);
+
+            var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 2f, _maxScale: 4f, _radiusModifier: finalExplosionRadius);
+            var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
+            CreateExplosionVisual(e, a);
+
+            SoundHelper.StopSoundIfActive(throwAudio);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             if (!hasExploded)
             {
-                DrawProjectile(glowColor, Projectile.rotation, drawScale, false);
+                DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.5f);
                 return false;
             }
             return true;
+        }
+
+        protected void readSpawnVelocity(BinaryReader reader)
+        {
+            Projectile.velocity = reader.ReadVector2();
+        }
+
+        protected override void NetSendInitialize(BinaryWriter writer)
+        {
+            writer.WriteVector2(Projectile.velocity);
+        }
+
+        protected override void NetReceiveInitialize(BinaryReader reader)
+        {
+            base.NetReceiveInitialize(reader);
+            readSpawnVelocity(reader);
         }
     }
 }

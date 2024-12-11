@@ -6,23 +6,22 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class OctobrushNouveau : Octobrush
     {
+        protected override int ArmorPierce => 15;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 36;
-            Item.knockBack = 5;
-            Item.scale = 2.0f;
+            Item.damage = 26;
+            Item.knockBack = 6;
+            Item.scale = 1.5f;
 
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.MythrilBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMythril();
     }
 }

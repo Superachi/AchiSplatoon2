@@ -1,16 +1,22 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class BaseSplattershot : BaseWeapon
     {
+        public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Shooter;
+        public override float InkCost { get => 1f; }
+        public override float InkRecoveryDelay { get => 12f; }
+
         public virtual float ShotGravity { get => 0.1f; }
         public virtual int ShotGravityDelay { get => 0; }
         public virtual int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 6f; }
-        public override string ShootSample { get => "SplattershotShoot"; }
+        public override SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
         public override float MuzzleOffsetPx { get; set; } = 44f;
 

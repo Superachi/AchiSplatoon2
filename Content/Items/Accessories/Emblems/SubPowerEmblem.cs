@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                var accMP = player.GetModPlayer<AccessoryPlayer>();
                 if (accMP.hasAgentCloak) return;
                 accMP.hasSubPowerEmblem = true;
                 accMP.subPowerMultiplier += addValue;

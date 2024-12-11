@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
@@ -21,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             Item.width = 28;
             Item.height = 28;
             Item.value = Item.buyPrice(silver: 25);
-            Item.rare = ItemRarityID.Blue;
+            Item.rare = ItemRarityID.Green;
             Item.maxStack = 8;
         }
 
@@ -29,71 +30,95 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         public override void UpdateInventory(Player player)
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
+            var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
 
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Red] += RedValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Blue] += BlueValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Yellow] += YellowValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Purple] += PurpleValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Green] += GreenValue * this.Item.stack;
-            modPlayer.ColorChipAmounts[(int)InkWeaponPlayer.ChipColor.Aqua] += AquaValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Red] += RedValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Blue] += BlueValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Yellow] += YellowValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Purple] += PurpleValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Green] += GreenValue * this.Item.stack;
+            modPlayer.ColorChipAmounts[(int)ChipColor.Aqua] += AquaValue * this.Item.stack;
         }
 
-        private string StatIncreaseDisplayString(string textColor, string stat, string amount)
+        private void StatIncreaseDisplayString(List<TooltipLine> tooltips, string tooltipName, string stat, string amount)
         {
-            return $"[{textColor}:Increases {stat} by {amount} per chip]";
+            stat = ColorHelper.TextWithFunctionalColor(stat);
+            amount = ColorHelper.TextWithFunctionalColor(amount);
+            var @string = $"Increases {stat} by {amount} per chip";
+
+            var newTooltip = new TooltipLine(Mod, tooltipName, @string);
+            tooltips.Add(newTooltip);
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            var modPlayer = Main.LocalPlayer.GetModPlayer<InkWeaponPlayer>();
-            int index = tooltips.FindIndex(l => l.Name == "ItemName");
-            if (index != -1)
+            Player player = Main.LocalPlayer;
+            if (Main.LocalPlayer == null)
             {
-                var t = tooltips[index];
-                t.Text = $"{Item.Name}";
-
-                var textColor = "c/ffffff";
-
-                t.Text += $"\n[c/ff8e2c:Effect when active:]\n";
-                if (RedValue > 0)
-                {
-                    t.Text += StatIncreaseDisplayString(textColor, "weapon damage", modPlayer.RedChipBaseAttackDamageBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "armor penetration", modPlayer.RedChipBaseArmorPierceBonusDisplay);
-                }
-                else if (BlueValue > 0)
-                {
-                    t.Text += StatIncreaseDisplayString(textColor, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "special charge up while moving", modPlayer.BlueChipBaseChargeBonusDisplay);
-                }
-                else if (YellowValue > 0)
-                {
-                    t.Text += StatIncreaseDisplayString(textColor, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "projectile piercing", modPlayer.YellowChipPiercingBonusDisplay);
-                }
-                else if (PurpleValue > 0)
-                {
-                    t.Text += StatIncreaseDisplayString(textColor, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
-                    t.Text += "\n" + StatIncreaseDisplayString(textColor, "knockback", modPlayer.PurpleChipBaseKnockbackBonusDisplay);
-                }
-                else if (GreenValue > 0)
-                {
-                    t.Text += StatIncreaseDisplayString(textColor, "critical strike chance", modPlayer.GreenChipBaseCritBonusDisplay);
-                }
-                else if (AquaValue > 0)
-                {
-                    //
-                }
-
-                if (!modPlayer.isPaletteEquipped)
-                {
-                    t.Text += $"\n[c/ed3a4a:Currently inactive. Requires a Color Palette accessory to activate!]";
-                }
-                else if (modPlayer.DoesPlayerHaveTooManyChips())
-                {
-                    t.Text += $"\n[c/ed3a4a:You are carrying too many Color Chips, so the listed effect is disabled.]";
-                }
+                return;
             }
+
+            var modPlayer = player.GetModPlayer<ColorChipPlayer>();
+
+            var statModifierA = "statModifierA";
+            var statModifierB = "statModifierA";
+
+            if (!modPlayer.isPaletteEquipped)
+            {
+                var newTooltip = new TooltipLine(Mod, statModifierB, ColorHelper.TextWithErrorColor("Currently inactive. Requires an equipped Color Palette to activate!"));
+                tooltips.Add(newTooltip);
+
+                return;
+            }
+            else if (modPlayer.DoesPlayerHaveTooManyChips())
+            {
+                var newTooltip = new TooltipLine(Mod, statModifierB, ColorHelper.TextWithErrorColor("You are carrying too many Color Chips, so the listed effect is disabled."));
+                tooltips.Add(newTooltip);
+            }
+
+            if (RedValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "weapon damage", modPlayer.RedChipBaseAttackDamageBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "armor penetration", modPlayer.RedChipBaseArmorPierceBonusDisplay);
+            }
+            else if (BlueValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "special charge up while moving", modPlayer.BlueChipBaseChargeBonusDisplay);
+            }
+            else if (YellowValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "explosion radius", modPlayer.YellowChipExplosionRadiusBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "shot velocity & accuracy", modPlayer.YellowChipVelocityBonusDisplay);
+            }
+            else if (PurpleValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "weapon charge up speed", modPlayer.PurpleChipBaseChargeSpeedBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "splat ink recovery", modPlayer.PurpleSplatInkRecoveryBonusDisplay);
+            }
+            else if (GreenValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "enemy lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
+                var newTooltip = new TooltipLine(Mod, statModifierB, "Per chip, enemies are more likely to drop sub weapons, canned specials and life/mana pickups");
+                tooltips.Add(newTooltip);
+            }
+            else if (AquaValue > 0)
+            {
+                StatIncreaseDisplayString(tooltips, statModifierA, "Pearl Drone's attack speed", modPlayer.AquaChipBaseAttackCooldownReductionDisplay);
+
+                var newTooltip = new TooltipLine(Mod, statModifierB, "As you equip more chips, Pearl Drone unlocks new abilities");
+                tooltips.Add(newTooltip);
+            }
+        }
+
+        protected Recipe ColorChipRecipe(int dyeItemId, int gemItemId)
+        {
+            return CreateRecipe()
+                .AddIngredient(ModContent.ItemType<ColorChipEmpty>())
+                .AddIngredient(dyeItemId)
+                .AddIngredient(gemItemId)
+                .AddIngredient(ItemID.MeteoriteBar)
+                .AddTile(TileID.Bottles);
         }
     }
 }

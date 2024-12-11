@@ -8,19 +8,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 26;
+            Item.damage = 20;
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 2;
             Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseBasic(registerNow: false);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }

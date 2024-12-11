@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
     {
         public static float specialChargeMultiplier = 0.5f;
         public static float subPowerMultiplier = 1f;
-        public static float specialPowerMultiplier = 1f;
+        public static float specialPowerMultiplier = 2f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
             (int)(subPowerMultiplier * 100),
             (int)(specialPowerMultiplier * 100),
@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var accMP = player.GetModPlayer<InkAccessoryPlayer>();
+                var accMP = player.GetModPlayer<AccessoryPlayer>();
                 accMP.hasAgentCloak = true;
                 accMP.specialChargeMultiplier += specialChargeMultiplier;
                 accMP.subPowerMultiplier += subPowerMultiplier;
@@ -42,29 +42,29 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.StarCloak, 1);
-            recipe.AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1);
-            recipe.AddIngredient(ItemID.SoulofSight, 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 1);
-            recipe.AddIngredient(ItemID.SoulofFright, 1);
-            recipe.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
 
-            Recipe recipeB = CreateRecipe();
-            recipeB.AddIngredient(ItemID.StarCloak, 1);
-            recipeB.AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1);
-            recipeB.AddIngredient(ItemID.SoulofSight, 1);
-            recipeB.AddIngredient(ItemID.SoulofMight, 1);
-            recipeB.AddIngredient(ItemID.SoulofFright, 1);
-            recipeB.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
 
-            Recipe recipeC = CreateRecipe();
-            recipeC.AddIngredient(ItemID.StarCloak, 1);
-            recipeC.AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1);
-            recipeC.AddIngredient(ItemID.SoulofSight, 1);
-            recipeC.AddIngredient(ItemID.SoulofMight, 1);
-            recipeC.AddIngredient(ItemID.SoulofFright, 1);
-            recipeC.Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1)
+                .AddIngredient(ItemID.SoulofSight, 1)
+                .AddIngredient(ItemID.SoulofMight, 1)
+                .AddIngredient(ItemID.SoulofFright, 1)
+                .Register();
         }
     }
 }

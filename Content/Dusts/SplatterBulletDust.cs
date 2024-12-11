@@ -1,34 +1,49 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Dusts.CustomDataObjects;
+using Terraria;
 
 namespace AchiSplatoon2.Content.Dusts
 {
-    internal class SplatterBulletDust : ModDust
+    internal class SplatterBulletDust : BaseDust
     {
-        public virtual float ScaleSpeed { get; set; } = -0.05f;
-        public override void OnSpawn(Dust dust)
+        public override void AfterSpawn(Dust dust)
         {
-            dust.noLight = false;
-
-            var random = Main.rand.NextFloat(-1, 1);
-            dust.velocity.X += random;
-            dust.velocity.Y += random;
+            defaultScaleSpeed = -1f;
+            // dust.velocity += Main.rand.NextVector2Circular(1, 1);
         }
 
-        public override bool Update(Dust dust)
+        public override void CustomUpdate(Dust dust)
         {
-            dust.position += dust.velocity;
-            dust.scale += ScaleSpeed;
+            var customData = dust.customData;
+            
+            if (customData is BaseDustData data)
+            {
+                if (data.emitLight)
+                {
+                    float light = 0.001f * dust.scale;
+                    Lighting.AddLight(dust.position, (dust.color.R * 0.5f * light), (dust.color.G * 0.5f * light), (dust.color.B * 0.5f * light));
+                }
+
+                if (data.gravity != 0)
+                {
+                    dust.velocity.Y += data.gravity;
+                }
+
+                dust.scale += data.scaleIncrement;
+                dust.velocity *= data.frictionMult;
+            }
+            else
+            {
+                dust.scale += defaultScaleSpeed;
+            }
+
             dust.alpha -= (int)(dust.scale * 255);
 
-            float light = 0.002f * dust.scale;
-            Lighting.AddLight(dust.position, (dust.color.R * 0.5f * light), (dust.color.G * 0.5f * light), (dust.color.B * 0.5f * light));
-
-            if (dust.scale < 0.1f)
+            if (dust.scale < 0.01f)
             {
                 dust.active = false;
             }
-            return false;
+
+            return;
         }
     }
 }

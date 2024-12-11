@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +13,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
     {
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 240; }
-        public override int ExplosionRadiusTile { get => 160; }
         public override float ExplosionDelayInit { get => 15f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-12, -2); }
@@ -24,22 +23,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<BlasterProjectileV2>(),
-                singleShotTime: 60,
+                projectileType: ModContent.ProjectileType<BlasterProjectile>(),
+                singleShotTime: 58,
                 shotVelocity: 9f);
 
-            Item.damage = 300;
+            Item.damage = 160;
             Item.width = 64;
             Item.height = 34;
+            Item.knockBack = 6;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void AddRecipes()
-        {
-            var recipe = AddRecipeWithSheldonLicenseSilver(registerNow: false);
-            recipe.AddIngredient(ItemID.TitaniumBar, 5);
-            recipe.Register();
-        }
+        public override void AddRecipes() => AddRecipeTitanium();
     }
 }

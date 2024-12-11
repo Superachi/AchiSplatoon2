@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -26,10 +27,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
-            PlayAudio("Specials/KillerWailSpawn", volume: 0.5f, pitchVariance: 0f, maxInstances: 3);
+            PlayAudio(SoundPaths.KillerWailSpawn.ToSoundStyle(), volume: 0.5f, pitchVariance: 0f, maxInstances: 3);
         }
 
         protected float Timer
@@ -52,10 +53,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 case statePreFire:
                     Projectile.velocity = Vector2.Zero;
                     firePosition = Projectile.position;
-                    PlayAudio("Specials/KillerWailCharge", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+                    PlayAudio(SoundPaths.KillerWailCharge.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
                     break;
                 case stateFiring:
-                    PlayAudio("Specials/KillerWailFire", volume: 0.6f, pitchVariance: 0.1f, maxInstances: 3);
+                    PlayAudio(SoundPaths.KillerWailFire.ToSoundStyle(), volume: 0.6f, pitchVariance: 0.1f, maxInstances: 3);
                     break;
                 case stateStop:
                     Projectile.scale = 1;
@@ -129,7 +130,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                                 damage: Projectile.damage,
                                 false);
                             p.Projectile.knockBack = Projectile.knockBack * knockbackMult;
-                            p.AfterSpawn();
+                            p.RunSpawnMethods();
 
                             PlayAudio(SoundID.Item73, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.4f);
                         }
@@ -158,10 +159,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 }
             }
         }
-        public override void OnKill(int timeLeft)
+        protected override void AfterKill(int timeLeft)
         {
             EmitBurstDust(20, 15, 1, 2);
-            PlayAudio("Specials/KillerWailDespawn", volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
+            PlayAudio(SoundPaths.KillerWailDespawn.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, maxInstances: 3);
         }
     }
 }

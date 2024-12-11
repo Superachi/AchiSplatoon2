@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 
@@ -6,6 +7,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
 {
     internal class CannedSpecial : BaseItem
     {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.IgnoresEncumberingStone[Item.type] = true;
+        }
+
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -18,17 +24,29 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(gold: 1);
         }
 
         public override bool? UseItem(Player player)
         {
-            if (player.whoAmI == Main.myPlayer)
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkWeaponPlayer>();
-                modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
+
                 return true;
             }
+
+            return false;
+        }
+
+        public override bool OnPickup(Player player)
+        {
+            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
+            {
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
+            }
+
             return false;
         }
     }

@@ -1,10 +1,10 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,11 +13,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 {
     internal class HeavySplatlingProjectile : BaseProjectile
     {
-        private float delayUntilFall = 20f;
+        private int delayUntilFall = 20;
         private float fallSpeed = 0.1f;
 
+        public bool chargedShot = false;
         private bool firedWithCrayonBox = false;
         private bool countedForBurst = false;
+
+        private float pitch = 0f;
 
         public override void SetDefaults()
         {
@@ -31,35 +34,71 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
+        {
+            base.ApplyWeaponInstanceData();
+
+            var weapon = (BaseSplatling)WeaponInstance;
+            shootSample = weapon.ShootSample;
+
+            if (weapon is HydraSplatling)
+            {
+                pitch = -0.5f;
+
+                if (chargedShot)
+                {
+                    GameFeelHelper.ShakeScreenNearPlayer(GetOwner(), localOnly: true, strength: 1, duration: 5);
+                }
+            }
+        }
+
+        protected override void AfterSpawn()
         {
             Initialize();
+            ApplyWeaponInstanceData();
             PlayShootSound();
-            firedWithCrayonBox = GetOwner().GetModPlayer<InkAccessoryPlayer>().hasCrayonBox;
+            firedWithCrayonBox = GetOwner().GetModPlayer<AccessoryPlayer>().hasCrayonBox;
+        }
+
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.3f;
+            }
+
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 2;
+            fallSpeed *= 0.1f;
+            delayUntilFall *= 2;
+        }
+
+        protected override void CreateDustOnSpawn()
+        {
+            ProjectileDustHelper.ShooterSpawnVisual(this);
         }
 
         public override void AI()
         {
-            Projectile.ai[0] += 1f;
-
-            // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += fallSpeed;
-
-                if (Projectile.velocity.Y >= 0)
-                {
-                    Projectile.velocity.X *= 0.98f;
-                }
             }
 
-            Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-            for (int i = 0; i < 3; i++)
+            DustHelper.NewSplatterBulletDust(
+                position: Projectile.Center,
+                velocity: Projectile.velocity / 4,
+                color: CurrentColor,
+                scale: 1.4f
+            );
+
+            if (Main.rand.NextBool(20))
             {
-                // Vector2 spawnPosition = Projectile.oldPosition != Vector2.Zero ? Vector2.Lerp(Projectile.position, Projectile.oldPosition, Main.rand.NextFloat()) : Projectile.position;
-                var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                dust.alpha = 64;
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 4,
+                    color: CurrentColor,
+                    scale: 1f);
             }
         }
 
@@ -91,9 +130,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             }
         }
 
-        private void PlayShootSound()
+        protected override void PlayShootSound()
         {
-            PlayAudio("SplatlingShoot", volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3, pitch: pitch);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -104,13 +143,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 ResetCrayonBoxCombo("Miss! ");
             }
 
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = (Projectile.velocity.X + random) * -0.5f;
-                float velY = (Projectile.velocity.Y + random) * -0.5f;
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 
@@ -154,17 +187,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             base.ModifyHitNPC(target, ref modifiers);
         }
 
-        // Netcode
-        protected override void NetSendInitialize(BinaryWriter writer)
+        protected override void CreateDustOnDespawn()
         {
-            writer.WriteVector2(Projectile.velocity);
-        }
-        protected override void NetReceiveInitialize(BinaryReader reader)
-        {
-            base.NetReceiveInitialize(reader);
-            Projectile.velocity = reader.ReadVector2();
-
-            PlayShootSound();
+            if (!IsThisClientTheProjectileOwner())
+            {
+                Projectile.position += Projectile.velocity;
+                ProjectileDustHelper.ShooterTileCollideVisual(this);
+            }
         }
     }
 }

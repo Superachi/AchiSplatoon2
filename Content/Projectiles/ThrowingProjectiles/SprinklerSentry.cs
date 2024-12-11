@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,15 +10,18 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class SprinklerSentry : BaseBombProjectile
     {
         private Vector2 lockedPosition;
-        private float previousVelocityX;
-        private float previousVelocityY;
+        private readonly float previousVelocityX;
+        private readonly float previousVelocityY;
         private float prevX;
         private float prevY;
         private float prevXdiff;
         private float prevYdiff;
 
+        private float xFacing = 0;
+        private float yFacing = 0;
+
         private bool hasCollided = false;
-        private bool sticking = false;
+        private readonly bool sticking = false;
         private bool isStickingVertically;
         private bool fallback = false;
         private Vector2 stickingDirection = new Vector2(0, 0);
@@ -38,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 10;
+            Projectile.extraUpdates = 12;
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.penetrate = -1;
@@ -67,17 +72,39 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
-        public override void AfterSpawn()
+        protected override void AfterSpawn()
         {
             Initialize();
+
             terminalVelocity = terminalVelocity / FrameSpeed();
             airFriction = 0.999f;
+
+            throwAudio = PlayAudio(SoundPaths.SplatBombThrow.ToSoundStyle());
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                float distance = Vector2.Distance(Main.LocalPlayer.Center, Main.MouseWorld);
+                float velocityMod = MathHelper.Clamp(distance / 250f, 0.4f, 1.2f);
+                Projectile.velocity *= velocityMod;
+                NetUpdate(ProjNetUpdateType.SyncMovement);
+            }
+        }
+
+        protected override void SetState(int targetState)
+        {
+            base.SetState(targetState);
+            switch (state)
+            {
+                case stateFire:
+                    DespawnOtherSprinklers();
+                    break;
+            }
         }
 
         public override void AI()
         {
             bool debug = false;
-            Lighting.AddLight(Projectile.position, glowColor.R * brightness, glowColor.G * brightness, glowColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             // Apply gravity
             if (state == stateFly || fallback)
@@ -92,7 +119,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.velocity.X = Projectile.velocity.X * airFriction;
 
                     // Rotation increased by velocity.X 
-                    Projectile.rotation += Projectile.velocity.X * 0.04f;
+                    Projectile.rotation += Projectile.velocity.X * 0.02f;
                     break;
                 case stateGetStickAxis:
                     // When sticking to a wall, we'll stop moving along one axis, but keep moving slightly along the other
@@ -102,15 +129,16 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     prevYdiff = Projectile.oldPosition.Y - prevY;
                     var xDiff = Projectile.position.X - prevX;
                     var yDiff = Projectile.position.Y - prevY;
+
                     //debugMessage(debug, $"xDiff: {xDiff}, yDiff: {yDiff}, prevXdiff: {prevXdiff}, prevYdiff: {prevYdiff}");
 
                     bool foundAxis = false;
-                    if (xDiff == prevXdiff)
+                    if (xFacing != 0)
                     {
                         foundAxis = true;
                         isStickingVertically = true;
                     }
-                    else if (yDiff == prevYdiff)
+                    else if (yFacing != 0)
                     {
                         foundAxis = true;
                         isStickingVertically = false;
@@ -140,19 +168,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     {
                         if (isStickingVertically)
                         {
-                            if (prevXdiff < 0)
-                            {
-                                stickingDirection = new Vector2(-1, 0);
-                            }
-                            else
-                            {
-                                stickingDirection = new Vector2(1, 0);
-                            }
+                            stickingDirection = new Vector2(Math.Sign(xFacing), 0);
                         }
                         else
                         {
-                            fallback = true;
-                            stickingDirection = new Vector2(0, 1);
+                            stickingDirection = new Vector2(0, Math.Sign(yFacing));
                         }
                     }
 
@@ -165,8 +185,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                     Projectile.position.Y = prevY;
                     Projectile.netUpdate = true;
 
-                    StopAudio("Throwables/SplatBombThrow");
-                    PlayAudio("Throwables/SprinklerDeployNew", volume: 0.3f, pitchVariance: 0.2f);
+                    SoundHelper.StopSoundIfActive(throwAudio);
+                    PlayAudio(SoundPaths.SprinklerDeployNew.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.2f);
                     Timer = 30 * FrameSpeed();
                     AdvanceState();
                     break;
@@ -220,6 +240,58 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             }
         }
 
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (state == stateFly)
+            {
+                // If the projectile hits the left or right side of the tile, reverse the X velocity
+                if (Math.Abs(Projectile.velocity.X - oldVelocity.X) > float.Epsilon)
+                {
+                    xFacing = oldVelocity.X;
+                }
+
+                // If the projectile hits the top or bottom side of the tile, reverse the Y velocity
+                if (xFacing == 0 && Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
+                {
+                    yFacing = oldVelocity.Y;
+                }
+
+                // Set the previous position as we collide with a wall
+                prevX = Projectile.position.X;
+                prevY = Projectile.position.Y;
+                hasCollided = true;
+
+                Timer = 2 * FrameSpeed();
+                AdvanceState();
+            }
+
+            return false;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, alphaMod: 1, considerWorldLight: false, additiveAmount: 1f);
+            return false;
+        }
+
+        private void DespawnOtherSprinklers()
+        {
+            foreach (var projectile in Main.ActiveProjectiles)
+            {
+                if (projectile.ModProjectile is SprinklerSentry
+                    && projectile.identity != Projectile.identity
+                    && projectile.owner == Projectile.owner)
+                {
+                    var p = projectile.ModProjectile as SprinklerSentry;
+
+                    if (p.Projectile.timeLeft < Projectile.timeLeft)
+                    {
+                        p.state = stateShrink;
+                    }
+                }
+            }
+        }
+
         private Vector2 CalculateShotAngle(float cone, float offsetDegrees, float startingDegrees)
         {
             var sinVal = Math.Sin(MathHelper.ToRadians(offsetDegrees));
@@ -236,22 +308,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 velocity: angleVector * 9f,
                 type: ModContent.ProjectileType<SprinklerProjectile>(),
                 damage: Projectile.damage);
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (state == stateFly)
-            {
-                // Set the previous position as we collide with a wall
-                prevX = Projectile.position.X;
-                prevY = Projectile.position.Y;
-                hasCollided = true;
-
-                Timer = 2 * FrameSpeed();
-                AdvanceState();
-            }
-
-            return false;
         }
     }
 }

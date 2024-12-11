@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
-using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
@@ -19,17 +18,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<InkAccessoryPlayer>();
+                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
                 modPlayer.hasFreshQuiver = true;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            Recipe recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.MagicQuiver, 1);
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.Register();
         }
     }
 }

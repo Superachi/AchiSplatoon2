@@ -8,11 +8,11 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherMainProjectile : BaseProjectile
     {
-        private string shootSampleAlt;
         private int weaponDamage;
         private float fallDelayCount = 0;
         private float fallSpeed;
-        private float terminalVelocity = 8f;
+        private readonly float terminalVelocity = 8f;
+        private bool hasChildren = false;
 
         public override void SetDefaults()
         {
@@ -20,24 +20,30 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.aiStyle = 1;
-            Projectile.friendly = false;
+            Projectile.friendly = true;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
             AIType = ProjectileID.Bullet;
         }
 
-        public override void AfterSpawn()
+        public override void ApplyWeaponInstanceData()
         {
-            Initialize();
-
-            BaseSlosher weaponData = (BaseSlosher)weaponSource;
+            base.ApplyWeaponInstanceData();
+            var weaponData = WeaponInstance as BaseSlosher;
 
             // The slosher child projectiles should do the damage here
             weaponDamage = Projectile.damage;
 
             shootSample = weaponData.ShootSample;
-            shootSampleAlt = weaponData.ShootWeakSample;
+            shootAltSample = weaponData.ShootWeakSample;
             fallSpeed = weaponData.ShotGravity;
+        }
+
+        protected override void AfterSpawn()
+        {
+            Initialize();
+            ApplyWeaponInstanceData();
+            wormDamageReduction = true;
 
             if (Main.rand.NextBool(2))
             {
@@ -45,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
             else
             {
-                PlayAudio(shootSampleAlt, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
             }
         }
 
@@ -68,6 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
                 if (IsThisClientTheProjectileOwner())
                 {
+                    hasChildren = true;
                     CreateChildProjectile(
                         position: Projectile.Center,
                         velocity: new Vector2(childVelX, childVelY),
@@ -90,6 +97,18 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             if (Projectile.velocity.Y > terminalVelocity)
             {
                 Projectile.velocity.Y = terminalVelocity;
+            }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+
+            if (hasChildren)
+            {
+                modifiers.FinalDamage *= 0;
+                modifiers.HideCombatText();
+                Projectile.Kill();
             }
         }
     }

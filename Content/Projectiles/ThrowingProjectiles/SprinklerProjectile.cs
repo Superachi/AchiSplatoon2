@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,22 +10,34 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
     internal class SprinklerProjectile : BaseProjectile
     {
         private float delayUntilFall = 12f;
-        private float delayUntilDust = 2f;
+        private readonly float delayUntilDust = 2f;
         private float fallSpeed = 0.3f;
-        private float terminalVelocity = 12f;
+        private readonly float terminalVelocity = 20f;
 
         public override void SetDefaults()
         {
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
-            AIType = ProjectileID.Bullet;
+            Projectile.ArmorPenetration = 10;
         }
 
-        public override void AfterSpawn()
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.2f;
+            }
+
+            Projectile.extraUpdates += 4;
+            Projectile.timeLeft *= Projectile.extraUpdates;
+            fallSpeed /= Projectile.extraUpdates * 2;
+            delayUntilFall *= Projectile.extraUpdates * 2;
+        }
+
+        protected override void AfterSpawn()
         {
             Initialize();
 
@@ -45,16 +58,13 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void AI()
         {
-            Projectile.ai[0] += 1f;
-
-            // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall)
+            if (timeSpentAlive >= delayUntilFall)
             {
                 Projectile.velocity.Y += fallSpeed;
 
                 if (Projectile.velocity.Y >= 0)
                 {
-                    Projectile.velocity.X *= 0.98f;
+                    Projectile.velocity.X *= 0.99f;
                 }
             }
 
@@ -63,16 +73,41 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            if (Projectile.ai[0] >= delayUntilDust)
+            if (timeSpentAlive >= delayUntilDust)
             {
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                for (int i = 0; i < 3; i++)
+                DustHelper.NewSplatterBulletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 2,
+                    color: CurrentColor,
+                    scale: 1.2f);
+
+                if (Main.rand.NextBool(20))
                 {
-                    var dust = Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1.2f);
-                    dust.alpha = 64;
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Projectile.velocity / 4,
+                        color: CurrentColor,
+                        scale: 1f);
+                }
+
+                if (Main.rand.NextBool(500))
+                {
+                    var d = Dust.NewDustPerfect(Position: Projectile.Center, Type: DustID.AncientLight, Velocity: Vector2.Zero, newColor: CurrentColor, Scale: 1f);
+                    d.noGravity = true;
                 }
             }
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            ProjectileDustHelper.ShooterTileCollideVisual(this, false);
+            return true;
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 20;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
     }
 }
