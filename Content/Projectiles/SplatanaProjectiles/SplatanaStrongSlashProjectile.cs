@@ -57,22 +57,22 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     {
                         if (Main.rand.NextBool(4))
                         {
-                            Dust.NewDustPerfect(
-                                Position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, 90) * i * Main.rand.NextFloat(-2, 2),
-                                Type: ModContent.DustType<ChargerBulletDust>(),
-                                Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
-                                newColor: dustColor,
-                                Scale: Main.rand.NextFloat(1f, 1.5f));
+                            DustHelper.NewChargerBulletDust(
+                                position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
+                                velocity: -Projectile.velocity / Main.rand.Next(2, 4),
+                                color: dustColor,
+                                minScale: 1f,
+                                maxScale: 1.5f);
                         }
 
                         if (i > 0 && Main.rand.NextBool(4))
                         {
-                            Dust.NewDustPerfect(
-                                Position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
-                                Type: ModContent.DustType<ChargerBulletDust>(),
-                                Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
-                                newColor: dustColor,
-                                Scale: Main.rand.NextFloat(1f, 1.5f));
+                            DustHelper.NewChargerBulletDust(
+                                position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
+                                velocity: -Projectile.velocity / Main.rand.Next(2, 4),
+                                color: dustColor,
+                                minScale: 1f,
+                                maxScale: 1.5f);
                         }
                     }
 

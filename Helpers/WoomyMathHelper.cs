@@ -11,6 +11,7 @@ using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Helpers
 {
@@ -43,7 +44,7 @@ namespace AchiSplatoon2.Helpers
             return AddRotationToVector2(inputVector, degrees);
         }
 
-        public static Vector2 RoundVector2(Vector2 inputVector)
+        public static Vector2 RoundVector2(this Vector2 inputVector)
         {
             return new Vector2((int)inputVector.X, (int)inputVector.Y);
         }
@@ -111,6 +112,30 @@ namespace AchiSplatoon2.Helpers
             }
 
             return baseInkCost / maxChargeTime * 10;
+        }
+
+        internal static float CalculateZookaDamageModifier(NPC target)
+        {
+            float modifier = 1f;
+
+            bool isWormBoss =
+                   target.type == NPCID.EaterofWorldsHead || target.type == NPCID.EaterofWorldsBody || target.type == NPCID.EaterofWorldsTail
+                || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail;
+
+            bool isBossSegment = target.type == NPCID.SkeletronHand;
+
+            // Note: target.boss here will be false for Eater of Worlds and Destroyer
+            if ((target.boss || isBossSegment) && !Main.hardMode)
+            {
+                modifier *= 0.4f;
+            }
+
+            if (isWormBoss)
+            {
+                modifier *= 0.25f;
+            }
+
+            return modifier;
         }
     }
 }

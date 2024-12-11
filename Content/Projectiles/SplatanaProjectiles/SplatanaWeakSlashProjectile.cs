@@ -1,10 +1,8 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
@@ -48,14 +46,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             {
                 Color dustColor = CurrentColor;
 
-                if (timeSpentAlive % 4 == 0)
+                if (timeSpentAlive % 4 == 0 && !fading)
                 {
-                    Dust.NewDustPerfect(
-                        Position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
-                        Type: ModContent.DustType<ChargerBulletDust>(),
-                        Velocity: -Projectile.velocity / Main.rand.Next(2, 4),
-                        newColor: dustColor,
-                        Scale: Main.rand.NextFloat(1f, 1.5f));
+                    DustHelper.NewChargerBulletDust(
+                        position: Projectile.Center + Main.rand.NextVector2Circular(10, 10),
+                        velocity: Projectile.velocity / Main.rand.Next(2, 4),
+                        color: dustColor,
+                        minScale: 1f,
+                        maxScale: 1.5f);
                 }
             }
         }

@@ -42,6 +42,8 @@ enum ProjNetUpdateType : byte
 
 internal class BaseProjectile : ModProjectile
 {
+    public Player Owner => GetOwner();
+
     public int itemIdentifier = -1;
     private BaseWeapon weaponSource;
     public BaseWeapon WeaponInstance
@@ -448,28 +450,6 @@ internal class BaseProjectile : ModProjectile
         return true;
     }
 
-    private bool IsTargetWorm(NPC target)
-    {
-        bool isWorm = false;
-
-        int n = target.type;
-        if ((n >= NPCID.EaterofWorldsHead && n <= NPCID.EaterofWorldsTail)
-        || (n >= NPCID.TheDestroyer && n <= NPCID.TheDestroyerTail)
-        || (n >= NPCID.GiantWormHead && n <= NPCID.GiantWormTail)
-        || (n >= NPCID.DiggerHead && n <= NPCID.DiggerTail)
-        || (n >= NPCID.DevourerHead && n <= NPCID.DevourerTail)
-        || (n >= NPCID.SeekerHead && n <= NPCID.SeekerTail)
-        || (n >= NPCID.TombCrawlerHead && n <= NPCID.TombCrawlerTail)
-        || (n >= NPCID.DuneSplicerHead && n <= NPCID.DuneSplicerTail)
-        || (n >= NPCID.WyvernHead && n <= NPCID.WyvernTail)
-        || (n >= NPCID.BoneSerpentHead && n <= NPCID.BoneSerpentTail))
-        {
-            isWorm = true;
-        }
-
-        return isWorm;
-    }
-
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
         var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
@@ -479,7 +459,7 @@ internal class BaseProjectile : ModProjectile
             modifiers.DisableCrit();
         }
 
-        if (wormDamageReduction && Main.expertMode && IsTargetWorm(target))
+        if (wormDamageReduction && Main.expertMode && NpcHelper.IsTargetAWormSegment(target))
         {
             modifiers.FinalDamage *= 0.6f;
         }
@@ -488,23 +468,8 @@ internal class BaseProjectile : ModProjectile
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         var owner = GetOwner();
-        bool canGetSpecialPoints = true;
 
-        if ((target.friendly)
-            || (target.type == NPCID.TargetDummy)
-            || (target.SpawnedFromStatue)
-            || (Main.npcCatchable[target.type])
-            || (!CountDamageForSpecialCharge))
-        {
-            canGetSpecialPoints = false;
-        }
-
-        if (canGetSpecialPoints)
-        {
-            DamageToSpecialCharge(damageDone, target.lifeMax);
-        }
-
-        if (enablePierceDamagefalloff && !IsTargetWorm(target))
+        if (enablePierceDamagefalloff && !NpcHelper.IsTargetAWormSegment(target))
         {
             Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
         }
@@ -577,6 +542,8 @@ internal class BaseProjectile : ModProjectile
                 Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }
         }
+
+        DamageToSpecialCharge(damageDone, target);
     }
 
     protected bool IsTargetEnemy(NPC target, bool countDummyAsEnemy = false)
@@ -660,12 +627,41 @@ internal class BaseProjectile : ModProjectile
         return (int)(Projectile.damage * multiplier);
     }
 
-    public void DamageToSpecialCharge(float damage, float targetMaxLife)
+    public void DamageToSpecialCharge(float damage, NPC target)
     {
-        var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
+        if (target.friendly
+            || target.type == NPCID.TargetDummy
+            || target.SpawnedFromStatue
+            || Main.npcCatchable[target.type]
+            || !CountDamageForSpecialCharge
+            || NpcHelper.IsTargetAProjectile(target))
+        {
+            return;
+        }
 
-        float increment = Math.Clamp(damage * 2 / targetMaxLife, 0.5f, 5f);
-        modPlayer.AddSpecialPointsForDamage(increment);
+        var specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
+        if (specialPlayer.SpecialReady) return;
+
+        if (target.life <= 0 && !target.boss)
+        {
+            var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+
+            p.chargeValue = 4;
+            if (NpcHelper.IsTargetABossMinion(target))
+            {
+                p.chargeValue = 2;
+            }
+
+            return;
+        }
+
+        if (target.boss && specialPlayer.bossSpecialDropCooldown == 0)
+        {
+            var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+            p.chargeValue = 2;
+
+            specialPlayer.ApplyBossSpecialDropCooldown();
+        }
     }
 
     protected int FrameSpeed(int frames = 1)
@@ -820,43 +816,26 @@ internal class BaseProjectile : ModProjectile
         Color dustColor = CurrentColor;
 
         // Ink
+        for (int i = 0; i < amount / 2; i++)
+        {
+            DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
+                color: dustColor,
+                scale: Main.rand.NextFloat(minScale * 0.8f, maxScale * 0.8f),
+                data: new(scaleIncrement: -0.1f, frictionMult: 0.9f, gravity: 0.2f));
+        }
+
         for (int i = 0; i < amount * 2; i++)
         {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                ModContent.DustType<BlasterExplosionDust>(),
-                Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity),
-                255,
-                dustColor,
-                Main.rand.NextFloat(minScale / 2, maxScale / 2));
-
-            dust.velocity *= radiusMult * Main.rand.NextFloat(0.95f, 1.05f);
-        }
-
-        for (int i = 0; i < amount; i++)
-        {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                ModContent.DustType<SplatterBulletDust>(),
-                Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * 0.25f,
-                255,
-                dustColor,
-                Main.rand.NextFloat(minScale, maxScale));
-
-            dust.velocity *= radiusMult;
-        }
-
-        // Firework
-        for (int i = 0; i < amount / 4; i++)
-        {
-            var dust = Dust.NewDustPerfect(
-                Projectile.Center,
-                DustID.FireworksRGB,
-                Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
-                255,
-                dustColor);
-
-            dust.velocity *= radiusMult / 2;
+            DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Main.rand.NextVector2CircularEdge(dustMaxVelocity, dustMaxVelocity) * radiusMult,
+                color: dustColor,
+                scale: Main.rand.NextFloat(minScale * 0.5f, maxScale * 0.5f),
+                data: new(scaleIncrement: -0.1f, frictionMult: 0.8f));
         }
     }
 
@@ -913,9 +892,10 @@ internal class BaseProjectile : ModProjectile
         Vector2? positionOffset = null,
         float additiveAmount = 0f,
         Texture2D? spriteOverride = null,
-        int? frameOverride = null)
+        int? frameOverride = null,
+        Vector2? positionOverride = null)
     {
-        Vector2 position = Projectile.Center - Main.screenPosition + (positionOffset ?? Vector2.Zero);
+        Vector2 position = (positionOverride ?? Projectile.Center) - Main.screenPosition + (positionOffset ?? Vector2.Zero);
         Texture2D texture = TextureAssets.Projectile[Type].Value;
         if (spriteOverride != null) texture = spriteOverride;
 

@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             area.Width.Set(182, 0f);
             area.Height.Set(60, 0f);
 
-            barFrame = new UIImage(ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFrame"));
+            barFrame = new UIImage(ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFrameInvisible"));
             barFrame.Left.Set(22, 0f);
             barFrame.Top.Set(0, 0f);
             barFrame.Width.Set(180, 0f);
@@ -46,18 +46,21 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
         // Here we draw our UI
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            var weaponPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
+            var specialPlayer = Main.LocalPlayer.GetModPlayer<SpecialPlayer>();
+            if (!specialPlayer.PlayerCarriesSpecialWeapon) return;
+
             var colorChipPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            float quotient = (float)(weaponPlayer.SpecialPoints / weaponPlayer.SpecialPointsMax);
-            quotient = Utils.Clamp(quotient, 0f, 1f);
-            barColor = colorChipPlayer.GetColorFromChips();
+            float quotient = specialPlayer.GetSpecialPercentageDisplay(); // Must be a method, property crashes for some reason
+            var barColorOriginal = colorChipPlayer.GetColorFromChips();
+            var barColorDark = colorChipPlayer.GetColorFromChips() * 0.7f;
+            barColor = barColorDark;
 
             float lerpAmount = 0.2f;
-            if (weaponPlayer.SpecialReady || weaponPlayer.IsSpecialActive)
+            if (specialPlayer.SpecialReady || specialPlayer.SpecialActivated)
             {
                 lerpAmount = (float)Math.Sin(Main.time / 8) * 0.4f + 0.4f;
             }
-            barColor = ColorHelper.LerpBetweenColorsPerfect(barColor, Color.White, lerpAmount);
+            barColor = ColorHelper.LerpBetweenColorsPerfect(barColorDark, barColorOriginal, lerpAmount);
 
             Rectangle hitbox = barFrame.GetInnerDimensions().ToRectangle();
             hitbox.X += 12;
@@ -67,17 +70,32 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             int left = hitbox.Left;
             int right = hitbox.Right;
 
+            var yOffset = specialPlayer.GetChargeUIOffsetY();
+
+            var barBg = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFrame").Value;
+            Rectangle sourceRectangle = barBg.Frame(1);
+            Vector2 origin = sourceRectangle.Size() / 2;
+            Main.EntitySpriteDraw(
+                barBg,
+                hitbox.TopLeft() + new Vector2(84, 8 + yOffset),
+                sourceRectangle,
+                Color.White,
+                0,
+                origin,
+                1.02f,
+                SpriteEffects.None);
+
             var fillEmpty = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFillEmpty").Value;
             spriteBatch.Draw(
-                fillEmpty,
-                new Rectangle(hitbox.Left - 4, hitbox.Top + 2, fillEmpty.Width + 4, fillEmpty.Height),
-                Color.White);
+                texture: fillEmpty,
+                destinationRectangle: new Rectangle(hitbox.Left - 4, hitbox.Top + 2 + (int)yOffset, fillEmpty.Width + 4, fillEmpty.Height),
+                color: Color.White);
 
             var fill = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFill").Value;
             spriteBatch.Draw(
-                fill,
-                new Rectangle(hitbox.Left - 4, hitbox.Top + 2, (int)((fillEmpty.Width + 4) * quotient), fillEmpty.Height),
-                barColor);
+                texture: fill,
+                destinationRectangle: new Rectangle(hitbox.Left - 4, hitbox.Top + 2 + (int)yOffset, (int)((fillEmpty.Width + 4) * quotient), fillEmpty.Height),
+                color: barColor);
         }
     }
 }

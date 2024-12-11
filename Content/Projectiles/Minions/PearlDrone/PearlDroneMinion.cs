@@ -646,14 +646,11 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         {
             if (speechCooldownCurrent > 0) return;
 
-            if (Main.rand.NextBool(2))
-            {
-                var list = PlayerActivatesSpecial(specialItemId);
-                if (list.Count == 0) return;
+            var list = PlayerActivatesSpecial(specialItemId);
+            if (list.Count == 0) return;
 
-                Speak(list);
-                PlaySpeechSample(talkSample, talkSampleCount);
-            }
+            Speak(list);
+            PlaySpeechSample(talkSample, talkSampleCount);
         }
 
         private void Speak(string message)
@@ -831,8 +828,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (specialItemId == ModContent.ItemType<TrizookaSpecial>())
             {
                 strings.Add("Fire away!");
-                strings.Add("BOOM! BOOM! BOOM!");
-                strings.Add("React to that, chumps!");
+                strings.Add($"Let's see some explosions, {ownerName}!");
+                strings.Add("React to this, chumps!");
             }
 
             if (specialItemId == ModContent.ItemType<KillerWail>())

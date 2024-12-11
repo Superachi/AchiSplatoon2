@@ -30,10 +30,12 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<WeaponPlayer>();
-                modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
+
                 return true;
             }
+
             return false;
         }
 
@@ -41,8 +43,8 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<WeaponPlayer>();
-                modPlayer.IncrementSpecialPoints(modPlayer.SpecialPointsMax);
+                var specialPlayer = player.GetModPlayer<SpecialPlayer>();
+                specialPlayer.IncrementSpecialCharge(specialPlayer.SpecialPointsMax);
             }
 
             return false;

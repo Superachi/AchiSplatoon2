@@ -121,12 +121,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
             if (Main.rand.NextBool(3))
             {
-                var d = Dust.NewDustPerfect(
-                    Position: Projectile.Center + Vector2.UnitY * 10 + Main.rand.NextVector2Circular(20, 20),
-                    Type: ModContent.DustType<ChargerBulletDust>(),
-                    Velocity: WoomyMathHelper.AddRotationToVector2(-Vector2.UnitY * 3, -30, 30),
-                    newColor: ColorHelper.AddRandomHue(30, Color.MediumPurple),
-                    Scale: Main.rand.NextFloat(1f, 1.5f));
+                DustHelper.NewChargerBulletDust(
+                    position: Projectile.Center + Vector2.UnitY * 10 + Main.rand.NextVector2Circular(20, 20),
+                    velocity: WoomyMathHelper.AddRotationToVector2(-Vector2.UnitY * 3, -30, 30),
+                    color: ColorHelper.AddRandomHue(30, Color.MediumPurple),
+                    minScale: 1f,
+                    maxScale: 1.5f);
             }
 
             if (timeSpentAlive % 4 == 0)

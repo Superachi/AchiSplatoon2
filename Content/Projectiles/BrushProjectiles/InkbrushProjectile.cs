@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -73,12 +74,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
                 if (Timer % 8 == 0 && Main.rand.NextBool(10))
                 {
-                    Dust.NewDustPerfect(
-                        Position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
-                        Type: ModContent.DustType<SplatterDropletDust>(),
-                        Velocity: Projectile.velocity * 0.2f,
-                        newColor: GenerateInkColor(),
-                        Scale: Main.rand.NextFloat(1f, 1.5f)
+                    DustHelper.NewSplatterBulletDust(
+                        position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
+                        velocity: Projectile.velocity * 0.2f,
+                        color: GenerateInkColor(),
+                        minScale: 0.8f,
+                        maxScale: 1.6f
                     );
                 }
             }

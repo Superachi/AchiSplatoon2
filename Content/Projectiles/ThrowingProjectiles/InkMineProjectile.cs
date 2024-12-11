@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using System;
@@ -153,13 +154,13 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private void SpawnActivationDust()
         {
             Color color = CurrentColor;
-            Dust a = Dust.NewDustPerfect(
-                Position: Projectile.Center + Main.rand.NextVector2Circular(detectionRadius * circleDrawMod, detectionRadius * circleDrawMod),
-                Type: ModContent.DustType<ChargerBulletDust>(),
-                Velocity: new Vector2(0, Main.rand.NextFloat(-1, -4)),
-                Alpha: 0,
-                newColor: color,
-                Scale: Main.rand.NextFloat(1f, 1.5f));
+
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.Center + Main.rand.NextVector2Circular(detectionRadius * circleDrawMod, detectionRadius * circleDrawMod),
+                velocity: new Vector2(0, Main.rand.NextFloat(-1, -4)),
+                color: color,
+                minScale: 1f,
+                maxScale: 1.5f);
         }
 
         private void SpawnInkMineDust(Vector2 offset)

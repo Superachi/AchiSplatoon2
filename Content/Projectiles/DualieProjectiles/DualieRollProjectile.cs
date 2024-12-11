@@ -18,6 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 
         private Player owner;
         private DualiePlayer dualieMP;
+        private int xDir = 0;
 
         public override void SetDefaults()
         {
@@ -33,7 +34,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             owner = GetOwner();
             dualieMP = owner.GetModPlayer<DualiePlayer>();
 
-            var xDir = InputHelper.GetInputX();
+            xDir = InputHelper.GetInputX();
             if (xDir != 0)
             {
                 owner.velocity.X = xDir * rollDistance;
@@ -62,7 +63,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             int rotateSpeed = 4;
 
             owner.velocity.Y = MathHelper.Max(owner.velocity.Y, 10);
-            owner.fullRotation += Math.Sign(owner.velocity.X) * rollDistance / rollDuration / fullRotate * rotateSpeed; // 0.3f;
+            owner.fullRotation += xDir * rollDistance / rollDuration / fullRotate * rotateSpeed; // 0.3f;
             owner.fullRotationOrigin = new Vector2(10f, 20f);
             DodgeRollDustStream();
 
@@ -93,13 +94,12 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
                 Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-                Dust d = Dust.NewDustPerfect(
-                    Position: Main.rand.NextVector2FromRectangle(rect),
-                    Type: ModContent.DustType<ChargerBulletDust>(),
-                    Velocity: new Vector2(owner.velocity.X / Main.rand.NextFloat(2, 6), 0),
-                    Alpha: 96,
-                    newColor: color,
-                    Scale: 1f);
+
+                DustHelper.NewChargerBulletDust(
+                    position: Main.rand.NextVector2FromRectangle(rect),
+                    velocity: new Vector2(owner.velocity.X / Main.rand.NextFloat(2, 6), 0),
+                    color: color,
+                    scale: 1f);
             }
         }
 
@@ -112,13 +112,12 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
                 Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-                Dust d = Dust.NewDustPerfect(
-                    Position: Main.rand.NextVector2FromRectangle(rect),
-                    Type: ModContent.DustType<SplatterDropletDust>(),
-                    Velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),
-                    Alpha: 0,
-                    newColor: color,
-                    Scale: Main.rand.NextFloat(1f, 2f));
+                DustHelper.NewDropletDust(
+                    position: Main.rand.NextVector2FromRectangle(rect),
+                    velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),
+                    color: color,
+                    minScale: 1f,
+                    maxScale: 2f);
             }
         }
     }

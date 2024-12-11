@@ -27,11 +27,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
     internal class LootGlobalNPC : BaseGlobalNPC
     {
         private ColorChipPlayer colorChipPlayer => Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-        private void AddBossLootDisregardingDifficulty(LeadingConditionRule expertRule, int itemID)
-        {
-            expertRule.OnSuccess(ItemDropRule.Common(itemID));
-            expertRule.OnFailedConditions(ItemDropRule.BossBag(itemID));
-        }
 
         public override void OnKill(NPC npc)
         {
@@ -40,8 +35,13 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             {
                 float chipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Green];
 
-                if (npc.friendly) { return; }
-                if (Main.npcCatchable[npc.type]) { return; }
+                if (npc.friendly
+                    || npc.SpawnedFromStatue
+                    || Main.npcCatchable[npc.type]
+                    || NpcHelper.IsTargetAProjectile(npc))
+                {
+                    return;
+                }
 
                 float chanceModifier = 1f;
                 if (chipCount > 0)
@@ -67,7 +67,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
 
                 // Canned special drop chance
-                if (Main.rand.NextBool((int)(100f * chanceModifier)))
+                if (Main.rand.NextBool((int)(200f * chanceModifier)))
                 {
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<CannedSpecial>());
                     RareLootDropPlayerFeedback(npc);
@@ -102,34 +102,49 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
-
-            switch (npc.type)
+            // Drop licenses straight from the boss if not Expert/Master mode
+            if (!Main.expertMode && !Main.masterMode)
             {
-                case NPCID.KingSlime:
-                case NPCID.EyeofCthulhu:
-                case NPCID.QueenBee:
-                case NPCID.SkeletronHead:
-                case NPCID.Deerclops:
-                    npcLoot.Add(notExpertRule);
-                    AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicense>());
-                    break;
-                case NPCID.Mimic:
-                case NPCID.QueenSlimeBoss:
-                case NPCID.TheDestroyer:
-                case NPCID.Retinazer:
-                case NPCID.Spazmatism:
-                case NPCID.SkeletronPrime:
-                    npcLoot.Add(notExpertRule);
-                    AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseSilver>());
-                    break;
-                case NPCID.DukeFishron:
-                case NPCID.HallowBoss: // Empress of Light
-                case NPCID.Golem:
-                case NPCID.CultistBoss:
-                    npcLoot.Add(notExpertRule);
-                    AddBossLootDisregardingDifficulty(notExpertRule, ModContent.ItemType<SheldonLicenseGold>());
-                    break;
+                switch (npc.type)
+                {
+                    case NPCID.KingSlime:
+                    case NPCID.EyeofCthulhu:
+                    case NPCID.QueenBee:
+                    case NPCID.SkeletronHead:
+                    case NPCID.Deerclops:
+                        npcLoot.Add(
+                            ItemDropRule.Common(ModContent.ItemType<SheldonLicense>(), minimumDropped: 3, maximumDropped: 3));
+                        break;
+
+                    case NPCID.WallofFlesh:
+                    case NPCID.Retinazer:
+                    case NPCID.Spazmatism:
+                        npcLoot.Add(
+                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 1));
+                        break;
+
+                    case NPCID.QueenSlimeBoss:
+                    case NPCID.TheDestroyer:
+                    case NPCID.SkeletronPrime:
+                    case NPCID.Plantera:
+                        npcLoot.Add(
+                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 3, maximumDropped: 3));
+                        break;
+
+                    case NPCID.DukeFishron:
+                    case NPCID.HallowBoss: // Empress of Light
+                    case NPCID.Golem:
+                    case NPCID.CultistBoss:
+                        npcLoot.Add(
+                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseGold>(), minimumDropped: 3, maximumDropped: 3));
+                        break;
+                }
+            }
+
+            if (npc.type == NPCID.Mimic)
+            {
+                npcLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 1));
             }
 
             // Super palette crafting materials

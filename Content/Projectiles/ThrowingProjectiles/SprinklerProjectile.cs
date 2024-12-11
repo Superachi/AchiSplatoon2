@@ -75,11 +75,19 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             if (timeSpentAlive >= delayUntilDust)
             {
-                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 2, newColor: CurrentColor, Scale: 1.2f);
+                DustHelper.NewSplatterBulletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 2,
+                    color: CurrentColor,
+                    scale: 1.2f);
 
                 if (Main.rand.NextBool(20))
                 {
-                    Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: CurrentColor, Scale: 1f);
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Projectile.velocity / 4,
+                        color: CurrentColor,
+                        scale: 1f);
                 }
 
                 if (Main.rand.NextBool(500))

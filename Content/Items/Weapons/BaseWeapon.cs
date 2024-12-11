@@ -188,15 +188,15 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // Weapon hint + sub bonus
             if (IsSubWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} equip in ammo slot to be used by main weapon") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} equipable in ammo slot, usable via right-click") { OverrideColor = null });
             }
             else if (IsSpecialWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} can't be reforged and is only usable when special gauge is filled") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
             }
             else
             {
-                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintMain", $"{ColorHelper.TextWithMainWeaponColor("Main weapon:")} can use sub weapons with right-click") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintMain", $"{ColorHelper.TextWithMainWeaponColor("Main weapon:")} enables sub weapon usage via right-click") { OverrideColor = null });
             }
 
             if (BonusSub != SubWeaponType.None)
@@ -320,18 +320,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else
             {
-                if (!weaponPlayer.SpecialReady
-                    || (weaponPlayer.IsSpecialActive && IsDurationSpecial)
-                    || (weaponPlayer.SpecialName != null && weaponPlayer.SpecialName != player.HeldItem.Name)
-                    || player.altFunctionUse == 2)
-                {
-                    player.itemTime = 30;
-                    return false;
-                }
-
-                weaponPlayer.DrainSpecial(SpecialDrainPerUse);
-                weaponPlayer.ActivateSpecial(SpecialDrainPerTick, player.HeldItem);
-                return true;
+                return false;
             }
         }
 
@@ -339,12 +328,20 @@ namespace AchiSplatoon2.Content.Items.Weapons
         {
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
             if (!player.ItemTimeIsZero) return false;
-            if (!AllowSubWeaponUsage) return false;
 
             if (player.HasBuff(BuffID.Cursed)) return false;
             if (player.HasBuff(BuffID.Frozen)) return false;
             if (player.HasBuff(BuffID.Stoned)) return false;
 
+            if (!AllowSubWeaponUsage) return false;
+
+            SearchAndUseSubWeapon(player);
+
+            return false;
+        }
+
+        private void SearchAndUseSubWeapon(Player player)
+        {
             bool doneSearching = false;
 
             int[] subWeaponItemIDs = {
@@ -426,11 +423,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             if (!doneSearching)
             {
-                CombatTextHelper.DisplayText("No sub weapon equipped!", player.Center);
-                return false;
+                player.GetModPlayer<HudPlayer>().SetOverheadText("No sub weapon equipped!", displayTime: 90);
+                SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
             }
-
-            return false;
         }
 
         public override int ChoosePrefix(UnifiedRandom rand)

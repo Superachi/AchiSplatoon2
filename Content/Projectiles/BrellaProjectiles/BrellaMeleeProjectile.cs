@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -143,18 +144,25 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             for (int i = 0; i < 15; i++)
             {
                 Color dustColor = CurrentColor;
-                Dust.NewDustPerfect(deflectedProjectile.Center, ModContent.DustType<SplatterDropletDust>(),
-                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+
+                DustHelper.NewDropletDust(
+                    position: deflectedProjectile.Center,
+                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    color: CurrentColor,
+                    minScale: 0.5f,
+                    maxScale: 1f);
             }
 
             // Firework
             for (int i = 0; i < 15; i++)
             {
-                Color dustColor = CurrentColor;
-                Dust.NewDustPerfect(deflectedProjectile.Center, DustID.FireworksRGB,
-                    Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                    255, dustColor, Main.rand.NextFloat(0.5f, 1f));
+                DustHelper.NewDust(
+                    position: deflectedProjectile.Center,
+                    dustType: DustID.FireworksRGB,
+                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    color: CurrentColor,
+                    scale: Main.rand.NextFloat(0.5f, 1f),
+                    data: new(gravity: 1));
             }
         }
     }

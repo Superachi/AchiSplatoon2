@@ -7,9 +7,6 @@ namespace AchiSplatoon2.Netcode.DataTransferObjects
     internal class WeaponPlayerDTO : BaseDTO
     {
         [JsonProperty]
-        public bool? SpecialReady = null;
-
-        [JsonProperty]
         public float? MoveSpeedMod = null;
 
         [JsonProperty]
@@ -19,12 +16,10 @@ namespace AchiSplatoon2.Netcode.DataTransferObjects
         public float? MoveFrictionMod = null;
 
         public WeaponPlayerDTO(
-            bool? specialReady = null,
             float? moveSpeedMod = null,
             float? moveAccelMod = null,
             float? moveFrictionMod = null)
         {
-            SpecialReady = specialReady;
             MoveSpeedMod = moveSpeedMod;
             MoveAccelMod = moveAccelMod;
             MoveFrictionMod = moveFrictionMod;
@@ -33,10 +28,6 @@ namespace AchiSplatoon2.Netcode.DataTransferObjects
         public override void ApplyToModPlayer(ModPlayer modPlayer)
         {
             var wepMP = (WeaponPlayer)modPlayer;
-            if (SpecialReady != null)
-            {
-                wepMP.SpecialReady = (bool)SpecialReady;
-            }
 
             if (MoveSpeedMod != null)
             {

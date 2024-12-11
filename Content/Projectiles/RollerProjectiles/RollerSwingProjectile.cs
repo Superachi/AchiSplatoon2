@@ -281,16 +281,14 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     for (int i = 0; i < 3; i++)
                     {
                         var posRand = Main.rand.NextVector2Circular(12, 12);
-                        var xVelocityRand = Main.rand.NextFloat(1, 3);
                         var finalXVel = Math.Sign(owner.velocity.X) * AbsPlayerSpeed() / 4;
 
-                        Dust d = Dust.NewDustPerfect(
-                            Position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
-                            Type: ModContent.DustType<SplatterDropletDust>(),
-                            Velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
-                            Alpha: Main.rand.Next(0, 32),
-                            newColor: GenerateInkColor(),
-                            Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                        DustHelper.NewDropletDust(
+                            position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
+                            velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
+                            color: GenerateInkColor(),
+                            minScale: 0.8f,
+                            maxScale: 1.6f);
                     }
 
                     Dust.NewDustPerfect(

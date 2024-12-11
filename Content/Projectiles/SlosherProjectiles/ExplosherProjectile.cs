@@ -1,9 +1,8 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -65,8 +64,20 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
 
             Color dustColor = GenerateInkColor();
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(1.5f, 2f));
-            Dust.NewDustPerfect(Position: Projectile.position + Main.rand.NextVector2Circular(5, 5), Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 5, newColor: dustColor, Scale: 1f);
+
+            DustHelper.NewSplatterBulletDust(
+                position: Projectile.position,
+                velocity: Vector2.Zero,
+                CurrentColor,
+                minScale: 1.5f,
+                maxScale: 2f);
+
+
+            DustHelper.NewDropletDust(
+                position: Projectile.position + Main.rand.NextVector2Circular(5, 5),
+                velocity: Projectile.velocity / 5,
+                color: CurrentColor,
+                scale: 1f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

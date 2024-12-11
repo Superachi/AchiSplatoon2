@@ -132,12 +132,11 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
         {
             if (Main.rand.NextBool(4)) return;
 
-            Dust.NewDustPerfect(
-                Position: Projectile.Center + new Vector2(0, -5) + Main.rand.NextVector2Circular(30, 30),
-                Type: ModContent.DustType<ChargerBulletDust>(),
-                Velocity: Projectile.velocity / 5,
-                newColor: Color.OrangeRed,
-                Scale: 1.2f);
+            DustHelper.NewChargerBulletDust(
+                position: Projectile.Center + new Vector2(0, -5) + Main.rand.NextVector2Circular(30, 30),
+                velocity: Projectile.velocity / 5,
+                color: Color.OrangeRed,
+                scale: 1.2f);
         }
 
         private void DustBurst()

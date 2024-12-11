@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Players;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 
@@ -6,11 +7,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 {
     internal class CombatGlobalNPC : BaseGlobalNPC
     {
-        public float initialKnockbackResist = 0f;
-
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
-            initialKnockbackResist = npc.knockBackResist;
         }
 
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)

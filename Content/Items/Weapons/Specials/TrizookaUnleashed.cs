@@ -22,10 +22,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             base.SetDefaults();
             RangedWeaponDefaults(
-                projectileType: ModContent.ProjectileType<TrizookaShooter>(),
+                projectileType: ModContent.ProjectileType<TrizookaHeldProjectile>(),
                 singleShotTime: 25,
                 shotVelocity: 14f
             );
+
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
 
             Item.rare = ItemRarityID.Cyan;
             Item.damage = 100;

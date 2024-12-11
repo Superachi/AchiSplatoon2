@@ -125,6 +125,10 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
 
         public static string TrizookaLaunch => FormatPath(nameof(TrizookaLaunch), _directorySpecial);
         public static string TrizookaLaunchAlly => FormatPath(nameof(TrizookaLaunchAlly), _directorySpecial);
+        public static string TrizookaLaunchWet => FormatPath(nameof(TrizookaLaunchWet), _directorySpecial);
+        public static string TrizookaActivate => FormatPath(nameof(TrizookaActivate), _directorySpecial);
+        public static string TrizookaDeactivate => FormatPath(nameof(TrizookaDeactivate), _directorySpecial);
+        public static string TrizookaSplash => FormatPath(nameof(TrizookaSplash), _directorySpecial);
 
         public static string UltraStampActivate => FormatPath(nameof(UltraStampActivate), _directorySpecial);
         public static string UltraStampFly => FormatPath(nameof(UltraStampFly), _directorySpecial);

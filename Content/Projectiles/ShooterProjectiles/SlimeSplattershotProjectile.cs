@@ -71,11 +71,21 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             }
 
             Color dustColor = CurrentColor;
-            Dust.NewDustPerfect(Position: Projectile.position, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: 1.6f);
+            DustHelper.NewSplatterBulletDust(
+                position: Projectile.position,
+                velocity: Vector2.Zero,
+                color: dustColor,
+                scale: 1.6f
+            );
 
             if (Main.rand.NextBool(10))
             {
-                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterDropletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.2f);
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 4,
+                    color: dustColor,
+                    scale: 1.2f
+                );
             }
         }
 

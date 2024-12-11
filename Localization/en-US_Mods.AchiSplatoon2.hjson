@@ -1696,6 +1696,13 @@ Items: {
 		DisplayName: Kensa Splattershot Jr.
 		Tooltip: ""
 	}
+
+	SpecialChargeGun: {
+		UsageHint: Mods.AchiSplatoon2.Items.SpecialChargeGun.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SpecialChargeGun.Flavor
+		DisplayName: Special Charge Gun
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1813,6 +1820,10 @@ Projectiles: {
 	CoralStringerProjectile.DisplayName: Coral Stringer Projectile
 	SheldonDrone.DisplayName: Sheldon Drone
 	PearlDroneLaserProjectile.DisplayName: Pearl Drone Laser Projectile
+	TrizookaHeldProjectile.DisplayName: Trizooka Held Projectile
+	TrizookaShell.DisplayName: Trizooka Shell
+	SpecialChargeProjectile.DisplayName: Special Charge Projectile
+	TrizookaBlast.DisplayName: Trizooka Blast
 }
 
 Buffs: {

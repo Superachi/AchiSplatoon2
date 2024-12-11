@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Players
         public override void PreUpdate()
         {
             var wepMP = Player.GetModPlayer<WeaponPlayer>();
-            if (Player.HasBuff<BigBlastBuff>() && !wepMP.SpecialReady)
+            if (Player.HasBuff<BigBlastBuff>())
             {
                 var w = Player.width;
                 var h = Player.height;
