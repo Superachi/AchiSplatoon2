@@ -1823,6 +1823,7 @@ Projectiles: {
 	TrizookaHeldProjectile.DisplayName: Trizooka Held Projectile
 	TrizookaShell.DisplayName: Trizooka Shell
 	SpecialChargeProjectile.DisplayName: Special Charge Projectile
+	TrizookaBlast.DisplayName: Trizooka Blast
 }
 
 Buffs: {

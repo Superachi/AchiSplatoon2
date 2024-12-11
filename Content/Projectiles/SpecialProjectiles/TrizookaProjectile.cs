@@ -124,7 +124,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         protected void Explode()
         {
-            var p = CreateChildProjectile<BlastProjectile>(
+            var p = CreateChildProjectile<TrizookaBlast>(
                 position: _hitboxLocation,
                 velocity: Vector2.Zero,
                 damage: Projectile.damage);
@@ -211,11 +211,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             base.ModifyHitNPC(target, ref modifiers);
-
-            if (target.boss)
-            {
-                modifiers.FinalDamage /= 3;
-            }
+            modifiers.FinalDamage *= WoomyMathHelper.CalculateZookaDamageModifier(target);
         }
 
         public override bool? CanHitNPC(NPC target)
