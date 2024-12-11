@@ -90,7 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
                 if (drawScale < 2) drawScale += 1f / animationTime;
             }
 
-            Projectile.velocity += Projectile.Center.DirectionTo(Main.MouseWorld) / 60f;
+            Projectile.velocity += Projectile.Center.DirectionTo(Main.MouseWorld) / 50f;
             if (Projectile.velocity.Length() > 2)
             {
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, directionVector, 0.03f);

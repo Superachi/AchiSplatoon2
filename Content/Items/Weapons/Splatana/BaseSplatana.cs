@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         // Splatana specific
         public virtual int BaseDamage { get => 5; }
         public virtual float[] ChargeTimeThresholds { get => [18f]; }
-        public virtual float WeakSlashShotSpeed { get => 8f; }
+        public virtual float WeakSlashShotSpeed { get => 6f; }
         public virtual float MaxChargeMeleeDamageMod { get => 3f; }
         public virtual float MaxChargeRangeDamageMod { get => 2f; }
         public virtual float MaxChargeLifetimeMod { get => 3f; }
