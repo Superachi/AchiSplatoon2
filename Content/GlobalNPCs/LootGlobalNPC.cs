@@ -16,6 +16,7 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.ComponentModel;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -38,7 +39,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 if (npc.friendly
                     || npc.SpawnedFromStatue
                     || Main.npcCatchable[npc.type]
-                    || NpcHelper.IsTargetAProjectile(npc))
+                    || NpcHelper.IsTargetAProjectile(npc)
+                    || NpcHelper.IsTargetABossMinion(npc))
                 {
                     return;
                 }
@@ -80,6 +82,41 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
                     RareLootDropPlayerFeedback(npc);
                 }
+
+                // Drop licenses straight from the boss if not Expert/Master mode
+                if (!Main.expertMode && !Main.masterMode)
+                {
+                    switch (npc.type)
+                    {
+                        case NPCID.KingSlime:
+                        case NPCID.EyeofCthulhu:
+                        case NPCID.QueenBee:
+                        case NPCID.SkeletronHead:
+                        case NPCID.Deerclops:
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicense>(), Stack: Main.rand.Next(1, 4));
+                            break;
+
+                        case NPCID.WallofFlesh:
+                        case NPCID.Retinazer:
+                        case NPCID.Spazmatism:
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: 1);
+                            break;
+
+                        case NPCID.QueenSlimeBoss:
+                        case NPCID.TheDestroyer:
+                        case NPCID.SkeletronPrime:
+                        case NPCID.Plantera:
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: Main.rand.Next(1, 4));
+                            break;
+
+                        case NPCID.DukeFishron:
+                        case NPCID.HallowBoss: // Empress of Light
+                        case NPCID.Golem:
+                        case NPCID.CultistBoss:
+                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseGold>(), Stack: Main.rand.Next(1, 4));
+                            break;
+                    }
+                }
             }
         }
 
@@ -102,45 +139,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            // Drop licenses straight from the boss if not Expert/Master mode
-            if (!Main.expertMode && !Main.masterMode)
-            {
-                switch (npc.type)
-                {
-                    case NPCID.KingSlime:
-                    case NPCID.EyeofCthulhu:
-                    case NPCID.QueenBee:
-                    case NPCID.SkeletronHead:
-                    case NPCID.Deerclops:
-                        npcLoot.Add(
-                            ItemDropRule.Common(ModContent.ItemType<SheldonLicense>(), minimumDropped: 3, maximumDropped: 3));
-                        break;
-
-                    case NPCID.WallofFlesh:
-                    case NPCID.Retinazer:
-                    case NPCID.Spazmatism:
-                        npcLoot.Add(
-                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 1));
-                        break;
-
-                    case NPCID.QueenSlimeBoss:
-                    case NPCID.TheDestroyer:
-                    case NPCID.SkeletronPrime:
-                    case NPCID.Plantera:
-                        npcLoot.Add(
-                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 3, maximumDropped: 3));
-                        break;
-
-                    case NPCID.DukeFishron:
-                    case NPCID.HallowBoss: // Empress of Light
-                    case NPCID.Golem:
-                    case NPCID.CultistBoss:
-                        npcLoot.Add(
-                            ItemDropRule.Common(ModContent.ItemType<SheldonLicenseGold>(), minimumDropped: 3, maximumDropped: 3));
-                        break;
-                }
-            }
-
             if (npc.type == NPCID.Mimic)
             {
                 npcLoot.Add(
