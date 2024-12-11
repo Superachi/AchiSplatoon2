@@ -493,7 +493,7 @@ internal class BaseProjectile : ModProjectile
         bool canGetSpecialPoints = true;
 
         if ((target.friendly)
-            //SPEC-TODO: re-add || (target.type == NPCID.TargetDummy)
+            || (target.type == NPCID.TargetDummy)
             || (target.SpawnedFromStatue)
             || (Main.npcCatchable[target.type])
             || (!CountDamageForSpecialCharge))
@@ -504,11 +504,6 @@ internal class BaseProjectile : ModProjectile
         if (enablePierceDamagefalloff && !IsTargetWorm(target))
         {
             Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
-        }
-
-        if (canGetSpecialPoints)
-        {
-            DamageToSpecialCharge(damageDone, target);
         }
 
         if (target.life <= 0)
@@ -579,6 +574,8 @@ internal class BaseProjectile : ModProjectile
                 Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }
         }
+
+        DamageToSpecialCharge(damageDone, target);
     }
 
     protected bool IsTargetEnemy(NPC target, bool countDummyAsEnemy = false)
@@ -664,11 +661,23 @@ internal class BaseProjectile : ModProjectile
 
     public void DamageToSpecialCharge(float damage, NPC target)
     {
-        // var modPlayer = Main.LocalPlayer.GetModPlayer<WeaponPlayer>();
-        // float increment = Math.Clamp(damage * 2 / target.lifeMax, 0.5f, 5f);
-        if (!Owner.GetModPlayer<SpecialPlayer>().SpecialReady)
+        var specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
+        if (specialPlayer.SpecialReady) return;
+
+        if (target.life <= 0 && !target.boss)
         {
-            CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+            var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+            p.chargeValue = 2;
+
+            return;
+        }
+
+        if (target.boss && specialPlayer.bossSpecialDropCooldown == 0)
+        {
+            var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
+            p.chargeValue = 2f;
+
+            specialPlayer.ApplyBossSpecialDropCooldown();
         }
     }
 

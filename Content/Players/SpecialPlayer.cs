@@ -19,6 +19,9 @@ namespace AchiSplatoon2.Content.Players
         public bool SpecialActivated;
         public float SpecialDrainRate;
 
+        public int bossSpecialDropCooldown = 0;
+        public int bossSpecialDropCooldownMax = 0;
+
         private ColorChipPlayer? _colorChipPlayer;
         private HudPlayer? _hudPlayer;
 
@@ -30,11 +33,16 @@ namespace AchiSplatoon2.Content.Players
             _specialDisplayPercentage = 0f;
             _colorChipPlayer = Player.GetModPlayer<ColorChipPlayer>();
             _hudPlayer = Player.GetModPlayer<HudPlayer>();
+
+            bossSpecialDropCooldown = 0;
+            bossSpecialDropCooldownMax = 120;
         }
 
         public override void PreUpdate()
         {
             _specialDisplayPercentage = MathHelper.Lerp(_specialDisplayPercentage, SpecialPercentage, 0.2f);
+
+            if (bossSpecialDropCooldown > 0) bossSpecialDropCooldown--;
 
             if (SpecialPercentage >= 1 && !SpecialReady)
             {
@@ -89,8 +97,8 @@ namespace AchiSplatoon2.Content.Players
         public void UnreadySpecial()
         {
             SpecialReady = false;
-            SpecialPoints = 0;
             SpecialActivated = false;
+            SpecialPoints = 0;
             Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
         }
 
@@ -176,6 +184,11 @@ namespace AchiSplatoon2.Content.Players
         {
             SpecialPoints += amount;
             if (SpecialPoints > SpecialPointsMax) SpecialPoints = SpecialPointsMax;
+        }
+
+        public void ApplyBossSpecialDropCooldown()
+        {
+            bossSpecialDropCooldown = bossSpecialDropCooldownMax;
         }
 
         public float GetSpecialPercentageDisplay()
