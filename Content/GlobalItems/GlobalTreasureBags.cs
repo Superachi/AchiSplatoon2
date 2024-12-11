@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
@@ -16,6 +17,13 @@ namespace AchiSplatoon2.Content.GlobalItems
     {
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
+            if (item.type == ItemID.EyeOfCthulhuBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<TrizookaSpecial>())
+                );
+            }
+
             if (item.type == ItemID.KingSlimeBossBag)
             {
                 itemLoot.Add(

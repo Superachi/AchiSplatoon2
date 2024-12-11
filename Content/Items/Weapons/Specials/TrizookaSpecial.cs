@@ -29,6 +29,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.knockBack = 10;
         }
 
-        public override void AddRecipes() => AddRecipePostEOC();
+        public override void AddRecipes() {}
     }
 }
