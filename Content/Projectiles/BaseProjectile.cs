@@ -450,28 +450,6 @@ internal class BaseProjectile : ModProjectile
         return true;
     }
 
-    private bool IsTargetWorm(NPC target)
-    {
-        bool isWorm = false;
-
-        int n = target.type;
-        if ((n >= NPCID.EaterofWorldsHead && n <= NPCID.EaterofWorldsTail)
-        || (n >= NPCID.TheDestroyer && n <= NPCID.TheDestroyerTail)
-        || (n >= NPCID.GiantWormHead && n <= NPCID.GiantWormTail)
-        || (n >= NPCID.DiggerHead && n <= NPCID.DiggerTail)
-        || (n >= NPCID.DevourerHead && n <= NPCID.DevourerTail)
-        || (n >= NPCID.SeekerHead && n <= NPCID.SeekerTail)
-        || (n >= NPCID.TombCrawlerHead && n <= NPCID.TombCrawlerTail)
-        || (n >= NPCID.DuneSplicerHead && n <= NPCID.DuneSplicerTail)
-        || (n >= NPCID.WyvernHead && n <= NPCID.WyvernTail)
-        || (n >= NPCID.BoneSerpentHead && n <= NPCID.BoneSerpentTail))
-        {
-            isWorm = true;
-        }
-
-        return isWorm;
-    }
-
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
         var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
@@ -481,7 +459,7 @@ internal class BaseProjectile : ModProjectile
             modifiers.DisableCrit();
         }
 
-        if (wormDamageReduction && Main.expertMode && IsTargetWorm(target))
+        if (wormDamageReduction && Main.expertMode && NpcHelper.IsTargetAWormSegment(target))
         {
             modifiers.FinalDamage *= 0.6f;
         }
@@ -490,18 +468,8 @@ internal class BaseProjectile : ModProjectile
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         var owner = GetOwner();
-        bool canGetSpecialPoints = true;
 
-        if ((target.friendly)
-            || (target.type == NPCID.TargetDummy)
-            || (target.SpawnedFromStatue)
-            || (Main.npcCatchable[target.type])
-            || (!CountDamageForSpecialCharge))
-        {
-            canGetSpecialPoints = false;
-        }
-
-        if (enablePierceDamagefalloff && !IsTargetWorm(target))
+        if (enablePierceDamagefalloff && !NpcHelper.IsTargetAWormSegment(target))
         {
             Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
         }
@@ -661,13 +629,28 @@ internal class BaseProjectile : ModProjectile
 
     public void DamageToSpecialCharge(float damage, NPC target)
     {
+        if (target.friendly
+            || target.type == NPCID.TargetDummy
+            || target.SpawnedFromStatue
+            || Main.npcCatchable[target.type]
+            || !CountDamageForSpecialCharge
+            || NpcHelper.IsTargetAProjectile(target))
+        {
+            return;
+        }
+
         var specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
         if (specialPlayer.SpecialReady) return;
 
         if (target.life <= 0 && !target.boss)
         {
             var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
-            p.chargeValue = 2;
+
+            p.chargeValue = 4;
+            if (NpcHelper.IsTargetABossMinion(target))
+            {
+                p.chargeValue = 2;
+            }
 
             return;
         }
