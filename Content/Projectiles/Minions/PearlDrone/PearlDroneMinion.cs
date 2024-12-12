@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -161,7 +162,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             DeductCooldowns();
 
             // Disc scratch sound
-            if (timeSpentAlive == 15 || timeSpentAlive == 32)
+            if (!ModContent.GetInstance<ClientConfig>().SilentPearlDrone && (timeSpentAlive == 15 || timeSpentAlive == 32))
             {
                 SoundHelper.PlayAudio(SoundID.Item166, volume: 0.3f, maxInstances: 10, position: Projectile.Center);
             }
@@ -567,6 +568,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void PlaySpeechSample(string firstAudioPath, int amountOfVariations)
         {
+            if (ModContent.GetInstance<ClientConfig>().SilentPearlDrone) return;
+
             int soundId = Main.rand.Next(amountOfVariations) + 1;
             var path = firstAudioPath + soundId;
 
@@ -655,6 +658,8 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void Speak(string message)
         {
+            if (ModContent.GetInstance<ClientConfig>().SilentPearlDrone) return;
+
             speechCooldownCurrent = speechCooldownMax;
             speechText = message;
             speechDisplayTime = 90 + message.Length * 5;

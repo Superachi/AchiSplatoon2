@@ -1934,3 +1934,20 @@ Prefixes: {
 	InstantPrefix.DisplayName: Instant
 	DivingPrefix.DisplayName: Diving
 }
+
+Configs: {
+	ClientConfig: {
+		DisplayName: Client Config
+		Headers.Items: Items Header
+
+		UseOnlyVanillaSounds: {
+			Label: TODO - Use vanilla audio only
+			Tooltip: Replaces Splatoon sounds with vanilla ones from Terraria.
+		}
+
+		SilentPearlDrone: {
+			Label: Silent Pearl Drone
+			Tooltip: Pearl will mind her own business.
+		}
+	}
+}
