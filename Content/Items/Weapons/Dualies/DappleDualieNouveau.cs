@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         {
             base.SetDefaults();
 
-            Item.damage = 30;
+            Item.damage = 24;
             Item.shootSpeed = 3.5f;
             Item.crit = 5;
             Item.knockBack = 3;

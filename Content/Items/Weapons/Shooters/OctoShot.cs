@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 
             Item.useTime = 6;
             Item.useAnimation = Item.useTime;
-            Item.damage = 36;
+            Item.damage = 30;
             Item.knockBack = 4f;
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
@@ -35,7 +35,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void AddRecipes()
         {
             Recipe recipe = CraftingReqs()
-                .AddIngredient(ItemID.BlackDye)
                 .Register();
         }
     }

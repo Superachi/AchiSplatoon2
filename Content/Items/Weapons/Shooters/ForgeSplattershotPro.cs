@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
 
-            Item.damage = 42;
+            Item.damage = 38;
             Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.LightPurple;
