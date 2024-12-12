@@ -16,7 +16,6 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using System.ComponentModel;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

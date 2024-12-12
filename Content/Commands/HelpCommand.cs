@@ -1,11 +1,11 @@
-﻿using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Consumables.Potions;
+﻿using AchiSplatoon2.Content.Items.Consumables.Potions;
 using AchiSplatoon2.Content.Players;
-using System.Collections.Generic;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Commands
 {

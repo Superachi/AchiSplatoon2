@@ -9,9 +9,9 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 {
     internal class HoneyScepterProjectile : BaseProjectile
     {
-        private int _maxTargets = 5;
+        private readonly int _maxTargets = 5;
         private NPC? _currentTarget = null;
-        private List<int> _hitTargets = new List<int>();
+        private readonly List<int> _hitTargets = new List<int>();
 
         private const int stateSearch = 0;
         private const int stateAttack = 1;
@@ -95,7 +95,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                     if (_hitTargets.Count == 0)
                     {
                         _currentTarget = FindTarget(Main.MouseWorld, 250, _hitTargets);
-                        
+
                         if (_currentTarget == null || !Collision.CanHitLine(Projectile.Center, 1, 1, _currentTarget.Center, 1, 1))
                         {
                             Projectile.velocity = _initialVelocity;
@@ -171,7 +171,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                 Projectile.Kill();
             }
 
-            for (var i = 0; i < 10; i ++)
+            for (var i = 0; i < 10; i++)
             {
                 var d = Dust.NewDustPerfect(
                     Position: target.Center,

@@ -1,16 +1,16 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using System;
+﻿using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class CoralStringerProjectile : TriStringerProjectile
     {
-        private bool countedForBurst = false;
+        private readonly bool countedForBurst = false;
 
         private Vector2 startingVelocity;
         public int sineDirection = 0;
@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
         protected override void CreateDustOnDespawn()
         {
-            for(int i = 0; i < 10; i ++)
+            for (int i = 0; i < 10; i++)
             {
                 Dust.NewDustPerfect(
                     Position: Projectile.Center + Main.rand.NextVector2Circular(2f, 2f),

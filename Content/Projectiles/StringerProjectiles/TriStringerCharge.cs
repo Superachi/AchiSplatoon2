@@ -1,14 +1,14 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using System.Linq;
 using Terraria;
-using AchiSplatoon2.ExtensionMethods;
-using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {

@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;

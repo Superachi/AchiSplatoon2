@@ -21,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
         // Visuals
         private float _drawScale = 1f;
-        private float _drawRotation = 0f;
+        private readonly float _drawRotation = 0f;
         private int _drawDirection = 0;
         private Vector2 _drawPosition = Vector2.Zero;
         private Vector2 _holdOffset = Vector2.Zero;

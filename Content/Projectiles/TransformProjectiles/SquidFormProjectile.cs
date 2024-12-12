@@ -1,15 +1,13 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-using System;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Dusts;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 {
@@ -18,11 +16,11 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
         protected override bool FallThroughPlatforms => false;
         private SquidPlayer squidPlayer = null;
 
-        private float _maxGroundedSpeed = 3f;
-        private float _groundFriction = 0.9f;
-        private float _airFriction = 0.99f;
-        private float _terminalVelocity = 5f;
-        private float _jumpHeight = 4f;
+        private readonly float _maxGroundedSpeed = 3f;
+        private readonly float _groundFriction = 0.9f;
+        private readonly float _airFriction = 0.99f;
+        private readonly float _terminalVelocity = 5f;
+        private readonly float _jumpHeight = 4f;
 
         private const int _stateDefault = 0;
         private const int _stateDespawn = 1;
@@ -31,7 +29,7 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
         private float _drawScale = 1f;
         private bool _drawFlip = false;
         private float _splashCooldown = 0;
-        private float _splashCooldownMax = 15f;
+        private readonly float _splashCooldownMax = 15f;
 
         public void SetInitialParams(Vector2 velocity)
         {

@@ -4,9 +4,7 @@ using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,7 +17,7 @@ namespace AchiSplatoon2.Content.Players
         public const int stateSquid = 1;
 
         private SquidFormProjectile? _squidFormProjectile = null;
-        private float _oldOpacityForAnimation = 1f;
+        private readonly float _oldOpacityForAnimation = 1f;
         private float _oldWingTime = 0f;
         private int _oldRocketTime = 0;
         private bool _landed = false;

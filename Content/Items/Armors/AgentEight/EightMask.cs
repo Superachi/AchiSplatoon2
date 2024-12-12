@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Players;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Armors.AgentEight

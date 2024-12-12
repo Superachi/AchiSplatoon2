@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories
@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(_displayValue);
 
         public static float InkCapacityMult => 0.7f;
-        private static int _displayValue = (int)((1f - InkCapacityMult) * 100);
+        private static readonly int _displayValue = (int)((1f - InkCapacityMult) * 100);
 
         public override void SetDefaults()
         {

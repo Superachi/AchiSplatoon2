@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         private float orbitDistance = 0;
 
         private Vector2 _hitboxLocation;
-        private List<int> _hitTargets = new List<int>();
+        private readonly List<int> _hitTargets = new List<int>();
 
         public override void SetDefaults()
         {

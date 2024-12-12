@@ -3,7 +3,6 @@ using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 

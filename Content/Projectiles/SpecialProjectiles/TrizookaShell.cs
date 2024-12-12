@@ -74,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             if (timeSpentAlive - _lastBounceTimestamp > 10 && !_fading)
             {
-               _lastBounceTimestamp = timeSpentAlive;
+                _lastBounceTimestamp = timeSpentAlive;
                 PlayAudio(SoundID.NPCHit17, volume: 0.05f * Projectile.velocity.Length(), pitchVariance: 0.2f, pitch: 1f, maxInstances: 10);
             }
 

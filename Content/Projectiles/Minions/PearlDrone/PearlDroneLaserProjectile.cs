@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 {

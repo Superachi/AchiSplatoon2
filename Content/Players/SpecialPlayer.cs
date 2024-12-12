@@ -1,14 +1,13 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
 using Terraria.ID;
-using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {

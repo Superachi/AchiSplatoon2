@@ -8,7 +8,6 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
-using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

@@ -1,12 +1,12 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using Terraria;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
-using System.Collections.Generic;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {

@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
+﻿using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;

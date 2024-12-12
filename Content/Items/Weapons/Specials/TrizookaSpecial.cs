@@ -1,9 +1,7 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
@@ -29,6 +27,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.knockBack = 10;
         }
 
-        public override void AddRecipes() {}
+        public override void AddRecipes() { }
     }
 }

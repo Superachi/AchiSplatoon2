@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
@@ -11,25 +12,22 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
+using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using Humanizer;
 using Microsoft.Xna.Framework;
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using AchiSplatoon2.Content.EnumsAndConstants;
-using Terraria.Audio;
-using AchiSplatoon2.Content.Items.Accessories;
 
 namespace AchiSplatoon2.Content.Items.Weapons
 {
@@ -293,10 +291,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-                CreateProjectileWithWeaponProperties(
-                player: player,
-                source: source,
-                velocity: velocity);
+            CreateProjectileWithWeaponProperties(
+            player: player,
+            source: source,
+            velocity: velocity);
 
             return false;
         }

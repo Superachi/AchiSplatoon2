@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Dusts
         public override void CustomUpdate(Dust dust)
         {
             var customData = dust.customData;
-            
+
             if (customData is BaseDustData data)
             {
                 if (data.emitLight)

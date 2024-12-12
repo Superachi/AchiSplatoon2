@@ -1,11 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Projectiles;
-using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {

@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles

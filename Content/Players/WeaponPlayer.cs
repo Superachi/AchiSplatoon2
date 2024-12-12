@@ -1,7 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
@@ -11,15 +8,11 @@ using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static AchiSplatoon2.Content.Players.ColorChipPlayer;
-using Color = Microsoft.Xna.Framework.Color;
 
 namespace AchiSplatoon2.Content.Players
 {

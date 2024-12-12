@@ -115,7 +115,7 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
                 int soundId = Main.rand.Next(8);
                 var path = SoundPaths.InklingHurt00;
-                path = path.Remove(path.Length-1) + soundId;
+                path = path.Remove(path.Length - 1) + soundId;
 
                 SoundHelper.PlayAudio(path.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.2f);
             }

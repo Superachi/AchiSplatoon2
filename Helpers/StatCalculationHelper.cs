@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;

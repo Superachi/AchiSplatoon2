@@ -2,7 +2,6 @@
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
-using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -121,7 +120,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
-            
+
             var inkSpeedModifier = 1f;
             if (!GetOwnerModPlayer<InkTankPlayer>().HasEnoughInk(currentInkCost))
             {

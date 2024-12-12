@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.Dusts.CustomDataObjects;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Dusts;
 
 namespace AchiSplatoon2.Helpers
 {

@@ -1,10 +1,10 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Helpers;
+using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Buffs;
-using System;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {

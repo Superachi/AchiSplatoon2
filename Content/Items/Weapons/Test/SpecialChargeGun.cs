@@ -1,6 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.Projectiles;
 using Terraria;
-using AchiSplatoon2.Content.Projectiles;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {

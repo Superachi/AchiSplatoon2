@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +6,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 {
@@ -18,7 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         protected override int FrameDelay => 2;
 
         private float drawAlpha;
-        private bool movementStuck = false;
+        private readonly bool movementStuck = false;
         private Vector2 directionVector;
 
         private float previousPositionX;

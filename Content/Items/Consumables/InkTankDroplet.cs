@@ -1,12 +1,11 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
-using AchiSplatoon2.Content.Dusts;
+using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace AchiSplatoon2.Content.Items.Consumables
 {
@@ -15,8 +14,8 @@ namespace AchiSplatoon2.Content.Items.Consumables
         private Color _inkColor = Color.Orange;
         private int _timeSpentAlive = 0;
         private float _alphaMod = 1f;
-        private float _lightAmount = 0.005f;
-        private float _lifeTime = 1500;
+        private readonly float _lightAmount = 0.005f;
+        private readonly float _lifeTime = 1500;
 
         public override void SetStaticDefaults()
         {
@@ -110,7 +109,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
                         newColor: _inkColor,
                         Scale: 1.0f);
                 }
-                    
+
                 if (Main.rand.NextBool(5))
                 {
                     var dust = Dust.NewDustPerfect(

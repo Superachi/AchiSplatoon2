@@ -1,9 +1,9 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using AchiSplatoon2.Content.Items.Weapons.Test;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.Items.Weapons.Test;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -91,7 +91,7 @@ namespace AchiSplatoon2.Content.Projectiles
             var position = Owner.Center;
             if (Owner.GetModPlayer<SquidPlayer>().IsFlat())
             {
-               position.Y += 20;
+                position.Y += 20;
             }
 
             for (int i = 0; i < 10; i++)
@@ -103,7 +103,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     newColor: CurrentColor,
                     Scale: 1.2f);
                 d.noGravity = true;
-                d.noLight = true; 
+                d.noLight = true;
             }
 
             Projectile.Kill();

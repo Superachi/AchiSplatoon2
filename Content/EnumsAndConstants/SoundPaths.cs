@@ -1,12 +1,11 @@
-﻿using AchiSplatoon2.Helpers;
-using System.IO;
+﻿using System.IO;
 using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.EnumsAndConstants
 {
     internal static class SoundPaths
     {
-        private static string _audioRootPath = $"AchiSplatoon2/Content/Assets/Sounds/";
+        private static readonly string _audioRootPath = $"AchiSplatoon2/Content/Assets/Sounds/";
 
         public static SoundStyle ToSoundStyle(this string soundPath, bool appendAudioRootPath = false)
         {

@@ -17,8 +17,8 @@ namespace AchiSplatoon2.Helpers.WeaponKits
 {
     internal static class WeaponKitList
     {
-        private static float _defaultSubSaverBonus = 0.2f;
-        private static float _defaultSubDamageBonus = 0.5f;
+        private static readonly float _defaultSubSaverBonus = 0.2f;
+        private static readonly float _defaultSubDamageBonus = 0.5f;
 
         public static Dictionary<Type, WeaponKit> WeaponKitDictionary = new Dictionary<Type, WeaponKit>
         {

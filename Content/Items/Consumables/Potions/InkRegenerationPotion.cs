@@ -1,8 +1,8 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
 
 namespace AchiSplatoon2.Content.Items.Consumables.Potions
 {

@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public bool canStick = false;
         private readonly int networkExplodeDelayBuffer = 120;
 
-        private float delayUntilFall = 8f;
+        private readonly float delayUntilFall = 8f;
         private float fallSpeed = 0.001f;
 
         protected bool sticking = false;
