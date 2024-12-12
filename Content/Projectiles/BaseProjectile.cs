@@ -647,7 +647,7 @@ internal class BaseProjectile : ModProjectile
         {
             var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
 
-            p.chargeValue = 4;
+            p.chargeValue = 5;
             if (NpcHelper.IsTargetABossMinion(target))
             {
                 p.chargeValue = 2;

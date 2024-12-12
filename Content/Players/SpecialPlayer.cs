@@ -8,6 +8,7 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using Terraria.ID;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
 
 namespace AchiSplatoon2.Content.Players
 {
@@ -60,6 +61,12 @@ namespace AchiSplatoon2.Content.Players
             if (SpecialPercentage >= 1 && !SpecialReady)
             {
                 ReadySpecial();
+            }
+
+            if (SpecialReady && !_playerCarriesSpecialWeapon)
+            {
+                UnreadySpecial();
+                return;
             }
 
             if (SpecialReady ^ Player.HasBuff<SpecialReadyBuff>())
@@ -195,8 +202,10 @@ namespace AchiSplatoon2.Content.Players
         // Public methods for other classes
         public void IncrementSpecialCharge(float amount)
         {
+            var accPlayer = Player.GetModPlayer<AccessoryPlayer>();
+
             var oldAmount = SpecialPoints;
-            SpecialPoints += amount;
+            SpecialPoints += amount * accPlayer.specialChargeMultiplier;
             if (SpecialPoints > SpecialPointsMax) SpecialPoints = SpecialPointsMax;
 
             HopChargeUI(SpecialPoints - oldAmount);
