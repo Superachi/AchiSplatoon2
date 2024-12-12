@@ -1,30 +1,25 @@
-﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
+﻿using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.GameContent;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {
     internal class InkbrushProjectile : BaseProjectile
     {
-        private Color bulletColor;
         private float delayUntilFall;
         private float shotGravity = 0.05f;
         private readonly float airResist = 0.995f;
         private float drawScale = 0;
-        private float drawRotation;
         protected float brightness = 0.001f;
 
         protected float damageFallOffMod = 0.75f;
 
-        protected float Timer
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
+        private bool _canRender;
 
         public override void SetStaticDefaults()
         {
@@ -39,6 +34,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
+
+            ProjectileID.Sets.TrailCacheLength[Type] = 14;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
         public override void ApplyWeaponInstanceData()
@@ -56,27 +54,27 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             ApplyWeaponInstanceData();
 
             // Set visuals
+            _canRender = false;
             Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
-            bulletColor = GenerateInkColor();
-            drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
+            Projectile.rotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
+            _canRender = timeSpentAlive > 5 && Projectile.Distance(Owner.Center) > 10;
 
             if (timeSpentAlive > 3 * FrameSpeed())
             {
-                if (drawScale < 1f)
+                if (drawScale < 1.4f)
                 {
                     drawScale += 0.1f;
                 }
 
-                if (Timer % 8 == 0 && Main.rand.NextBool(10))
+                if (Main.rand.NextBool(timeSpentAlive / FrameSpeed()) && timeSpentAlive < FrameSpeedMultiply((int)delayUntilFall))
                 {
-                    DustHelper.NewSplatterBulletDust(
+                    DustHelper.NewDropletDust(
                         position: Projectile.Center + Main.rand.NextVector2Circular(5, 5),
-                        velocity: Projectile.velocity * 0.2f,
+                        velocity: Projectile.velocity / 2,
                         color: GenerateInkColor(),
                         minScale: 0.8f,
                         maxScale: 1.6f
@@ -85,13 +83,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
 
             // Rotation increased by velocity.X 
-            drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
+            Projectile.rotation += Math.Sign(Projectile.velocity.X) * 0.05f;
             if (Math.Abs(Projectile.velocity.X) > 0)
             {
                 Projectile.velocity.X *= airResist;
             }
-
-            Timer++;
 
             if (timeSpentAlive >= delayUntilFall * FrameSpeed())
             {
@@ -106,21 +102,17 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
-            }
+            ProjectileDustHelper.ShooterTileCollideVisual(this, true);
             return true;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (timeSpentAlive < 5) return false;
+            if (!_canRender) return false;
 
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, alphaMod: 0.5f, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale: 1.2f, alphaMod: 1, considerWorldLight: false);
+            DrawTrailShrinking(scale: 1.2f, alpha: 0.4f, modulo: 2, considerWorldLight: false);
+
             return false;
         }
 

@@ -803,7 +803,38 @@ internal class BaseProjectile : ModProjectile
         if (isDebug) Main.NewText(message);
     }
 
-    #region DustEffects
+    #region Visuals
+
+    protected void DrawTrail(float scale = 1f, float alpha = 0.5f, int modulo = 1, bool considerWorldLight = true)
+    {
+        var len = Projectile.oldPos.Length;
+        for (int i = len - 1; i > 0; i--)
+        {
+            if (i % modulo == 0 && modulo > 1) continue;
+
+            var iMult = (float)(len - i) / len;
+            var posDiff = Projectile.oldPos[i] - Projectile.position;
+            var alphaMod = iMult * alpha;
+
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale, alphaMod: alphaMod, considerWorldLight: considerWorldLight, positionOffset: posDiff);
+        }
+    }
+
+    protected void DrawTrailShrinking(float scale = 1f, float alpha = 0.5f, int modulo = 1, bool considerWorldLight = true)
+    {
+        var len = Projectile.oldPos.Length;
+        for (int i = len - 1; i > 0; i--)
+        {
+            if (i % modulo == 0 && modulo > 1) continue;
+
+            var iMult = (float)(len - i) / len;
+            var posDiff = Projectile.oldPos[i] - Projectile.position;
+            var alphaMod = iMult * alpha;
+
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale * iMult, alphaMod: alphaMod, considerWorldLight: considerWorldLight, positionOffset: posDiff);
+        }
+    }
+
     protected void EmitBurstDust(float dustMaxVelocity = 1, int amount = 1, float minScale = 0.5f, float maxScale = 1f, float radiusModifier = 100f)
     {
         float radiusMult = radiusModifier / 140;

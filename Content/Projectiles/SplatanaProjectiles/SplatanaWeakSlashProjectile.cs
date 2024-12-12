@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
@@ -26,12 +27,17 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.timeLeft = 60;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 2;
+
+            ProjectileID.Sets.TrailCacheLength[Type] = 6;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
         protected override void AfterSpawn()
         {
             Initialize();
             bulletColor = CurrentColor;
+
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
         public override void AI()
@@ -69,7 +75,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     alpha = (float)Projectile.timeLeft / (float)timeLeftWhenFade;
                 }
                 float scale = 1f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 8)) * 0.1f;
-                DrawProjectile(ColorHelper.ColorWithAlpha255(bulletColor), rotation, scale: scale, alphaMod: alpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
+
+                DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale: scale, alphaMod: alpha, considerWorldLight: false);
+                DrawTrail(scale: scale, alpha * 0.4f, modulo: 1, considerWorldLight: false);
             }
 
             return false;

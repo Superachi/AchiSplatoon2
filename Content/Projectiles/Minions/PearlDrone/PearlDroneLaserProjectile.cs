@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -80,14 +81,10 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: Projectile.frame); // The sourceRectangle says which frame to use.
             Vector2 origin = sourceRectangle.Size() * new Vector2(1, 0.5f);
 
-            var len = Projectile.oldPos.Length - 1;
-            for (int i = 0; i < len / 2; i++)
-            {
-                var posDiff = Projectile.position - Projectile.oldPos[i];
-                var alphaMod = ((float)i / len) * 0.8f;
-
-                DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.oldRot[i], scale: 1.5f, alphaMod: alphaMod, considerWorldLight: false, positionOffset: posDiff);
-            }
+            var alpha = timeSpentAlive / 5;
+            if (alpha > 1) alpha = 1;
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale: 1.2f, alphaMod: alpha, considerWorldLight: false);
+            DrawTrail(scale: 1.2f, alpha: alpha * 0.6f, modulo: 1, considerWorldLight: false);
 
             return false;
         }
