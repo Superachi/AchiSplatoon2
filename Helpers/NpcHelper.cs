@@ -15,12 +15,20 @@ internal class NpcHelper
             case NPCID.Creeper:
             case NPCID.Bee:
             case NPCID.BeeSmall:
+            case NPCID.SkeletronHand:
+
             case NPCID.TheHungry:
             case NPCID.TheHungryII:
             case NPCID.LeechBody:
             case NPCID.LeechHead:
             case NPCID.LeechTail:
+
             case NPCID.Probe:
+            case NPCID.PrimeCannon:
+            case NPCID.PrimeSaw:
+            case NPCID.PrimeLaser:
+            case NPCID.PrimeVice:
+
             case NPCID.Sharkron:
             case NPCID.Sharkron2:
                 return true;
