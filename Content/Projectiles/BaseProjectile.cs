@@ -822,7 +822,7 @@ internal class BaseProjectile : ModProjectile
             DustHelper.NewDust(
                 position: Projectile.Center,
                 dustType: ModContent.DustType<SplatterBulletDust>(),
-                velocity: Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity),
+                velocity: Main.rand.NextVector2Circular(dustMaxVelocity, dustMaxVelocity) * radiusMult / 2,
                 color: dustColor,
                 scale: Main.rand.NextFloat(minScale * 0.8f, maxScale * 0.8f),
                 data: new(scaleIncrement: -0.1f, frictionMult: 0.9f, gravity: 0.2f));
@@ -837,6 +837,21 @@ internal class BaseProjectile : ModProjectile
                 color: dustColor,
                 scale: Main.rand.NextFloat(minScale * 0.5f, maxScale * 0.5f),
                 data: new(scaleIncrement: -0.1f, frictionMult: 0.8f));
+        }
+
+        var loopCount = 8;
+        for (int i = 0; i < loopCount; i++)
+        {
+            var velocity = new Vector2(Main.rand.Next(8, 12), 0);
+            velocity = WoomyMathHelper.AddRotationToVector2(velocity, i * (360f / loopCount) + Main.rand.Next(-20, 20));
+
+            DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: DustID.FireworksRGB,
+                velocity: velocity,
+                color: dustColor,
+                scale: (minScale + maxScale) / 6,
+                data: new(gravity: 1));
         }
     }
 
