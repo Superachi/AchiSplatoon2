@@ -84,6 +84,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            base.OnHitNPC(target, hit, damageDone);
+
             if (bounceDamageMod > 5f)
             {
                 DirectHitDustBurst(target.Center);

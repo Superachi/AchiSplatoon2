@@ -45,6 +45,11 @@ namespace AchiSplatoon2.Content.Players
             bossSpecialDropCooldownMax = 120;
         }
 
+        public bool CanIncrementSpecial()
+        {
+            return _playerCarriesSpecialWeapon && !SpecialReady && !SpecialActivated;
+        }
+
         public override void PreUpdate()
         {
             // UI stuff

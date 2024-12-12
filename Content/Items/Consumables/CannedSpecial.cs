@@ -49,5 +49,10 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
             return false;
         }
+
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<SpecialPlayer>().CanIncrementSpecial();
+        }
     }
 }
