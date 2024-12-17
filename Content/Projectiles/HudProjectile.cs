@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -151,11 +152,14 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)verticalSize),
                 ColorHelper.LerpBetweenColorsPerfect(finalColor, Color.White, 0.2f) * _InkTankAlpha);
 
+            if (!ModContent.GetInstance <ClientConfig>().HideInkTankPercentage)
+            {
+                Utils.DrawBorderString(
+                    Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0")}%", position + new Vector2(0, 40),
+                    Color.White * _InkTankAlpha,
+                    anchorx: 0.5f);
+            }
 
-            Utils.DrawBorderString(
-                 Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0")}%", position + new Vector2(0, 40),
-                 Color.White * _InkTankAlpha,
-                 anchorx: 0.5f);
             return false;
         }
 

@@ -16,5 +16,7 @@ namespace AchiSplatoon2.ModConfigs
         [DefaultValue(false)]
         public bool SilentPearlDrone;
 
+        [DefaultValue(false)]
+        public bool HideInkTankPercentage;
     }
 }
