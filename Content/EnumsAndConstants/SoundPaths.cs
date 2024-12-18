@@ -69,6 +69,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string EliterChargerShootWeak => FormatPath(nameof(EliterChargerShootWeak));
         public static string EmptyInkTank => FormatPath(nameof(EmptyInkTank));
         public static string HeroShotShoot => FormatPath(nameof(HeroShotShoot));
+        public static string Hit => FormatPath(nameof(Hit));
         public static string HitNoDamage => FormatPath(nameof(HitNoDamage));
         public static string InkHitSplash00 => FormatPath(nameof(InkHitSplash00));
         public static string ItemGet => FormatPath(nameof(ItemGet));

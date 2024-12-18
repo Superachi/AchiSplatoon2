@@ -1018,6 +1018,17 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
+    protected void WeakDirectDustBurst(Vector2? position = null)
+    {
+        if (position == null)
+        {
+            position = Projectile.Center;
+        }
+
+        PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.1f, position: position);
+        TripleHitDustBurst(position, false);
+    }
+
     // For use by nozzlenoses, stringers, etc. Anything that shoots a burst of shots.
     protected void TripleHitDustBurst(Vector2? position = null, bool playSample = true)
     {

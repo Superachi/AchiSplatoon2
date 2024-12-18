@@ -149,7 +149,15 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 if (!firstHit)
                 {
                     firstHit = true;
-                    DirectHitDustBurst(target.Center);
+
+                    if (target.life > 0)
+                    {
+                        WeakDirectDustBurst(target.Center);
+                    }
+                    else
+                    {
+                        DirectHitDustBurst(target.Center);
+                    }
                 }
 
                 for (int i = 0; i < 10; i++)

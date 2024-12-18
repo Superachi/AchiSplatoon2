@@ -114,7 +114,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             if (!firstHit && wasFullyCharged)
             {
                 firstHit = true;
-                DirectHitDustBurst(target.Center);
+
+                if (target.life > 0)
+                {
+                    WeakDirectDustBurst(target.Center);
+                }
+                else
+                {
+                    DirectHitDustBurst(target.Center);
+                }
             }
         }
     }
