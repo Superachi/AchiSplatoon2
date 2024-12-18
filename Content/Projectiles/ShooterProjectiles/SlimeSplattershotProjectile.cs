@@ -32,6 +32,11 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             fallSpeed = weaponData.ShotGravity;
             delayUntilFall = weaponData.ShotGravityDelay;
             Projectile.extraUpdates = weaponData.ShotExtraUpdates;
+
+            if (WeaponInstance is SlimeSplattershotB)
+            {
+                bouncesLeft += 3;
+            }
         }
 
         protected override void AfterSpawn()
