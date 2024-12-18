@@ -73,10 +73,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             Owner.heldProj = Projectile.whoAmI;
 
             // Rotate and position the zooka + player arm
-            Projectile.Center = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY);
+            Projectile.Center = Owner.Center.Round() + new Vector2(0, Owner.gfxOffY);
             var heightBoost = Owner.mount.Active ? -Owner.mount.HeightBoost * 0.6f : 0;
 
-            _drawPosition = Owner.Center.RoundVector2() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
+            _drawPosition = Owner.Center.Round() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
             Owner.direction = Owner.position.X > Main.MouseWorld.X ? -1 : 1;
             _drawDirection = Owner.direction;
             _holdOffset = Vector2.Lerp(_holdOffset, _holdOffsetDefault, 0.2f);
