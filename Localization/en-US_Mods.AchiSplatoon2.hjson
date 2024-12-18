@@ -1952,7 +1952,7 @@ Configs: {
 
 		HideInkTankPercentage: {
 			Label: Hide ink tank percentage
-			Tooltip: "Hides the number display beneath the ink tank UI. It's just like the real game!"
+			Tooltip: Hides the number display beneath the ink tank UI. It's just like the real game!
 		}
 	}
 }
