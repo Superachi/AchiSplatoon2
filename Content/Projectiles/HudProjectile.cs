@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
@@ -117,8 +118,8 @@ namespace AchiSplatoon2.Content.Projectiles
             if (_owner.dead) return false;
 
             // Prepare to draw
-            barBack = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankBack").Value;
-            barFront = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/InkTank/InkTankFront").Value;
+            barBack = TexturePaths.InkTankBack.ToTexture2D();
+            barFront = TexturePaths.InkTankFront.ToTexture2D();
 
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 position = _owner.Center.Round() - Main.screenPosition + new Vector2(-70 * _owner.direction, 0 + _owner.gfxOffY);

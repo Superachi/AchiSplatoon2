@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,7 +30,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (shotSprite == null)
             {
-                shotSprite = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/NebulaStringerShot").Value;
+                shotSprite = TexturePaths.NebulaStringerShot.ToTexture2D();
             }
         }
 
@@ -120,7 +121,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (shotSprite == null)
             {
-                shotSprite = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/NebulaStringerShot").Value;
+                shotSprite = TexturePaths.NebulaStringerShot.ToTexture2D();
             }
 
             SpriteBatch spriteBatch = Main.spriteBatch;

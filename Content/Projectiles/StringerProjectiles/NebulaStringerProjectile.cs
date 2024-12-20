@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -271,12 +272,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             // Credits to: https://www.youtube.com/watch?v=cph82roy1_0
             if (spritePartialCharge == null)
             {
-                spritePartialCharge = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/VortexDualieShot").Value;
+                spritePartialCharge = TexturePaths.VortexDualieShot.ToTexture2D();
             }
 
             if (spriteFullCharge == null)
             {
-                spriteFullCharge = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/NebulaStringerShot").Value;
+                spriteFullCharge = TexturePaths.NebulaStringerShot.ToTexture2D();
             }
 
             if (state == stateWait || state == stateExplode) return false;

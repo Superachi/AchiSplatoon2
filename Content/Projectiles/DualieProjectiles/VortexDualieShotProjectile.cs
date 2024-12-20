@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,6 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
     internal class VortexDualieShotProjectile : DualieShotProjectile
     {
         private Texture2D sprite;
-        private Texture2D spriteOpaque;
         private Color bulletColor;
         private DualiePlayer dualieMP;
         private int dustId;
@@ -89,12 +89,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             // Credits to: https://www.youtube.com/watch?v=cph82roy1_0
             if (sprite == null)
             {
-                sprite = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/VortexDualieShot").Value;
-            }
-
-            if (spriteOpaque == null)
-            {
-                spriteOpaque = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/VortexDualieShotOpaque").Value;
+                sprite = TexturePaths.VortexDualieShot.ToTexture2D();
             }
 
             var alpha = MathHelper.Min(timeSpentAlive, 60) / 60f;
@@ -109,10 +104,6 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
             Main.EntitySpriteDraw(sprite, position, null, color * alpha, rotation, origin, scale, SpriteEffects.None);
-
-            spriteBatch.End();
-            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.EntitySpriteDraw(spriteOpaque, position, null, blendColor * alpha, rotation, origin, scale, SpriteEffects.None);
 
             return base.PreDraw(ref lightColor);
         }

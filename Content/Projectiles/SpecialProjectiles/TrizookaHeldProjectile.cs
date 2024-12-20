@@ -307,7 +307,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 position = _drawPosition - Main.screenPosition + _holdOffset;
-            Texture2D texture = ModContent.Request<Texture2D>("AchiSplatoon2/Content/Assets/Textures/Specials/ZookaStages").Value;
+            Texture2D texture = TexturePaths.ZookaStages.ToTexture2D();
 
             Rectangle sourceRectangle = texture.Frame(horizontalFrames: 4, frameX: 3 - _shotsRemaining);
             Vector2 origin = sourceRectangle.Size() / 2f + new Vector2(-8 * _drawDirection, 8);

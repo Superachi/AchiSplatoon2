@@ -270,7 +270,7 @@ namespace AchiSplatoon2.Content.Projectiles
             if (!IsThisClientTheProjectileOwner()) return;
             if (hasFired) return;
 
-            spriteChargeBar = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/WeaponCharge/ChargeUpBar").Value;
+            spriteChargeBar = TexturePaths.ChargeUpBar.ToTexture2D();
             if (spriteChargeBar == null) return;
 
             // Draw gauge, animate a white flash when charge thresholds are met

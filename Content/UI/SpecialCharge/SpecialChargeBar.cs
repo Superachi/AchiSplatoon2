@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,7 +27,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             area.Width.Set(182, 0f);
             area.Height.Set(60, 0f);
 
-            barFrame = new UIImage(ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFrameInvisible"));
+            barFrame = new UIImage(TexturePaths.SpecialFrameInvisible.ToTexture2D());
             barFrame.Left.Set(22, 0f);
             barFrame.Top.Set(0, 0f);
             barFrame.Width.Set(180, 0f);
@@ -72,7 +73,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
 
             var yOffset = specialPlayer.GetChargeUIOffsetY();
 
-            var barBg = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFrame").Value;
+            var barBg = TexturePaths.SpecialFrame.ToTexture2D();
             Rectangle sourceRectangle = barBg.Frame(1);
             Vector2 origin = sourceRectangle.Size() / 2;
             Main.EntitySpriteDraw(
@@ -85,13 +86,13 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
                 1.02f,
                 SpriteEffects.None);
 
-            var fillEmpty = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFillEmpty").Value;
+            var fillEmpty = TexturePaths.SpecialFillEmpty.ToTexture2D();
             spriteBatch.Draw(
                 texture: fillEmpty,
                 destinationRectangle: new Rectangle(hitbox.Left - 4, hitbox.Top + 2 + (int)yOffset, fillEmpty.Width + 4, fillEmpty.Height),
                 color: Color.White);
 
-            var fill = ModContent.Request<Texture2D>("AchiSplatoon2/Content/UI/SpecialCharge/SpecialFill").Value;
+            var fill = TexturePaths.SpecialFill.ToTexture2D();
             spriteBatch.Draw(
                 texture: fill,
                 destinationRectangle: new Rectangle(hitbox.Left - 4, hitbox.Top + 2 + (int)yOffset, (int)((fillEmpty.Width + 4) * quotient), fillEmpty.Height),
