@@ -136,6 +136,11 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string UltraStampSwing => FormatPath(nameof(UltraStampSwing), _directorySpecial);
         public static string UltraStampThrow => FormatPath(nameof(UltraStampThrow), _directorySpecial);
 
+        public static string BombRushActivate => FormatPath(nameof(BombRushActivate), _directorySpecial);
+        public static string BombRushJingle => FormatPath(nameof(BombRushJingle), _directorySpecial);
+        public static string BombRushJingleAlt => FormatPath(nameof(BombRushJingleAlt), _directorySpecial);
+
+
         // Splatanas
         public static string SplatanaStamperCharge => FormatPath(nameof(SplatanaStamperCharge));
         public static string SplatanaStamperStrongSlash => FormatPath(nameof(SplatanaStamperStrongSlash));
