@@ -29,6 +29,8 @@ namespace AchiSplatoon2.Content.Players
         public bool isBrushAttacking = false;
 
         public bool hardmodeEnabled = false;
+        public bool allowSubWeaponUsage = true;
+
         public static float HardmodeSubWeaponDamageBonus => 0.5f;
 
         private ColorChipPlayer colorChipPlayer => Player.GetModPlayer<ColorChipPlayer>();
