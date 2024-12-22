@@ -34,5 +34,36 @@ namespace AchiSplatoon2.Helpers
         {
             return FirstInInventory<T>(player, out int _);
         }
+
+        public static Item? FirstInInventoryRange<T>(Player player, int startInvSlot, int endInvSlot)
+            where T : ModItem
+        {
+            if (startInvSlot >= player.inventory.Length
+                || startInvSlot < 0
+                || endInvSlot >= player.inventory.Length
+                || endInvSlot < 0
+                || startInvSlot >= endInvSlot)
+            {
+                DebugHelper.PrintError($"Tried to look for an item in the inventory, but the specified range where the search takes place is invalid (range: {startInvSlot}, {endInvSlot}).");
+                return null;
+            }
+
+            for (int i = startInvSlot; i < endInvSlot; i++)
+            {
+                var item = player.inventory[i];
+
+                if (item.IsAir)
+                {
+                    continue;
+                }
+
+                if (item.ModItem is T)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
     }
 }

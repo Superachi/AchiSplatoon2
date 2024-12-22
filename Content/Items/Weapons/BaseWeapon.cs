@@ -83,7 +83,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
         // Sub weapon stats
         public virtual MainWeaponStyle WeaponStyle { get; set; } = MainWeaponStyle.Other;
         public virtual bool IsSubWeapon { get => false; }
-        public virtual bool AllowSubWeaponUsage { get => true; }
         public SubWeaponType BonusSub { get; private set; }
         public SubWeaponBonusType BonusType { get; private set; }
 
@@ -319,110 +318,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
             else
             {
                 return false;
-            }
-        }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
-            if (!player.ItemTimeIsZero) return false;
-
-            if (player.HasBuff(BuffID.Cursed)) return false;
-            if (player.HasBuff(BuffID.Frozen)) return false;
-            if (player.HasBuff(BuffID.Stoned)) return false;
-
-            if (!AllowSubWeaponUsage) return false;
-
-            SearchAndUseSubWeapon(player);
-
-            return false;
-        }
-
-        private void SearchAndUseSubWeapon(Player player)
-        {
-            bool doneSearching = false;
-
-            int[] subWeaponItemIDs = {
-                ModContent.ItemType<StarterSplatBomb>(),
-                ModContent.ItemType<SplatBomb>(),
-                ModContent.ItemType<BurstBomb>(),
-                ModContent.ItemType<AngleShooter>(),
-                ModContent.ItemType<Sprinkler>(),
-                ModContent.ItemType<InkMine>(),
-                ModContent.ItemType<Torpedo>()
-            };
-
-            // We use 4 here, as there are 4 ammo slots
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < subWeaponItemIDs.Length; j++)
-                {
-                    if (doneSearching) continue;
-
-                    var item = player.inventory[54 + i];
-                    // Ammo slots range from 54-57
-                    // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
-                    if (item.type == subWeaponItemIDs[j])
-                    {
-                        var subWeapon = (BaseBomb)item.ModItem;
-                        var baseInkCost = WoomyMathHelper.CalculateWeaponInkCost(subWeapon, player);
-                        var discount = 0f;
-
-                        if (BonusSub != SubWeaponType.None)
-                        {
-                            SubWeaponType currentlyCheckedSub = (SubWeaponType)(j + 1);
-                            if (BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == BonusSub)
-                            {
-                                discount = baseInkCost * SubBonusAmount;
-                            }
-                        }
-
-                        var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
-                        if (!inkTankPlayer.HasEnoughInk(baseInkCost - discount))
-                        {
-                            doneSearching = true;
-                            break;
-                        }
-
-                        if (discount > 0)
-                        {
-                            inkTankPlayer.HealInk(discount, false);
-                        }
-
-                        // Calculate throw angle and spawn projectile
-                        float aimAngle = MathHelper.ToDegrees(
-                            player.DirectionTo(Main.MouseWorld).ToRotation()
-                        );
-
-                        float radians = MathHelper.ToRadians(aimAngle);
-                        Vector2 angleVector = radians.ToRotationVector2();
-                        Vector2 velocity = angleVector;
-                        var source = new EntitySource_ItemUse_WithAmmo(player, item, item.ammo);
-
-                        var p = CreateProjectileWithWeaponProperties(
-                            player: player,
-                            source: source,
-                            velocity: velocity * item.shootSpeed,
-                            weaponType: (BaseWeapon)item.ModItem,
-                            triggerSpawnMethods: false
-                            );
-                        p.Projectile.position = player.Center;
-                        p.itemIdentifier = item.type;
-                        p.weaponSourcePrefix = item.prefix;
-                        p.RunSpawnMethods();
-
-                        player.itemTime = item.useTime;
-
-                        doneSearching = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!doneSearching)
-            {
-                player.GetModPlayer<HudPlayer>().SetOverheadText("No sub weapon equipped!", displayTime: 90);
-                SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
             }
         }
 

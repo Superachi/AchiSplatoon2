@@ -1,9 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Helpers;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
+﻿using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Throwing
@@ -16,13 +11,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
         public virtual int ExplosionRadius { get => 100; }
         public virtual int MaxBounces { get => 12; }
         public override bool IsSubWeapon => true;
-        public override bool AllowSubWeaponUsage { get => false; }
 
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
             Item.shootSpeed = 20f;
-            Item.useTime = 30;
+            Item.useTime = 23;
             Item.useAnimation = Item.useTime;
             Item.noUseGraphic = true;
             Item.noMelee = true;
@@ -31,30 +25,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             Item.ammo = Item.type;
         }
 
-        public override float UseTimeMultiplier(Player player)
+        public override bool CanUseItem(Player player)
         {
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
-                {
-                    return HypnoShades.BombUseTimeMult;
-                }
-            }
-
-            return base.UseTimeMultiplier(player);
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                if (player.GetModPlayer<AccessoryPlayer>().hasHypnoShades)
-                {
-                    player.itemAnimation = (int)(Item.useTime * HypnoShades.BombUseTimeMult);
-                }
-            }
-
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            return false;
         }
     }
 }
