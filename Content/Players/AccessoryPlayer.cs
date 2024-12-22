@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Players
         public Type? paletteType = null;
 
         public bool hasAgentCloak;
-        public bool hasHypnoShades;
         public bool hasSpecialPowerEmblem;
         public bool hasSpecialChargeEmblem;
         public bool hasSubPowerEmblem;
@@ -110,7 +109,6 @@ namespace AchiSplatoon2.Content.Players
             paletteType = null;
 
             hasAgentCloak = false;
-            hasHypnoShades = false;
             hasSpecialPowerEmblem = false;
             hasSpecialChargeEmblem = false;
             hasSubPowerEmblem = false;

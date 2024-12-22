@@ -83,7 +83,7 @@ Hint: {
 	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
 	ThermalInkTank: Ink-based projectiles can pass through liquids
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
-	HypnoShades: Sub-weapons are used faster via your hotbar
+	HypnoShades: Sub-weapons are used faster
 	ChargedBattery: Weapons charge at full speed, even when in the air
 
 	TentacleScope: {
@@ -1199,11 +1199,7 @@ Items: {
 		UsageHint: "{$Hint.HypnoShades}"
 		Flavor: BOMB! RUSH! BLUSH!
 		DisplayName: Callie's Hypnoshades
-		Tooltip:
-			'''
-			{$SubPowerEmblem.Multiplier@0}
-			{1}% reduced sub weapon ink usage
-			'''
+		Tooltip: "{0}% reduced sub weapon ink usage"
 	}
 
 	SodaSlosher: {

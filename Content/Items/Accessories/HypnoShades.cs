@@ -8,12 +8,10 @@ namespace AchiSplatoon2.Content.Items.Accessories
 {
     internal class HypnoShades : BaseAccessory
     {
-        public static float BombDamageBonus => 0.2f;
         public static float BombUseTimeMult => 0.7f;
-        public static float BombInkCostMult => 0.4f;
+        public static float BombInkCostMult => 0.5f;
 
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
-            (int)(BombDamageBonus * 100),
             (int)((1f - BombInkCostMult) * 100)
             );
 
@@ -29,11 +27,10 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                var modPlayer = player.GetModPlayer<AccessoryPlayer>();
-                modPlayer.hasHypnoShades = true;
-                modPlayer.subPowerMultiplier += BombDamageBonus;
+                player.GetModPlayer<AccessoryPlayer>().TryEquipAccessory<HypnoShades>();
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons;
@@ -63,7 +63,7 @@ namespace AchiSplatoon2.Helpers
 
             if (weapon.IsSubWeapon)
             {
-                if (accMP.hasHypnoShades)
+                if (accMP.HasAccessory<HypnoShades>())
                 {
                     inkCostModifier *= HypnoShades.BombInkCostMult;
                 }
