@@ -27,7 +27,6 @@ Hint: {
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
 	Splatling: Hold left-click to charge up a barrage of shots (right-click to cancel)
 	Nozzlenose: Increased damage per consecutive hit on the same target
-	TrizookaUnleashed: Infinitely reusable, but doesn't benefit from special power bonuses
 
 	Stringers: {
 		Tri: Hold left-click to charge up a volley of explosive shots
@@ -697,13 +696,6 @@ Items: {
 			{$SpecialPowerEmblem.Multiplier@1}
 			{$SpecialChargeEmblem.Multiplier@2}
 			'''
-	}
-
-	TrizookaUnleashed: {
-		DisplayName: Trizooka Unleashed
-		UsageHint: "{$Hint.TrizookaUnleashed}"
-		Flavor: You're breaking the game, dude!
-		Tooltip: ""
 	}
 
 	ClassicSplattershotS1: {
@@ -1790,7 +1782,6 @@ Projectiles: {
 	NebulaStringerProjectile.DisplayName: Nebula Stringer Projectile
 	NebulaStringerCharge.DisplayName: Nebula Stringer Charge
 	SlimeSplattershotProjectile.DisplayName: Slime Splattershot Projectile
-	TrizookaUnleashedProjectile.DisplayName: Trizooka Unleashed Projectile
 	InkMineProjectile.DisplayName: Ink Mine Projectile
 	TorpedoProjectile.DisplayName: Torpedo Projectile
 	TorpedoPelletProjectile.DisplayName: Torpedo Pellet Projectile
