@@ -7,7 +7,7 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 {
     internal class TrizookaShooter : BaseProjectile
     {
@@ -48,10 +48,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 Main.instance.CameraModifiers.Add(modifier);
 
                 Color projColor = CurrentColor;
-                //if (WeaponInstance is TrizookaUnleashed)
-                //{
-                //    projColor = GetOwnerModPlayer<ColorSettingPlayer>().IncreaseHueBy(40);
-                //}
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -85,8 +81,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 Color dustColor = GenerateInkColor();
 
                 float random = Main.rand.NextFloat(-5, 5);
-                float velX = ((Projectile.velocity.X + random) * 0.5f);
-                float velY = ((Projectile.velocity.Y + random) * 0.5f);
+                float velX = (Projectile.velocity.X + random) * 0.5f;
+                float velY = (Projectile.velocity.Y + random) * 0.5f;
 
                 Dust.NewDust(Projectile.position, 1, 1, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
             }

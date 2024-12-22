@@ -84,11 +84,11 @@ internal class BaseProjectile : ModProjectile
     protected float velocityModifier = 1f;
     protected float knockbackModifier = 1f;
     protected int originalDamage = 0;
-    protected virtual float DamageModifierAfterPierce => 0.7f;
-    protected bool enablePierceDamagefalloff;
 
-    protected virtual bool CountDamageForSpecialCharge { get => true; }
+    protected virtual float DamageModifierAfterPierce => 0.6f;
+    protected bool enablePierceDamagefalloff;
     protected bool wormDamageReduction = false;
+
     protected int StandardNPCHitCooldown => 20 * FrameSpeed();
     protected bool ResetNPCHitCooldownAfterSpawnMethods = true;
 
@@ -621,13 +621,18 @@ internal class BaseProjectile : ModProjectile
         return (int)(Projectile.damage * multiplier);
     }
 
+    public virtual bool CountDamageTowardsSpecialCharge()
+    {
+        return true;
+    }
+
     public void DamageToSpecialCharge(float damage, NPC target)
     {
         if (target.friendly
             || target.type == NPCID.TargetDummy
             || target.SpawnedFromStatue
             || Main.npcCatchable[target.type]
-            || !CountDamageForSpecialCharge
+            || !CountDamageTowardsSpecialCharge()
             || NpcHelper.IsTargetAProjectile(target))
         {
             return;
@@ -635,6 +640,7 @@ internal class BaseProjectile : ModProjectile
 
         var specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
         if (specialPlayer.SpecialReady) return;
+        if (specialPlayer.SpecialActivated) return;
         if (!specialPlayer.PlayerCarriesSpecialWeapon) return;
 
         if (target.life <= 0 && !target.boss)

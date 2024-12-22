@@ -5,7 +5,6 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 {
     internal class IceStringerShrapnel : BaseProjectile
     {
-        protected override bool CountDamageForSpecialCharge => false;
         float drawScale = 1f;
 
         public override void SetDefaults()

@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 {
     internal class TrizookaHeldProjectile : BaseProjectile
     {
@@ -355,7 +355,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
                 var sign = Math.Sign(mouseDirDegrees);
                 if (sign > 0)
                 {
-                    Projectile.rotation = MathHelper.ToRadians((mouseDirDegrees - 180));
+                    Projectile.rotation = MathHelper.ToRadians(mouseDirDegrees - 180);
                 }
                 else
                 {

@@ -6,7 +6,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 {
     internal class KillerWailProjectile : BaseProjectile
     {
-        protected override bool CountDamageForSpecialCharge { get => false; }
         protected virtual bool enableDust => true;
         protected float Timer
         {

@@ -3,7 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 {
     internal class TrizookaShell : BaseProjectile
     {
@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
             }
             else
             {
-                if (timeSpentAlive > 10 && Main.rand.NextBool(1 + (timeSpentAlive / 8)))
+                if (timeSpentAlive > 10 && Main.rand.NextBool(1 + timeSpentAlive / 8))
                 {
                     Dust.NewDustPerfect(
                         Projectile.Center,

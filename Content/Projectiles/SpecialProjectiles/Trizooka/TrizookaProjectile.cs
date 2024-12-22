@@ -10,13 +10,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 {
     internal class TrizookaProjectile : BaseProjectile
     {
         public int shotNumber = 0;
-        protected override bool CountDamageForSpecialCharge { get => false; }
-
         private const float explosionRadius = 200;
         private int finalExplosionRadius;
 
