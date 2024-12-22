@@ -125,6 +125,16 @@ namespace AchiSplatoon2.Content.Players
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
+        public void HealInkFull(bool hideText = false)
+        {
+            var diff = InkAmountFinalMax - InkAmount;
+            InkAmount = InkAmountFinalMax;
+            if (hideText) return;
+
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            CombatTextHelper.DisplayText($"+{Math.Ceiling(diff)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
+        }
+
         public void ConsumeInk(float amount)
         {
             InkAmount -= amount;

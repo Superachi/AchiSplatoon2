@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -142,6 +142,7 @@ namespace AchiSplatoon2.Content.Players
 
                     var dronePlayer = Player.GetModPlayer<PearlDronePlayer>();
                     dronePlayer.TriggerDialoguePlayerActivatesSpecial(item.type);
+                    Player.GetModPlayer<InkTankPlayer>().HealInkFull(hideText: true);
                 }
 
                 if (item.ModItem is TrizookaSpecial trizooka)
