@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Test;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Test;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -32,6 +33,9 @@ namespace AchiSplatoon2.Content.Projectiles
             Projectile.velocity = -Projectile.DirectionTo(Owner.Center) * 5;
             Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -30, 30);
             Initialize(isDissolvable: false);
+
+            var soundStyle = Main.rand.NextBool(2) ? SoundPaths.SpecialChargeCreate1.ToSoundStyle() : SoundPaths.SpecialChargeCreate2.ToSoundStyle();
+            PlayAudio(soundStyle, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5);
         }
 
         public override void AI()
@@ -86,7 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
             _specialPlayer.IncrementSpecialCharge(chargeValue);
 
-            PlayAudio(SoundID.Item86, volume: 0.5f, pitch: -1 + _specialPlayer.SpecialPercentage);
+            PlayAudio(SoundPaths.SpecialChargeGain.ToSoundStyle(), volume: 0.05f, pitch: -1 + _specialPlayer.SpecialPercentage, maxInstances: 5);
 
             var position = Owner.Center;
             if (Owner.GetModPlayer<SquidPlayer>().IsFlat())

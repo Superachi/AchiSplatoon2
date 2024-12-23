@@ -463,6 +463,8 @@ internal class BaseProjectile : ModProjectile
     {
         var owner = GetOwner();
 
+        DamageToSpecialCharge(damageDone, target);
+
         if (enablePierceDamagefalloff && !NpcHelper.IsTargetAWormSegment(target))
         {
             Projectile.damage = MultiplyProjectileDamage(DamageModifierAfterPierce);
@@ -536,8 +538,6 @@ internal class BaseProjectile : ModProjectile
                 Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }
         }
-
-        DamageToSpecialCharge(damageDone, target);
     }
 
     protected bool IsTargetEnemy(NPC target, bool countDummyAsEnemy = false)
@@ -1031,7 +1031,7 @@ internal class BaseProjectile : ModProjectile
             position = Projectile.Center;
         }
 
-        PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.1f, position: position);
+        PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.1f, pitch: 0.2f, position: position);
         TripleHitDustBurst(position, false);
     }
 
