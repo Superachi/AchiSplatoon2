@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var accMP = player.GetModPlayer<AccessoryPlayer>();
-                if (accMP.hasAgentCloak) return;
                 accMP.hasSpecialChargeEmblem = true;
                 accMP.specialChargeMultiplier += addValue;
             }

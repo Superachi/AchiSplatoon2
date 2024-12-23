@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {
     internal class SpecialPowerEmblem : BaseAccessory
     {
-        public static float addValue = 2f;
+        public static float addValue = 1f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(addValue * 100));
         public override void SetDefaults()
         {
@@ -24,7 +24,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var accMP = player.GetModPlayer<AccessoryPlayer>();
-                if (accMP.hasAgentCloak) return;
                 accMP.hasSpecialPowerEmblem = true;
                 accMP.specialPowerMultiplier += addValue;
             }

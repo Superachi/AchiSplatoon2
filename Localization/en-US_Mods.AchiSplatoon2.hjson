@@ -77,7 +77,6 @@ Hint: {
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
 	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
-	AgentCloak: Special Power, Sub Power and Special Charge Emblems do not stack with this
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"
 	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
 	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
@@ -687,7 +686,7 @@ Items: {
 	}
 
 	AgentCloak: {
-		UsageHint: "{$Hint.AgentCloak}"
+		UsageHint: Mods.AchiSplatoon2.Items.AgentCloak.UsageHint
 		Flavor: Booyah!
 		DisplayName: Cloak of the Inner Agent
 		Tooltip:
@@ -1691,6 +1690,13 @@ Items: {
 		DisplayName: Special Charge Gun
 		Tooltip: ""
 	}
+
+	BombRush: {
+		DisplayName: Bomb Launcher Capsules
+		UsageHint: For a short time, your sub weapons cost no ink
+		Flavor: Bombs away!
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1811,6 +1817,7 @@ Projectiles: {
 	TrizookaShell.DisplayName: Trizooka Shell
 	SpecialChargeProjectile.DisplayName: Special Charge Projectile
 	TrizookaBlast.DisplayName: Trizooka Blast
+	BombRushHeldProjectile.DisplayName: Bomb Rush Held Projectile
 }
 
 Buffs: {
@@ -1852,6 +1859,11 @@ Buffs: {
 	LastDitchEffortBuff: {
 		DisplayName: Last-Ditch Effort
 		Description: Drastically reduced ink consumption
+	}
+
+	BombRushBuff: {
+		DisplayName: Bomb Rush
+		Description: Your sub weapons cost no ink. Bombs away!
 	}
 }
 
@@ -1925,7 +1937,12 @@ Prefixes: {
 Configs: {
 	ClientConfig: {
 		DisplayName: Client Config
-		Headers.Items: Items Header
+
+		Headers: {
+			Items: Items
+			UI: User Interface (UI)
+			Audio: Audio
+		}
 
 		UseOnlyVanillaSounds: {
 			Label: TODO - Use vanilla audio only
@@ -1940,6 +1957,11 @@ Configs: {
 		HideInkTankPercentage: {
 			Label: Hide ink tank percentage
 			Tooltip: Hides the number display beneath the ink tank UI. It's just like the real game!
+		}
+
+		DisableBombRushJingle: {
+			Label: Disable Bomb Rush jingle
+			Tooltip: ""
 		}
 	}
 }

@@ -14,7 +14,6 @@ namespace AchiSplatoon2.Content.Players
         public HashSet<int> equippedAccessories = new HashSet<int>();
         public Type? paletteType = null;
 
-        public bool hasAgentCloak;
         public bool hasSpecialPowerEmblem;
         public bool hasSpecialChargeEmblem;
         public bool hasSubPowerEmblem;
@@ -108,7 +107,6 @@ namespace AchiSplatoon2.Content.Players
             equippedAccessories.Clear();
             paletteType = null;
 
-            hasAgentCloak = false;
             hasSpecialPowerEmblem = false;
             hasSpecialChargeEmblem = false;
             hasSubPowerEmblem = false;
