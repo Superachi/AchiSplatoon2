@@ -1302,7 +1302,7 @@ Items: {
 
 	Dot96Gal: {
 		UsageHint: "{$Hint.Dot52Gal}"
-		Flavor: Mods.AchiSplatoon2.Items.Dot96Gal.Flavor
+		Flavor: 96 unresisted damage was a bit too much
 		DisplayName: .96 Gal
 		Tooltip: ""
 	}
