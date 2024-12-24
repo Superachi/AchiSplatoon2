@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -7,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 {
@@ -20,22 +18,22 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
         private const int _stateDespawn = 3;
 
         // Visuals
-        private float _drawScale = 1f;
-        private readonly float _drawRotation = 0f;
-        private int _drawDirection = 0;
-        private Vector2 _drawPosition = Vector2.Zero;
-        private Vector2 _holdOffset = Vector2.Zero;
-        private Vector2 _holdOffsetDefault = Vector2.Zero;
-        private float _rotationOffset = 0;
-        private bool _flipDone = false;
+        protected float drawScale = 1f;
+        protected readonly float drawRotation = 0f;
+        protected int drawDirection = 0;
+        protected Vector2 drawPosition = Vector2.Zero;
+        protected Vector2 holdOffset = Vector2.Zero;
+        protected Vector2 holdOffsetDefault = Vector2.Zero;
+        protected float rotationOffset = 0;
+        protected bool flipDone = false;
 
         // Mechanics
-        private int _shotsRemaining = 0;
-        private int _shotDelay = 0;
-        private int _startDelay = 0;
+        protected int shotsRemaining = 0;
+        protected int shotDelay = 0;
+        protected int startDelay = 0;
 
         // Misc
-        private Vector2 _mouseDirection = Vector2.Zero;
+        protected Vector2 mouseDirection = Vector2.Zero;
 
         public override void SetDefaults()
         {
@@ -49,9 +47,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
         {
             base.ApplyWeaponInstanceData();
 
-            var weaponData = (Items.Weapons.Specials.Trizooka)WeaponInstance;
-            _shotDelay = 48;
-            _startDelay = 36;
+            shotsRemaining = 3;
+            shotDelay = 48;
+            startDelay = 36;
         }
 
         protected override void AfterSpawn()
@@ -60,14 +58,13 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
             ApplyWeaponInstanceData();
             SetState(_stateFlip);
 
-            _shotsRemaining = 3;
-            _holdOffsetDefault = new Vector2(Owner.direction * -2, -4);
+            holdOffsetDefault = new Vector2(Owner.direction * -2, -4);
         }
 
         public override void AI()
         {
             Projectile.timeLeft++;
-            _mouseDirection = Owner.DirectionTo(Main.MouseWorld);
+            mouseDirection = Owner.DirectionTo(Main.MouseWorld);
 
             Owner.channel = true;
             Owner.heldProj = Projectile.whoAmI;
@@ -76,13 +73,13 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
             Projectile.Center = Owner.Center.Round() + new Vector2(0, Owner.gfxOffY);
             var heightBoost = Owner.mount.Active ? -Owner.mount.HeightBoost * 0.6f : 0;
 
-            _drawPosition = Owner.Center.Round() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
+            drawPosition = Owner.Center.Round() + new Vector2(0, Owner.gfxOffY) + new Vector2(0, heightBoost);
             Owner.direction = Owner.position.X > Main.MouseWorld.X ? -1 : 1;
-            _drawDirection = Owner.direction;
-            _holdOffset = Vector2.Lerp(_holdOffset, _holdOffsetDefault, 0.2f);
+            drawDirection = Owner.direction;
+            holdOffset = Vector2.Lerp(holdOffset, holdOffsetDefault, 0.2f);
 
             var armRotateDeg = 90f;
-            if (_drawDirection == -1) armRotateDeg = -90f;
+            if (drawDirection == -1) armRotateDeg = -90f;
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.ToRadians(armRotateDeg));
 
             // Hide the player's regular item, and prevent other item usage by setting the itemAnimation/itemTime
@@ -113,49 +110,37 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
             switch (state)
             {
                 case _stateFlip:
-                    _drawScale = 0f;
+                    drawScale = 0f;
                     break;
 
                 case _stateReady:
                     Owner.fullRotation = 0;
-                    _drawScale = 1f;
+                    drawScale = 1f;
                     break;
 
                 case _stateFire:
                     // --- Mechanical
-                    _shotsRemaining--;
+                    shotsRemaining--;
 
                     // Shoot
                     var shotPosition = Owner.Center;
                     if (Collision.CanHitLine(Owner.Center, 0, 0, Main.MouseWorld, 0, 0))
                     {
-                        shotPosition = Owner.Center + _mouseDirection * 40;
+                        shotPosition = Owner.Center + mouseDirection * 40;
                     }
-                    for (int i = 0; i < 3; i++)
-                    {
-                        var p = CreateChildProjectile<TrizookaProjectile>(
-                            position: shotPosition,
-                            velocity: _mouseDirection * 10,
-                            damage: Projectile.damage);
 
-                        p.colorOverride = CurrentColor;
-                        p.shotNumber = i;
-                    }
+                    CreateProjectiles(shotPosition);
 
                     // Recoil
-                    Owner.velocity -= _mouseDirection * 3;
+                    Owner.velocity -= mouseDirection * 3;
 
                     // --- Audio/visual
                     // Recoil
-                    _drawScale = 1.2f;
-                    _holdOffset = _holdOffsetDefault + -_mouseDirection * 20;
+                    drawScale = 1.2f;
+                    holdOffset = holdOffsetDefault + -mouseDirection * 20;
 
                     // Sound
-                    var volumeMod = 1.4f;
-                    PlayAudio(SoundID.Item66, volume: 0.5f * volumeMod, position: Owner.Center);
-                    PlayAudio(SoundID.Item80, volume: 0.2f * volumeMod, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.2f * volumeMod, position: Owner.Center);
-                    PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.5f * volumeMod, position: Owner.Center);
+                    PlayShootSound();
 
                     // Muzzle flare
                     for (int i = 1; i < 20; i++)
@@ -168,22 +153,22 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                             newColor: ColorHelper.ColorWithAlpha255(CurrentColor),
                             Scale: Main.rand.NextFloat(0.5f, 2f));
 
-                        d.velocity = WoomyMathHelper.AddRotationToVector2(_mouseDirection * 4, Main.rand.NextFloat(-30, 30)) * Main.rand.NextFloat(0.25f, 0.5f) * i;
+                        d.velocity = WoomyMathHelper.AddRotationToVector2(mouseDirection * 4, Main.rand.NextFloat(-30, 30)) * Main.rand.NextFloat(0.25f, 0.5f) * i;
                         d.noGravity = true;
                     }
 
                     for (int i = 0; i < 5; i++)
                     {
-                        var g = Gore.NewGoreDirect(Terraria.Entity.GetSource_None(), Owner.Center - _mouseDirection * 60 + new Vector2(-20, -15), Vector2.Zero, GoreID.Smoke1, Main.rand.NextFloat(0.8f, 1.2f));
+                        var g = Gore.NewGoreDirect(Terraria.Entity.GetSource_None(), Owner.Center - mouseDirection * 60 + new Vector2(-20, -15), Vector2.Zero, GoreID.Smoke1, Main.rand.NextFloat(0.8f, 1.2f));
                         g.velocity = WoomyMathHelper.AddRotationToVector2(
-                            -_mouseDirection * Main.rand.NextFloat(1, 4),
+                            -mouseDirection * Main.rand.NextFloat(1, 4),
                             -30,
                             30);
                         g.alpha = 128;
                     }
 
                     // Discard shell
-                    var shellVelocity = WoomyMathHelper.AddRotationToVector2(-_mouseDirection * 8, Main.rand.Next(-30, 30));
+                    var shellVelocity = WoomyMathHelper.AddRotationToVector2(-mouseDirection * 8, Main.rand.Next(-30, 30));
                     CreateChildProjectile<TrizookaShell>(Owner.Center, shellVelocity, 0, true);
 
                     // Camera shake
@@ -191,8 +176,8 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                     break;
 
                 case _stateDespawn:
-                    _drawScale = 1f;
-                    _holdOffset = _holdOffsetDefault;
+                    drawScale = 1f;
+                    holdOffset = holdOffsetDefault;
                     PlayAudio(SoundPaths.TrizookaDeactivate.ToSoundStyle(), volume: 0.3f, position: Owner.Center);
                     break;
             }
@@ -203,10 +188,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
             Projectile.rotation = Owner.fullRotation;
             if (timeSpentInState > 15)
             {
-                _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.2f);
+                drawScale = MathHelper.Lerp(drawScale, 1f, 0.2f);
             }
 
-            if (!Owner.mount.Active && !_flipDone)
+            if (!Owner.mount.Active && !flipDone)
             {
                 if (timeSpentInState < 8)
                 {
@@ -222,7 +207,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                     }
                     else
                     {
-                        _flipDone = true;
+                        flipDone = true;
                         Owner.fullRotation = 0;
                     }
                 }
@@ -238,7 +223,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                 PlayAudio(SoundPaths.TrizookaActivate.ToSoundStyle(), volume: 0.5f, position: Owner.Center);
             }
 
-            if (timeSpentInState > _startDelay)
+            if (timeSpentInState > startDelay)
             {
                 AdvanceState();
             }
@@ -261,21 +246,21 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 
         private void StateFire()
         {
-            _drawScale = MathHelper.Lerp(_drawScale, 1f, 0.3f);
+            drawScale = MathHelper.Lerp(drawScale, 1f, 0.3f);
 
-            if (timeSpentInState < _shotDelay / 4)
+            if (timeSpentInState < shotDelay / 4)
             {
-                _rotationOffset = MathHelper.Lerp(_rotationOffset, -Owner.direction * 20, 0.2f);
+                rotationOffset = MathHelper.Lerp(rotationOffset, -Owner.direction * 20, 0.2f);
             }
             else
             {
-                _rotationOffset = MathHelper.Lerp(_rotationOffset, 0, 0.1f);
+                rotationOffset = MathHelper.Lerp(rotationOffset, 0, 0.1f);
             }
 
-            if (timeSpentInState > _shotDelay)
+            if (timeSpentInState > shotDelay)
             {
-                _drawScale = 1f;
-                if (_shotsRemaining > 0)
+                drawScale = 1f;
+                if (shotsRemaining > 0)
                 {
                     SetState(_stateReady);
                 }
@@ -290,7 +275,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 
         private void StateDespawn()
         {
-            _drawScale = MathHelper.Lerp(_drawScale, 0f, 0.2f);
+            drawScale = MathHelper.Lerp(drawScale, 0f, 0.2f);
 
             if (timeSpentInState > 15)
             {
@@ -306,11 +291,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 position = _drawPosition - Main.screenPosition + _holdOffset;
+            Vector2 position = drawPosition - Main.screenPosition + holdOffset;
             Texture2D texture = TexturePaths.ZookaStages.ToTexture2D();
 
-            Rectangle sourceRectangle = texture.Frame(horizontalFrames: 4, frameX: 3 - _shotsRemaining);
-            Vector2 origin = sourceRectangle.Size() / 2f + new Vector2(-8 * _drawDirection, 8);
+            Rectangle sourceRectangle = texture.Frame(horizontalFrames: 4, frameX: 3 - shotsRemaining);
+            Vector2 origin = sourceRectangle.Size() / 2f + new Vector2(-8 * drawDirection, 8);
 
             // The light value in the world
             var lightInWorld = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
@@ -323,10 +308,10 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                 position,
                 sourceRectangle,
                 finalColor,
-                Projectile.rotation + MathHelper.ToRadians(_rotationOffset),
+                Projectile.rotation + MathHelper.ToRadians(rotationOffset),
                 origin,
-                _drawScale,
-                _drawDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                drawScale,
+                drawDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0f);
 
             spriteBatch.End();
@@ -341,7 +326,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
 
             // Change player direction depending on what direction the charger is held when charging
             float mouseDirRadians;
-            mouseDirRadians = _mouseDirection.ToRotation();
+            mouseDirRadians = mouseDirection.ToRotation();
             var mouseDirDegrees = MathHelper.ToDegrees(mouseDirRadians);
 
             if (mouseDirDegrees >= -90 && mouseDirDegrees <= 90)
@@ -361,6 +346,29 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
                 {
                     Projectile.rotation = MathHelper.ToRadians(mouseDirDegrees + 180);
                 }
+            }
+        }
+
+        protected override void PlayShootSound()
+        {
+            var volumeMod = 1.4f;
+            PlayAudio(SoundID.Item66, volume: 0.5f * volumeMod, position: Owner.Center);
+            PlayAudio(SoundID.Item80, volume: 0.2f * volumeMod, position: Owner.Center);
+            PlayAudio(SoundPaths.TrizookaLaunch.ToSoundStyle(), volume: 0.2f * volumeMod, position: Owner.Center);
+            PlayAudio(SoundPaths.TrizookaLaunchAlly.ToSoundStyle(), volume: 0.5f * volumeMod, position: Owner.Center);
+        }
+
+        protected virtual void CreateProjectiles(Vector2 shotPosition)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var p = CreateChildProjectile<TrizookaProjectile>(
+                    position: shotPosition,
+                    velocity: mouseDirection * 10,
+                    damage: Projectile.damage);
+
+                p.colorOverride = CurrentColor;
+                p.shotNumber = i;
             }
         }
     }
