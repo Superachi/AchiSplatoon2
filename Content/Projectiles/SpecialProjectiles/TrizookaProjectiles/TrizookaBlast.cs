@@ -1,7 +1,7 @@
 ﻿using AchiSplatoon2.Helpers;
 using Terraria;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles
 {
     internal class TrizookaBlast : BlastProjectile
     {

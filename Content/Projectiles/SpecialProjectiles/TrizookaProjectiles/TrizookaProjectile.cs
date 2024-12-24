@@ -10,7 +10,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
+namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles
 {
     internal class TrizookaProjectile : BaseProjectile
     {
