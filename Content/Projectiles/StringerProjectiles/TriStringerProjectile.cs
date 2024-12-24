@@ -105,8 +105,22 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.velocity.Y += fallSpeed;
                 }
 
-                Color dustColor = GenerateInkColor();
-                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Vector2.Zero, newColor: dustColor, Scale: Main.rand.NextFloat(0.8f, 1.2f));
+                DustHelper.NewDust(
+                    position: Projectile.Center,
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Vector2.Zero,
+                    color: CurrentColor,
+                    scale: 1f,
+                    data: new (scaleIncrement: -0.2f));
+
+                if (Main.rand.NextBool(40))
+                {
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Vector2.Zero,
+                        color: CurrentColor,
+                        scale: 1f);
+                }
             }
             else
             {
@@ -117,7 +131,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
                 if (!hasExploded)
                 {
-                    Lighting.AddLight(Projectile.Center, GenerateInkColor().ToVector3());
+                    Lighting.AddLight(Projectile.Center, CurrentColor.ToVector3());
                 }
 
                 if (Projectile.timeLeft < ExtraUpdatesTime(networkExplodeDelayBuffer) && !hasExploded)

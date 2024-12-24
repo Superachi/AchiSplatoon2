@@ -24,10 +24,17 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             base.AfterSpawn();
 
-            SoundHelper.PlayAudio(SoundID.Item28, 0.3f, maxInstances: 10, pitch: 0.5f, position: Projectile.Center);
-            colorOverride = new Color(r: 106, g: 218, b: 255);
+            var color = new Color(r: 106, g: 218, b: 255);
+            color = ColorHelper.ColorWithAlpha255(color);
+            UpdateCurrentColor(color);
+
             dissolvable = false;
             enablePierceDamagefalloff = true;
+
+            if (canStick)
+            {
+                SoundHelper.PlayAudio(SoundID.Item28, 0.3f, maxInstances: 10, pitch: 0.5f, position: Projectile.Center);
+            }
 
             if (parentFullyCharged)
             {
@@ -45,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
 
             var dustChance = sticking == true ? 75 : 20;
-            if (Main.rand.NextBool(dustChance))
+            if (canStick && Main.rand.NextBool(dustChance))
             {
                 Dust dust = Dust.NewDustDirect(
                     Projectile.position,
