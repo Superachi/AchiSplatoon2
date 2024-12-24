@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
                 singleShotTime: 30,
                 shotVelocity: -10f);
 
-            Item.damage = 30;
+            Item.damage = 50;
             Item.knockBack = 1;
             Item.ArmorPenetration = ArmorPierce;
 
@@ -32,6 +32,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
             Item.useTurn = true;
         }
 
-        public override void AddRecipes() => AddRecipeMeteorite();
+        public override void AddRecipes() => AddRecipePostMechBoss(true);
     }
 }

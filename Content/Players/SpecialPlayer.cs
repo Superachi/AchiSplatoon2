@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -155,6 +155,12 @@ namespace AchiSplatoon2.Content.Players
                 if (item.ModItem is BombRush bombRush)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<BombRushHeldProjectile>(), bombRush, true, null, damage: item.damage, item.knockBack);
+                    return true;
+                }
+
+                if (item.ModItem is KillerWail killerWail)
+                {
+                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<KillerWailShooter>(), killerWail, true, null, damage: item.damage, item.knockBack);
                     return true;
                 }
             }

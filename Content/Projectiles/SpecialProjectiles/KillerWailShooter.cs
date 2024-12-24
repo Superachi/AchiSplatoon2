@@ -31,6 +31,11 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
         {
             Initialize();
             PlayAudio(SoundPaths.KillerWailSpawn.ToSoundStyle(), volume: 0.5f, pitchVariance: 0f, maxInstances: 3);
+
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity = Projectile.DirectionTo(Main.MouseWorld) * -10f;
+            }
         }
 
         protected float Timer
