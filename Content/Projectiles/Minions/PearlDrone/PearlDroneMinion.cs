@@ -48,6 +48,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private readonly int healCooldownMax = 7200;
 
         private NPC? foundTarget = null;
+        private bool bombRushActive = false;
 
         public override void SetStaticDefaults()
         {
@@ -143,8 +144,11 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (speechCooldownCurrent > 0) speechCooldownCurrent--;
             if (speechDisplayTime > 0) speechDisplayTime--;
 
-            if (sprinklerCooldown > 0) sprinklerCooldown--;
-            if (burstBombCooldown > 0) burstBombCooldown--;
+            if (sprinklerCooldown > 0 && !bombRushActive) sprinklerCooldown--;
+            if (burstBombCooldown > 0)
+            {
+                burstBombCooldown -= bombRushActive ? 20 : 1;
+            }
 
             if (healCooldown > 0) healCooldown--;
         }
@@ -158,6 +162,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 return;
             }
 
+            bombRushActive = Owner.HasBuff<BombRushBuff>() && Owner.GetModPlayer<PearlDronePlayer>().IsBurstBombEnabled;
             DeductCooldowns();
 
             // Disc scratch sound
@@ -372,10 +377,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (droneMP.IsBurstBombEnabled && burstBombCooldown <= 0 && distanceToTarget < 200)
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
+                var damageMod = Owner.HasBuff<BombRushBuff>() ? 0.5f : 1f;
+                
                 PearlDroneBurstBomb burstShot = CreateChildProjectile<PearlDroneBurstBomb>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
-                    droneMP.GetBurstBombDamage(),
+                    (int)(droneMP.GetBurstBombDamage() * damageMod),
                     triggerSpawnMethods: false);
 
                 burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
@@ -828,6 +835,23 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         private List<string> PlayerActivatesSpecial(int specialItemId)
         {
             var strings = new List<string>();
+
+            if (specialItemId == ModContent.ItemType<BombRush>())
+            {
+                var droneMP = GetOwnerModPlayer<PearlDronePlayer>();
+
+                if (droneMP.IsBurstBombEnabled)
+                {
+                    strings.Add($"Let's make Callie proud, {ownerName}!");
+                    strings.Add($"Count me in!");
+                    strings.Add($"Let's do this!");
+                }
+                else
+                {
+                    strings.Add($"Bombs away!");
+                    strings.Add($"No holdin' back, {ownerName}!");
+                }
+            }
 
             if (specialItemId == ModContent.ItemType<TrizookaSpecial>())
             {

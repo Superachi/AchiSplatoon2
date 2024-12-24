@@ -1694,7 +1694,7 @@ Items: {
 	BombRush: {
 		DisplayName: Bomb Launcher Capsules
 		UsageHint: For a short time, your sub weapons cost no ink
-		Flavor: Bombs away!
+		Flavor: Also inspires Pearl Drone
 		Tooltip: ""
 	}
 }
@@ -1945,7 +1945,7 @@ Configs: {
 		}
 
 		UseOnlyVanillaSounds: {
-			Label: TODO - Use vanilla audio only
+			Label: (Not added yet!) - Use vanilla audio only
 			Tooltip: Replaces Splatoon sounds with vanilla ones from Terraria.
 		}
 
@@ -1961,7 +1961,7 @@ Configs: {
 
 		DisableBombRushJingle: {
 			Label: Disable Bomb Rush jingle
-			Tooltip: ""
+			Tooltip: The Bomb Rush jingle no longer plays and overrides the background music.
 		}
 	}
 }

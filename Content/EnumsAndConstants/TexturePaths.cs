@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         // Specials
         private static readonly string _directorySpecials = "Specials";
         public static string ZookaStages => FormatPath(nameof(ZookaStages), _directorySpecials);
+        public static string BombLauncherBackpack => FormatPath(nameof(BombLauncherBackpack), _directorySpecials);
 
         // UI
         private static readonly string _directoryUI = "UI";

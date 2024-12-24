@@ -1,8 +1,9 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -133,7 +134,7 @@ namespace AchiSplatoon2.Content.Players
                 return false;
             }
 
-            Item? item = InventoryHelper.FirstInInventory<TrizookaSpecial>(Player);
+            Item? item = InventoryHelper.FirstInInventory<BaseSpecial>(Player);
             if (item != null)
             {
                 if (item.ModItem is BaseSpecial special)
@@ -148,6 +149,12 @@ namespace AchiSplatoon2.Content.Players
                 if (item.ModItem is TrizookaSpecial trizooka)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<TrizookaHeldProjectile>(), trizooka, true, null, damage: item.damage, item.knockBack);
+                    return true;
+                }
+
+                if (item.ModItem is BombRush bombRush)
+                {
+                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<BombRushHeldProjectile>(), bombRush, true, null, damage: item.damage, item.knockBack);
                     return true;
                 }
             }
