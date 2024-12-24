@@ -23,11 +23,6 @@ namespace AchiSplatoon2.Helpers
             // Regular Mains
             { ModContent.ItemType<SplooshOMatic>(),         ModContent.ItemType<SplashOMatic>() },
 
-            // Specials
-            { ModContent.ItemType<TrizookaSpecial>(),       ModContent.ItemType<KillerWail>() },
-            { ModContent.ItemType<KillerWail>(),            ModContent.ItemType<UltraStamp>() },
-            { ModContent.ItemType<UltraStamp>(),            ModContent.ItemType<TrizookaSpecial>() },
-
             // Cobalt <-> Palladium
             { ModContent.ItemType<ZinkMiniSplatling>(),     ModContent.ItemType<InkbrushNouveau>() },
             { ModContent.ItemType<KrakonSplatRoller>(),     ModContent.ItemType<CarbonRollerDeco>() },
