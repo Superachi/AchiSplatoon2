@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles
             Initialize(isDissolvable: false);
 
             var soundStyle = Main.rand.NextBool(2) ? SoundPaths.SpecialChargeCreate1.ToSoundStyle() : SoundPaths.SpecialChargeCreate2.ToSoundStyle();
-            PlayAudio(soundStyle, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5);
+            PlayAudio(soundStyle, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Projectile.Center);
         }
 
         public override void AI()
