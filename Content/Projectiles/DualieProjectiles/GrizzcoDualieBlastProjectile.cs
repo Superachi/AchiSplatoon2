@@ -1,11 +1,11 @@
-﻿using AchiSplatoon2.Netcode.DataModels;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Netcode.DataModels;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
 {
     internal class GrizzcoDualieBlastProjectile : BaseProjectile
     {
-        protected string explosionSample = "BlasterExplosion";
         private readonly int baseRadius = 220;
         private bool hasExploded = false;
 
@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 var finalRadius = (int)(baseRadius * explosionRadiusModifier);
                 var e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 40, _minScale: 2, _maxScale: 4, _radiusModifier: finalRadius);
-                var a = new PlayAudioModel(_soundPath: explosionSample, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: 0);
+                var a = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: 0);
                 CreateExplosionVisual(e, a);
 
                 Projectile.Resize(finalRadius, finalRadius);

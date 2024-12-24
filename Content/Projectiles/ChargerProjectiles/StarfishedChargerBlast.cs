@@ -1,11 +1,11 @@
-﻿using AchiSplatoon2.Netcode.DataModels;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Netcode.DataModels;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 {
     internal class StarfishedChargerBlast : BaseProjectile
     {
-        protected string explosionSample = "BlasterExplosion";
         private readonly int baseRadius = 100;
         private bool hasExploded = false;
 
@@ -56,7 +56,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                     Projectile.Center = target.Center;
 
                     var e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 20, _minScale: 3, _maxScale: 4, _radiusModifier: finalRadius);
-                    var a = new PlayAudioModel(_soundPath: explosionSample, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: -0.4f + pitchAdd, _position: Projectile.Center);
+                    var a = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: -0.4f + pitchAdd, _position: Projectile.Center);
                     CreateExplosionVisual(e, a);
 
                     hasExploded = true;
