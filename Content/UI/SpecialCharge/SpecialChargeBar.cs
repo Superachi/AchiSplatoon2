@@ -52,8 +52,8 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
 
             var colorChipPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             float quotient = specialPlayer.GetSpecialPercentageDisplay(); // Must be a method, property crashes for some reason
-            var barColorOriginal = colorChipPlayer.GetColorFromChips();
-            var barColorDark = colorChipPlayer.GetColorFromChips() * 0.7f;
+            var barColorOriginal = ColorHelper.ColorWithAlpha255(colorChipPlayer.GetColorFromChips());
+            var barColorDark = ColorHelper.LerpBetweenColorsPerfect(barColorOriginal, Color.Black, 0.2f);
             barColor = barColorDark;
 
             float lerpAmount = 0.2f;
@@ -90,7 +90,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
             spriteBatch.Draw(
                 texture: fillEmpty,
                 destinationRectangle: new Rectangle(hitbox.Left - 4, hitbox.Top + 2 + (int)yOffset, fillEmpty.Width + 4, fillEmpty.Height),
-                color: Color.White);
+                color: Color.Black);
 
             var fill = TexturePaths.SpecialFill.ToTexture2D();
             spriteBatch.Draw(
