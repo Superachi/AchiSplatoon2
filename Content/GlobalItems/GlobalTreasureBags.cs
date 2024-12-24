@@ -65,7 +65,7 @@ namespace AchiSplatoon2.Content.GlobalItems
                 );
             }
 
-            if (item.type == ItemID.EyeOfCthulhuBossBag)
+            if (item.type == ItemID.EaterOfWorldsBossBag || item.type == ItemID.BrainOfCthulhuBossBag)
             {
                 itemLoot.Add(
                     ItemDropRule.Common(ModContent.ItemType<BombRush>())
