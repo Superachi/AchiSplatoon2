@@ -72,7 +72,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 minScale: 1.5f,
                 maxScale: 2f);
 
-
             DustHelper.NewDropletDust(
                 position: Projectile.position + Main.rand.NextVector2Circular(5, 5),
                 velocity: Projectile.velocity / 5,
