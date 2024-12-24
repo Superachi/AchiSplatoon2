@@ -68,14 +68,21 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.EyeOfCthulhuBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<Trizooka>())
+                    ItemDropRule.Common(ModContent.ItemType<BombRush>())
+                );
+            }
+
+            if (item.type == ItemID.QueenBeeBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<DroneDiscA>())
                 );
             }
 
             if (item.type == ItemID.SkeletronBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<DroneDiscA>())
+                    ItemDropRule.Common(ModContent.ItemType<Trizooka>())
                 );
             }
 
