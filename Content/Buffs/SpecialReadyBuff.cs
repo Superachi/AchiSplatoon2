@@ -19,7 +19,14 @@ namespace AchiSplatoon2.Content.Buffs
 
         public override bool RightClick(int buffIndex)
         {
-            Main.LocalPlayer.GetModPlayer<HudPlayer>().SetOverheadText("Cancelled special!", 90);
+            Player player = Main.LocalPlayer;
+
+            if (player.GetModPlayer<SpecialPlayer>().SpecialActivated)
+            {
+                return false;
+            }
+
+            player.GetModPlayer<HudPlayer>().SetOverheadText("Cancelled special!", 90);
             return true;
         }
     }

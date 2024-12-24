@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -214,6 +214,8 @@ namespace AchiSplatoon2.Content.Players
         // Public methods for other classes
         public void IncrementSpecialCharge(float amount)
         {
+            if (SpecialActivated) return;
+
             var accPlayer = Player.GetModPlayer<AccessoryPlayer>();
 
             var oldAmount = SpecialPoints;
