@@ -29,6 +29,10 @@ internal class NpcHelper
             case NPCID.PrimeLaser:
             case NPCID.PrimeVice:
 
+            case 658: // Crystal Slime - Summoned by Queen Slime
+            case 659: // Bouncy Slime
+            case 660: // Heavenly Slime
+
             case NPCID.Sharkron:
             case NPCID.Sharkron2:
                 return true;
