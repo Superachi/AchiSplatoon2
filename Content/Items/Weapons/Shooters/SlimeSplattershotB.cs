@@ -6,6 +6,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class SlimeSplattershotB : SlimeSplattershot
     {
+        public override float InkCost { get => 6f; }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
