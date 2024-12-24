@@ -853,7 +853,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 }
             }
 
-            if (specialItemId == ModContent.ItemType<TrizookaSpecial>())
+            if (specialItemId == ModContent.ItemType<Trizooka>())
             {
                 strings.Add("Fire away!");
                 strings.Add($"Let's see some explosions, {ownerName}!");

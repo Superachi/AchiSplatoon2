@@ -3,7 +3,7 @@ using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
-    internal class TrizookaSpecial : BaseSpecial
+    internal class Trizooka : BaseSpecial
     {
         public override Vector2? HoldoutOffset() { return new Vector2(-40, -8); }
         public override float MuzzleOffsetPx { get; set; } = 80f;

@@ -46,7 +46,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as TrizookaSpecial;
+            var weaponData = WeaponInstance as Items.Weapons.Specials.Trizooka;
 
             finalExplosionRadius = (int)(explosionRadius * explosionRadiusModifier);
         }

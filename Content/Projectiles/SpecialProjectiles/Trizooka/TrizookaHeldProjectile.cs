@@ -49,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka
         {
             base.ApplyWeaponInstanceData();
 
-            var weaponData = (TrizookaSpecial)WeaponInstance;
+            var weaponData = (Items.Weapons.Specials.Trizooka)WeaponInstance;
             _shotDelay = 48;
             _startDelay = 36;
         }

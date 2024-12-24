@@ -146,7 +146,7 @@ namespace AchiSplatoon2.Content.Players
                     Player.GetModPlayer<InkTankPlayer>().HealInkFull(hideText: true);
                 }
 
-                if (item.ModItem is TrizookaSpecial trizooka)
+                if (item.ModItem is Trizooka trizooka)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<TrizookaHeldProjectile>(), trizooka, true, null, damage: item.damage, item.knockBack);
                     return true;

@@ -68,7 +68,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.EyeOfCthulhuBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<TrizookaSpecial>())
+                    ItemDropRule.Common(ModContent.ItemType<Trizooka>())
                 );
             }
 
