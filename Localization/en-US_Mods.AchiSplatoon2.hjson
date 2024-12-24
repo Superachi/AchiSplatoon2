@@ -421,7 +421,7 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.BaseSpecial.Flavor
 	}
 
-	TrizookaSpecial: {
+	Trizooka: {
 		DisplayName: Trizooka
 		UsageHint: Fires {0} explosive shots, {1} times
 		Flavor: Go ahead, try and react to it.
