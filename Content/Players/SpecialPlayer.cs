@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -134,31 +134,40 @@ namespace AchiSplatoon2.Content.Players
                 return false;
             }
 
-            Item? item = InventoryHelper.FirstInInventory<BaseSpecial>(Player);
+            Item? item = Player.HeldItem;
+            if (item.ModItem is not BaseSpecial)
+            {
+                item = InventoryHelper.FirstInInventory<BaseSpecial>(Player);
+            }
+
             if (item != null)
             {
-                if (item.ModItem is BaseSpecial special)
+                var modItem = item.ModItem;
+
+                if (modItem is BaseSpecial special)
                 {
-                    SpecialDrainRate = special.SpecialDrainPerTick;
+                    SpecialPointsMax = special.RechargeCostPenalty;
+                    SpecialPoints = SpecialPointsMax;
+                    SpecialDrainRate = special.SpecialDrainPerTick * (SpecialPointsMax / 100f);
 
                     var dronePlayer = Player.GetModPlayer<PearlDronePlayer>();
                     dronePlayer.TriggerDialoguePlayerActivatesSpecial(item.type);
                     Player.GetModPlayer<InkTankPlayer>().HealInkFull(hideText: true);
                 }
 
-                if (item.ModItem is Trizooka trizooka)
+                if (modItem is Trizooka trizooka)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<TrizookaHeldProjectile>(), trizooka, true, null, damage: item.damage, item.knockBack);
                     return true;
                 }
 
-                if (item.ModItem is BombRush bombRush)
+                if (modItem is BombRush bombRush)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<BombRushHeldProjectile>(), bombRush, true, null, damage: item.damage, item.knockBack);
                     return true;
                 }
 
-                if (item.ModItem is KillerWail killerWail)
+                if (modItem is KillerWail killerWail)
                 {
                     ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<KillerWailShooter>(), killerWail, true, null, damage: item.damage, item.knockBack);
                     return true;

@@ -5,6 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class BaseSpecial : BaseWeapon
     {
+        public override float RechargeCostPenalty { get => 100f; }
         public override bool IsSpecialWeapon { get => true; }
 
         public override void SetDefaults()

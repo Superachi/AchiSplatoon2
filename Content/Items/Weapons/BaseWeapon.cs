@@ -97,6 +97,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual float SpecialDrainPerUse { get => 0f; }
         public virtual float SpecialDrainPerTick { get => 0f; }
 
+        // Determines the points you need to charge the next special
+        public virtual float RechargeCostPenalty { get => 0f; }
+
         public override bool? UseItem(Player player)
         {
             player.GetModPlayer<StatisticsPlayer>().attacksUsed++;
@@ -189,6 +192,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
             else if (IsSpecialWeapon)
             {
                 tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
+                
+                if (RechargeCostPenalty > 0)
+                {
+                    var tip = $"When used, your next special requires " + ColorHelper.TextWithSpecialWeaponColor($"{(int)RechargeCostPenalty} points ") + "to charge";
+                    tooltips.Add(new TooltipLine(Mod, "SpecialCost", tip) { OverrideColor = null });
+                }
             }
             else
             {

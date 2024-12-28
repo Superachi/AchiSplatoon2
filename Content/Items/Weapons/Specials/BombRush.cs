@@ -4,6 +4,7 @@
     {
         public override float SpecialDrainPerTick => 0.1285f;
         public override float SpecialDrainPerUse => 0f;
+        public override float RechargeCostPenalty { get => 120f; }
 
         public override void SetDefaults()
         {
