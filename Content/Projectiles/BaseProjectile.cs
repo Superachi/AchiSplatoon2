@@ -680,6 +680,11 @@ internal class BaseProjectile : ModProjectile
         return input * (1 + Projectile.extraUpdates);
     }
 
+    protected float FrameSpeedMultiply(float input = 1)
+    {
+        return input * (1 + Projectile.extraUpdates);
+    }
+
     public Color GenerateInkColor()
     {
         if (colorOverride != null)
@@ -816,7 +821,7 @@ internal class BaseProjectile : ModProjectile
         var len = Projectile.oldPos.Length;
         for (int i = len - 1; i > 0; i--)
         {
-            if (i % modulo == 0 && modulo > 1) continue;
+            if (i % modulo != 0 && modulo > 1) continue;
 
             var iMult = (float)(len - i) / len;
             var posDiff = Projectile.oldPos[i] - Projectile.position;

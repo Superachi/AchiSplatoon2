@@ -119,25 +119,51 @@ namespace AchiSplatoon2.Helpers
             return baseInkCost / maxChargeTime * 10;
         }
 
-        internal static float CalculateZookaDamageModifier(NPC target)
+        internal static float CalculateTrizookaDamageModifier(NPC target)
         {
             float modifier = 1f;
 
-            bool isWormBoss =
+            bool isSegmentedBoss =
                    target.type == NPCID.EaterofWorldsHead || target.type == NPCID.EaterofWorldsBody || target.type == NPCID.EaterofWorldsTail
-                || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail;
+                || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
+                || target.type == NPCID.Creeper;
 
             bool isBossSegment = target.type == NPCID.SkeletronHand;
 
             // Note: target.boss here will be false for Eater of Worlds and Destroyer
             if ((target.boss || isBossSegment) && !Main.hardMode)
             {
+                modifier *= 0.6f;
+            }
+
+            if (isSegmentedBoss)
+            {
                 modifier *= 0.4f;
             }
 
-            if (isWormBoss)
+            return modifier;
+        }
+
+        internal static float CalculateInkzookaDamageModifier(NPC target)
+        {
+            float modifier = 1f;
+
+            bool isSegmentedBoss =
+                   target.type == NPCID.EaterofWorldsHead || target.type == NPCID.EaterofWorldsBody || target.type == NPCID.EaterofWorldsTail
+                || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
+                || target.type == NPCID.Creeper;
+
+            bool isBossSegment = target.type == NPCID.SkeletronHand;
+
+            // Note: target.boss here will be false for Eater of Worlds and Destroyer
+            if ((target.boss || isBossSegment) && !Main.hardMode)
             {
-                modifier *= 0.25f;
+                modifier *= 0.8f;
+            }
+
+            if (isSegmentedBoss)
+            {
+                modifier *= 0.4f;
             }
 
             return modifier;

@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -73,7 +75,9 @@ namespace AchiSplatoon2.Content.Players
                 || Player.grappling[0] != -1
                 || Player.mount.Active
                 || Player.GetModPlayer<DualiePlayer>().isRolling
-                || PlayerHasBuffThatPreventsSwimForm();
+                || PlayerHasBuffThatPreventsSwimForm()
+                || Player.ownedProjectileCounts[ModContent.ProjectileType<InkzookaHeldProjectile>()] > 0
+                || Player.ownedProjectileCounts[ModContent.ProjectileType<TrizookaHeldProjectile>()] > 0;
         }
 
         private bool PlayerHasBuffThatPreventsSwimForm()

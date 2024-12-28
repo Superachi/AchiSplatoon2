@@ -1,9 +1,10 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
-using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.Trizooka;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -153,6 +154,12 @@ namespace AchiSplatoon2.Content.Players
                     var dronePlayer = Player.GetModPlayer<PearlDronePlayer>();
                     dronePlayer.TriggerDialoguePlayerActivatesSpecial(item.type);
                     Player.GetModPlayer<InkTankPlayer>().HealInkFull(hideText: true);
+                }
+
+                if (modItem is Inkzooka inkzooka)
+                {
+                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<InkzookaHeldProjectile>(), inkzooka, true, null, damage: item.damage, item.knockBack);
+                    return true;
                 }
 
                 if (modItem is Trizooka trizooka)

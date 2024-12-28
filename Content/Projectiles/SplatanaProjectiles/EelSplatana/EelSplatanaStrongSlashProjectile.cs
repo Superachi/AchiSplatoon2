@@ -42,7 +42,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
             enablePierceDamagefalloff = false;
             dissolvable = false;
             Projectile.localNPCHitCooldown = 5 * FrameSpeed();
-            Projectile.penetrate = -1;
             Projectile.damage /= 2;
 
             DespawnOtherTornados();
@@ -73,6 +72,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
         public override void AI()
         {
             base.AI();
+
+            if (Projectile.penetrate != -1) Projectile.penetrate = -1;
 
             frameTimer += FrameSpeedDivide(1);
             if (frameTimer >= FrameDelay)
@@ -204,6 +205,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
 
             return false;
         }
+
         public override bool PreAI()
         {
             base.PreAI();

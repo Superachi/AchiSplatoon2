@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -47,6 +48,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         {
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<StarterSplatBomb>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<Inkzooka>());
 
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ChipPalette>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ColorChipAqua>());

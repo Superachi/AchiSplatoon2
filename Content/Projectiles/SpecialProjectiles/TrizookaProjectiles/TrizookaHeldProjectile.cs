@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectil
         {
             base.ApplyWeaponInstanceData();
 
-            shotsRemaining = 3;
+            shotsRemaining = Trizooka.MaxBursts;
             shotDelay = 48;
             startDelay = 36;
         }
@@ -166,10 +168,6 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectil
                             30);
                         g.alpha = 128;
                     }
-
-                    // Discard shell
-                    var shellVelocity = WoomyMathHelper.AddRotationToVector2(-mouseDirection * 8, Main.rand.Next(-30, 30));
-                    CreateChildProjectile<TrizookaShell>(Owner.Center, shellVelocity, 0, true);
 
                     // Camera shake
                     GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 4, speed: 2, duration: 15);
@@ -370,6 +368,9 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectil
                 p.colorOverride = CurrentColor;
                 p.shotNumber = i;
             }
+
+            var shellVelocity = WoomyMathHelper.AddRotationToVector2(-mouseDirection * 8, Main.rand.Next(-30, 30));
+            CreateChildProjectile<TrizookaShell>(Owner.Center, shellVelocity, 0, true);
         }
     }
 }

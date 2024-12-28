@@ -1697,6 +1697,13 @@ Items: {
 		Flavor: Also inspires Pearl Drone
 		Tooltip: ""
 	}
+
+	Inkzooka: {
+		DisplayName: Inkzooka
+		UsageHint: Fires up to {0} ink tornados, passing through enemies and terrain
+		Flavor: Fire at will!
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1818,6 +1825,8 @@ Projectiles: {
 	SpecialChargeProjectile.DisplayName: Special Charge Projectile
 	TrizookaBlast.DisplayName: Trizooka Blast
 	BombRushHeldProjectile.DisplayName: Bomb Rush Held Projectile
+	InkzookaHeldProjectile.DisplayName: Inkzooka Held Projectile
+	InkzookaProjectile.DisplayName: Inkzooka Projectile
 }
 
 Buffs: {
