@@ -204,7 +204,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectil
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
             var width = 40;
-            var height = 120;
+            var height = 160;
 
             hitbox = new Rectangle(
                 x: (int)Projectile.Center.X - width / 2,
