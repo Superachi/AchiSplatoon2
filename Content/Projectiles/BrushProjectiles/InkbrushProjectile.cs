@@ -111,7 +111,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (!_canRender) return false;
 
             DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale: 1.2f, alphaMod: 1, considerWorldLight: false);
-            DrawTrailShrinking(scale: 1.2f, alpha: 0.4f, modulo: 2, considerWorldLight: false);
+            DrawTrailShrinking(scale: 1.2f, alpha: 0.2f, modulo: 0, considerWorldLight: false);
 
             return false;
         }

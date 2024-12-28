@@ -816,7 +816,7 @@ internal class BaseProjectile : ModProjectile
 
     #region Visuals
 
-    protected void DrawTrail(float scale = 1f, float alpha = 0.5f, int modulo = 1, bool considerWorldLight = true)
+    protected void DrawTrail(float scale = 1f, float alpha = 0.5f, int modulo = 1, Color? colorOverride = null, bool considerWorldLight = true, Vector2? positionOffset = null)
     {
         var len = Projectile.oldPos.Length;
         for (int i = len - 1; i > 0; i--)
@@ -826,8 +826,10 @@ internal class BaseProjectile : ModProjectile
             var iMult = (float)(len - i) / len;
             var posDiff = Projectile.oldPos[i] - Projectile.position;
             var alphaMod = iMult * alpha;
+            var color = colorOverride ?? ColorHelper.ColorWithAlpha255(CurrentColor);
+            var offset = positionOffset ?? Vector2.Zero;
 
-            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, scale, alphaMod: alphaMod, considerWorldLight: considerWorldLight, positionOffset: posDiff);
+            DrawProjectile(color, Projectile.rotation, scale, alphaMod: alphaMod, considerWorldLight: considerWorldLight, positionOffset: posDiff + offset);
         }
     }
 
@@ -836,7 +838,7 @@ internal class BaseProjectile : ModProjectile
         var len = Projectile.oldPos.Length;
         for (int i = len - 1; i > 0; i--)
         {
-            if (i % modulo == 0 && modulo > 1) continue;
+            if (modulo > 1 && i % modulo == 0) continue;
 
             var iMult = (float)(len - i) / len;
             var posDiff = Projectile.oldPos[i] - Projectile.position;
