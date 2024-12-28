@@ -94,7 +94,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             {
                 // Range + damage
                 var finalQuotient = Math.Clamp(ChargeQuotient(), MinPartialRange, MaxPartialRange);
-                proj.damage = (int)(proj.damage * finalQuotient);
+                proj.damage = (int)(proj.damage * finalQuotient) / 3;
                 proj.timeLeft = (int)(baseShotLifeTimeAfterFiring * proj.extraUpdates * finalQuotient);
 
                 // Pierce
