@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -851,6 +851,13 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     strings.Add($"Bombs away!");
                     strings.Add($"No holdin' back, {ownerName}!");
                 }
+            }
+
+            if (specialItemId == ModContent.ItemType<Inkzooka>())
+            {
+                strings.Add("Here's a blast from the past!");
+                strings.Add("Twister time!");
+                strings.Add($"Leave their heads spinnin', {ownerName}!");
             }
 
             if (specialItemId == ModContent.ItemType<Trizooka>())
