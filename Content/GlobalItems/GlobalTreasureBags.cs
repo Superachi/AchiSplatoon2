@@ -77,6 +77,10 @@ namespace AchiSplatoon2.Content.GlobalItems
                 itemLoot.Add(
                     ItemDropRule.Common(ModContent.ItemType<DroneDiscA>())
                 );
+
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<Tacticooler>())
+                );
             }
 
             if (item.type == ItemID.SkeletronBossBag)

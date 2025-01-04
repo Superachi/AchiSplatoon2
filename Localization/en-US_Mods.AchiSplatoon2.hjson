@@ -1704,6 +1704,13 @@ Items: {
 		Flavor: Fire at will!
 		Tooltip: ""
 	}
+
+	Tacticooler: {
+		UsageHint: Deploys a drink dispenser that grants a buff to you and other players
+		Flavor: Meta defining!
+		DisplayName: Tacticooler
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1827,6 +1834,9 @@ Projectiles: {
 	BombRushHeldProjectile.DisplayName: Bomb Rush Held Projectile
 	InkzookaHeldProjectile.DisplayName: Inkzooka Held Projectile
 	InkzookaProjectile.DisplayName: Inkzooka Projectile
+	TacticoolerStand.DisplayName: Tacticooler Stand
+	TacticoolerHeldProjectile.DisplayName: Tacticooler Held Projectile
+	TacticoolerCan.DisplayName: Tacticooler Can
 }
 
 Buffs: {
@@ -1873,6 +1883,11 @@ Buffs: {
 	BombRushBuff: {
 		DisplayName: Bomb Rush
 		Description: Your sub weapons cost no ink. Bombs away!
+	}
+
+	TacticoolerBuff: {
+		DisplayName: Refreshing!
+		Description: ""
 	}
 }
 

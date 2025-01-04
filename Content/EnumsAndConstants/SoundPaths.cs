@@ -141,6 +141,13 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string BombRushJingle => FormatPath(nameof(BombRushJingle), _directorySpecial);
         public static string BombRushJingleAlt => FormatPath(nameof(BombRushJingleAlt), _directorySpecial);
 
+        public static string TacticoolerLanding => FormatPath(nameof(TacticoolerLanding), _directorySpecial);
+        public static string TacticoolerGizmo1 => FormatPath(nameof(TacticoolerGizmo1), _directorySpecial);
+        public static string TacticoolerGizmo2 => FormatPath(nameof(TacticoolerGizmo2), _directorySpecial);
+        public static string TacticoolerJingle => FormatPath(nameof(TacticoolerJingle), _directorySpecial);
+        public static string TacticoolerPickup => FormatPath(nameof(TacticoolerPickup), _directorySpecial);
+        public static string TacticoolerPowerup => FormatPath(nameof(TacticoolerPowerup), _directorySpecial);
+
         // Special charging
         private static readonly string _directorySpecialCharge = "Specials/Charge";
         public static string SpecialChargeGain => FormatPath(nameof(SpecialChargeGain), _directorySpecialCharge);

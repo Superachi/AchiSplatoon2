@@ -1,0 +1,630 @@
+{
+  "frames": [
+    {
+      "filename": "TacticoolerAnimation 0.aseprite",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 120
+    },
+    {
+      "filename": "TacticoolerAnimation 1.aseprite",
+      "frame": {
+        "x": 40,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 2.aseprite",
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 3.aseprite",
+      "frame": {
+        "x": 120,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 4.aseprite",
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 5.aseprite",
+      "frame": {
+        "x": 200,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 240
+    },
+    {
+      "filename": "TacticoolerAnimation 6.aseprite",
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 7.aseprite",
+      "frame": {
+        "x": 280,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 120
+    },
+    {
+      "filename": "TacticoolerAnimation 8.aseprite",
+      "frame": {
+        "x": 320,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 9.aseprite",
+      "frame": {
+        "x": 360,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 10.aseprite",
+      "frame": {
+        "x": 400,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 11.aseprite",
+      "frame": {
+        "x": 440,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 12.aseprite",
+      "frame": {
+        "x": 480,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 13.aseprite",
+      "frame": {
+        "x": 520,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 14.aseprite",
+      "frame": {
+        "x": 560,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 15.aseprite",
+      "frame": {
+        "x": 600,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 16.aseprite",
+      "frame": {
+        "x": 640,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 120
+    },
+    {
+      "filename": "TacticoolerAnimation 17.aseprite",
+      "frame": {
+        "x": 680,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 18.aseprite",
+      "frame": {
+        "x": 720,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 19.aseprite",
+      "frame": {
+        "x": 760,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 20.aseprite",
+      "frame": {
+        "x": 800,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 21.aseprite",
+      "frame": {
+        "x": 840,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 120
+    },
+    {
+      "filename": "TacticoolerAnimation 22.aseprite",
+      "frame": {
+        "x": 880,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 23.aseprite",
+      "frame": {
+        "x": 920,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 24.aseprite",
+      "frame": {
+        "x": 960,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 25.aseprite",
+      "frame": {
+        "x": 1000,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 26.aseprite",
+      "frame": {
+        "x": 1040,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    },
+    {
+      "filename": "TacticoolerAnimation 27.aseprite",
+      "frame": {
+        "x": 1080,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 48
+      },
+      "duration": 40
+    }
+  ],
+  "meta": {
+    "app": "https://www.aseprite.org/",
+    "version": "1.3.10.1-x64",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1120,
+      "h": 48
+    },
+    "scale": "1"
+  }
+}

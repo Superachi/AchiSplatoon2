@@ -4,6 +4,7 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -156,27 +157,38 @@ namespace AchiSplatoon2.Content.Players
                     Player.GetModPlayer<InkTankPlayer>().HealInkFull(hideText: true);
                 }
 
+                void CreateProjectileWithWeaponProperties(BaseSpecial special, int projectileType)
+                {
+                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, projectileType, special, true, null, damage: item.damage, item.knockBack);
+                }
+
                 if (modItem is Inkzooka inkzooka)
                 {
-                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<InkzookaHeldProjectile>(), inkzooka, true, null, damage: item.damage, item.knockBack);
+                    CreateProjectileWithWeaponProperties(inkzooka, ModContent.ProjectileType<InkzookaHeldProjectile>());
                     return true;
                 }
 
                 if (modItem is Trizooka trizooka)
                 {
-                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<TrizookaHeldProjectile>(), trizooka, true, null, damage: item.damage, item.knockBack);
+                    CreateProjectileWithWeaponProperties(trizooka, ModContent.ProjectileType<TrizookaHeldProjectile>());
                     return true;
                 }
 
                 if (modItem is BombRush bombRush)
                 {
-                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<BombRushHeldProjectile>(), bombRush, true, null, damage: item.damage, item.knockBack);
+                    CreateProjectileWithWeaponProperties(bombRush, ModContent.ProjectileType<BombRushHeldProjectile>());
                     return true;
                 }
 
                 if (modItem is KillerWail killerWail)
                 {
-                    ProjectileHelper.CreateProjectileWithWeaponProperties(Player, ModContent.ProjectileType<KillerWailShooter>(), killerWail, true, null, damage: item.damage, item.knockBack);
+                    CreateProjectileWithWeaponProperties(killerWail, ModContent.ProjectileType<KillerWailShooter>());
+                    return true;
+                }
+
+                if (modItem is Tacticooler tacticooler)
+                {
+                    CreateProjectileWithWeaponProperties(tacticooler, ModContent.ProjectileType<TacticoolerHeldProjectile>());
                     return true;
                 }
             }

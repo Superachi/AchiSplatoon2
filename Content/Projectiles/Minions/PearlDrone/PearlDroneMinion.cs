@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -863,14 +863,21 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             if (specialItemId == ModContent.ItemType<Trizooka>())
             {
                 strings.Add("Fire away!");
-                strings.Add($"Let's see some explosions, {ownerName}!");
-                strings.Add("React to this, chumps!");
+                strings.Add($"Let's see some fireworks, {ownerName}!");
+                strings.Add("React to this!");
+            }
+
+            if (specialItemId == ModContent.ItemType<Tacticooler>())
+            {
+                strings.Add("Refreshing!");
+                strings.Add($"Can I have a sip too, {ownerName}?");
+                strings.Add("Who's thirsty?");
             }
 
             if (specialItemId == ModContent.ItemType<KillerWail>())
             {
                 strings.Add("Get your vocal chords ready!");
-                strings.Add("Hey, that's my move!");
+                strings.Add("Whoa, that's my move!");
                 strings.Add("Final smash!");
             }
 
