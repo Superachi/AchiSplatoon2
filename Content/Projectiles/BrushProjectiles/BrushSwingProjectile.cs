@@ -484,7 +484,6 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             float rad = MathHelper.ToRadians(deg);
             float distanceFromPlayer = 64f;
 
-            Projectile.gfxOffY = p.gfxOffY;
             Projectile.position.X = (p.Center.X) - (int)(Math.Cos(rad) * distanceFromPlayer) - Projectile.width / 2;
             Projectile.position.Y = (p.Center.Y) - (int)(Math.Sin(rad) * distanceFromPlayer) - Projectile.height / 2;
 
@@ -493,6 +492,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 (p.Center.X) - (int)(Math.Cos(rad) * drawDistanceFromPlayer) - Projectile.width / 2,
                 (p.Center.Y) - (int)(Math.Sin(rad) * drawDistanceFromPlayer) - Projectile.height / 2
                 );
+            drawPositionOffset.Y -= owner.gfxOffY;
             drawPositionOffset *= -1;
         }
 
