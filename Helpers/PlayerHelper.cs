@@ -7,7 +7,8 @@ internal static class PlayerHelper
 {
     public static bool IsPlayerGrounded(Player player)
     {
-        return player.position.Y == player.oldPosition.Y && Collision.SolidCollision(player.Bottom, 8, 8) && player.velocity.Y == 0;
+        bool isOnBlock = Collision.SolidCollision(player.Bottom, 8, 8) || IsPlayerOntopOfPlatform(player);
+        return player.position.Y == player.oldPosition.Y && isOnBlock && player.velocity.Y == 0;
     }
 
     public static bool IsPlayerOntopOfTile(Player player)
