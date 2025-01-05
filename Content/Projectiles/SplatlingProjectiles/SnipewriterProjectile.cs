@@ -38,24 +38,23 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         public override void AI()
         {
             Color dustColor = GenerateInkColor();
-            var randomDustVelocity = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
-
-            if (Main.rand.NextBool(5))
-            {
-                DustHelper.NewSplatterBulletDust(
-                    position: Projectile.position,
-                    velocity: randomDustVelocity,
-                    color: dustColor,
-                    minScale: 0.8f,
-                    maxScale: 1.6f);
-            }
 
             DustHelper.NewChargerBulletDust(
-                position: Projectile.position,
+                position: Projectile.Center,
                 velocity: Projectile.velocity / 2,
-                color: dustColor,
+                color: CurrentColor,
                 minScale: 0.8f,
                 maxScale: 1.2f);
+
+            if (Main.rand.NextBool(20))
+            {
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 2,
+                    color: CurrentColor,
+                    minScale: 0.8f,
+                    maxScale: 1.2f);
+            }
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

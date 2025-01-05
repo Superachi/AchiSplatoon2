@@ -69,17 +69,25 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
             if (timeSpentAlive > 6)
             {
-                Color dustColor = CurrentColor;
-
-                Dust.NewDustPerfect(Position: Projectile.Center, Type: ModContent.DustType<SplatterBulletDust>(), Velocity: Projectile.velocity / 4, newColor: dustColor, Scale: 1.2f);
+                DustHelper.NewDust(
+                    position: Projectile.Center,
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Projectile.velocity / 3,
+                    color: CurrentColor,
+                    scale: 1.2f,
+                    data: new(scaleIncrement: -0.3f)
+                    );
 
                 if (Main.rand.NextBool(20))
                 {
-                    DustHelper.NewDropletDust(
+                    DustHelper.NewDust(
                         position: Projectile.Center,
-                        velocity: Projectile.velocity / 4,
-                        color: dustColor,
-                        scale: 0.8f);
+                        dustType: ModContent.DustType<SplatterBulletDust>(),
+                        color: CurrentColor,
+                        velocity: Projectile.velocity / 5,
+                        scale: Main.rand.NextFloat(0.8f, 1.2f),
+                        data: new(scaleIncrement: -0.05f, gravity: 0.1f)
+                        );
                 }
             }
         }
