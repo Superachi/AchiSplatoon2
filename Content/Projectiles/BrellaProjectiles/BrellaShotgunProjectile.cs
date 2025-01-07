@@ -60,7 +60,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
         protected override void PlayShootSound()
         {
-            PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+            PlayAudio(shootSample, volume: 0.5f, pitchVariance: 0.2f, maxInstances: 5);
         }
 
         public override void AI()

@@ -50,7 +50,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             startingVelocity = Projectile.velocity;
 
             var pitch = sineDirection == -1 ? 0.6f : 0.4f;
-            SoundHelper.PlayAudio(SoundID.NPCHit52, 0.3f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.NPCHit52, 0.2f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item25, 0.1f, maxInstances: 10, pitch: 0.4f, pitchVariance: 0.3f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item28, 0.1f, maxInstances: 10, pitch: 0.6f, pitchVariance: 0.3f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.Item66, 0.2f, maxInstances: 10, pitch: 0.4f, position: Projectile.Center);
         }
 
         public override void AI()
