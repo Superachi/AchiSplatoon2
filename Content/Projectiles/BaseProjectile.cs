@@ -805,6 +805,7 @@ internal class BaseProjectile : ModProjectile
 
     protected SlotId PlayAudio(SoundStyle soundStyle, float volume = 0.3f, float pitchVariance = 0f, int maxInstances = 1, float pitch = 0f, Vector2? position = null)
     {
+        position = position ?? Projectile.Center;
         return SoundHelper.PlayAudio(soundStyle, volume, pitchVariance, maxInstances, pitch, position);
     }
     #endregion

@@ -66,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.velocity = Vector2.Zero;
 
             var e = new ExplosionDustModel(_dustMaxVelocity: 25, _dustAmount: 30, _minScale: 2f, _maxScale: 4f, _radiusModifier: finalExplosionRadius);
-            var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5);
+            var a = new PlayAudioModel(SoundPaths.SplatBombDetonate, _volume: 0.6f, _pitchVariance: 0.2f, _maxInstances: 5, _position: Projectile.Center);
             CreateExplosionVisual(e, a);
 
             SoundHelper.StopSoundIfActive(throwAudio);
