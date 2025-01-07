@@ -99,6 +99,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string BrellaDeflect => FormatPath(nameof(BrellaDeflect));
         public static string BrellaRecover => FormatPath(nameof(BrellaRecover));
         public static string BrellaShot => FormatPath(nameof(BrellaShot));
+        public static string BrellaShotRecycle => FormatPath(nameof(BrellaShotRecycle));
 
         // Dualies
         public static string DualieGloogaRoll => FormatPath(nameof(DualieGloogaRoll));

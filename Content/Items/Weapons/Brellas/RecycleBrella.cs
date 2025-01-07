@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,6 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float ShotGravity { get => 0.4f; }
         public override int ShotGravityDelay { get => 32; }
         public override float AimDeviation { get => 0f; }
+        public override SoundStyle ShootSample { get => SoundPaths.BrellaShotRecycle.ToSoundStyle(); }
 
         // Brella specific
         public override int ProjectileCount { get => 5; }
