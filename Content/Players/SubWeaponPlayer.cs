@@ -21,8 +21,20 @@ namespace AchiSplatoon2.Content.Players
 
         private void SearchAndUseSubWeapon(Player player, Item heldItem)
         {
+            if (CursorHelper.CursorHasInteractable())
+            {
+                var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
+
+                if (weaponPlayer.CustomWeaponCooldown < 30)
+                {
+                    player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 30;
+                }
+                return;
+            }
+
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
             if (!player.ItemTimeIsZero) return;
+            if (player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown > 0) return;
             if (!player.GetModPlayer<WeaponPlayer>().allowSubWeaponUsage) return;
             if (player.GetModPlayer<SquidPlayer>().IsSquid()) return;
             if (player.GetModPlayer<DualiePlayer>().isRolling) return;
