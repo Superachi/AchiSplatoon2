@@ -107,8 +107,7 @@ namespace AchiSplatoon2.Helpers
                     maxChargeTime = splatling.ChargeTimeThresholds.Last();
                     break;
                 default:
-                    maxChargeTime = 60;
-                    break;
+                    return baseInkCost;
             }
 
             if (fullCharge)

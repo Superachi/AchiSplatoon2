@@ -90,7 +90,7 @@ Hint: {
 		CritBonus: "{0}% increased critical strike chance on Chargers"
 	}
 
-	DroneDisc: Adds +1 to the level of your Pearl Drone, making them deal more damage permanently. This specific type of disc is usable only once.
+	DroneDisc: Adds +1 to the level of your Pearl Drone, making them deal more damage permanently. This specific type of disc is usable only once
 }
 
 Items: {
@@ -1709,6 +1709,13 @@ Items: {
 		UsageHint: Deploys a drink dispenser that grants a buff to you and other players
 		Flavor: Meta defining!
 		DisplayName: Tacticooler
+		Tooltip: ""
+	}
+
+	DocumentationStaff: {
+		UsageHint: Mods.AchiSplatoon2.Items.DocumentationStaff.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.DocumentationStaff.Flavor
+		DisplayName: Documentation Staff
 		Tooltip: ""
 	}
 }
