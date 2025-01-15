@@ -1014,6 +1014,9 @@ internal class BaseProjectile : ModProjectile
             }
 
             PlayAudio(SoundPaths.DirectHit.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f);
+            PlayAudio(SoundID.Item14, volume: 0.5f, pitch: 0.4f, pitchVariance: 0.2f);
+            PlayAudio(SoundID.Item62, volume: 0.3f, pitchVariance: 0.1f);
+            GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 6, speed: 8, duration: 15);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
@@ -1039,7 +1042,10 @@ internal class BaseProjectile : ModProjectile
             position = Projectile.Center;
         }
 
-        PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.5f, pitchVariance: 0.1f, pitch: 0.2f, position: position);
+        PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, pitch: 0f, position: position);
+        PlayAudio(SoundID.Item14, volume: 0.5f, pitch: 0.4f, pitchVariance: 0.2f);
+        PlayAudio(SoundID.Item99, volume: 1f, pitch: 0.4f, pitchVariance: 0.2f);
+
         TripleHitDustBurst(position, false);
     }
 
