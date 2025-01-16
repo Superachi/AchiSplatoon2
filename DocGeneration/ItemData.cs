@@ -1,15 +1,15 @@
 ﻿using AchiSplatoon2.Helpers;
 using Newtonsoft.Json;
 using System.IO;
-using System;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using AchiSplatoon2.Content.Items.Weapons;
 using Terraria;
 using System.Text.RegularExpressions;
-using Terraria.GameContent.UI;
-using System.Diagnostics;
 using Terraria.ID;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Items.Accessories;
 
 namespace AchiSplatoon2.DocGeneration
 {
@@ -32,6 +32,7 @@ namespace AchiSplatoon2.DocGeneration
         public string Flavor { get; set; }
 
         public List<Recipe> Recipes { get; set; } = new();
+        public string Category { get; set; }
 
         public ItemData(ModItem modItem)
         {
@@ -82,6 +83,8 @@ namespace AchiSplatoon2.DocGeneration
                     Recipes.Add(recipe);
                 }
             }
+
+            SetCategory();
         }
 
         public static void ExportListAsJson(List<ItemData> itemDataList, string path)
@@ -120,6 +123,8 @@ namespace AchiSplatoon2.DocGeneration
             }
 
             markdown += "<table>";
+
+            AddMarkdownTableRow(ref markdown, nameof(Category), Category);
 
             // Weapon stats display
 
@@ -367,6 +372,33 @@ namespace AchiSplatoon2.DocGeneration
                     return "Purple";
                 default:
                     return "Unknown";
+            }
+        }
+
+        private void SetCategory()
+        {
+            Category = "Item";
+
+            if (ModdedItem is BaseWeapon weapon)
+            {
+                Category = weapon.WeaponStyle.ToString();
+
+                switch (ModdedItem)
+                {
+                    case BaseSpecial:
+                        Category = "Special weapon";
+                        break;
+                    case BaseBomb:
+                        Category = "Sub weapon";
+                        break;
+                }
+
+                return;
+            }
+
+            if (ModdedItem is BaseAccessory)
+            {
+                Category = "Accessory";
             }
         }
     }

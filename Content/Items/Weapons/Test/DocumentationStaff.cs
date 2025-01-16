@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.DocGeneration;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {
+    [DeveloperContent]
     internal class DocumentationStaff : BaseWeapon
     {
         public override void SetDefaults()
@@ -31,18 +33,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
             stopwatch.Start();
 
             DebugHelper.PrintWarning("Generating documentation data...");
-            //var assembly = Assembly.GetExecutingAssembly();
-            //var lister = new ClassLister(assembly);
-            //var types = lister.GetTypesInNamespace("AchiSplatoon2.Content.Items");
-
-            //var itemData = new ItemData();
-            //itemData.GetItemDataFromTypes(types);
+            DebugHelper.PrintInfo("Selecting items to include in the documentation...");
 
             List<ItemData> itemDataList = new();
 
-            var i = 0;
+            var i = -1;
             while (i < 10000)
             {
+                i++;
+
                 var modItem = ItemLoader.GetItem(i);
 
                 if (modItem != null)
@@ -51,13 +50,21 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
 
                     if (modName == nameof(AchiSplatoon2))
                     {
-                        var itemName = ItemLoader.GetItem(i).DisplayName;
+                        string? itemName = ItemLoader.GetItem(i).DisplayName.Value;
+
+                        bool isBaseItem = itemName.ToLowerInvariant().Contains("base");
+                        bool hasDevAttribute = Attribute.GetCustomAttribute(modItem.GetType(), typeof(DeveloperContentAttribute)) != null;
+
+                        if (isBaseItem || hasDevAttribute)
+                        {
+                            DebugHelper.PrintDebug($"Skipping {itemName}");
+                            continue;
+                        }
+
                         var itemData = new ItemData(modItem);
                         itemDataList.Add(itemData);
                     }
                 }
-
-                i++;
             }
 
             string filePath = Path.Combine(
