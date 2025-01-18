@@ -10,6 +10,11 @@ using Terraria.ID;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Items.Accessories;
+using System;
+using AchiSplatoon2.Attributes;
+using NVorbis.Contracts;
+using System.ComponentModel;
+using System.Linq;
 
 namespace AchiSplatoon2.DocGeneration
 {
@@ -23,6 +28,7 @@ namespace AchiSplatoon2.DocGeneration
         public float Crit { get; set; }
         public int UseTime { get; set; }
         public float Velocity { get; set; }
+        public float InkCost { get; set; }
 
         public int Rarity { get; set; }
         public ItemMoneyValue Value { get; set; }
@@ -94,37 +100,38 @@ namespace AchiSplatoon2.DocGeneration
             DebugHelper.PrintDebug("Created the JSON.");
         }
 
-        public string GenerateMarkdown(string path)
+        public string GenerateItemTableHTML()
         {
-            if (Name.Contains("Base") || Name.Contains("Test"))
-            {
-                return "";
-            }
-
-            string markdown = "";
+            string html = "---\r\n---\r\n";
 
             // Name and description display
-            markdown += $"\n<a id=\"{Name.ToLowerInvariant().Replace(" ", "-")}\"></a>\n";
-            markdown += $"### {Name}\n\n";
+            var className = ModdedItem.GetType().Name;
+            var folderSuffix = ModdedItem.GetType().Namespace
+                .Replace("AchiSplatoon2.Content.", "")
+                .Replace(".", "/");
+
+            html += "<img src=\"{{ site.baseurl }}/assets/images/" + folderSuffix + "/" + className + ".png\" class=\"mx-auto d-block\">\n";
+            html += $"\n<a id=\"{Name.ToLowerInvariant().Replace(" ", "-")}\"></a>\n";
+            html += $"### {Name}\n\n";
 
             if (!string.IsNullOrEmpty(Flavor))
             {
-                markdown += $"*{FormatInput(Flavor)}*\n\n";
+                html += $"*{FormatInput(Flavor)}*\n\n";
             }
 
             if (!string.IsNullOrEmpty(Tooltip))
             {
-                markdown += $"{FormatInput(Tooltip)}\n\n";
+                html += $"{FormatInput(Tooltip)}\n\n";
             }
 
             if (!string.IsNullOrEmpty(UsageHint))
             {
-                markdown += $"**{FormatInput(UsageHint)}**\n";
+                html += $"**{FormatInput(UsageHint)}**\n";
             }
 
-            markdown += "<table>";
+            html += "<table class=\"table\">";
 
-            AddMarkdownTableRow(ref markdown, nameof(Category), Category);
+            AddMarkdownTableRow(ref html, nameof(Category), Category);
 
             // Weapon stats display
 
@@ -132,36 +139,36 @@ namespace AchiSplatoon2.DocGeneration
             {
                 if (Damage > 0)
                 {
-                    AddMarkdownTableRow(ref markdown, nameof(Damage), Damage.ToString());
+                    AddMarkdownTableRow(ref html, nameof(Damage), Damage.ToString());
                 }
                 else
                 {
-                    AddMarkdownTableRow(ref markdown, nameof(Damage), "No damage");
+                    AddMarkdownTableRow(ref html, nameof(Damage), "No damage");
                 }
 
                 if (Knockback > 0)
                 {
-                    AddMarkdownTableRow(ref markdown, nameof(Knockback), Knockback.ToString());
+                    AddMarkdownTableRow(ref html, nameof(Knockback), Knockback.ToString());
                 }
                 else
                 {
-                    AddMarkdownTableRow(ref markdown, nameof(Knockback), "No knockback");
+                    AddMarkdownTableRow(ref html, nameof(Knockback), "No knockback");
                 }
 
                 if (Crit > 0)
                 {
-                    AddMarkdownTableRow(ref markdown, "Bonus crit chance", Crit.ToString() + "%");
+                    AddMarkdownTableRow(ref html, "Bonus crit chance", Crit.ToString() + "%");
                 }
 
                 if (Velocity > 1)
                 {
-                    AddMarkdownTableRow(ref markdown, nameof(Velocity), Velocity.ToString());
+                    AddMarkdownTableRow(ref html, nameof(Velocity), Velocity.ToString());
                 }
 
-                var inkCost = WoomyMathHelper.CalculateChargeInkCost(weapon.InkCost, weapon, true);
+                var inkCost = GetWeaponInkCost(ModdedItem);
                 if (inkCost > 0)
                 {
-                    AddMarkdownTableRow(ref markdown, "Ink usage", inkCost.ToString() + "%");
+                    AddMarkdownTableRow(ref html, "Ink usage", inkCost.ToString() + "%");
                 }
             }
 
@@ -190,18 +197,17 @@ namespace AchiSplatoon2.DocGeneration
 
             if (!string.IsNullOrEmpty(valueString))
             {
-                AddMarkdownTableRow(ref markdown, nameof(Value), valueString);
+                AddMarkdownTableRow(ref html, nameof(Value), valueString);
             }
 
-            AddMarkdownTableRow(ref markdown, nameof(Rarity), RarityToString(Rarity));
+            AddMarkdownTableRow(ref html, nameof(Rarity), RarityToString());
 
-            markdown += "\r\n</table>\r\n\n\n";
+            html += "\r\n</table>\r\n\n";
 
             // Recipes
 
             if (Recipes.Count > 0)
             {
-
                 if (Recipes.Count > 1)
                 {
                     var i = 0;
@@ -209,57 +215,142 @@ namespace AchiSplatoon2.DocGeneration
                     foreach (var recipe in Recipes)
                     {
                         i++;
-                        markdown += $"<details>\r\n  <summary><b>Recipe {i}</b></summary>\r\n";
+                        html += $"<details>\r\n  <summary><b>Recipe {i}</b></summary>\r\n";
 
-                        markdown += "<span>\n\n";
+                        html += "  <span>\n";
                         foreach (var item in recipe.requiredItem)
                         {
-                            var link = GenerateVanillaItemLink(item);
-                            link = link == item.Name ? GenerateModItemJumpLink(item) : link;
+                            var link = GetVanillaItemUrl(item);
+                            link = link == "" ? GetModItemPageUrl(item) : link;
 
-                            markdown += $"- {item.stack}x {link} \n";
+                            html += $"    <li>\r\n      {item.stack}x <b><a href=\"{link}\">{item.Name}</a></b>\r\n    </li>\r\n";
                         }
-                        markdown += "\n</span>";
-                        markdown += "\r\n</details>\r\n";
+                        html += "\n  </span>";
+                        html += "\r\n</details>\r\n";
                     }
 
-                    markdown += "\n";
+                    html += "\n";
                 }
                 else
                 {
-                    markdown += $"<b>Recipe</b>\r\n";
+                    html += $"<b>Recipe</b>\r\n";
 
                     foreach (var item in Recipes[0].requiredItem)
                     {
-                        var link = GenerateVanillaItemLink(item);
-                        link = link == item.Name ? GenerateModItemJumpLink(item) : link;
+                        var link = GetVanillaItemUrl(item);
+                        link = link == "" ? GetModItemPageUrl(item) : link;
 
-                        markdown += $"- {item.stack}x {link} \n";
+                        html += $"    <li>\r\n      {item.stack}x <b><a href=\"{link}\">{item.Name}</a></b>\r\n    </li>\r\n";
                     }
                 }
             }
 
-            markdown += "---\n";
+            html += "---\n";
 
-            return markdown;
+            return html;
         }
 
-        public static void ExportListAsMarkdown(List<ItemData> itemDataList, string path)
+        public static void ExportItemsAsDetailPages(List<ItemData> itemDataList, string path)
         {
-            DebugHelper.PrintDebug("Creating item data Markdown...");
-
-            var markdown = "*NOTE: Most, if not all content below has been automatically generated.*\n\n";
-
-            markdown += GenerateTableOfContent(itemDataList);
+            DebugHelper.PrintDebug("Creating item detail pages...");
 
             foreach (var itemData in itemDataList)
             {
-                markdown += itemData.GenerateMarkdown(path);
+                if (itemData.Name.Contains("Base") || itemData.Name.Contains("Test"))
+                {
+                    continue;
+                }
+
+                var html = itemData.GenerateItemTableHTML();
+                var className = itemData.ModdedItem.GetType().Name;
+                var newPath = Path.Combine(path, className + ".html");
+                File.WriteAllText(newPath, html);
             }
 
-            File.WriteAllText(path, markdown);
+            DebugHelper.PrintDebug("Created the HTML.");
+        }
 
-            DebugHelper.PrintDebug("Created the Markdown.");
+        public static void ExportWeaponsAsCategoryPage(List<ItemData> itemDataList, string path, Type baseItemType)
+        {
+            DebugHelper.PrintDebug("Creating item category pages...");
+
+            List<ItemData> filteredList = new();
+            foreach (var itemData in itemDataList)
+            {
+                if (!itemData.ModdedItem.GetType().IsSubclassOf(baseItemType))
+                {
+                    continue;
+                }
+
+                DebugHelper.PrintInfo($"Printing include line for {itemData.Name}");
+
+                if (ShouldItemBeExcluded(itemData))
+                {
+                    continue;
+                }
+
+                filteredList.Add(itemData);
+            }
+
+            filteredList = filteredList.OrderBy(x => x.Rarity).ThenBy(x => x.Damage).ToList();
+
+            var includeLines = "";
+            foreach (var itemData in filteredList)
+            {
+                var categoryAttribute = Attribute.GetCustomAttribute(itemData.ModdedItem.GetType(), typeof(ItemCategoryAttribute)) as ItemCategoryAttribute;
+                if (categoryAttribute == null)
+                {
+                    DebugHelper.PrintError($"Failed to create category page: {nameof(categoryAttribute)} was null");
+                    return;
+                }
+
+                var className = itemData.ModdedItem.GetType().Name;
+
+                var categoryLayout = "category-page/category-row.html";
+                includeLines += "      {% include " + categoryLayout +
+                    $" name=\"{itemData.Name}\" " +
+                    $"damage=\"{itemData.Damage}\" knockback=\"{itemData.Knockback}\" " +
+                    $"ink_usage=\"{GetWeaponInkCost(itemData.ModdedItem)}\" " +
+                    $"rarity=\"{itemData.RarityToString()}\" " +
+                    $"internal_name=\"{className}\" " +
+                    $"image_uri=\"{categoryAttribute.DirectorySuffix}/{className}\"" + " %}\r\n";
+            }
+
+            var baseTypeCategoryAttribute = Attribute.GetCustomAttribute(baseItemType, typeof(ItemCategoryAttribute)) as ItemCategoryAttribute;
+            if (baseTypeCategoryAttribute == null)
+            {
+                DebugHelper.PrintError($"Failed to create category page: {nameof(baseTypeCategoryAttribute)} was null");
+                return;
+            }
+
+            var templateStart = "---\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/category-table-head.html %}\r\n      <tbody>\r\n";
+            var templateEnd = "      </tbody>\r\n    </table>\r\n  </details>\r\n</div>";
+            var html = templateStart + includeLines + templateEnd;
+
+            var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix + ".html");
+            File.WriteAllText(newPath, html);
+
+            DebugHelper.PrintDebug("Created the HTML.");
+        }
+
+        private static bool ShouldItemBeExcluded(ItemData itemData)
+        {
+            if (itemData.Name.Contains("Base") || itemData.Name.Contains("Test"))
+            {
+                return true;
+            }
+
+            if (Attribute.GetCustomAttribute(itemData.ModdedItem.GetType(), typeof(DeveloperContentAttribute)) != null)
+            {
+                return true;
+            }
+
+            if (Attribute.GetCustomAttribute(itemData.ModdedItem.GetType(), typeof(ItemCategoryAttribute)) == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void AddMarkdownTableRow(ref string markdown, string fieldName, string fieldValue)
@@ -294,6 +385,18 @@ namespace AchiSplatoon2.DocGeneration
             if (ItemLoader.GetItem(item.type) != null)
             {
                 return $"#{item.Name.ToLowerInvariant().Replace(" ", "-")}";
+            }
+
+            return "";
+        }
+
+        private string GetModItemPageUrl(Item item)
+        {
+            var className = item.ModItem.GetType().Name;
+
+            if (ItemLoader.GetItem(item.type) != null)
+            {
+                return $"./{className}";
             }
 
             return "";
@@ -334,9 +437,9 @@ namespace AchiSplatoon2.DocGeneration
             return input;
         }
 
-        private string RarityToString(int rarity)
+        private string RarityToString()
         {
-            switch (rarity)
+            switch (Rarity)
             {
                 case ItemRarityID.Master:
                     return "Fiery Red";
@@ -400,6 +503,16 @@ namespace AchiSplatoon2.DocGeneration
             {
                 Category = "Accessory";
             }
+        }
+
+        private static float GetWeaponInkCost(ModItem modItem)
+        {
+            if (modItem is BaseWeapon weapon)
+            {
+                return WoomyMathHelper.CalculateChargeInkCost(weapon.InkCost, weapon, true);
+            }
+
+            return 0f;
         }
     }
 }

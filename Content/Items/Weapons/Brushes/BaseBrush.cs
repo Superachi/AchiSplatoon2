@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [ItemCategory("Brush", "Brushes")]
     internal class BaseBrush : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brush;

@@ -1,4 +1,17 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Weapons.Blasters;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Items.Weapons.Brushes;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.DocGeneration;
 using AchiSplatoon2.Helpers;
@@ -67,11 +80,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
                 }
             }
 
-            string filePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                "WoomyMod - Item data.md");
+            string detailFilePath = Path.Combine("D:\\Documents\\Repos\\WoomyModPages\\pages\\items");
+            ItemData.ExportItemsAsDetailPages(itemDataList, detailFilePath);
 
-            ItemData.ExportListAsMarkdown(itemDataList, filePath);
+            string categoryFilePath = Path.Combine("D:\\Documents\\Repos\\WoomyModPages\\pages\\item_categories");
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSplattershot));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBlaster));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseStringer));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBrella));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBrush));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseCharger));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseDualie));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseRoller));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSlosher));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSpecial));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSplatana));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSplatling));
+            ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBomb));
+
             stopwatch.Stop();
 
             DebugHelper.PrintInfo($"Finished generating docs (time: {stopwatch.ElapsedMilliseconds}ms)");

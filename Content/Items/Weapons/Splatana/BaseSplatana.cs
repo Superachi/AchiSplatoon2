@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
+    [ItemCategory("Splatana", "Splatana")]
     internal class BaseSplatana : BaseWeapon
     {
         public override float InkCost { get => 0.8f; }

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
+    [ItemCategory("Dualie", "Dualies")]
     internal class BaseDualie : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Dualies;

@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
@@ -11,6 +12,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
+    [ItemCategory("Brella", "Brellas")]
     internal class BaseBrella : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;

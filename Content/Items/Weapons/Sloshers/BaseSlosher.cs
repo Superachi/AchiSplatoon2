@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
@@ -10,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
+    [ItemCategory("Slosher", "Sloshers")]
     internal class BaseSlosher : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Slosher;

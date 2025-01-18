@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.RollerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
+    [ItemCategory("Roller", "Rollers")]
     internal class BaseRoller : BaseWeapon
     {
         public override float InkCost { get => 6f; }
