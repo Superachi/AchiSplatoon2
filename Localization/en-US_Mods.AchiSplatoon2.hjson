@@ -1718,6 +1718,20 @@ Items: {
 		DisplayName: Documentation Staff
 		Tooltip: ""
 	}
+
+	FlowerInkTank: {
+		UsageHint: When your ink capacity is below half, this consumes {0} mana to replenish it
+		Flavor: Mods.AchiSplatoon2.Items.FlowerInkTank.Flavor
+		DisplayName: Arcane Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}\nIf you have Mana Sickness, the listed effect is disabled"
+	}
+
+	HoneyInkTank: {
+		UsageHint: When you collect an Ink Droplet, briefly increase life regeneration
+		Flavor: Mods.AchiSplatoon2.Items.HoneyInkTank.Flavor
+		DisplayName: Bumble Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
+	}
 }
 
 Projectiles: {

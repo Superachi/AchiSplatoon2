@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -75,6 +77,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
             {
                 var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
                 inkTankPlayer.HealInk(inkTankPlayer.InkAmountFinalMax / 2);
+
+                if (player.HasAccessory<HoneyInkTank>())
+                {
+                    player.AddBuff(BuffID.Honey, 180);
+                }
 
                 return true;
             }

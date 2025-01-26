@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
-    internal class EnchantedInkTank : InkTank
+    internal class HoneyInkTank : InkTank
     {
         public override int CapacityBonus => 20;
 
@@ -14,8 +14,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
         {
             base.SetDefaults();
 
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.LightRed;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
             {
                 var accessoryPlayer = player.GetModPlayer<AccessoryPlayer>();
                 accessoryPlayer.hasThermalInkTank = true;
+                accessoryPlayer.TryEquipAccessory<HoneyInkTank>();
             }
         }
 
@@ -33,16 +34,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
         {
             CreateRecipe()
                 .AddTile(TileID.WorkBenches)
-                .AddIngredient(ModContent.ItemType<InkTank>())
-                .AddIngredient(ItemID.FallenStar, 10)
-                .AddIngredient(ItemID.DemoniteBar, 3)
-                .Register();
-
-            CreateRecipe()
-                .AddTile(TileID.WorkBenches)
-                .AddIngredient(ModContent.ItemType<InkTank>())
-                .AddIngredient(ItemID.FallenStar, 10)
-                .AddIngredient(ItemID.CrimtaneBar, 3)
+                .AddIngredient(ModContent.ItemType<EnchantedInkTank>())
+                .AddIngredient(ItemID.BottledHoney, 5)
+                .AddIngredient(ItemID.BeeWax, 1)
                 .Register();
         }
     }

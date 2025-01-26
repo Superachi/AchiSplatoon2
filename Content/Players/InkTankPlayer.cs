@@ -1,11 +1,14 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -28,6 +31,7 @@ namespace AchiSplatoon2.Content.Players
 
         private bool _isSubmerged = false;
         private int _lowInkMessageCooldown = 0;
+        private int _flowerInkTankProcCooldown = 0;
 
         private int _inkCrystalsUsed = 0;
         public static int InkCrystalsMax => 10;
@@ -44,10 +48,12 @@ namespace AchiSplatoon2.Content.Players
         {
             if (_lowInkMessageCooldown > 0) _lowInkMessageCooldown--;
             if (DropletCooldown > 0) DropletCooldown--;
+            if (_flowerInkTankProcCooldown > 0) _flowerInkTankProcCooldown--;
 
             _isSubmerged = Player.GetModPlayer<SquidPlayer>().IsSquid();
 
             RecoverInk();
+            CheckAndActivateFlowerInkTank();
 
             InkAmount = Math.Clamp(InkAmount, 0, InkAmountFinalMax);
         }
@@ -200,6 +206,22 @@ namespace AchiSplatoon2.Content.Players
         public int CrystalUseCount()
         {
             return _inkCrystalsUsed;
+        }
+
+        private void CheckAndActivateFlowerInkTank()
+        {
+            if (!Player.HasAccessory<FlowerInkTank>()) return;
+            if (Player.statMana < FlowerInkTank.ManaCost) return;
+            if (Player.HasBuff(BuffID.ManaSickness)) return;
+
+            if (_flowerInkTankProcCooldown == 0 && InkAmount < InkAmountFinalMax / 2)
+            {
+                Player.statMana -= FlowerInkTank.ManaCost;
+                _flowerInkTankProcCooldown = FlowerInkTank.ProcCooldown;
+
+                HealInk(InkAmountFinalMax * FlowerInkTank.InkCapacityPercentageToRecover);
+                SoundHelper.PlayAudio(SoundID.Item112, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
+            }
         }
 
         #endregion
