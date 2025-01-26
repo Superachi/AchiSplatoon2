@@ -145,7 +145,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             }
 
             // Super palette crafting materials
-            if (npc.type == NPCID.MartianSaucer)
+            if (npc.type == NPCID.MartianSaucerCore)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MartianBrella>(), 3));
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteMiddlePart>(), 3));
