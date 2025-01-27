@@ -53,7 +53,6 @@ namespace AchiSplatoon2.Content.Players
             _isSubmerged = Player.GetModPlayer<SquidPlayer>().IsSquid();
 
             RecoverInk();
-            CheckAndActivateFlowerInkTank();
 
             InkAmount = Math.Clamp(InkAmount, 0, InkAmountFinalMax);
         }
@@ -119,6 +118,8 @@ namespace AchiSplatoon2.Content.Players
                 {
                     InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
                 }
+
+                CheckAndActivateFlowerInkTank();
             }
         }
 

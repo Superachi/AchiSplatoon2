@@ -1722,8 +1722,12 @@ Items: {
 	FlowerInkTank: {
 		UsageHint: When your ink capacity is below half, this consumes {0} mana to replenish it
 		Flavor: Mods.AchiSplatoon2.Items.FlowerInkTank.Flavor
-		DisplayName: Arcane Ink Tank
-		Tooltip: "{$InkCapacityBonus.Display@0}\nIf you have Mana Sickness, the listed effect is disabled"
+		DisplayName: Floral Ink Tank
+		Tooltip:
+			'''
+			{$InkCapacityBonus.Display@0}
+			If you have Mana Sickness, the listed effect is disabled
+			'''
 	}
 
 	HoneyInkTank: {

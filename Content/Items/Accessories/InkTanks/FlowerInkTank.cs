@@ -9,8 +9,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
     internal class FlowerInkTank : InkTank
     {
         public override int CapacityBonus => 30;
-        public static int ManaCost => 50;
-        public static float InkCapacityPercentageToRecover => 0.05f;
+        public static int ManaCost => 100;
+        public static float InkCapacityPercentageToRecover => 0.2f;
         public static int ProcCooldown => 30;
         protected override string UsageHintParamA => $"{ManaCost}";
 
@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddTile(TileID.WorkBenches)
+                .AddTile(TileID.TinkerersWorkbench)
                 .AddIngredient(ModContent.ItemType<EnchantedInkTank>())
                 .AddIngredient(ItemID.ManaFlower, 1)
                 .Register();
