@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
     {
         public override int CapacityBonus => 30;
         public static int ManaCost => 100;
-        public static float InkCapacityPercentageToRecover => 0.2f;
+        public static float InkCapacityPercentageToRecover => 0.1f;
         public static int ProcCooldown => 30;
         protected override string UsageHintParamA => $"{ManaCost}";
 
