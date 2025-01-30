@@ -1,7 +1,9 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers.WeaponKits;
 using Terraria;
 using Terraria.ModLoader;
@@ -79,7 +81,8 @@ namespace AchiSplatoon2.Helpers
                 {
                     classMod = player.GetDamage(DamageClass.Melee).ApplyTo(classMod);
                 }
-                else if (player.HeldItem.DamageType == DamageClass.Ranged)
+
+                if (player.HeldItem.DamageType == DamageClass.Ranged)
                 {
                     classMod = player.GetDamage(DamageClass.Ranged).ApplyTo(classMod);
                 }
@@ -87,6 +90,11 @@ namespace AchiSplatoon2.Helpers
                 classMod = player.GetDamage(DamageClass.Generic).ApplyTo(classMod);
                 damageModifier *= classMod;
                 if (debug) DebugHelper.PrintInfo($"Val after class bonuses: {damageModifier}");
+            }
+
+            if (player.HasAccessory<DropletLocket>() || player.HeldItem.DamageType == DamageClass.Magic)
+            {
+                damageModifier = player.GetDamage(DamageClass.Magic).ApplyTo(damageModifier);
             }
 
             #endregion

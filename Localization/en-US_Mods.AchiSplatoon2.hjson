@@ -1736,6 +1736,13 @@ Items: {
 		DisplayName: Bumble Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
+
+	DropletLocket: {
+		UsageHint: Your magic damage bonuses apply to all ink-based weapons
+		Flavor: Mods.AchiSplatoon2.Items.DropletLocket.Flavor
+		DisplayName: Inkdrop Locket
+		Tooltip: "{0}% increased magic damage"
+	}
 }
 
 Projectiles: {
