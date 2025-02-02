@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override SoundStyle ChargeSample { get => SoundPaths.SplatanaStamperCharge.ToSoundStyle(); }
 
         // Splatana specific
-        public override int BaseDamage { get => 10; }
+        public override int BaseDamage { get => 8; }
         public override float[] ChargeTimeThresholds { get => [60f]; }
         public override float WeakSlashShotSpeed { get => 6f; }
         public override float MaxChargeMeleeDamageMod { get => 2f; }

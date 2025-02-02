@@ -1769,6 +1769,20 @@ Items: {
 		DisplayName: Order Splatana
 		Tooltip: ""
 	}
+
+	OrderSplatling: {
+		UsageHint: "{$Hint.Splatling}"
+		Flavor: Humble beginnings
+		DisplayName: Order Splatling
+		Tooltip: ""
+	}
+
+	OrderSlosher: {
+		UsageHint: "{$Hint.Sloshers.Slosher}"
+		Flavor: Humble beginnings
+		DisplayName: Order Slosher
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
