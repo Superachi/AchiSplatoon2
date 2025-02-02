@@ -8,6 +8,7 @@ namespace AchiSplatoon2.Content.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             Main.buffNoTimeDisplay[buffIndex] = true;
+            Main.buffNoSave[buffIndex] = true;
         }
     }
 }
