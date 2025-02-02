@@ -33,6 +33,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         public virtual int WeakSlashProjectile { get => ModContent.ProjectileType<SplatanaWeakSlashProjectile>(); }
         public virtual int StrongSlashProjectile { get => ModContent.ProjectileType<SplatanaStrongSlashProjectile>(); }
+        public virtual bool EnableWeakSlashProjectile { get => true; }
+        public virtual bool EnableStrongSlashProjectile { get => true; }
 
         public override void SetDefaults()
         {

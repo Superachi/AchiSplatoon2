@@ -1743,6 +1743,13 @@ Items: {
 		DisplayName: Inkdrop Locket
 		Tooltip: "{0}% increased magic damage"
 	}
+
+	GolemSplatanaWeapon: {
+		UsageHint: Unleashes a massive fiery slash when fully charged
+		Flavor: M.C. Princess Was Her?
+		DisplayName: Sun Cleaver
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1869,6 +1876,8 @@ Projectiles: {
 	TacticoolerStand.DisplayName: Tacticooler Stand
 	TacticoolerHeldProjectile.DisplayName: Tacticooler Held Projectile
 	TacticoolerCan.DisplayName: Tacticooler Can
+	HitProjectile.DisplayName: Hit Projectile
+	GolemSplatanaStrongSlashProjectile.DisplayName: Golem Splatana Strong Slash Projectile
 }
 
 Buffs: {

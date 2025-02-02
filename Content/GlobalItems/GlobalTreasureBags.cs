@@ -109,6 +109,13 @@ namespace AchiSplatoon2.Content.GlobalItems
                 );
             }
 
+            if (item.type == ItemID.GolemBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<GolemSplatanaWeapon>())
+                );
+            }
+
             if (item.type == ItemID.FairyQueenBossBag)
             {
                 itemLoot.Add(

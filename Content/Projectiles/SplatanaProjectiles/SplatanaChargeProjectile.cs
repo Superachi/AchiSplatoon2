@@ -40,6 +40,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             weakSlashProjectile = weaponData.WeakSlashProjectile;
             strongSlashProjectile = weaponData.StrongSlashProjectile;
 
+            if (!weaponData.EnableWeakSlashProjectile) weakSlashProjectile = -1;
+            if (!weaponData.EnableStrongSlashProjectile) strongSlashProjectile = -1;
+
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
 
             if (WeaponInstance is EelSplatanaWeapon)
@@ -102,12 +105,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeMeleeDamageMod));
                 meleeProj.wasFullyCharged = true;
 
-                velocity *= maxChargeVelocityMod;
-                var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
-                    as SplatanaStrongSlashProjectile;
-                proj.RunSpawnMethods();
-                proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
-                proj.Projectile.penetrate += 3;
+                if (strongSlashProjectile != -1)
+                {
+                    velocity *= maxChargeVelocityMod;
+                    var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
+                        as SplatanaStrongSlashProjectile;
+                    proj.RunSpawnMethods();
+                    proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
+                    proj.Projectile.penetrate += 3;
+                }
             }
             else
             {
@@ -116,7 +122,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, Projectile.damage);
                 meleeProj.wasFullyCharged = false;
 
-                CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
+                if (weakSlashProjectile != -1)
+                {
+                    CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
+                }
             }
 
 

@@ -11,6 +11,7 @@ using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
@@ -364,7 +365,18 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseCharger:
                 case BaseSplatana:
+
                     possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();
+
+                    if (this is GolemSplatanaWeapon)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<BacklinePrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<RangedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<TastelessPrefix>());
+                    }
+
                     break;
 
                 case BaseSplatling:

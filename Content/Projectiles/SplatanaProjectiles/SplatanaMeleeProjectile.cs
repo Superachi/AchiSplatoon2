@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -57,6 +58,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Projectile.ai[1] += 0.7f * (float)baseAnimationTime / (float)p.itemAnimationMax;
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
+
+            if (WeaponInstance is GolemSplatanaWeapon) return;
 
             if (wasFullyCharged && timeSpentAlive % 4 == 0)
             {
