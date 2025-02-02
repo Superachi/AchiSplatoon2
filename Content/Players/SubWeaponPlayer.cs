@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.Players
             if (player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown > 0) return;
             if (!player.GetModPlayer<WeaponPlayer>().allowSubWeaponUsage) return;
             if (player.GetModPlayer<SquidPlayer>().IsSquid()) return;
-            if (player.GetModPlayer<DualiePlayer>().isRolling) return;
+            if (player.GetModPlayer<DualiePlayer>().isRolling || player.GetModPlayer<DualiePlayer>().postRollCooldown > 0) return;
 
             if (player.HasBuff(BuffID.Cursed)) return;
             if (player.HasBuff(BuffID.Frozen)) return;
