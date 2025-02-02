@@ -697,15 +697,6 @@ internal class BaseProjectile : ModProjectile
 
     private void SetInitialInkColor()
     {
-        if (colorOverride == null)
-        {
-            var colorChipPlayer = GetOwnerModPlayer<ColorChipPlayer>();
-            if (colorChipPlayer.DoesPlayerHaveEqualAmountOfChips() && colorChipPlayer.CalculateColorChipTotal() != 0)
-            {
-                colorOverride = ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f);
-            }
-        }
-
         var color = GenerateInkColor();
         CurrentColor = color;
         InitialColor = CurrentColor;
