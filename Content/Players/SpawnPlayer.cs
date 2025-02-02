@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void OnEnterWorld()
         {
-            ChatHelper.SendModNoticeToThisClient($"Hi {Player.name}! Thanks for playing with my mod. Type {ColorHelper.TextWithFunctionalColor("/woomyTip")} if you want advice on where to go next!");
+            ChatHelper.SendModNoticeToThisClient($"Hi {Player.name}! Thanks for playing with my mod. Type {ColorHelper.TextWithFunctionalColor("/woomyWiki")} to visit the wiki!");
         }
     }
 }
