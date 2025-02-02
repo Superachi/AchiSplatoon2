@@ -1,20 +1,18 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria;
-using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.EnumsAndConstants;
-using System.Collections.Generic;
-using Terraria.ModLoader;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria;
 
-namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaProjectiles
+namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 {
-    internal class GolemSplatanaStrongSlashProjectile : SplatanaStrongSlashProjectile
+    internal class SplatanaMeleeEnergyProjectile : BaseProjectile
     {
-        protected override bool ProjectileDust => false;
-
         private Projectile? meleeProjectile;
         private readonly List<int> _targetsToIgnore = new();
 
@@ -35,6 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
         private Color _colorToLerpFrom;
         private Texture2D _sparkleSprite;
         private Texture2D _glowSprite;
+        private bool _enableSparkle;
 
         public override void SetDefaults()
         {
@@ -46,29 +45,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             Projectile.friendly = false;
         }
 
-        public override void SetStaticDefaults()
-        {
-            Main.projFrames[Projectile.type] = FrameCount;
-        }
-
-        protected void SetSwingSettings(int swingSegments, float swingOffsetDegrees, float sizeMod)
-        {
-            segmentCount = swingSegments;
-            _offsetDegrees = swingOffsetDegrees;
-            _sizeMod = sizeMod;
-        }
-
-        protected float ChipVelocityBonus()
-        {
-            return 1 + Owner.GetModPlayer<ColorChipPlayer>().CalculateProjectileVelocityBonus();
-        }
-
         protected override void AfterSpawn()
         {
             base.AfterSpawn();
-            GolemSplatana weaponData = (GolemSplatana)WeaponInstance;
-            _useTime = weaponData.UseTime();
-
+            BaseSplatana weaponData = (BaseSplatana)WeaponInstance;
+            _useTime = ModContent.GetModItem(itemIdentifier)?.Item?.useTime ?? 60;
             dissolvable = false;
             enablePierceDamagefalloff = false;
 
@@ -79,12 +60,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             _offsetFromPlayer = Vector2.Zero;
 
             initialDirection = Owner.direction;
-            SetSwingSettings(8, 20, 0.6f * ChipVelocityBonus());
+            SetSwingSettings(3, 20, 0.6f);
 
-            var random = Main.rand.NextFloat(0f, 1f);
-            var lightCol = ColorHelper.LerpBetweenColors(Color.Orange, Color.Yellow, random);
-            var darkCol = ColorHelper.LerpBetweenColors(Color.DarkRed, Color.Red, random);
-            SetSwingVisuals(lightCol, darkCol, TexturePaths.Medium4pSparkle.ToTexture2D(), TexturePaths.Glow100x.ToTexture2D());
+            var color = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            SetSwingVisuals(
+                ColorHelper.IncreaseHueBy(10, color),
+                ColorHelper.IncreaseHueBy(-10, color),
+                TexturePaths.Medium4pSparkle.ToTexture2D(),
+                TexturePaths.Glow100x.ToTexture2D());
+
             SlashSound();
 
             // Find the melee projectile that was spawned by the same owner
@@ -97,16 +81,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                     break;
                 }
             }
-        }
-
-        protected float GetAngleWithOffset()
-        {
-            return _directionToPlayer.ToRotation() + MathHelper.ToRadians(-_offsetDegrees * initialDirection);
-        }
-
-        protected Vector2 GetDirectionWithOffset()
-        {
-            return _angleWithOffset.ToRotationVector2();
         }
 
         public override void AI()
@@ -177,7 +151,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             for (int i = 0; i < segmentCount; i++)
             {
                 var positionToCheck = GetSegmentPosition(i);
-                int hitboxSize = (int)(160 * _sizeMod);
+                int hitboxSize = (int)(100 * _sizeMod);
                 var rectangleToCheck = new Rectangle((int)positionToCheck.X - hitboxSize / 2, (int)positionToCheck.Y - hitboxSize / 2, hitboxSize, hitboxSize);
 
                 if (Rectangle.Intersect(target.Hitbox, rectangleToCheck) != Rectangle.Empty)
@@ -194,14 +168,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             return false;
         }
 
-        protected void SetSwingVisuals(Color colorToLerpFrom, Color colorToLerpTo, Texture2D sparkleSprite, Texture2D glowSprite)
-        {
-            _colorToLerpFrom = colorToLerpFrom;
-            _colorToLerpTo = colorToLerpTo;
-            _sparkleSprite = sparkleSprite;
-            _glowSprite = glowSprite;
-        }
-
         public override void PostDraw(Color lightColor)
         {
             for (int i = segmentCount - 1; i > 0; i--)
@@ -211,7 +177,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                     ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, 1f - i / (float)segmentCount),
                     rotation: _directionWithOffset.ToRotation(),
                     scale: (1 + i * 0.5f) * _sizeMod * -initialDirection,
-                    alphaMod: _drawAlpha * (i * 0.05f / segmentCount + 0.2f),
+                    alphaMod: _drawAlpha * (i * 0.04f / segmentCount + 0.2f),
                     additiveAmount: 0.4f + 0.2f * i,
                     considerWorldLight: false,
                     positionOffset: _directionWithOffset * i * (-20 * _sizeMod - 20),
@@ -223,14 +189,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                     ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, 1f - i / (float)segmentCount),
                     rotation: _directionWithOffset.ToRotation(),
                     scale: (1 + i * 0.5f) * _sizeMod * -initialDirection * 0.6f,
-                    alphaMod: _drawAlpha * (i * 0.02f / segmentCount + 0.2f),
+                    alphaMod: _drawAlpha * (i * 0.06f / segmentCount + 0.2f),
                     additiveAmount: 1f + 0.5f * i,
                     considerWorldLight: false,
                     positionOffset: _directionWithOffset * i * (-20 * _sizeMod - 20),
                     flipSpriteSettings: (SpriteEffects)(initialDirection == -1 ? 1 : 0),
                     spriteOverride: TexturePaths.GolemSlashSegment.ToTexture2D());
 
-                if (i == segmentCount - 1)
+                if (_enableSparkle && i == segmentCount - 1)
                 {
                     SpriteBatch spriteBatch = Main.spriteBatch;
 
@@ -245,30 +211,27 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                         if (j % 4 == 0) continue;
 
                         var lerpColor = ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, (float)j / (float)jCount);
-                        Color color = ColorHelper.ColorWithAlpha255(lerpColor) * _drawAlpha * 0.3f * j;
 
                         Main.EntitySpriteDraw(
                             texture: _sparkleSprite,
                             position: GetSegmentPosition(i + 1f) - Main.screenPosition,
                             sourceRectangle: null,
-                            color: color,
+                            color: ColorHelper.ColorWithAlpha255(lerpColor) * _drawAlpha * 0.3f * j,
                             rotation: 0,
                             origin: _sparkleSprite.Size() / 2,
                             scale: scale * 0.05f * j * segmentCount,
                             effects: SpriteEffects.None);
+
+                        Main.EntitySpriteDraw(
+                            texture: _glowSprite,
+                            position: GetSegmentPosition(i + 1f) - Main.screenPosition,
+                            sourceRectangle: null,
+                            color: ColorHelper.ColorWithAlpha255(lerpColor) * _drawAlpha * 0.04f * j,
+                            rotation: 0,
+                            origin: _glowSprite.Size() / 2,
+                            scale: scale * 5,
+                            effects: SpriteEffects.None);
                     }
-
-                    var colorBetween = ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, 0.5f);
-
-                    Main.EntitySpriteDraw(
-                        texture: _glowSprite,
-                        position: GetSegmentPosition(i + 1f) - Main.screenPosition,
-                        sourceRectangle: null,
-                        color: ColorHelper.ColorWithAlpha255(colorBetween) * _drawAlpha,
-                        rotation: 0,
-                        origin: _glowSprite.Size() / 2,
-                        scale: 3,
-                        effects: SpriteEffects.None);
 
                     spriteBatch.End();
                     spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
@@ -276,15 +239,25 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             }
         }
 
-        protected virtual void SlashSound()
+        private float ChipVelocityBonus()
         {
-            PlayAudio(SoundID.Item7, volume: 1f, pitchVariance: 0.3f, pitch: 0f, maxInstances: 10);
-            PlayAudio(SoundID.Item18, volume: 1f, pitchVariance: 0f, pitch: 0f, maxInstances: 10);
+            return 1 + Owner.GetModPlayer<ColorChipPlayer>().CalculateProjectileVelocityBonus();
+        }
 
-            PlayAudio(SoundID.Item66, volume: 0.5f, pitchVariance: 0f, pitch: 0f, maxInstances: 10);
-            PlayAudio(SoundID.DD2_BetsysWrathShot, volume: 0.1f, pitchVariance: 0f, pitch: 0f, maxInstances: 10);
-            PlayAudio(SoundID.DD2_PhantomPhoenixShot, volume: 1f, pitchVariance: 0f, pitch: 0.5f, maxInstances: 10);
-            PlayAudio(SoundID.DD2_DrakinShot, volume: 0.3f, pitchVariance: 0f, pitch: 0.5f, maxInstances: 10);
+        protected void SetSwingSettings(int swingSegments, float swingOffsetDegrees, float sizeMod)
+        {
+            segmentCount = swingSegments;
+            _offsetDegrees = swingOffsetDegrees;
+            _sizeMod = sizeMod * ChipVelocityBonus();
+        }
+
+        protected void SetSwingVisuals(Color colorToLerpFrom, Color colorToLerpTo, Texture2D sparkleSprite, Texture2D glowSprite, bool enableSparkle = false)
+        {
+            _colorToLerpFrom = colorToLerpFrom;
+            _colorToLerpTo = colorToLerpTo;
+            _sparkleSprite = sparkleSprite;
+            _glowSprite = glowSprite;
+            _enableSparkle = enableSparkle;
         }
 
         protected Vector2 GetSegmentPosition(float segmentNumber)
@@ -292,32 +265,24 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             return Projectile.Center + _directionWithOffset * segmentNumber * (-20 * _sizeMod - 20);
         }
 
+        protected float GetAngleWithOffset()
+        {
+            return _directionToPlayer.ToRotation() + MathHelper.ToRadians(-_offsetDegrees * initialDirection);
+        }
+
+        protected Vector2 GetDirectionWithOffset()
+        {
+            return _angleWithOffset.ToRotationVector2();
+        }
+
+        protected virtual void SlashSound()
+        {
+            PlayAudio(SoundID.Item7, volume: 1f, pitchVariance: 0.3f, pitch: 0f, maxInstances: 10);
+            PlayAudio(SoundID.Item18, volume: 0.5f, pitchVariance: 0f, pitch: 0f, maxInstances: 10);
+        }
+
         protected virtual void CreateHitVisual(Vector2 position)
         {
-            PlayAudio(SoundID.Item14, volume: 0.5f, pitchVariance: 0.2f, pitch: -0.5f, maxInstances: 5);
-
-            for (int j = 0; j < 15; j++)
-            {
-                DustHelper.NewDust(
-                    position,
-                    DustID.Torch,
-                    Main.rand.NextVector2Circular(16, 16),
-                    ColorHelper.LerpBetweenColors(Color.Red, Color.Orange, Main.rand.NextFloat(0f, 1f)),
-                    Main.rand.NextFloat(1f, 3f));
-            }
-
-            for (int j = 0; j < 3; j++)
-            {
-                var g = Gore.NewGoreDirect(
-                    Terraria.Entity.GetSource_None(),
-                    position,
-                    Vector2.Zero,
-                    GoreID.Smoke1,
-                    Main.rand.NextFloat(1f, 2f));
-
-                g.velocity = Main.rand.NextVector2Circular(3, 3);
-                g.alpha = 196;
-            }
         }
 
         protected virtual void HitTarget(NPC target)
@@ -325,35 +290,29 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
             var proj = CreateChildProjectile<HitProjectile>(target.Center, Vector2.Zero, Projectile.damage, true);
             proj.targetToHit = target.whoAmI;
             proj.immuneTime = 3;
-
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(BuffID.OnFire3, 300);
-            }
         }
 
         protected virtual void CreateSwingDust(Vector2 position)
         {
             if (timeSpentAlive % FrameSpeedMultiply(2) == 0)
             {
-                DustHelper.NewDust(
-                    position + Main.rand.NextVector2Circular(40, 40),
-                    DustID.Torch,
-                    WoomyMathHelper.AddRotationToVector2(_directionWithOffset, 90) * Main.rand.NextFloat(1, 6) * -initialDirection,
-                    Main.rand.Next([Color.Purple, Color.Red, Color.Orange]),
-                    Main.rand.NextFloat(0.5f, 3f));
-            }
+                DustHelper.NewChargerBulletDust(
+                    position: position + Main.rand.NextVector2Circular(40, 40),
+                    velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
+                    color: CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.5f);
 
-            if (Main.rand.NextBool(10))
-            {
-                var d = DustHelper.NewDust(
-                    position + Main.rand.NextVector2Circular(40, 40),
-                    DustID.Smoke,
-                    WoomyMathHelper.AddRotationToVector2(_directionWithOffset, 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
-                    ColorHelper.LerpBetweenColors(Color.Black, Color.Gray, 0.3f),
-                    Main.rand.NextFloat(0.5f, 1f));
-
-                d.noGravity = false;
+                if (Main.rand.NextBool(3))
+                {
+                    var d = Dust.NewDustPerfect(
+                        Position: position + Main.rand.NextVector2Circular(40, 40),
+                        Type: DustID.AncientLight,
+                        Velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
+                        newColor: CurrentColor,
+                        Scale: Main.rand.NextFloat(1.2f, 1.6f));
+                    d.noGravity = true;
+                }
             }
         }
     }

@@ -5,11 +5,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class OrderShot : Splattershot
     {
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-        }
-
         public override void SetDefaults()
         {
             base.SetDefaults();

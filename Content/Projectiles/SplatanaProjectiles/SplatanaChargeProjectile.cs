@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         private int weakSlashProjectile;
         private int strongSlashProjectile;
+        private int meleeEnergyProjectile;
 
         public override void ApplyWeaponInstanceData()
         {
@@ -39,6 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             weakSlashProjectile = weaponData.WeakSlashProjectile;
             strongSlashProjectile = weaponData.StrongSlashProjectile;
+            meleeEnergyProjectile = weaponData.MeleeEnergyProjectile;
 
             if (!weaponData.EnableWeakSlashProjectile) weakSlashProjectile = -1;
             if (!weaponData.EnableStrongSlashProjectile) strongSlashProjectile = -1;
@@ -102,8 +104,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             {
                 PlayAudio(shootSample, pitchVariance: 0.2f);
 
-                var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, MultiplyProjectileDamage(maxChargeMeleeDamageMod));
+                var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, 0);
                 meleeProj.wasFullyCharged = true;
+                meleeProj.UpdateCurrentColor(GenerateInkColor());
+
+                if (meleeEnergyProjectile != -1)
+                {
+                    var proj = CreateChildProjectile(owner.Center, Vector2.Zero, meleeEnergyProjectile, MultiplyProjectileDamage(maxChargeMeleeDamageMod));
+                        proj.UpdateCurrentColor(GenerateInkColor());
+                }
 
                 if (strongSlashProjectile != -1)
                 {
@@ -111,6 +120,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
                         as SplatanaStrongSlashProjectile;
                     proj.RunSpawnMethods();
+                    proj.UpdateCurrentColor(GenerateInkColor());
                     proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
                     proj.Projectile.penetrate += 3;
                 }
@@ -121,13 +131,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, Projectile.damage);
                 meleeProj.wasFullyCharged = false;
+                meleeProj.UpdateCurrentColor(GenerateInkColor());
 
                 if (weakSlashProjectile != -1)
                 {
-                    CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
+                    var proj = CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
+                    proj.UpdateCurrentColor(GenerateInkColor());
                 }
             }
-
 
             Projectile.Kill();
             return;

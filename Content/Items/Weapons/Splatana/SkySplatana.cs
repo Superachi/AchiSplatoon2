@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaProjectiles;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,16 +12,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override float InkCost { get => 1f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
-        public override SoundStyle ShootWeakSample { get => SoundID.DD2_BetsyFireballShot; }
-        public override SoundStyle ChargeSample { get => SoundID.Item34.WithPitchOffset(0); }
+        public override SoundStyle ShootWeakSample { get => SoundID.Item1; }
+        public override SoundStyle ChargeSample { get => SoundID.DD2_DarkMageAttack; }
 
         // Splatana specific
-        public override int BaseDamage { get => 10; }
+        public override int BaseDamage { get => 22; }
         public override float[] ChargeTimeThresholds { get => [20f]; }
         public override float MaxChargeMeleeDamageMod { get => 2f; }
         public override float MaxChargeRangeDamageMod { get => 2f; }
+
+        public override int MeleeEnergyProjectile { get => ModContent.ProjectileType<SkySplatanaMeleeEnergyProjectile>(); }
         public override bool EnableWeakSlashProjectile => false;
-        public override int StrongSlashProjectile { get => ModContent.ProjectileType<SkySplatanaStrongSlashProjectile>(); }
+        public override bool EnableStrongSlashProjectile => false;
 
         public override void SetDefaults()
         {
@@ -30,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 4;
 
-            Item.useTime = UseTime();
+            Item.useTime = 20;
             Item.useAnimation = Item.useTime;
 
             Item.width = 56;
@@ -38,11 +39,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
-        }
-
-        public override int UseTime()
-        {
-            return 20;
         }
 
         public override void AddRecipes()

@@ -13,15 +13,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundID.DD2_BetsyFireballShot; }
-        public override SoundStyle ChargeSample { get => SoundID.Item34.WithPitchOffset(0); }
+        public override SoundStyle ChargeSample { get => SoundID.DD2_DarkMageAttack; }
 
         // Splatana specific
-        public override int BaseDamage { get => 90; }
+        public override int BaseDamage { get => 110; }
         public override float[] ChargeTimeThresholds { get => [30f]; }
         public override float MaxChargeMeleeDamageMod { get => 3f; }
         public override float MaxChargeRangeDamageMod { get => 2f; }
+
+        public override int MeleeEnergyProjectile { get => ModContent.ProjectileType<GolemSplatanaMeleeEnergyProjectile>(); }
         public override bool EnableWeakSlashProjectile => false;
-        public override int StrongSlashProjectile { get => ModContent.ProjectileType<GolemSplatanaStrongSlashProjectile>(); }
+        public override bool EnableStrongSlashProjectile => false;
 
         public override void SetDefaults()
         {
@@ -29,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 5;
 
-            Item.useTime = UseTime();
+            Item.useTime = 30;
             Item.useAnimation = Item.useTime;
 
             Item.width = 64;
@@ -37,11 +39,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
             Item.value = Item.buyPrice(gold: 50);
             Item.rare = ItemRarityID.Yellow;
-        }
-
-        public virtual int UseTime()
-        {
-            return 30;
         }
     }
 }

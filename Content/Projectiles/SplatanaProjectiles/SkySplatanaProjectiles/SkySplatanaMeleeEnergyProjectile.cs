@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaProjectiles;
-using Terraria;
+﻿using Terraria;
 using Microsoft.Xna.Framework;
 using AchiSplatoon2.Helpers;
 using Terraria.ID;
@@ -7,17 +6,23 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles
 {
-    internal class SkySplatanaStrongSlashProjectile : GolemSplatanaStrongSlashProjectile
+    internal class SkySplatanaMeleeEnergyProjectile : SplatanaMeleeEnergyProjectile
     {
         protected override void AfterSpawn()
         {
             base.AfterSpawn();
-            SetSwingSettings(5, 20, 0.6f * ChipVelocityBonus());
+            SetSwingSettings(5, 20, 0.7f);
 
             var hueOffset = Main.rand.Next(-15, 15);
             var lightCol = ColorHelper.IncreaseHueBy(hueOffset, Color.LightSeaGreen);
             var darkCol = ColorHelper.IncreaseHueBy(hueOffset, Color.DodgerBlue);
-            SetSwingVisuals(lightCol, darkCol, TexturePaths.Medium4pSparkle.ToTexture2D(), TexturePaths.Glow100x.ToTexture2D());
+
+            SetSwingVisuals(
+                lightCol,
+                darkCol,
+                TexturePaths.Medium4pSparkle.ToTexture2D(),
+                TexturePaths.Glow100x.ToTexture2D(),
+                true);
         }
 
         protected override void SlashSound()

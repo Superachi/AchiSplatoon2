@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override float WeakSlashShotSpeed { get => 8f; }
         public override float MaxChargeRangeDamageMod { get => 1f; }
         public override float MaxChargeLifetimeMod { get => 15f; }
-        public override float MaxChargeVelocityMod { get => 0.9f; }
+        public override float MaxChargeVelocityMod { get => 0.8f; }
 
         public override int StrongSlashProjectile { get => ModContent.ProjectileType<EelSplatanaStrongSlashProjectile>(); }
 
