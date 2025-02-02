@@ -58,8 +58,13 @@ Hint: {
 		Vortex: Has {0} dodges. Instead of just rolling, you zip towards a given direction
 	}
 
-	Splatana: Hold left-click to charge up a powerful, piercing slash
-	EelSplatana: Hold left-click to charge up a tornado that fires eels
+	Splatanas: {
+		Generic: Hold left-click to charge up a ranged, piercing slash
+		EelSplatana: When fully charged, this summons a whirling tornado that fires eels
+		SkySplatana: When fully charged, you perform a large slash around you
+		GolemSplatana: When fully charged, you unleash a massive fiery slash around you
+	}
+
 	Roller: Hold left-click and run to roll over enemies
 
 	Brella: {
@@ -782,7 +787,7 @@ Items: {
 	}
 
 	SplatanaWiper: {
-		UsageHint: "{$Hint.Splatana}"
+		UsageHint: "{$Hint.Splatanas.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiper.Flavor
 		DisplayName: Splatana Wiper
 		Tooltip: ""
@@ -796,7 +801,7 @@ Items: {
 	}
 
 	SplatanaStamper: {
-		UsageHint: "{$Hint.Splatana}"
+		UsageHint: "{$Hint.Splatanas.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.SplatanaStamper.Flavor
 		DisplayName: Splatana Stamper
 		Tooltip: ""
@@ -1014,7 +1019,7 @@ Items: {
 
 	KensaSplatanaStamper: {
 		Flavor: Mods.AchiSplatoon2.Items.KensaSplatanaStamper.Flavor
-		UsageHint: "{$Hint.Splatana}"
+		UsageHint: "{$Hint.Splatanas.Generic}"
 		DisplayName: Kensa Splatana Stamper
 		Tooltip: ""
 	}
@@ -1139,7 +1144,7 @@ Items: {
 	}
 
 	SplatanaWiperDeco: {
-		UsageHint: "{$Hint.Splatana}"
+		UsageHint: "{$Hint.Splatanas.Generic}"
 		Flavor: Mods.AchiSplatoon2.Items.SplatanaWiperDeco.Flavor
 		DisplayName: Splatana Wiper Deco
 		Tooltip: ""
@@ -1273,7 +1278,7 @@ Items: {
 
 	EelSplatana: {
 		Flavor: Say it with sizzle!
-		UsageHint: "{$Hint.EelSplatana}"
+		UsageHint: "{$Hint.Splatanas.EelSplatana}"
 		DisplayName: Moray Claymore
 		Tooltip: ""
 	}
@@ -1745,16 +1750,23 @@ Items: {
 	}
 
 	GolemSplatana: {
-		UsageHint: Unleashes a massive fiery slash when fully charged
+		UsageHint: "{$Hint.Splatanas.GolemSplatana}"
 		Flavor: M.C. Princess Was Her?
 		DisplayName: Sun Cleaver
 		Tooltip: ""
 	}
 
 	SkySplatana: {
-		UsageHint: Mods.AchiSplatoon2.Items.SkySplatana.UsageHint
+		UsageHint: "{$Hint.Splatanas.SkySplatana}"
 		Flavor: Mods.AchiSplatoon2.Items.SkySplatana.Flavor
 		DisplayName: Zephyr Blade
+		Tooltip: ""
+	}
+
+	OrderSplatana: {
+		UsageHint: "{$Hint.Splatanas.Generic}"
+		Flavor: Humble beginnings
+		DisplayName: Order Splatana
 		Tooltip: ""
 	}
 }
@@ -1886,6 +1898,9 @@ Projectiles: {
 	HitProjectile.DisplayName: Hit Projectile
 	GolemSplatanaStrongSlashProjectile.DisplayName: Golem Splatana Strong Slash Projectile
 	SkySplatanaStrongSlashProjectile.DisplayName: Sky Splatana Strong Slash Projectile
+	GolemSplatanaMeleeEnergyProjectile.DisplayName: Golem Splatana Melee Energy Projectile
+	SkySplatanaMeleeEnergyProjectile.DisplayName: Sky Splatana Melee Energy Projectile
+	SplatanaMeleeEnergyProjectile.DisplayName: Splatana Melee Energy Projectile
 }
 
 Buffs: {

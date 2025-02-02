@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     {
         public override float[] ChargeTimeThresholds { get => [75f]; }
 
-        public override float RangeModifier => 0.2f;
+        public override float RangeModifier => 0.4f;
         public override float MinPartialRange { get => 0.3f; }
         public override float MaxPartialRange { get => 0.6f; }
 

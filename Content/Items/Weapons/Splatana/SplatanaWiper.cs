@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override float MaxChargeRangeDamageMod { get => 2f; }
         public override float MaxChargeLifetimeMod { get => 1.5f; }
 
-        public override int BaseDamage { get => 12; }
+        public override int BaseDamage { get => 10; }
         public override void SetDefaults()
         {
             base.SetDefaults();
