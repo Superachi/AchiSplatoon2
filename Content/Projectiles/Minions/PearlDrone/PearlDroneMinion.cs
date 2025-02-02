@@ -751,7 +751,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     }
                     break;
 
-                case EelSplatanaWeapon:
+                case EelSplatana:
                     strings.Add("You think Frye names each of her eels?");
                     break;
             }

@@ -5,7 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
+namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProjectiles
 {
     internal class EelSplatanaSmallProjectile : BaseProjectile
     {

@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
 
-            if (WeaponInstance is GolemSplatanaWeapon) return;
+            if (WeaponInstance is GolemSplatana) return;
 
             if (wasFullyCharged && timeSpentAlive % 4 == 0)
             {

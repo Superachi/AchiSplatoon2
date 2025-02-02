@@ -112,7 +112,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.GolemBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<GolemSplatanaWeapon>())
+                    ItemDropRule.Common(ModContent.ItemType<GolemSplatana>())
                 );
             }
 
@@ -126,7 +126,7 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.FishronBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<EelSplatanaWeapon>())
+                    ItemDropRule.Common(ModContent.ItemType<EelSplatana>())
                 );
             }
 

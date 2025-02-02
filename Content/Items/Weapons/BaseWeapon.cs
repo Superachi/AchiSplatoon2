@@ -368,7 +368,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                     possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();
 
-                    if (this is GolemSplatanaWeapon)
+                    if (this is GolemSplatana)
                     {
                         possiblePrefixes.Remove(ModContent.PrefixType<BacklinePrefix>());
                         possiblePrefixes.Remove(ModContent.PrefixType<RangedPrefix>());

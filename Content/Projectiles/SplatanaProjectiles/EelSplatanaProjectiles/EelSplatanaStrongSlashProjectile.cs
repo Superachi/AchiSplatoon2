@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 
-namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana
+namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProjectiles
 {
     internal class EelSplatanaStrongSlashProjectile : SplatanaStrongSlashProjectile
     {

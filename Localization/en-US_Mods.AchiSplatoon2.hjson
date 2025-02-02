@@ -1271,7 +1271,7 @@ Items: {
 		Tooltip: ""
 	}
 
-	EelSplatanaWeapon: {
+	EelSplatana: {
 		Flavor: Say it with sizzle!
 		UsageHint: "{$Hint.EelSplatana}"
 		DisplayName: Moray Claymore
@@ -1744,10 +1744,17 @@ Items: {
 		Tooltip: "{0}% increased magic damage"
 	}
 
-	GolemSplatanaWeapon: {
+	GolemSplatana: {
 		UsageHint: Unleashes a massive fiery slash when fully charged
 		Flavor: M.C. Princess Was Her?
 		DisplayName: Sun Cleaver
+		Tooltip: ""
+	}
+
+	SkySplatana: {
+		UsageHint: Mods.AchiSplatoon2.Items.SkySplatana.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SkySplatana.Flavor
+		DisplayName: Zephyr Blade
 		Tooltip: ""
 	}
 }
@@ -1878,6 +1885,7 @@ Projectiles: {
 	TacticoolerCan.DisplayName: Tacticooler Can
 	HitProjectile.DisplayName: Hit Projectile
 	GolemSplatanaStrongSlashProjectile.DisplayName: Golem Splatana Strong Slash Projectile
+	SkySplatanaStrongSlashProjectile.DisplayName: Sky Splatana Strong Slash Projectile
 }
 
 Buffs: {

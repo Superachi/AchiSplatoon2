@@ -45,7 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             Projectile.damage = weaponData.ActualDamage(Projectile.damage);
 
-            if (WeaponInstance is EelSplatanaWeapon)
+            if (WeaponInstance is EelSplatana)
             {
                 UpdateCurrentColor(ColorHelper.AddRandomHue(30, Color.MediumPurple));
             }

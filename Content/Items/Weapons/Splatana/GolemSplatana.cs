@@ -3,13 +3,12 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatana;
+using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
-    internal class GolemSplatanaWeapon : BaseSplatana
+    internal class GolemSplatana : BaseSplatana
     {
-        public static int UseTime { get => 30; }
         public override float InkCost { get => 1.5f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
@@ -28,9 +27,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         {
             base.SetDefaults();
             Item.damage = DisplayDamage(BaseDamage);
-            Item.knockBack = 8;
+            Item.knockBack = 5;
 
-            Item.useTime = UseTime;
+            Item.useTime = UseTime();
             Item.useAnimation = Item.useTime;
 
             Item.width = 64;
@@ -38,6 +37,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
             Item.value = Item.buyPrice(gold: 50);
             Item.rare = ItemRarityID.Yellow;
+        }
+
+        public virtual int UseTime()
+        {
+            return 30;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatana;
+using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProjectiles;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
-    internal class EelSplatanaWeapon : BaseSplatana
+    internal class EelSplatana : BaseSplatana
     {
         public override float InkCost { get => 5f; }
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Splatana;
