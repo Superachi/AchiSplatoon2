@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
 {
+    [ItemCategory("Unclassed", "Unclassed")]
     internal class HoneyScepter : BaseWeapon
     {
         public override float InkCost { get => 8f; }
