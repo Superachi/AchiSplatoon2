@@ -43,7 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                 DustHelper.NewDust(
                     position + Main.rand.NextVector2Circular(40, 40),
                     DustID.Torch,
-                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -initialDirection,
+                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -swingDirection,
                     Main.rand.Next([Color.Purple, Color.Red, Color.Orange]),
                     Main.rand.NextFloat(0.5f, 3f));
             }
@@ -53,7 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaPro
                 var d = DustHelper.NewDust(
                     position + Main.rand.NextVector2Circular(40, 40),
                     DustID.Smoke,
-                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
+                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -swingDirection,
                     ColorHelper.LerpBetweenColors(Color.Black, Color.Gray, 0.3f),
                     Main.rand.NextFloat(0.5f, 1f));
 

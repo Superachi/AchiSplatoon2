@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         private readonly List<int> _targetsToIgnore = new();
 
         private int _useTime;
-        protected float initialDirection;
+        protected float swingDirection;
         protected int segmentCount;
         private Vector2 _directionToPlayer = Vector2.Zero;
         private float _offsetDegrees;
@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             _minimumAlpha = 0.3f;
             _offsetFromPlayer = Vector2.Zero;
 
-            initialDirection = Owner.direction;
+            swingDirection = Owner.direction;
             SetSwingSettings(3, 20, 0.6f);
 
             var color = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
@@ -85,6 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         public override void AI()
         {
+            swingDirection = Owner.direction;
             if (Projectile.penetrate != -1) Projectile.penetrate = -1;
 
             if (_drawAlpha < 0)
@@ -176,24 +177,24 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 DrawProjectile(
                     ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, 1f - i / (float)segmentCount),
                     rotation: _directionWithOffset.ToRotation(),
-                    scale: (1 + i * 0.5f) * _sizeMod * -initialDirection,
+                    scale: (1 + i * 0.5f) * _sizeMod * -swingDirection,
                     alphaMod: _drawAlpha * (i * 0.04f / segmentCount + 0.2f),
                     additiveAmount: 0.4f + 0.2f * i,
                     considerWorldLight: false,
                     positionOffset: _directionWithOffset * i * (-20 * _sizeMod - 20),
-                    flipSpriteSettings: (SpriteEffects)(initialDirection == -1 ? 1 : 0),
+                    flipSpriteSettings: (SpriteEffects)(swingDirection == -1 ? 1 : 0),
                     spriteOverride: TexturePaths.GolemSlashSegment.ToTexture2D());
 
                 // Smaller, brighter slash
                 DrawProjectile(
                     ColorHelper.LerpBetweenColorsPerfect(_colorToLerpFrom, _colorToLerpTo, 1f - i / (float)segmentCount),
                     rotation: _directionWithOffset.ToRotation(),
-                    scale: (1 + i * 0.5f) * _sizeMod * -initialDirection * 0.6f,
+                    scale: (1 + i * 0.5f) * _sizeMod * -swingDirection * 0.6f,
                     alphaMod: _drawAlpha * (i * 0.06f / segmentCount + 0.2f),
                     additiveAmount: 1f + 0.5f * i,
                     considerWorldLight: false,
                     positionOffset: _directionWithOffset * i * (-20 * _sizeMod - 20),
-                    flipSpriteSettings: (SpriteEffects)(initialDirection == -1 ? 1 : 0),
+                    flipSpriteSettings: (SpriteEffects)(swingDirection == -1 ? 1 : 0),
                     spriteOverride: TexturePaths.GolemSlashSegment.ToTexture2D());
 
                 if (_enableSparkle && i == segmentCount - 1)
@@ -267,7 +268,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         protected float GetAngleWithOffset()
         {
-            return _directionToPlayer.ToRotation() + MathHelper.ToRadians(-_offsetDegrees * initialDirection);
+            return _directionToPlayer.ToRotation() + MathHelper.ToRadians(-_offsetDegrees * swingDirection);
         }
 
         protected Vector2 GetDirectionWithOffset()
@@ -298,7 +299,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             {
                 DustHelper.NewChargerBulletDust(
                     position: position + Main.rand.NextVector2Circular(40, 40),
-                    velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
+                    velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -swingDirection,
                     color: CurrentColor,
                     minScale: 1f,
                     maxScale: 1.5f);
@@ -308,7 +309,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     var d = Dust.NewDustPerfect(
                         Position: position + Main.rand.NextVector2Circular(40, 40),
                         Type: DustID.AncientLight,
-                        Velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -initialDirection,
+                        Velocity: WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 3) * -swingDirection,
                         newColor: CurrentColor,
                         Scale: Main.rand.NextFloat(1.2f, 1.6f));
                     d.noGravity = true;

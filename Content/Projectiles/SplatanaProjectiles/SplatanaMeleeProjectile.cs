@@ -36,8 +36,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             enablePierceDamagefalloff = false;
 
             Projectile.velocity = Vector2.Zero;
-
-            swingDirection = GetOwner().direction;
             Projectile.timeLeft = GetOwner().itemAnimationMax * FrameSpeed();
         }
 
@@ -46,6 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Player p = GetOwner();
             float meleeSpeedMod = p.GetAttackSpeed(DamageClass.Melee);
 
+            swingDirection = GetOwner().direction;
             float swingDirOffset = swingDirection == -1 ? 180 : 0;
             float deg = (Projectile.ai[1] + 30 + swingDirOffset) * swingDirection;
             float rad = MathHelper.ToRadians(deg);

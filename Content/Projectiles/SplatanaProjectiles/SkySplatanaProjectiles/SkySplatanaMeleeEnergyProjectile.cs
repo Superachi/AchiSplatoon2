@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProje
                 DustHelper.NewDust(
                     position + Main.rand.NextVector2Circular(40, 40),
                     DustID.SnowSpray,
-                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -initialDirection,
+                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -swingDirection,
                     Color.White,
                     Main.rand.NextFloat(0.25f, 1f));
             }
