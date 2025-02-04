@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +14,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 2); }
         public override float[] ChargeTimeThresholds { get => [40f, 80f]; }
+        public override SoundStyle ShootSample { get => SoundPaths.WellspringShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.WellspringShootWeak.ToSoundStyle(); }
         public override float ShotgunArc { get => 10f; }
         public override int ProjectileCount { get => 5; }
 

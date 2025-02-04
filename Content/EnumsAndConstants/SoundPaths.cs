@@ -93,6 +93,11 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string SquifferChargerShootWeak => FormatPath(nameof(SquifferChargerShootWeak));
         public static string TripleHit => FormatPath(nameof(TripleHit));
         public static string TriStringerShoot => FormatPath(nameof(TriStringerShoot));
+        public static string TriStringerShootWeak => FormatPath(nameof(TriStringerShootWeak));
+        public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
+        public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
+        public static string WellspringShoot => FormatPath(nameof(WellspringShoot));
+        public static string WellspringShootWeak => FormatPath(nameof(WellspringShootWeak));
 
         // Brellas
         public static string BrellaBreak => FormatPath(nameof(BrellaBreak));

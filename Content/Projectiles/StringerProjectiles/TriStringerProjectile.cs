@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         private readonly int networkExplodeDelayBuffer = 120;
 
         private readonly float delayUntilFall = 8f;
-        private float fallSpeed = 0.001f;
+        private float fallSpeed;
 
         protected bool sticking = false;
         protected bool hasExploded = false;
@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         public override void SetDefaults()
         {
             Projectile.alpha = 255;
-            Projectile.extraUpdates = 30;
+            Projectile.extraUpdates = 32;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
@@ -45,6 +45,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected override void AfterSpawn()
         {
             Initialize();
+            fallSpeed = 0.003f;
             finalExplosionRadius = (int)(ExplosionRadius * explosionRadiusModifier);
         }
 
