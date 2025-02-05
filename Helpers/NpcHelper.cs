@@ -75,6 +75,7 @@ internal class NpcHelper
             case NPCID.GiantFungiBulb:
             case NPCID.MoonLordLeechBlob:
             case NPCID.VileSpit:
+            case NPCID.VileSpitEaterOfWorlds:
             case NPCID.WaterSphere:
                 return true;
         }

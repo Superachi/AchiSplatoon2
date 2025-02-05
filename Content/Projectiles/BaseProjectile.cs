@@ -476,6 +476,7 @@ internal class BaseProjectile : ModProjectile
 
             if (!IsTargetEnemy(target)) return;
             if (!colorChipPlayer.IsPaletteValid()) return;
+            if (NpcHelper.IsTargetAProjectile(target)) return;
 
             var splatInkRecoveryBonus = colorChipPlayer.CalculateSplatInkRecoveryBonus();
             if (splatInkRecoveryBonus > 0)
