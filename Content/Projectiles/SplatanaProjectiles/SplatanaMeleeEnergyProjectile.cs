@@ -291,6 +291,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             var proj = CreateChildProjectile<HitProjectile>(target.Center, Vector2.Zero, Projectile.damage, true);
             proj.targetToHit = target.whoAmI;
             proj.immuneTime = 3;
+            Projectile.damage = (int)(Projectile.damage * 0.95f);
         }
 
         protected virtual void CreateSwingDust(Vector2 position)

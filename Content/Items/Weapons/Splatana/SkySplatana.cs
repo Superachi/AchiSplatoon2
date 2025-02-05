@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SkySplatana : GolemSplatana
     {
-        public override float InkCost { get => 1f; }
+        public override float InkCost { get => 0.8f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundID.Item1; }

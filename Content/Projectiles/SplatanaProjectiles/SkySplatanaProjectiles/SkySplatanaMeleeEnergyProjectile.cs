@@ -50,9 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProje
 
         protected override void HitTarget(NPC target)
         {
-            var proj = CreateChildProjectile<HitProjectile>(target.Center, Vector2.Zero, Projectile.damage, true);
-            proj.targetToHit = target.whoAmI;
-            proj.immuneTime = 3;
+            base.HitTarget(target);
         }
 
         protected override void CreateHitVisual(Vector2 position)
