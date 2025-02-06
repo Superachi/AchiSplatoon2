@@ -20,8 +20,8 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
             Item.width = 28;
             Item.height = 28;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
