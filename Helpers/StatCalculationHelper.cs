@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers.WeaponKits;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -30,6 +32,11 @@ namespace AchiSplatoon2.Helpers
             {
                 damageModifier += colorChipPlayer.PaletteMainDamageMod - 1;
                 if (debug) DebugHelper.PrintInfo($"Val after palette: {damageModifier}");
+            }
+
+            if (Attribute.GetCustomAttribute(weaponInstance.GetType(), typeof(OrderWeaponAttribute)) != null && player.HasAccessory<OrderEmblem>())
+            {
+                damageModifier += OrderEmblem.OrderWeaponDamageBonus;
             }
 
             // Sub power bonus

@@ -1,8 +1,10 @@
+using AchiSplatoon2.Attributes;
 using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
+    [OrderWeapon]
     internal class OrderShot : Splattershot
     {
         public override void SetDefaults()

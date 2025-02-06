@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
+    [OrderWeapon]
     internal class OrderBlaster : BaseBlaster
     {
         public override int ExplosionRadiusAir { get => 160; }

@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
+    [OrderWeapon]
     internal class OrderBrella : BaseBrella
     {
         public override int ProjectileCount { get => 3; }

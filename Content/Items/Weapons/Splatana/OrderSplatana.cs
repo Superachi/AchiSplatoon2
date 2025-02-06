@@ -2,9 +2,11 @@
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
+using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
+    [OrderWeapon]
     internal class OrderSplatana : BaseSplatana
     {
         public override float InkCost { get => 1.5f; }

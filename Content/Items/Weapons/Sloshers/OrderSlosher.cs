@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
+    [OrderWeapon]
     internal class OrderSlosher : BaseSlosher
     {
         public override float InkCost { get => 12f; }

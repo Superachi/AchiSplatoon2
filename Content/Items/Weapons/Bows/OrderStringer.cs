@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Attributes;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
+    [OrderWeapon]
     internal class OrderStringer : TriStringer
     {
         public override float ShotgunArc { get => 6f; }

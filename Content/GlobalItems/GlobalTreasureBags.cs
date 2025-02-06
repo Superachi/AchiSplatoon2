@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -62,6 +63,13 @@ namespace AchiSplatoon2.Content.GlobalItems
             {
                 itemLoot.Add(
                     ItemDropRule.Common(ModContent.ItemType<SlimeSplattershot>())
+                );
+            }
+
+            if (item.type == ItemID.EyeOfCthulhuBossBag)
+            {
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<OrderEmblem>(), chanceDenominator: 3)
                 );
             }
 

@@ -1,8 +1,10 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Attributes;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
+    [OrderWeapon]
     internal class OrderCharger : SplatCharger
     {
         public override float[] ChargeTimeThresholds { get => [75f]; }

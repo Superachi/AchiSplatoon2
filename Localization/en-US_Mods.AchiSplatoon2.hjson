@@ -1783,6 +1783,13 @@ Items: {
 		DisplayName: Order Slosher
 		Tooltip: ""
 	}
+
+	OrderEmblem: {
+		UsageHint: Your Order weapons deal {0}% more damage
+		Flavor: Mods.AchiSplatoon2.Items.OrderEmblem.Flavor
+		DisplayName: Order Emblem
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

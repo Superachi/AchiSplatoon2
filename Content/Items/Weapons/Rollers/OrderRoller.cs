@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
+    [OrderWeapon]
     internal class OrderRoller : BaseRoller
     {
         public override float GroundWindUpDelayModifier => 1.5f;

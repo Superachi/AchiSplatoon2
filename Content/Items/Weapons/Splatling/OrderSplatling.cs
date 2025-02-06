@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
+    [OrderWeapon]
     internal class OrderSplatling : BaseSplatling
     {
         public override float InkCost { get => 2f; }

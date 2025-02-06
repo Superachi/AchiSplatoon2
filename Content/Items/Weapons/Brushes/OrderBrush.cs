@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AchiSplatoon2.Attributes;
+using System;
 using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [OrderWeapon]
     internal class OrderBrush : BaseBrush
     {
         public override float AimDeviation { get => 8f; }
