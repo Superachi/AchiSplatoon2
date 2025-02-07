@@ -1790,6 +1790,13 @@ Items: {
 		DisplayName: Order Emblem
 		Tooltip: ""
 	}
+
+	OrderDualie: {
+		UsageHint: "{$Hint.Dualies.Generic}"
+		Flavor: Humble beginnings
+		DisplayName: Order Dualies
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

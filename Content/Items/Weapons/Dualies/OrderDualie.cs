@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,10 +7,11 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
-    internal class SplatDualie : BaseDualie
+    [OrderWeapon]
+    internal class OrderDualie : BaseDualie
     {
         public override float AimDeviation { get => 6f; }
-        public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
+        public override Vector2? HoldoutOffset() { return new Vector2(-10, 4); }
         public override float MuzzleOffsetPx { get; set; } = 50f;
 
         // Dualie specific
@@ -17,26 +19,28 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override float PostRollAttackSpeedMod { get => 0.8f; }
         public override float PostRollAimMod { get => 0.5f; }
         public override float PostRollVelocityMod { get => 1.2f; }
-        public override int MaxRolls { get => 2; }
-        public override float RollDistance { get => 14f; }
-        public override float RollDuration { get => 20f; }
+        public override int MaxRolls { get => 1; }
+        public override float RollDistance { get => 12f; }
+        public override float RollDuration { get => 24f; }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
-                singleShotTime: 7,
-                shotVelocity: 4f);
+                singleShotTime: 10,
+                shotVelocity: 3.5f);
 
-            Item.damage = 11;
-            Item.width = 50;
-            Item.height = 36;
-            Item.knockBack = 1f;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Orange;
+            Item.damage = 6;
+            Item.width = 46;
+            Item.height = 28;
+            Item.knockBack = 0.5f;
+            Item.value = Item.buyPrice(silver: 10);
+            Item.rare = ItemRarityID.Blue;
+
+            Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipePostSkeletron();
+        public override void AddRecipes() => AddRecipeOrder();
     }
 }
