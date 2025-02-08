@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 shop.Add<ChargedBattery>(Condition.DownedMechBossAny);
             }
 
-            if (shop.NpcType == NPCID.Painter)
+            if (shop.NpcType == NPCID.Merchant)
             {
                 shop.Add(ItemID.BlackInk);
                 shop.Add<PainterDualie>(Condition.DownedEarlygameBoss);
