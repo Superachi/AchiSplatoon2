@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (shop.NpcType == NPCID.Mechanic)
             {
-                shop.Add<ChargedBattery>(Condition.DownedMechBossAny);
+                shop.Add<ChargedBattery>(Condition.Hardmode);
             }
 
             if (shop.NpcType == NPCID.Merchant)
