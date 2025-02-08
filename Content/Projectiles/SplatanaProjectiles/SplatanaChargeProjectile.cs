@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -17,6 +18,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         private readonly int soundDelayInterval = 6;
         private SoundStyle chargeSample;
+        private SlotId chargeLoopSound;
 
         private int weakSlashProjectile;
         private int strongSlashProjectile;
@@ -90,13 +92,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 Projectile.soundDelay = soundDelayInterval;
 
                 var pitchValue = -0.5f + (ChargeQuotient() * 0.5f);
-                PlayAudio(chargeSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: pitchValue);
+                chargeLoopSound = PlayAudio(chargeSample, volume: 0.05f, pitchVariance: 0.05f, maxInstances: 5, pitch: pitchValue);
             }
         }
 
         protected override void ReleaseCharge(Player owner)
         {
             SoundHelper.StopSoundIfActive(chargeStartAudio);
+            SoundHelper.StopSoundIfActive(chargeLoopSound);
             hasFired = true;
             var velocity = owner.DirectionTo(Main.MouseWorld) * weakSlashShotSpeed;
 

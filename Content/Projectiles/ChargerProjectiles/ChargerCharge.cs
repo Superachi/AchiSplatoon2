@@ -53,6 +53,15 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             }
         }
 
+        public override void AI()
+        {
+            base.AI();
+            if (IsThisClientTheProjectileOwner() && IsChargeMaxedOut())
+            {
+                SoundHelper.StopSoundIfActive(chargeStartAudio);
+            }
+        }
+
         protected override void ReleaseCharge(Player owner)
         {
             // Release the attack
