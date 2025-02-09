@@ -84,7 +84,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             else if (BlueValue > 0)
             {
                 StatIncreaseDisplayString(tooltips, statModifierA, "movement speed", modPlayer.BlueChipBaseMoveSpeedBonusDisplay);
-                StatIncreaseDisplayString(tooltips, statModifierB, "special charge up while moving", modPlayer.BlueChipBaseChargeBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "special charge while moving with roller & brush", modPlayer.BlueChipBaseChargeBonusDisplay);
             }
             else if (YellowValue > 0)
             {

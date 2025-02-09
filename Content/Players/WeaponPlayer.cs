@@ -4,11 +4,13 @@ using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
+using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Helpers.WeaponKits;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +31,7 @@ namespace AchiSplatoon2.Content.Players
         public bool isUsingRoller = false;
         public bool isBrushRolling = false;
         public bool isBrushAttacking = false;
+        private float distanceUntilNextSpecialCharge = 0f;
 
         public bool hardmodeEnabled = false;
         public bool allowSubWeaponUsage = true;
@@ -116,12 +119,46 @@ namespace AchiSplatoon2.Content.Players
             }
 
             // Move speed bonus from holding blue color chips
+            int blueChipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Blue];
             if (colorChipPlayer.IsPaletteValid())
             {
-                int blueChipCount = colorChipPlayer.ColorChipAmounts[(int)ChipColor.Blue];
                 moveSpeedModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
                 moveAccelModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
                 moveFrictionModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+            }
+
+            // Special charge bonus
+            float mobilityCharge = colorChipPlayer.CalculateMobilitySpecialChargeIncrement();
+            if (mobilityCharge > 0 && PlayerHelper.IsPlayerGrounded(Player))
+            {
+                var playerDistance = Player.position.Distance(Player.oldPosition);
+
+                var multiplier = 0f;
+                if (isBrushRolling) multiplier = 0.5f;
+                if (isUsingRoller) multiplier = 1f;
+
+                if (multiplier > 0f)
+                {
+                    float finalIncrement = playerDistance * multiplier / 5f;
+                    distanceUntilNextSpecialCharge -= finalIncrement;
+
+                    if (distanceUntilNextSpecialCharge <= 0f)
+                    {
+                        var p = (SpecialChargeProjectile)ProjectileHelper.CreateProjectile(
+                            player: Player,
+                            type: ModContent.ProjectileType<SpecialChargeProjectile>(),
+                            triggerSpawnMethods: false);
+
+                        // We don't run the initialize method, as we don't have weapon stats to pass to the projectile
+                        // The projectile's position doesn't get properly set as result, it seems
+                        p.Projectile.position = Player.Center;
+                        p.chargeValue = mobilityCharge;
+                        p.RunSpawnMethods();
+                        p.Projectile.velocity = new Vector2(Player.velocity.X, 0) / 4 + Main.rand.NextVector2CircularEdge(0, Main.rand.NextFloat(0.5f, 3f));
+
+                        distanceUntilNextSpecialCharge = 100f;
+                    }
+                }
             }
 
             // Tacticooler bonus

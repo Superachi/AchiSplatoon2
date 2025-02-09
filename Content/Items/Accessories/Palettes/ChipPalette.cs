@@ -132,7 +132,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Blue)}Mobility ({blue}) >]" +
                             $"\n[{textColorGray}Move speed: +{(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]" +
-                            $"\n[{textColorGray}Special charge while moving: +{(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
+                            $"\n[{textColorGray}Movement special charge with roller & brush: +{(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
                     }
                     if (yellow > 0)
                     {

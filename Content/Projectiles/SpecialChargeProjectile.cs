@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Projectiles
             _specialPlayer = Owner.GetModPlayer<SpecialPlayer>();
             Projectile.velocity = -Projectile.DirectionTo(Owner.Center) * 5;
             Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -30, 30);
-            Initialize(isDissolvable: false);
+            dissolvable = false;
 
             var soundStyle = Main.rand.NextBool(2) ? SoundPaths.SpecialChargeCreate1.ToSoundStyle() : SoundPaths.SpecialChargeCreate2.ToSoundStyle();
             PlayAudio(soundStyle, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Projectile.Center);
@@ -40,6 +40,16 @@ namespace AchiSplatoon2.Content.Projectiles
 
         public override void AI()
         {
+            if (float.IsNaN(Projectile.position.X) || float.IsNaN(Projectile.position.Y))
+            {
+                DebugHelper.PrintError("My position is NaN");
+            }
+
+            if (float.IsNaN(Projectile.velocity.X) || float.IsNaN(Projectile.velocity.Y))
+            {
+                DebugHelper.PrintError("My velocity is NaN");
+            }
+
             var goalPosition = Owner.Center;
             if (Owner.GetModPlayer<SquidPlayer>().IsFlat())
             {
@@ -65,7 +75,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 2;
             }
 
-            if (Projectile.Distance(goalPosition) < 10)
+            if (Projectile.Distance(goalPosition) < 10 && timeSpentAlive > FrameSpeedMultiply(30))
             {
                 Collect();
             }
@@ -83,10 +93,15 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
+        public override void OnKill(int timeLeft)
+        {
+            base.OnKill(timeLeft);
+        }
+
         private void Collect()
         {
             // For testing
-            if (Owner.HeldItem.ModItem is SpecialChargeGun) chargeValue = 5;
+            if (Owner.HeldItem.ModItem is SpecialChargeGun) chargeValue = 10;
 
             _specialPlayer.IncrementSpecialCharge(chargeValue);
 

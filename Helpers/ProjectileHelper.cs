@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Helpers
             var p = Projectile.NewProjectileDirect(
                 spawnSource: new EntitySource_ItemUse(player, player.HeldItem),
                 position: position,
-                velocity: (Vector2)velocity,
+                velocity: velocity ?? Vector2.Zero,
                 type: type,
                 damage: damage,
                 knockback: knockback,
@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Helpers
             var p = Projectile.NewProjectileDirect(
                 spawnSource: new EntitySource_ItemUse(player, player.HeldItem),
                 position: position,
-                velocity: (Vector2)velocity,
+                velocity: velocity ?? Vector2.Zero,
                 type: type,
                 damage: damage,
                 knockback: knockback,

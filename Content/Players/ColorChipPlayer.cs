@@ -34,10 +34,10 @@ namespace AchiSplatoon2.Content.Players
         public float GreenChipLuckyBombChance { get => 0.15f; }
         public string GreenChipLuckyBombChanceDisplay { get => $"{(int)(GreenChipLuckyBombChance * 100)}%"; }
         public float GreenChipLootBonusDivider { get => 2f; }
-        public float BlueChipBaseMoveSpeedBonus { get => 0.15f; }
+        public float BlueChipBaseMoveSpeedBonus { get => 0.1f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
-        public float BlueChipBaseChargeBonus { get => 0.2f; }
-        public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
+        public float BlueChipBaseChargeBonus { get => 1f; }
+        public string BlueChipBaseChargeBonusDisplay { get => $"{BlueChipBaseChargeBonus.ToString("0.0")} point(s)"; }
         public float AquaChipBaseAttackCooldownReduction { get => 0.05f; }
         public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
 
@@ -164,6 +164,11 @@ namespace AchiSplatoon2.Content.Players
         public float CalculateDroneAttackCooldownReduction()
         {
             return ColorChipAmounts[(int)ChipColor.Aqua] * AquaChipBaseAttackCooldownReduction;
+        }
+
+        public float CalculateMobilitySpecialChargeIncrement()
+        {
+            return ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus;
         }
 
         public void UpdateInkColor()
