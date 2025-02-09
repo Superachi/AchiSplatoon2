@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.CustomConditions;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Terraria;
@@ -30,7 +31,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (shop.NpcType == NPCID.Merchant)
             {
-                shop.Add(ItemID.BlackInk);
+                shop.Add<InkDroplet>();
+            }
+
+            if (shop.NpcType == NPCID.Painter)
+            {
                 shop.Add<PainterDualie>(Condition.DownedEarlygameBoss);
             }
         }
