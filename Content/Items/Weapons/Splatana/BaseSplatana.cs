@@ -25,8 +25,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public virtual int BaseDamage { get => 5; }
         public virtual float[] ChargeTimeThresholds { get => [18f]; }
         public virtual float WeakSlashShotSpeed { get => 8f; }
-        public virtual float MaxChargeMeleeDamageMod { get => 3f; }
-        public virtual float MaxChargeRangeDamageMod { get => 2f; }
+        public virtual float MaxChargeMeleeDamageMod { get => 2.5f; }
+        public virtual float MaxChargeRangeDamageMod { get => 1.5f; }
         public virtual float MaxChargeLifetimeMod { get => 3f; }
         public virtual float MaxChargeVelocityMod { get => 1f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 8); }

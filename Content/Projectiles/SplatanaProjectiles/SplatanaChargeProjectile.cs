@@ -125,7 +125,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     proj.RunSpawnMethods();
                     proj.UpdateCurrentColor(GenerateInkColor());
                     proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
-                    proj.Projectile.penetrate += 3;
+                    proj.Projectile.penetrate += 2;
                 }
             }
             else
