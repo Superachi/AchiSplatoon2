@@ -10,10 +10,9 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
             Item.width = 28;
             Item.height = 28;
 
-            Item.sellPrice(copper: 10);
-
             Item.maxStack = Item.CommonMaxStack;
             Item.rare = ItemRarityID.Blue;
+            Item.value = Item.buyPrice(silver: 5);
         }
 
         public override void AddRecipes()
