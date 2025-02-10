@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 {
@@ -216,7 +218,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 scale: bigShotScale);
 
             DustHelper.NewChargerBulletDust(
-                position: Projectile.Center,
+                position: Projectile.Center + Main.rand.NextVector2Circular(2f, 2f),
                 velocity: Projectile.velocity / 2,
                 color: CurrentColor,
                 minScale: 0.5f,
@@ -224,12 +226,13 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
             if (Main.rand.NextBool(10))
             {
-                DustHelper.NewDropletDust(
-                    position: Projectile.Center,
-                    velocity: Projectile.velocity / 2,
-                    color: CurrentColor,
-                    minScale: 0.5f,
-                    maxScale: 1f);
+                DustHelper.NewDust(
+                position: Projectile.Center,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Projectile.velocity * 2 + Main.rand.NextVector2Circular(1f, 1f),
+                color: CurrentColor,
+                scale: Main.rand.NextFloat(0.5f, 1.5f),
+                new(scaleIncrement: -0.05f, gravity: 0.1f, gravityDelay: 30));
             }
         }
 
