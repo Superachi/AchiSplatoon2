@@ -129,12 +129,13 @@ namespace AchiSplatoon2.Content.Players
 
             // Special charge bonus
             float mobilityCharge = colorChipPlayer.CalculateMobilitySpecialChargeIncrement();
-            if (mobilityCharge > 0 && PlayerHelper.IsPlayerGrounded(Player))
+            bool isSpecialReady = Player.GetModPlayer<SpecialPlayer>().SpecialReady;
+            if (mobilityCharge > 0 && !isSpecialReady && PlayerHelper.IsPlayerGrounded(Player))
             {
                 var playerDistance = Player.position.Distance(Player.oldPosition);
 
                 var multiplier = 0f;
-                if (isBrushRolling) multiplier = 0.5f;
+                if (isBrushRolling) multiplier = 0.8f;
                 if (isUsingRoller) multiplier = 1f;
 
                 if (multiplier > 0f)
