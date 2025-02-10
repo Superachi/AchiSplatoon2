@@ -142,6 +142,12 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             }
         }
 
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            fallThrough = !(canStick && timeSpentAlive > FrameSpeedMultiply(3));
+            return true;
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (canStick)

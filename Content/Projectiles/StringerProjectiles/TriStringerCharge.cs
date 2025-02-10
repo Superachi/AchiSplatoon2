@@ -207,7 +207,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             {
                 if (WeaponInstance is Wellstring)
                 {
-                    PlayAudio(shootSample, volume: 1f, maxInstances: 1);
+                    PlayAudio(shootSample, volume: 0.7f, maxInstances: 1);
                 }
                 else
                 {
