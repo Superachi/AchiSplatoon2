@@ -127,7 +127,10 @@ namespace AchiSplatoon2.Helpers
                 || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
                 || target.type == NPCID.Creeper;
 
-            bool isBossSegment = target.type == NPCID.SkeletronHand;
+            bool isBossSegment =
+                target.type == NPCID.SkeletronHand ||
+                target.type == NPCID.WallofFlesh ||
+                target.type == NPCID.WallofFleshEye;
 
             // Note: target.boss here will be false for Eater of Worlds and Destroyer
             if ((target.boss || isBossSegment) && !Main.hardMode)
@@ -152,7 +155,10 @@ namespace AchiSplatoon2.Helpers
                 || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
                 || target.type == NPCID.Creeper;
 
-            bool isBossSegment = target.type == NPCID.SkeletronHand;
+            bool isBossSegment =
+                target.type == NPCID.SkeletronHand ||
+                target.type == NPCID.WallofFlesh ||
+                target.type == NPCID.WallofFleshEye;
 
             // Note: target.boss here will be false for Eater of Worlds and Destroyer
             if ((target.boss || isBossSegment) && !Main.hardMode)
