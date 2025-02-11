@@ -42,7 +42,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
             enablePierceDamagefalloff = false;
             dissolvable = false;
             Projectile.localNPCHitCooldown = 5 * FrameSpeed();
-            Projectile.damage /= 2;
 
             DespawnOtherTornados();
             directionVector = Vector2.Normalize(Projectile.velocity);
@@ -109,7 +108,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
                         var targetPosition = target.Center + target.velocity;
                         var shotSpeed = 4f;
                         var targetDir = shotPosition.DirectionTo(targetPosition);
-                        CreateChildProjectile<EelSplatanaSmallProjectile>(shotPosition, targetDir * shotSpeed, Projectile.damage * 2);
+                        CreateChildProjectile<EelSplatanaSmallProjectile>(shotPosition, targetDir * shotSpeed, Projectile.damage / 2);
                     }
                 }
             }
