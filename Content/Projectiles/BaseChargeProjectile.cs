@@ -246,10 +246,11 @@ namespace AchiSplatoon2.Content.Projectiles
             var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
 
             int linewidth = 2;
-            var lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, ChargeTime / MaxChargeTime() * 0.5f);
+            var chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var lineCol = new Color(chipColor.R, chipColor.G, chipColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
-                lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 2f);
+                lineCol = new Color(chipColor.R, chipColor.G, chipColor.B, 2f);
                 linewidth = 4;
             }
 
@@ -257,7 +258,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 spriteBatch,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 50,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
-                new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0) * sinMult,
+                new Color(chipColor.R, chipColor.G, chipColor.B, 0) * sinMult,
                 lineCol * sinMult,
                 linewidth);
 
@@ -284,7 +285,8 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color color = new(CurrentColor.R + w.R, CurrentColor.G + w.G, CurrentColor.B + w.B);
+            Color chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            Color color = new(chipColor.R + w.R, chipColor.G + w.G, chipColor.B + w.B);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);

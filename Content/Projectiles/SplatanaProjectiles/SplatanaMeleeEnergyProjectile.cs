@@ -63,9 +63,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             SetSwingSettings(3, 20, 0.6f);
 
             var color = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var usedColor = CurrentColor == Color.Black ? color : CurrentColor;
+
             SetSwingVisuals(
-                ColorHelper.IncreaseHueBy(10, color),
-                ColorHelper.IncreaseHueBy(-10, color),
+                ColorHelper.IncreaseHueBy(10, usedColor),
+                ColorHelper.IncreaseHueBy(-10, usedColor),
                 TexturePaths.Medium4pSparkle.ToTexture2D(),
                 TexturePaths.Glow100x.ToTexture2D());
 
@@ -85,7 +87,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
         public override void AI()
         {
-            swingDirection = Owner.direction;
             if (Projectile.penetrate != -1) Projectile.penetrate = -1;
 
             if (_drawAlpha < 0)

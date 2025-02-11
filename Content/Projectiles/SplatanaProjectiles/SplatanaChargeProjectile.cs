@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             if (WeaponInstance is EelSplatana)
             {
-                UpdateCurrentColor(ColorHelper.AddRandomHue(30, Color.MediumPurple));
+                colorOverride = ColorHelper.AddRandomHue(30, Color.MediumPurple);
             }
         }
 
@@ -102,6 +102,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             SoundHelper.StopSoundIfActive(chargeLoopSound);
             hasFired = true;
             var velocity = owner.DirectionTo(Main.MouseWorld) * weakSlashShotSpeed;
+            var color = colorOverride ?? GenerateInkColor();
 
             if (chargeLevel > 0)
             {
@@ -109,12 +110,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, 0);
                 meleeProj.wasFullyCharged = true;
-                meleeProj.UpdateCurrentColor(GenerateInkColor());
+                meleeProj.UpdateCurrentColor(color);
 
                 if (meleeEnergyProjectile != -1)
                 {
-                    var proj = CreateChildProjectile(owner.Center, Vector2.Zero, meleeEnergyProjectile, MultiplyProjectileDamage(maxChargeMeleeDamageMod));
-                        proj.UpdateCurrentColor(GenerateInkColor());
+                    var proj = CreateChildProjectile(owner.Center, Vector2.Zero, meleeEnergyProjectile, MultiplyProjectileDamage(maxChargeMeleeDamageMod), triggerSpawnMethods: false);
+                        proj.UpdateCurrentColor(color);
+                        proj.RunSpawnMethods();
                 }
 
                 if (strongSlashProjectile != -1)
@@ -123,7 +125,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                     var proj = CreateChildProjectile(owner.Center, velocity, strongSlashProjectile, MultiplyProjectileDamage(maxChargeRangeDamageMod), triggerSpawnMethods: false)
                         as SplatanaStrongSlashProjectile;
                     proj.RunSpawnMethods();
-                    proj.UpdateCurrentColor(GenerateInkColor());
+                    proj.UpdateCurrentColor(color);
                     proj.Projectile.timeLeft = (int)(proj.Projectile.timeLeft * maxChargeLifetimeMod);
                     proj.Projectile.penetrate += 2;
                 }
@@ -134,12 +136,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
                 var meleeProj = CreateChildProjectile<SplatanaMeleeProjectile>(owner.Center, velocity, Projectile.damage);
                 meleeProj.wasFullyCharged = false;
-                meleeProj.UpdateCurrentColor(GenerateInkColor());
+                meleeProj.UpdateCurrentColor(color);
 
                 if (weakSlashProjectile != -1)
                 {
                     var proj = CreateChildProjectile(owner.Center, velocity, weakSlashProjectile, Projectile.damage);
-                    proj.UpdateCurrentColor(GenerateInkColor());
+                    proj.UpdateCurrentColor(color);
                 }
             }
 
