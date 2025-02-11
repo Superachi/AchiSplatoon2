@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -11,16 +10,14 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
 {
     internal class EelSplatanaStrongSlashProjectile : SplatanaStrongSlashProjectile
     {
+        protected override float DamageModifierAfterPierce => 1f;
         protected override bool ProjectileDust => false;
         protected override int FrameCount => 6;
         protected override int FrameDelay => 2;
 
         private float drawAlpha;
-        private readonly bool movementStuck = false;
         private Vector2 directionVector;
 
-        private float previousPositionX;
-        private float previousPositionY;
         private readonly int shootSpeed = 9;
         private int shootCooldown = 0;
 
@@ -29,6 +26,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
             base.SetDefaults();
             Projectile.width = 20;
             Projectile.height = 20;
+
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
         public override void SetStaticDefaults()
@@ -89,10 +89,10 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
                 if (drawScale < 2) drawScale += 1f / animationTime;
             }
 
-            Projectile.velocity += Projectile.Center.DirectionTo(Main.MouseWorld) / 50f;
-            if (Projectile.velocity.Length() > 2)
+            Projectile.velocity += Projectile.Center.DirectionTo(Main.MouseWorld) / 40f;
+            if (Projectile.velocity.Length() > 3)
             {
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, directionVector, 0.03f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, directionVector, 0.05f);
             }
 
             // Detect enemies within range and shoot projectiles at them
@@ -193,26 +193,12 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProje
 
                 float scale = drawScale;
 
-                DrawProjectile(
-                    Color.White,
-                    rotation: Projectile.rotation,
-                    scale: scale,
-                    alphaMod: drawAlpha,
-                    considerWorldLight: true,
-                    positionOffset: new Vector2(0, -16),
-                    flipSpriteSettings: (SpriteEffects)(Projectile.direction == 0 ? 0 : 1));
+                DrawTrail(scale: scale, alpha: drawAlpha, modulo: 6, colorOverride: Color.White, considerWorldLight: false, positionOffset: new Vector2(0, -16));
             }
 
             return false;
         }
 
-        public override bool PreAI()
-        {
-            base.PreAI();
-            previousPositionX = Projectile.position.X;
-            previousPositionY = Projectile.position.Y;
-            return true;
-        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
