@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Players
         public bool isUsingRoller = false;
         public bool isBrushRolling = false;
         public bool isBrushAttacking = false;
-        private float distanceUntilNextSpecialCharge = 0f;
+        private float distanceUntilNextSpecialCharge = 100f;
 
         public bool hardmodeEnabled = false;
         public bool allowSubWeaponUsage = true;
