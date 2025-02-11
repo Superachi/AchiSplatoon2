@@ -58,7 +58,7 @@ namespace AchiSplatoon2.Helpers
 
             if (player.HasBuff<LastDitchEffortBuff>())
             {
-                inkCostModifier *= LastDitchEffortEmblem.InkSaverAmount;
+                inkCostModifier *= 1f - LastDitchEffortEmblem.InkSaverAmount;
             }
 
             if (weapon.IsSubWeapon)
