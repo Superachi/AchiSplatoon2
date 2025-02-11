@@ -1,5 +1,6 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -117,6 +118,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             modProj.wasParentChargeMaxed = IsChargeMaxedOut();
             proj.timeLeft = (int)(proj.timeLeft * RangeModifier);
             modProj.RunSpawnMethods();
+            modProj.UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
 
             SoundHelper.StopSoundIfActive(chargeStartAudio);
             Projectile.Kill();
