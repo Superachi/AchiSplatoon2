@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
     internal class KensaDot52Gal : Dot52Gal
     {
-        public override float AimDeviation { get => 6f; }
+        public override float AimDeviation { get => 8f; }
 
         public override void SetDefaults()
         {

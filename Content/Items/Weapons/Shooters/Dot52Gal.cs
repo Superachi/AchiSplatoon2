@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float ShotGravity { get => 0.5f; }
         public override int ShotGravityDelay => 10;
         public override int ShotExtraUpdates { get => 4; }
-        public override float AimDeviation { get => 8f; }
+        public override float AimDeviation { get => 12f; }
 
         public override void SetDefaults()
         {
