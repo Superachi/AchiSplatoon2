@@ -59,12 +59,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         public int DisplayDamage(int damage)
         {
-            return (int)(damage * MaxChargeRangeDamageMod);
+            return (int)(damage * MathHelper.Max(MaxChargeRangeDamageMod, MaxChargeMeleeDamageMod));
         }
 
         public int ActualDamage(int damage)
         {
-            return (int)(damage / MaxChargeRangeDamageMod);
+            return (int)(damage / MathHelper.Max(MaxChargeRangeDamageMod, MaxChargeMeleeDamageMod));
         }
     }
 }
