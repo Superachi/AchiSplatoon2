@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 160;
+            Item.damage = 170;
             Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
