@@ -6,8 +6,10 @@ using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Helpers.WeaponKits;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
@@ -71,6 +73,25 @@ namespace AchiSplatoon2.Helpers
                 if (player.HasBuff<BombRushBuff>())
                 {
                     inkCostModifier *= 0;
+                }
+
+                // Discount from main weapon
+                if (player.HeldItem.ModItem is BaseWeapon)
+                {
+                    var heldItem = (BaseWeapon)player.HeldItem.ModItem;
+
+                    if (heldItem.BonusType == SubWeaponBonusType.Discount)
+                    {
+                        if ((heldItem.BonusSub == SubWeaponType.SplatBomb && weapon is SplatBomb)
+                            || (heldItem.BonusSub == SubWeaponType.BurstBomb && weapon is BurstBomb)
+                            || (heldItem.BonusSub == SubWeaponType.AngleShooter && weapon is AngleShooter)
+                            || (heldItem.BonusSub == SubWeaponType.Sprinkler && weapon is Sprinkler)
+                            || (heldItem.BonusSub == SubWeaponType.InkMine && weapon is InkMine)
+                            || (heldItem.BonusSub == SubWeaponType.Torpedo && weapon is Torpedo))
+                        {
+                            inkCostModifier *= 1f - heldItem.SubBonusAmount;
+                        }
+                    }
                 }
             }
 

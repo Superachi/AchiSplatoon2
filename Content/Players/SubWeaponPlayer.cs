@@ -52,27 +52,14 @@ namespace AchiSplatoon2.Content.Players
 
             var subWeapon = (BaseBomb)firstItemMatch.ModItem;
             var baseInkCost = WoomyMathHelper.CalculateWeaponInkCost(subWeapon, player);
-            var discount = 0f;
-
-            if (heldItem.ModItem is BaseWeapon heldWeapon)
-            {
-                if (heldWeapon.BonusSub != SubWeaponType.None)
-                {
-                    SubWeaponType currentlyCheckedSub = (SubWeaponType)subWeapon.Type;
-                    if (heldWeapon.BonusType == SubWeaponBonusType.Discount && currentlyCheckedSub == heldWeapon.BonusSub)
-                    {
-                        discount = baseInkCost * heldWeapon.SubBonusAmount;
-                    }
-                }
-            }
 
             var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
-            if (!inkTankPlayer.HasEnoughInk(baseInkCost - discount))
+            if (!inkTankPlayer.HasEnoughInk(baseInkCost))
             {
                 return;
             }
 
-            inkTankPlayer.ConsumeInk(baseInkCost - discount);
+            inkTankPlayer.ConsumeInk(baseInkCost);
 
             // Calculate throw angle and spawn projectile
             float aimAngle = MathHelper.ToDegrees(
