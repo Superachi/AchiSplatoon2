@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -141,7 +142,13 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (npc.type == NPCID.Mimic)
             {
                 npcLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 1));
+                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), chanceDenominator: 2, minimumDropped: 1));
+
+                npcLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<MainSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
+
+                npcLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<SubSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
             }
 
             // Super palette crafting materials

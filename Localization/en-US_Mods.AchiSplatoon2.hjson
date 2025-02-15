@@ -1808,6 +1808,20 @@ Items: {
 		Tooltip: ""
 	}
 
+	MainSaverEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.MainSaverEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MainSaverEmblem.Flavor
+		DisplayName: Ink Saver Emblem (Main)
+		Tooltip: Your main weapons cost {0}% less ink
+	}
+
+	SubSaverEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.SubSaverEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SubSaverEmblem.Flavor
+		DisplayName: Ink Saver Emblem (Sub)
+		Tooltip: Your sub weapons cost {0}% less ink
+	}
+
 	SorcererLocket: {
 		UsageHint: "{$Hint.DropletLocket}"
 		Flavor: Mods.AchiSplatoon2.Items.SorcererLocket.Flavor

@@ -63,8 +63,20 @@ namespace AchiSplatoon2.Helpers
                 inkCostModifier *= 1f - LastDitchEffortEmblem.InkSaverAmount;
             }
 
-            if (weapon.IsSubWeapon)
+            if (!weapon.IsSubWeapon)
             {
+                if (accMP.HasAccessory<MainSaverEmblem>())
+                {
+                    inkCostModifier *= new MainSaverEmblem().InkSaverMult();
+                }
+            }
+            else
+            {
+                if (accMP.HasAccessory<SubSaverEmblem>())
+                {
+                    inkCostModifier *= new SubSaverEmblem().InkSaverMult();
+                }
+
                 if (accMP.HasAccessory<HypnoShades>())
                 {
                     inkCostModifier *= HypnoShades.BombInkCostMult;
