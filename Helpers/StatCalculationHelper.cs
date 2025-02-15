@@ -99,7 +99,7 @@ namespace AchiSplatoon2.Helpers
                 if (debug) DebugHelper.PrintInfo($"Val after class bonuses: {damageModifier}");
             }
 
-            if (player.HasAccessory<DropletLocket>() || player.HeldItem.DamageType == DamageClass.Magic)
+            if (player.HasAccessory<DropletLocket>() || player.HasAccessory<SorcererLocket>() || player.HeldItem.DamageType == DamageClass.Magic)
             {
                 damageModifier = player.GetDamage(DamageClass.Magic).ApplyTo(damageModifier);
             }

@@ -10,9 +10,12 @@ namespace AchiSplatoon2.Content.Items.Accessories
 {
     internal class DropletLocket : BaseAccessory
     {
-        public static float MagicDamageBonus => 0.05f;
+        public virtual float MagicDamageMod()
+        {
+            return 0.05f;
+        }
 
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(MagicDamageBonus * 100));
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((int)(MagicDamageMod() * 100));
 
         public override void SetDefaults()
         {
@@ -30,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                player.GetDamage(DamageClass.Magic) *= (1 + MagicDamageBonus);
+                player.GetDamage(DamageClass.Magic) *= (1 + MagicDamageMod());
             }
         }
 

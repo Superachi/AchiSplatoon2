@@ -1,6 +1,7 @@
 # This file will automatically update with entries for new content after a build and reload.
 
 ArmorPierce.Display: Ignores {0} points of enemy Defense
+MagicDamageBonus.Display: "{0}% increased magic damage"
 BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
@@ -90,6 +91,7 @@ Hint: {
 	DamageStabilizer: Damage dealt by ink-based weapons is constant and cannot crit
 	HypnoShades: Sub-weapons are used faster
 	ChargedBattery: Weapons charge at full speed, even when in the air
+	DropletLocket: Your magic damage bonuses apply to all ink-based weapons
 
 	TentacleScope: {
 		Usage: Fully charged Charger shots bypass walls, but with less damage and no critical strikes
@@ -1744,10 +1746,10 @@ Items: {
 	}
 
 	DropletLocket: {
-		UsageHint: Your magic damage bonuses apply to all ink-based weapons
+		UsageHint: "{$Hint.DropletLocket}"
 		Flavor: Mods.AchiSplatoon2.Items.DropletLocket.Flavor
 		DisplayName: Inkdrop Locket
-		Tooltip: "{0}% increased magic damage"
+		Tooltip: "{$MagicDamageBonus.Display}"
 	}
 
 	GolemSplatana: {
@@ -1804,6 +1806,13 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.SkySplatanaB.Flavor
 		DisplayName: Sakura Blade
 		Tooltip: ""
+	}
+
+	SorcererLocket: {
+		UsageHint: "{$Hint.DropletLocket}"
+		Flavor: Mods.AchiSplatoon2.Items.SorcererLocket.Flavor
+		DisplayName: Enchanted Locket
+		Tooltip: "{$MagicDamageBonus.Display}"
 	}
 }
 
