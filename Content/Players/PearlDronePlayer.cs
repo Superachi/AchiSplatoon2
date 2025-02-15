@@ -23,10 +23,10 @@ namespace AchiSplatoon2.Content.Players
 
         // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
-        public int SprinklerBaseDamage { get; private set; } = 5;
-        public int SprinklerBaseArmorPenetration { get; private set; } = 5;
-        public int BurstBombBaseDamage { get; private set; } = 30;
-        public int KillerWailBaseDamage { get; private set; } = 30;
+        public int SprinklerBaseDamage { get; private set; } = 3;
+        public int SprinklerBaseArmorPenetration { get; private set; } = 10;
+        public int BurstBombBaseDamage { get; private set; } = 15;
+        public int KillerWailBaseDamage { get; private set; } = 15;
         public int MinimumChipsForBurstBomb => 4;
         public int MinimumChipsForKillerWail => 8;
         public bool IsBurstBombEnabled => GetDroneChipCount() >= MinimumChipsForBurstBomb;
@@ -34,6 +34,7 @@ namespace AchiSplatoon2.Content.Players
         public bool IsLaserSprinklerEnabled => Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
         public float LaserDamageMod => 1.1f;
         public float LaserCooldownMod => 0.8f;
+        public float DamageBonusPerMinionSlot => 0.2f;
 
         // Misc.
         private bool isDroneActive = false;
@@ -162,13 +163,13 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 1;
                     break;
                 case 2:
-                    baseDamage *= 2.5f;
+                    baseDamage *= 2;
                     break;
                 case 3:
-                    baseDamage *= 4;
+                    baseDamage *= 3;
                     break;
                 case 4:
-                    baseDamage *= 6;
+                    baseDamage *= 4;
                     break;
             }
 
@@ -193,10 +194,10 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 2;
                     break;
                 case 3:
-                    baseDamage *= 5;
+                    baseDamage *= 3f;
                     break;
                 case 4:
-                    baseDamage *= 8;
+                    baseDamage *= 5;
                     break;
             }
 
@@ -204,9 +205,15 @@ namespace AchiSplatoon2.Content.Players
             return (int)baseDamage;
         }
 
+        public int CountedMinionSlots()
+        {
+            return Math.Max(0, Player.maxMinions - 1);
+        }
+
         public float GetSummonDamageModifier()
         {
             var baseVal = 1f;
+            baseVal += CountedMinionSlots() * DamageBonusPerMinionSlot;
             baseVal = Player.GetDamage(DamageClass.Summon).ApplyTo(baseVal);
             baseVal = Player.GetDamage(DamageClass.Generic).ApplyTo(baseVal);
             return baseVal;
