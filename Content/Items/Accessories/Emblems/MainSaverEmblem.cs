@@ -27,8 +27,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
             Item.width = 28;
             Item.height = 28;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(gold: 3);
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
