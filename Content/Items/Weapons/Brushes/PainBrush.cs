@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 54;
+            Item.damage = 44;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;

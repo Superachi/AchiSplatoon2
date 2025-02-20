@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 100;
+            Item.damage = 64;
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Lime;
         }
