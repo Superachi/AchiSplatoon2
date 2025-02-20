@@ -16,10 +16,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (shop.NpcType == NPCID.Demolitionist)
             {
                 shop.Add<StarterSplatBomb>();
-                shop.Add<SplatBomb>(Condition.DownedEarlygameBoss);
                 shop.Add<BurstBomb>(Condition.DownedEarlygameBoss);
+                shop.Add<PointSensor>(Condition.DownedEarlygameBoss);
+                shop.Add<SplatBomb>(BossConditions.DownedEvilBoss);
                 shop.Add<AngleShooter>(BossConditions.DownedEvilBoss);
-                shop.Add<Sprinkler>(BossConditions.DownedEvilBoss);
+                shop.Add<Sprinkler>(Condition.DownedSkeletron);
                 shop.Add<InkMine>(Condition.DownedSkeletron);
                 shop.Add<Torpedo>(Condition.Hardmode);
             }

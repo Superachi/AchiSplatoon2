@@ -76,6 +76,9 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string ItemGet => FormatPath(nameof(ItemGet));
         public static string ItemGet2 => FormatPath(nameof(ItemGet2));
         public static string JetSquelcherShoot => FormatPath(nameof(JetSquelcherShoot));
+        public static string Marked => FormatPath(nameof(Marked));
+        public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
+        public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
         public static string SBlastShoot => FormatPath(nameof(SBlastShoot));
         public static string Silence => FormatPath(nameof(Silence));
         public static string SlosherShoot => FormatPath(nameof(SlosherShoot));
@@ -94,8 +97,6 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string TripleHit => FormatPath(nameof(TripleHit));
         public static string TriStringerShoot => FormatPath(nameof(TriStringerShoot));
         public static string TriStringerShootWeak => FormatPath(nameof(TriStringerShootWeak));
-        public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
-        public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
         public static string WellspringShoot => FormatPath(nameof(WellspringShoot));
         public static string WellspringShootWeak => FormatPath(nameof(WellspringShootWeak));
 
@@ -185,6 +186,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string AngleShooterThrow => FormatPath(nameof(AngleShooterThrow), _directoryThrowables);
         public static string InkMineActivate => FormatPath(nameof(InkMineActivate), _directoryThrowables);
         public static string InkMineDetonate => FormatPath(nameof(InkMineDetonate), _directoryThrowables);
+        public static string PointSensorDetonate => FormatPath(nameof(PointSensorDetonate), _directoryThrowables);
         public static string SplatBombDetonate => FormatPath(nameof(SplatBombDetonate), _directoryThrowables);
         public static string SplatBombFuse => FormatPath(nameof(SplatBombFuse), _directoryThrowables);
         public static string SplatBombThrow => FormatPath(nameof(SplatBombThrow), _directoryThrowables);

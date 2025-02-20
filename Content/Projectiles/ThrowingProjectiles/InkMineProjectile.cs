@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Buffs.Debuffs;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
@@ -79,6 +81,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         explosionRadius,
                         new PlayAudioModel(SoundPaths.InkMineDetonate, _volume: 0.5f, _pitchVariance: 0.3f, _maxInstances: 10, _position: Projectile.Center));
                     p.RunSpawnMethods();
+
+                    MarkedBuff.ApplyToNpcInRadius(Projectile.Center, explosionRadius, 60 * 8);
                     Projectile.timeLeft = 6;
                     break;
             }

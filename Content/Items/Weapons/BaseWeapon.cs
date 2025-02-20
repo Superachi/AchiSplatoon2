@@ -55,7 +55,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         AngleShooter,
         Sprinkler,
         InkMine,
-        Torpedo
+        Torpedo,
+        PointSensor
     }
 
     enum SubWeaponBonusType
@@ -258,6 +259,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 case SubWeaponType.Torpedo:
                     subname = "Torpedo";
                     break;
+                case SubWeaponType.PointSensor:
+                    subname = "Point Sensor";
+                break;
             }
             return subname;
         }

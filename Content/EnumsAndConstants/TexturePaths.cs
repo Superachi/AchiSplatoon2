@@ -23,6 +23,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string VortexDualieShot => FormatPath(nameof(VortexDualieShot));
         public static string NebulaStringerShot => FormatPath(nameof(NebulaStringerShot));
         public static string GolemSlashSegment => FormatPath(nameof(GolemSlashSegment));
+        public static string MarkedDot => FormatPath(nameof(MarkedDot));
 
         // Specials
         private static readonly string _directorySpecials = "Specials";

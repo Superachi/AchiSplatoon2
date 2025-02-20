@@ -1828,6 +1828,13 @@ Items: {
 		DisplayName: Enchanted Locket
 		Tooltip: "{$MagicDamageBonus.Display}"
 	}
+
+	PointSensor: {
+		UsageHint: Marks enemies within its radius, highlighting them and increasing damage dealt to them
+		Flavor: Get him girls!
+		DisplayName: Point Sensor
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -1960,6 +1967,7 @@ Projectiles: {
 	GolemSplatanaMeleeEnergyProjectile.DisplayName: Golem Splatana Melee Energy Projectile
 	SkySplatanaMeleeEnergyProjectile.DisplayName: Sky Splatana Melee Energy Projectile
 	SplatanaMeleeEnergyProjectile.DisplayName: Splatana Melee Energy Projectile
+	PointSensorProjectile.DisplayName: Point Sensor Projectile
 }
 
 Buffs: {
@@ -2011,6 +2019,11 @@ Buffs: {
 	TacticoolerBuff: {
 		DisplayName: Refreshing!
 		Description: ""
+	}
+
+	MarkedBuff: {
+		DisplayName: Marked Buff
+		Description: Mods.AchiSplatoon2.Buffs.MarkedBuff.Description
 	}
 }
 

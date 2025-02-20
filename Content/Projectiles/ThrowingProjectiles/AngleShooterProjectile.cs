@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Buffs.Debuffs;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using Microsoft.Xna.Framework;
@@ -84,6 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);
+            MarkedBuff.Apply(target, 60 * 12);
 
             if (bounceDamageMod > 5f)
             {

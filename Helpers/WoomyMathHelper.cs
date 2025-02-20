@@ -99,7 +99,8 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.AngleShooter && weapon is AngleShooter)
                             || (heldItem.BonusSub == SubWeaponType.Sprinkler && weapon is Sprinkler)
                             || (heldItem.BonusSub == SubWeaponType.InkMine && weapon is InkMine)
-                            || (heldItem.BonusSub == SubWeaponType.Torpedo && weapon is Torpedo))
+                            || (heldItem.BonusSub == SubWeaponType.Torpedo && weapon is Torpedo)
+                            || (heldItem.BonusSub == SubWeaponType.PointSensor && weapon is PointSensor))
                         {
                             inkCostModifier *= 1f - heldItem.SubBonusAmount;
                         }

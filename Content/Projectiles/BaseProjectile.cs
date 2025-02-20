@@ -1,3 +1,4 @@
+using AchiSplatoon2.Content.Buffs.Debuffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.GlobalProjectiles;
@@ -456,6 +457,11 @@ internal class BaseProjectile : ModProjectile
         if (wormDamageReduction && Main.expertMode && NpcHelper.IsTargetAWormSegment(target))
         {
             modifiers.FinalDamage *= 0.6f;
+        }
+
+        if (target.HasBuff<MarkedBuff>())
+        {
+            modifiers.FinalDamage *= MarkedBuff.DamageMultiplier;
         }
     }
 
