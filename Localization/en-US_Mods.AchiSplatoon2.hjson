@@ -1837,7 +1837,19 @@ Items: {
 		DisplayName: Point Sensor
 		Tooltip: "{$MarkEffect.Display@0}"
 	}
+
+	InkfinityEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.InkfinityEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.InkfinityEmblem.Flavor
+		DisplayName: Inkfinity Emblem
 		Tooltip: ""
+	}
+
+	EmpressInkTank: {
+		UsageHint: Whenever you deal critical damage, an additional homing projectile is created
+		Flavor: My turn!
+		DisplayName: Chromatic Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
 }
 
@@ -1972,6 +1984,7 @@ Projectiles: {
 	SkySplatanaMeleeEnergyProjectile.DisplayName: Sky Splatana Melee Energy Projectile
 	SplatanaMeleeEnergyProjectile.DisplayName: Splatana Melee Energy Projectile
 	PointSensorProjectile.DisplayName: Point Sensor Projectile
+	EmpressInkTankProjectile.DisplayName: Empress Ink Tank Projectile
 }
 
 Buffs: {

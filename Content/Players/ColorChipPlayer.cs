@@ -1,4 +1,6 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
@@ -178,7 +180,8 @@ namespace AchiSplatoon2.Content.Players
 
         public Color GetColorFromChips()
         {
-            if (DoesPlayerHaveEqualAmountOfChips() && CalculateColorChipTotal() != 0)
+            if (Player.HasAccessory<EmpressInkTank>()
+                || (DoesPlayerHaveEqualAmountOfChips() && CalculateColorChipTotal() != 0))
             {
                 return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
             }

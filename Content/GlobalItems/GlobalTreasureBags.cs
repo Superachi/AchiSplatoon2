@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
@@ -127,7 +128,11 @@ namespace AchiSplatoon2.Content.GlobalItems
             if (item.type == ItemID.FairyQueenBossBag)
             {
                 itemLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<StarfishedCharger>())
+                    ItemDropRule.Common(ModContent.ItemType<StarfishedCharger>(), chanceDenominator: 2)
+                );
+
+                itemLoot.Add(
+                    ItemDropRule.Common(ModContent.ItemType<EmpressInkTank>(), chanceDenominator: 2)
                 );
             }
 
