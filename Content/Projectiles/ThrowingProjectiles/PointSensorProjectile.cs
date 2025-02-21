@@ -1,10 +1,12 @@
 ﻿using AchiSplatoon2.Content.Buffs.Debuffs;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
@@ -40,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool? CanCutTiles()
         {
-            return hasExploded;
+            return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -58,7 +60,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             hasExploded = true;
             Projectile.velocity = Vector2.Zero;
-            MarkedBuff.ApplyToNpcInRadius(Projectile.Center, finalExplosionRadius, 60 * 10);
 
             SoundHelper.PlayAudio(SoundPaths.PointSensorDetonate.ToSoundStyle(), position: Projectile.Center, volume: 0.2f);
             SoundHelper.StopSoundIfActive(throwAudio);
@@ -125,12 +126,37 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             else
             {
                 ExplosionTime++;
+
+                if ((int)ExplosionTime == 0 || (int)ExplosionTime % 6 == 0)
+                {
+                    MarkedBuff.ApplyToNpcInRadius(Projectile.Center, finalExplosionRadius, 60 * 10);
+                }
+
+                if (timeSpentAlive % 3 == 0)
+                {
+                    DustHelper.NewDust(
+                        Projectile.Center + Main.rand.NextVector2Circular(finalExplosionRadius * 0.8f, finalExplosionRadius * 0.8f),
+                        ModContent.DustType<PointSensorPixelDust>(),
+                        new Vector2(0, -1),
+                        ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.5f),
+                        Main.rand.NextFloat(1f, 2f),
+                        new(scaleIncrement: -0.2f, emitLight: false)
+                        );
+                }
             }
 
-            if (ExplosionTime > 6)
+            if (ExplosionTime > 40)
             {
                 Projectile.Kill();
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (hasExploded) return false;
+
+            DrawProjectile(inkColor: CurrentColor, rotation: Projectile.rotation, scale: drawScale, considerWorldLight: false, additiveAmount: 0.5f);
+            return false;
         }
     }
 }
