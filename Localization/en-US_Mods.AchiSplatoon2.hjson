@@ -1208,7 +1208,7 @@ Items: {
 		UsageHint: "{$Hint.HypnoShades}"
 		Flavor: BOMB! RUSH! BLUSH!
 		DisplayName: Callie's Hypnoshades
-		Tooltip: "{0}% reduced sub weapon ink usage"
+		Tooltip: "Your sub weapons cost {0}% less ink"
 	}
 
 	SodaSlosher: {
