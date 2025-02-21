@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.Debug;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
@@ -57,6 +58,11 @@ namespace AchiSplatoon2.Helpers
             float inkCostModifier = 1f;
 
             var accMP = player.GetModPlayer<AccessoryPlayer>();
+
+            if (player.HasAccessory<InkfinityEmblem>())
+            {
+                return 0f;
+            }
 
             if (player.HasBuff<LastDitchEffortBuff>())
             {
