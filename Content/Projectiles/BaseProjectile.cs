@@ -461,7 +461,10 @@ internal class BaseProjectile : ModProjectile
 
         if (target.HasBuff<MarkedBuff>())
         {
-            modifiers.FinalDamage *= MarkedBuff.DamageMultiplier;
+            if (Main.rand.NextBool(MarkedBuff.CritChanceDenominator) && this is not EmpressInkTankProjectile)
+            {
+                modifiers.SetCrit();
+            }
         }
     }
 

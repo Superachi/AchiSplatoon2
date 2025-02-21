@@ -2,6 +2,8 @@
 
 ArmorPierce.Display: Ignores {0} points of enemy Defense
 MagicDamageBonus.Display: "{0}% increased magic damage"
+CritBonus.Display: "{0}% increased critical strike chance"
+MarkEffect.Display: Marked enemies have +{0}% chance to take critical damage
 BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
@@ -410,9 +412,9 @@ Items: {
 
 	AngleShooter: {
 		DisplayName: Angle Shooter
-		UsageHint: Fires off a bouncing projectile, greatly increases damage after every bounce
+		UsageHint: A bouncing projectile that marks enemies. Its damage increases after every bounce
 		Flavor: AKA the mark applier.
-		Tooltip: ""
+		Tooltip: "{$MarkEffect.Display@0}"
 	}
 
 	Sprinkler: {
@@ -1343,10 +1345,10 @@ Items: {
 	}
 
 	InkMine: {
-		UsageHint: A stationary weapon, activating whenever an enemy gets close to it
+		UsageHint: When enemies get close, this detonates and marks them after a delay
 		Flavor: Mods.AchiSplatoon2.Items.InkMine.Flavor
 		DisplayName: Ink Mine
-		Tooltip: ""
+		Tooltip: "{$MarkEffect.Display@0}"
 	}
 
 	Torpedo: {
@@ -1830,9 +1832,11 @@ Items: {
 	}
 
 	PointSensor: {
-		UsageHint: Marks enemies within its radius, highlighting them and increasing damage dealt to them
+		UsageHint: Marks enemies within its radius
 		Flavor: Get him girls!
 		DisplayName: Point Sensor
+		Tooltip: "{$MarkEffect.Display@0}"
+	}
 		Tooltip: ""
 	}
 }
