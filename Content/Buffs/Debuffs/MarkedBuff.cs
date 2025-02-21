@@ -24,13 +24,14 @@ namespace AchiSplatoon2.Content.Buffs.Debuffs
 
         public static void Apply(NPC npc, int duration)
         {
-            if (!npc.HasBuff<MarkedBuff>())
+            bool didntHaveBuff = !npc.HasBuff<MarkedBuff>();
+
+            npc.AddBuff(ModContent.BuffType<MarkedBuff>(), duration);
+            if (npc.HasBuff<MarkedBuff>() && didntHaveBuff)
             {
                 npc.GetGlobalNPC<MarkBuffGlobalNPC>().ApplyEffect();
                 SoundHelper.PlayAudio(SoundPaths.Marked.ToSoundStyle(), position: npc.Center, volume: 0.3f);
             }
-
-            npc.AddBuff(ModContent.BuffType<MarkedBuff>(), duration);
         }
 
         public static void ApplyToNpcInRadius(Vector2 position, float radius, int duration, bool reApply = true)
