@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Buffs.Debuffs
 {
     internal class MarkedBuff : ModBuff
     {
-        public static float DamageMultiplier = 1.1f;
+        public static int CritChanceDenominator = 10;
 
         public override void Update(Player player, ref int buffIndex)
         {
@@ -24,12 +24,16 @@ namespace AchiSplatoon2.Content.Buffs.Debuffs
 
         public static void Apply(NPC npc, int duration)
         {
+            if (!npc.HasBuff<MarkedBuff>())
+            {
+                npc.GetGlobalNPC<MarkBuffGlobalNPC>().ApplyEffect();
+                SoundHelper.PlayAudio(SoundPaths.Marked.ToSoundStyle(), position: npc.Center, volume: 0.3f);
+            }
+
             npc.AddBuff(ModContent.BuffType<MarkedBuff>(), duration);
-            npc.GetGlobalNPC<MarkBuffGlobalNPC>().ApplyEffect();
-            SoundHelper.PlayAudio(SoundPaths.Marked.ToSoundStyle(), position: npc.Center, volume: 0.3f);
         }
 
-        public static void ApplyToNpcInRadius(Vector2 position, float radius, int duration)
+        public static void ApplyToNpcInRadius(Vector2 position, float radius, int duration, bool reApply = true)
         {
             foreach (var npc in Main.npc)
             {
@@ -38,7 +42,12 @@ namespace AchiSplatoon2.Content.Buffs.Debuffs
                     || npc.type == NPCID.TargetDummy
                     || Main.npcCatchable[npc.type]
                     || NpcHelper.IsTargetAProjectile(npc)
-                    || NpcHelper.IsTargetAWormHead(npc))
+                    || (NpcHelper.IsTargetAWormSegment(npc) && !NpcHelper.IsTargetAWormHead(npc)))
+                {
+                    continue;
+                }
+
+                if (!reApply && npc.GetGlobalNPC<MarkBuffGlobalNPC>().IsMarked(npc))
                 {
                     continue;
                 }

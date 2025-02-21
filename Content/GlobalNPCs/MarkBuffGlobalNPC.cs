@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             base.OnSpawn(npc, source);
         }
 
-        private bool IsMarked(NPC npc)
+        public bool IsMarked(NPC npc)
         {
             return npc.HasBuff(ModContent.BuffType<Buffs.Debuffs.MarkedBuff>());
         }
