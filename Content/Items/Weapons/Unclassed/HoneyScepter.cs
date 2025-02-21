@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
 
         public override void SetStaticDefaults()
         {
+            base.SetStaticDefaults();
             Item.staff[Type] = true;
         }
 
