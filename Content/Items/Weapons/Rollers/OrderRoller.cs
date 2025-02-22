@@ -1,8 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
-using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
@@ -20,7 +18,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             base.SetDefaults();
             Item.damage = 14;
             Item.knockBack = 4;
-            Item.shoot = ModContent.ProjectileType<OrderSwingProjectile>();
 
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;

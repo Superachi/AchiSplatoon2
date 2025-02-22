@@ -3,9 +3,11 @@ using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
@@ -40,6 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private WeaponPlayer weaponPlayer;
 
         private float rollInkCost = 0f;
+        private string _swingId = "";
 
         protected float SwingAngleDegrees
         {
@@ -57,15 +60,12 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
             Projectile.penetrate = -1;
             Projectile.timeLeft = 36000;
-
-            //DrawOriginOffsetX = -Projectile.width / 2;
-            //DrawOriginOffsetY = -Projectile.height / 2;
         }
 
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as BaseRoller;
+            var weaponData = (BaseRoller)WeaponInstance;
             swingSample = weaponData.SwingSample;
             windUpSample = weaponData.WindUpSample;
 
@@ -76,7 +76,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             jumpAttackDamageMod = weaponData.JumpAttackDamageModifier;
             jumpAttackVelocityMod = weaponData.JumpAttackVelocityModifier;
 
-            rollInkCost = weaponData.InkCost / 40;
+            rollInkCost = weaponData.InkCost / 60;
         }
 
         protected override void AfterSpawn()
@@ -190,13 +190,14 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     }
 
                     Projectile.friendly = false;
-                    PlayAudio(windUpSample, pitchVariance: 0.1f, maxInstances: 5, pitch: -0.1f);
+                    PlayAudio(windUpSample, volume: 0.1f, pitchVariance: 0.1f, maxInstances: 5, pitch: -0.1f);
                     break;
                 case stateSwing:
                     ConsumeInk();
+                    _swingId = Main.time.ToString();
 
                     Projectile.friendly = true;
-                    PlayAudio(swingSample, pitchVariance: 0.1f, maxInstances: 5);
+                    PlayAudio(swingSample, volume: 0.15f, pitchVariance: 0.1f, maxInstances: 5);
                     break;
                 case stateRolling:
                     weaponPlayer.isUsingRoller = true;
@@ -228,13 +229,14 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
             else RollerSwingRotate(-25, lerpAmount);
 
-            if (stateTimer >= 2 && stateTimer < 6)
+            int minTime = 2;
+            if (stateTimer >= minTime && stateTimer < 6)
             {
                 Player p = GetOwner();
 
                 var vecFromPlayer = Main.MouseWorld.DirectionFrom(p.Center);
-                float i = stateTimer - 2;
-                float velocityMult = 4f + i * (1 - i * 0.15f);
+                float i = stateTimer - minTime;
+                float velocityMult = 3.2f + (i * 0.4f);
                 Vector2 velocity = vecFromPlayer * velocityMult;
 
                 // Make it so thrown projectiles always match the roller's direction,
@@ -244,23 +246,22 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 int damage = Projectile.damage;
                 if (startedJumpSwing)
                 {
-                    damage = (int)(Projectile.damage * jumpAttackDamageMod);
+                    damage = (int)(damage * jumpAttackDamageMod);
                     velocity *= jumpAttackVelocityMod;
                 }
                 else
                 {
                     velocity *= groundAttackVelocityMod;
                 }
-                CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage);
-                CreateChildProjectile<RollerInkProjectile>(p.Center, velocity * 0.75f, damage);
 
-                if (owner.HeldItem.ModItem is DynamoRoller)
-                {
-                    CreateChildProjectile<RollerInkProjectile>(p.Center, velocity * 1.25f, damage);
-                }
+                var proj = CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage);
+                proj.RollerSwingId = _swingId;
             }
 
-            if (stateTimer > swingTime) AdvanceState();
+            if (stateTimer > swingTime)
+            {
+                AdvanceState();
+            }
         }
 
         protected void StateRolling()
@@ -371,6 +372,16 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             {
                 Projectile.rotation = dirToPlayer + MathHelper.ToRadians(45 - 90);
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            DrawProjectile(
+                Color.White,
+                Projectile.rotation,
+                spriteOverride: TextureAssets.Item[itemIdentifier].Value,
+                flipSpriteSettings: facingDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+            return false;
         }
     }
 }

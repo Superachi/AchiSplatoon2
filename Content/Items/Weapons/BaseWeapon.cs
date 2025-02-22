@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
@@ -407,6 +408,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseBrella:
                     possiblePrefixes = PrefixHelper.ListBrellaPrefixes();
+                    break;
+
+                case BaseRoller:
+                    possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                    possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
                     break;
             }
 
