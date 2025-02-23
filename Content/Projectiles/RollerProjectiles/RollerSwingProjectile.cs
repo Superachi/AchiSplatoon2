@@ -116,6 +116,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
             owner.heldProj = Projectile.whoAmI;
             stateTimer++;
+            wormDamageReduction = false;
 
             switch (state)
             {
@@ -126,6 +127,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     StateSwing();
                     break;
                 case stateRolling:
+                    wormDamageReduction = true;
                     StateRolling();
                     break;
             }
