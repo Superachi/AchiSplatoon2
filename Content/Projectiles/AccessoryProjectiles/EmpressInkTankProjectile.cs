@@ -31,6 +31,11 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
+        public void SetDamageMult(float damageMultiplier)
+        {
+            Projectile.damage = (int)(EmpressInkTank.ProjectileDamage * damageMultiplier);
+        }
+
         protected override void AfterSpawn()
         {
             SetState(_stateFindTarget);

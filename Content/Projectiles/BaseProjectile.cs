@@ -560,6 +560,12 @@ internal class BaseProjectile : ModProjectile
         {
             empressInkTankPlayer.ActivateCooldown();
             var p = CreateChildProjectile<EmpressInkTankProjectile>(owner.Center, Vector2.Zero, 0, true);
+
+            if (Projectile.damage > EmpressInkTank.ProjectileDamage * 2)
+            {
+                float mult = 1f + (Projectile.damage / EmpressInkTank.ProjectileDamage) / 2f;
+                p.SetDamageMult(mult);
+            }
         }
     }
 
