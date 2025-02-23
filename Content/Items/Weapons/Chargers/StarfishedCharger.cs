@@ -10,6 +10,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class StarfishedCharger : BaseCharger
     {
+        public override float InkCost { get => 2f; }
+
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override bool ScreenShake => false;
