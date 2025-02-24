@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
         {
             base.SetDefaults();
 
-            Item.value = Item.buyPrice(gold: 10);
+            Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Cyan;
         }
 
