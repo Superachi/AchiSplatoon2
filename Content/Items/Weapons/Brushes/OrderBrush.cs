@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Sapphire);
 
         public override void UseAnimation(Player player)
         {

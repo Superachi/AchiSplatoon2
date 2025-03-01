@@ -41,6 +41,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Emerald);
     }
 }

@@ -240,5 +240,22 @@ namespace AchiSplatoon2.Content.Items
                 .AddIngredient(ItemID.Gel, 15)
                 .Register();
         }
+
+        protected void AddRecipeOrder(int addedIngredient, int amount = 1)
+        {
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
+                .AddIngredient(ItemID.SilverBar, 8)
+                .AddIngredient(ItemID.Gel, 15)
+                .AddIngredient(addedIngredient, amount)
+                .Register();
+
+            CreateRecipe()
+                .AddTile(TileID.Anvils)
+                .AddIngredient(ItemID.TungstenBar, 8)
+                .AddIngredient(ItemID.Gel, 15)
+                .AddIngredient(addedIngredient, amount)
+                .Register();
+        }
     }
 }

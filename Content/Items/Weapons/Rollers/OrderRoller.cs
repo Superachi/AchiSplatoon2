@@ -23,6 +23,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.rare = ItemRarityID.Blue;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Ruby);
     }
 }

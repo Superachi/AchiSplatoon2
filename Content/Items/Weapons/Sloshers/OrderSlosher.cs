@@ -32,6 +32,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.rare = ItemRarityID.Blue;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Amethyst);
     }
 }
