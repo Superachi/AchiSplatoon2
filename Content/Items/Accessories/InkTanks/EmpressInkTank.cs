@@ -33,5 +33,9 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
                 accessoryPlayer.TryEquipAccessory<EmpressInkTank>();
             }
         }
+
+        public override void AddRecipes()
+        {
+        }
     }
 }
