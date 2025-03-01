@@ -146,7 +146,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 var playerVelocity = AbsPlayerSpeed();
                 if (playerVelocity > 2)
                 {
-                    float damageMod = Math.Min(0.5f + playerVelocity / 3, 5);
+                    float damageMod = Math.Min(0.5f + playerVelocity / 4, 4);
                     if (!IsPlayerGrounded()) damageMod *= 0.5f;
 
                     modifiers.FinalDamage *= damageMod;
@@ -286,12 +286,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                         var posRand = Main.rand.NextVector2Circular(12, 12);
                         var finalXVel = Math.Sign(owner.velocity.X) * AbsPlayerSpeed() / 4;
 
-                        DustHelper.NewDropletDust(
-                            position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
-                            velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
-                            color: GenerateInkColor(),
-                            minScale: 0.8f,
-                            maxScale: 1.6f);
+                        if (Main.rand.NextBool(4))
+                        {
+                            DustHelper.NewDropletDust(
+                                position: new Vector2(owner.Center.X + facingDirection * 64, owner.position.Y + owner.height) + posRand,
+                                velocity: new Vector2(finalXVel, -AbsPlayerSpeed()),
+                                color: GenerateInkColor(),
+                                minScale: 0.8f,
+                                maxScale: 1.6f);
+                        }
                     }
 
                     Dust.NewDustPerfect(
