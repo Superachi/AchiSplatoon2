@@ -1832,7 +1832,7 @@ Items: {
 	}
 
 	PointSensor: {
-		UsageHint: Marks enemies within its radius
+		UsageHint: Marks enemies and reveals loot
 		Flavor: Get him girls!
 		DisplayName: Point Sensor
 		Tooltip: "{$MarkEffect.Display@0}"

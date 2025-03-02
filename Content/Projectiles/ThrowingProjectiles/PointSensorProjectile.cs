@@ -4,9 +4,11 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
@@ -56,10 +58,60 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
+        private void ScanInterestingTiles()
+        {
+            Point point = new Point(Projectile.Center.ToTileCoordinates().X, Projectile.Center.ToTileCoordinates().Y);
+            Ref<int> solidCount = new Ref<int>(0);
+            List<ushort> tilesToFind = new()
+            {
+                TileID.Adamantite,
+                TileID.Titanium,
+                TileID.Chlorophyte,
+                TileID.Diamond,
+                TileID.Containers,
+                TileID.Containers2,
+                TileID.Heart,
+                TileID.LifeFruit,
+            };
+
+            int iteration = Main.rand.Next(0, 4);
+            int tileSize = 16;
+            bool playSoundNotification = false;
+            var radiusToCheck = (int)(finalExplosionRadius * 1.1f / tileSize);
+
+            WorldUtils.Gen(point, new Shapes.Circle(radiusToCheck, radiusToCheck), Actions.Chain(new GenAction[]
+            {
+                new Actions.ContinueWrapper(Actions.Chain(new GenAction[]
+                {
+                    new Modifiers.OnlyTiles(tilesToFind.ToArray()),
+                    new Actions.Custom((i, j, args) => {
+                        if (iteration == 0 || iteration % 3 == 0)
+                        {
+                            var dust = Dust.NewDustPerfect(new Point(i, j).ToVector2() * tileSize + Main.rand.NextVector2Circular(10, 10), DustID.PlatinumCoin, Vector2.Zero,
+                                255, Main.DiscoColor, Main.rand.NextFloat(1.2f, 2f));
+                        }
+
+                        iteration++;
+                        playSoundNotification = true;
+                        return true;
+                    }),
+                    new Actions.Scanner(solidCount)
+                })),
+            }));
+
+            if (playSoundNotification)
+            {
+                SoundHelper.PlayAudio(SoundID.Item9, position: Projectile.Center, volume: 1f, pitch: 0.5f);
+                SoundHelper.PlayAudio(SoundID.NPCDeath55, position: Projectile.Center, volume: 0.3f, pitch: 0.5f);
+            }
+        }
+
         private void Explode()
         {
             hasExploded = true;
             Projectile.velocity = Vector2.Zero;
+
+            ScanInterestingTiles();
 
             SoundHelper.PlayAudio(SoundPaths.PointSensorDetonate.ToSoundStyle(), position: Projectile.Center, volume: 0.2f);
             SoundHelper.StopSoundIfActive(throwAudio);
