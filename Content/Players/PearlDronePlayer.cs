@@ -23,9 +23,9 @@ namespace AchiSplatoon2.Content.Players
 
         // Attack stats
         public float DroneAttackCooldownReduction => GetDroneAttackCooldownReduction();
-        public int SprinklerBaseDamage { get; private set; } = 3;
+        public int SprinklerBaseDamage { get; private set; } = 4;
         public int SprinklerBaseArmorPenetration { get; private set; } = 10;
-        public int BurstBombBaseDamage { get; private set; } = 15;
+        public int BurstBombBaseDamage { get; private set; } = 20;
         public int KillerWailBaseDamage { get; private set; } = 15;
         public int MinimumChipsForBurstBomb => 4;
         public int MinimumChipsForKillerWail => 8;
