@@ -92,18 +92,18 @@ namespace AchiSplatoon2.Content.Items
         protected void AddRecipePostEOC()
         {
             AddRecipeWithSheldonLicenseBasic(false)
-                .AddIngredient(ItemID.DemoniteBar, 5)
+                .AddIngredient(ItemID.DemoniteBar, 8)
                 .Register();
 
             AddRecipeWithSheldonLicenseBasic(false)
-                .AddIngredient(ItemID.CrimtaneBar, 5)
+                .AddIngredient(ItemID.CrimtaneBar, 8)
                 .Register();
         }
 
         protected void AddRecipeMeteorite()
         {
             AddRecipeWithSheldonLicenseBasic(false)
-                .AddIngredient(ItemID.MeteoriteBar, 5)
+                .AddIngredient(ItemID.MeteoriteBar, 8)
                 .Register();
         }
 
@@ -117,14 +117,14 @@ namespace AchiSplatoon2.Content.Items
         protected void AddRecipeHellstone()
         {
             AddRecipeWithSheldonLicenseBasic(false)
-                .AddIngredient(ItemID.HellstoneBar, 5)
+                .AddIngredient(ItemID.HellstoneBar, 8)
                 .Register();
         }
 
         protected void AddRecipePostSkeletron()
         {
             AddRecipeWithSheldonLicenseBasic(false)
-                .AddIngredient(ItemID.Bone, 20)
+                .AddIngredient(ItemID.Bone, 30)
                 .Register();
         }
 
