@@ -61,7 +61,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             int fullRotate = 6;
             int rotateSpeed = 4;
 
-            owner.velocity.Y = MathHelper.Max(owner.velocity.Y, 10);
+            owner.velocity.Y = MathHelper.Max(owner.velocity.Y, 2);
             owner.fullRotation += xDir * rollDistance / rollDuration / fullRotate * rotateSpeed; // 0.3f;
             owner.fullRotationOrigin = new Vector2(10f, 20f);
             DodgeRollDustStream();
