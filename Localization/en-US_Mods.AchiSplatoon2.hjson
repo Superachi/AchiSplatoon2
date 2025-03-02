@@ -2109,6 +2109,7 @@ Prefixes: {
 	SavouryPrefix.DisplayName: Savoury
 	InstantPrefix.DisplayName: Instant
 	DivingPrefix.DisplayName: Diving
+	GambitPrefix.DisplayName: Gambit's
 }
 
 Configs: {
