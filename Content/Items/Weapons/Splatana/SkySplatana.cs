@@ -44,9 +44,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.SunplateBlock, 30)
+                .AddIngredient(ItemID.FallenStar, 1)
+                .AddIngredient(ItemID.Topaz, 5)
                 .AddIngredient(ItemID.Feather, 5)
-                .AddIngredient(ItemID.MeteoriteBar, 10)
+                .AddIngredient(ItemID.MeteoriteBar, 5)
+                .AddIngredient(ItemID.Hellstone, 5)
                 .Register();
         }
     }
