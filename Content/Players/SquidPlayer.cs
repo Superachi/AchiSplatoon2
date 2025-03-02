@@ -29,6 +29,8 @@ namespace AchiSplatoon2.Content.Players
         private float _squidJumpTime = 0f;
         private float _squidJumpTimeMax = 0f;
 
+        private int _squidFormCooldown = 0;
+
         public void SetState(int state)
         {
             this.state = state;
@@ -70,6 +72,7 @@ namespace AchiSplatoon2.Content.Players
         public bool PlayerHasConditionThatPreventsSwimForm()
         {
             return Player.dead
+                || _squidFormCooldown > 0
                 || Player.wet
                 || !Player.ItemTimeIsZero
                 || Player.grappling[0] != -1
@@ -90,6 +93,13 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            if (_squidFormCooldown > 0) _squidFormCooldown--;
+
+            if (Player.wet)
+            {
+                _squidFormCooldown = 20;
+            }
+
             if (PlayerHasConditionThatPreventsSwimForm())
             {
                 _squidFormProjectile?.Projectile.Kill();
@@ -120,6 +130,7 @@ namespace AchiSplatoon2.Content.Players
                     if (_squidFormProjectile == null || PlayerHasConditionThatPreventsSwimForm())
                     {
                         SetState(stateHuman);
+                        _squidFormCooldown = 10;
                         return;
                     }
 
