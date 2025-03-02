@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Players
         public bool IsLaserSprinklerEnabled => Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
         public float LaserDamageMod => 1.1f;
         public float LaserCooldownMod => 0.8f;
-        public float DamageBonusPerMinionSlot => 0.2f;
+        public float DamageBonusPerMinionSlot => 0.3f;
 
         // Misc.
         private bool isDroneActive = false;
@@ -166,10 +166,10 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 2;
                     break;
                 case 3:
-                    baseDamage *= 3;
+                    baseDamage *= 3.5f;
                     break;
                 case 4:
-                    baseDamage *= 4;
+                    baseDamage *= 5;
                     break;
             }
 
@@ -191,13 +191,13 @@ namespace AchiSplatoon2.Content.Players
                     baseDamage *= 1;
                     break;
                 case 2:
-                    baseDamage *= 2;
+                    baseDamage *= 2.5f;
                     break;
                 case 3:
-                    baseDamage *= 3f;
+                    baseDamage *= 4;
                     break;
                 case 4:
-                    baseDamage *= 5;
+                    baseDamage *= 6;
                     break;
             }
 
