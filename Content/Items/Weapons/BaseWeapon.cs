@@ -369,6 +369,10 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     break;
 
                 case BaseCharger:
+                    possiblePrefixes = PrefixHelper.ListChargerPrefixes();
+
+                    break;
+
                 case BaseSplatana:
 
                     possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();

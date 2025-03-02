@@ -1,5 +1,7 @@
-﻿namespace AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
+﻿using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 
-internal class BaseChargerPrefix : BaseWeaponPrefix
+namespace AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
+
+internal class BaseChargerPrefix : BaseChargeWeaponPrefix
 {
 }
