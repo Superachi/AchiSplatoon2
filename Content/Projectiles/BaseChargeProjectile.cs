@@ -118,7 +118,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
-            isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
+            isPlayerGrounded = PlayerHelper.IsPlayerGrounded(Owner) || PlayerHelper.IsPlayerGrappled(Owner);
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
 
             var inkSpeedModifier = 1f;
