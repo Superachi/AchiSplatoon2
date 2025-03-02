@@ -179,7 +179,8 @@ namespace AchiSplatoon2.Content.Players
             postRoll = false;
 
             // If jumping while shooting...
-            if (rollsLeft == 0 || xDir == 0 || Player.mount.Active) return;
+            var inkTankPlayer = Player.GetModPlayer<InkTankPlayer>();
+            if (rollsLeft == 0 || xDir == 0 || Player.mount.Active || !inkTankPlayer.HasEnoughInk(rollInkCost)) return;
             bool countJump = jumpInputBuffer > 0 && rollsLeft > 0;
             if (countJump && Player.controlUseItem)
             {
@@ -194,11 +195,7 @@ namespace AchiSplatoon2.Content.Players
                     proj.rollDuration = rollDuration;
                     proj.RunSpawnMethods();
 
-                    var inkTankPlayer = Player.GetModPlayer<InkTankPlayer>();
-                    if (inkTankPlayer.HasEnoughInk(rollInkCost))
-                    {
-                        Player.GetModPlayer<InkTankPlayer>().ConsumeInk(rollInkCost);
-                    }
+                    Player.GetModPlayer<InkTankPlayer>().ConsumeInk(rollInkCost);
 
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
