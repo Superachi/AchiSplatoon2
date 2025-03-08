@@ -7,6 +7,7 @@ using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
+using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using System;
@@ -126,6 +127,16 @@ internal class PrefixHelper : ModSystem
         return prefixes;
     }
 
+    public static List<int> ListSlosherPrefixes()
+    {
+        var prefixes = ListGenericPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<EchoPrefix>());
+        prefixes.Add(ModContent.PrefixType<FilteredPrefix>());
+
+        return prefixes;
+    }
+
     public static List<int> ListSplatlingPrefixes()
     {
         var prefixes = ListChargeWeaponsPrefixes();
@@ -225,6 +236,10 @@ internal class PrefixHelper : ModSystem
             // Blasters
             { typeof(ConcentratedPrefix), ModContent.PrefixType<ConcentratedPrefix>() },
             { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
+
+            // Sloshers
+            { typeof(EchoPrefix), ModContent.PrefixType<EchoPrefix>() },
+            { typeof(FilteredPrefix), ModContent.PrefixType<FilteredPrefix>() },
 
             // Splatlings
             { typeof(LoadedPrefix), ModContent.PrefixType<LoadedPrefix>() },

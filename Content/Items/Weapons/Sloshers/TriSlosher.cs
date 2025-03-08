@@ -7,7 +7,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class TriSlosher : Slosher
     {
-        public override float ShotGravity { get => 0.15f; }
+        public override int ShotCount => 8;
+        public override float AimDeviation => 6f;
+        public override float ShotGravity { get => 0.12f; }
 
         public override void SetDefaults()
         {
@@ -15,16 +17,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SlosherMainProjectile>(),
                 singleShotTime: 24,
-                shotVelocity: 6f
+                shotVelocity: 6.5f
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 22;
-            Item.knockBack = 4;
+            Item.damage = 24;
+            Item.crit = 5;
+            Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipeHellstone();
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

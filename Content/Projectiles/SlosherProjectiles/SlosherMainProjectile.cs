@@ -1,102 +1,181 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
+using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherMainProjectile : BaseProjectile
     {
         private int weaponDamage;
-        private float fallDelayCount = 0;
-        private float fallSpeed;
-        private readonly float terminalVelocity = 8f;
         private bool hasChildren = false;
+
+        public Dictionary<string, List<int>> targetsToIgnore = new Dictionary<string, List<int>>();
+        private string _timestamp = "";
+
+        private Vector2 _initialAngle = new Vector2(0, 0);
+        private float _initialShotSpeed = 0f;
+
+        private int _ammo = 0;
+        private int _ammoStart = 0;
+        private int _repetitions = 0;
+        private float _individualShotDeviation = 0;
+        private int _repetitionCooldown = 0;
 
         public override void SetDefaults()
         {
+            Projectile.damage = 0;
             Projectile.extraUpdates = 2;
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
-            Projectile.friendly = true;
+            Projectile.friendly = false;
             Projectile.timeLeft = 300;
-            Projectile.tileCollide = true;
-            AIType = ProjectileID.Bullet;
+            Projectile.tileCollide = false;
         }
 
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
-            var weaponData = WeaponInstance as BaseSlosher;
-
-            // The slosher child projectiles should do the damage here
-            weaponDamage = Projectile.damage;
+            var weaponData = (BaseSlosher)WeaponInstance;
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootWeakSample;
-            fallSpeed = weaponData.ShotGravity;
+
+            _ammo = weaponData.ShotCount;
+            _repetitions = weaponData.Repetitions;
+            _individualShotDeviation = weaponData.AimDeviation / 10f;
+        }
+
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            if (prefix is BaseSlosherPrefix slosherWeaponPrefix)
+            {
+                _ammo += slosherWeaponPrefix.AmmoBonus;
+                _ammoStart = _ammo;
+
+                _repetitions += slosherWeaponPrefix.RepetitionBonus;
+            }
         }
 
         protected override void AfterSpawn()
         {
             Initialize();
             ApplyWeaponInstanceData();
-            wormDamageReduction = true;
+
+            _ammoStart = _ammo;
+            _timestamp = DateTime.Now.ToString("dd-mm-ss-fff");
+
+            _initialShotSpeed = Projectile.velocity.Length() / 2;
+            _initialAngle = Vector2.Normalize(Projectile.velocity);
+            Projectile.velocity = Vector2.Zero;
 
             if (Main.rand.NextBool(2))
             {
-                PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
             }
             else
             {
-                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5);
+                PlayAudio(shootAltSample, volume: 0.2f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
             }
-        }
 
-        protected float Timer
-        {
-            get => Projectile.ai[0];
-            set => Projectile.ai[0] = value;
+            PlayAudio(SoundID.Item1, volume: 0.6f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+            PlayAudio(SoundID.Item7, volume: 1f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+            PlayAudio(SoundID.Item20, volume: 0.2f, pitch: 0.4f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
         }
 
         public override void AI()
         {
-            Timer++;
+            Projectile.Center = Owner.Center + new Vector2(10 * Owner.direction, 0);
 
-            if (Timer % 5 == 0)
+            if (_repetitionCooldown > 0)
             {
-                Timer = 0;
-                fallDelayCount++;
-                float childVelX = Projectile.velocity.X * 0.5f;
-                float childVelY = Projectile.velocity.Y * 0.25f;
+                _repetitionCooldown--;
+                return;
+            }
+
+            if (timeSpentAlive > 10 && timeSpentAlive % 2 == 0 && _ammo > 0)
+            {
+                _ammo--;
+
+                Vector2 mouseAngle = Owner.DirectionTo(Main.MouseWorld);
+                float childVelX = _initialAngle.X * _initialShotSpeed * (1f + _ammo / 20f);
+                float childVelY = _initialAngle.Y * _initialShotSpeed * (1f + _ammo / 20f);
 
                 if (IsThisClientTheProjectileOwner())
                 {
                     hasChildren = true;
-                    CreateChildProjectile(
+
+                    var proj = CreateChildProjectile<SlosherChildProjectile>(
                         position: Projectile.Center,
                         velocity: new Vector2(childVelX, childVelY),
-                        type: ModContent.ProjectileType<SlosherChildProjectile>(),
-                        damage: weaponDamage);
+                        damage: Projectile.damage,
+                        triggerSpawnMethods: false);
+
+                    proj._delayUntilFall = (_ammo + 1 ) * 2;
+                    proj.maxScale = 0.5f + (_ammo / 8f);
+
+                    var sweepingArc = 5;
+                    var startAngleOffset = -50;
+                    var sweepingArcMult = Owner.direction * Math.Abs(mouseAngle.X);
+                    var addedAngle = (_ammo * sweepingArc + startAngleOffset) * sweepingArcMult;
+
+                    proj.Projectile.velocity = WoomyMathHelper.AddRotationToVector2(proj.Projectile.velocity, addedAngle);
+                    proj.Projectile.velocity *= 1 + (_repetitions / 10f);
+                    proj.Projectile.velocity += Owner.velocity * new Vector2(0.3f, 0.15f);
+                    proj.Projectile.velocity += Main.rand.NextVector2Circular(_individualShotDeviation, _individualShotDeviation);
+
+                    proj.parentTimestamp = _timestamp;
+                    if (targetsToIgnore.TryGetValue(_timestamp, out List<int> targetsIgnoredByChild))
+                    {
+                        proj.targetsToIgnore = targetsIgnoredByChild;
+                    }
+                    proj.RunSpawnMethods();
+                }
+
+                if (_ammo == 0)
+                {
+                    _repetitionCooldown = (int)(_ammoStart * 1.5f);
                 }
             }
 
-            // Start falling eventually
-            if (fallDelayCount > 2)
+            if (_ammo == 0)
             {
-                Projectile.velocity.Y += fallSpeed;
-            }
+                if (_repetitionCooldown == 0)
+                {
+                    if (_repetitions > 0)
+                    {
+                        _repetitions--;
+                        _ammo = _ammoStart;
+                        _timestamp = DateTime.Now.ToString("dd-mm-ss-fff");
 
-            if (Projectile.velocity.Y >= 0)
-            {
-                Projectile.velocity.X *= 0.995f;
-            }
+                        if (Main.rand.NextBool(2))
+                        {
+                            PlayAudio(shootSample, volume: 0.08f, pitch: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
+                        }
+                        else
+                        {
+                            PlayAudio(shootAltSample, volume: 0.08f, pitch: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
+                        }
 
-            if (Projectile.velocity.Y > terminalVelocity)
-            {
-                Projectile.velocity.Y = terminalVelocity;
+                        PlayAudio(SoundID.Item1, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+                        PlayAudio(SoundID.Item7, volume: 0.8f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+                        PlayAudio(SoundID.Item20, volume: 0.1f, pitch: 0.4f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+                    }
+                    else
+                    {
+                        Projectile.Kill();
+                    }
+                }
             }
         }
 

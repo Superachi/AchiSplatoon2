@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Helpers
 {
     internal static class ProjectileDustHelper
     {
-        public static void ShooterTileCollideVisual(BaseProjectile baseProjectile, bool playSound = true)
+        public static void ShooterTileCollideVisual(BaseProjectile baseProjectile, bool playSound = true, float volumeMod = 1f)
         {
             Projectile projectile = baseProjectile.Projectile;
 
@@ -47,9 +47,9 @@ namespace AchiSplatoon2.Helpers
                 SoundID.NPCDeath19,
             };
 
-            SoundHelper.PlayAudio(Main.rand.NextFromCollection(inkSplash), volume: 0.15f, pitchVariance: 0.2f, maxInstances: 50, pitch: 0f, position: projectile.position);
-            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.2f, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.5f, position: projectile.position);
-            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.6f, position: projectile.position);
+            SoundHelper.PlayAudio(Main.rand.NextFromCollection(inkSplash), volume: 0.15f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0f, position: projectile.position);
+            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.2f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.5f, position: projectile.position);
+            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.1f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.6f, position: projectile.position);
         }
 
         public static void ShooterSpawnVisual(BaseProjectile baseProjectile, float velocityMod = 1f)

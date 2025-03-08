@@ -21,7 +21,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override SoundStyle ShootSample { get => SoundPaths.SlosherShoot.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.SlosherShootAlt.ToSoundStyle(); }
 
+        public override float AimDeviation => 2f;
         public virtual float ShotGravity { get => 0.12f; }
+        public virtual int ShotCount => 8;
+        public virtual int Repetitions => 0;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -36,15 +40,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             base.ModifyWeaponDamage(player, ref damage);
-
-            if (NetHelper.IsPlayerSameAsLocalPlayer(player))
-            {
-                var accMP = player.GetModPlayer<AccessoryPlayer>();
-                if (accMP.hasSteelCoil)
-                {
-                    damage *= AdamantiteCoil.DamageReductionMod;
-                }
-            }
         }
     }
 }

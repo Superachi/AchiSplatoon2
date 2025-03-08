@@ -5,6 +5,7 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,24 +14,30 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherChildProjectile : BaseProjectile
     {
+        public float maxScale = 1f;
+        public float _delayUntilFall;
         private readonly float delayUntilFall = 3f;
         private float fallSpeed;
         private readonly float terminalVelocity = 12f;
+        private float _damageFalloffMod = 1f;
 
         private Color bulletColor;
         private float drawScale = 0f;
         private float drawRotation = 0f;
+        public List<int> targetsToIgnore = new List<int>();
+        public string parentTimestamp = "";
 
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 2;
-            Projectile.width = 16;
-            Projectile.height = 16;
-            Projectile.aiStyle = 1;
-            Projectile.friendly = true;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = false;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
-            AIType = ProjectileID.Bullet;
+
+            ProjectileID.Sets.TrailCacheLength[Type] = 14;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
         public override void SetStaticDefaults()
@@ -52,32 +59,43 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             ApplyWeaponInstanceData();
             wormDamageReduction = true;
 
-            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
-            if (accMP.hasSteelCoil)
-            {
-                Projectile.damage = (int)(Projectile.damage * AdamantiteCoil.DamageReductionMod);
-            }
-
-
-            // Set visuals
-            Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
-            bulletColor = GenerateInkColor();
-            drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
+            Projectile.frame = 2;
+            Projectile.rotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
         }
 
         public override void AI()
         {
+            if (timeSpentAlive > 3 && IsThisClientTheProjectileOwner())
+            {
+                Projectile.friendly = true;
+            }
+
+            var checkSize = 4;
+            if (timeSpentAlive < 10
+                && IsThisClientTheProjectileOwner()
+                && !Collision.CanHitLine(Projectile.Center, checkSize, checkSize, Owner.Center, checkSize, checkSize)
+                && !Collision.CanHitLine(Projectile.Top, checkSize, checkSize, Owner.Top, checkSize, checkSize)
+                && !Collision.CanHitLine(Projectile.Bottom, checkSize, checkSize, Owner.Bottom, checkSize, checkSize))
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (isFakeDestroyed) return;
-            Projectile.ai[0] += 1f;
 
             // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (FrameSpeedMultiply(timeSpentAlive) >= FrameSpeedMultiply(_delayUntilFall))
             {
                 Projectile.velocity.Y += fallSpeed;
 
                 if (Projectile.velocity.Y >= 0)
                 {
-                    Projectile.velocity.X *= 0.99f;
+                    Projectile.velocity.X *= 0.985f;
+                }
+
+                if (_damageFalloffMod > 0.5f)
+                {
+                    _damageFalloffMod -= 0.002f;
                 }
             }
 
@@ -86,46 +104,135 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 Projectile.velocity.Y = terminalVelocity;
             }
 
-            drawRotation += Math.Sign(Projectile.velocity.X) * 0.02f;
-            if (drawScale <= 1f) drawScale += 0.1f;
+            Projectile.rotation += Math.Sign(Projectile.velocity.X) * 0.05f;
+            if (drawScale <= maxScale) drawScale += 0.1f;
+
+            if (timeSpentAlive % FrameSpeedMultiply(3) == 0 && Main.rand.NextBool(10))
+            {
+                DustHelper.NewDust(
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    position: Projectile.Center + Main.rand.NextVector2Circular(20, 20),
+                    velocity: Projectile.velocity * FrameSpeed() / 2,
+                    color: CurrentColor,
+                    scale: 2f,
+                    data: new(emitLight: true, scaleIncrement: -0.1f, gravity: 0.3f));
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (isFakeDestroyed) return false;
-            for (int i = 0; i < 5; i++)
+
+            // Bounce against ceilings
+            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
             {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                if (Projectile.velocity.Y < 0)
+                {
+                    ProjectileBounce(oldVelocity, new Vector2(0.8f, 0.2f));
+                    return false;
+                }
             }
+
+            Projectile.position += Projectile.velocity;
+            ProjectileDustHelper.ShooterTileCollideVisual(this, volumeMod: 0.5f);
 
             if (IsThisClientTheProjectileOwner() && !NetHelper.IsSinglePlayer())
             {
                 FakeDestroy();
                 return false;
             }
+
             return true;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (!targetsToIgnore.Contains(target.whoAmI))
+            {
+                return base.CanHitNPC(target);
+            }
+
+            return false;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
-            if (accMP.hasSteelCoil)
+            targetsToIgnore.Add(target.whoAmI);
+
+            foreach (var proj in Main.ActiveProjectiles)
             {
-                target.immune[Projectile.owner] = 3;
+                if (proj.owner == Projectile.owner
+                    && proj.type == ModContent.ProjectileType<SlosherChildProjectile>())
+                {
+                    var modProj = (SlosherChildProjectile)proj.ModProjectile;
+                    if (!modProj.targetsToIgnore.Contains(target.whoAmI)
+                        && modProj.parentTimestamp == parentTimestamp)
+                    {
+                        modProj.targetsToIgnore.Add(target.whoAmI);
+                    }
+
+                    AddSelfToParentList(target);
+                }
+            }
+
+            base.OnHitNPC(target, hit, damageDone);
+        }
+
+        private void AddSelfToParentList(NPC target)
+        {
+            if (parentProjectile != null
+                && parentProjectile.active
+                && parentProjectile.type == ModContent.ProjectileType<SlosherMainProjectile>())
+            {
+                var parentProj = (SlosherMainProjectile)parentProjectile.ModProjectile;
+                if (!parentProj.targetsToIgnore.ContainsKey(parentTimestamp))
+                {
+                    parentProj.targetsToIgnore.Add(parentTimestamp, new List<int>());
+                }
+                else
+                {
+                    var list = parentProj.targetsToIgnore[parentTimestamp];
+                    list.Add(target.whoAmI);
+                }
+            }
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = 32;
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            base.ModifyHitNPC(target, ref modifiers);
+
+            var accMP = Owner.GetModPlayer<AccessoryPlayer>();
+            bool hasCoil = accMP.hasSteelCoil;
+
+            if (targetsToIgnore.Count == 0)
+            {
+                if (hasCoil)
+                {
+                    modifiers.FinalDamage *= AdamantiteCoil.BaseDamageMod;
+                }
             }
             else
             {
-                target.immune[Projectile.owner] = 18;
+                if (hasCoil)
+                {
+                    modifiers.FinalDamage *= AdamantiteCoil.PostFirstHitDamageMod;
+                }
             }
-            base.OnHitNPC(target, hit, damageDone);
+
+            modifiers.FinalDamage *= _damageFalloffMod;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+            if (isFakeDestroyed) return false;
+
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, drawScale, alphaMod: 0.8f, considerWorldLight: false);
 
             return false;
         }

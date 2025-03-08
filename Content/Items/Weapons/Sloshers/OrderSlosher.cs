@@ -9,21 +9,20 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
     [OrderWeapon]
     internal class OrderSlosher : BaseSlosher
     {
-        public override float InkCost { get => 12f; }
+        public override float InkCost { get => 10f; }
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SlosherMainProjectile>(),
-                singleShotTime: 32,
-                shotVelocity: 6f
+                singleShotTime: 40,
+                shotVelocity: 6.5f
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 12;
-            Item.crit = 0;
-            Item.knockBack = 2;
+            Item.damage = 16;
+            Item.knockBack = 4;
 
             Item.width = 32;
             Item.height = 32;

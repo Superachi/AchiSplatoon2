@@ -370,7 +370,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseCharger:
                     possiblePrefixes = PrefixHelper.ListChargerPrefixes();
+                    break;
 
+                case BaseSlosher:
+                    possiblePrefixes = PrefixHelper.ListSlosherPrefixes();
+
+                    possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                    possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
                     break;
 
                 case BaseSplatana:

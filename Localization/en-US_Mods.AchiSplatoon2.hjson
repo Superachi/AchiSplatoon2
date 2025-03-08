@@ -41,9 +41,9 @@ Hint: {
 	}
 
 	Sloshers: {
-		Slosher: Throws a stream of projectiles that cover a wide area
-		Bloblobber: Throws a stream of bubbles that bounce against walls
-		Explosher: Throws a piercing projectile that explodes when hitting a wall
+		Slosher: Slings globs of ink that covers a wide area
+		Bloblobber: Slings a stream of bubbles that bounce against walls
+		Explosher: Slings a piercing projectile that explodes when hitting a wall
 	}
 
 	Brushes: {
@@ -84,7 +84,7 @@ Hint: {
 	# ----------------------------------------
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
 	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
-	SteelCoil: Deal {0}% LESS damage with Sloshers, but the same target can be hit multiple times
+	SteelCoil: For each attack with a Slosher, the first target hit takes {0}% more damage, but subsequent targets instead take {1}% less
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"
 	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
@@ -1211,13 +1211,6 @@ Items: {
 		Tooltip: Your sub weapons cost {0}% less ink
 	}
 
-	SodaSlosher: {
-		UsageHint: "{$Hint.Sloshers.Slosher}"
-		Flavor: SODAAAAA!!
-		DisplayName: Soda Slosher
-		Tooltip: ""
-	}
-
 	TriSlosher: {
 		UsageHint: "{$Hint.Sloshers.Slosher}"
 		Flavor: It just takes no skill!
@@ -2110,6 +2103,11 @@ Prefixes: {
 	InstantPrefix.DisplayName: Instant
 	DivingPrefix.DisplayName: Diving
 	GambitPrefix.DisplayName: Gambit's
+	RepetitionTooltip: Sloshes {0} extra time(s)
+	BaseSlosherPrefix.DisplayName: Base Slosher Prefix
+	AmmoTooltip: Each slosh fires {0} extra projectiles
+	EchoPrefix.DisplayName: Echoing
+	FilteredPrefix.DisplayName: Filtered
 }
 
 Configs: {
