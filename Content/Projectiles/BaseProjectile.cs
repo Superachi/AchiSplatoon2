@@ -717,12 +717,14 @@ internal class BaseProjectile : ModProjectile
 
     public Color GenerateInkColor()
     {
+        var chipColor = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+
         if (colorOverride != null)
         {
             return (Color)colorOverride;
         }
 
-        return GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+        return chipColor;
     }
 
     private void SetInitialInkColor()

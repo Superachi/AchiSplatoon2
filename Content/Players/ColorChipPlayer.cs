@@ -186,6 +186,11 @@ namespace AchiSplatoon2.Content.Players
                 return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
             }
 
+            if (Player.HeldItem.Name.Contains("Shimmer"))
+            {
+                return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.7f);
+            }
+
             return IsPaletteValid() ? _colorFromChips : ColorHelper.GetInkColor(InkColor.Order);
         }
 

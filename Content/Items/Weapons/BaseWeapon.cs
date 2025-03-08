@@ -9,6 +9,7 @@ using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
@@ -424,6 +425,19 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
                     possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
                     break;
+            }
+
+            if (InkCost == 0)
+            {
+                if (possiblePrefixes.Contains(ModContent.PrefixType<SavouryPrefix>()))
+                {
+                    possiblePrefixes.Remove(ModContent.PrefixType<SavouryPrefix>());
+                }
+
+                if (possiblePrefixes.Contains(ModContent.PrefixType<CheapPrefix>()))
+                {
+                    possiblePrefixes.Remove(ModContent.PrefixType<CheapPrefix>());
+                }
             }
 
             return rand.NextFromCollection(possiblePrefixes);

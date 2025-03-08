@@ -91,7 +91,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
             yield return CreateTooltip(MeleeDamageTooltip, MeleeDamageModifier, false);
         }
 
-        if (InkCostModifier != 0)
+        if (InkCostModifier != 0 && (item.ModItem is BaseWeapon weapon && weapon.InkCost != 0))
         {
             yield return CreateTooltip(InkCostTooltip, InkCostModifier, true);
         }
