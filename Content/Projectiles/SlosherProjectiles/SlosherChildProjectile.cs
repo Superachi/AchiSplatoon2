@@ -107,15 +107,16 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.rotation += Math.Sign(Projectile.velocity.X) * 0.05f;
             if (drawScale <= maxScale) drawScale += 0.1f;
 
-            if (timeSpentAlive % FrameSpeedMultiply(3) == 0 && Main.rand.NextBool(10))
+            if (timeSpentAlive < FrameSpeedMultiply(10)
+                && timeSpentAlive % FrameSpeedMultiply(3) == 0)
             {
                 DustHelper.NewDust(
                     dustType: ModContent.DustType<SplatterBulletDust>(),
-                    position: Projectile.Center + Main.rand.NextVector2Circular(20, 20),
-                    velocity: Projectile.velocity * FrameSpeed() / 2,
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity * (FrameSpeed() / 2) + Main.rand.NextVector2Circular(1f, 1f),
                     color: CurrentColor,
-                    scale: 2f,
-                    data: new(emitLight: true, scaleIncrement: -0.1f, gravity: 0.3f));
+                    scale: Main.rand.NextFloat(1f, 1.6f),
+                    data: new(emitLight: true, scaleIncrement: -0.05f, gravity: 0.5f, gravityDelay: 10));
             }
         }
 
@@ -232,7 +233,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         {
             if (isFakeDestroyed) return false;
 
-            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, drawScale, alphaMod: 0.8f, considerWorldLight: false);
+            DrawProjectile(ColorHelper.ColorWithAlpha255(CurrentColor), Projectile.rotation, drawScale, alphaMod: 0.9f, considerWorldLight: false);
 
             return false;
         }

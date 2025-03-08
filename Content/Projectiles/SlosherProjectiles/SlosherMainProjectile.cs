@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -22,10 +23,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         private Vector2 _initialAngle = new Vector2(0, 0);
         private float _initialShotSpeed = 0f;
+        private int _initialUseTime = 0;
 
         private int _ammo = 0;
         private int _ammoStart = 0;
         private int _repetitions = 0;
+        private int _repetitionsStart = 0;
         private float _individualShotDeviation = 0;
         private int _repetitionCooldown = 0;
 
@@ -64,6 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 _ammoStart = _ammo;
 
                 _repetitions += slosherWeaponPrefix.RepetitionBonus;
+                _repetitionsStart = _repetitions;
             }
         }
 
@@ -73,8 +77,11 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             ApplyWeaponInstanceData();
 
             _ammoStart = _ammo;
+            _repetitionsStart = _repetitions;
             _timestamp = DateTime.Now.ToString("dd-mm-ss-fff");
 
+            _initialUseTime = Owner.itemTime;
+            DebugHelper.PrintDebug(_initialUseTime);
             _initialShotSpeed = Projectile.velocity.Length() / 2;
             _initialAngle = Vector2.Normalize(Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
@@ -108,8 +115,13 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 _ammo--;
 
                 Vector2 mouseAngle = Owner.DirectionTo(Main.MouseWorld);
-                float childVelX = _initialAngle.X * _initialShotSpeed * (1f + _ammo / 20f);
-                float childVelY = _initialAngle.Y * _initialShotSpeed * (1f + _ammo / 20f);
+                Vector2 childVel = _initialAngle * (1 + _initialShotSpeed) * (1f + _ammo / 40f);
+
+                var yellowChipCount = Owner.GetModPlayer<ColorChipPlayer>().ColorChipAmounts[(int)ChipColor.Yellow];
+                if (yellowChipCount > 0)
+                {
+                    childVel *= 1f - (0.1f * yellowChipCount / 2);
+                }
 
                 if (IsThisClientTheProjectileOwner())
                 {
@@ -117,7 +129,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
                     var proj = CreateChildProjectile<SlosherChildProjectile>(
                         position: Projectile.Center,
-                        velocity: new Vector2(childVelX, childVelY),
+                        velocity: childVel,
                         damage: Projectile.damage,
                         triggerSpawnMethods: false);
 
@@ -144,7 +156,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
                 if (_ammo == 0)
                 {
-                    _repetitionCooldown = (int)(_ammoStart * 1.5f);
+                    _repetitionCooldown = (int)(_initialUseTime / Math.Max(1f, _repetitionsStart + 0.5f)) - _ammoStart;
                 }
             }
 
@@ -160,16 +172,14 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
                         if (Main.rand.NextBool(2))
                         {
-                            PlayAudio(shootSample, volume: 0.08f, pitch: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
+                            PlayAudio(shootSample, volume: 0.08f, pitch: 0.6f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
                         }
                         else
                         {
-                            PlayAudio(shootAltSample, volume: 0.08f, pitch: 0.3f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
+                            PlayAudio(shootAltSample, volume: 0.08f, pitch: 0.6f, pitchVariance: 0.3f, maxInstances: 5, position: Owner.Center);
                         }
 
-                        PlayAudio(SoundID.Item1, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
-                        PlayAudio(SoundID.Item7, volume: 0.8f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
-                        PlayAudio(SoundID.Item20, volume: 0.1f, pitch: 0.4f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
+                        PlayAudio(SoundID.Item7, volume: 0.7f, pitchVariance: 0.2f, maxInstances: 5, position: Owner.Center);
                     }
                     else
                     {

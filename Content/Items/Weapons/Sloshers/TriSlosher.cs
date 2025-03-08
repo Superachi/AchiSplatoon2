@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
     {
         public override int ShotCount => 8;
         public override float AimDeviation => 6f;
-        public override float ShotGravity { get => 0.12f; }
+        public override float ShotGravity { get => 0.15f; }
 
         public override void SetDefaults()
         {
