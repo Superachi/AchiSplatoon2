@@ -81,7 +81,6 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             _timestamp = DateTime.Now.ToString("dd-mm-ss-fff");
 
             _initialUseTime = Owner.itemTime;
-            DebugHelper.PrintDebug(_initialUseTime);
             _initialShotSpeed = Projectile.velocity.Length() / 2;
             _initialAngle = Vector2.Normalize(Projectile.velocity);
             Projectile.velocity = Vector2.Zero;
