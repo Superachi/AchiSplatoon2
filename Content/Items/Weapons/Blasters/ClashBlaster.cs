@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
     internal class ClashBlaster : Blaster
     {
-        public override float InkCost { get => 4f; }
+        public override float InkCost { get => 3.5f; }
 
         // Explosion radius and delay
         public override int ExplosionRadiusAir { get => 280; }
@@ -23,10 +23,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<BlasterProjectile>(),
-                singleShotTime: 20,
-                shotVelocity: 5f);
+                singleShotTime: 22,
+                shotVelocity: 5.5f);
 
-            Item.damage = 20;
+            Item.damage = 24;
             Item.width = 44;
             Item.height = 36;
             Item.knockBack = 8;
