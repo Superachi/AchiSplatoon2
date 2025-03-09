@@ -667,7 +667,7 @@ internal class BaseProjectile : ModProjectile
         if (specialPlayer.SpecialActivated) return;
         if (!specialPlayer.PlayerCarriesSpecialWeapon) return;
 
-        if (target.life <= 0 && !target.boss)
+        if (target.life <= 0 && !target.boss && !NpcHelper.IsTargetAWormSegment(target))
         {
             var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
 
