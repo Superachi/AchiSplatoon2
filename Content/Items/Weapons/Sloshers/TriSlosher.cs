@@ -7,8 +7,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class TriSlosher : Slosher
     {
+        public override float InkCost { get => 6f; }
         public override int ShotCount => 8;
-        public override float AimDeviation => 6f;
+        public override float AimDeviation => 5f;
         public override float ShotGravity { get => 0.15f; }
 
         public override void SetDefaults()
