@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;
@@ -118,7 +119,7 @@ namespace AchiSplatoon2.Content.Players
             SpecialReady = true;
             Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
             _hudPlayer!.SetOverheadText("Special charged!", 90, color: new Color(255, 155, 0));
-            SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), 0.6f, maxInstances: 1, position: Player.Center);
+            ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<SpecialSparkleVisual>(), true);
         }
 
         public void UnreadySpecial()
@@ -213,11 +214,11 @@ namespace AchiSplatoon2.Content.Players
         {
             if (Main.rand.NextBool(4))
             {
-                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width), -10),
-                    dustType: ModContent.DustType<SplatterBulletDust>(),
-                    velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-4, -1)),
+                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width)),
+                    dustType: DustID.PortalBolt,
+                    velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-10, -4)),
                     color: _colorChipPlayer!.GetColorFromChips(),
-                    scale: 1.5f,
+                    scale: Main.rand.NextFloat(1.2f, 1.6f),
                     data: new(emitLight: false));
             }
 

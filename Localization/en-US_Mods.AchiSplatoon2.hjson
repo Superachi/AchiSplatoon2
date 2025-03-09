@@ -2055,6 +2055,7 @@ Projectiles: {
 	SplatanaMeleeEnergyProjectile.DisplayName: Splatana Melee Energy Projectile
 	PointSensorProjectile.DisplayName: Point Sensor Projectile
 	EmpressInkTankProjectile.DisplayName: Empress Ink Tank Projectile
+	SpecialSparkleVisual.DisplayName: Special Sparkle Visual
 }
 
 Buffs: {
