@@ -11,7 +11,8 @@ internal static class PlayerHelper
 {
     public static bool IsPlayerGrounded(Player player)
     {
-        bool isOnBlock = Collision.SolidCollision(player.Bottom, 8, 8) || IsPlayerOntopOfPlatform(player);
+        var width = 32;
+        bool isOnBlock = Collision.SolidCollision(player.Bottom + new Vector2(-width / 2, 0), width, 8) || IsPlayerOntopOfPlatform(player);
         return player.position.Y == player.oldPosition.Y && isOnBlock && player.velocity.Y == 0;
     }
 
