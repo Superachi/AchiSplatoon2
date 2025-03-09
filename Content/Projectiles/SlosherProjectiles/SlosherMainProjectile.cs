@@ -102,6 +102,10 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         public override void AI()
         {
             Projectile.Center = Owner.Center + new Vector2(10 * Owner.direction, 0);
+            if (!Collision.CanHitLine(Projectile.Center, 0, 0, Owner.Center, 0, 0))
+            {
+                Projectile.Center = Owner.Center;
+            }
 
             if (_repetitionCooldown > 0)
             {

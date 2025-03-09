@@ -30,8 +30,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         public override void SetDefaults()
         {
             Projectile.extraUpdates = 2;
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = 2;
+            Projectile.height = 2;
             Projectile.friendly = false;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = true;
@@ -71,7 +71,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
 
             var checkSize = 4;
-            if (timeSpentAlive < 10
+            if (timeSpentAlive < 4
                 && IsThisClientTheProjectileOwner()
                 && !Collision.CanHitLine(Projectile.Center, checkSize, checkSize, Owner.Center, checkSize, checkSize)
                 && !Collision.CanHitLine(Projectile.Top, checkSize, checkSize, Owner.Top, checkSize, checkSize)
