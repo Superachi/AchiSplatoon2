@@ -1848,77 +1848,77 @@ Items: {
 	ShimmerOrderBlaster: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBlaster.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBlaster.Flavor
-		DisplayName: Shimmer Blaster
+		DisplayName: Purified Blaster
 		Tooltip: ""
 	}
 
 	ShimmerOrderStringer: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderStringer.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderStringer.Flavor
-		DisplayName: Shimmer Stringer
+		DisplayName: Purified Stringer
 		Tooltip: ""
 	}
 
 	ShimmerOrderBrella: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBrella.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBrella.Flavor
-		DisplayName: Shimmer Brella
+		DisplayName: Purified Brella
 		Tooltip: ""
 	}
 
 	ShimmerOrderBrush: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBrush.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBrush.Flavor
-		DisplayName: Shimmer Brush
+		DisplayName: Purified Brush
 		Tooltip: ""
 	}
 
 	ShimmerOrderCharger: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderCharger.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderCharger.Flavor
-		DisplayName: Shimmer Charger
+		DisplayName: Purified Charger
 		Tooltip: ""
 	}
 
 	ShimmerOrderDualie: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderDualie.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderDualie.Flavor
-		DisplayName: Shimmer Dualies
+		DisplayName: Purified Dualies
 		Tooltip: ""
 	}
 
 	ShimmerOrderRoller: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderRoller.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderRoller.Flavor
-		DisplayName: Shimmer Roller
+		DisplayName: Purified Roller
 		Tooltip: ""
 	}
 
 	ShimmerOrderShot: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderShot.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderShot.Flavor
-		DisplayName: Shimmer Shot
+		DisplayName: Purified Splattershot
 		Tooltip: ""
 	}
 
 	ShimmerOrderSlosher: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSlosher.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSlosher.Flavor
-		DisplayName: Shimmer Slosher
+		DisplayName: Purified Slosher
 		Tooltip: ""
 	}
 
 	ShimmerOrderSplatana: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSplatana.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSplatana.Flavor
-		DisplayName: Shimmer Splatana
+		DisplayName: Purified Splatana
 		Tooltip: ""
 	}
 
 	ShimmerOrderSplatling: {
 		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSplatling.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSplatling.Flavor
-		DisplayName: Shimmer Splatling
+		DisplayName: Purified Splatling
 		Tooltip: ""
 	}
 }

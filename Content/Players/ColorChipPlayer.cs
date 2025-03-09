@@ -1,9 +1,11 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
+using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -186,7 +188,7 @@ namespace AchiSplatoon2.Content.Players
                 return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
             }
 
-            if (Player.HeldItem.Name.Contains("Shimmer"))
+            if (Player.HeldItem.ModItem != null && Player.HeldItem.ModItem.GetType().GetCustomAttribute<ShimmerOrderWeaponAttribute>() != null)
             {
                 return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.7f);
             }

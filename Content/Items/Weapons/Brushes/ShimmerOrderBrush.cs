@@ -1,8 +1,10 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Attributes;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [ShimmerOrderWeapon]
     internal class ShimmerOrderBrush : OrderBrush
     {
         public override float InkCost { get => 0f; }
@@ -13,5 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.value = Item.buyPrice(gold: 1);
             Item.rare = ItemRarityID.Orange;
         }
+
+        public override void AddRecipes() { }
     }
 }

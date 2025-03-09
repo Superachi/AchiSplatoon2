@@ -60,7 +60,7 @@ namespace AchiSplatoon2.Helpers
             // Order weapons
             { ModContent.ItemType<ShimmerOrderShot>(),      ModContent.ItemType<OrderShot>() },
             { ModContent.ItemType<ShimmerOrderBlaster>(),   ModContent.ItemType<OrderBlaster>() },
-            { ModContent.ItemType<ShimmerOrderStringer>(),  ModContent.ItemType<ShimmerOrderStringer>() },
+            { ModContent.ItemType<ShimmerOrderStringer>(),  ModContent.ItemType<OrderStringer>() },
             { ModContent.ItemType<ShimmerOrderBrella>(),    ModContent.ItemType<OrderBrella>() },
             { ModContent.ItemType<ShimmerOrderBrush>(),     ModContent.ItemType<OrderBrush>() },
             { ModContent.ItemType<ShimmerOrderCharger>(),   ModContent.ItemType<OrderCharger>() },

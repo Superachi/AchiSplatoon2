@@ -219,5 +219,13 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string PearlShout1 => FormatPath("Shout1", _directoryPearl);
         public static string PearlShout2 => FormatPath("Shout2", _directoryPearl);
         public static string PearlShout3 => FormatPath("Shout3", _directoryPearl);
+
+        // Order weapons
+        private static readonly string _directoryOrder = "OrderWeapons";
+        public static string OrderChargerShoot => FormatPath(nameof(OrderChargerShoot), _directoryOrder);
+        public static string OrderChargerShootWeak => FormatPath(nameof(OrderChargerShootWeak), _directoryOrder);
+        public static string OrderShotShoot => FormatPath(nameof(OrderShotShoot), _directoryOrder);
+        public static string OrderStringerShoot => FormatPath(nameof(OrderStringerShoot), _directoryOrder);
+        public static string OrderStringerShootWeak => FormatPath(nameof(OrderStringerShootWeak), _directoryOrder);
     }
 }

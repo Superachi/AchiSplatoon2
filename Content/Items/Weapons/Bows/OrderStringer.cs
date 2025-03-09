@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
@@ -8,6 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     [OrderWeapon]
     internal class OrderStringer : TriStringer
     {
+        public override SoundStyle ShootSample { get => SoundPaths.OrderStringerShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.OrderStringerShootWeak.ToSoundStyle(); }
+
         public override float ShotgunArc { get => 6f; }
         public override int ProjectileCount { get => 3; }
         public override bool AllowStickyProjectiles { get => false; }

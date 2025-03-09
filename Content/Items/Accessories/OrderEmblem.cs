@@ -1,13 +1,12 @@
 ﻿using AchiSplatoon2.Content.Players;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Accessories
 {
     internal class OrderEmblem : BaseAccessory
     {
-        public static float OrderWeaponDamageBonus => 0.6f;
+        public static float OrderWeaponDamageBonus => 0.5f;
 
         protected override string UsageHintParamA => $"{(int)(OrderWeaponDamageBonus * 100)}";
 
