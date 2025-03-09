@@ -2183,8 +2183,8 @@ Prefixes: {
 	RepetitionTooltip: Sloshes {0} extra time(s)
 	BaseSlosherPrefix.DisplayName: Base Slosher Prefix
 	AmmoTooltip: Each slosh fires {0} extra projectiles
-	EchoPrefix.DisplayName: Echoing
 	FilteredPrefix.DisplayName: Filtered
+	ResonantPrefix.DisplayName: Resonant
 }
 
 Configs: {

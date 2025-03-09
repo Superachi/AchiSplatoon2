@@ -131,7 +131,7 @@ internal class PrefixHelper : ModSystem
     {
         var prefixes = ListGenericPrefixes();
 
-        prefixes.Add(ModContent.PrefixType<EchoPrefix>());
+        prefixes.Add(ModContent.PrefixType<ResonantPrefix>());
         prefixes.Add(ModContent.PrefixType<FilteredPrefix>());
 
         return prefixes;
@@ -238,7 +238,7 @@ internal class PrefixHelper : ModSystem
             { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
 
             // Sloshers
-            { typeof(EchoPrefix), ModContent.PrefixType<EchoPrefix>() },
+            { typeof(ResonantPrefix), ModContent.PrefixType<ResonantPrefix>() },
             { typeof(FilteredPrefix), ModContent.PrefixType<FilteredPrefix>() },
 
             // Splatlings
