@@ -84,6 +84,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
+            {
+                if (Projectile.velocity.Y < 0)
+                {
+                    ProjectileBounce(oldVelocity, new Vector2(0.8f, 0.2f));
+                    return false;
+                }
+            }
+
             ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
