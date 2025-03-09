@@ -98,7 +98,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            ProjectileDustHelper.ShooterTileCollideVisual(this, false);
+            ProjectileDustHelper.ShooterTileCollideVisual(this, true, 0.4f);
             return true;
         }
 
