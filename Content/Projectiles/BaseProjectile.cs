@@ -490,12 +490,6 @@ internal class BaseProjectile : ModProjectile
             if (!colorChipPlayer.IsPaletteValid()) return;
             if (NpcHelper.IsTargetAProjectile(target)) return;
 
-            var splatInkRecoveryBonus = colorChipPlayer.CalculateSplatInkRecoveryBonus();
-            if (splatInkRecoveryBonus > 0)
-            {
-                owner.GetModPlayer<InkTankPlayer>().HealInk(splatInkRecoveryBonus);
-            }
-
             var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
             var luckyBombMinDamage = Main.expertMode ? 20 : 50;
             var luckyBombDamage = Math.Max(luckyBombMinDamage, luckyBombStartDamage);

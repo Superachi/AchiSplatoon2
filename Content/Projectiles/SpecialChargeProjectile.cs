@@ -105,6 +105,12 @@ namespace AchiSplatoon2.Content.Projectiles
 
             _specialPlayer.IncrementSpecialCharge(chargeValue);
 
+            var splatInkRecoveryBonus = Owner.GetModPlayer<ColorChipPlayer>().CalculateSplatInkRecoveryBonus();
+            if (splatInkRecoveryBonus > 0)
+            {
+                Owner.GetModPlayer<InkTankPlayer>().HealInk(splatInkRecoveryBonus);
+            }
+
             PlayAudio(SoundPaths.SpecialChargeGain.ToSoundStyle(), volume: 0.05f, pitch: -1 + _specialPlayer.SpecialPercentage, maxInstances: 5);
 
             var position = Owner.Center;
