@@ -118,7 +118,6 @@ namespace AchiSplatoon2.Content.Players
         {
             SpecialReady = true;
             Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
-            _hudPlayer!.SetOverheadText("Special charged!", 90, color: new Color(255, 155, 0));
             ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<SpecialSparkleVisual>(), true);
         }
 
