@@ -18,11 +18,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SlosherMainProjectile>(),
                 singleShotTime: 24,
-                shotVelocity: 6.5f
+                shotVelocity: 6f
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 21;
+            Item.damage = 26;
             Item.crit = 5;
             Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 5);

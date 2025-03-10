@@ -129,10 +129,10 @@ internal class PrefixHelper : ModSystem
 
     public static List<int> ListSlosherPrefixes()
     {
-        var prefixes = ListGenericPrefixes();
+        var prefixes = ListShooterPrefixes();
 
         prefixes.Add(ModContent.PrefixType<ResonantPrefix>());
-        prefixes.Add(ModContent.PrefixType<FilteredPrefix>());
+        prefixes.Add(ModContent.PrefixType<OversizedPrefix>());
 
         return prefixes;
     }
@@ -239,7 +239,7 @@ internal class PrefixHelper : ModSystem
 
             // Sloshers
             { typeof(ResonantPrefix), ModContent.PrefixType<ResonantPrefix>() },
-            { typeof(FilteredPrefix), ModContent.PrefixType<FilteredPrefix>() },
+            { typeof(OversizedPrefix), ModContent.PrefixType<OversizedPrefix>() },
 
             // Splatlings
             { typeof(LoadedPrefix), ModContent.PrefixType<LoadedPrefix>() },

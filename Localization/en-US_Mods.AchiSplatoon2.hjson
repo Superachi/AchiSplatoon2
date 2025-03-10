@@ -44,6 +44,7 @@ Hint: {
 		Slosher: Slings globs of ink that covers a wide area
 		Bloblobber: Slings a stream of bubbles that bounce against walls
 		Explosher: Slings a piercing projectile that explodes when hitting a wall
+		DreadWringer: Sloshes an additional time
 	}
 
 	Brushes: {
@@ -1921,6 +1922,13 @@ Items: {
 		DisplayName: Purified Splatling
 		Tooltip: ""
 	}
+
+	DreadWringer: {
+		UsageHint: "{$Hint.Sloshers.DreadWringer}"
+		Flavor: Curse of Slider...
+		DisplayName: Dread Wringer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2183,8 +2191,8 @@ Prefixes: {
 	GambitPrefix.DisplayName: Gambit's
 	RepetitionTooltip: Sloshes {0} extra time(s)
 	BaseSlosherPrefix.DisplayName: Base Slosher Prefix
-	AmmoTooltip: Each slosh fires {0} extra projectiles
-	FilteredPrefix.DisplayName: Filtered
+	AmmoTooltip: Each slosh fires {0} projectiles
+	OversizedPrefix.DisplayName: Oversized
 	ResonantPrefix.DisplayName: Resonant
 }
 

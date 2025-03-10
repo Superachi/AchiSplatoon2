@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 88;
+            Item.damage = 72;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
