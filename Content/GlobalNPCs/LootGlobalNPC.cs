@@ -14,9 +14,12 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.StaticData;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -139,17 +142,25 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            if (npc.type == NPCID.Mimic)
+            foreach (var loot in LootTables.List)
             {
-                npcLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), chanceDenominator: 2, minimumDropped: 1));
-
-                npcLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<MainSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
-
-                npcLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SubSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
+                if (npc.type == loot.NpcId)
+                {
+                    loot.RegisterDirectDrop(npcLoot);
+                }
             }
+
+            //if (npc.type == NPCID.Mimic)
+            //{
+            //    npcLoot.Add(
+            //        ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), chanceDenominator: 2, minimumDropped: 1));
+
+            //    npcLoot.Add(
+            //        ItemDropRule.Common(ModContent.ItemType<MainSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
+
+            //    npcLoot.Add(
+            //        ItemDropRule.Common(ModContent.ItemType<SubSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
+            //}
 
             // Super palette crafting materials
             if (npc.type == NPCID.MartianSaucerCore)

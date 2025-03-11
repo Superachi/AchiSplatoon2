@@ -8,6 +8,8 @@ using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.StaticData;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -19,20 +21,28 @@ namespace AchiSplatoon2.Content.GlobalItems
     {
         public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
+            foreach (var loot in LootTables.List)
+            {
+                if (item.type == loot.TreasureBagId)
+                {
+                    loot.RegisterBagDrop(itemLoot);
+                }
+            }
+
             // License drops
             switch (item.type)
             {
-                case ItemID.KingSlimeBossBag:
-                case ItemID.EyeOfCthulhuBossBag:
-                case ItemID.EaterOfWorldsBossBag:
-                case ItemID.BrainOfCthulhuBossBag:
-                case ItemID.DeerclopsBossBag:
-                case ItemID.QueenBeeBossBag:
-                case ItemID.SkeletronBossBag:
-                    itemLoot.Add(
-                        ItemDropRule.Common(ModContent.ItemType<SheldonLicense>(), minimumDropped: 3, maximumDropped: 3)
-                    );
-                    break;
+                //case ItemID.KingSlimeBossBag:
+                //case ItemID.EyeOfCthulhuBossBag:
+                //case ItemID.EaterOfWorldsBossBag:
+                //case ItemID.BrainOfCthulhuBossBag:
+                //case ItemID.DeerclopsBossBag:
+                //case ItemID.QueenBeeBossBag:
+                //case ItemID.SkeletronBossBag:
+                //    itemLoot.Add(
+                //        ItemDropRule.Common(ModContent.ItemType<SheldonLicense>(), minimumDropped: 3, maximumDropped: 3)
+                //    );
+                //    break;
 
                 case ItemID.WallOfFleshBossBag:
                     itemLoot.Add(
