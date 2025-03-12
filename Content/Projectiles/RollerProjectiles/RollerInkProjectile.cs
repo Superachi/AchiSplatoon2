@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private float drawRotation;
         private bool visible;
         private float damageFalloffMod = 1f;
-        private int _damageReductionDelay;
+        private readonly int _damageReductionDelay;
         public string RollerSwingId;
 
         protected float Timer

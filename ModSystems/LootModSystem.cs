@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.StaticData;
-using System.Diagnostics;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.ModSystems

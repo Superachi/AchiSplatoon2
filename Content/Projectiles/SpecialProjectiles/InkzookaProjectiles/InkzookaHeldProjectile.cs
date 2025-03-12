@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
-using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
-using AchiSplatoon2.Content.EnumsAndConstants;
 using Terraria.ID;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles
 {

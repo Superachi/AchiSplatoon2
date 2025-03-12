@@ -1,12 +1,12 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
 using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.CustomPlayerLayers
 {

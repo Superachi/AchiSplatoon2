@@ -1,5 +1,4 @@
-﻿using AchiSplatoon2.Helpers;
-using System;
+﻿using System;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles

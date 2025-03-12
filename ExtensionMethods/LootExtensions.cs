@@ -24,7 +24,7 @@ namespace AchiSplatoon2.ExtensionMethods
         {
             // If no boss bag is associated, just drop directly from the NPC
             // Otherwise, only drop directly from the NPC if it's not expert mode
-            if (index.TreasureBagId == -1 )
+            if (index.TreasureBagId == -1)
             {
                 var dropRule = ItemDropRule.Common(
                     index.ModItemId,

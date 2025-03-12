@@ -1,9 +1,9 @@
-﻿using Terraria;
-using Microsoft.Xna.Framework;
-using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Helpers;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles
 {
@@ -21,12 +21,13 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProje
             Color lightCol, darkCol;
             if (!_isUpgraded)
             {
-            var hueOffset = Main.rand.Next(-15, 15);
+                var hueOffset = Main.rand.Next(-15, 15);
                 lightCol = ColorHelper.IncreaseHueBy(hueOffset, Color.LightSeaGreen);
                 darkCol = ColorHelper.IncreaseHueBy(hueOffset, Color.DodgerBlue);
-            } else
+            }
+            else
             {
-            var hueOffset = Main.rand.Next(-5, 5);
+                var hueOffset = Main.rand.Next(-5, 5);
                 lightCol = ColorHelper.IncreaseHueBy(hueOffset, new Color(255, 100, 255));
                 darkCol = ColorHelper.IncreaseHueBy(hueOffset, new Color(130, 80, 255));
             }

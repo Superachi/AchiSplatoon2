@@ -1,11 +1,11 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {

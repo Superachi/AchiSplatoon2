@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using AchiSplatoon2.Helpers;
+using Terraria;
 
 namespace AchiSplatoon2.Content.Gores
 {
@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Gores
             gore.position += gore.velocity;
             gore.alpha += 4;
             gore.rotation = (float)Math.Sin(syncTime / 56f);
-            
+
             if (gore.scale < 1)
             {
                 gore.scale += 0.05f;

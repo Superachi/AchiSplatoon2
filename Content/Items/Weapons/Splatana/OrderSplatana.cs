@@ -1,8 +1,8 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria;
-using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {

@@ -1,9 +1,9 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {

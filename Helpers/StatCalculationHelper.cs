@@ -61,7 +61,7 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.Sprinkler && weaponInstance is Sprinkler)
                             || (heldItem.BonusSub == SubWeaponType.InkMine && weaponInstance is InkMine)
                             || (heldItem.BonusSub == SubWeaponType.Torpedo && weaponInstance is Torpedo))
-                            // Skip point sensor here, as it deals no damage
+                        // Skip point sensor here, as it deals no damage
                         {
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }

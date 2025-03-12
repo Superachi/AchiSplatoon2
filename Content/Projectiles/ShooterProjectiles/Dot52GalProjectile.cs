@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
 

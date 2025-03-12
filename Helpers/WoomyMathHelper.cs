@@ -10,7 +10,6 @@ using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
-using AchiSplatoon2.Helpers.WeaponKits;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;

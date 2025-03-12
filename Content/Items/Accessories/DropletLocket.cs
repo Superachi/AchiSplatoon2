@@ -1,10 +1,10 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Helpers;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Accessories
 {

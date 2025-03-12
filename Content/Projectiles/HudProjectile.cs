@@ -153,7 +153,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)verticalSize),
                 ColorHelper.LerpBetweenColorsPerfect(finalColor, Color.White, 0.2f) * _InkTankAlpha);
 
-            if (!ModContent.GetInstance <ClientConfig>().HideInkTankPercentage)
+            if (!ModContent.GetInstance<ClientConfig>().HideInkTankPercentage)
             {
                 Utils.DrawBorderString(
                     Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0")}%", position + new Vector2(0, 40),

@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Debug
 {

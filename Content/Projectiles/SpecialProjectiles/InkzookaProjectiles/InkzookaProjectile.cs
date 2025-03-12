@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Dusts;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -217,7 +216,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectil
         {
             if (timeSpentAlive > 5)
             {
-                for (int i = 0; i < 6; i ++)
+                for (int i = 0; i < 6; i++)
                 {
                     var frequency = 25f;
                     var amplitude = 15;

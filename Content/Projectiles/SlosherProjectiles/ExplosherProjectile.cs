@@ -105,8 +105,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, (int)(originalDamage * 0.5f), false);
-                p.SetProperties(200, new(SoundPaths.Silence));
-                p.RunSpawnMethods();
+            p.SetProperties(200, new(SoundPaths.Silence));
+            p.RunSpawnMethods();
 
             if (Projectile.Center.Distance(Owner.Center) < 200)
             {

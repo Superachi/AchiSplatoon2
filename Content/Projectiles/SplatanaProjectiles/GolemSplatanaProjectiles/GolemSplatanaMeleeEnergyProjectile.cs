@@ -1,8 +1,8 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Helpers;
-using Terraria.ID;
-using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.GolemSplatanaProjectiles
 {

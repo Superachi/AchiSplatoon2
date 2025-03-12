@@ -112,7 +112,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     velocity: Vector2.Zero,
                     color: CurrentColor,
                     scale: 1f,
-                    data: new (scaleIncrement: -0.2f));
+                    data: new(scaleIncrement: -0.2f));
 
                 if (Main.rand.NextBool(40))
                 {

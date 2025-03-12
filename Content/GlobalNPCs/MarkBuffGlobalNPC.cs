@@ -37,7 +37,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         public override void AI(NPC npc)
         {
             var chipColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
-            
+
             if (IsMarked(npc))
             {
                 if (_alphaMod < 1f) _alphaMod += 0.25f;

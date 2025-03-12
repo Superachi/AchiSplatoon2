@@ -196,7 +196,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             else if (IsSpecialWeapon)
             {
                 tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
-                
+
                 if (RechargeCostPenalty > 0)
                 {
                     var tip = $"When used, your next special requires " + ColorHelper.TextWithSpecialWeaponColor($"{(int)RechargeCostPenalty} points ") + "to charge";
@@ -263,7 +263,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     break;
                 case SubWeaponType.PointSensor:
                     subname = "Point Sensor";
-                break;
+                    break;
             }
             return subname;
         }

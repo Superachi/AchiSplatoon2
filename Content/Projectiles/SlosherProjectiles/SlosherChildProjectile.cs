@@ -23,7 +23,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         private Color bulletColor;
         private float drawScale = 0f;
-        private float drawRotation = 0f;
+        private readonly float drawRotation = 0f;
         public List<int> targetsToIgnore = new List<int>();
         public string parentTimestamp = "";
 

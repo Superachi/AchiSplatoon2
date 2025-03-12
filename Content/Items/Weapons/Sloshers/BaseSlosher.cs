@@ -1,9 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
-using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

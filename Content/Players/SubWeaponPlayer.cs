@@ -1,11 +1,11 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using AchiSplatoon2.Content.Items.Accessories;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
 {

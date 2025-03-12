@@ -115,8 +115,8 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                 if (meleeEnergyProjectile != -1)
                 {
                     var proj = CreateChildProjectile(owner.Center, Vector2.Zero, meleeEnergyProjectile, MultiplyProjectileDamage(maxChargeMeleeDamageMod), triggerSpawnMethods: false);
-                        proj.UpdateCurrentColor(color);
-                        proj.RunSpawnMethods();
+                    proj.UpdateCurrentColor(color);
+                    proj.RunSpawnMethods();
                 }
 
                 if (strongSlashProjectile != -1)

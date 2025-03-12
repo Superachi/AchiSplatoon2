@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AchiSplatoon2.Content.Players;
+using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria;
-using AchiSplatoon2.Content.Players;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {

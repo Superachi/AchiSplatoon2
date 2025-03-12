@@ -1,6 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
@@ -19,7 +18,6 @@ using AchiSplatoon2.Helpers;
 using AchiSplatoon2.StaticData;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

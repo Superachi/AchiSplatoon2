@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria;
 
 namespace AchiSplatoon2.Content.Prefixes.SlosherPrefixes
 {

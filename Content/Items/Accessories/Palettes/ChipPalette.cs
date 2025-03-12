@@ -149,7 +149,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (purple > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Purple)}Support ({purple}) >]"
-                            +"\n" + ColorHelper.TextWithFlavorColor("Ink recovery on special charge gain: ")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Ink recovery on special charge gain: ")
                             + ColorHelper.TextWithBonusColor($"+{(int)(purple * modPlayer.PurpleSplatInkRecoveryBonus)}%")
                             + "\n" + ColorHelper.TextWithFlavorColor("Weapon charge speed: ")
                             + ColorHelper.TextWithBonusColor($"+{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%");
@@ -157,13 +157,13 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (green > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Green)}Lucky ({green}) >]"
-                            +"\n" + ColorHelper.TextWithFlavorColor("Lucky bomb drop chance: ")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Lucky bomb drop chance: ")
                             + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%");
                     }
                     if (aqua > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Aqua)}Drone ({aqua}) >]"
-                            +"\n" + ColorHelper.TextWithFlavorColor("Pearl Drone attack speed: ")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Pearl Drone attack speed: ")
                             + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%");
                     }
                 }

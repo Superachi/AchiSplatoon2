@@ -188,7 +188,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles
 
             if (!_jingleDisabledViaConfig && timeSpentInState % 23 == 0)
             {
-                var g = Gore.NewGoreDirect(Terraria.Entity.GetSource_None(), Owner.Center + new Vector2(0, - 20), Vector2.Zero, ModContent.GoreType<MusicNoteGore>(), 1);
+                var g = Gore.NewGoreDirect(Terraria.Entity.GetSource_None(), Owner.Center + new Vector2(0, -20), Vector2.Zero, ModContent.GoreType<MusicNoteGore>(), 1);
                 g.velocity = new Vector2(-Owner.direction * Main.rand.NextFloat(0.4f, 0.6f), Main.rand.NextFloat(-1f, -1.5f));
                 g.scale = 0;
             }

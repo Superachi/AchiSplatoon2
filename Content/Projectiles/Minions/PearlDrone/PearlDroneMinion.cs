@@ -378,7 +378,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
                 var damageMod = Owner.HasBuff<BombRushBuff>() ? 0.5f : 1f;
-                
+
                 PearlDroneBurstBomb burstShot = CreateChildProjectile<PearlDroneBurstBomb>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 
@@ -19,7 +17,7 @@ internal static class PlayerHelper
     public static bool IsPlayerGrappled(Player player)
     {
         bool isHooked = false;
-        foreach(var proj in Main.ActiveProjectiles)
+        foreach (var proj in Main.ActiveProjectiles)
         {
             if (proj.owner == player.whoAmI && proj.aiStyle == ProjAIStyleID.Hook)
             {

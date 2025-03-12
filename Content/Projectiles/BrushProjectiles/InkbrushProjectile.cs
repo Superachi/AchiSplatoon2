@@ -1,10 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles

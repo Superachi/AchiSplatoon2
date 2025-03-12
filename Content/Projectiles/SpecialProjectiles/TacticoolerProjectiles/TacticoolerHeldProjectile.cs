@@ -1,12 +1,12 @@
-﻿using AchiSplatoon2.Content.Players;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using Terraria;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.Content.EnumsAndConstants;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles
 {
@@ -117,7 +117,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjec
 
                 case _stateThrow:
                     if (IsThisClientTheProjectileOwner())
-                    { 
+                    {
                         CreateChildProjectile<TacticoolerStand>(Owner.Center.Round() + new Vector2(0, Owner.gfxOffY - 14), Owner.DirectionTo(Main.MouseWorld) * 15, 0, true);
                     }
                     break;

@@ -1,7 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -15,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
     internal class SlosherMainProjectile : BaseProjectile
     {
-        private int weaponDamage;
+        private readonly int weaponDamage;
         private bool hasChildren = false;
 
         public Dictionary<string, List<int>> targetsToIgnore = new Dictionary<string, List<int>>();
@@ -136,7 +134,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                         damage: Projectile.damage,
                         triggerSpawnMethods: false);
 
-                    proj._delayUntilFall = (_ammo + 1 ) * 2;
+                    proj._delayUntilFall = (_ammo + 1) * 2;
                     proj.maxScale = 0.5f + (_ammo / 8f);
 
                     var sweepingArc = 5;
