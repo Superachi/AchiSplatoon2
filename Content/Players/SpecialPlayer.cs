@@ -211,9 +211,10 @@ namespace AchiSplatoon2.Content.Players
 
         private void SpecialDustStream()
         {
+            Vector2 squidOffset = Player.GetModPlayer<SquidPlayer>().IsSquid() ? new Vector2(0, 20) : Vector2.Zero;
             if (Main.rand.NextBool(4))
             {
-                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width)),
+                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width)) + squidOffset,
                     dustType: DustID.PortalBolt,
                     velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-10, -4)),
                     color: _colorChipPlayer!.GetColorFromChips(),
@@ -224,7 +225,7 @@ namespace AchiSplatoon2.Content.Players
             if (Main.rand.NextBool(20))
             {
                 var d = DustHelper.NewDust(
-                    position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4),
+                    position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4) + squidOffset,
                     dustType: ModContent.DustType<SplatterBulletDust>(),
                     velocity: Vector2.Zero,
                     color: _colorChipPlayer!.GetColorFromChips(),
@@ -237,7 +238,7 @@ namespace AchiSplatoon2.Content.Players
             if (Main.rand.NextBool(20))
             {
                 DustHelper.NewDust(
-                    position: Player.TopLeft + new Vector2(Main.rand.Next(Player.width), Main.rand.Next(Player.height)),
+                    position: Player.TopLeft + new Vector2(Main.rand.Next(Player.width), Main.rand.Next(Player.height)) + squidOffset,
                     dustType: DustID.YellowStarDust,
                     velocity: new Vector2(0, Main.rand.NextFloat(-1, -2)),
                     color: Color.White,

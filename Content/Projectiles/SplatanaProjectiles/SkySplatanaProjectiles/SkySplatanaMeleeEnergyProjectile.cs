@@ -56,9 +56,19 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProje
             {
                 DustHelper.NewDust(
                     position + Main.rand.NextVector2Circular(40, 40),
-                    DustID.SnowSpray,
-                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -swingDirection,
+                    !_isUpgraded ? DustID.HallowSpray : DustID.CrystalPulse,
+                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 70) * Main.rand.NextFloat(1, 6) * -swingDirection,
                     Color.White,
+                    Main.rand.NextFloat(0.25f, 1f));
+            }
+
+            if (timeSpentAlive % FrameSpeedMultiply(1) == 0 && Main.rand.NextBool(20))
+            {
+                DustHelper.NewDust(
+                    position + Main.rand.NextVector2Circular(40, 40),
+                    DustID.FireworksRGB,
+                    WoomyMathHelper.AddRotationToVector2(GetDirectionWithOffset(), 90) * Main.rand.NextFloat(1, 6) * -swingDirection,
+                    !_isUpgraded ? Color.Aqua : Color.Pink,
                     Main.rand.NextFloat(0.25f, 1f));
             }
         }
