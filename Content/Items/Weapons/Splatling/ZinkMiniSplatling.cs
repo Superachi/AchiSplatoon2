@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 26;
+            Item.damage = 22;
             Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 10);
             Item.rare = ItemRarityID.Pink;
