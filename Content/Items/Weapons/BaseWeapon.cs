@@ -16,6 +16,7 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
+using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
@@ -376,9 +377,27 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 case BaseSlosher:
                     possiblePrefixes = PrefixHelper.ListSlosherPrefixes();
 
-                    possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
-                    possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
-                    possiblePrefixes.Remove(ModContent.PrefixType<HeavyDutyPrefix>());
+
+                    if (this is Bloblobber)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<OversizedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<ResonantPrefix>());
+                    }
+                    else if (this is Explosher)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<OversizedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<ResonantPrefix>());
+
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                    }
+                    else
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+
+                        possiblePrefixes.Remove(ModContent.PrefixType<HeavyDutyPrefix>());
+                    }
                     break;
 
                 case BaseSplatana:
