@@ -11,8 +11,8 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private readonly float indirectHitDamageFalloff = 0.6f;
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 2;
+            Projectile.height = 2;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
             Projectile.friendly = true;
@@ -96,6 +96,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             {
                 Projectile.Kill();
             }
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            SetHitboxSize(20, out hitbox);
         }
     }
 }
