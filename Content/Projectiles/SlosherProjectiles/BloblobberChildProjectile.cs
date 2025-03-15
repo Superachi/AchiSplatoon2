@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.height = 1;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
-            Projectile.extraUpdates = 16;
+            Projectile.extraUpdates = 12;
             Projectile.timeLeft = 300 * FrameSpeed();
         }
 
