@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
@@ -100,7 +101,7 @@ namespace AchiSplatoon2.Content.Players
                 return;
             }
 
-            if (!Player.ItemTimeIsZero)
+            if (!Player.ItemTimeIsZero && Player.HeldItem.ModItem is BaseWeapon)
             {
                 return;
             }
