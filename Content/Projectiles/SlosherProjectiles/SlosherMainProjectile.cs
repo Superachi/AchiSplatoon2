@@ -69,6 +69,12 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             }
         }
 
+        private void SetInitialAngle()
+        {
+            _initialAngle = Owner.DirectionTo(Main.MouseWorld);
+            Owner.direction = _initialAngle.X > 0 ? 1 : -1;
+        }
+
         protected override void AfterSpawn()
         {
             Initialize();
@@ -80,7 +86,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             _initialUseTime = Owner.itemTime;
             _initialShotSpeed = Projectile.velocity.Length() / 2;
-            _initialAngle = Vector2.Normalize(Projectile.velocity);
+            SetInitialAngle();
             Projectile.velocity = Vector2.Zero;
 
             if (Main.rand.NextBool(2))
@@ -170,6 +176,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                         _repetitions--;
                         _ammo = _ammoStart;
                         _timestamp = DateTime.Now.ToString("dd-mm-ss-fff");
+                        SetInitialAngle();
 
                         if (Main.rand.NextBool(2))
                         {
