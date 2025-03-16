@@ -17,6 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override float ShotgunArc { get => 5f; }
         public override int ProjectileCount { get => 3; }
         public override bool AllowStickyProjectiles { get => false; }
+        public override float VelocityModifier => 0.6f;
         public override Vector2? HoldoutOffset() { return new Vector2(-4, 2); }
         public override bool SlowAerialCharge { get => false; }
 

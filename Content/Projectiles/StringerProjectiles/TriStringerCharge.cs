@@ -27,6 +27,8 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected int projectileType;
         protected float finalArc;
 
+        private float _weaponVelocityMod = 1f;
+
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
@@ -41,6 +43,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
             burstRequiredHits = weaponData.ProjectileCount;
+            _weaponVelocityMod = weaponData.VelocityModifier;
 
             projectileType = weaponData.ProjectileType;
         }
@@ -105,6 +108,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 finalArc *= mP.freshQuiverArcMod;
                 velocityModifier *= mP.freshQuiverVelocityMod;
             }
+            velocityModifier *= _weaponVelocityMod;
 
             float degreesPerProjectile = finalArc / projectileCount;
             int middleProjectile = projectileCount / 2;

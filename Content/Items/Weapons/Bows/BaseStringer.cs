@@ -19,6 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public virtual float ShotgunArc { get => 5f; }
         public virtual int ProjectileCount { get => 3; }
         public virtual bool AllowStickyProjectiles { get => true; }
+        public virtual float VelocityModifier => 1f;
 
         public virtual int ProjectileType => ModContent.ProjectileType<TriStringerProjectile>();
 
