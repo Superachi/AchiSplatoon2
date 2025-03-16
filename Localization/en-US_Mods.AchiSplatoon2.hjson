@@ -18,7 +18,7 @@ Hint: {
 	
 	Chargers: {
 		Generic: Hold left-click to charge up a piercing shot
-		Bamboo: Hold left-click to charge up a high velocity shot
+		Bamboo: Hold left-click to charge up a shot. If the target has less than {0}% life, uncharged shots deal more damage
 		Squiffer: Has no charge time penalty in the air
 		StarFisher: Fully charged shots cause a blast after a short delay
 		Snipewriter: Hold left-click to charge up multiple high velocity shots

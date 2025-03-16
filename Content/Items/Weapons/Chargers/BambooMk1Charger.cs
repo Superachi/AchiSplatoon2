@@ -1,8 +1,10 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
@@ -11,6 +13,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class BambooMk1Charger : BaseCharger
     {
+        /// <summary>
+        /// When the target has this percentage of life left, Bamboozler shots will deal bonus damage.
+        /// </summary>
+        public static float LowLifeTapShotThreshold => 0.3f;
+        protected override string UsageHintParamA => $"{(int)(LowLifeTapShotThreshold * 100)}";
+        public static float LowLifeTapShotDamageMult => 3f;
+        public static float LowLifeTapShotDamageBossMult => 2f;
+
         public override float InkCost { get => 1f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
@@ -23,6 +33,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override bool ScreenShake => false;
         public override int MaxPenetrate => 1;
         public override bool DirectHitEffect => false;
+        public override int ProjectileType { get => ModContent.ProjectileType<BambooChargerProjectile>(); }
+
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
