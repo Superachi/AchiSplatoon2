@@ -5,6 +5,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing;
 
 internal class Torpedo : BaseBomb
 {
+    public override float InkCost { get => 60f; }
     public override int ExplosionRadius { get => 150; }
     public int PelletCount { get => 10; }
     public float PelletDamageMod { get => 0.25f; }

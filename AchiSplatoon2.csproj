@@ -41,6 +41,7 @@
 	  <None Remove="Content\Projectiles\BrellaProjectiles\MartianBrellaProjectiles\MartianBrellaShotgunProjectile.png" />
 	  <None Remove="Content\Projectiles\BrushProjectiles\DesertBrushProjectile.png" />
 	  <None Remove="Content\Projectiles\BrushProjectiles\SpookyBrushProjectile.png" />
+	  <None Remove="Content\Projectiles\ChargerProjectiles\BambooChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\ChargerProjectile.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerBlast.png" />
 	  <None Remove="Content\Projectiles\ChargerProjectiles\StarfishedChargerProjectile.png" />

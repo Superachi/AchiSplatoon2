@@ -191,7 +191,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            ProjectileDustHelper.ShooterTileCollideVisual(this);
+            ProjectileDustHelper.ShooterTileCollideVisual(this, volumeMod: wasParentChargeMaxed ? 2 : 1.5f);
             return true;
         }
 
