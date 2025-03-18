@@ -16,12 +16,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         /// <summary>
         /// When the target has this percentage of life left, Bamboozler shots will deal bonus damage.
         /// </summary>
-        public static float LowLifeTapShotThreshold => 0.3f;
-        protected override string UsageHintParamA => $"{(int)(LowLifeTapShotThreshold * 100)}";
+        public static float LowLifeTapShotThreshold => 0.4f;
+        public static float LowLifeTapShotBossThreshold => 0.2f;
         public static float LowLifeTapShotDamageMult => 3f;
         public static float LowLifeTapShotDamageBossMult => 2f;
 
-        public override float InkCost { get => 1f; }
+        public override float InkCost { get => 0.7f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }

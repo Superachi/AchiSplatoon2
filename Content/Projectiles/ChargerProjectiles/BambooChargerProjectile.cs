@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
-using AchiSplatoon2.Helpers;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
@@ -11,9 +10,14 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             base.ModifyHitNPC(target, ref modifiers);
 
             float targetLifePercent = target.life / (float)target.lifeMax;
-            if (!wasParentChargeMaxed && targetLifePercent < BambooMk1Charger.LowLifeTapShotThreshold)
+            bool isBoss = target.boss;
+            float threshold = isBoss ? BambooMk1Charger.LowLifeTapShotBossThreshold : BambooMk1Charger.LowLifeTapShotThreshold;
+            float mult = isBoss ? BambooMk1Charger.LowLifeTapShotDamageBossMult : BambooMk1Charger.LowLifeTapShotDamageMult;
+
+            if (!wasParentChargeMaxed && targetLifePercent <= threshold)
             {
-                modifiers.FinalDamage *= target.boss ? BambooMk1Charger.LowLifeTapShotDamageBossMult : BambooMk1Charger.LowLifeTapShotDamageMult;
+                modifiers.FinalDamage *= mult;
+                TripleHitDustBurst(target.Center, playSample: false);
             }
         }
     }

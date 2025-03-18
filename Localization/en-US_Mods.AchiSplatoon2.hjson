@@ -18,7 +18,7 @@ Hint: {
 	
 	Chargers: {
 		Generic: Hold left-click to charge up a piercing shot
-		Bamboo: Hold left-click to charge up a shot. If the target has less than {0}% life, uncharged shots deal more damage
+		Bamboo: Hold left-click to charge up a shot. If the target is low on life, uncharged shots deal more damage
 		Squiffer: Has no charge time penalty in the air
 		StarFisher: Fully charged shots cause a blast after a short delay
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
@@ -179,7 +179,7 @@ Items: {
 		DisplayName: Bamboozler 14 Mk I
 		Tooltip: ""
 		UsageHint: "{$Hint.Chargers.Bamboo}"
-		Flavor: Mods.AchiSplatoon2.Items.BambooMk1Charger.Flavor
+		Flavor: T-tap!
 	}
 
 	BambooMk2Charger: {
@@ -2191,7 +2191,7 @@ Prefixes: {
 	GambitPrefix.DisplayName: Gambit's
 	RepetitionTooltip: Sloshes {0} extra time(s)
 	BaseSlosherPrefix.DisplayName: Base Slosher Prefix
-	AmmoTooltip: Each slosh fires {0} projectiles
+	AmmoTooltip: Each slosh fires {0} projectile(s)
 	OversizedPrefix.DisplayName: Oversized
 	ResonantPrefix.DisplayName: Resonant
 }
