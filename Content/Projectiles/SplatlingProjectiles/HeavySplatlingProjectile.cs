@@ -56,6 +56,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             ApplyWeaponInstanceData();
             PlayShootSound();
             firedWithCrayonBox = GetOwner().GetModPlayer<AccessoryPlayer>().hasCrayonBox;
+            Projectile.position += Main.rand.NextVector2Circular(8, 8);
         }
 
         protected override void AdjustVariablesOnShoot()
