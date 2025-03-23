@@ -54,13 +54,11 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
             {
                 var velocity = new Vector2(0, Main.rand.Next(-8, -2));
 
-                var color = CurrentColor.IncreaseHueBy(Main.rand.NextFloat(-10, 10));
-
                 var d = DustHelper.NewDust(
                     position: Owner.Center + Main.rand.NextVector2Circular(20, 20),
                     dustType: DustID.PortalBolt,
                     velocity: velocity,
-                    color: color,
+                    color: CurrentColor,
                     scale: Main.rand.NextFloat(1f, 1.5f));
                 d.noGravity = true;
             }
