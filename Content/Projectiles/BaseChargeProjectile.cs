@@ -191,7 +191,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void ChargeLevelUpEffect()
+        protected virtual void ChargeLevelUpEffect()
         {
             chargeBarBrightness = 1f;
             PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);

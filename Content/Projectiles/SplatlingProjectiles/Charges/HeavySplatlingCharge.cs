@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -215,6 +216,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     barrageDone = true;
                     Projectile.timeLeft = 60;
                 }
+            }
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
             }
         }
 

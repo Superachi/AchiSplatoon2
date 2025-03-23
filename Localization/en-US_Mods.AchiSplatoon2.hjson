@@ -2064,6 +2064,7 @@ Projectiles: {
 	PointSensorProjectile.DisplayName: Point Sensor Projectile
 	EmpressInkTankProjectile.DisplayName: Empress Ink Tank Projectile
 	SpecialSparkleVisual.DisplayName: Special Sparkle Visual
+	WeaponChargeSparkleVisual.DisplayName: Weapon Charge Sparkle Visual
 }
 
 Buffs: {

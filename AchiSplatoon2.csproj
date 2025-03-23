@@ -60,6 +60,7 @@
 	  <None Remove="Content\Projectiles\Minions\PearlDrone\PearlDroneLaserProjectile.png" />
 	  <None Remove="Content\Projectiles\Minions\PearlDrone\PearlDroneSprinklerProjectile.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\SpecialSparkleVisual.png" />
+	  <None Remove="Content\Projectiles\ProjectileVisuals\WeaponChargeSparkleVisual.png" />
 	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseProjectile.png" />
 	  <None Remove="Content\Projectiles\ShooterProjectiles\NozzlenoseProjectiles\NozzlenoseShooter.png" />
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />

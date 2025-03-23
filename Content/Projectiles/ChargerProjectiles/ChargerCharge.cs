@@ -1,6 +1,7 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -122,6 +123,15 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
             SoundHelper.StopSoundIfActive(chargeStartAudio);
             Projectile.Kill();
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

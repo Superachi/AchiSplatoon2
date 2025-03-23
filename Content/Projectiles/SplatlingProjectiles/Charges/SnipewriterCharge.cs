@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -172,6 +173,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             if (!GetOwner().channel) return false;
             DrawStraightTrajectoryLine();
             return false;
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
+            }
         }
 
         protected override void NetSendShootAnimation(BinaryWriter writer)

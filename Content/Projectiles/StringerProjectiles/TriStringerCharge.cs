@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -221,6 +222,15 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             else
             {
                 PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
             }
         }
 
