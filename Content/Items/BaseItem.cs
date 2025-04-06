@@ -17,6 +17,11 @@ namespace AchiSplatoon2.Content.Items
         protected virtual string UsageHintParamA => "";
         protected virtual string UsageHintParamB => "";
 
+        public LocalizedText GetAssociatedTooltip()
+        {
+            return this.GetLocalization(nameof(Tooltip), () => "");
+        }
+
         public override void SetStaticDefaults()
         {
             UsageHint = this.GetLocalization(nameof(UsageHint));

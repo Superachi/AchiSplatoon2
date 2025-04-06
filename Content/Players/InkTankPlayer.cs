@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
@@ -56,6 +57,22 @@ namespace AchiSplatoon2.Content.Players
             RecoverInk();
 
             InkAmount = Math.Clamp(InkAmount, 0, InkAmountFinalMax);
+        }
+
+        public override void PostUpdate()
+        {
+            // Last Ditch Effort
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
+
+            if (Player.HasAccessory<LastDitchEffortEmblem>()
+                || Player.HasAccessory<SuperSaverEmblem>()
+                || Player.HasAccessory<SquidbeakCloak>())
+            {
+                if ((float)Player.statLife / (float)Player.statLifeMax2 <= LastDitchEffortEmblem.LifePercentageThreshold)
+                {
+                    Player.AddBuff(ModContent.BuffType<LastDitchEffortBuff>(), 2);
+                }
+            }
         }
 
         public override void ResetEffects()

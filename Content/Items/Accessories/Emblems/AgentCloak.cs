@@ -12,6 +12,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         public static float specialChargeMultiplier = 0.5f;
         public static float subPowerMultiplier = 1f;
         public static float specialPowerMultiplier = 1f;
+
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(
             (int)(subPowerMultiplier * 100),
             (int)(specialPowerMultiplier * 100),
@@ -28,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             Item.rare = ItemRarityID.LightPurple;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public static void ApplyStats(Player player)
         {
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
@@ -39,30 +40,41 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
             }
         }
 
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            ApplyStats(player);
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ItemID.BlackDye, 1)
                 .AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
+                .AddTile(TileID.Anvils)
                 .Register();
 
             CreateRecipe()
                 .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ItemID.BlackDye, 1)
                 .AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
+                .AddTile(TileID.Anvils)
                 .Register();
 
             CreateRecipe()
                 .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ItemID.BlackDye, 1)
                 .AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
+                .AddTile(TileID.Anvils)
                 .Register();
         }
     }
