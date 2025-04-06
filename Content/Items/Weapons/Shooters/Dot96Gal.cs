@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
     {
         public override float InkCost { get => 3.5f; }
 
-        public override int DamageOverride => 74;
+        public override int DamageOverride => 68;
         public override SoundStyle ShootSample { get => SoundPaths.Dot96GalShoot.ToSoundStyle(); }
         public override float MuzzleOffsetPx { get; set; } = 48f;
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 12,
                 shotVelocity: 9f);
 
-            Item.damage = 74;
+            Item.damage = DamageOverride;
             Item.width = 62;
             Item.height = 32;
             Item.knockBack = 8f;

@@ -32,12 +32,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 10,
                 shotVelocity: 8f);
 
-            Item.damage = 52;
+            Item.damage = DamageOverride;
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 6f;
             Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            damage *= 1;
         }
 
         public override void AddRecipes()
