@@ -8,6 +8,8 @@ BrellaPelletCount.Display: Fires {0} ink pellets
 SubPowerEmblem.Multiplier: "{0}% increased sub weapon damage"
 SpecialPowerEmblem.Multiplier: "{0}% increased special weapon damage"
 SpecialChargeEmblem.Multiplier: "{0}% increased special weapon charge up rate"
+InkSaverMain.Display: Your main weapons cost {0}% less ink
+InkSaverSub.Display: Your sub weapons cost {0}% less ink
 InkCapacityBonus.Display: +{0}% ink capacity
 LastDitchEffortBonus.Display: While you have {0}% or less life remaining, reduce weapon ink consumption by {1}%
 
@@ -25,7 +27,7 @@ Hint: {
 	}
 
 	SplattershotJr: +{0}% ink capacity while equipped
-	Dot52Gal: Always hits for {0} damage, ignoring damage bonuses and enemy defense
+	Dot52Gal: Always hits for {0} ranged damage, ignoring damage bonuses and enemy defense
 	SlimeSplattershot: Fires bouncing globs of ink
 	Blaster: Has a smaller blast when hitting a wall
 	SBlast: If grounded/not moving, increase damage and range, but reduce blast radius
@@ -1928,6 +1930,33 @@ Items: {
 		Flavor: Curse of Slider...
 		DisplayName: Dread Wringer
 		Tooltip: ""
+	}
+
+	SquidbeakCloak: {
+		UsageHint: Mods.AchiSplatoon2.Items.SquidbeakCloak.UsageHint
+		Flavor: The Octarians are coming!
+		DisplayName: Hero Cloak
+		Tooltip:
+			'''
+			{$SubPowerEmblem.Multiplier@0}
+			{$SpecialPowerEmblem.Multiplier@1}
+			{$SpecialChargeEmblem.Multiplier@2}
+			{$InkSaverMain.Display@3}
+			{$InkSaverSub.Display@4}
+			Activates Last-Ditch Effort when at low life
+			'''
+	}
+
+	SuperSaverEmblem: {
+		UsageHint: Mods.AchiSplatoon2.Items.SuperSaverEmblem.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.SuperSaverEmblem.Flavor
+		DisplayName: Ink Thrifting Emblem
+		Tooltip:
+			'''
+			{$InkSaverMain.Display@0}
+			{$InkSaverSub.Display@1}
+			Activates Last-Ditch Effort when at low life
+			'''
 	}
 }
 
