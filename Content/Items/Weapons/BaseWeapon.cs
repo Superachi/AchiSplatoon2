@@ -275,12 +275,31 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             // Offset the projectile's position to match the weapon
             Vector2 weaponOffset = HoldoutOffset() ?? new Vector2(0, 0);
-            Vector2 muzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
+
+            Vector2 finalMuzzleOffset = Vector2.Zero;
+            if (MuzzleOffset != Vector2.Zero)
+            {
+                var shotAngle = velocity.ToRotation();
+                shotAngle = MathHelper.ToDegrees(shotAngle);
+
+                var baseMuzzleOffset = MuzzleOffset;
+                if (player.direction == -1)
+                {
+                    baseMuzzleOffset.Y *= player.direction;
+                }
+
+                finalMuzzleOffset += WoomyMathHelper.AddRotationToVector2(baseMuzzleOffset, shotAngle) + WoomyMathHelper.AddRotationToVector2(weaponOffset, shotAngle);
+            }
+            else
+            {
+                finalMuzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
+            }
+
             Vector2 position = player.Center;
-            bool canHit = Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0);
+            bool canHit = Collision.CanHit(position, 0, 0, position + finalMuzzleOffset, 0, 0);
             if (canHit)
             {
-                position += muzzleOffset;
+                position += finalMuzzleOffset;
             }
 
             // Spawn the projectile
