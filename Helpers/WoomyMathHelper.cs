@@ -68,6 +68,11 @@ namespace AchiSplatoon2.Helpers
                 inkCostModifier *= 1f - LastDitchEffortEmblem.InkSaverAmount;
             }
 
+            if (accMP.HasAccessory<SuperSaverEmblem>() || accMP.HasAccessory<SquidbeakCloak>())
+            {
+                inkCostModifier *= new SuperSaverEmblem().InkSaverMult();
+            }
+
             if (!weapon.IsSubWeapon)
             {
                 if (accMP.HasAccessory<MainSaverEmblem>())
