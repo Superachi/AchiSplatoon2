@@ -66,6 +66,7 @@
 	  <None Remove="Content\Projectiles\ProjectileVisuals\ExplosionProjectileVisual.png" />
 	  <None Remove="Content\Projectiles\RollerProjectiles\RollerInkProjectile.png" />
 	  <None Remove="Content\Projectiles\ShooterProjectiles\Dot52GalProjectile - Copy.png" />
+	  <None Remove="Content\Projectiles\ShooterProjectiles\SqueezerProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\BloblobberMainProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\ExplosherProjectile.png" />
 	  <None Remove="Content\Projectiles\SlosherProjectiles\SlosherChildProjectile.png" />
