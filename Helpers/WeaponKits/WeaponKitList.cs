@@ -43,6 +43,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(JetSquelcher),         new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(L3Nozzlenose),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(H3Nozzlenose),         new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(Squeezer),             new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(HeroShot),             new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Dualies
@@ -96,7 +97,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(ZinkMiniSplatling),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(RoyalHeavySplatling),  new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(HydraSplatling),       new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
-            { typeof(CustomHydraSplatling), new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(CustomHydraSplatling), new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1) },
 
             // Sloshers
             { typeof(Slosher),              new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
