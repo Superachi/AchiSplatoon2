@@ -1958,6 +1958,13 @@ Items: {
 			Activates Last-Ditch Effort when at low life
 			'''
 	}
+
+	Squeezer: {
+		UsageHint: Fires differently depending on the distance of your cursor
+		Flavor: Champagne showers!
+		DisplayName: Squeezer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2094,6 +2101,7 @@ Projectiles: {
 	EmpressInkTankProjectile.DisplayName: Empress Ink Tank Projectile
 	SpecialSparkleVisual.DisplayName: Special Sparkle Visual
 	WeaponChargeSparkleVisual.DisplayName: Weapon Charge Sparkle Visual
+	SqueezerProjectile.DisplayName: Squeezer Projectile
 }
 
 Buffs: {

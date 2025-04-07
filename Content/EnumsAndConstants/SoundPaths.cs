@@ -95,6 +95,8 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string SplatlingChargeStart => FormatPath(nameof(SplatlingChargeStart));
         public static string SplatlingShoot => FormatPath(nameof(SplatlingShoot));
         public static string SplattershotShoot => FormatPath(nameof(SplattershotShoot));
+        public static string SqueezerShoot => FormatPath(nameof(SqueezerShoot));
+        public static string SqueezerShootAlt => FormatPath(nameof(SqueezerShootAlt));
         public static string SquifferChargerShoot => FormatPath(nameof(SquifferChargerShoot));
         public static string SquifferChargerShootWeak => FormatPath(nameof(SquifferChargerShootWeak));
         public static string TripleHit => FormatPath(nameof(TripleHit));

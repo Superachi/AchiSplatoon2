@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
@@ -242,6 +242,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             switch (npc.type)
             {
                 case NPCID.Everscream:
+                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Squeezer>(), 10));
                     npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 10));
                     break;
 
