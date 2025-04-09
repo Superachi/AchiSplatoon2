@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
                 {
                     _aimedFar = false;
 
-                    Projectile.damage = (int)(Projectile.damage * 0.5f);
+                    Projectile.damage = (int)(Projectile.damage * 0.75f);
                     Owner.itemTime = (int)(Owner.itemTime * 0.75f);
                     delayUntilFall /= 3;
 
