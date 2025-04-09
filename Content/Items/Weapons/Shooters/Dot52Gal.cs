@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         protected override string UsageHintParamA => $"{DamageOverride}";
 
         public override SoundStyle ShootSample { get => SoundPaths.Dot52GalShoot.ToSoundStyle(); }
-        public override float MuzzleOffsetPx { get; set; } = 48f;
+        public override Vector2 MuzzleOffset => new Vector2(48f, 0);
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
 
         public override float ShotGravity { get => 0.5f; }

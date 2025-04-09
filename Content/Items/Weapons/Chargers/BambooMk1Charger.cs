@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override SoundStyle ShootSample { get => SoundPaths.BambooChargerShoot.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-18, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 48f;
+        public override Vector2 MuzzleOffset => new Vector2(48f, 0);
         public override float[] ChargeTimeThresholds { get => [18f]; }
         public override float MinPartialRange { get => 1f; }
         public override float MaxPartialRange { get => 1f; }

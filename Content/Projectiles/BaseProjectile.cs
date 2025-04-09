@@ -762,7 +762,7 @@ internal class BaseProjectile : ModProjectile
     protected void SyncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, BaseWeapon weaponData)
     {
         Vector2 weaponOffset = weaponData.HoldoutOffset() ?? new Vector2(0, 0);
-        Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffsetPx;
+        Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffset.X;
 
         if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
         {

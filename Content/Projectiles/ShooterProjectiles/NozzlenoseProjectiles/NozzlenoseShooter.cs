@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
             shotVelocity = weaponData.ShotVelocity;
             shotSpeed = weaponData.BurstShotTime;
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleDistance = weaponData.MuzzleOffset.X;
 
             ShotTimer = shotSpeed;
         }

@@ -77,7 +77,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public virtual SoundStyle ShootWeakSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public virtual SoundStyle ShootAltSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
-        public virtual float MuzzleOffsetPx { get; set; } = 0f;
         public virtual Vector2 MuzzleOffset => Vector2.Zero;
 
         // Main weapon stats
@@ -289,10 +288,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 }
 
                 finalMuzzleOffset += WoomyMathHelper.AddRotationToVector2(baseMuzzleOffset, shotAngle) + WoomyMathHelper.AddRotationToVector2(weaponOffset, shotAngle);
-            }
-            else
-            {
-                finalMuzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
             }
 
             Vector2 position = player.Center;

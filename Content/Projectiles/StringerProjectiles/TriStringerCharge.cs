@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseStringer;
 
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleDistance = weaponData.MuzzleOffset.X;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;

@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatling;
 
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleDistance = weaponData.MuzzleOffset.X;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;

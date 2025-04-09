@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         public override SoundStyle ShootSample { get => SoundPaths.SnipewriterShoot.ToSoundStyle(); }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-24, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 52f;
+        public override Vector2 MuzzleOffset => new Vector2(52f, 0);
         public override float[] ChargeTimeThresholds { get => [85f]; }
         public override float BarrageVelocity { get; set; } = 3f;
         public override int BarrageShotTime { get; set; } = 15;

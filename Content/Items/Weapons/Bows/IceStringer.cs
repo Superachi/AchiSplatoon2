@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override bool AllowStickyProjectiles { get => true; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
-        public override float MuzzleOffsetPx { get; set; } = 50f;
+        public override Vector2 MuzzleOffset => new Vector2(50f, 0);
 
         public override int ProjectileType => ModContent.ProjectileType<IceStringerProjectile>();
 

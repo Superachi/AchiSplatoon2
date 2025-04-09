@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override float ExplosionDelayInit { get => 10f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-10, -10); }
-        public override float MuzzleOffsetPx { get; set; } = 46f;
+        public override Vector2 MuzzleOffset => new Vector2(46f, 0);
 
         public override void SetDefaults()
         {

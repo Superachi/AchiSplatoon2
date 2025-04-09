@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float InkCost { get => 0.8f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.SplatlingShoot.ToSoundStyle(); }
-        public override float MuzzleOffsetPx { get; set; } = 62f;
+        public override Vector2 MuzzleOffset => new Vector2(62f, 0);
         public override Vector2? HoldoutOffset() { return new Vector2(-10, 0); }
         public override float ShotGravity { get => 0.5f; }
         public override int ShotGravityDelay => 4;

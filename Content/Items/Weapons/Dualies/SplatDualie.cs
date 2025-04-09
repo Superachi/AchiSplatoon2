@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     {
         public override float AimDeviation { get => 6f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 50f;
+        public override Vector2 MuzzleOffset => new Vector2(50f, 0);
 
         // Dualie specific
         public override float PostRollDamageMod { get => 1.2f; }

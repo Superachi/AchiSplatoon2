@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float AimDeviation { get => 0; }
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(44f, 0);
 
         // Brella specific
         public override int ProjectileType { get => ModContent.ProjectileType<CorruptionBrellaPelletProjectile>(); }

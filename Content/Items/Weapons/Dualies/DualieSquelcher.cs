@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override int ShotExtraUpdates { get => 8; }
         public override float AimDeviation { get => 3f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 4); }
-        public override float MuzzleOffsetPx { get; set; } = 54f;
+        public override Vector2 MuzzleOffset => new Vector2(54f, 0);
 
         // Dualie specific
         public override SoundStyle RollSample { get => SoundPaths.DualieTetraRoll.ToSoundStyle(); }
