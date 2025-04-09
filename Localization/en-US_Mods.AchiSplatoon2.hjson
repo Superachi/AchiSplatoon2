@@ -76,7 +76,7 @@ Hint: {
 
 	Brella: {
 		Generic: The brella protects you while you attack (until it breaks!)
-		Undercover: The shield is weak, but recovers instantly when defeating an enemy
+		Undercover: The shield is weak, but recovers instantly when splatting an enemy
 		Recycle: The shield is weak, but recovers quickly
 		Martian: When the shield takes damage, it fires off a large lightning bolt
 		Plague: Inflicts venom on enemies. Can hit in melee even when broken
@@ -86,7 +86,7 @@ Hint: {
 	# Accessories
 	# ----------------------------------------
 	FreshQuiver: Fully charged Stringer volleys are easier to hit and cause an explosion when all shots hit
-	CrayonBox: Improves Splatling accuracy and makes each consecutive hit against the same target deal +{0} damage
+	CrayonBox: Improves Splatling accuracy and velocity. When you splat an enemy, extend firing duration for the given charge
 	SteelCoil: For each attack with a Slosher, the first target hit takes {0}% more damage, but subsequent targets instead take {1}% less
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
 	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"

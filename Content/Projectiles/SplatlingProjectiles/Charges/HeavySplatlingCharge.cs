@@ -11,6 +11,7 @@ using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
@@ -226,6 +227,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             {
                 CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
             }
+        }
+
+        public void RestoreAmmo(float quotient)
+        {
+            ChargedAmmo += (int)(barrageMaxAmmo * quotient);
+            ChargedAmmo = Math.Min(barrageMaxAmmo, ChargedAmmo);
+
+            PlayAudio(SoundID.Item25, volume: 0.5f, pitch: 0.2f, maxInstances: 1);
+            CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
         }
 
         protected override void NetSendShootAnimation(BinaryWriter writer)
