@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -53,6 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
 
             if (IsThisClientTheProjectileOwner())
             {

@@ -43,8 +43,8 @@ namespace AchiSplatoon2.Content.Projectiles
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
 
-        private Texture2D? spriteChargeBar;
-        private float chargeBarBrightness = 0f;
+        protected Texture2D? spriteChargeBar;
+        protected float chargeBarBrightness = 0f;
 
         protected SlotId? chargeStartAudio;
 
@@ -92,6 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
 
+            DestroyOtherOwnedChargeProjectiles();
             NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
@@ -213,7 +214,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Player owner = Main.player[Projectile.owner];
 
-                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
                 {
                     Projectile.Kill();
                     return;
@@ -311,6 +312,21 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)((spriteChargeBar.Size().X - 4) * quotient),
                     (int)spriteChargeBar.Size().Y - 4),
                     new Color(0, 0, 0, 0.5f));
+            }
+        }
+
+        protected virtual void DestroyOtherOwnedChargeProjectiles()
+        {
+            if (!IsThisClientTheProjectileOwner()) return;
+
+            foreach (var projectile in Main.ActiveProjectiles)
+            {
+                if (projectile.ModProjectile is BaseChargeProjectile
+                    && projectile.identity != Projectile.identity
+                    && projectile.owner == Projectile.owner)
+                {
+                    projectile.Kill();
+                }
             }
         }
 

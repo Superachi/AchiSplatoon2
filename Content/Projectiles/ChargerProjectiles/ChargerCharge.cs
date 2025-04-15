@@ -46,6 +46,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
 
             Projectile.velocity = Vector2.Zero;
 

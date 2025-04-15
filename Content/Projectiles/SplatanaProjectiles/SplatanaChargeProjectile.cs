@@ -59,6 +59,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
         }

@@ -158,7 +158,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var wepMP = owner.GetModPlayer<WeaponPlayer>();
             var squidMP = owner.GetModPlayer<SquidPlayer>();
 
-            if (owner.dead || invMP.HasHeldItemChanged() || squidMP.IsSquid())
+            if (owner.dead || invMP.HasHeldItemChanged() || squidMP.IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
             {
                 Projectile.Kill();
                 return;

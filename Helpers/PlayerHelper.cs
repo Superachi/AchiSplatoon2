@@ -31,6 +31,14 @@ internal static class PlayerHelper
         return isStill && isHooked;
     }
 
+    public static bool IsPlayerImmobileViaDebuff(Player player)
+    {
+        return player.HasBuff(BuffID.Frozen)
+            || player.HasBuff(BuffID.Stoned)
+            || player.HasBuff(BuffID.TheTongue)
+            || player.HasBuff(BuffID.Webbed);
+    }
+
     public static bool IsPlayerOntopOfTile(Player player)
     {
         var tileUnderPlayer = Framing.GetTileSafely((player.Bottom + Vector2.UnitY).ToTileCoordinates());

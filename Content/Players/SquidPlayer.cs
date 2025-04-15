@@ -88,7 +88,8 @@ namespace AchiSplatoon2.Content.Players
             return Player.HasBuff(BuffID.Frozen)
                 || Player.HasBuff(BuffID.Stoned)
                 || Player.HasBuff(BuffID.VortexDebuff)
-                || Player.HasBuff(BuffID.TheTongue);
+                || Player.HasBuff(BuffID.TheTongue)
+                || Player.HasBuff(BuffID.Webbed);
         }
 
         public override void PreUpdate()
