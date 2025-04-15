@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         public override float[] ChargeTimeThresholds { get => [120f, 150f]; }
         public override float BarrageVelocity { get; set; } = 16f;
         public override int BarrageShotTime { get; set; } = 4;
-        public override int BarrageMaxAmmo { get; set; } = 64;
+        public override int BarrageMaxAmmo { get; set; } = 52;
 
         public override void SetDefaults()
         {
