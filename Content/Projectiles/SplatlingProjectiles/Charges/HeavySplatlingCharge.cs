@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
@@ -34,6 +34,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
         protected SlotId? splatlingChargeStartAudio;
         protected SlotId? splatlingChargeLoopAudio;
+
+        public int crayonBoxChain = 0;
+        private float _displayAmmoQuotient = 0f;
 
         public float ChargedAmmo
         {
@@ -92,6 +95,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         {
             hasFired = true;
             ChargedAmmo = Convert.ToInt32(barrageMaxAmmo * (ChargeTime / MaxChargeTime()));
+            _displayAmmoQuotient = AmmoQuotient();
             ChargeTime = 0;
 
             SoundHelper.StopSoundIfActive(chargeStartAudio);
@@ -234,7 +238,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             ChargedAmmo += (int)(barrageMaxAmmo * quotient);
             ChargedAmmo = Math.Min(barrageMaxAmmo, ChargedAmmo);
 
-            PlayAudio(SoundID.Item25, volume: 0.5f, pitch: 0.2f, maxInstances: 1);
             CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
         }
 
@@ -258,6 +261,44 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             // Set the animation time
             owner.itemAnimation = reader.ReadInt16();
             owner.itemTime = owner.itemAnimation;
+        }
+        public float AmmoQuotient()
+        {
+            var quotient = (float)ChargedAmmo / (float)barrageMaxAmmo;
+            return quotient;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            base.PostDraw(lightColor);
+
+            if (!IsThisClientTheProjectileOwner()) return;
+            if (!hasFired) return;
+            if (ChargedAmmo == 0) return;
+
+            spriteChargeBar = TexturePaths.ChargeUpBar.ToTexture2D();
+            if (spriteChargeBar == null) return;
+
+            // Draw gauge when firing
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Vector2 position = GetOwner().Center - Main.screenPosition + new Vector2(0, 50 + GetOwner().gfxOffY);
+            Vector2 origin = spriteChargeBar.Size() / 2;
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(spriteChargeBar, new Vector2((int)position.X, (int)position.Y), null, Color.White, 0, origin, 1f, SpriteEffects.None);
+
+            _displayAmmoQuotient = MathHelper.Lerp(_displayAmmoQuotient, AmmoQuotient(), 0.2f);
+            var quotient = _displayAmmoQuotient;
+
+            spriteBatch.Draw(
+                TextureAssets.MagicPixel.Value,
+                new Rectangle((int)position.X - (int)origin.X + 2,
+                (int)position.Y - 2,
+                (int)((spriteChargeBar.Size().X - 4) * quotient),
+                (int)spriteChargeBar.Size().Y - 4),
+                Color.DimGray);
         }
     }
 }

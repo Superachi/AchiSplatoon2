@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 
@@ -131,6 +132,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 if (proj.ChargedAmmo <= 0) return;
 
                 proj.RestoreAmmo(0.5f);
+                proj.crayonBoxChain++;
+
+                Owner.GetModPlayer<HudPlayer>().SetOverheadText(
+                    text: proj.crayonBoxChain == 1 ? $"{proj.crayonBoxChain} splat!" : $"{proj.crayonBoxChain} splats!",
+                    displayTime: 60,
+                    color: ColorHelper.LerpBetweenColorsPerfect(Color.Red.IncreaseHueBy(proj.crayonBoxChain * 5), Color.White, 0.2f));
+
+                var pitchValue = Math.Min(2f / 12f + proj.crayonBoxChain / 24f, 12f / 12f);
+                PlayAudio(SoundID.ResearchComplete, volume: 0.5f, pitch: pitchValue, maxInstances: 1);
             }
 
             base.OnHitNPC(target, hit, damageDone);
