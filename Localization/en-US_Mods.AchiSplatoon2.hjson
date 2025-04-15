@@ -1348,7 +1348,7 @@ Items: {
 	}
 
 	Torpedo: {
-		UsageHint: Homes in on enemies after being thrown, exploding into smaller pellets
+		UsageHint: Locks on to the nearest enemy and confuses them if possible. Explodes into smaller, explosive pellets
 		Flavor: Mods.AchiSplatoon2.Items.Torpedo.Flavor
 		DisplayName: Torpedo
 		Tooltip: ""

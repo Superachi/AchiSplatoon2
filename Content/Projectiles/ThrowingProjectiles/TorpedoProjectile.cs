@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
@@ -156,6 +157,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         target = FindClosestEnemy(detectionRadius, checkLineOfSight: true);
                         if (target != null)
                         {
+                            if (!target.boss)
+                            {
+                                target.AddBuff(BuffID.Confused, 90);
+                            }
+
                             SetState(stateLockOnGrow);
                         }
                     }

@@ -76,6 +76,12 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            fallThrough = !(timeSpentAlive > FrameSpeedMultiply(4));
+            return true;
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (hasExploded) return false;
