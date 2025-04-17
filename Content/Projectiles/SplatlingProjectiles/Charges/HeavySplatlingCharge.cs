@@ -293,7 +293,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             Main.EntitySpriteDraw(spriteChargeBar, new Vector2((int)position.X, (int)position.Y), null, Color.White, 0, origin, 1f, SpriteEffects.None);
 
             _displayAmmoQuotient = MathHelper.Lerp(_displayAmmoQuotient, AmmoQuotient(), 0.2f);
-            var quotient = _displayAmmoQuotient;
+            var quotient = Math.Min(_displayAmmoQuotient, 1);
 
             spriteBatch.Draw(
                 TextureAssets.MagicPixel.Value,
