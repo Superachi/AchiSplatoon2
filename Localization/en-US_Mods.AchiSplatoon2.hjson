@@ -2102,6 +2102,7 @@ Projectiles: {
 	SpecialSparkleVisual.DisplayName: Special Sparkle Visual
 	WeaponChargeSparkleVisual.DisplayName: Weapon Charge Sparkle Visual
 	SqueezerProjectile.DisplayName: Squeezer Projectile
+	StillSparkleVisual.DisplayName: Still Sparkle Visual
 }
 
 Buffs: {

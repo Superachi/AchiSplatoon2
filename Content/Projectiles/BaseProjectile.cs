@@ -909,6 +909,12 @@ internal class BaseProjectile : ModProjectile
                 scale: (minScale + maxScale) / 6,
                 data: new(gravity: 1));
         }
+
+        var sparkle = CreateChildProjectile<StillSparkleVisual>(Projectile.Center, Vector2.Zero, 0, true);
+        sparkle.AdjustRotation(0);
+        sparkle.AdjustColor(CurrentColor);
+        sparkle.AdjustScale(radiusModifier / 120f);
+        sparkle.HideSparkle();
     }
 
     protected void EmitBurstDust(ExplosionDustModel dustModel)
@@ -1038,9 +1044,9 @@ internal class BaseProjectile : ModProjectile
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 7; i++)
             {
-                float hspeed = i * 1.5f;
+                float hspeed = i * 2f;
                 float vspeed = i / 1.5f;
                 float scale = 2 - (i / 10) * 2;
                 spawnDust(new Vector2(hspeed, 0), scale, inkColor);
@@ -1049,6 +1055,11 @@ internal class BaseProjectile : ModProjectile
                 spawnDust(new Vector2(0, -vspeed), scale, inkColor);
                 spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
             }
+
+            var sparkle = CreateChildProjectile<StillSparkleVisual>((Vector2)position, Vector2.Zero, 0, true);
+            sparkle.AdjustRotation(0);
+            sparkle.AdjustColor(ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.3f));
+            sparkle.AdjustScale(1.6f);
         }
     }
 
