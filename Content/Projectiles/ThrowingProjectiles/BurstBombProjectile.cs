@@ -15,7 +15,6 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             Projectile.height = 2;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
-            Projectile.friendly = true;
             Projectile.tileCollide = true;
 
             DrawOffsetX = -2;
@@ -51,23 +50,21 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (!hasExploded)
-            {
-                hasExploded = true;
-                Detonate();
-            }
-
-            base.OnHitNPC(target, hit, damageDone);
-        }
-
         public override void AI()
         {
             fallTimer++;
 
             if (!hasExploded)
             {
+                var hitTarget = FindClosestEnemy(30, false);
+                if (hitTarget != null)
+                {
+                    Projectile.Center = hitTarget.Center;
+                    hasExploded = true;
+                    Detonate();
+                    return;
+                }
+
                 Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
                 // Apply air friction

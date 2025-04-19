@@ -143,10 +143,10 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
                         texture: _glowSprite,
                         position: Projectile.Center - Main.screenPosition,
                         sourceRectangle: null,
-                        color: ColorHelper.ColorWithAlpha255(CurrentColor) * _alphaMod * 0.6f,
+                        color: ColorHelper.ColorWithAlpha255(CurrentColor) * _alphaMod * 0.4f,
                         rotation: 0,
                         origin: _glowSprite.Size() / 2,
-                        scale: _drawScale * (i * 0.5f),
+                        scale: _drawScale * (i * 0.7f),
                         effects: SpriteEffects.None);
                 }
             }
