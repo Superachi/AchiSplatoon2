@@ -3,6 +3,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -138,11 +139,8 @@ namespace AchiSplatoon2.Content.Players
                     maxRollCooldown--;
                     if (maxRollCooldown == 0 && rollsLeft < maxRolls)
                     {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            Dust.NewDust(Player.Center, 0, 0, DustID.GoldCoin, 0, 0, 0, default, 2);
-                            SoundHelper.PlayAudio(SoundID.MaxMana, 0.3f);
-                        }
+                        ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<WeaponChargeSparkleVisual>());
+                        SoundHelper.PlayAudio(SoundID.Item4, 0.3f, pitchVariance: 0.1f, pitch: 0.5f);
 
                         rollsLeft = maxRolls;
                         if (maxRolls > 1) CombatTextHelper.DisplayText($"{rollsLeft}/{maxRolls}", Player.Center, color: Color.LimeGreen);
