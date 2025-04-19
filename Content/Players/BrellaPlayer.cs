@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -73,14 +74,6 @@ namespace AchiSplatoon2.Content.Players
             }
         }
 
-        private void BrellaRecoveryDust()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                Dust.NewDust(Player.Center, 0, 0, DustID.GoldCoin, 0, 0, 0, default, 2);
-            }
-        }
-
         private void DisplayBrellaLife()
         {
             var shieldPercentage = shieldLife / shieldLifeMax;
@@ -148,7 +141,7 @@ namespace AchiSplatoon2.Content.Players
                     timeSinceLastDeflect = 0;
 
                     DisplayBrellaLife();
-                    BrellaRecoveryDust();
+                    ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<WeaponChargeSparkleVisual>());
                     SoundHelper.PlayAudio(SoundPaths.BrellaRecover.ToSoundStyle(), volume: 0.8f, maxInstances: 5);
                 }
 
@@ -163,8 +156,8 @@ namespace AchiSplatoon2.Content.Players
                     shieldLife = shieldLifeMax;
 
                     DisplayBrellaLife();
-                    BrellaRecoveryDust();
-                    SoundHelper.PlayAudio(SoundID.MaxMana, 0.3f);
+                    ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<WeaponChargeSparkleVisual>());
+                    SoundHelper.PlayAudio(SoundID.Item4, 0.3f, pitchVariance: 0.1f, pitch: 0.5f);
                 }
             }
         }
