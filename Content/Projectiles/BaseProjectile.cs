@@ -136,7 +136,7 @@ internal class BaseProjectile : ModProjectile
             AfterInitialize();
         }
 
-        Dissolve();
+        CheckCollisionWithWater();
 
         return true;
     }
@@ -1125,7 +1125,7 @@ internal class BaseProjectile : ModProjectile
     }
     #endregion
 
-    private void Dissolve()
+    private void CheckCollisionWithWater()
     {
         var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
         var hasThermalInkTank = accMP.hasThermalInkTank;
@@ -1134,9 +1134,14 @@ internal class BaseProjectile : ModProjectile
             Tile tile = Framing.GetTileSafely(Projectile.Center);
             if (tile.LiquidType >= LiquidID.Water && tile.LiquidType < LiquidID.Shimmer && tile.LiquidAmount > 100)
             {
-                Projectile.Kill();
+                Dissolve();
             }
         }
+    }
+
+    protected virtual void Dissolve()
+    {
+        Projectile.Kill();
     }
 
     protected virtual void ProjectileBounce(Vector2 oldVelocity, Vector2? postBounceSpeedMod = null)
