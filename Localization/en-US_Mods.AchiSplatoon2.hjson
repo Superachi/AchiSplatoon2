@@ -18,6 +18,8 @@ Hint: {
 	# Weapons
 	# ----------------------------------------
 	
+	PurifiedWeapon: Consumes no ink
+
 	Chargers: {
 		Generic: Hold left-click to charge up a piercing shot
 		Bamboo: Hold left-click to charge up a shot. If the target is low on life, uncharged shots deal more damage
@@ -1849,77 +1851,77 @@ Items: {
 	}
 
 	ShimmerOrderBlaster: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBlaster.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBlaster.Flavor
 		DisplayName: Purified Blaster
 		Tooltip: ""
 	}
 
 	ShimmerOrderStringer: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderStringer.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderStringer.Flavor
 		DisplayName: Purified Stringer
 		Tooltip: ""
 	}
 
 	ShimmerOrderBrella: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBrella.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBrella.Flavor
 		DisplayName: Purified Brella
 		Tooltip: ""
 	}
 
 	ShimmerOrderBrush: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderBrush.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderBrush.Flavor
 		DisplayName: Purified Brush
 		Tooltip: ""
 	}
 
 	ShimmerOrderCharger: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderCharger.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderCharger.Flavor
 		DisplayName: Purified Charger
 		Tooltip: ""
 	}
 
 	ShimmerOrderDualie: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderDualie.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderDualie.Flavor
 		DisplayName: Purified Dualies
 		Tooltip: ""
 	}
 
 	ShimmerOrderRoller: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderRoller.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderRoller.Flavor
 		DisplayName: Purified Roller
 		Tooltip: ""
 	}
 
 	ShimmerOrderShot: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderShot.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderShot.Flavor
 		DisplayName: Purified Splattershot
 		Tooltip: ""
 	}
 
 	ShimmerOrderSlosher: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSlosher.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSlosher.Flavor
 		DisplayName: Purified Slosher
 		Tooltip: ""
 	}
 
 	ShimmerOrderSplatana: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSplatana.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSplatana.Flavor
 		DisplayName: Purified Splatana
 		Tooltip: ""
 	}
 
 	ShimmerOrderSplatling: {
-		UsageHint: Mods.AchiSplatoon2.Items.ShimmerOrderSplatling.UsageHint
+		UsageHint: "{$Hint.PurifiedWeapon}"
 		Flavor: Mods.AchiSplatoon2.Items.ShimmerOrderSplatling.Flavor
 		DisplayName: Purified Splatling
 		Tooltip: ""
