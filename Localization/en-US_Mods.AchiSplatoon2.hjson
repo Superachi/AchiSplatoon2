@@ -631,7 +631,7 @@ Items: {
 	}
 
 	JetSquelcher: {
-		UsageHint: Has extraordinary range
+		UsageHint: Fires at extremely long range
 		Flavor: Mods.AchiSplatoon2.Items.JetSquelcher.Flavor
 		DisplayName: Jet Squelcher
 		Tooltip: ""
