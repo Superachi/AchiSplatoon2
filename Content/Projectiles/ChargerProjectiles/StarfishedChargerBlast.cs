@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Netcode.DataModels;
+using Microsoft.Xna.Framework;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
@@ -49,15 +51,17 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             {
                 if (IsThisClientTheProjectileOwner())
                 {
-                    Projectile.friendly = true;
-
                     var finalRadius = (int)(baseRadius * explosionRadiusModifier);
-                    Projectile.Resize(finalRadius, finalRadius);
-                    Projectile.Center = target.Center;
 
-                    var e = new ExplosionDustModel(_dustMaxVelocity: 20, _dustAmount: 20, _minScale: 3, _maxScale: 4, _radiusModifier: finalRadius);
                     var a = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: -0.4f + pitchAdd, _position: Projectile.Center);
-                    CreateExplosionVisual(e, a);
+                    var p = CreateChildProjectile<BlastProjectile>(target.Center, Vector2.Zero, Projectile.damage, false);
+                    p.SetProperties(finalRadius, a);
+                    p.RunSpawnMethods();
+
+                    var sparkle = CreateChildProjectile<StillSparkleVisual>(target.Center, Vector2.Zero, 0, true);
+                    sparkle.AdjustRotation(MathHelper.ToRadians(45));
+                    sparkle.AdjustColor(CurrentColor);
+                    sparkle.AdjustScale(finalRadius / 80f);
 
                     hasExploded = true;
                     Projectile.timeLeft = 6;
