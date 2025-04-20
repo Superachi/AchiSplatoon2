@@ -83,6 +83,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
             string detailFilePath = Path.Combine("D:\\Documents\\Repos\\WoomyModPages\\pages\\items");
             ItemData.ExportItemsAsDetailPages(itemDataList, detailFilePath);
 
+            // Copy over item image files
+            string modItemsDirectory = @"C:\Users\psclk\Documents\My Games\Terraria\tModLoader\ModSources\AchiSplatoon2\Content\Items\";
+            string woomyItemImagesDirectory = @"D:\Documents\Repos\WoomyModPages\assets\images\Items";
+            FileHandler.CopyDirectory(modItemsDirectory, woomyItemImagesDirectory, true, ".png", true);
+
             string categoryFilePath = Path.Combine("D:\\Documents\\Repos\\WoomyModPages\\pages\\item_categories");
             ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSplattershot));
             ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBlaster));

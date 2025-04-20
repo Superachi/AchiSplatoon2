@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
@@ -83,41 +83,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
                     RareLootDropPlayerFeedback(npc);
                 }
-
-                // Drop licenses straight from the boss if not Expert/Master mode
-                if (!Main.expertMode && !Main.masterMode)
-                {
-                    switch (npc.type)
-                    {
-                        case NPCID.KingSlime:
-                        case NPCID.EyeofCthulhu:
-                        case NPCID.QueenBee:
-                        case NPCID.SkeletronHead:
-                        case NPCID.Deerclops:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicense>(), Stack: Main.rand.Next(1, 4));
-                            break;
-
-                        case NPCID.WallofFlesh:
-                        case NPCID.Retinazer:
-                        case NPCID.Spazmatism:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: 1);
-                            break;
-
-                        case NPCID.QueenSlimeBoss:
-                        case NPCID.TheDestroyer:
-                        case NPCID.SkeletronPrime:
-                        case NPCID.Plantera:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: Main.rand.Next(1, 4));
-                            break;
-
-                        case NPCID.DukeFishron:
-                        case NPCID.HallowBoss: // Empress of Light
-                        case NPCID.Golem:
-                        case NPCID.CultistBoss:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseGold>(), Stack: Main.rand.Next(1, 4));
-                            break;
-                    }
-                }
             }
         }
 
@@ -148,18 +113,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
             }
 
-            //if (npc.type == NPCID.Mimic)
-            //{
-            //    npcLoot.Add(
-            //        ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), chanceDenominator: 2, minimumDropped: 1));
-
-            //    npcLoot.Add(
-            //        ItemDropRule.Common(ModContent.ItemType<MainSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
-
-            //    npcLoot.Add(
-            //        ItemDropRule.Common(ModContent.ItemType<SubSaverEmblem>(), chanceDenominator: 5, minimumDropped: 1));
-            //}
-
             // Super palette crafting materials
             if (npc.type == NPCID.MartianSaucerCore)
             {
@@ -175,22 +128,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
             if (npc.type == NPCID.Mothron)
             {
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
-            }
-
-            // Large mimics
-            if (npc.type == NPCID.BigMimicHallow)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HallowedLootBag>()));
-            }
-
-            if (npc.type == NPCID.BigMimicCrimson)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimsonLootBag>()));
-            }
-
-            if (npc.type == NPCID.BigMimicCorruption)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CorruptLootBag>()));
             }
 
             #region Dungeon (post-plantera)

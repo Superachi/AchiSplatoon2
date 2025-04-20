@@ -1,20 +1,19 @@
-﻿using AchiSplatoon2.Helpers;
-using Newtonsoft.Json;
-using System.IO;
-using Terraria.ModLoader;
-using System.Collections.Generic;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
-using Terraria;
-using System.Text.RegularExpressions;
-using Terraria.ID;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Helpers;
+using AchiSplatoon2.StaticData;
+using Newtonsoft.Json;
 using System;
-using AchiSplatoon2.Attributes;
-using NVorbis.Contracts;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.DocGeneration
 {
@@ -28,7 +27,6 @@ namespace AchiSplatoon2.DocGeneration
         public float Crit { get; set; }
         public int UseTime { get; set; }
         public float Velocity { get; set; }
-        public float InkCost { get; set; }
 
         public int Rarity { get; set; }
         public ItemMoneyValue Value { get; set; }
@@ -85,7 +83,8 @@ namespace AchiSplatoon2.DocGeneration
             {
                 Recipe recipe = Main.recipe[i];
 
-                if (recipe.TryGetResult(ModdedItem.Item.type, out Item _)) {
+                if (recipe.TryGetResult(ModdedItem.Item.type, out Item _))
+                {
                     Recipes.Add(recipe);
                 }
             }
@@ -100,79 +99,27 @@ namespace AchiSplatoon2.DocGeneration
             DebugHelper.PrintDebug("Created the JSON.");
         }
 
-        public string GenerateItemTableHTML()
+        private string? GetImageUri(ModItem moddedItem)
         {
-            string html = "---\r\n---\r\n";
+            var className = moddedItem.GetType().Name;
 
-            // Name and description display
-            var className = ModdedItem.GetType().Name;
-            var folderSuffix = ModdedItem.GetType().Namespace
-                .Replace("AchiSplatoon2.Content.", "")
-                .Replace(".", "/");
-
-            html += "<img src=\"{{ site.baseurl }}/assets/images/" + folderSuffix + "/" + className + ".png\" class=\"mx-auto d-block\">\n";
-            html += $"\n<a id=\"{Name.ToLowerInvariant().Replace(" ", "-")}\"></a>\n";
-            html += $"### {Name}\n\n";
-
-            if (!string.IsNullOrEmpty(Flavor))
+            var categoryAttribute = Attribute.GetCustomAttribute(moddedItem.GetType(), typeof(ItemCategoryAttribute)) as ItemCategoryAttribute;
+            if (categoryAttribute == null)
             {
-                html += $"*{FormatInput(Flavor)}*\n\n";
+                DebugHelper.PrintError($"Failed to generate Image URI string: {nameof(categoryAttribute)} was null for {moddedItem.Name}");
+                return null;
             }
 
-            if (!string.IsNullOrEmpty(Tooltip))
+            return $"{categoryAttribute.DirectorySuffix}/{className}";
+        }
+
+        public string GenerateWeaponDetailHTML()
+        {
+            if (!(ModdedItem is BaseWeapon weapon))
             {
-                html += $"{FormatInput(Tooltip)}\n\n";
+                DebugHelper.PrintError($"Tried to generate weapon detail HTML for {Name}, but it doesn't inherit from {nameof(BaseWeapon)}");
+                return "";
             }
-
-            if (!string.IsNullOrEmpty(UsageHint))
-            {
-                html += $"**{FormatInput(UsageHint)}**\n";
-            }
-
-            html += "<table class=\"table\">";
-
-            AddMarkdownTableRow(ref html, nameof(Category), Category);
-
-            // Weapon stats display
-
-            if (ModdedItem is BaseWeapon weapon)
-            {
-                if (Damage > 0)
-                {
-                    AddMarkdownTableRow(ref html, nameof(Damage), Damage.ToString());
-                }
-                else
-                {
-                    AddMarkdownTableRow(ref html, nameof(Damage), "No damage");
-                }
-
-                if (Knockback > 0)
-                {
-                    AddMarkdownTableRow(ref html, nameof(Knockback), Knockback.ToString());
-                }
-                else
-                {
-                    AddMarkdownTableRow(ref html, nameof(Knockback), "No knockback");
-                }
-
-                if (Crit > 0)
-                {
-                    AddMarkdownTableRow(ref html, "Bonus crit chance", Crit.ToString() + "%");
-                }
-
-                if (Velocity > 1)
-                {
-                    AddMarkdownTableRow(ref html, nameof(Velocity), Velocity.ToString());
-                }
-
-                var inkCost = GetWeaponInkCost(ModdedItem);
-                if (inkCost > 0)
-                {
-                    AddMarkdownTableRow(ref html, "Ink usage", inkCost.ToString() + "%");
-                }
-            }
-
-            // Value display
 
             var valueString = "";
             if (Value.Platinum > 0)
@@ -195,84 +142,156 @@ namespace AchiSplatoon2.DocGeneration
                 valueString += $"{Value.Copper} copper";
             }
 
-            if (!string.IsNullOrEmpty(valueString))
+            string? imageUri = GetImageUri(ModdedItem);
+            if (imageUri == null)
             {
-                AddMarkdownTableRow(ref html, nameof(Value), valueString);
+                return "";
             }
 
-            AddMarkdownTableRow(ref html, nameof(Rarity), RarityToString());
-
-            html += "\r\n</table>\r\n\n";
+            string html = "";
+            html += "---\r\n---\r\n" +
+                "\r\n{%" +
+                "\r\n  include weapon-details-page/stats.html" +
+                $"\r\n  name=\"{Name}\"" +
+                $"\r\n  image_uri=\"{imageUri}\"" +
+                $"\r\n  category=\"{Category}\"" +
+                $"\r\n  flavor_text=\"{FormatInput(Flavor)}\"" +
+                $"\r\n  usage_hint=\"{FormatInput(UsageHint)}\"" +
+                $"\r\n  damage=\"{Damage}\"" +
+                $"\r\n  knockback=\"{Knockback}\"" +
+                $"\r\n  velocity=\"{Velocity}\"" +
+                $"\r\n  ink_usage=\"{GetWeaponInkCost(ModdedItem)}\"" +
+                $"\r\n  value=\"{valueString}\"" +
+                $"\r\n  rarity=\"{RarityToString()}\"" +
+                "\r\n%}";
 
             // Recipes
-
+            var recipeHtml = "";
             if (Recipes.Count > 0)
             {
-                if (Recipes.Count > 1)
+                var i = 0;
+
+                foreach (var recipe in Recipes)
                 {
-                    var i = 0;
+                    i++;
 
-                    foreach (var recipe in Recipes)
+                    var tileName = "None required";
+
+                    var tileList = recipe.requiredTile;
+                    if (tileList.Count > 0)
                     {
-                        i++;
-                        html += $"<details>\r\n  <summary><b>Recipe {i}</b></summary>\r\n";
-
-                        html += "  <span>\n";
-                        foreach (var item in recipe.requiredItem)
-                        {
-                            var link = GetVanillaItemUrl(item);
-                            link = link == "" ? GetModItemPageUrl(item) : link;
-
-                            html += $"    <li>\r\n      {item.stack}x <b><a href=\"{link}\">{item.Name}</a></b>\r\n    </li>\r\n";
-                        }
-                        html += "\n  </span>";
-                        html += "\r\n</details>\r\n";
+                        var tile = recipe.requiredTile.First();
+                        bool _ = TileID.Search.TryGetName(tile, out tileName);
                     }
 
-                    html += "\n";
-                }
-                else
-                {
-                    html += $"<b>Recipe</b>\r\n";
+                    recipeHtml += "      {%\r\n        include weapon-details-page/recipe-header " +
+                        $"\r\n        recipe_number=\"{i}\"" +
+                        $"\r\n        tile_name=\"{tileName}\"" +
+                        "\r\n      %}\r\n      ";
 
-                    foreach (var item in Recipes[0].requiredItem)
+                    foreach (var item in recipe.requiredItem)
                     {
                         var link = GetVanillaItemUrl(item);
                         link = link == "" ? GetModItemPageUrl(item) : link;
 
-                        html += $"    <li>\r\n      {item.stack}x <b><a href=\"{link}\">{item.Name}</a></b>\r\n    </li>\r\n";
+                        recipeHtml += "{%\r\n        include weapon-details-page/recipe-ingredient " +
+                            $"\r\n        amount=\"{item.stack}\"" +
+                            $"\r\n        item_name=\"{item.Name}\"" +
+                            $"\r\n        item_url=\"{link}\"" +
+                            "\r\n      %}\r\n      ";
                     }
+
+                    recipeHtml += "<br>\r\n\r\n";
                 }
             }
+            else
+            {
+                recipeHtml = "      <i>There are no known crafting recipes.</i>";
+            }
 
-            html += "---\n";
+            // Droptable
+            var lootTableHtml = "";
+            var lootTableIndices = LootTables.FindIndicesById(ModdedItem.Item.type);
 
+            if (lootTableIndices.Count() > 0)
+            {
+                foreach(var index in lootTableIndices)
+                {
+                    var npcName = Lang.GetNPCNameValue(index.NpcId);
+                    var bagName = Lang.GetItemNameValue(index.TreasureBagId);
+                    var sourceName = "";
+                    var sourceUrl = "";
+
+                    if (npcName != null)
+                    {
+                        sourceName = $"{npcName}";
+                        sourceUrl = GetVanillaNPCUrl(index.NpcId);
+                    }
+                    else if (bagName != null)
+                    {
+                        sourceName = $"{bagName}";
+                        sourceUrl = GetVanillaItemUrl(ModdedItem.Item) ?? GetModItemPageUrl(ModdedItem.Item);
+                    }
+
+                    string amount = index.MinimumDropped.ToString();
+                    if (index.MinimumDropped != index.MaximumDropped)
+                    {
+                        amount = $"{index.MinimumDropped} - {index.MaximumDropped}";
+                    }
+
+                    string chance = (1f / index.ChanceDenominator * 100).ToString();
+
+                    lootTableHtml += "      {%\r\n        include weapon-details-page/drop-table-index.html" +
+                    $"\r\n        source_name=\"{sourceName}\"" +
+                    $"\r\n        source_url=\"{sourceUrl}\"" +
+                    $"\r\n        amount=\"{amount}\"" +
+                    $"\r\n        chance=\"{chance}\"" +
+                    "\r\n      %}\r\n      ";
+                }
+            }
+            else
+            {
+                lootTableHtml = "<i>There are no known drop locations.</i>";
+            }
+
+            html += "\r\n\r\n<br>\r\n<h1 style=\"text-align: center;\">How to obtain</h1>\r\n<div class=\"card-group\">";
+
+            // Crafting section
+            html += "\r\n  <div class=\"card\">\r\n    ";
+            html += "<div class=\"card-header text-center\">\r\n      <b>Crafting</b>\r\n    </div>\r\n\r\n    <div class=\"card-body\">\r\n" + $"{recipeHtml}" + "\r\n    </div>\r\n  </div>";
+
+            // Loot section
+            html += "\r\n\r\n  <div class=\"card\">\r\n    ";
+            html += "<div class=\"card-header text-center\">\r\n      <b>Looting from enemy/treasure bag</b>\r\n    </div>\r\n\r\n    <div class=\"card-body\">\r\n      " + $"{lootTableHtml}" + "\r\n    </div>\r\n  </div>";
+
+            html += "\r\n</div>";
             return html;
         }
 
         public static void ExportItemsAsDetailPages(List<ItemData> itemDataList, string path)
         {
-            DebugHelper.PrintDebug("Creating item detail pages...");
+            DebugHelper.PrintInfo("Creating item detail pages...");
 
             foreach (var itemData in itemDataList)
             {
-                if (itemData.Name.Contains("Base") || itemData.Name.Contains("Test"))
+                if (itemData.ModdedItem is not BaseWeapon)
                 {
+                    DebugHelper.PrintDebug($"Skipping {itemData.Name}: it doesn't inherit from {nameof(BaseWeapon)}");
                     continue;
                 }
 
-                var html = itemData.GenerateItemTableHTML();
+                var html = itemData.GenerateWeaponDetailHTML();
                 var className = itemData.ModdedItem.GetType().Name;
                 var newPath = Path.Combine(path, className + ".html");
                 File.WriteAllText(newPath, html);
             }
 
-            DebugHelper.PrintDebug("Created the HTML.");
+            DebugHelper.PrintInfo("Created the HTML.");
         }
 
         public static void ExportWeaponsAsCategoryPage(List<ItemData> itemDataList, string path, Type baseItemType)
         {
-            DebugHelper.PrintDebug("Creating item category pages...");
+            DebugHelper.PrintInfo("Creating item category pages...");
 
             List<ItemData> filteredList = new();
             foreach (var itemData in itemDataList)
@@ -281,8 +300,6 @@ namespace AchiSplatoon2.DocGeneration
                 {
                     continue;
                 }
-
-                DebugHelper.PrintInfo($"Printing include line for {itemData.Name}");
 
                 if (ShouldItemBeExcluded(itemData))
                 {
@@ -323,14 +340,14 @@ namespace AchiSplatoon2.DocGeneration
                 return;
             }
 
-            var templateStart = "---\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/category-table-head.html %}\r\n      <tbody>\r\n";
+            var templateStart = "---\r\nsubtitle: " + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/category-table-head.html %}\r\n      <tbody>\r\n";
             var templateEnd = "      </tbody>\r\n    </table>\r\n  </details>\r\n</div>";
             var html = templateStart + includeLines + templateEnd;
 
-            var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix + ".html");
+            var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix.ToLower() + ".html");
             File.WriteAllText(newPath, html);
 
-            DebugHelper.PrintDebug("Created the HTML.");
+            DebugHelper.PrintInfo("Created the HTML.");
         }
 
         private static bool ShouldItemBeExcluded(ItemData itemData)
@@ -414,6 +431,17 @@ namespace AchiSplatoon2.DocGeneration
             return $"[{item.Name}]({url})";
         }
 
+        private string GetVanillaNPCUrl(int npcId)
+        {
+            var npcName = Lang.GetNPCNameValue(npcId);
+            if (npcName != null)
+            {
+                return $"https://terraria.wiki.gg/wiki/{npcName.Replace(" ", "_")}";
+            }
+
+            return "";
+        }
+
         private static string GenerateTableOfContent(List<ItemData> itemDataList)
         {
             var markdown = "### Table of content:\n\n";
@@ -429,7 +457,7 @@ namespace AchiSplatoon2.DocGeneration
             string pattern = @"\{\d+\}";
             input = Regex.Replace(input, pattern, "X");
 
-            if (!input.EndsWith(".") && !input.EndsWith("!") && !input.EndsWith("?"))
+            if (!string.IsNullOrEmpty(input) && !input.EndsWith(".") && !input.EndsWith("!") && !input.EndsWith("?"))
             {
                 input += ".";
             }
