@@ -131,7 +131,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
                 if (proj == null) return;
                 if (proj.ChargedAmmo <= 0) return;
 
-                proj.RestoreAmmo(0.5f);
+                proj.RestoreAmmo(0.4f);
                 proj.crayonBoxChain++;
 
                 Owner.GetModPlayer<HudPlayer>().SetOverheadText(
