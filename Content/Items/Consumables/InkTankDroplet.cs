@@ -80,7 +80,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
                 if (player.HasAccessory<HoneyInkTank>())
                 {
-                    player.AddBuff(BuffID.Honey, 300);
+                    player.AddBuff(BuffID.Honey, 180);
                 }
 
                 return true;
