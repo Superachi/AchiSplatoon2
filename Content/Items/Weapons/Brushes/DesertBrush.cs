@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     {
         public override float InkCost { get => 5f; }
 
-        protected override int ArmorPierce => 20;
+        protected override int ArmorPierce => 15;
         public override float AimDeviation { get => 3f; }
         public override float ShotVelocity => 8f;
         public override float BaseWeaponUseTime => 20f;

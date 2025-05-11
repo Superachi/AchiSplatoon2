@@ -12,7 +12,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 {
     internal class DesertBrushProjectile : BaseProjectile
     {
-        private Color bulletColor;
+        protected override float DamageModifierAfterPierce => 0.95f;
+
         private float airResist;
         private float drawScale;
         private float drawRotation;
@@ -48,7 +49,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         protected override void AfterSpawn()
         {
-            Initialize();
+            Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
 
             airResist = 0.97f;
@@ -65,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
+            Lighting.AddLight(Projectile.position, CurrentColor.R * brightness, CurrentColor.G * brightness, CurrentColor.B * brightness);
 
             // Rotation increased by velocity.X 
             var rotateDirection = Math.Sign(Projectile.velocity.X);

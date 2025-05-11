@@ -1974,6 +1974,13 @@ Items: {
 		DisplayName: Grim Range Blaster
 		Tooltip: ""
 	}
+
+	DesertBrushB: {
+		UsageHint: "{$Hint.Brushes.Desert}"
+		Flavor: Mods.AchiSplatoon2.Items.DesertBrushB.Flavor
+		DisplayName: Mirage Duster
+		Tooltip: "{$ArmorPierce.Display}"
+	}
 }
 
 Projectiles: {
