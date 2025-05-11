@@ -1,5 +1,5 @@
 ﻿using AchiSplatoon2.ExtensionMethods;
-using AchiSplatoon2.StaticData;
+using AchiSplatoon2.StaticData.LootTables;
 using Newtonsoft.Json;
 using Terraria;
 using Terraria.ModLoader;

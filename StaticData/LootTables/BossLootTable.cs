@@ -1,47 +1,26 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
-using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 
-namespace AchiSplatoon2.StaticData
+namespace AchiSplatoon2.StaticData.LootTables
 {
-    internal class LootTables
+    internal class BossLootTable : ILootTable
     {
-        public static List<LootTableIndex> List { get; private set; }
-        public static void UpdateStaticData()
+        public List<LootTableIndex> Indices()
         {
-            List = AllLootIndices();
-        }
-
-        public static List<LootTableIndex> AllLootIndices()
-        {
-            var list = new List<LootTableIndex>();
-
-            foreach (var loot in BossLoot()) list.Add(loot);
-            foreach (var loot in MimicLoot()) list.Add(loot);
-
-            return list;
-        }
-
-        public static List<LootTableIndex> FindIndicesById(int modItemId)
-        {
-            return List.Where(index => index.itemIds.Contains(modItemId)).ToList();
-        }
-
-        public static List<LootTableIndex> BossLoot()
-        {
-            List<LootTableIndex> bossLootList = new();
+            var bossLootList = new List<LootTableIndex>();
 
             // Licenses
             var basicLicenseDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
@@ -157,6 +136,7 @@ namespace AchiSplatoon2.StaticData
                 chanceDenominator: 2)
             );
 
+            // Duke fishron
             bossLootList.Add(
                 new LootTableIndex(
                 itemId: ModContent.ItemType<EelSplatana>(),
@@ -165,43 +145,6 @@ namespace AchiSplatoon2.StaticData
             );
 
             return bossLootList;
-        }
-
-        public static List<LootTableIndex> MimicLoot()
-        {
-            List<LootTableIndex> mimicLootList = new()
-            {
-                // Small mimics
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<SheldonLicenseSilver>(),
-                    chanceDenominator: 2,
-                    npcId: NPCID.Mimic),
-
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<MainSaverEmblem>(),
-                    chanceDenominator: 5,
-                    npcId: NPCID.Mimic),
-
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<SubSaverEmblem>(),
-                    chanceDenominator: 5,
-                    npcId: NPCID.Mimic),
-
-                // Big mimics
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<HallowedLootBag>(),
-                    npcId: NPCID.BigMimicHallow),
-
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<CorruptLootBag>(),
-                    npcId: NPCID.BigMimicCorruption),
-
-                new LootTableIndex(
-                    itemId: ModContent.ItemType<CrimsonLootBag>(),
-                    npcId: NPCID.BigMimicCrimson),
-            };
-
-            return mimicLootList;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.StaticData;
+﻿using AchiSplatoon2.StaticData.LootTables;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.ModSystems

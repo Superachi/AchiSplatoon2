@@ -4,7 +4,7 @@ using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.StaticData;
+using AchiSplatoon2.StaticData.LootTables;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -206,7 +206,7 @@ namespace AchiSplatoon2.DocGeneration
             }
             else
             {
-                recipeHtml = "      <i>There are no known crafting recipes.</i>";
+                recipeHtml = "      ❌<i> There are no known crafting recipes.</i>";
             }
 
             // Droptable
@@ -239,7 +239,7 @@ namespace AchiSplatoon2.DocGeneration
                         amount = $"{index.MinimumDropped} - {index.MaximumDropped}";
                     }
 
-                    string chance = (1f / index.ChanceDenominator * 100).ToString();
+                    string chance = (1f / index.ChanceDenominator * 100).ToString("0.0");
 
                     lootTableHtml += "      {%\r\n        include weapon-details-page/drop-table-index.html" +
                     $"\r\n        source_name=\"{sourceName}\"" +
@@ -251,7 +251,7 @@ namespace AchiSplatoon2.DocGeneration
             }
             else
             {
-                lootTableHtml = "<i>There are no known drop locations.</i>";
+                lootTableHtml = "❌<i> There are no known drop locations.</i>";
             }
 
             html += "\r\n\r\n<br>\r\n<h1 style=\"text-align: center;\">How to obtain</h1>\r\n<div class=\"card-group\">";
@@ -344,7 +344,7 @@ namespace AchiSplatoon2.DocGeneration
             var templateEnd = "      </tbody>\r\n    </table>\r\n  </details>\r\n</div>";
             var html = templateStart + includeLines + templateEnd;
 
-            var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix.ToLower() + ".html");
+            var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix + ".html");
             File.WriteAllText(newPath, html);
 
             DebugHelper.PrintInfo("Created the HTML.");

@@ -1,21 +1,10 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables;
-using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
-using AchiSplatoon2.StaticData;
+using AchiSplatoon2.StaticData.LootTables;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -113,116 +102,11 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
             }
 
-            // Super palette crafting materials
-            if (npc.type == NPCID.MartianSaucerCore)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MartianBrella>(), 3));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteMiddlePart>(), 3));
-            }
-
-            if (npc.type == NPCID.PirateShip)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteLeftPart>(), 3));
-            }
-
-            if (npc.type == NPCID.Mothron)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
-            }
-
-            #region Dungeon (post-plantera)
-
-            var dungeonDropChanceDenominator = 8;
-            switch (npc.type)
-            {
-                case NPCID.SkeletonSniper:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Snipewriter5B>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.TacticalSkeleton:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.SkeletonCommando:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.Paladin:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PainBrushNouveau>(), dungeonDropChanceDenominator / 2));
-                    break;
-            }
-
-            if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 10));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 10));
-            }
-
-            #endregion
-
-            #region Pumpkin moon
-
-            switch (npc.type)
-            {
-                case NPCID.MourningWood:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 15));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 15));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 15));
-                    break;
-
-                case NPCID.Pumpking:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
-                    break;
-            }
-
-            #endregion
-
-            #region Frost moon
-
-            switch (npc.type)
-            {
-                case NPCID.Everscream:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Squeezer>(), 10));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 10));
-                    break;
-
-                case NPCID.SantaNK1:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 10));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomHydraSplatling>(), 10));
-                    break;
-
-                case NPCID.IceQueen:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
-                    break;
-            }
-
-            #endregion
-
-            #region Rare drops
-
-            if (npc.type == NPCID.Squid)
-            {
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<SquidBoomerang>(),
-                    chanceDenominator: 10));
-
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<InkDroplet>(),
-                    chanceDenominator: 5,
-                    minimumDropped: 1,
-                    maximumDropped: 5));
-            }
-
-            if (npc.FullName.ToLowerInvariant().Contains("hornet") && npc.type != NPCID.VortexHornet && npc.type != NPCID.VortexHornetQueen)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HoneyScepter>(), 100));
-            }
-
-            if (npc.type == NPCID.Eyezor)
-            {
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<LaserAddon>(),
-                    chanceDenominator: 3));
-            }
-
-            #endregion
+            npcLoot.Add(ItemDropRule.Common(
+                ModContent.ItemType<InkDroplet>(),
+                chanceDenominator: 200,
+                minimumDropped: 1,
+                maximumDropped: 10));
         }
     }
 }
