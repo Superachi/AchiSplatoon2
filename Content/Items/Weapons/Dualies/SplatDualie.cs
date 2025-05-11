@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,6 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class SplatDualie : BaseDualie
     {
+        public override SoundStyle ShootSample { get => SoundPaths.DualieSplatShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => ShootSample; }
+
         public override float AimDeviation { get => 6f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
         public override Vector2 MuzzleOffset => new Vector2(50f, 0);

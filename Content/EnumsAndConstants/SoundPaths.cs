@@ -70,6 +70,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string EliterChargerShootWeak => FormatPath(nameof(EliterChargerShootWeak));
         public static string EmptyInkTank => FormatPath(nameof(EmptyInkTank));
         public static string HeroShotShoot => FormatPath(nameof(HeroShotShoot));
+        public static string HeavySplatlingShoot => FormatPath(nameof(HeavySplatlingShoot));
         public static string Hit => FormatPath(nameof(Hit));
         public static string HitNoDamage => FormatPath(nameof(HitNoDamage));
         public static string InkHitSplash00 => FormatPath(nameof(InkHitSplash00));
@@ -80,6 +81,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string ItemGet2 => FormatPath(nameof(ItemGet2));
         public static string JetSquelcherShoot => FormatPath(nameof(JetSquelcherShoot));
         public static string Marked => FormatPath(nameof(Marked));
+        public static string MiniSplatlingShoot => FormatPath(nameof(MiniSplatlingShoot));
         public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
         public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
         public static string SBlastShoot => FormatPath(nameof(SBlastShoot));
@@ -113,9 +115,15 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string BrellaShotRecycle => FormatPath(nameof(BrellaShotRecycle));
 
         // Dualies
+        public static string DualieDappleShoot => FormatPath(nameof(DualieDappleShoot));
+        public static string DualieDouserShoot => FormatPath(nameof(DualieDouserShoot));
         public static string DualieGloogaRoll => FormatPath(nameof(DualieGloogaRoll));
+        public static string DualieOrderShoot => FormatPath(nameof(DualieOrderShoot));
         public static string DualieSplatRoll => FormatPath(nameof(DualieSplatRoll));
+        public static string DualieSplatShoot => FormatPath(nameof(DualieSplatShoot));
+        public static string DualieSquelcherShoot => FormatPath(nameof(DualieSquelcherShoot));
         public static string DualieTetraRoll => FormatPath(nameof(DualieTetraRoll));
+        public static string DualieTetraShoot => FormatPath(nameof(DualieTetraShoot));
 
         // Rollers
         public static string RollerFling1 => FormatPath(nameof(RollerFling1));

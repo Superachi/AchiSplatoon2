@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,6 +12,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     [OrderWeapon]
     internal class OrderDualie : BaseDualie
     {
+        public override SoundStyle ShootSample { get => SoundPaths.DualieOrderShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => ShootSample; }
+
         public override float AimDeviation { get => 6f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-10, 4); }
         public override Vector2 MuzzleOffset => new Vector2(50f, 0);

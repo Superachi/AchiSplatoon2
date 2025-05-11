@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -9,11 +10,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class DouserDualie : SplatDualie
     {
+        public override float InkCost { get => 1.2f; }
+
         // Shoot settings
         public override float ShotGravity { get => 0.3f; }
         public override int ShotGravityDelay { get => 15; }
         public override int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 3f; }
+        public override SoundStyle ShootSample { get => SoundPaths.DualieDouserShoot.ToSoundStyle(); }
         public override SoundStyle ShootAltSample { get => ShootSample; }
         public override Vector2? HoldoutOffset() { return new Vector2(0, 0); }
         public override Vector2 MuzzleOffset => new Vector2(52, -10);

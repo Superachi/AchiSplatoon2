@@ -10,6 +10,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class DappleDualie : SplatDualie
     {
+        public override SoundStyle ShootSample { get => SoundPaths.DualieDappleShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => ShootSample; }
+
         // Shoot settings
         public override float ShotGravity { get => 0.3f; }
         public override int ShotGravityDelay { get => 4; }
