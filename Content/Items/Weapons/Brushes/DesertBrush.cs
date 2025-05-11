@@ -7,12 +7,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
     internal class DesertBrush : BaseBrush
     {
-        public override float InkCost { get => 4f; }
+        public override float InkCost { get => 5f; }
 
-        public override float AimDeviation { get => 4f; }
-        public override float ShotVelocity => 7f;
-        public override float BaseWeaponUseTime => 24f;
-        public override int WindupTime => 26;
+        protected override int ArmorPierce => 20;
+        public override float AimDeviation { get => 3f; }
+        public override float ShotVelocity => 8f;
+        public override float BaseWeaponUseTime => 20f;
+        public override int WindupTime => 30;
         public override int SwingArc => 160;
 
         public override void SetDefaults()
@@ -22,8 +23,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
             Item.shoot = ModContent.ProjectileType<BrushSwingProjectile>();
 
-            Item.damage = 12;
-            Item.knockBack = 5;
+            Item.damage = 6;
+            Item.crit = 10;
+            Item.knockBack = 6;
 
             Item.scale = 1;
             Item.width = 52;

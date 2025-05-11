@@ -53,7 +53,7 @@ Hint: {
 
 	Brushes: {
 		Generic: While you run and aim downwards, you gain a speed boost
-		Desert: Projectiles linger in place shortly
+		Desert: Fires piercing wind slashes
 		Spooky: Fires magic projectiles that bounce against walls
 	}
 
@@ -1142,8 +1142,8 @@ Items: {
 	DesertBrush: {
 		UsageHint: "{$Hint.Brushes.Desert}"
 		Flavor: Mods.AchiSplatoon2.Items.DesertBrush.Flavor
-		DisplayName: Dune Stainer
-		Tooltip: ""
+		DisplayName: Desert Duster
+		Tooltip: "{$ArmorPierce.Display}"
 	}
 
 	FreshSquiffer: {

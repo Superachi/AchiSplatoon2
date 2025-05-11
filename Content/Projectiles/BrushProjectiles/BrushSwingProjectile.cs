@@ -126,7 +126,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     wepMP.isBrushRolling = false;
                     weaponPlayer.isBrushAttacking = true;
 
-                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.2f, pitchVariance: 0, maxInstances: 5);
+                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.1f, pitch: 0.5f, pitchVariance: 0.2f, maxInstances: 5);
 
                     swingAngleCurrent = facingDirection == 1 ? 180 : 0;
                     break;
@@ -154,6 +154,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+
             var invMP = owner.GetModPlayer<InventoryPlayer>();
             var wepMP = owner.GetModPlayer<WeaponPlayer>();
             var squidMP = owner.GetModPlayer<SquidPlayer>();
@@ -424,19 +426,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var startVelocity = owner.DirectionTo(Main.MouseWorld) * shotVelocity;
             var velocity = startVelocity;
 
-            if (WeaponInstance is not SpookyBrush)
+            if (WeaponInstance is not SpookyBrush && WeaponInstance is not DesertBrush)
             {
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
-                    switch (WeaponInstance)
-                    {
-                        case DesertBrush:
-                            CreateChildProjectile<DesertBrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                            break;
-                        default:
-                            CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                            break;
-                    }
+                    CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                 }
 
                 if (Main.rand.NextBool(2))
@@ -456,10 +450,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     velocity = WoomyMathHelper.AddRotationToVector2(startVelocity, -prefix.AimVariation, prefix.AimVariation);
                 }
 
-                for (int i = -1; i < 2; i += 2)
+                if (WeaponInstance is SpookyBrush)
                 {
-                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, velocity, Projectile.damage / 2, triggerSpawnMethods: false);
-                    p.sineDirection = i;
+                    for (int i = -1; i < 2; i += 2)
+                    {
+                        var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, velocity, Projectile.damage / 2, triggerSpawnMethods: false);
+                        p.sineDirection = i;
+                        p.RunSpawnMethods();
+                    }
+                }
+                else if (WeaponInstance is DesertBrush)
+                {
+                    var p = CreateChildProjectile<DesertBrushProjectile>(owner.Center, velocity, Projectile.damage, triggerSpawnMethods: false);
                     p.RunSpawnMethods();
                 }
             }
