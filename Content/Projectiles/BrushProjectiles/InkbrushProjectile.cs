@@ -92,9 +92,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 Projectile.velocity.Y += shotGravity;
             }
 
-            if (timeSpentAlive >= delayUntilFall / 2 * FrameSpeed() && damageFallOffMod > 0.5f)
+            if (timeSpentAlive >= delayUntilFall * FrameSpeed() && damageFallOffMod > 0.6f)
             {
-                damageFallOffMod -= 0.01f;
+                damageFallOffMod -= 0.005f;
             }
         }
 
