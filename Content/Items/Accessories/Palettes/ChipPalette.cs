@@ -125,8 +125,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (red > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Red)}Power ({red}) >]"
-                            + "\n" + ColorHelper.TextWithFlavorColor("Damage: ")
-                            + ColorHelper.TextWithBonusColor($"+{(int)(red * modPlayer.RedChipBaseAttackDamageBonus * 100)}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Sub weapon damage: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(red * modPlayer.RedChipBaseSubWeaponDamageBonus * 100)}%")
                             + "\n" + ColorHelper.TextWithFlavorColor("Armor penetration: ")
                             + ColorHelper.TextWithBonusColor($"{(int)(red * modPlayer.RedChipBaseArmorPierceBonus)} Defense");
                     }
@@ -157,6 +157,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
                     if (green > 0)
                     {
                         t.Text += $"\n[{ChipTextColor(InkColor.Green)}Lucky ({green}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Added critical strike chance: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateCritChanceBonus())}%")
                             + "\n" + ColorHelper.TextWithFlavorColor("Lucky bomb drop chance: ")
                             + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%");
                     }

@@ -23,8 +23,8 @@ namespace AchiSplatoon2.Content.Players
         private Color _colorFromChips = ColorHelper.GetInkColor(InkColor.Order);
         public bool didColorChipAmountChange = false;
 
-        public float RedChipBaseAttackDamageBonus { get => 0.03f; }
-        public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
+        public float RedChipBaseSubWeaponDamageBonus { get => 0.15f; }
+        public string RedChipBaseSubWeaponDamageBonusDisplay { get => $"{(int)(RedChipBaseSubWeaponDamageBonus * 100)}%"; }
         public int RedChipBaseArmorPierceBonus { get => 2; }
         public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
         public float PurpleSplatInkRecoveryBonus { get => 3f; }
@@ -37,7 +37,8 @@ namespace AchiSplatoon2.Content.Players
         public string YellowChipVelocityBonusDisplay { get => $"{YellowChipVelocityBonus * 100}%"; }
         public float GreenChipLuckyBombChance { get => 0.15f; }
         public string GreenChipLuckyBombChanceDisplay { get => $"{(int)(GreenChipLuckyBombChance * 100)}%"; }
-        public float GreenChipLootBonusDivider { get => 2f; }
+        public float GreenChipCritChanceBonus { get => 1f; }
+        public string GreenChipCritChanceBonusDisplay { get => $"{(int)(GreenChipCritChanceBonus)}%"; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.1f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
         public float BlueChipBaseChargeBonus { get => 1.5f; }
@@ -132,7 +133,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float CalculateAttackDamageBonus()
         {
-            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackDamageBonus;
+            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseSubWeaponDamageBonus;
         }
 
         public int CalculateArmorPierceBonus()
@@ -158,6 +159,11 @@ namespace AchiSplatoon2.Content.Players
         public float CalculateProjectileVelocityBonus()
         {
             return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipVelocityBonus;
+        }
+
+        public float CalculateCritChanceBonus()
+        {
+            return ColorChipAmounts[(int)ChipColor.Green] * GreenChipCritChanceBonus;
         }
 
         public float CalculateLuckyBombChance()

@@ -38,9 +38,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chanceModifier = 1f;
                 if (chipCount > 0)
                 {
-                    chanceModifier = 1f / (1f + chipCount / colorChipPlayer.GreenChipLootBonusDivider);
-                    chanceModifier = Math.Max(1f, chanceModifier);
-
                     if (Main.rand.NextBool((int)(50f * chanceModifier)))
                     {
                         if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)

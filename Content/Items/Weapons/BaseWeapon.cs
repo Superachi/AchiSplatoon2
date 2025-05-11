@@ -161,6 +161,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 {
                     crit += TentacularOcular.BaseCritChance;
                 }
+
+                crit += StatCalculationHelper.CalculateCritModifiers(player, this);
             }
         }
 

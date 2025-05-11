@@ -61,7 +61,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             var modPlayer = player.GetModPlayer<ColorChipPlayer>();
 
             var statModifierA = "statModifierA";
-            var statModifierB = "statModifierA";
+            var statModifierB = "statModifierB";
 
             if (!modPlayer.isPaletteEquipped)
             {
@@ -78,7 +78,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 
             if (RedValue > 0)
             {
-                StatIncreaseDisplayString(tooltips, statModifierA, "weapon damage", modPlayer.RedChipBaseAttackDamageBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierA, "sub weapon damage", modPlayer.RedChipBaseSubWeaponDamageBonusDisplay);
                 StatIncreaseDisplayString(tooltips, statModifierB, "armor penetration", modPlayer.RedChipBaseArmorPierceBonusDisplay);
             }
             else if (BlueValue > 0)
@@ -98,9 +98,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
             }
             else if (GreenValue > 0)
             {
-                StatIncreaseDisplayString(tooltips, statModifierA, "enemy lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
-                var newTooltip = new TooltipLine(Mod, statModifierB, "Per chip, enemies are more likely to drop sub weapons, canned specials and life/mana pickups");
-                tooltips.Add(newTooltip);
+                StatIncreaseDisplayString(tooltips, statModifierA, "critical strike chance", modPlayer.GreenChipCritChanceBonusDisplay);
+                StatIncreaseDisplayString(tooltips, statModifierB, "enemy lucky bomb drop chance", modPlayer.GreenChipLuckyBombChanceDisplay);
             }
             else if (AquaValue > 0)
             {

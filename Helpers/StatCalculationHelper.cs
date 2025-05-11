@@ -23,10 +23,6 @@ namespace AchiSplatoon2.Helpers
 
             #region Additive
 
-            // Red color chip bonus
-            damageModifier += colorChipPlayer.CalculateAttackDamageBonus();
-            if (debug) DebugHelper.PrintInfo($"Val after red chip: {damageModifier}");
-
             // Pallete bonus
             if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponInstance, player))
             {
@@ -42,6 +38,13 @@ namespace AchiSplatoon2.Helpers
             // Sub power bonus
             if (weaponInstance.IsSubWeapon)
             {
+                // Red color chip bonus
+                if (colorChipPlayer.IsPaletteValid())
+                {
+                    damageModifier += colorChipPlayer.CalculateAttackDamageBonus();
+                    if (debug) DebugHelper.PrintInfo($"Val after red chip: {damageModifier}");
+                }
+
                 // Bonus from hardmode
                 damageModifier += Main.hardMode ? WeaponPlayer.HardmodeSubWeaponDamageBonus : 0f;
 
@@ -108,6 +111,20 @@ namespace AchiSplatoon2.Helpers
             #endregion
 
             return damageModifier;
+        }
+
+        public static float CalculateCritModifiers(Player player, BaseWeapon weaponInstance, BaseProjectile projectile = null, bool debug = false)
+        {
+            float critModifier = 1f;
+            var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
+
+            if (colorChipPlayer.IsPaletteValid())
+            {
+                critModifier += colorChipPlayer.CalculateCritChanceBonus();
+                if (debug) DebugHelper.PrintInfo($"Val after green chip: {critModifier}");
+            }
+
+            return critModifier;
         }
     }
 }
