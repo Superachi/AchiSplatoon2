@@ -22,17 +22,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float AimDeviation { get => 2f; }
         public override SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
-        public override Vector2 MuzzleOffset => new Vector2(48f, 0);
+        public override Vector2 MuzzleOffset => new Vector2(52f, -12f);
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<NozzlenoseShooter>(),
-                singleShotTime: 14,
+                singleShotTime: 18,
                 shotVelocity: 1f);
 
-            Item.damage = 20;
+            Item.damage = 24;
             Item.width = 50;
             Item.height = 32;
             Item.knockBack = 2;

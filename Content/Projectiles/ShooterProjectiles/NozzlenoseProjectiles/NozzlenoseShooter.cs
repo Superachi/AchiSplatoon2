@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -13,7 +14,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         private float shotVelocity = 10f;
         public int NPCTarget = -1;
 
-        private float muzzleDistance;
+        private Vector2 muzzleOffset;
 
         protected float lastShotRadians; // Used for networking
 
@@ -41,7 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
             shotVelocity = weaponData.ShotVelocity;
             shotSpeed = weaponData.BurstShotTime;
-            muzzleDistance = weaponData.MuzzleOffset.X;
+            muzzleOffset = weaponData.MuzzleOffset;
 
             ShotTimer = shotSpeed;
         }
@@ -59,13 +60,23 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             return angleVector * shotVelocity;
         }
 
-        protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, float distance)
+        protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, Vector2 offset)
         {
-            var spawnPositionOffset = Vector2.Normalize(aimVelocity) * muzzleDistance;
+            if (Owner.direction == -1)
+            {
+                offset.Y *= Owner.direction;
+            }
+
+            var angleVector = Vector2.Normalize(aimVelocity);
+            var radians = angleVector.ToRotation();
+            var degrees = MathHelper.ToDegrees(radians);
+            var spawnPositionOffset = WoomyMathHelper.AddRotationToVector2(offset, degrees);
+
             if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
             {
                 spawnPositionOffset = Vector2.Zero;
             }
+
             return spawnPositionOffset;
         }
 
@@ -88,7 +99,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
                     // Calculate angle/velocity
                     lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
                     Vector2 velocity = GetVelocityTimesAngle(lastShotRadians, shotVelocity);
-                    var spawnPositionOffset = CalcBulletSpawnOffset(velocity, muzzleDistance);
+                    var spawnPositionOffset = CalcBulletSpawnOffset(velocity, muzzleOffset);
 
                     var p = CreateChildProjectile(Projectile.Center + spawnPositionOffset, velocity, ModContent.ProjectileType<NozzlenoseProjectile>(), Projectile.damage, false);
 
