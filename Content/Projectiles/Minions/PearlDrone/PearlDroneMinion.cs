@@ -1,11 +1,13 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
@@ -471,7 +473,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void FindTarget(float maxTargetDistance)
         {
-            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank;
+            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank || Owner.HasAccessory<LaserAddon>();
             var success = false;
 
             float closestDistance = maxTargetDistance;

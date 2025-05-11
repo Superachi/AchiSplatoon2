@@ -59,7 +59,7 @@ namespace AchiSplatoon2.Content.Buffs
 
             if (accPlayer.HasAccessory<LaserAddon>())
             {
-                tooltip += ColorHelper.TextWithPearlColor("Laser beams!") + "\n";
+                tooltip += ColorHelper.TextWithFunctionalColor("Laser beams!") + "\n";
             }
             else
             {
