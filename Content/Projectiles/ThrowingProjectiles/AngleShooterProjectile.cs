@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,7 +25,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 120;
+            Projectile.extraUpdates = 160;
             Projectile.width = 1;
             Projectile.height = 1;
             Projectile.aiStyle = 1;
@@ -127,26 +128,42 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
             if (maxBounces == 0)
             {
+                BounceDust();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    DustHelper.NewLastingDust(
+                        position: Projectile.Center,
+                        velocity: Main.rand.NextVector2Circular(6, 6),
+                        color: CurrentColor,
+                        minScale: 1f,
+                        maxScale: 1.4f);
+                }
+
                 Projectile.Kill();
             }
 
             if (bounceTimestamp == -1 || timeSpentAlive - bounceTimestamp > 30)
             {
                 bounceTimestamp = timeSpentAlive;
-
-                for (int i = 0; i < 15; i++)
-                {
-                    var d = Dust.NewDustPerfect(
-                        Position: Projectile.Center,
-                        Type: DustID.RainbowTorch,
-                        Velocity: Main.rand.NextVector2CircularEdge(3, 3),
-                        newColor: CurrentColor,
-                        Scale: 1f);
-                    d.noGravity = true;
-                }
+                SoundHelper.PlayAudio(SoundID.Item10);
+                BounceDust();
             }
 
             return false;
+        }
+
+        private void BounceDust()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                DustHelper.NewLastingDust(
+                    position: Projectile.Center,
+                    velocity: Main.rand.NextVector2CircularEdge(3, 3) * bounceDamageMod / 5,
+                    color: CurrentColor,
+                    minScale: 1f,
+                    maxScale: 1.4f);
+            }
         }
     }
 }

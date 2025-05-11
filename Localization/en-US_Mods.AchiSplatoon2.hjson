@@ -1967,6 +1967,13 @@ Items: {
 		DisplayName: Squeezer
 		Tooltip: ""
 	}
+
+	GrimRangeBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.GrimRangeBlaster.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.GrimRangeBlaster.Flavor
+		DisplayName: Grim Range Blaster
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
