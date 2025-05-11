@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
 
         // Brush-specific properties
-        public override float BaseWeaponUseTime => 18f;
+        public override float BaseWeaponUseTime => 12f;
         public override int SwingArc => 120;
         public override float RollMoveSpeedBonus => 1.7f;
 

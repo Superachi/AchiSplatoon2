@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,11 +37,11 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 3;
+            Projectile.extraUpdates = 9;
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 60 * Projectile.extraUpdates;
             Projectile.tileCollide = true;
         }
 
@@ -50,10 +51,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             startingVelocity = Projectile.velocity;
 
             var pitch = sineDirection == -1 ? 0.6f : 0.4f;
-            SoundHelper.PlayAudio(SoundID.NPCHit52, 0.2f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
-            SoundHelper.PlayAudio(SoundID.Item25, 0.1f, maxInstances: 10, pitch: 0.4f, pitchVariance: 0.3f, position: Projectile.Center);
-            SoundHelper.PlayAudio(SoundID.Item28, 0.1f, maxInstances: 10, pitch: 0.6f, pitchVariance: 0.3f, position: Projectile.Center);
-            SoundHelper.PlayAudio(SoundID.Item66, 0.2f, maxInstances: 10, pitch: 0.4f, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.DD2_GoblinBomberThrow, 0.2f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
+            SoundHelper.PlayAudio(SoundID.NPCHit52, 0.1f, maxInstances: 10, pitch: pitch, position: Projectile.Center);
         }
 
         public override void AI()
@@ -66,13 +65,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (sineCooldown == 0)
             {
                 float startingRadians = startingVelocity.ToRotation();
-                float frequency = 5f;
-                float speedMod = 3;
-
-                if (amplitude < 4)
-                {
-                    amplitude += 0.05f;
-                }
+                float frequency = 2f;
+                float speedMod = 0.5f;
+                amplitude = 1f;
 
                 currentRadians = startingRadians + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * frequency + 90) * sineDirection);
                 Projectile.velocity = currentRadians.ToRotationVector2() * amplitude + Vector2.Normalize(startingVelocity) * speedMod;
@@ -81,34 +76,39 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             drawRotation += Projectile.velocity.Length() / 200f;
             UpdateCurrentColor(ColorHelper.IncreaseHueBy(0.25f, CurrentColor));
 
-            if (timeSpentAlive > 5 * FrameSpeed())
+            if (timeSpentAlive > 5 * FrameSpeed() && !visible)
             {
                 visible = true;
+
+                var sparkle = CreateSparkle(Projectile.Center);
+                sparkle.AdjustScale(0.8f);
+
+                SoundHelper.PlayAudio(SoundID.Item25, 0.1f, maxInstances: 10, pitch: 0.4f, pitchVariance: 0.3f, position: Projectile.Center);
+                SoundHelper.PlayAudio(SoundID.Item28, 0.1f, maxInstances: 10, pitch: 0.6f, pitchVariance: 0.3f, position: Projectile.Center);
+                SoundHelper.PlayAudio(SoundID.Item66, 0.1f, maxInstances: 10, pitch: 0.8f, position: Projectile.Center);
             }
 
             if (visible)
             {
-                Dust dust = Dust.NewDustDirect(
+                var d = Dust.NewDustPerfect(
                     Position: Projectile.Center,
-                    Width: 1,
-                    Height: 1,
-                    Type: ModContent.DustType<SplatterBulletLastingDust>(),
+                    Type: DustID.PortalBolt,
+                    Velocity: Vector2.Zero,
                     newColor: CurrentColor,
-                    Scale: Main.rand.NextFloat(0.8f, 1.2f));
-                dust.noGravity = true;
-                dust.velocity = Main.rand.NextVector2Circular(0.5f, 0.5f);
+                    Scale: 1f);
+                d.noGravity = true;
+                d.noLight = true;
 
-                if (Main.rand.NextBool(5))
+                if (Main.rand.NextBool(4))
                 {
-                    dust = Dust.NewDustDirect(
-                        Projectile.position,
-                        Projectile.width,
-                        Projectile.height,
-                        DustID.RainbowTorch,
+                    d = Dust.NewDustPerfect(
+                        Position: Projectile.Center,
+                        Type: DustID.PortalBolt,
+                        Velocity: Main.rand.NextVector2Circular(2, 2),
                         newColor: CurrentColor,
-                        Scale: Main.rand.NextFloat(0.4f, 0.8f)
-                    );
-                    dust.noGravity = true;
+                        Scale: 1f);
+                    d.noGravity = true;
+                    d.noLight = true;
                 }
             }
         }
@@ -122,18 +122,49 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             if (!visible) return;
 
-            if (shotSprite == null)
-            {
-                shotSprite = TexturePaths.NebulaStringerShot.ToTexture2D();
-            }
-
+            // Draw layered sparkle + glow
             SpriteBatch spriteBatch = Main.spriteBatch;
-            Vector2 position = Projectile.Center - Main.screenPosition;
-            Vector2 origin = shotSprite.Size() / 2;
-            float scale = 1 + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 2)) * 0.25f;
 
-            Main.EntitySpriteDraw(shotSprite, position, null, new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0f), drawRotation, origin, scale + 0.6f, SpriteEffects.None);
-            Main.EntitySpriteDraw(shotSprite, position, null, new Color(255, 255, 255, 0f), drawRotation, origin, scale + 0.4f, SpriteEffects.None);
+            var sparkleSprite = TexturePaths.Medium4pSparkle.ToTexture2D();
+            var glowSprite = TexturePaths.Glow100x.ToTexture2D();
+
+            float scale = 0.5f + (float)Math.Sin(MathHelper.ToRadians(timeSpentAlive * 5)) / 8;
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.Additive, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(
+                texture: sparkleSprite,
+                position: Projectile.Center - Main.screenPosition,
+                sourceRectangle: null,
+                color: ColorHelper.ColorWithAlpha255(Color.White),
+                rotation: 0,
+                origin: sparkleSprite.Size() / 2,
+                scale: scale * 0.6f,
+                effects: SpriteEffects.None);
+
+            Main.EntitySpriteDraw(
+                texture: sparkleSprite,
+                position: Projectile.Center - Main.screenPosition,
+                sourceRectangle: null,
+                color: ColorHelper.ColorWithAlpha255(CurrentColor),
+                rotation: 0,
+                origin: sparkleSprite.Size() / 2,
+                scale: scale * 1.2f,
+                effects: SpriteEffects.None);
+
+            Main.EntitySpriteDraw(
+                texture: glowSprite,
+                position: Projectile.Center - Main.screenPosition,
+                sourceRectangle: null,
+                color: ColorHelper.ColorWithAlpha255(CurrentColor) * 0.5f,
+                rotation: 0,
+                origin: glowSprite.Size() / 2,
+                scale: scale * 1.5f,
+                effects: SpriteEffects.None);
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -163,7 +194,9 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);
+
             DustBurstSparkle();
+            CreateSparkle(Projectile.Center);
         }
 
         protected override void AfterKill(int timeLeft)
@@ -171,6 +204,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (timeLeft == 0)
             {
                 DustBurstSparkle();
+                CreateSparkle(Projectile.Center);
             }
         }
 
@@ -178,27 +212,36 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDustPerfect(
-                Position: Projectile.Center,
-                Type: ModContent.DustType<SplatterBulletLastingDust>(),
-                Velocity: Main.rand.NextVector2CircularEdge(3, 3),
-                newColor: CurrentColor,
-                Scale: 0.8f);
+                var d = Dust.NewDustPerfect(
+                    Position: Projectile.Center,
+                    Type: DustID.AncientLight,
+                    Velocity: Main.rand.NextVector2CircularEdge(3, 3),
+                    newColor: CurrentColor,
+                    Scale: 0.8f);
+                d.noGravity = true;
             }
         }
 
         private void DustBurstSparkle()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Dust dust = Dust.NewDustPerfect(
                     Position: Projectile.Center,
                     Type: DustID.AncientLight,
-                    Velocity: Main.rand.NextVector2Circular(20, 20),
+                    Velocity: Main.rand.NextVector2Circular(15, 15),
                     newColor: CurrentColor,
                     Scale: 1.2f);
                 dust.noGravity = true;
             }
+        }
+
+        private StillSparkleVisual CreateSparkle(Vector2 position)
+        {
+            var sparkle = CreateChildProjectile<StillSparkleVisual>(position, Vector2.Zero, 0, true);
+            sparkle.UpdateCurrentColor(CurrentColor);
+            sparkle.AdjustRotation(0);
+            return sparkle;
         }
     }
 }
