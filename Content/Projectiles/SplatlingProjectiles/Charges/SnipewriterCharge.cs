@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
     internal class SnipewriterCharge : BaseChargeProjectile
     {
         protected virtual int ProjectileType { get => ModContent.ProjectileType<SnipewriterProjectile>(); }
-        protected float muzzleDistance;
+        protected Vector2 muzzleOffset;
         protected float barrageMaxAmmo;
         protected float barrageVelocity;
         protected float barrageShotTime;
@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatling;
 
-            muzzleDistance = weaponData.MuzzleOffset.X;
+            muzzleOffset = weaponData.MuzzleOffset;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
@@ -128,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         Vector2 velocity = angleVector * barrageVelocity * velocityChargeMod;
 
                         // Spawn the projectile
-                        var spawnPositionOffset = Vector2.Normalize(velocity) * muzzleDistance;
+                        var spawnPositionOffset = CalcBulletSpawnOffset(angleVector, muzzleOffset);
 
                         if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
                         {

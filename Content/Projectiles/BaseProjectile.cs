@@ -689,6 +689,26 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
+    protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, Vector2 offset)
+    {
+        if (Owner.direction == -1)
+        {
+            offset.Y *= Owner.direction;
+        }
+
+        var angleVector = Vector2.Normalize(aimVelocity);
+        var radians = angleVector.ToRotation();
+        var degrees = MathHelper.ToDegrees(radians);
+        var spawnPositionOffset = WoomyMathHelper.AddRotationToVector2(offset, degrees);
+
+        if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
+        {
+            spawnPositionOffset = Vector2.Zero;
+        }
+
+        return spawnPositionOffset;
+    }
+
     protected int FrameSpeed(int frames = 1)
     {
         return frames + Projectile.extraUpdates;

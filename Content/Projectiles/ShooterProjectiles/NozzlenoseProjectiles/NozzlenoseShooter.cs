@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -58,26 +57,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         {
             Vector2 angleVector = aimRadians.ToRotationVector2();
             return angleVector * shotVelocity;
-        }
-
-        protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, Vector2 offset)
-        {
-            if (Owner.direction == -1)
-            {
-                offset.Y *= Owner.direction;
-            }
-
-            var angleVector = Vector2.Normalize(aimVelocity);
-            var radians = angleVector.ToRotation();
-            var degrees = MathHelper.ToDegrees(radians);
-            var spawnPositionOffset = WoomyMathHelper.AddRotationToVector2(offset, degrees);
-
-            if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
-            {
-                spawnPositionOffset = Vector2.Zero;
-            }
-
-            return spawnPositionOffset;
         }
 
         public override void AI()
