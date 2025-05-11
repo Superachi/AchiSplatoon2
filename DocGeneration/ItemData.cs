@@ -215,7 +215,7 @@ namespace AchiSplatoon2.DocGeneration
 
             if (lootTableIndices.Count() > 0)
             {
-                foreach(var index in lootTableIndices)
+                foreach (var index in lootTableIndices)
                 {
                     var npcName = Lang.GetNPCNameValue(index.NpcId);
                     var bagName = Lang.GetItemNameValue(index.TreasureBagId);

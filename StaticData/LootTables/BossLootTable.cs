@@ -1,7 +1,7 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
@@ -11,8 +11,6 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 
 namespace AchiSplatoon2.StaticData.LootTables
 {

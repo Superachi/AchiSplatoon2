@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         private float fallSpeed = 0.1f;
 
         public bool chargedShot = false;
-        private bool countedForBurst = false;
+        private readonly bool countedForBurst = false;
 
         private float pitch = 0f;
 

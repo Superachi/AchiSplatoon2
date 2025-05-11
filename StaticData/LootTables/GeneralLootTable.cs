@@ -1,11 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Unclassed;
+﻿using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria.ID;

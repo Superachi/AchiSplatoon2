@@ -1,10 +1,10 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using Terraria.Audio;
-using Terraria;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {

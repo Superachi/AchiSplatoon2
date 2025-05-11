@@ -38,7 +38,7 @@ namespace AchiSplatoon2.StaticData
             int treasureBagId = -1
             )
         {
-            foreach(var modItemId in itemIdOptions)
+            foreach (var modItemId in itemIdOptions)
             {
                 itemIds.Add(modItemId);
             }

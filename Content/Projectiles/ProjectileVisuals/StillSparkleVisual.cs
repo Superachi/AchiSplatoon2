@@ -1,10 +1,9 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Terraria.ID;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals

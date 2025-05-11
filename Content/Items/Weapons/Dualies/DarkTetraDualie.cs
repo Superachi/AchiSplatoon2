@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
     {
         public override SoundStyle ShootSample { get => SoundPaths.DualieTetraShoot.ToSoundStyle(); }
         public override SoundStyle ShootAltSample { get => ShootSample; }
-        
+
         public override float ShotGravity { get => 0.2f; }
         public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 3; }

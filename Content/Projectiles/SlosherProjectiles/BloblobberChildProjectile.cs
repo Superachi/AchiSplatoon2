@@ -187,7 +187,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             if (state < stateDespawn)
             {
                 var len = Projectile.velocity.Length();
-                for (int i = 0; i < (int)(len * 5) ; i ++)
+                for (int i = 0; i < (int)(len * 5); i++)
                 {
                     DustHelper.NewDust(
                         position: Projectile.Center + Projectile.velocity * 5,
