@@ -23,10 +23,11 @@ namespace AchiSplatoon2.Content.Players
         public float InkAmountMaxBonus = 0f;
         public float InkAmountFinalMax => CalculateInkCapacity();
 
-        public float InkRecoveryRate = 0.1f;
-        public float InkRecoveryStillMult = 1.5f;
-        public float InkRecoverySwimMult = 5f;
-        public float InkRecoveryDelay = 0f;
+        public float InkRecoveryRate => 0.05f;
+        public float InkRecoveryStillMult => 3f;
+        public float InkRecoverySwimMult => 8f;
+
+        public float InkRecoveryDelay = 0;
 
         public int DropletCooldown = 0;
         public int DropletCooldownMax = 300;
