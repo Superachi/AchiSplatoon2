@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 
             Item.damage = 6;
             Item.crit = 10;
-            Item.knockBack = 6;
+            Item.knockBack = 1;
 
             Item.scale = 1;
             Item.width = 52;
