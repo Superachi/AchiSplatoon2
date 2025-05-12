@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Players
         public string GreenChipCritChanceBonusDisplay { get => $"{(int)(GreenChipCritChanceBonus)}%"; }
         public float BlueChipBaseMoveSpeedBonus { get => 0.1f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
-        public float BlueChipBaseChargeBonus { get => 1.5f; }
+        public float BlueChipBaseChargeBonus { get => 1f; }
         public string BlueChipBaseChargeBonusDisplay { get => $"{BlueChipBaseChargeBonus.ToString("0.0")} point(s)"; }
         public float AquaChipBaseAttackCooldownReduction { get => 0.05f; }
         public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
