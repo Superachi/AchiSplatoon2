@@ -80,7 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
-            rollInkCost = weaponData.InkCost / 40;
+            rollInkCost = weaponData.InkCost / 60;
         }
 
         protected override void AfterSpawn()
@@ -308,9 +308,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
         }
 
+        protected virtual void AddedRollEffect()
+        {
+            // Do something that occurs only when rolling
+        }
+
         private void StateRoll()
         {
-            if (!InputHelper.GetInputMouseLeftHold())
+            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<InventoryPlayer>().HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;
@@ -345,6 +350,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 facingDirection = owner.direction;
             }
 
+            AddedRollEffect();
+
             // Emit dust when running
             bool isFastEnough = AbsPlayerSpeed() >= 6;
             Projectile.friendly = isFastEnough;
@@ -373,6 +380,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (isFastEnough)
             {
                 ConsumeInk(rollInkCost);
+            }
+
+            var inkTankPlayer = owner.GetModPlayer<InkTankPlayer>();
+            if (inkTankPlayer.HasNoInk())
+            {
+                inkTankPlayer.CreateLowInkPopup();
+                Projectile.Kill();
             }
 
             float lerpAmount = 0.05f;
