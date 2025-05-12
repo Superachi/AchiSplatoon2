@@ -52,7 +52,7 @@ Hint: {
 	}
 
 	Brushes: {
-		Generic: While you run and aim downwards, you gain a speed boost
+		Generic: Hold right-click while attacking to gain a speed boost
 		Desert: Fires piercing wind slashes
 		Spooky: Fires magic projectiles that bounce against walls
 	}

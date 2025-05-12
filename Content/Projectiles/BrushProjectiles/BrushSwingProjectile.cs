@@ -417,7 +417,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private bool PlayerMeetsRollingRequirements()
         {
-            return IsMouseUnderneathPlayer() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
+            return InputHelper.GetInputMouseRightHold() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
         }
 
         #endregion

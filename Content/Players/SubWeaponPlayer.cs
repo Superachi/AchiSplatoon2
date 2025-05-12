@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -21,10 +23,9 @@ namespace AchiSplatoon2.Content.Players
 
         private void SearchAndUseSubWeapon(Player player, Item heldItem)
         {
+            var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
             if (CursorHelper.CursorHasInteractable())
             {
-                var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
-
                 if (weaponPlayer.CustomWeaponCooldown < 30)
                 {
                     player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 30;
@@ -34,8 +35,15 @@ namespace AchiSplatoon2.Content.Players
 
             if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
             if (!player.ItemTimeIsZero) return;
-            if (player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown > 0) return;
-            if (!player.GetModPlayer<WeaponPlayer>().allowSubWeaponUsage) return;
+
+            if (weaponPlayer.CustomWeaponCooldown > 0) return;
+            if (!weaponPlayer.allowSubWeaponUsage) return;
+            if (weaponPlayer.isBrushRolling || weaponPlayer.isBrushAttacking) return;
+            if (Player.OwnsModProjectileWithType(ModContent.ProjectileType<BrushSwingProjectile>()))
+            {
+                return;
+            }
+
             if (player.GetModPlayer<SquidPlayer>().IsSquid()) return;
             if (player.GetModPlayer<DualiePlayer>().isRolling || player.GetModPlayer<DualiePlayer>().postRollCooldown > 0) return;
 
