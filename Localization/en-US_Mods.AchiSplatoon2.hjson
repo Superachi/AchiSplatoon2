@@ -1701,7 +1701,7 @@ Items: {
 
 	BombRush: {
 		DisplayName: Bomb Launcher Capsules
-		UsageHint: For a short time, your sub weapons cost no ink
+		UsageHint: Temporarily, your sub weapons cost no ink and deal {0}% more damage (multiplied after bonuses)
 		Flavor: Also inspires Pearl Drone
 		Tooltip: ""
 	}
@@ -2164,7 +2164,7 @@ Buffs: {
 
 	BombRushBuff: {
 		DisplayName: Bomb Rush
-		Description: Your sub weapons cost no ink. Bombs away!
+		Description: Your sub weapons cost no ink and deal increased damage. Bombs away!
 	}
 
 	TacticoolerBuff: {

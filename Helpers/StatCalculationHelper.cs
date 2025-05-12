@@ -1,6 +1,8 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
@@ -70,6 +72,7 @@ namespace AchiSplatoon2.Helpers
                         }
                     }
                 }
+
                 if (debug) DebugHelper.PrintInfo($"Val after sub power bonuses: {damageModifier}");
             }
 
@@ -106,6 +109,11 @@ namespace AchiSplatoon2.Helpers
             if (player.HasAccessory<DropletLocket>() || player.HasAccessory<SorcererLocket>() || player.HeldItem.DamageType == DamageClass.Magic)
             {
                 damageModifier = player.GetDamage(DamageClass.Magic).ApplyTo(damageModifier);
+            }
+
+            if (weaponInstance.IsSubWeapon && player.HasBuff<BombRushBuff>())
+            {
+                damageModifier *= BombRush.SubWeaponDamageMultiplier;
             }
 
             #endregion
