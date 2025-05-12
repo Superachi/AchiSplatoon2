@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.ModSystems;
+using Microsoft.Xna.Framework;
 using Terraria.GameInput;
 
 namespace AchiSplatoon2.Helpers
@@ -30,6 +31,11 @@ namespace AchiSplatoon2.Helpers
         public static int GetInputY()
         {
             return PlayerInput.Triggers.Current.Up ? 1 : PlayerInput.Triggers.Current.Down ? -1 : 0;
+        }
+
+        public static bool IsSwimFormHeld()
+        {
+            return KeybindSystem.SwimFormKeybind.Current;
         }
 
         public static int GetInputXPressed()

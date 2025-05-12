@@ -116,7 +116,7 @@ namespace AchiSplatoon2.Content.Players
             switch (state)
             {
                 case stateHuman:
-                    if (InputHelper.GetInputY() == -1 && !PlayerHasConditionThatPreventsSwimForm())
+                    if (InputHelper.IsSwimFormHeld() && !PlayerHasConditionThatPreventsSwimForm())
                     {
                         SetState(stateSquid);
                         return;
@@ -135,7 +135,7 @@ namespace AchiSplatoon2.Content.Players
                         return;
                     }
 
-                    if (InputHelper.GetInputY() != -1 || Player.wet || Player.grappling[0] != -1)
+                    if (!InputHelper.IsSwimFormHeld() || Player.wet || Player.grappling[0] != -1)
                     {
                         _squidFormProjectile.StartDespawn();
                     }
