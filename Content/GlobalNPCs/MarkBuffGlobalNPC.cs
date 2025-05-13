@@ -88,8 +88,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     spriteBatch,
                     player.Center,
                     npc.Center,
-                    new Color(lineCol.R, lineCol.G, lineCol.B, 0),
-                    new Color(lineCol.R, lineCol.G, lineCol.B, 80),
+                    new Color(lineCol.R, lineCol.G, lineCol.B, 50),
+                    new Color(lineCol.R, lineCol.G, lineCol.B, 200),
                     linewidth);
 
                 Main.EntitySpriteDraw(
