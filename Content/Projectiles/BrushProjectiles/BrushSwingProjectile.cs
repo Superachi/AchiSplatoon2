@@ -330,7 +330,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 rollCoyoteTime = RollCoyoteTimeDefault;
             }
 
-            if (!IsMouseUnderneathPlayer() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
+            if (!InputHelper.GetInputMouseRightHold() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
             {
                 SetSwingAngleFromMouse(direction: 1);
 
