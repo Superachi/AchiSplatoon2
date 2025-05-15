@@ -2249,6 +2249,8 @@ Prefixes: {
 	AmmoTooltip: Each slosh fires {0} projectile(s)
 	OversizedPrefix.DisplayName: Oversized
 	ResonantPrefix.DisplayName: Resonant
+	TwinPrefix.DisplayName: Twin
+	LifetimeTooltip: "{0} projectile duration"
 }
 
 Configs: {
