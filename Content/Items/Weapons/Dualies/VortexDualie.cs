@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -46,6 +47,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.knockBack = 4f;
             Item.value = Item.buyPrice(gold: 50);
             Item.rare = ItemRarityID.Cyan;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddTile(TileID.LunarCraftingStation)
+                .AddIngredient(ItemID.FragmentVortex, 18)
+                .Register();
         }
     }
 }
