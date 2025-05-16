@@ -26,12 +26,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
         {
             return player.ownedProjectileCounts[Item.shoot] < 1;
         }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddIngredient(ItemID.Wood, 1)
-                .Register();
-        }
     }
 }
