@@ -45,7 +45,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.GoldBow, 10)
+                .AddIngredient(ItemID.GoldBow, 1)
                 .AddIngredient(ItemID.WhiteString, 2)
                 .AddIngredient(ItemID.Coral, 20)
                 .AddIngredient(ItemID.SharkFin, 1)
