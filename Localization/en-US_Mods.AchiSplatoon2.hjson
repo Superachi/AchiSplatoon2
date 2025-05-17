@@ -1985,7 +1985,7 @@ Items: {
 	WoodenStringer: {
 		UsageHint: Mods.AchiSplatoon2.Items.WoodenStringer.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.WoodenStringer.Flavor
-		DisplayName: Wooden Stringer
+		DisplayName: Wood Stringer
 		Tooltip: ""
 	}
 
