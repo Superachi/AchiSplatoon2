@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Prefixes;
+﻿using AchiSplatoon2.Content.Prefixes;
 using AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
 using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
 using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
@@ -104,6 +104,7 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<GambitPrefix>());
         prefixes.Add(ModContent.PrefixType<TwinPrefix>());
+        // prefixes.Add(ModContent.PrefixType<ExplosivePrefix>());
 
         return prefixes;
     }
@@ -230,6 +231,7 @@ internal class PrefixHelper : ModSystem
             // Chargers
             { typeof(GambitPrefix), ModContent.PrefixType<GambitPrefix>() },
             { typeof(TwinPrefix), ModContent.PrefixType<TwinPrefix>() },
+            { typeof(ExplosivePrefix), ModContent.PrefixType<ExplosivePrefix>() },
 
             // Stringers
             { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },
