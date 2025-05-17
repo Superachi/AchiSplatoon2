@@ -16,6 +16,7 @@ namespace AchiSplatoon2.StaticData.LootTables
             var list = new List<LootTableIndex>();
 
             list = list
+                .Concat(new GeneralLootTable().Indices())
                 .Concat(new BossLootTable().Indices())
                 .Concat(new MimicLootTable().Indices())
                 .Concat(new InvasionLootTable().Indices())
