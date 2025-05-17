@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             base.SetDefaults();
             SetItemUseTime();
 
-            Item.damage = 6;
+            Item.damage = 4;
             Item.knockBack = 0f;
 
             Item.width = 52;
@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.rare = ItemRarityID.White;
 
             // Note: hide this stat from the player--
-            Item.ArmorPenetration = 5;
+            Item.ArmorPenetration = 8;
         }
 
         public override void AddRecipes() => AddRecipeWood();
