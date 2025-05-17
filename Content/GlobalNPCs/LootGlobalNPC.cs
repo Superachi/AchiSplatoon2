@@ -101,9 +101,9 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             npcLoot.Add(ItemDropRule.Common(
                 ModContent.ItemType<InkDroplet>(),
-                chanceDenominator: 200,
-                minimumDropped: 1,
-                maximumDropped: 10));
+                chanceDenominator: 150,
+                minimumDropped: 3,
+                maximumDropped: 8));
         }
     }
 }
