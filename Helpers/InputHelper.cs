@@ -73,9 +73,29 @@ namespace AchiSplatoon2.Helpers
             return PlayerInput.Triggers.Current.MouseRight;
         }
 
-        public static bool GetInputMiddleClicked()
+        public static bool GetInputDualieDodgePressed()
         {
-            return PlayerInput.Triggers.JustPressed.MouseMiddle;
+            return KeybindSystem.DodgeRollKeybind.JustPressed;
+        }
+
+        public static bool GetInputCancelWeaponChargePressed()
+        {
+            return KeybindSystem.CancelWeaponChargeKeybind.JustPressed;
+        }
+
+        public static bool GetInputBrushDashHold()
+        {
+            return KeybindSystem.BrushDashKeybind.Current;
+        }
+
+        public static bool GetInputSubWeaponHold()
+        {
+            return KeybindSystem.SubWeaponKeybind.Current;
+        }
+
+        public static bool GetInputSpecialWeaponPressed()
+        {
+            return KeybindSystem.SpecialWeaponKeybind.JustPressed;
         }
     }
 }

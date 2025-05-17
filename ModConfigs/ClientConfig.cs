@@ -14,6 +14,9 @@ namespace AchiSplatoon2.ModConfigs
         [Header("UI")]
 
         [DefaultValue(false)]
+        public bool HideStartupMessage;
+
+        [DefaultValue(false)]
         public bool HideInkTankPercentage;
 
         [Header("Audio")]

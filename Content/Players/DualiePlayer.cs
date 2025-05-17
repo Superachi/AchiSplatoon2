@@ -115,7 +115,7 @@ namespace AchiSplatoon2.Content.Players
             }
 
             if (jumpInputBuffer > 0) jumpInputBuffer--;
-            if (InputHelper.GetInputRightClicked())
+            if (InputHelper.GetInputDualieDodgePressed())
             {
                 jumpInputBuffer = 6;
             }

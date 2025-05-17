@@ -2314,7 +2314,20 @@ Configs: {
 			Label: Disable Bomb Rush jingle
 			Tooltip: The Bomb Rush jingle no longer plays and overrides the background music.
 		}
+
+		HideStartupMessage: {
+			Label: Hide Startup Message
+			Tooltip: Hides the greeting message when loading into a world.
+		}
 	}
 }
 
-"Keybinds.Enter Swim Form.DisplayName": Enter Swim Form
+Keybinds: {
+	"Enter Swim Form.DisplayName": Enter Swim Form
+	"Enter swim form.DisplayName": Enter swim form
+	"Use sub weapon.DisplayName": Use sub weapon
+	"Use special weapon.DisplayName": Use special weapon
+	"Dualie dodge roll.DisplayName": Dualie dodge roll
+	"Brush dash.DisplayName": Brush dashing
+	"Cancel weapon charge.DisplayName": Cancel weapon charge
+}

@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Players
     {
         public override void PreUpdate()
         {
-            if (InputHelper.GetInputMouseRightHold())
+            if (InputHelper.GetInputSubWeaponHold())
             {
                 SearchAndUseSubWeapon(Player, Player.HeldItem);
             }

@@ -149,7 +149,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void AllowChargeCancel()
         {
-            if (InputHelper.GetInputRightClicked()) CancelCharge();
+            if (InputHelper.GetInputCancelWeaponChargePressed()) CancelCharge();
         }
 
         protected virtual void CancelCharge()

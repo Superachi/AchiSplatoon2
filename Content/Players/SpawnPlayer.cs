@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,7 +19,11 @@ namespace AchiSplatoon2.Content.Players
 
         public override void OnEnterWorld()
         {
-            ChatHelper.SendModNoticeToThisClient($"Hi {Player.name}! Thanks for playing with my mod. Type {ColorHelper.TextWithFunctionalColor("/woomyWiki")} to visit the wiki!");
+            if (!ModContent.GetInstance<ClientConfig>().HideStartupMessage)
+            {
+                ChatHelper.SendModNoticeToThisClient($"Hi {Player.name}! Thanks for playing with my mod. Type {ColorHelper.TextWithFunctionalColor("/woomyWiki")} to visit the wiki!");
+                ChatHelper.SendModNoticeToThisClient($"Also, don't forget to {ColorHelper.TextWithFunctionalColor("bind your controls")} when using this mod. You can disable this message in the settings. Enjoy!");
+            }
         }
     }
 }

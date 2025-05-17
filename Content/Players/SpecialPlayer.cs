@@ -83,7 +83,7 @@ namespace AchiSplatoon2.Content.Players
                 return;
             }
 
-            bool middleClicked = InputHelper.GetInputMiddleClicked();
+            bool middleClicked = InputHelper.GetInputSpecialWeaponPressed();
             if (!SpecialReady)
             {
                 if (middleClicked && !_hudPlayer!.IsTextActive())
