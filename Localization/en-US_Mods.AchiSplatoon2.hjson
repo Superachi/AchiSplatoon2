@@ -2002,6 +2002,13 @@ Items: {
 		DisplayName: Gold Hi-Horses
 		Tooltip: "{0}% increased movement speed when your ink tank is full"
 	}
+
+	UrchinEmblem: {
+		UsageHint: Whenever you jump in swim form, you deal damage to enemies around yourself
+		Flavor: Mods.AchiSplatoon2.Items.UrchinEmblem.Flavor
+		DisplayName: Emblem of the Urchin
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2142,6 +2149,7 @@ Projectiles: {
 	StillSparkleVisual.DisplayName: Still Sparkle Visual
 	DesertBrushSwingProjectile.DisplayName: Desert Brush Swing Projectile
 	DesertBrushDashProjectile.DisplayName: Desert Brush Dash Projectile
+	UrchinEmblemProjectile.DisplayName: Urchin Emblem Projectile
 }
 
 Buffs: {

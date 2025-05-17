@@ -489,6 +489,7 @@ internal class BaseProjectile : ModProjectile
             if (!IsTargetEnemy(target)) return;
             if (!colorChipPlayer.IsPaletteValid()) return;
             if (NpcHelper.IsTargetAProjectile(target)) return;
+            if (itemIdentifier == -1) return;
 
             var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
             var luckyBombMinDamage = Main.expertMode ? 20 : 50;

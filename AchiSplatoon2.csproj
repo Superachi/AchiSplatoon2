@@ -25,6 +25,7 @@
 	  <None Remove="Content\Items\Weapons\Test\DocumentationStaff.png" />
 	  <None Remove="Content\Items\Weapons\Test\SuperBlaster.png" />
 	  <None Remove="Content\Projectiles\AccessoryProjectiles\EmpressInkTankProjectile.png" />
+	  <None Remove="Content\Projectiles\AccessoryProjectiles\UrchinEmblemProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseChargeProjectile.png" />
 	  <None Remove="Content\Projectiles\BaseProjectile.png" />
 	  <None Remove="Content\Projectiles\BlasterProjectiles\BlasterExplosion.png" />

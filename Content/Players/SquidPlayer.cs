@@ -1,8 +1,12 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using AchiSplatoon2.Content.Projectiles.TransformProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -30,6 +34,7 @@ namespace AchiSplatoon2.Content.Players
         private float _squidJumpTimeMax = 0f;
 
         private int _squidFormCooldown = 0;
+        private int _urchinAttackCooldown = 0;
 
         public void SetState(int state)
         {
@@ -80,7 +85,8 @@ namespace AchiSplatoon2.Content.Players
                 || Player.GetModPlayer<DualiePlayer>().isRolling
                 || PlayerHasBuffThatPreventsSwimForm()
                 || Player.ownedProjectileCounts[ModContent.ProjectileType<InkzookaHeldProjectile>()] > 0
-                || Player.ownedProjectileCounts[ModContent.ProjectileType<TrizookaHeldProjectile>()] > 0;
+                || Player.ownedProjectileCounts[ModContent.ProjectileType<TrizookaHeldProjectile>()] > 0
+                || Player.ownedProjectileCounts[ModContent.ProjectileType<TacticoolerHeldProjectile>()] > 0;
         }
 
         private bool PlayerHasBuffThatPreventsSwimForm()
@@ -95,6 +101,7 @@ namespace AchiSplatoon2.Content.Players
         public override void PreUpdate()
         {
             if (_squidFormCooldown > 0) _squidFormCooldown--;
+            if (_urchinAttackCooldown > 0) _urchinAttackCooldown--;
 
             if (Player.wet)
             {
@@ -142,7 +149,7 @@ namespace AchiSplatoon2.Content.Players
 
                     if (Math.Abs(Player.velocity.X) > 4)
                     {
-                        Player.velocity.X *= 0.9f;
+                        Player.velocity.X *= 0.95f;
                     }
 
                     _yCameraOffsetGoal = PlayerHelper.IsPlayerGrounded(Player) ? 20 : 0;
@@ -150,6 +157,12 @@ namespace AchiSplatoon2.Content.Players
                     if (InputHelper.GetInputJump() && _squidJumpTime > 0)
                     {
                         Player.velocity.Y = -6;
+
+                        if (Player.HasAccessory<UrchinEmblem>() && _urchinAttackCooldown == 0)
+                        {
+                            ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<UrchinEmblemProjectile>(), true);
+                            _urchinAttackCooldown = UrchinEmblem.AttackCooldown;
+                        }
                     }
 
                     if (PlayerHelper.IsPlayerGrounded(Player))
