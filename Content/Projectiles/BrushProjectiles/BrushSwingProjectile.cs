@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Players;
@@ -442,9 +442,16 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             if (WeaponInstance is not SpookyBrush && WeaponInstance is not DesertBrush)
             {
+                if (WeaponInstance is not WoodenBrush)
+            {
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                    {
+                        CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                    }
+                }
+                else
                 {
-                    CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
+                    CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity, Projectile.damage);
                 }
 
                 if (Main.rand.NextBool(2))

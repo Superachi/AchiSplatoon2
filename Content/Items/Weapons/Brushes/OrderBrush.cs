@@ -1,5 +1,4 @@
 ﻿using AchiSplatoon2.Attributes;
-using System;
 using Terraria;
 using Terraria.ID;
 
@@ -36,17 +35,5 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
         }
 
         public override void AddRecipes() => AddRecipeOrder(ItemID.Sapphire);
-
-        public override void UseAnimation(Player player)
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                // Slow down movement while attacking (similar to how the player slows down in Splatoon when attacking with a brush)
-                if (Math.Abs(player.velocity.X) > 2f)
-                {
-                    player.velocity.X *= 0.8f;
-                }
-            }
-        }
     }
 }

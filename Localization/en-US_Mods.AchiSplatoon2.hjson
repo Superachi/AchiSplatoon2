@@ -1981,6 +1981,20 @@ Items: {
 		DisplayName: Mirage Duster
 		Tooltip: "{$ArmorPierce.Display}"
 	}
+
+	WoodenStringer: {
+		UsageHint: Mods.AchiSplatoon2.Items.WoodenStringer.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.WoodenStringer.Flavor
+		DisplayName: Wooden Stringer
+		Tooltip: ""
+	}
+
+	WoodenBrush: {
+		UsageHint: Mods.AchiSplatoon2.Items.WoodenBrush.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.WoodenBrush.Flavor
+		DisplayName: Wooden Brush
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2119,6 +2133,8 @@ Projectiles: {
 	WeaponChargeSparkleVisual.DisplayName: Weapon Charge Sparkle Visual
 	SqueezerProjectile.DisplayName: Squeezer Projectile
 	StillSparkleVisual.DisplayName: Still Sparkle Visual
+	DesertBrushSwingProjectile.DisplayName: Desert Brush Swing Projectile
+	DesertBrushDashProjectile.DisplayName: Desert Brush Dash Projectile
 }
 
 Buffs: {
@@ -2249,6 +2265,7 @@ Prefixes: {
 	AmmoTooltip: Each slosh fires {0} projectile(s)
 	OversizedPrefix.DisplayName: Oversized
 	ResonantPrefix.DisplayName: Resonant
+	ExplosivePrefix.DisplayName: Splashing
 	TwinPrefix.DisplayName: Twin
 	LifetimeTooltip: "{0} projectile duration"
 }

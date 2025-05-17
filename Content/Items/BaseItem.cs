@@ -262,5 +262,14 @@ namespace AchiSplatoon2.Content.Items
                 .AddIngredient(addedIngredient, amount)
                 .Register();
         }
+
+        protected void AddRecipeWood()
+        {
+            CreateRecipe()
+                .AddTile(TileID.WorkBenches)
+                .AddIngredient(ItemID.Wood, 10)
+                .AddIngredient(ItemID.Gel, 5)
+                .Register();
+        }
     }
 }
