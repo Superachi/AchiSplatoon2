@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -125,6 +126,13 @@ namespace AchiSplatoon2.Content.Players
                 moveSpeedModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
                 moveAccelModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
                 moveFrictionModifier += blueChipCount * colorChipPlayer.BlueChipBaseMoveSpeedBonus * mountSpeedMultMod;
+            }
+
+            // Move speed bonus from accessories
+            if (Player.HasAccessory<GoldHiHorses>() && Player.GetModPlayer<InkTankPlayer>().HasMaxInk())
+            {
+                moveSpeedModifier += GoldHiHorses.MoveAndAccelBonus * mountSpeedMultMod;
+                moveAccelModifier += GoldHiHorses.MoveAndAccelBonus * mountSpeedMultMod;
             }
 
             // Special charge bonus

@@ -1995,6 +1995,13 @@ Items: {
 		DisplayName: Wooden Brush
 		Tooltip: ""
 	}
+
+	GoldHiHorses: {
+		UsageHint: Mods.AchiSplatoon2.Items.GoldHiHorses.UsageHint
+		Flavor: You'll have a grate time!
+		DisplayName: Gold Hi-Horses
+		Tooltip: "{0}% increased movement speed when your ink tank is full"
+	}
 }
 
 Projectiles: {
