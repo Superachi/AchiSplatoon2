@@ -2319,6 +2319,11 @@ Configs: {
 			Label: Hide Startup Message
 			Tooltip: Hides the greeting message when loading into a world.
 		}
+
+		HideMissingKeybindWarning: {
+			Label: Hide Missing Keybind Warning
+			Tooltip: Hides the message that appears when you have controls related to WoomyMod that haven't been set.
+		}
 	}
 }
 

@@ -19,6 +19,9 @@ namespace AchiSplatoon2.ModConfigs
         [DefaultValue(false)]
         public bool HideInkTankPercentage;
 
+        [DefaultValue(false)]
+        public bool HideMissingKeybindWarning;
+
         [Header("Audio")]
 
         [DefaultValue(false)]

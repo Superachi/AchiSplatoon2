@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using System.Linq;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.ModSystems
 {
@@ -30,6 +31,16 @@ namespace AchiSplatoon2.ModSystems
             DodgeRollKeybind = null;
             BrushDashKeybind = null;
             CancelWeaponChargeKeybind = null;
+        }
+
+        public static bool PlayerHasUnboundControls()
+        {
+            return !SwimFormKeybind.GetAssignedKeys().Any()
+                || !SubWeaponKeybind.GetAssignedKeys().Any()
+                || !SpecialWeaponKeybind.GetAssignedKeys().Any()
+                || !DodgeRollKeybind.GetAssignedKeys().Any()
+                || !BrushDashKeybind.GetAssignedKeys().Any()
+                || !CancelWeaponChargeKeybind.GetAssignedKeys().Any();
         }
     }
 }
