@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class CorruptionBrella : BaseBrella
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;
-        public override float InkCost { get => 6.5f; }
+        public override float InkCost { get => 12.5f; }
 
         public override float ShotGravity { get => 0f; }
         public override int ShotGravityDelay { get => 0; }

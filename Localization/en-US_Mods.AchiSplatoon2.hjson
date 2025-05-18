@@ -81,7 +81,7 @@ Hint: {
 		Undercover: The shield is weak, but recovers instantly when splatting an enemy
 		Recycle: The shield is weak, but recovers quickly
 		Martian: When the shield takes damage, it fires off a large lightning bolt
-		Plague: Inflicts venom on enemies. Can hit in melee even when broken
+		Plague: Inflicts poison on enemies. Can hit in melee even when broken
 	}
 
 	# ----------------------------------------

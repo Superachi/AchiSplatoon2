@@ -54,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaPr
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);
-            target.AddBuff(BuffID.Venom, 30);
+            target.AddBuff(BuffID.Poisoned, 60);
         }
 
         protected override void CreateDustOnDespawn()
