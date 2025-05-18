@@ -30,7 +30,7 @@ internal class PrefixHelper : ModSystem
 
         if (result == null)
         {
-            DebugHelper.PrintWarning($"Called {nameof(GetWeaponPrefixById)} with prefix id {id}, but the result was null!");
+            // DebugHelper.PrintWarning($"Called {nameof(GetWeaponPrefixById)} with prefix id {id}, but the result was null!");
         }
 
         return result;
