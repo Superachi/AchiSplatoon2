@@ -20,6 +20,11 @@ namespace AchiSplatoon2.Attributes
                 return "Brushes";
             }
 
+            if (CategoryName == "Accessory")
+            {
+                return "Accessories";
+            }
+
             return CategoryName + "s";
         }
     }

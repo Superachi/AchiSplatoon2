@@ -66,6 +66,10 @@ namespace AchiSplatoon2.DocGeneration
             };
 
             Tooltip = modItem.GetLocalization(nameof(Tooltip)).Value;
+            if (Tooltip.Contains(nameof(Tooltip)))
+            {
+                Tooltip = "";
+            }
 
             UsageHint = modItem.GetLocalization(nameof(UsageHint)).Value;
             if (UsageHint.Contains(nameof(UsageHint)))
@@ -115,12 +119,6 @@ namespace AchiSplatoon2.DocGeneration
 
         public string GenerateWeaponDetailHTML()
         {
-            if (!(ModdedItem is BaseWeapon weapon))
-            {
-                DebugHelper.PrintError($"Tried to generate weapon detail HTML for {Name}, but it doesn't inherit from {nameof(BaseWeapon)}");
-                return "";
-            }
-
             var valueString = "";
             if (Value.Platinum > 0)
             {
@@ -149,21 +147,40 @@ namespace AchiSplatoon2.DocGeneration
             }
 
             string html = "";
-            html += "---\r\n---\r\n" +
-                "\r\n{%" +
-                "\r\n  include weapon-details-page/stats.html" +
-                $"\r\n  name=\"{Name}\"" +
-                $"\r\n  image_uri=\"{imageUri}\"" +
-                $"\r\n  category=\"{Category}\"" +
-                $"\r\n  flavor_text=\"{FormatInput(Flavor)}\"" +
-                $"\r\n  usage_hint=\"{FormatInput(UsageHint)}\"" +
-                $"\r\n  damage=\"{Damage}\"" +
-                $"\r\n  knockback=\"{Knockback}\"" +
-                $"\r\n  velocity=\"{Velocity}\"" +
-                $"\r\n  ink_usage=\"{GetWeaponInkCost(ModdedItem)}\"" +
-                $"\r\n  value=\"{valueString}\"" +
-                $"\r\n  rarity=\"{RarityToString()}\"" +
-                "\r\n%}";
+            if (ModdedItem is BaseWeapon)
+            {
+                html += "---\r\n---\r\n" +
+                    "\r\n{%" +
+                    "\r\n  include item-details-page/weapon-stats.html" +
+                    $"\r\n  name=\"{Name}\"" +
+                    $"\r\n  image_uri=\"{imageUri}\"" +
+                    $"\r\n  category=\"{Category}\"" +
+                    $"\r\n  flavor_text=\"{FormatInput(Flavor)}\"" +
+                    $"\r\n  tooltip_text=\"{FormatInput(Tooltip)}\"" +
+                    $"\r\n  usage_hint=\"{FormatInput(UsageHint)}\"" +
+                    $"\r\n  damage=\"{Damage}\"" +
+                    $"\r\n  knockback=\"{Knockback}\"" +
+                    $"\r\n  velocity=\"{Velocity}\"" +
+                    $"\r\n  ink_usage=\"{GetWeaponInkCost(ModdedItem)}\"" +
+                    $"\r\n  value=\"{valueString}\"" +
+                    $"\r\n  rarity=\"{RarityToString()}\"" +
+                    "\r\n%}";
+            }
+            else if (ModdedItem is BaseAccessory)
+            {
+                html += "---\r\n---\r\n" +
+                    "\r\n{%" +
+                    "\r\n  include item-details-page/accessory-stats.html" +
+                    $"\r\n  name=\"{Name}\"" +
+                    $"\r\n  image_uri=\"{imageUri}\"" +
+                    $"\r\n  category=\"{Category}\"" +
+                    $"\r\n  flavor_text=\"{FormatInput(Flavor)}\"" +
+                    $"\r\n  tooltip_text=\"{FormatInput(Tooltip)}\"" +
+                    $"\r\n  usage_hint=\"{FormatInput(UsageHint)}\"" +
+                    $"\r\n  value=\"{valueString}\"" +
+                    $"\r\n  rarity=\"{RarityToString()}\"" +
+                    "\r\n%}";
+            }
 
             // Recipes
             var recipeHtml = "";
@@ -184,7 +201,7 @@ namespace AchiSplatoon2.DocGeneration
                         bool _ = TileID.Search.TryGetName(tile, out tileName);
                     }
 
-                    recipeHtml += "      {%\r\n        include weapon-details-page/recipe-header " +
+                    recipeHtml += "      {%\r\n        include item-details-page/recipe-header " +
                         $"\r\n        recipe_number=\"{i}\"" +
                         $"\r\n        tile_name=\"{tileName}\"" +
                         "\r\n      %}\r\n      ";
@@ -194,7 +211,7 @@ namespace AchiSplatoon2.DocGeneration
                         var link = GetVanillaItemUrl(item);
                         link = link == "" ? GetModItemPageUrl(item) : link;
 
-                        recipeHtml += "{%\r\n        include weapon-details-page/recipe-ingredient " +
+                        recipeHtml += "{%\r\n        include item-details-page/recipe-ingredient " +
                             $"\r\n        amount=\"{item.stack}\"" +
                             $"\r\n        item_name=\"{item.Name}\"" +
                             $"\r\n        item_url=\"{link}\"" +
@@ -241,7 +258,7 @@ namespace AchiSplatoon2.DocGeneration
 
                     string chance = (1f / index.ChanceDenominator * 100).ToString("0.0");
 
-                    lootTableHtml += "      {%\r\n        include weapon-details-page/drop-table-index.html" +
+                    lootTableHtml += "      {%\r\n        include item-details-page/drop-table-index.html" +
                     $"\r\n        source_name=\"{sourceName}\"" +
                     $"\r\n        source_url=\"{sourceUrl}\"" +
                     $"\r\n        amount=\"{amount}\"" +
@@ -274,9 +291,9 @@ namespace AchiSplatoon2.DocGeneration
 
             foreach (var itemData in itemDataList)
             {
-                if (itemData.ModdedItem is not BaseWeapon)
+                if (itemData.ModdedItem is not BaseWeapon && itemData.ModdedItem is not BaseAccessory)
                 {
-                    DebugHelper.PrintDebug($"Skipping {itemData.Name}: it doesn't inherit from {nameof(BaseWeapon)}");
+                    DebugHelper.PrintDebug($"Skipping {itemData.Name}: it doesn't inherit from {nameof(BaseWeapon)} or {nameof(BaseAccessory)}");
                     continue;
                 }
 
@@ -291,7 +308,7 @@ namespace AchiSplatoon2.DocGeneration
 
         public static void ExportWeaponsAsCategoryPage(List<ItemData> itemDataList, string path, Type baseItemType)
         {
-            DebugHelper.PrintInfo("Creating item category pages...");
+            DebugHelper.PrintInfo("Creating weapon category pages...");
 
             List<ItemData> filteredList = new();
             foreach (var itemData in itemDataList)
@@ -323,7 +340,7 @@ namespace AchiSplatoon2.DocGeneration
 
                 var className = itemData.ModdedItem.GetType().Name;
 
-                var categoryLayout = "category-page/category-row.html";
+                var categoryLayout = "category-page/weapon-category-row.html";
                 includeLines += "      {% include " + categoryLayout +
                     $" name=\"{itemData.Name}\" " +
                     $"damage=\"{itemData.Damage}\" knockback=\"{itemData.Knockback}\" " +
@@ -340,11 +357,71 @@ namespace AchiSplatoon2.DocGeneration
                 return;
             }
 
-            var templateStart = "---\r\nsubtitle: " + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/category-table-head.html %}\r\n      <tbody>\r\n";
+            var templateStart = "---\r\nsubtitle: " + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/weapon-category-table-head.html %}\r\n      <tbody>\r\n";
             var templateEnd = "      </tbody>\r\n    </table>\r\n  </details>\r\n</div>";
             var html = templateStart + includeLines + templateEnd;
 
             var newPath = Path.Combine(path, baseTypeCategoryAttribute.DirectorySuffix + ".html");
+            File.WriteAllText(newPath, html);
+
+            DebugHelper.PrintInfo("Created the HTML.");
+        }
+
+        public static void ExportAccessoriesAsCategoryPage(List <ItemData> itemDataList, string path)
+        {
+            DebugHelper.PrintInfo("Creating accessory category pages...");
+
+            List<ItemData> filteredList = new();
+            foreach (var itemData in itemDataList)
+            {
+                if (!itemData.ModdedItem.GetType().IsSubclassOf(typeof(BaseAccessory)))
+                {
+                    continue;
+                }
+
+                if (ShouldItemBeExcluded(itemData))
+                {
+                    continue;
+                }
+
+                filteredList.Add(itemData);
+            }
+
+            filteredList = filteredList.OrderBy(x => x.Rarity).ThenBy(x => x.Damage).ToList();
+
+            var includeLines = "";
+            foreach (var itemData in filteredList)
+            {
+                var categoryAttribute = Attribute.GetCustomAttribute(itemData.ModdedItem.GetType(), typeof(ItemCategoryAttribute)) as ItemCategoryAttribute;
+                if (categoryAttribute == null)
+                {
+                    DebugHelper.PrintError($"Failed to create category page: {nameof(categoryAttribute)} was null");
+                    return;
+                }
+
+                var className = itemData.ModdedItem.GetType().Name;
+
+                var categoryLayout = "category-page/accessory-category-row.html";
+                includeLines += "      {% include " + categoryLayout +
+                    $" name=\"{itemData.Name}\" " +
+                    $"rarity=\"{itemData.RarityToString()}\" " +
+                    $"internal_name=\"{className}\" " +
+                    $"image_uri=\"{categoryAttribute.DirectorySuffix}/{className}\"" + " %}\r\n";
+            }
+
+            var baseTypeCategoryAttribute = Attribute.GetCustomAttribute(typeof(BaseAccessory), typeof(ItemCategoryAttribute)) as ItemCategoryAttribute;
+            if (baseTypeCategoryAttribute == null)
+            {
+                DebugHelper.PrintError($"Failed to create category page: {nameof(baseTypeCategoryAttribute)} was null");
+                return;
+            }
+
+            var templateStart = "---\r\nsubtitle: " + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "\r\nlayout: category-page\r\n---\r\n\r\n<div class=\"card-header\">\r\n  <div class=\"col\"><b>" + $"{baseTypeCategoryAttribute.PluralizeCategory()}" + "</b></div>\r\n</div>\r\n\r\n<div class=\"card-body\">\r\n  <details open>\r\n    <summary><b>Show/hide</b></summary>\r\n    <table class=\"table\">\r\n      {% include category-page/accessory-category-table-head.html %}\r\n      <tbody>\r\n";
+            var templateEnd = "      </tbody>\r\n    </table>\r\n  </details>\r\n</div>";
+            var html = templateStart + includeLines + templateEnd;
+            var directorySuffix = baseTypeCategoryAttribute.DirectorySuffix == "" ? "Accessories" : baseTypeCategoryAttribute.DirectorySuffix;
+
+            var newPath = Path.Combine(path, directorySuffix + ".html");
             File.WriteAllText(newPath, html);
 
             DebugHelper.PrintInfo("Created the HTML.");

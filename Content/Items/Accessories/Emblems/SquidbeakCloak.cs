@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {
+    [ItemCategory("Accessory", "Emblems")]
     internal class SquidbeakCloak : BaseAccessory
     {
         public override LocalizedText Tooltip => GetAssociatedTooltip().WithFormatArgs(

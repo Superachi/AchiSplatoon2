@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
@@ -8,6 +9,7 @@ using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
 {
+    [ItemCategory("Color chips", "ColorChips")]
     internal class ColorChipBase : BaseItem
     {
         protected virtual int RedValue { get => 0; }

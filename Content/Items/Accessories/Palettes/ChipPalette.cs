@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {
+    [ItemCategory("Palettes", "Palettes")]
     internal class ChipPalette : BaseAccessory
     {
         protected virtual int PaletteCapacity { get => 4; }

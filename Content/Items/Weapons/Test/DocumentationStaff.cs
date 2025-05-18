@@ -103,6 +103,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
             ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseSplatling));
             ItemData.ExportWeaponsAsCategoryPage(itemDataList, categoryFilePath, typeof(BaseBomb));
 
+            ItemData.ExportAccessoriesAsCategoryPage(itemDataList, categoryFilePath);
+
             stopwatch.Stop();
 
             DebugHelper.PrintInfo($"Finished generating docs (time: {stopwatch.ElapsedMilliseconds}ms)");
