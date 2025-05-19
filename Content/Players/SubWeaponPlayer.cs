@@ -53,9 +53,9 @@ namespace AchiSplatoon2.Content.Players
 
             if (Main.hoverItemName != "") return;
 
-            // Ammo slots range from 54-57
+            // Ammo slots range from 54-58
             // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
-            var firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 54, 57);
+            var firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 54, 58);
             if (firstItemMatch == null) return;
 
             var subWeapon = (BaseBomb)firstItemMatch.ModItem;
