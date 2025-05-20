@@ -1128,7 +1128,7 @@ Items: {
 	}
 
 	OrderBag: {
-		UsageHint: Gives you an Order Shot, a Palette and Color Chips
+		UsageHint: Gives you an Order Shot, Inkzooka, a Splat Bomb and a vial to customize your ink color
 		Flavor: Mods.AchiSplatoon2.Items.OrderBag.Flavor
 		DisplayName: Order Starter Bag
 		Tooltip: Right click to open
@@ -2042,13 +2042,14 @@ Items: {
 	}
 
 	ConfigVial: {
-		UsageHint: Makes your ink color match what's configured in WoomyMod's settings
+		UsageHint: Makes your ink color match what's configured in Woomy Mod's settings
 		Flavor: Mods.AchiSplatoon2.Items.ConfigVial.Flavor
 		DisplayName: Custom Ink Vial
 		Tooltip:
 			'''
 			{$RightClick.Tooltip}
 			{$Reusable.Tooltip}
+			Go to [c/32FF82:'Settings > Mod Configuration > Woomy Mod > Client Config > Custom Ink Color']
 			'''
 	}
 
@@ -2406,9 +2407,9 @@ Configs: {
 
 		Headers: {
 			Items: Items
-			UI: User Interface (UI)
+			UI: User Interface
 			Audio: Audio
-			Miscellaneous: Miscellaneous Header
+			Miscellaneous: Miscellaneous Settings
 		}
 
 		UseOnlyVanillaSounds: {
@@ -2443,7 +2444,7 @@ Configs: {
 
 		CustomInkColor: {
 			Label: Custom Ink Color
-			Tooltip: ""
+			Tooltip: Sets the color of the ink fired by your weapons! It also affects your swim form.
 		}
 	}
 }
