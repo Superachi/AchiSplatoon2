@@ -63,12 +63,15 @@ namespace AchiSplatoon2.Content.Players
                     var color = Player.GetModPlayer<ColorChipPlayer>().GetColorResultingFromChips();
                     return ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.05f);
 
+                case InkColorType.Single:
+                    return colorA;
+
                 case InkColorType.Dual:
                     // See logic below
                     break;
             }
 
-            int wrapValue = 20;
+            int wrapValue = 30;
             var attacksUsed = Player.GetModPlayer<StatisticsPlayer>().attacksUsed;
             bool addAttack = (attacksUsed / wrapValue) % 2 == 0;
             int attackValue = addAttack ? attacksUsed % wrapValue : wrapValue - attacksUsed % wrapValue - 1;
