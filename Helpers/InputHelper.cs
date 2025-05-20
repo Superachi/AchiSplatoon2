@@ -1,6 +1,12 @@
-﻿using AchiSplatoon2.ModSystems;
+﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.ModSystems;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Helpers
 {
@@ -58,6 +64,11 @@ namespace AchiSplatoon2.Helpers
             return PlayerInput.Triggers.JustReleased.Jump;
         }
 
+        public static bool GetInputMouseLeftPressed()
+        {
+            return PlayerInput.Triggers.JustPressed.MouseLeft;
+        }
+
         public static bool GetInputMouseLeftHold()
         {
             return PlayerInput.Triggers.Current.MouseLeft;
@@ -96,6 +107,40 @@ namespace AchiSplatoon2.Helpers
         public static bool GetInputSpecialWeaponPressed()
         {
             return KeybindSystem.SpecialWeaponKeybind.JustPressed;
+        }
+
+        public static bool IsPlayerAllowedToUseItem(Player player)
+        {
+            var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
+
+            if (CursorHelper.CursorHasInteractable())
+            {
+                if (weaponPlayer.CustomWeaponCooldown < 30)
+                {
+                    player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 30;
+                }
+                return false;
+            }
+
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return false;
+            if (!player.ItemTimeIsZero) return false;
+
+            if (weaponPlayer.CustomWeaponCooldown > 0) return false;
+            if (!weaponPlayer.allowSubWeaponUsage) return false;
+            if (weaponPlayer.isBrushRolling || weaponPlayer.isBrushAttacking) return false;
+            if (player.OwnsModProjectileWithType(ModContent.ProjectileType<BrushSwingProjectile>()))
+            {
+                return false;
+            }
+
+            if (player.GetModPlayer<SquidPlayer>().IsSquid()) return false;
+            if (player.GetModPlayer<DualiePlayer>().isRolling || player.GetModPlayer<DualiePlayer>().postRollCooldown > 0) return false;
+
+            if (PlayerHelper.IsPlayerImmobileViaDebuff(player)) return false;
+
+            if (Main.hoverItemName != "") return false;
+
+            return true;
         }
     }
 }

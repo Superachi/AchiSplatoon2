@@ -1,12 +1,9 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
-using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
-using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
@@ -15,48 +12,43 @@ namespace AchiSplatoon2.Content.Players
     {
         public override void PreUpdate()
         {
-            if (InputHelper.GetInputSubWeaponHold())
+            bool leftClicked = InputHelper.GetInputMouseLeftHold();
+            bool rightClicked = InputHelper.GetInputSubWeaponHold();
+
+            if (rightClicked)
+            {
+                if (Player.HeldItem.ModItem is BaseBomb)
+                {
+                    SearchAndUseSubWeapon(Player, Player.HeldItem);
+                }
+                else
+                {
+                    SearchAndUseSubWeapon(Player);
+                }
+            }
+            else if (leftClicked && Player.HeldItem.ModItem is BaseBomb)
             {
                 SearchAndUseSubWeapon(Player, Player.HeldItem);
             }
         }
 
-        private void SearchAndUseSubWeapon(Player player, Item heldItem)
+        private void SearchAndUseSubWeapon(Player player, Item? heldItem = null)
         {
-            var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
-            if (CursorHelper.CursorHasInteractable())
-            {
-                if (weaponPlayer.CustomWeaponCooldown < 30)
-                {
-                    player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 30;
-                }
-                return;
-            }
+            if (!InputHelper.IsPlayerAllowedToUseItem(player)) return;
 
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(player)) return;
-            if (!player.ItemTimeIsZero) return;
-
-            if (weaponPlayer.CustomWeaponCooldown > 0) return;
-            if (!weaponPlayer.allowSubWeaponUsage) return;
-            if (weaponPlayer.isBrushRolling || weaponPlayer.isBrushAttacking) return;
-            if (Player.OwnsModProjectileWithType(ModContent.ProjectileType<BrushSwingProjectile>()))
-            {
-                return;
-            }
-
-            if (player.GetModPlayer<SquidPlayer>().IsSquid()) return;
-            if (player.GetModPlayer<DualiePlayer>().isRolling || player.GetModPlayer<DualiePlayer>().postRollCooldown > 0) return;
-
-            if (player.HasBuff(BuffID.Cursed)) return;
-            if (player.HasBuff(BuffID.Frozen)) return;
-            if (player.HasBuff(BuffID.Stoned)) return;
-
-            if (Main.hoverItemName != "") return;
-
-            // Ammo slots range from 54-58
             // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
-            var firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 54, 58);
-            if (firstItemMatch == null) return;
+
+            Item? firstItemMatch;
+            if (heldItem == null)
+            {
+                firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 0, 58);
+                if (firstItemMatch == null) return;
+            }
+            else
+            {
+                if (heldItem.ModItem is not BaseBomb) return;
+                firstItemMatch = heldItem;
+            }
 
             var subWeapon = (BaseBomb)firstItemMatch.ModItem;
             var baseInkCost = WoomyMathHelper.CalculateWeaponInkCost(subWeapon, player);

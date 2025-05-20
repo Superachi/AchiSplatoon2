@@ -83,18 +83,22 @@ namespace AchiSplatoon2.Content.Players
                 return;
             }
 
+            bool leftClicked = InputHelper.GetInputMouseLeftPressed();
             bool middleClicked = InputHelper.GetInputSpecialWeaponPressed();
+            bool triedToUseSpecial = (leftClicked && Player.HeldItem.ModItem is BaseSpecial && !CursorHelper.CursorHasInteractable())
+                || middleClicked;
+
             if (!SpecialReady)
             {
-                if (middleClicked && !_hudPlayer!.IsTextActive())
+                if (triedToUseSpecial && !_hudPlayer!.IsTextActive())
                 {
-                    _hudPlayer!.SetOverheadText("Your special isn't ready yet!", 60);
-                    SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
+                    WarnSpecialNotReady();
                 }
+
                 return;
             }
 
-            if (middleClicked)
+            if (InputHelper.IsPlayerAllowedToUseItem(Player) && triedToUseSpecial)
             {
                 var success = TryActivateSpecial();
                 if (success)
@@ -129,7 +133,7 @@ namespace AchiSplatoon2.Content.Players
             Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
         }
 
-        private bool TryActivateSpecial()
+        private bool TryActivateSpecial(ModItem? modItem = null)
         {
             if (SpecialActivated || !Player.ItemTimeIsZero)
             {
@@ -144,7 +148,10 @@ namespace AchiSplatoon2.Content.Players
 
             if (item != null)
             {
-                var modItem = item.ModItem;
+                if (modItem == null)
+                {
+                    modItem = item.ModItem;
+                }
 
                 if (modItem is BaseSpecial special)
                 {
@@ -279,6 +286,12 @@ namespace AchiSplatoon2.Content.Players
         {
             _UIOffsetY = 0;
             _UIOffsetYSpeed = -MathHelper.Clamp(pointsGained / 2, 1, 4);
+        }
+
+        private void WarnSpecialNotReady()
+        {
+            _hudPlayer!.SetOverheadText("Your special isn't ready yet!", 60);
+            SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
         }
 
         /*
