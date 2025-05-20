@@ -1,13 +1,13 @@
 ﻿using AchiSplatoon2.Attributes;
-using AchiSplatoon2.Content.Projectiles;
-using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -18,9 +18,10 @@ namespace AchiSplatoon2.Content.Players
         public Color colorA = Color.White;
         public Color colorB = Color.White;
 
-        public bool useColorsFromChips = true;
-        public bool useRainbowColors = false;
-        public bool useConfigColors = false;
+        public InkColorType inkColorType = InkColorType.Single;
+        public IncrementType incrementType = IncrementType.Static;
+
+        public bool initialColorSet = false;
 
         public enum IncrementType
         {
@@ -40,8 +41,24 @@ namespace AchiSplatoon2.Content.Players
             Void
         }
 
-        public InkColorType inkColorType = InkColorType.Single;
-        public IncrementType incrementType = IncrementType.Static;
+        public override void PreUpdate()
+        {
+            if (!initialColorSet)
+            {
+                initialColorSet = true;
+
+                var colorOptions = new List<Color>()
+                {
+                    new OrangeVial().ColorToSet,
+                    new BlueVial().ColorToSet,
+                    new PinkVial().ColorToSet,
+                    new GreenVial().ColorToSet,
+                };
+
+                colorA = Main.rand.NextFromCollection(colorOptions);
+                colorB = colorA;
+            }
+        }
 
         public Color GetCurrentColor()
         {
@@ -138,6 +155,8 @@ namespace AchiSplatoon2.Content.Players
 
         public override void SaveData(TagCompound tag)
         {
+            tag[$"{nameof(initialColorSet)}"] = initialColorSet;
+
             tag[$"{nameof(colorA)}"] = colorA;
             tag[$"{nameof(colorB)}"] = colorB;
 
@@ -147,17 +166,22 @@ namespace AchiSplatoon2.Content.Players
 
         public override void LoadData(TagCompound tag)
         {
-            colorA = tag.Get<Color>($"{nameof(colorA)}");
-            colorB = tag.Get<Color>($"{nameof(colorB)}");
+            initialColorSet = tag.GetBool($"{nameof(initialColorSet)}");
 
-            if (Enum.TryParse(tag.GetString($"{nameof(inkColorType)}"), out InkColorType newInkColorType))
+            if (initialColorSet)
             {
-                inkColorType = newInkColorType;
-            }
+                colorA = tag.Get<Color>($"{nameof(colorA)}");
+                colorB = tag.Get<Color>($"{nameof(colorB)}");
 
-            if (Enum.TryParse(tag.GetString($"{nameof(incrementType)}"), out IncrementType newIncrementType))
-            {
-                incrementType = newIncrementType;
+                if (Enum.TryParse(tag.GetString($"{nameof(inkColorType)}"), out InkColorType newInkColorType))
+                {
+                    inkColorType = newInkColorType;
+                }
+
+                if (Enum.TryParse(tag.GetString($"{nameof(incrementType)}"), out IncrementType newIncrementType))
+                {
+                    incrementType = newIncrementType;
+                }
             }
         }
 
