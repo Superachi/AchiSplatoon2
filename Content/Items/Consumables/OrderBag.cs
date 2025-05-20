@@ -1,12 +1,8 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
-using AchiSplatoon2.Content.Items.Accessories.Palettes;
-using AchiSplatoon2.Content.Items.Consumables.ColorVials;
-using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
+﻿using AchiSplatoon2.Content.Items.Consumables.ColorVials;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,22 +48,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrderShot>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<StarterSplatBomb>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<Inkzooka>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ChipPalette>());
-
-            List<int> possibleChips = new List<int>()
-            {
-                ModContent.ItemType<ColorChipRed>(),
-                ModContent.ItemType<ColorChipGreen>(),
-                ModContent.ItemType<ColorChipBlue>(),
-                ModContent.ItemType<ColorChipYellow>(),
-                ModContent.ItemType<ColorChipPurple>(),
-            };
-
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), Main.rand.NextFromCollection(possibleChips));
-
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ConfigVial>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrangeVial>());
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<BlueVial>());
         }
     }
 }

@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors
 {
     internal class BaseSingleColorVial : BaseVial
     {
-        protected virtual Color ColorToSet => Color.White;
+        public virtual Color ColorToSet => Color.White;
 
         protected override void ApplyVialEffect(Player player)
         {

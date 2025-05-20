@@ -193,7 +193,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // Weapon hint + sub bonus
             if (IsSubWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} equipable in ammo slot, usable via right-click") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} when you right-click, the first sub weapon in your inventory is used") { OverrideColor = null });
             }
             else if (IsSpecialWeapon)
             {
@@ -343,14 +343,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
             if (weaponPlayer.CustomWeaponCooldown > 0) return false;
 
-            if (!IsSpecialWeapon)
-            {
-                return base.CanUseItem(player);
-            }
-            else
-            {
-                return false;
-            }
+            return base.CanUseItem(player);
         }
 
         public override int ChoosePrefix(UnifiedRandom rand)
