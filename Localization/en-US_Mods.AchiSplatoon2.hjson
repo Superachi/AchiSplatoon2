@@ -12,6 +12,8 @@ InkSaverMain.Display: Your main weapons cost {0}% less ink
 InkSaverSub.Display: Your sub weapons cost {0}% less ink
 InkCapacityBonus.Display: +{0}% ink capacity
 LastDitchEffortBonus.Display: While you have {0}% or less life remaining, reduce weapon ink consumption by {1}%
+RightClick.Tooltip: Right-click to use
+Reusable.Tooltip: Can be used more than once
 
 Hint: {
 	# ----------------------------------------
@@ -2021,28 +2023,44 @@ Items: {
 		UsageHint: Makes your ink color blue
 		Flavor: Mods.AchiSplatoon2.Items.BlueVial.Flavor
 		DisplayName: Blue Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
 	}
 
 	OrangeVial: {
 		UsageHint: Makes your ink color orange
 		Flavor: Mods.AchiSplatoon2.Items.OrangeVial.Flavor
 		DisplayName: Orange Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
 	}
 
 	ConfigVial: {
 		UsageHint: Makes your ink color match what's configured in WoomyMod's settings
 		Flavor: Mods.AchiSplatoon2.Items.ConfigVial.Flavor
 		DisplayName: Custom Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
 	}
 
 	OrderVial: {
 		UsageHint: Makes your ink color based on the two most common color chips in your inventory
 		Flavor: Mods.AchiSplatoon2.Items.OrderVial.Flavor
 		DisplayName: Order Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
 	}
 
 	BaseSingleColorVial: {
@@ -2056,14 +2074,62 @@ Items: {
 		UsageHint: Makes your ink color green
 		Flavor: Mods.AchiSplatoon2.Items.GreenVial.Flavor
 		DisplayName: Green Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
 	}
 
 	PinkVial: {
 		UsageHint: Makes your ink color orange
 		Flavor: Mods.AchiSplatoon2.Items.PinkVial.Flavor
 		DisplayName: Pink Ink Vial
-		Tooltip: Right-click to use
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
+	}
+
+	FireGradientVial: {
+		UsageHint: Makes your ink color alternate between red and yellow
+		Flavor: Mods.AchiSplatoon2.Items.FireGradientVial.Flavor
+		DisplayName: Fire Gradient Ink Vial
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
+	}
+
+	WaterGradientVial: {
+		UsageHint: Makes your ink color alternate between dark and light blue
+		Flavor: Mods.AchiSplatoon2.Items.WaterGradientVial.Flavor
+		DisplayName: Water Gradient Ink Vial
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
+	}
+
+	RainbowGradientVial: {
+		UsageHint: Makes your ink color... all colors!
+		Flavor: Mods.AchiSplatoon2.Items.RainbowGradientVial.Flavor
+		DisplayName: Chromatic Ink Vial
+		Tooltip:
+			'''
+			{$RightClick.Tooltip}
+			{$Reusable.Tooltip}
+			'''
+	}
+
+	VoidVial: {
+		UsageHint: Mods.AchiSplatoon2.Items.VoidVial.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.VoidVial.Flavor
+		DisplayName: Void Vial
+		Tooltip: ""
 	}
 }
 

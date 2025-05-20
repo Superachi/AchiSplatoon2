@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,28 @@ namespace AchiSplatoon2.StaticData.LootTables
                 chanceDenominator: 40);
 
             list = list.Concat(urchinDrops).ToList();
+
+            // Color vials
+            list.Add(
+                new LootTableIndex(
+                    itemId: ModContent.ItemType<FireGradientVial>(),
+                    npcId: NPCID.LavaSlime,
+                    chanceDenominator: 20)
+                );
+
+            list.Add(
+                new LootTableIndex(
+                    itemId: ModContent.ItemType<RainbowGradientVial>(),
+                    npcId: NPCID.RainbowSlime,
+                    chanceDenominator: 10)
+                );
+
+            list.Add(
+                new LootTableIndex(
+                    itemId: ModContent.ItemType<WaterGradientVial>(),
+                    npcId: NPCID.IceSlime,
+                    chanceDenominator: 20)
+                );
 
             return list;
         }

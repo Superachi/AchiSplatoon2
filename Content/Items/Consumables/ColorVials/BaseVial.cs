@@ -19,6 +19,8 @@ namespace AchiSplatoon2.Content.Items.Consumables.ColorVials
             Item.maxStack = 1;
             Item.consumable = true;
             Item.rare = ItemRarityID.Blue;
+
+            Item.value = Item.buyPrice(silver: 50);
         }
 
         public override bool CanRightClick()

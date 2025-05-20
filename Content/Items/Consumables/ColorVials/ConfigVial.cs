@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.ColorVials
         protected override void ApplyVialEffect(Player player)
         {
             var modPlayer = player.GetModPlayer<InkColorPlayer>();
-            modPlayer.ToggleConfigColors();
+            modPlayer.ApplyConfigColors();
         }
     }
 }

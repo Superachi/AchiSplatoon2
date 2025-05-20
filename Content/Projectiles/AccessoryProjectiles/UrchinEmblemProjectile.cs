@@ -1,4 +1,4 @@
-using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ID;
