@@ -167,6 +167,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     return;
                 }
 
+
                 if (ChargedAmmo > 0)
                 {
                     SyncProjectilePosWithPlayer(owner, 0, 8);
@@ -180,6 +181,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         // If ChargeTime were directly set to 0, it would not work nicely with non-decimal values (eg. when attack speed is increased)
                         ChargeTime -= barrageShotTime;
                         ChargedAmmo--;
+                        Owner.GetModPlayer<StatisticsPlayer>().attacksUsed++;
                         var recoilVector = owner.DirectionTo(Main.MouseWorld) * -3;
                         PlayerItemAnimationFaceCursor(owner, recoilVector);
 
@@ -209,6 +211,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         proj.Projectile.velocity.Y += Main.rand.NextFloat(-spreadOffset, spreadOffset);
                         proj.chargedShot = IsChargeMaxedOut();
                         proj.RunSpawnMethods();
+
+                        var colorPlayer = owner.GetModPlayer<InkColorPlayer>();
+
+                        UpdateCurrentColor(colorPlayer.GetCurrentColor());
+                        proj.UpdateCurrentColor(CurrentColor);
 
                         // Sync shoot animation
                         // Set item use animation and angle

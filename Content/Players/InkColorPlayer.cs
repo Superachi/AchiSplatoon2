@@ -1,9 +1,13 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
+using System;
 using System.Reflection;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -50,14 +54,15 @@ namespace AchiSplatoon2.Content.Players
             {
                 case InkColorType.Rainbow:
                     return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
+
                 case InkColorType.Config:
                     var tempColor = ModContent.GetInstance<ClientConfig>().CustomInkColor;
                     return ColorHelper.LerpBetweenColorsPerfect(tempColor, Color.White, 0.05f);
+
                 case InkColorType.ColorChips:
                     var color = Player.GetModPlayer<ColorChipPlayer>().GetColorResultingFromChips();
                     return ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.05f);
-                case InkColorType.Single:
-                    return colorA;
+
                 case InkColorType.Dual:
                     // See logic below
                     break;
@@ -133,8 +138,8 @@ namespace AchiSplatoon2.Content.Players
             tag[$"{nameof(colorA)}"] = colorA;
             tag[$"{nameof(colorB)}"] = colorB;
 
-            tag[$"{nameof(inkColorType)}"] = inkColorType;
-            tag[$"{nameof(incrementType)}"] = incrementType;
+            tag[$"{nameof(inkColorType)}"] = inkColorType.ToString();
+            tag[$"{nameof(incrementType)}"] = incrementType.ToString();
         }
 
         public override void LoadData(TagCompound tag)
@@ -142,8 +147,15 @@ namespace AchiSplatoon2.Content.Players
             colorA = tag.Get<Color>($"{nameof(colorA)}");
             colorB = tag.Get<Color>($"{nameof(colorB)}");
 
-            inkColorType = tag.Get<InkColorType>($"{nameof(inkColorType)}");
-            incrementType = tag.Get<IncrementType>($"{nameof(incrementType)}");
+            if (Enum.TryParse(tag.GetString($"{nameof(inkColorType)}"), out InkColorType newInkColorType))
+            {
+                inkColorType = newInkColorType;
+            }
+
+            if (Enum.TryParse(tag.GetString($"{nameof(incrementType)}"), out IncrementType newIncrementType))
+            {
+                incrementType = newIncrementType;
+            }
         }
 
         #endregion
