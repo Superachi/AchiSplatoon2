@@ -732,7 +732,7 @@ internal class BaseProjectile : ModProjectile
 
     public Color GenerateInkColor()
     {
-        var chipColor = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+        var chipColor = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
         if (colorOverride != null)
         {
@@ -1063,7 +1063,7 @@ internal class BaseProjectile : ModProjectile
             GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 6, speed: 8, duration: 15);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
+            Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromInkPlayer();
 
             for (int i = 0; i < 7; i++)
             {
@@ -1133,7 +1133,7 @@ internal class BaseProjectile : ModProjectile
             if (playSample) PlayAudio(SoundPaths.TripleHit.ToSoundStyle(), pitchVariance: 0.1f);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            Color inkColor = modPlayer.GetColorFromChips();
+            Color inkColor = modPlayer.GetColorFromInkPlayer();
 
             for (int i = 0; i < 10; i++)
             {

@@ -92,7 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
-                Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+                Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
                 DustHelper.NewChargerBulletDust(
                     position: Main.rand.NextVector2FromRectangle(rect),
@@ -110,7 +110,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             {
                 Rectangle rect = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.width, owner.height);
 
-                Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+                Color color = owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                 DustHelper.NewDropletDust(
                     position: Main.rand.NextVector2FromRectangle(rect),
                     velocity: new Vector2(-xDirection * Main.rand.NextFloat(2, 8), Main.rand.NextFloat(0, -3)),

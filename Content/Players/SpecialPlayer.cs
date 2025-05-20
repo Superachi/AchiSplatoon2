@@ -217,7 +217,7 @@ namespace AchiSplatoon2.Content.Players
                 DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width)) + squidOffset,
                     dustType: DustID.PortalBolt,
                     velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-10, -4)),
-                    color: _colorChipPlayer!.GetColorFromChips(),
+                    color: _colorChipPlayer!.GetColorFromInkPlayer(),
                     scale: Main.rand.NextFloat(1.2f, 1.6f),
                     data: new(emitLight: false));
             }
@@ -228,7 +228,7 @@ namespace AchiSplatoon2.Content.Players
                     position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4) + squidOffset,
                     dustType: ModContent.DustType<SplatterBulletDust>(),
                     velocity: Vector2.Zero,
-                    color: _colorChipPlayer!.GetColorFromChips(),
+                    color: _colorChipPlayer!.GetColorFromInkPlayer(),
                     scale: 2f,
                     data: new(emitLight: false, scaleIncrement: -0.05f, gravity: -0.1f));
 

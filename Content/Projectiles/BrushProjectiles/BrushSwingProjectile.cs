@@ -154,7 +154,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
-            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             var invMP = owner.GetModPlayer<InventoryPlayer>();
             var wepMP = owner.GetModPlayer<WeaponPlayer>();

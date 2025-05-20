@@ -2009,6 +2009,62 @@ Items: {
 		DisplayName: Emblem of the Urchin
 		Tooltip: ""
 	}
+
+	BaseVial: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseVial.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseVial.Flavor
+		DisplayName: Base Vial
+		Tooltip: ""
+	}
+
+	BlueVial: {
+		UsageHint: Makes your ink color blue
+		Flavor: Mods.AchiSplatoon2.Items.BlueVial.Flavor
+		DisplayName: Blue Ink Vial
+		Tooltip: Right-click to use
+	}
+
+	OrangeVial: {
+		UsageHint: Makes your ink color orange
+		Flavor: Mods.AchiSplatoon2.Items.OrangeVial.Flavor
+		DisplayName: Orange Ink Vial
+		Tooltip: Right-click to use
+	}
+
+	ConfigVial: {
+		UsageHint: Makes your ink color match what's configured in WoomyMod's settings
+		Flavor: Mods.AchiSplatoon2.Items.ConfigVial.Flavor
+		DisplayName: Custom Ink Vial
+		Tooltip: Right-click to use
+	}
+
+	OrderVial: {
+		UsageHint: Makes your ink color based on the two most common color chips in your inventory
+		Flavor: Mods.AchiSplatoon2.Items.OrderVial.Flavor
+		DisplayName: Order Ink Vial
+		Tooltip: Right-click to use
+	}
+
+	BaseSingleColorVial: {
+		UsageHint: Mods.AchiSplatoon2.Items.BaseSingleColorVial.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BaseSingleColorVial.Flavor
+		DisplayName: Base Single Color Vial
+		Tooltip: ""
+	}
+
+	GreenVial: {
+		UsageHint: Makes your ink color green
+		Flavor: Mods.AchiSplatoon2.Items.GreenVial.Flavor
+		DisplayName: Green Ink Vial
+		Tooltip: Right-click to use
+	}
+
+	PinkVial: {
+		UsageHint: Makes your ink color orange
+		Flavor: Mods.AchiSplatoon2.Items.PinkVial.Flavor
+		DisplayName: Pink Ink Vial
+		Tooltip: Right-click to use
+	}
 }
 
 Projectiles: {
@@ -2293,6 +2349,7 @@ Configs: {
 			Items: Items
 			UI: User Interface (UI)
 			Audio: Audio
+			Miscellaneous: Miscellaneous Header
 		}
 
 		UseOnlyVanillaSounds: {
@@ -2323,6 +2380,11 @@ Configs: {
 		HideMissingKeybindWarning: {
 			Label: Hide Missing Keybind Warning
 			Tooltip: Hides the message that appears when you have controls related to WoomyMod that haven't been set.
+		}
+
+		CustomInkColor: {
+			Label: Custom Ink Color
+			Tooltip: ""
 		}
 	}
 }

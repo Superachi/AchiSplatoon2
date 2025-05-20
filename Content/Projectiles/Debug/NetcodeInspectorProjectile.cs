@@ -67,7 +67,7 @@ namespace AchiSplatoon2.Content.Projectiles.Debug
                     Utils.DrawBorderString(
                         Main.spriteBatch, $"{allyText}",
                         GetPlayerDrawPosition(player, 0, 60),
-                        colorChipPlayer.GetColorFromChips(),
+                        colorChipPlayer.GetColorFromInkPlayer(),
                         anchorx: 0.5f);
                 }
             }

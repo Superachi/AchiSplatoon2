@@ -51,7 +51,7 @@ namespace AchiSplatoon2.Content.UI.SpecialCharge
 
             var colorChipPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
             float quotient = specialPlayer.GetSpecialPercentageDisplay(); // Must be a method, property crashes for some reason
-            var barColorOriginal = ColorHelper.ColorWithAlpha255(colorChipPlayer.GetColorFromChips());
+            var barColorOriginal = ColorHelper.ColorWithAlpha255(colorChipPlayer.GetColorFromInkPlayer());
             var barColorDark = ColorHelper.LerpBetweenColorsPerfect(barColorOriginal, Color.Black, 0.2f);
             barColor = barColorDark;
 

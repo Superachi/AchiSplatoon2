@@ -34,7 +34,7 @@ namespace AchiSplatoon2.Content.Gores
 
         protected Color GetChipColor()
         {
-            return Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            return Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
         }
 
         protected virtual void CustomSpawn(Gore gore)

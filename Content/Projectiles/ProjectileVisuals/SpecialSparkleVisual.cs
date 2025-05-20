@@ -40,7 +40,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
                 return;
             }
 
-            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             _sparkleSprite = TexturePaths.Medium4pSparkle.ToTexture2D();
             _glowSprite = TexturePaths.Glow100x.ToTexture2D();
@@ -58,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
         public override void AI()
         {
-            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             if (Owner.GetModPlayer<SquidPlayer>().IsSquid())
             {

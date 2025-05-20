@@ -157,7 +157,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             modProj.wasParentChargeMaxed = IsChargeMaxedOut();
             proj.timeLeft = (int)(proj.timeLeft * RangeModifier);
             modProj.RunSpawnMethods();
-            modProj.UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            modProj.UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
         }
 
         protected override void ReleaseCharge(Player owner)

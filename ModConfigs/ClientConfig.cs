@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Xna.Framework;
+using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
 namespace AchiSplatoon2.ModConfigs
@@ -32,5 +33,9 @@ namespace AchiSplatoon2.ModConfigs
 
         [DefaultValue(false)]
         public bool DisableBombRushJingle;
+
+        [Header("Miscellaneous")]
+        [DefaultValue(typeof(Color), "255, 25, 75, 255")]
+        public Color CustomInkColor;
     }
 }

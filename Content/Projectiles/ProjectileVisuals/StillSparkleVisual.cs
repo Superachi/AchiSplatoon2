@@ -35,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
         protected override void AfterSpawn()
         {
             dissolvable = false;
-            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             _sparkleSprite = TexturePaths.Medium4pSparkle.ToTexture2D();
             _glowSprite = TexturePaths.Glow100x.ToTexture2D();

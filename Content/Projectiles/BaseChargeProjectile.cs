@@ -246,7 +246,7 @@ namespace AchiSplatoon2.Content.Projectiles
             var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
 
             int linewidth = 2;
-            var chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             var lineCol = new Color(chipColor.R, chipColor.G, chipColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
@@ -285,7 +285,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            Color chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             Color color = new(chipColor.R + w.R, chipColor.G + w.G, chipColor.B + w.B);
 
             spriteBatch.End();

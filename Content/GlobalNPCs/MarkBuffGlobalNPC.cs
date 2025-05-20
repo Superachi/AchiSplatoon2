@@ -36,7 +36,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override void AI(NPC npc)
         {
-            var chipColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var chipColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
             if (IsMarked(npc))
             {
@@ -81,7 +81,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
                 var player = Main.LocalPlayer;
                 float linewidth = 2f * _widthMod;
-                var chipColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+                var chipColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                 var lineCol = ColorHelper.ColorWithAlpha255(chipColor) * _alphaMod * sinMult;
 
                 Utils.DrawLine(

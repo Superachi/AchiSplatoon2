@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
@@ -62,6 +64,10 @@ namespace AchiSplatoon2.Content.Items.Consumables
             };
 
             player.QuickSpawnItem(player.GetSource_DropAsItem(), Main.rand.NextFromCollection(possibleChips));
+
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ConfigVial>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<OrangeVial>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<BlueVial>());
         }
     }
 }

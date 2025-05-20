@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.Debug;
@@ -148,7 +148,7 @@ namespace AchiSplatoon2.Content.Players
             InkAmount += amount;
             if (hideText) return;
 
-            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
@@ -158,7 +158,7 @@ namespace AchiSplatoon2.Content.Players
             InkAmount = InkAmountFinalMax;
             if (hideText) return;
 
-            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             CombatTextHelper.DisplayText($"+{Math.Ceiling(diff)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 

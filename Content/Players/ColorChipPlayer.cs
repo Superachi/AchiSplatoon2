@@ -186,20 +186,24 @@ namespace AchiSplatoon2.Content.Players
             SetDefaultInkColorBasedOnColorChips();
         }
 
-        public Color GetColorFromChips()
+        public Color GetColorResultingFromChips()
         {
-            if (Player.HasAccessory<EmpressInkTank>()
-                || (DoesPlayerHaveEqualAmountOfChips() && CalculateColorChipTotal() != 0))
+            if (!IsPaletteValid())
+            {
+                return ColorHelper.GetInkColor(InkColor.Order);
+            }
+
+            if ((DoesPlayerHaveEqualAmountOfChips() && CalculateColorChipTotal() != 0))
             {
                 return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
             }
 
-            if (Player.HeldItem.ModItem != null && Player.HeldItem.ModItem.GetType().GetCustomAttribute<ShimmerOrderWeaponAttribute>() != null)
-            {
-                return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.7f);
-            }
+            return _colorFromChips;
+        }
 
-            return IsPaletteValid() ? _colorFromChips : ColorHelper.GetInkColor(InkColor.Order);
+        public Color GetColorFromInkPlayer()
+        {
+            return Player.GetModPlayer<InkColorPlayer>().GetCurrentColor();
         }
 
         private void SetDefaultInkColorBasedOnColorChips()

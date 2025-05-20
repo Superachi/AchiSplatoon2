@@ -97,7 +97,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
-            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             sprinklerCooldown = sprinklerCooldownMax;
             burstBombCooldown = burstBombCooldownMax;
@@ -356,7 +356,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                         triggerSpawnMethods: false);
 
                     laserShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
-                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                     laserShot.RunSpawnMethods();
                 }
                 else
@@ -371,7 +371,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
                     WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
                     sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
-                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                     sprinklerShot.RunSpawnMethods();
                 }
             }
@@ -387,7 +387,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     (int)(droneMP.GetBurstBombDamage() * damageMod),
                     triggerSpawnMethods: false);
 
-                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                 burstShot.RunSpawnMethods();
             }
         }

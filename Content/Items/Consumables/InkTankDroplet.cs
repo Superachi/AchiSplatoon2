@@ -42,7 +42,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         public override void OnSpawn(IEntitySource source)
         {
             _alphaMod = 0.8f;
-            _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             SoundHelper.PlayAudio(SoundID.Item154, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
 
             for (int i = 0; i < 10; i++)

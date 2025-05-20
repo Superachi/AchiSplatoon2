@@ -137,7 +137,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 lerpAmount = (float)Math.Sin(Main.time / 4) * 0.2f + 0.2f;
             }
-            Color chipColor = ColorHelper.ColorWithAlpha255(_owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            Color chipColor = ColorHelper.ColorWithAlpha255(_owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
             Color finalColor = ColorHelper.LerpBetweenColorsPerfect(chipColor, Color.White, lerpAmount);
 
             var realInkQuotient = Math.Min(InkTankMp.InkQuotient(), 1);

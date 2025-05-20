@@ -62,7 +62,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             swingDirection = Owner.direction;
             SetSwingSettings(3, 20, 0.6f);
 
-            var color = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             var usedColor = CurrentColor == Color.Black ? color : CurrentColor;
 
             SetSwingVisuals(

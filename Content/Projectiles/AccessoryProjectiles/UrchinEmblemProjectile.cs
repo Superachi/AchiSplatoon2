@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ID;
@@ -52,7 +52,7 @@ namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
             _drawRotation = MathHelper.ToRadians(Main.rand.Next(0, 359));
             _drawScale = 1;
             _drawAlpha = 0;
-            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             SoundHelper.PlayAudio(SoundID.Splash, volume: 0.3f, pitch: 0f, pitchVariance: 0.3f, position: Projectile.Center);
             SoundHelper.PlayAudio(SoundID.Item21, volume: 0.6f, pitch: 0.5f, pitchVariance: 0.2f, position: Projectile.Center);
