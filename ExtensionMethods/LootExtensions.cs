@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.StaticData;
 using System;
 using System.Linq;
+using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.ExtensionMethods
@@ -70,6 +72,16 @@ namespace AchiSplatoon2.ExtensionMethods
             }
             else
             {
+                // This happens explicitly because non-Expert Eater of World
+                // is extremely janky when it comes to loot
+                // Loot is instead handled in LootGlobalNPC
+                if (!Main.expertMode)
+                {
+                    if (index.NpcId == NPCID.EaterofWorldsHead) return;
+                    if (index.NpcId == NPCID.EaterofWorldsBody) return;
+                    if (index.NpcId == NPCID.EaterofWorldsTail) return;
+                }
+
                 if (index.itemIds.Count == 1)
                 {
                     var isNotExpert = new Conditions.NotExpert();

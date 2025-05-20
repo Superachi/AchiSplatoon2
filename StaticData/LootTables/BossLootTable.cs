@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
@@ -45,11 +46,18 @@ namespace AchiSplatoon2.StaticData.LootTables
 
             foreach (var index in goldLicenseDrops) bossLootList.Add(index);
 
-            // Color chips
+            // Palette and chips
+            var paletteDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<ChipPalette>(),
+                npcIdAndBagId: BossBagAssociations.EvilBosses(),
+                minimumDropped: 1);
+
+            foreach (var index in paletteDrops) bossLootList.Add(index);
+
             var colorChipDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<ColorChipEmpty>(),
                 npcIdAndBagId: BossBagAssociations.PostEvilBosses(),
-                maximumDropped: 3);
+                minimumDropped: 2);
 
             foreach (var index in colorChipDrops) bossLootList.Add(index);
 

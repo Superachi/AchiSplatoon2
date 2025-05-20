@@ -102,4 +102,19 @@ internal class NpcHelper
 
         return false;
     }
+
+    public static int CountNPCs(int type)
+    {
+        var count = 0;
+
+        foreach (var npc in Main.ActiveNPCs)
+        {
+            if (npc.type == type)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }

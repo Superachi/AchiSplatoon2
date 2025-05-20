@@ -1,6 +1,10 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
@@ -68,6 +72,37 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     int licenseId = !Main.hardMode ? ModContent.ItemType<SheldonLicense>() : ModContent.ItemType<SheldonLicenseSilver>();
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
                     RareLootDropPlayerFeedback(npc);
+                }
+
+                // The only exception when it comes to loot drops
+                // See also BossLootTable.cs
+                bool isEaterOfWorlds = npc.type == NPCID.EaterofWorldsHead
+                    || npc.type == NPCID.EaterofWorldsBody
+                    || npc.type == NPCID.EaterofWorldsTail;
+
+                if (!isEaterOfWorlds) return;
+
+                if (Main.expertMode) return;
+
+                var totalSegmentCount =
+                        NpcHelper.CountNPCs(NPCID.EaterofWorldsHead)
+                    + NpcHelper.CountNPCs(NPCID.EaterofWorldsBody)
+                    + NpcHelper.CountNPCs(NPCID.EaterofWorldsTail);
+
+                if (totalSegmentCount == 1)
+                {
+                    var player = Main.LocalPlayer;
+
+                    void SpawnLoot(int itemType)
+                    {
+                        int mainItemId = player.QuickSpawnItem(player.GetSource_DropAsItem(), itemType);
+                        var item = Main.item[mainItemId];
+                        item.Center = npc.Center;
+                    }
+
+                    SpawnLoot(ModContent.ItemType<ChipPalette>());
+                    SpawnLoot(ModContent.ItemType<BombRush>());
+                    SpawnLoot(ModContent.ItemType<ColorChipEmpty>());
                 }
             }
         }

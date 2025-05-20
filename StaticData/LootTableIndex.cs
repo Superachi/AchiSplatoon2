@@ -20,6 +20,11 @@ namespace AchiSplatoon2.StaticData
             int chanceDenominator = 1,
             int treasureBagId = -1)
         {
+            if (maximumDropped < minimumDropped)
+            {
+                maximumDropped = minimumDropped;
+            }
+
             itemIds.Add(itemId);
             MinimumDropped = minimumDropped;
             MaximumDropped = maximumDropped;
@@ -38,6 +43,11 @@ namespace AchiSplatoon2.StaticData
             int treasureBagId = -1
             )
         {
+            if (maximumDropped < minimumDropped)
+            {
+                maximumDropped = minimumDropped;
+            }
+
             foreach (var modItemId in itemIdOptions)
             {
                 itemIds.Add(modItemId);
@@ -57,6 +67,11 @@ namespace AchiSplatoon2.StaticData
             int maximumDropped = 1,
             int chanceDenominator = 1)
         {
+            if (maximumDropped < minimumDropped)
+            {
+                maximumDropped = minimumDropped;
+            }
+
             var list = new List<LootTableIndex>();
 
             foreach (var pair in npcIdAndBagId)
@@ -83,6 +98,11 @@ namespace AchiSplatoon2.StaticData
             int maximumDropped = 1,
             int chanceDenominator = 1)
         {
+            if (maximumDropped < minimumDropped)
+            {
+                maximumDropped = minimumDropped;
+            }
+
             var list = new List<LootTableIndex>();
 
             foreach (var pair in npcIdAndBagId)
