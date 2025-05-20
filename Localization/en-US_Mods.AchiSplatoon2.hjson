@@ -2124,13 +2124,6 @@ Items: {
 			{$Reusable.Tooltip}
 			'''
 	}
-
-	VoidVial: {
-		UsageHint: Mods.AchiSplatoon2.Items.VoidVial.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.VoidVial.Flavor
-		DisplayName: Void Vial
-		Tooltip: ""
-	}
 }
 
 Projectiles: {
