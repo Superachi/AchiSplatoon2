@@ -24,8 +24,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             base.AfterSpawn();
 
-            var color = new Color(r: 106, g: 218, b: 255);
-            color = ColorHelper.ColorWithAlpha255(color);
+            var color = new Color(r: 106, g: 218, b: 255, alpha: 255);
             UpdateCurrentColor(color);
 
             dissolvable = false;
@@ -59,7 +58,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                     Projectile.width,
                     Projectile.height,
                     DustID.RainbowTorch,
-                    newColor: GenerateInkColor(),
+                    newColor: CurrentColor,
                     Scale: Main.rand.NextFloat(0.5f, 1f)
                 );
                 dust.noGravity = true;
