@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -26,8 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 14;
             Item.knockBack = 2f;
             Item.crit = 0;
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeOrder(ItemID.Sapphire);

@@ -10,7 +10,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
             base.SetDefaults();
             Item.damage = 40;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 1);
+            Item.value = Item.sellPrice(silver: 5);
         }
     }
 }

@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -23,8 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.height = 32;
             Item.damage = 85;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValueLatePreHardmode();
         }
 
         public override void AddRecipes() => AddRecipePostSkeletron();

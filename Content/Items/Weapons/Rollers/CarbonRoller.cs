@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
@@ -20,8 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.damage = 35;
             Item.knockBack = 3;
 
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostBee();

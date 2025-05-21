@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -38,8 +39,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 20;
             Item.knockBack = 6;
 
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes()

@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
@@ -21,8 +22,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
         {
             Item.width = 32;
             Item.height = 20;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValuePostEvilBosses();
             Item.accessory = true;
         }
 

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -19,8 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.damage = 14;
             Item.knockBack = 4;
 
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeOrder(ItemID.Ruby);

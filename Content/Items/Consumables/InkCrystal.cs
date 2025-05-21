@@ -38,6 +38,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.autoReuse = true;
 
             Item.maxStack = Item.CommonMaxStack;
+
             Item.rare = ItemRarityID.Cyan;
             Item.value = Item.sellPrice(gold: 1);
         }

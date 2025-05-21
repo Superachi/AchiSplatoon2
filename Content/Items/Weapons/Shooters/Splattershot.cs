@@ -1,3 +1,4 @@
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -19,8 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 42;
             Item.height = 26;
             Item.knockBack = 1;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostEOC();

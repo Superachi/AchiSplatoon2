@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -30,8 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.useTime = 5;
             Item.useAnimation = Item.useTime;
 
-            Item.value = Item.buyPrice(gold: 50);
-            Item.rare = ItemRarityID.Yellow;
+            Item.SetValueEndgame();
         }
 
         public override void AddRecipes()

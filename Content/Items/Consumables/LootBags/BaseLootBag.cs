@@ -14,6 +14,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.LootBags
             Item.height = 32;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
+
             Item.rare = ItemRarityID.Blue;
         }
 

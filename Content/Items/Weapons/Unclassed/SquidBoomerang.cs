@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,8 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noUseGraphic = true;
 
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePreEvilBosses();
         }
 
         public override bool CanUseItem(Player player)

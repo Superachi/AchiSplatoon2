@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.width = 32;
             Item.height = 32;
 
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeOrder(ItemID.Amethyst);

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,8 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.height = 50;
             Item.knockBack = 6;
 
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes()

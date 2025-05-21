@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -33,7 +34,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.height = 62;
             Item.damage = 16;
             Item.knockBack = 1.5f;
-            Item.value = Item.buyPrice(gold: 3);
+            Item.SetValuePreEvilBosses();
             Item.crit = 10;
         }
 

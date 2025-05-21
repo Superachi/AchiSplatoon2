@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Consumables.ColorVials;
+﻿using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
@@ -17,7 +18,8 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.height = 32;
             Item.maxStack = 1;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
+
+            Item.rare = ItemRarityID.Quest;
         }
 
         public override bool CanRightClick()
@@ -49,6 +51,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<StarterSplatBomb>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<Inkzooka>());
             player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<ConfigVial>());
+            player.QuickSpawnItem(player.GetSource_DropAsItem(), ModContent.ItemType<InkTank>());
         }
     }
 }

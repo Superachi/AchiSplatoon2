@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +25,8 @@ namespace AchiSplatoon2.Content.Items.Consumables.Potions
 
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
+
+            Item.SetValuePotion();
         }
 
         public override void AddRecipes()

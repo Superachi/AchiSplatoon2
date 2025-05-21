@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -44,8 +45,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.knockBack = 9;
             Item.ArmorPenetration = 10;
 
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes()

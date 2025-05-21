@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
@@ -16,9 +17,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
         public override void SetDefaults()
         {
             base.SetDefaults();
-
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

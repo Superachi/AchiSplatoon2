@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,8 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.damage = DamageOverride;
             Item.knockBack = 7f;
             Item.crit = 10;
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes() => AddRecipeKensa();

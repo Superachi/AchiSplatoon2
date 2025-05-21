@@ -1,6 +1,7 @@
-﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;

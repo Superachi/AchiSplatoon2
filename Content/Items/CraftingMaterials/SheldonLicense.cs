@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.CraftingMaterials
@@ -10,8 +11,8 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
             Item.width = 30;
             Item.height = 18;
             Item.maxStack = Item.CommonMaxStack;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Green;
+
+            Item.SetValuePostEvilBosses();
         }
     }
 }

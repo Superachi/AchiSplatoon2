@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -20,8 +21,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
             Item.width = 28;
             Item.height = 28;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override float InkSaverAmount()
@@ -40,9 +40,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
                 .AddIngredient(ModContent.ItemType<MainSaverEmblem>())
                 .AddIngredient(ModContent.ItemType<SubSaverEmblem>())
                 .AddIngredient(ModContent.ItemType<LastDitchEffortEmblem>())
-                .AddIngredient(ItemID.SoulofSight, 1)
-                .AddIngredient(ItemID.SoulofMight, 1)
-                .AddIngredient(ItemID.SoulofFright, 1)
+                .AddIngredient(ItemID.SoulofLight, 10)
+                .AddIngredient(ItemID.SoulofNight, 10)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

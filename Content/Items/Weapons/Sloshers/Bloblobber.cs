@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -27,12 +28,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             );
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
-            Item.damage = 40;
+            Item.damage = 44;
             Item.width = 38;
             Item.height = 28;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void AddRecipes()

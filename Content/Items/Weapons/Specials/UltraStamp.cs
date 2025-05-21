@@ -28,8 +28,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
 
             Item.width = 96;
             Item.height = 80;
-
-            Item.value = Item.buyPrice(gold: 5);
         }
 
         // public override void AddRecipes() => AddRecipePostSkeletron();

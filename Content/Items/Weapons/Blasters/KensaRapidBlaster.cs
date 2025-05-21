@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,8 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 shotVelocity: 11f);
 
             Item.damage = 110;
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes() => AddRecipeKensa();

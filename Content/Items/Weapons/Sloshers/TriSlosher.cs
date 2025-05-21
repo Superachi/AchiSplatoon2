@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,8 +26,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.damage = 22;
             Item.crit = 5;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostBee();

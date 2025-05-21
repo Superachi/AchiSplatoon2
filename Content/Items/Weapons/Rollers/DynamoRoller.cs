@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
@@ -20,8 +21,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.damage = 60;
             Item.knockBack = 7;
 
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValueLatePreHardmode();
         }
 
         public override void AddRecipes() => AddRecipePostSkeletron();

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.Audio;
 
@@ -21,9 +22,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             base.SetDefaults();
             SetItemUseTime();
+
+            Item.damage = 50;
             Item.width = 90;
             Item.height = 26;
             Item.damage = 48;
+
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostBee();

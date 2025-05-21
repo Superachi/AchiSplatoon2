@@ -1,3 +1,4 @@
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -13,8 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             base.SetDefaults();
             Item.damage = 120;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeMythril();

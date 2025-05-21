@@ -1,5 +1,5 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 
 namespace AchiSplatoon2.Content.Items.CraftingMaterials
 {
@@ -8,8 +8,8 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.LightPurple;
+
+            Item.SetValuePostMech();
         }
     }
 }

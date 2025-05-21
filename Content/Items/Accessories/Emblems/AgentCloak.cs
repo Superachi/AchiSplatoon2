@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
@@ -27,8 +28,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
             Item.width = 26;
             Item.height = 32;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueHighHardmodeOre();
         }
 
         public static void ApplyStats(Player player)

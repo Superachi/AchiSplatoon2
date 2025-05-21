@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -32,8 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.height = 42;
             Item.knockBack = 1f;
 
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeOrder(ItemID.Diamond);

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,8 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.damage = 64;
             Item.knockBack = 5;
 
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<SlimeSplattershot>());

@@ -1,3 +1,4 @@
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -19,8 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.useAnimation = Item.useTime;
             Item.damage = 32;
             Item.knockBack = 4f;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         protected Recipe CraftingReqs()

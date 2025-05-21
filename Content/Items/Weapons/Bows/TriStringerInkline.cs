@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
@@ -13,8 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             base.SetDefaults();
             Item.damage = 80;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeMythril();

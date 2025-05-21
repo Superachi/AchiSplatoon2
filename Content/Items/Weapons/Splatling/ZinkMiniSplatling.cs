@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
@@ -10,8 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             base.SetDefaults();
             Item.damage = 22;
             Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeCobalt();

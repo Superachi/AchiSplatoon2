@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
@@ -31,8 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.width = 60;
             Item.height = 60;
 
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostBee();

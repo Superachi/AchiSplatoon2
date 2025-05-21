@@ -3,6 +3,7 @@ using AchiSplatoon2.Helpers;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria;
+using AchiSplatoon2.ExtensionMethods;
 
 namespace AchiSplatoon2.Content.Items.Accessories
 {
@@ -20,9 +21,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
             Item.width = 32;
             Item.height = 28;
-
-            Item.value = Item.buyPrice(silver: 50);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

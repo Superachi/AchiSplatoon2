@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -38,8 +39,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValueLatePreHardmode();
         }
 
         public override void AddRecipes() => AddRecipePostSkeletron();

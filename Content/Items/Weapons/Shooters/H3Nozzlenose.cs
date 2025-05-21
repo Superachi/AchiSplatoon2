@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,8 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 50;
             Item.height = 32;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeAdamantite();

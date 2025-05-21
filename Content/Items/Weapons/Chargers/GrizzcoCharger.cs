@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -32,8 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.height = 30;
             Item.damage = 140;
             Item.knockBack = 0;
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes() => AddRecipeGrizzco(ModContent.ItemType<BambooMk1Charger>());

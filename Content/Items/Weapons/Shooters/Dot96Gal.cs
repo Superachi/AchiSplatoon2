@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -33,8 +34,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 62;
             Item.height = 32;
             Item.knockBack = 8f;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<Dot52Gal>());

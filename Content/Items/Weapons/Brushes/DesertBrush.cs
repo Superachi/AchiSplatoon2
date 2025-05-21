@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,8 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.width = 52;
             Item.height = 52;
 
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes()

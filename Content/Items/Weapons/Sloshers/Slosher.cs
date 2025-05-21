@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
@@ -14,8 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeMeteorite();

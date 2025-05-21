@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -30,8 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.width = 72;
             Item.height = 28;
             Item.knockBack = 1.5f;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeMeteorite();

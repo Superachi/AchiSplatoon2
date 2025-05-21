@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -32,8 +33,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.width = 64;
             Item.height = 34;
             Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Green;
+
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipeMeteorite();

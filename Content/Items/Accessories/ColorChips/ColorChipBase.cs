@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
 using Terraria;
@@ -23,8 +24,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.ColorChips
         {
             Item.width = 28;
             Item.height = 28;
-            Item.value = Item.buyPrice(silver: 25);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePostEvilBosses();
             Item.maxStack = 8;
         }
 

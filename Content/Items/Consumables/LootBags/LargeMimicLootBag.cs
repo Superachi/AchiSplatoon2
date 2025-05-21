@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.ExtensionMethods;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.LootBags
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueLowHardmodeOre();
         }
 
         protected int RollRandomWeapon()

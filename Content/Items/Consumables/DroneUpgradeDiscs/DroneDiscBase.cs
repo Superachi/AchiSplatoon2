@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
@@ -21,8 +22,7 @@ namespace AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs
             Item.UseSound = SoundID.Item84;
 
             Item.maxStack = 1;
-            Item.rare = ItemRarityID.Orange;
-            Item.value = Item.sellPrice(gold: 1);
+            Item.SetValuePostEvilBosses();
         }
 
         public override bool CanUseItem(Player player)

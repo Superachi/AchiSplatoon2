@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -23,8 +24,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 
             Item.width = 28;
             Item.height = 28;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

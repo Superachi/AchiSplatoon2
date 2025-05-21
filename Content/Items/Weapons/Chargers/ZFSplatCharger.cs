@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
@@ -10,8 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             base.SetDefaults();
             Item.damage = 170;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeOrichalcum();

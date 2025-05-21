@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,13 +20,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
                 singleShotTime: 36,
                 shotVelocity: 8f);
 
-            Item.damage = 12;
+            Item.damage = 14;
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
 
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostBee();

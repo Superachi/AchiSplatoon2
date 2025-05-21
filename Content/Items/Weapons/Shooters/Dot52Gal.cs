@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -36,8 +37,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 6f;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.LightRed;
+
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)

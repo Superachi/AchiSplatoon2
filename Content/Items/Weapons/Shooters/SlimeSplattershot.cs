@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -33,8 +34,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 42;
             Item.height = 26;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
         }
         public override void AddRecipes() { }
     }

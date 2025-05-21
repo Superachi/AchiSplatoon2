@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
@@ -10,8 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             base.SetDefaults();
 
             Item.damage = 68;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeOrichalcum();

@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -22,12 +23,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         {
             base.SetDefaults();
             SetItemUseTime();
-            Item.damage = 52;
+            Item.damage = 46;
             Item.width = 82;
             Item.height = 26;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 3);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void AddRecipes() => AddRecipePostEOC();

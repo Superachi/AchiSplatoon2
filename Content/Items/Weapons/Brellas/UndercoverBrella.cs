@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,8 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.height = 58;
             Item.knockBack = 2;
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeAdamantite();

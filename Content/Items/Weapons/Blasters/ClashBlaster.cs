@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,8 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.width = 44;
             Item.height = 36;
             Item.knockBack = 8;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeHellstone();

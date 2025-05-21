@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -31,8 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.width = 92;
             Item.height = 50;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValueLatePreHardmode();
         }
 
         public override void AddRecipes() => AddRecipePostSkeletron();

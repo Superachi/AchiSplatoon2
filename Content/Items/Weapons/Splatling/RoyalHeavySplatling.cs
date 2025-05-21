@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
@@ -12,8 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
             Item.width = 92;
             Item.height = 50;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeOrichalcum();

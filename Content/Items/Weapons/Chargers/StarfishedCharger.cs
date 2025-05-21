@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -30,8 +31,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             Item.width = 86;
             Item.height = 24;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 50);
-            Item.rare = ItemRarityID.Yellow;
+
+            Item.SetValueEndgame();
         }
     }
 }

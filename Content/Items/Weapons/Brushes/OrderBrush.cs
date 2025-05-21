@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -27,8 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.width = 58;
             Item.height = 58;
 
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
 
             // Note: hide this stat from the player-- the Order Brush shouldn't be seen as a swapout for high-def enemies
             Item.ArmorPenetration = 3;

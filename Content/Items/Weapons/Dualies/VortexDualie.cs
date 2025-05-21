@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -45,8 +46,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 50;
             Item.height = 30;
             Item.knockBack = 4f;
-            Item.value = Item.buyPrice(gold: 50);
-            Item.rare = ItemRarityID.Cyan;
+
+            Item.SetValueEndgame();
         }
 
         public override void AddRecipes()

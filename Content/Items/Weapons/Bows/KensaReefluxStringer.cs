@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
@@ -14,8 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 80;
             Item.crit = 15;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes() => AddRecipeKensa();

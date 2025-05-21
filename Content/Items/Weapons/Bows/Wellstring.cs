@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -31,8 +32,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.width = 42;
             Item.height = 74;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofMight);

@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
         {
             base.SetDefaults();
             Item.rare = ItemRarityID.Expert;
-            Item.value = Item.buyPrice(gold: 5);
+            Item.value = Item.sellPrice(gold: 3);
         }
 
         public override bool CanReforge()

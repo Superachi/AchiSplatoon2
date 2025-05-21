@@ -1,3 +1,4 @@
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.useAnimation = Item.useTime;
             Item.damage = 24;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.LightRed;
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes()

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,8 +13,7 @@ namespace AchiSplatoon2.Content.Items.Armors.AgentEight
             base.SetDefaults();
 
             Item.vanity = true;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Quest;
+            Item.SetValueVanity();
         }
     }
 }

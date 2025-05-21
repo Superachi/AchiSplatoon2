@@ -57,8 +57,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.White;
         }
 
         public override bool CanUseItem(Player player)

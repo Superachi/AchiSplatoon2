@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,8 +10,8 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes()

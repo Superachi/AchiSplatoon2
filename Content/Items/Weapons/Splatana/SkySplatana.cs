@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -37,8 +38,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.width = 56;
             Item.height = 56;
 
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValueLatePreHardmode();
         }
 
         public override void AddRecipes()
@@ -48,7 +48,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
                 .AddIngredient(ItemID.Topaz, 5)
                 .AddIngredient(ItemID.Feather, 5)
                 .AddIngredient(ItemID.MeteoriteBar, 5)
-                .AddIngredient(ItemID.Hellstone, 5)
                 .Register();
         }
     }

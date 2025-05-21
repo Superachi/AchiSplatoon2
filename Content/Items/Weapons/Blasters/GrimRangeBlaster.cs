@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,8 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
             Item.width = 68;
             Item.height = 34;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override void AddRecipes() { }

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -12,8 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePostEvilBosses();
         }
 
         public override void AddRecipes() { }

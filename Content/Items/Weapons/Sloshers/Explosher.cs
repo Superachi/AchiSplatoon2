@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,8 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.damage = 240;
             Item.knockBack = 8;
 
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
         }
 
         public override bool? UseItem(Player player)

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,8 +20,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.knockBack = 6;
             Item.scale = 1.5f;
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeMythril();

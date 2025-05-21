@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.SlosherProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +28,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.width = 46;
             Item.height = 30;
             Item.knockBack = 6;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);

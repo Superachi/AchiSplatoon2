@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -44,8 +45,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 52;
             Item.height = 34;
             Item.knockBack = 2;
-            Item.value = Item.buyPrice(gold: 15);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeTitanium();

@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -46,8 +47,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 56;
             Item.height = 38;
             Item.knockBack = 1;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeMythril();

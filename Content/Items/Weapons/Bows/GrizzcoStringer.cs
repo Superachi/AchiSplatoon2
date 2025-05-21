@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -29,8 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.width = 34;
             Item.height = 74;
             Item.knockBack = 4;
-            Item.value = Item.buyPrice(gold: 30);
-            Item.rare = ItemRarityID.Lime;
+            Item.SetValuePostPlantera();
             Item.crit = 15;
         }
 

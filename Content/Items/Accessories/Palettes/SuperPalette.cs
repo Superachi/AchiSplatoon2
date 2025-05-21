@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +15,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Red;
+            Item.SetValueEndgame();
         }
 
         public override void AddRecipes()

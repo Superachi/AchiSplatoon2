@@ -1,8 +1,6 @@
-﻿using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {

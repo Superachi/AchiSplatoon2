@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,8 +22,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.width = 48;
             Item.height = 30;
             Item.knockBack = 3f;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.LightRed;
+
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeWithSheldonLicenseSilver();

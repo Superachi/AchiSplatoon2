@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
@@ -11,8 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             Item.damage = 70;
             Item.knockBack = 4;
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueLowHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipePalladium();

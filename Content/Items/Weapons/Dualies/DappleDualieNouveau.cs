@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
@@ -13,8 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.shootSpeed = 3.5f;
             Item.crit = 5;
             Item.knockBack = 3;
-            Item.value = Item.buyPrice(gold: 8);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueMidHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeOrichalcum();

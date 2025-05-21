@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
@@ -18,8 +19,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
         {
             base.SetDefaults();
 
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.Cyan;
+            Item.SetValuePostPlantera();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

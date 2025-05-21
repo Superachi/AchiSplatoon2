@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria;
 using AchiSplatoon2.Content.Players;
 using Microsoft.Xna.Framework;
+using AchiSplatoon2.ExtensionMethods;
 
 namespace AchiSplatoon2.Content.Items.Consumables.ColorVials
 {
@@ -18,9 +19,8 @@ namespace AchiSplatoon2.Content.Items.Consumables.ColorVials
             Item.useTurn = true;
             Item.maxStack = 1;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Blue;
 
-            Item.value = Item.buyPrice(silver: 50);
+            Item.SetValueVanity();
         }
 
         public override bool CanRightClick()

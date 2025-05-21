@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -45,8 +46,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 3f;
-            Item.value = Item.buyPrice(gold: 20);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.SetValuePostMech();
         }
 
         public override void AddRecipes() => AddRecipeChlorophyteUpgrade(true, ModContent.ItemType<JetSquelcher>());

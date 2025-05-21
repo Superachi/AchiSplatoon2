@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.ExtensionMethods;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
@@ -15,8 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.damage = 24;
             Item.knockBack = 3;
 
-            Item.value = Item.buyPrice(gold: 10);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueHighHardmodeOre();
         }
 
         public override void AddRecipes() => AddRecipeTitanium();

@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 
@@ -11,8 +12,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
         {
             base.SetDefaults();
 
-            Item.value = Item.buyPrice(gold: 7, silver: 50);
-            Item.rare = ItemRarityID.Pink;
+            Item.SetValueHighHardmodeOre();
         }
     }
 }

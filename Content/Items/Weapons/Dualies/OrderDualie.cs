@@ -1,6 +1,7 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -40,8 +41,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
             Item.width = 46;
             Item.height = 28;
             Item.knockBack = 0.5f;
-            Item.value = Item.buyPrice(silver: 10);
-            Item.rare = ItemRarityID.Blue;
+            Item.SetValuePreEvilBosses();
 
             Item.ArmorPenetration = 3;
         }

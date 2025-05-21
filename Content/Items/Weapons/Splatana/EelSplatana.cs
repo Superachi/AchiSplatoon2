@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.EelSplatanaProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -39,8 +40,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.width = 58;
             Item.height = 58;
 
-            Item.value = Item.buyPrice(gold: 50);
-            Item.rare = ItemRarityID.Yellow;
+            Item.SetValueEndgame();
         }
     }
 }

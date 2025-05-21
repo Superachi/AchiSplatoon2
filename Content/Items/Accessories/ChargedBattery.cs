@@ -1,7 +1,7 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
-using Terraria.ID;
 using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories;
@@ -22,8 +22,7 @@ internal class ChargedBattery : BaseAccessory
         Item.width = 32;
         Item.height = 32;
 
-        Item.value = Item.buyPrice(gold: 10);
-        Item.rare = ItemRarityID.LightPurple;
+        Item.SetValueHighHardmodeOre();
     }
 
     public override void UpdateAccessory(Player player, bool hideVisual)

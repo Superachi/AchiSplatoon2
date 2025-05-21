@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,8 +33,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             Item.knockBack = 0;
             Item.autoReuse = false;
             Item.noMelee = true;
-            Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePostEvilBosses();
         }
     }
 }
