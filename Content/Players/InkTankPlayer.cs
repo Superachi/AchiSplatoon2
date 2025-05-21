@@ -20,7 +20,7 @@ namespace AchiSplatoon2.Content.Players
     internal class InkTankPlayer : ModPlayer
     {
         public float InkAmount = 0f;
-        public float InkAmountBaseMax = 100f;
+        public float InkAmountBaseMax = 0f;
         public float InkAmountMaxBonus = 0f;
         public float InkAmountFinalMax => CalculateInkCapacity();
 
@@ -38,21 +38,25 @@ namespace AchiSplatoon2.Content.Players
         private int _flowerInkTankProcCooldown = 0;
 
         private int _inkCrystalsUsed = 0;
+
+        private bool _loadedWorld = false;
+
         public static int InkCrystalsMax => 10;
         public static int ValuePerCrystal => 5;
 
         #region Built-in hooks
-
-        public override void OnEnterWorld()
-        {
-            InkAmount = InkAmountFinalMax;
-        }
 
         public override void PreUpdate()
         {
             if (_lowInkMessageCooldown > 0) _lowInkMessageCooldown--;
             if (DropletCooldown > 0) DropletCooldown--;
             if (_flowerInkTankProcCooldown > 0) _flowerInkTankProcCooldown--;
+
+            if (!_loadedWorld && Player.miscCounter > 3)
+            {
+                _loadedWorld = true;
+                InkAmount = InkAmountFinalMax;
+            }
 
             _isSubmerged = Player.GetModPlayer<SquidPlayer>().IsSquid();
 
@@ -129,14 +133,15 @@ namespace AchiSplatoon2.Content.Players
             {
                 var stillMult = Player.velocity.Length() < 1 ? InkRecoveryStillMult : 1f;
                 var swimMult = _isSubmerged ? InkRecoverySwimMult : 1f;
+                var starterInkTankValue = 100;
 
                 if (Player.HasBuff<InkRegenerationBuff>())
                 {
-                    InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * InkRecoveryStillMult * InkRecoverySwimMult;
+                    InkAmount += (InkAmountFinalMax / starterInkTankValue) * InkRecoveryRate * InkRecoveryStillMult * InkRecoverySwimMult;
                 }
                 else
                 {
-                    InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
+                    InkAmount += (InkAmountFinalMax / starterInkTankValue) * InkRecoveryRate * stillMult * swimMult;
                 }
 
                 CheckAndActivateFlowerInkTank();
@@ -254,8 +259,17 @@ namespace AchiSplatoon2.Content.Players
         {
             if (_lowInkMessageCooldown == 0)
             {
-                _lowInkMessageCooldown = 120;
-                Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink!", 90, Color.Yellow);
+                if (InkAmountFinalMax <= 0f)
+                {
+                    _lowInkMessageCooldown = 210;
+                    Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink! (Do you have an ink tank?)", 180, Color.Yellow);
+                }
+                else
+                {
+                    _lowInkMessageCooldown = 120;
+                    Player.GetModPlayer<HudPlayer>().SetOverheadText("Low ink!", 90, Color.Yellow);
+                }
+
                 SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
             }
         }

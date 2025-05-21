@@ -1,4 +1,4 @@
-using AchiSplatoon2.Attributes;
+﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
     [ItemCategory("Ink tanks", "InkTanks")]
     internal class InkTank : BaseAccessory
     {
-        public virtual int CapacityBonus => 20;
+        public virtual int CapacityBonus => 100;
 
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(CapacityBonus);
 
@@ -24,8 +24,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
             Item.width = 32;
             Item.height = 32;
 
-            Item.value = Item.buyPrice(gold: 1);
-            Item.rare = ItemRarityID.Orange;
+            Item.SetValuePreEvilBosses();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -44,6 +43,16 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
                 .AddIngredient(ItemID.Glass, 10)
                 .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
                 .Register();
+        }
+
+        public override bool CanReforge()
+        {
+            return false;
+        }
+
+        public override bool AllowPrefix(int pre)
+        {
+            return false;
         }
     }
 }

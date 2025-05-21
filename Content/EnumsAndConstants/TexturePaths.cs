@@ -41,6 +41,11 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string Medium8pSparkle => FormatPath(nameof(Medium8pSparkle), _directorySparkles);
         public static string MediumCircle => FormatPath(nameof(MediumCircle), _directorySparkles);
 
+        //
+        private static readonly string _directorySlots = "Slots";
+        public static string InkTankSlot => FormatPath(nameof(InkTankSlot), _directorySlots);
+        public static string PaletteSlot => FormatPath(nameof(PaletteSlot), _directorySlots);
+
         // UI
         private static readonly string _directoryUI = "UI";
 

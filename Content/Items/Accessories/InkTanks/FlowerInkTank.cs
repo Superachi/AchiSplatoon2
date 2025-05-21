@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
     internal class FlowerInkTank : InkTank
     {
-        public override int CapacityBonus => 30;
+        public override int CapacityBonus => 130;
         public static int ManaCost => 100;
         public static float InkCapacityPercentageToRecover => 0.1f;
         public static int ProcCooldown => 30;

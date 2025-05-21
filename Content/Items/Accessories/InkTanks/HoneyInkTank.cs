@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
     internal class HoneyInkTank : InkTank
     {
-        public override int CapacityBonus => 20;
+        public override int CapacityBonus => 120;
 
         public override void SetDefaults()
         {

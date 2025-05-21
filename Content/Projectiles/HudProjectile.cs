@@ -116,6 +116,7 @@ namespace AchiSplatoon2.Content.Projectiles
         {
             if (!IsThisClientTheProjectileOwner()) return false;
             if (_owner.dead) return false;
+            if (_owner.GetModPlayer<InkTankPlayer>().InkAmountFinalMax <= 0f) return false;
 
             // Prepare to draw
             barBack = TexturePaths.InkTankBack.ToTexture2D();

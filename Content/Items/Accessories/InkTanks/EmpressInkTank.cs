@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
     internal class EmpressInkTank : InkTank
     {
-        public override int CapacityBonus => 50;
+        public override int CapacityBonus => 150;
         public static int ProjectileDamage => 40;
         public static int ProcCooldown => 9;
 

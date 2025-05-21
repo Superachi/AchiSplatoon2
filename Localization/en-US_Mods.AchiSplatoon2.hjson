@@ -1556,7 +1556,7 @@ Items: {
 
 	InkTank: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkTank.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.InkTank.Flavor
+		Flavor: "How else will you carry all that ink?"
 		DisplayName: Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
@@ -1723,7 +1723,7 @@ Items: {
 	}
 
 	DocumentationStaff: {
-		UsageHint: Mods.AchiSplatoon2.Items.DocumentationStaff.UsageHint
+		UsageHint: WARNING!!! Do not use! Can harm your files if you do. It generates a bunch of .html files for the wiki.
 		Flavor: Mods.AchiSplatoon2.Items.DocumentationStaff.Flavor
 		DisplayName: Documentation Staff
 		Tooltip: ""
@@ -2458,3 +2458,6 @@ Keybinds: {
 	"Brush dash.DisplayName": Brush dashing
 	"Cancel weapon charge.DisplayName": Cancel weapon charge
 }
+
+PaletteAccessorySlot.Functional: Palette slot
+InkTankAccessorySlot.Functional: Ink Tank slot
