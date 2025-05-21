@@ -197,7 +197,16 @@ namespace AchiSplatoon2.Content.Items.Weapons
             }
             else if (IsSpecialWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
+
+                if (Main.LocalPlayer.GetModPlayer<SpecialPlayer>().SpecialReady)
+                {
+                    var readyNotice = ColorHelper.TextWithSpecialWeaponColor("Special weapon: ") + "[i:75] " + ColorHelper.TextWithFunctionalColor("Ready to be used!") + " [i:75]";
+                    tooltips.Add(new TooltipLine(Mod, "SpecialReadyNotice", readyNotice) { OverrideColor = null });
+                }
+                else
+                {
+                    tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
+                }
 
                 if (RechargeCostPenalty > 0)
                 {
