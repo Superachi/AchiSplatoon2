@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
                 singleShotTime: 6,
                 shotVelocity: 6f);
 
-            Item.damage = 28;
+            Item.damage = 30;
             Item.width = 50;
             Item.height = 36;
             Item.knockBack = 3f;
