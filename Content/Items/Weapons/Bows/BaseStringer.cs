@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -6,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
 {
+    [ItemCategory("Stringer", "Bows")]
     internal class BaseStringer : BaseWeapon
     {
         public override float InkCost { get => 1.5f; }
@@ -13,10 +15,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
         public virtual float[] ChargeTimeThresholds { get => [36f, 72f]; }
         public override SoundStyle ShootSample { get => SoundPaths.TriStringerShoot.ToSoundStyle(); }
-        public override SoundStyle ShootWeakSample { get => SoundPaths.BambooChargerShootWeak.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.TriStringerShootWeak.ToSoundStyle(); }
         public virtual float ShotgunArc { get => 5f; }
         public virtual int ProjectileCount { get => 3; }
         public virtual bool AllowStickyProjectiles { get => true; }
+        public virtual float VelocityModifier => 1f;
 
         public virtual int ProjectileType => ModContent.ProjectileType<TriStringerProjectile>();
 

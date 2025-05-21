@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
@@ -27,12 +28,14 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         protected int projectileType;
         protected float finalArc;
 
+        private float _weaponVelocityMod = 1f;
+
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseStringer;
 
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleDistance = weaponData.MuzzleOffset.X;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             shootSample = weaponData.ShootSample;
             shootWeakSample = weaponData.ShootWeakSample;
@@ -41,6 +44,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
 
             allowStickyProjectiles = weaponData.AllowStickyProjectiles;
             burstRequiredHits = weaponData.ProjectileCount;
+            _weaponVelocityMod = weaponData.VelocityModifier;
 
             projectileType = weaponData.ProjectileType;
         }
@@ -49,6 +53,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -105,6 +110,7 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
                 finalArc *= mP.freshQuiverArcMod;
                 velocityModifier *= mP.freshQuiverVelocityMod;
             }
+            velocityModifier *= _weaponVelocityMod;
 
             float degreesPerProjectile = finalArc / projectileCount;
             int middleProjectile = projectileCount / 2;
@@ -205,11 +211,27 @@ namespace AchiSplatoon2.Content.Projectiles.StringerProjectiles
         {
             if (chargeLevel > 0)
             {
-                PlayAudio(shootSample, volume: 0.4f, maxInstances: 1);
+                if (WeaponInstance is Wellstring)
+                {
+                    PlayAudio(shootSample, volume: 0.7f, maxInstances: 1);
+                }
+                else
+                {
+                    PlayAudio(shootSample, volume: 0.5f, maxInstances: 1);
+                }
             }
             else
             {
                 PlayAudio(shootWeakSample, volume: 0.4f, maxInstances: 1);
+            }
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
             }
         }
 

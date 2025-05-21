@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,7 +42,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
         public override void OnSpawn(IEntitySource source)
         {
             _alphaMod = 0.8f;
-            _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            _inkColor = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             SoundHelper.PlayAudio(SoundID.Item154, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
 
             for (int i = 0; i < 10; i++)
@@ -75,6 +77,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
             {
                 var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
                 inkTankPlayer.HealInk(inkTankPlayer.InkAmountFinalMax / 2);
+
+                if (player.HasAccessory<HoneyInkTank>())
+                {
+                    player.AddBuff(BuffID.Honey, 180);
+                }
 
                 return true;
             }

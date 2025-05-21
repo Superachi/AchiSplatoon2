@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AchiSplatoon2.Attributes;
 using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [OrderWeapon]
     internal class OrderBrush : BaseBrush
     {
         public override float AimDeviation { get => 8f; }
@@ -33,18 +34,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.ArmorPenetration = 3;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
-
-        public override void UseAnimation(Player player)
-        {
-            if (player.whoAmI == Main.myPlayer)
-            {
-                // Slow down movement while attacking (similar to how the player slows down in Splatoon when attacking with a brush)
-                if (Math.Abs(player.velocity.X) > 2f)
-                {
-                    player.velocity.X *= 0.8f;
-                }
-            }
-        }
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Sapphire);
     }
 }

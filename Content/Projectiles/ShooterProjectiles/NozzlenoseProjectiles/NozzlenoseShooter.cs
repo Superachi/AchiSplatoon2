@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         private float shotVelocity = 10f;
         public int NPCTarget = -1;
 
-        private float muzzleDistance;
+        private Vector2 muzzleOffset;
 
         protected float lastShotRadians; // Used for networking
 
@@ -41,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
 
             shotVelocity = weaponData.ShotVelocity;
             shotSpeed = weaponData.BurstShotTime;
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleOffset = weaponData.MuzzleOffset;
 
             ShotTimer = shotSpeed;
         }
@@ -57,16 +57,6 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         {
             Vector2 angleVector = aimRadians.ToRotationVector2();
             return angleVector * shotVelocity;
-        }
-
-        protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, float distance)
-        {
-            var spawnPositionOffset = Vector2.Normalize(aimVelocity) * muzzleDistance;
-            if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
-            {
-                spawnPositionOffset = Vector2.Zero;
-            }
-            return spawnPositionOffset;
         }
 
         public override void AI()
@@ -88,7 +78,7 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
                     // Calculate angle/velocity
                     lastShotRadians = owner.DirectionTo(Main.MouseWorld).ToRotation();
                     Vector2 velocity = GetVelocityTimesAngle(lastShotRadians, shotVelocity);
-                    var spawnPositionOffset = CalcBulletSpawnOffset(velocity, muzzleDistance);
+                    var spawnPositionOffset = CalcBulletSpawnOffset(velocity, muzzleOffset);
 
                     var p = CreateChildProjectile(Projectile.Center + spawnPositionOffset, velocity, ModContent.ProjectileType<NozzlenoseProjectile>(), Projectile.damage, false);
 

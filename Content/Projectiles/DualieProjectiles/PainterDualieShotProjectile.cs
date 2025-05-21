@@ -19,11 +19,11 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             var dualieMP = GetOwner().GetModPlayer<DualiePlayer>();
             if (dualieMP.isTurret)
             {
-                PlayAudio(SoundID.NPCHit16, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.8f);
+                PlayAudio(SoundID.NPCHit17, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.4f);
             }
             else
             {
-                PlayAudio(SoundID.NPCHit16, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0.5f);
+                PlayAudio(SoundID.NPCHit16, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 1f);
             }
         }
     }

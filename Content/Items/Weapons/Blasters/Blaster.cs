@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 
         // Sprite offset
         public override Vector2? HoldoutOffset() { return new Vector2(-12, -2); }
-        public override float MuzzleOffsetPx { get; set; } = 64f;
+        public override Vector2 MuzzleOffset => new Vector2(64f, 0);
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()

@@ -7,8 +7,10 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class AdamantiteCoil : BaseWeaponBoosterAccessory
     {
-        public static float DamageReductionMod = 0.6f;
-        protected override string UsageHintParamA => $"{Math.Ceiling((1 - DamageReductionMod) * 100)}";
+        public static float BaseDamageMod => 1.5f;
+        public static float PostFirstHitDamageMod => 0.5f;
+        protected override string UsageHintParamA => $"{Math.Round((BaseDamageMod - 1) * 100)}";
+        protected override string UsageHintParamB => $"{Math.Round((1 - PostFirstHitDamageMod) * 100)}";
 
         public override void SetDefaults()
         {

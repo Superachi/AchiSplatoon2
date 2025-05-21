@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;
@@ -82,18 +83,22 @@ namespace AchiSplatoon2.Content.Players
                 return;
             }
 
-            bool middleClicked = InputHelper.GetInputMiddleClicked();
+            bool leftClicked = InputHelper.GetInputMouseLeftPressed();
+            bool middleClicked = InputHelper.GetInputSpecialWeaponPressed();
+            bool triedToUseSpecial = (leftClicked && Player.HeldItem.ModItem is BaseSpecial && !CursorHelper.CursorHasInteractable())
+                || middleClicked;
+
             if (!SpecialReady)
             {
-                if (middleClicked && !_hudPlayer!.IsTextActive())
+                if (triedToUseSpecial && !_hudPlayer!.IsTextActive())
                 {
-                    _hudPlayer!.SetOverheadText("Your special isn't ready yet!", 60);
-                    SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
+                    WarnSpecialNotReady();
                 }
+
                 return;
             }
 
-            if (middleClicked)
+            if (InputHelper.IsPlayerAllowedToUseItem(Player) && triedToUseSpecial)
             {
                 var success = TryActivateSpecial();
                 if (success)
@@ -117,8 +122,7 @@ namespace AchiSplatoon2.Content.Players
         {
             SpecialReady = true;
             Player.AddBuff(ModContent.BuffType<SpecialReadyBuff>(), 2);
-            _hudPlayer!.SetOverheadText("Special charged!", 90, color: new Color(255, 155, 0));
-            SoundHelper.PlayAudio(SoundPaths.SpecialReady.ToSoundStyle(), 0.6f, maxInstances: 1, position: Player.Center);
+            ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<SpecialSparkleVisual>(), true);
         }
 
         public void UnreadySpecial()
@@ -129,7 +133,7 @@ namespace AchiSplatoon2.Content.Players
             Player.ClearBuff(ModContent.BuffType<SpecialReadyBuff>());
         }
 
-        private bool TryActivateSpecial()
+        private bool TryActivateSpecial(ModItem? modItem = null)
         {
             if (SpecialActivated || !Player.ItemTimeIsZero)
             {
@@ -144,7 +148,10 @@ namespace AchiSplatoon2.Content.Players
 
             if (item != null)
             {
-                var modItem = item.ModItem;
+                if (modItem == null)
+                {
+                    modItem = item.ModItem;
+                }
 
                 if (modItem is BaseSpecial special)
                 {
@@ -211,23 +218,24 @@ namespace AchiSplatoon2.Content.Players
 
         private void SpecialDustStream()
         {
+            Vector2 squidOffset = Player.GetModPlayer<SquidPlayer>().IsSquid() ? new Vector2(0, 20) : Vector2.Zero;
             if (Main.rand.NextBool(4))
             {
-                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width), -10),
-                    dustType: ModContent.DustType<SplatterBulletDust>(),
-                    velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-4, -1)),
-                    color: _colorChipPlayer!.GetColorFromChips(),
-                    scale: 1.5f,
+                DustHelper.NewDust(Player.TopLeft + new Vector2(Main.rand.Next(Player.width)) + squidOffset,
+                    dustType: DustID.PortalBolt,
+                    velocity: new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-10, -4)),
+                    color: _colorChipPlayer!.GetColorFromInkPlayer(),
+                    scale: Main.rand.NextFloat(1.2f, 1.6f),
                     data: new(emitLight: false));
             }
 
             if (Main.rand.NextBool(20))
             {
                 var d = DustHelper.NewDust(
-                    position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4),
+                    position: Player.Center + Main.rand.NextVector2CircularEdge(4, 4) + squidOffset,
                     dustType: ModContent.DustType<SplatterBulletDust>(),
                     velocity: Vector2.Zero,
-                    color: _colorChipPlayer!.GetColorFromChips(),
+                    color: _colorChipPlayer!.GetColorFromInkPlayer(),
                     scale: 2f,
                     data: new(emitLight: false, scaleIncrement: -0.05f, gravity: -0.1f));
 
@@ -237,7 +245,7 @@ namespace AchiSplatoon2.Content.Players
             if (Main.rand.NextBool(20))
             {
                 DustHelper.NewDust(
-                    position: Player.TopLeft + new Vector2(Main.rand.Next(Player.width), Main.rand.Next(Player.height)),
+                    position: Player.TopLeft + new Vector2(Main.rand.Next(Player.width), Main.rand.Next(Player.height)) + squidOffset,
                     dustType: DustID.YellowStarDust,
                     velocity: new Vector2(0, Main.rand.NextFloat(-1, -2)),
                     color: Color.White,
@@ -278,6 +286,12 @@ namespace AchiSplatoon2.Content.Players
         {
             _UIOffsetY = 0;
             _UIOffsetYSpeed = -MathHelper.Clamp(pointsGained / 2, 1, 4);
+        }
+
+        private void WarnSpecialNotReady()
+        {
+            _hudPlayer!.SetOverheadText("Your special isn't ready yet!", 60);
+            SoundHelper.PlayAudio(SoundPaths.EmptyInkTank.ToSoundStyle(), volume: 0.5f);
         }
 
         /*

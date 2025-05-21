@@ -62,7 +62,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
             SoundHelper.PlayAudio(SoundID.Item25, 0.8f, 0.1f, 10, 0f, player.Center);
             SoundHelper.PlayAudio(SoundID.Item66, 0.2f, 0.1f, 10, 0f, player.Center);
 
-            var color = player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = player.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
             int loopAmount = 72;
             for (int i = 1; i < loopAmount; i++)

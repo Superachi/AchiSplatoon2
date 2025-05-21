@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.Debug;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.Debug;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {
+    [DeveloperContent]
     internal class NetcodeInspector : BaseWeapon
     {
         public override void SetDefaults()
@@ -23,13 +25,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[Item.shoot] < 1;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddIngredient(ItemID.Wood, 1)
-                .Register();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjec
         private const int _stateIdle = 2;
         private const int _stateDespawn = 3;
 
-        private List<Player> _playersThatReceivedDrink = new();
+        private readonly List<Player> _playersThatReceivedDrink = new();
 
         private int _buffRange;
         private int _fallDelay;

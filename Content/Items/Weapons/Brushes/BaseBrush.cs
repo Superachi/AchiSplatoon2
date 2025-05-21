@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -8,10 +9,11 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [ItemCategory("Brush", "Brushes")]
     internal class BaseBrush : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brush;
-        public override float InkCost { get => 1f; }
+        public override float InkCost { get => 2f; }
         public override float InkRecoveryDelay { get => 30f; }
 
         public override float AimDeviation { get => 12f; }

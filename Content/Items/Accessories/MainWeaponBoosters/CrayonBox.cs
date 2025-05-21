@@ -6,10 +6,8 @@ namespace AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters
 {
     internal class CrayonBox : BaseWeaponBoosterAccessory
     {
-        public static float ShotVelocityMod = 1.25f;
-        public static int DamageIncrement = 2;
-        public static float SpreadOffsetMod = 0.5f;
-        protected override string UsageHintParamA => DamageIncrement.ToString();
+        public static float ShotVelocityMod = 1.1f;
+        public static float SpreadOffsetMod = 0.75f;
 
         public override void SetDefaults()
         {

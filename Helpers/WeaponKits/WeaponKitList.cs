@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
 {
     internal static class WeaponKitList
     {
-        private static readonly float _defaultSubSaverBonus = 0.2f;
+        private static readonly float _defaultSubSaverBonus = 0.3f;
         private static readonly float _defaultSubDamageBonus = 0.5f;
 
         public static Dictionary<Type, WeaponKit> WeaponKitDictionary = new Dictionary<Type, WeaponKit>
@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             // Shooters
             { typeof(Splattershot),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SplattershotJr),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
-            { typeof(SplattershotPro),      new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 0.2f) },
+            { typeof(SplattershotPro),      new WeaponKit(subType: SubWeaponType.PointSensor, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
 
             { typeof(CustomSplattershotJr), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(ForgeSplattershotPro), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
@@ -43,6 +43,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(JetSquelcher),         new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(L3Nozzlenose),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(H3Nozzlenose),         new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(Squeezer),             new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(HeroShot),             new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Dualies
@@ -61,7 +62,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             // Chargers
             { typeof(SplatCharger),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(ZFSplatCharger),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
-            { typeof(ClassicSquiffer),      new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
+            { typeof(ClassicSquiffer),      new WeaponKit(subType: SubWeaponType.PointSensor, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(FreshSquiffer),        new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(BambooMk1Charger),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(BambooMk2Charger),     new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
@@ -96,11 +97,11 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(ZinkMiniSplatling),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(RoyalHeavySplatling),  new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(HydraSplatling),       new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(CustomHydraSplatling), new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1) },
 
             // Sloshers
             { typeof(Slosher),              new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SlosherDeco),          new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
-            { typeof(SodaSlosher),          new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(TriSlosher),           new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(TriSlosherNouveau),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(Bloblobber),           new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
@@ -116,7 +117,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(PainBrushNouveau),     new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
             // Splatana
-            { typeof(SplatanaWiper),        new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
+            { typeof(SplatanaWiper),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SplatanaWiperDeco),    new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(SplatanaStamper),      new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
@@ -131,7 +132,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(SplatRoller),          new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(KrakonSplatRoller),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(CarbonRoller),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
-            { typeof(CarbonRollerDeco),     new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(CarbonRollerDeco),     new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(DynamoRoller),         new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(GoldDynamoRoller),     new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
@@ -153,11 +154,12 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(KensaUndercoverBrella),    new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Original
-            { typeof(SlimeSplattershot),    new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
+            { typeof(SlimeSplattershot),    new WeaponKit(subType: SubWeaponType.PointSensor, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(PainterDualie),        new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(DesertBrush),          new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(CoralStringer),        new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(CorruptionBrella),     new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
+            { typeof(SkySplatana),          new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SpookyBrush),          new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(IceStringer),          new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
             { typeof(MartianBrella),        new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
@@ -168,6 +170,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(SlimeSplattershotB),   new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(CoralStringerB),       new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(CorruptionBrellaB),    new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(SkySplatanaB),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
 
         };
 

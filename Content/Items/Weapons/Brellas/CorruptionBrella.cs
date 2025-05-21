@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class CorruptionBrella : BaseBrella
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;
-        public override float InkCost { get => 6.5f; }
+        public override float InkCost { get => 12.5f; }
 
         public override float ShotGravity { get => 0f; }
         public override int ShotGravityDelay { get => 0; }
@@ -19,7 +19,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float AimDeviation { get => 0; }
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(44f, 0);
 
         // Brella specific
         public override int ProjectileType { get => ModContent.ProjectileType<CorruptionBrellaPelletProjectile>(); }

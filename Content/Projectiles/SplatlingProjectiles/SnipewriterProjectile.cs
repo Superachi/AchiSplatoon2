@@ -62,5 +62,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             var size = 20;
             hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
+            return base.OnTileCollide(oldVelocity);
+        }
     }
 }

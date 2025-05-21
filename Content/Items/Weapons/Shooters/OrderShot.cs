@@ -1,15 +1,15 @@
+using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Shooters
 {
+    [OrderWeapon]
     internal class OrderShot : Splattershot
     {
-        public override void SetStaticDefaults()
-        {
-            base.SetStaticDefaults();
-        }
-
+        public override SoundStyle ShootSample { get => SoundPaths.OrderShotShoot.ToSoundStyle(); }
         public override void SetDefaults()
         {
             base.SetDefaults();

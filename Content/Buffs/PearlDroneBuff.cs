@@ -36,6 +36,7 @@ namespace AchiSplatoon2.Content.Buffs
             var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
             var accPlayer = player.GetModPlayer<AccessoryPlayer>();
             var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
+            var summonDamageFromMinionSlots = (int)(dronePlayer.CountedMinionSlots() * dronePlayer.DamageBonusPerMinionSlot * 100);
 
             if (!colorChipPlayer.IsPaletteValid()) return;
 
@@ -45,16 +46,20 @@ namespace AchiSplatoon2.Content.Buffs
             tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(colorChipPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
             if (summonDamageBonus > 0)
             {
-                tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%") + "\n";
+                tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%");
+                if (summonDamageFromMinionSlots > 0)
+                {
+                    tooltip += ColorHelper.TextWithBonusColor($" (+{summonDamageFromMinionSlots}% from added minion slots)");
+                }
             }
-            tooltip += "\n";
+            tooltip += "\n\n";
 
             // Enabled attacks section
             tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
 
             if (accPlayer.HasAccessory<LaserAddon>())
             {
-                tooltip += ColorHelper.TextWithPearlColor("Laser beams!") + "\n";
+                tooltip += ColorHelper.TextWithFunctionalColor("Laser beams!") + "\n";
             }
             else
             {

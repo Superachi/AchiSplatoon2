@@ -47,8 +47,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             if (ProjectileDust && timeSpentAlive > 16)
             {
-                Color dustColor = GenerateInkColor();
-
                 if (timeSpentAlive % 4 == 0)
                 {
                     for (int i = 0; i < 5; i++)
@@ -58,7 +56,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                             DustHelper.NewChargerBulletDust(
                                 position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
                                 velocity: -Projectile.velocity / Main.rand.Next(2, 4),
-                                color: dustColor,
+                                color: CurrentColor,
                                 minScale: 1f,
                                 maxScale: 1.5f);
                         }
@@ -68,7 +66,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
                             DustHelper.NewChargerBulletDust(
                                 position: Projectile.Center + WoomyMathHelper.AddRotationToVector2(Projectile.velocity, -90) * i * Main.rand.NextFloat(-2, 2),
                                 velocity: -Projectile.velocity / Main.rand.Next(2, 4),
-                                color: dustColor,
+                                color: CurrentColor,
                                 minScale: 1f,
                                 maxScale: 1.5f);
                         }

@@ -12,8 +12,8 @@ namespace AchiSplatoon2.Content.Buffs
         public static float MoveFrictionBonus => 2f;
 
         public static int CritBonus => 10;
-        public static int DefenseBonus => 10;
-        public static int LifeRegenBonus => 10;
+        public static int DefenseBonus => 8;
+        public static int LifeRegenBonus => 5;
 
         public override void Update(Player player, ref int buffIndex)
         {

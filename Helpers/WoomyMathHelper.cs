@@ -1,11 +1,13 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.Debug;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
@@ -56,13 +58,35 @@ namespace AchiSplatoon2.Helpers
 
             var accMP = player.GetModPlayer<AccessoryPlayer>();
 
-            if (player.HasBuff<LastDitchEffortBuff>())
+            if (player.HasAccessory<InkfinityEmblem>())
             {
-                inkCostModifier *= LastDitchEffortEmblem.InkSaverAmount;
+                return 0f;
             }
 
-            if (weapon.IsSubWeapon)
+            if (player.HasBuff<LastDitchEffortBuff>())
             {
+                inkCostModifier *= 1f - LastDitchEffortEmblem.InkSaverAmount;
+            }
+
+            if (accMP.HasAccessory<SuperSaverEmblem>() || accMP.HasAccessory<SquidbeakCloak>())
+            {
+                inkCostModifier *= new SuperSaverEmblem().InkSaverMult();
+            }
+
+            if (!weapon.IsSubWeapon)
+            {
+                if (accMP.HasAccessory<MainSaverEmblem>())
+                {
+                    inkCostModifier *= new MainSaverEmblem().InkSaverMult();
+                }
+            }
+            else
+            {
+                if (accMP.HasAccessory<SubSaverEmblem>())
+                {
+                    inkCostModifier *= new SubSaverEmblem().InkSaverMult();
+                }
+
                 if (accMP.HasAccessory<HypnoShades>())
                 {
                     inkCostModifier *= HypnoShades.BombInkCostMult;
@@ -71,6 +95,26 @@ namespace AchiSplatoon2.Helpers
                 if (player.HasBuff<BombRushBuff>())
                 {
                     inkCostModifier *= 0;
+                }
+
+                // Discount from main weapon
+                if (player.HeldItem.ModItem is BaseWeapon)
+                {
+                    var heldItem = (BaseWeapon)player.HeldItem.ModItem;
+
+                    if (heldItem.BonusType == SubWeaponBonusType.Discount)
+                    {
+                        if ((heldItem.BonusSub == SubWeaponType.SplatBomb && weapon is SplatBomb)
+                            || (heldItem.BonusSub == SubWeaponType.BurstBomb && weapon is BurstBomb)
+                            || (heldItem.BonusSub == SubWeaponType.AngleShooter && weapon is AngleShooter)
+                            || (heldItem.BonusSub == SubWeaponType.Sprinkler && weapon is Sprinkler)
+                            || (heldItem.BonusSub == SubWeaponType.InkMine && weapon is InkMine)
+                            || (heldItem.BonusSub == SubWeaponType.Torpedo && weapon is Torpedo)
+                            || (heldItem.BonusSub == SubWeaponType.PointSensor && weapon is PointSensor))
+                        {
+                            inkCostModifier *= 1f - heldItem.SubBonusAmount;
+                        }
+                    }
                 }
             }
 
@@ -107,8 +151,7 @@ namespace AchiSplatoon2.Helpers
                     maxChargeTime = splatling.ChargeTimeThresholds.Last();
                     break;
                 default:
-                    maxChargeTime = 60;
-                    break;
+                    return baseInkCost;
             }
 
             if (fullCharge)
@@ -128,7 +171,10 @@ namespace AchiSplatoon2.Helpers
                 || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
                 || target.type == NPCID.Creeper;
 
-            bool isBossSegment = target.type == NPCID.SkeletronHand;
+            bool isBossSegment =
+                target.type == NPCID.SkeletronHand ||
+                target.type == NPCID.WallofFlesh ||
+                target.type == NPCID.WallofFleshEye;
 
             // Note: target.boss here will be false for Eater of Worlds and Destroyer
             if ((target.boss || isBossSegment) && !Main.hardMode)
@@ -153,7 +199,10 @@ namespace AchiSplatoon2.Helpers
                 || target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail
                 || target.type == NPCID.Creeper;
 
-            bool isBossSegment = target.type == NPCID.SkeletronHand;
+            bool isBossSegment =
+                target.type == NPCID.SkeletronHand ||
+                target.type == NPCID.WallofFlesh ||
+                target.type == NPCID.WallofFleshEye;
 
             // Note: target.boss here will be false for Eater of Worlds and Destroyer
             if ((target.boss || isBossSegment) && !Main.hardMode)

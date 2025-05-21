@@ -16,13 +16,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         protected override string UsageHintParamA => $"{DamageOverride}";
 
         public override SoundStyle ShootSample { get => SoundPaths.Dot52GalShoot.ToSoundStyle(); }
-        public override float MuzzleOffsetPx { get; set; } = 48f;
+        public override Vector2 MuzzleOffset => new Vector2(48f, 0);
         public override Vector2? HoldoutOffset() { return new Vector2(-2, 0); }
 
         public override float ShotGravity { get => 0.5f; }
         public override int ShotGravityDelay => 10;
         public override int ShotExtraUpdates { get => 4; }
-        public override float AimDeviation { get => 8f; }
+        public override float AimDeviation { get => 12f; }
 
         public override void SetDefaults()
         {
@@ -32,12 +32,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 10,
                 shotVelocity: 8f);
 
-            Item.damage = 52;
+            Item.damage = DamageOverride;
             Item.width = 52;
             Item.height = 30;
             Item.knockBack = 6f;
             Item.value = Item.buyPrice(gold: 8);
             Item.rare = ItemRarityID.LightRed;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            damage *= 1;
         }
 
         public override void AddRecipes()

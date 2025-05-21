@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float AimDeviation { get => 2f; }
         public override SoundStyle ShootSample { get => SoundPaths.HeroShotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 56f;
+        public override Vector2 MuzzleOffset => new Vector2(56f, 0);
 
         public override void SetDefaults()
         {

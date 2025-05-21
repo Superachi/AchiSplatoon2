@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         {
             base.SetDefaults();
 
-            Item.damage = 80;
+            Item.damage = 68;
             Item.value = Item.buyPrice(gold: 15);
             Item.rare = ItemRarityID.LightPurple;
         }

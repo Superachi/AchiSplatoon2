@@ -1,11 +1,17 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.Debug;
+using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -18,16 +24,18 @@ namespace AchiSplatoon2.Content.Players
         public float InkAmountMaxBonus = 0f;
         public float InkAmountFinalMax => CalculateInkCapacity();
 
-        public float InkRecoveryRate = 0.1f;
-        public float InkRecoveryStillMult = 1.5f;
-        public float InkRecoverySwimMult = 5f;
-        public float InkRecoveryDelay = 0f;
+        public float InkRecoveryRate => 0.05f;
+        public float InkRecoveryStillMult => 3f;
+        public float InkRecoverySwimMult => 8f;
+
+        public float InkRecoveryDelay = 0;
 
         public int DropletCooldown = 0;
         public int DropletCooldownMax = 300;
 
         private bool _isSubmerged = false;
         private int _lowInkMessageCooldown = 0;
+        private int _flowerInkTankProcCooldown = 0;
 
         private int _inkCrystalsUsed = 0;
         public static int InkCrystalsMax => 10;
@@ -44,12 +52,29 @@ namespace AchiSplatoon2.Content.Players
         {
             if (_lowInkMessageCooldown > 0) _lowInkMessageCooldown--;
             if (DropletCooldown > 0) DropletCooldown--;
+            if (_flowerInkTankProcCooldown > 0) _flowerInkTankProcCooldown--;
 
             _isSubmerged = Player.GetModPlayer<SquidPlayer>().IsSquid();
 
             RecoverInk();
 
             InkAmount = Math.Clamp(InkAmount, 0, InkAmountFinalMax);
+        }
+
+        public override void PostUpdate()
+        {
+            // Last Ditch Effort
+            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
+
+            if (Player.HasAccessory<LastDitchEffortEmblem>()
+                || Player.HasAccessory<SuperSaverEmblem>()
+                || Player.HasAccessory<SquidbeakCloak>())
+            {
+                if ((float)Player.statLife / (float)Player.statLifeMax2 <= LastDitchEffortEmblem.LifePercentageThreshold)
+                {
+                    Player.AddBuff(ModContent.BuffType<LastDitchEffortBuff>(), 2);
+                }
+            }
         }
 
         public override void ResetEffects()
@@ -95,7 +120,7 @@ namespace AchiSplatoon2.Content.Players
                 return;
             }
 
-            if (!Player.ItemTimeIsZero)
+            if (!Player.ItemTimeIsZero && Player.HeldItem.ModItem is BaseWeapon)
             {
                 return;
             }
@@ -113,6 +138,8 @@ namespace AchiSplatoon2.Content.Players
                 {
                     InkAmount += (InkAmountFinalMax / InkAmountBaseMax) * InkRecoveryRate * stillMult * swimMult;
                 }
+
+                CheckAndActivateFlowerInkTank();
             }
         }
 
@@ -121,7 +148,7 @@ namespace AchiSplatoon2.Content.Players
             InkAmount += amount;
             if (hideText) return;
 
-            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             CombatTextHelper.DisplayText($"+{Math.Ceiling(amount)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
@@ -131,12 +158,13 @@ namespace AchiSplatoon2.Content.Players
             InkAmount = InkAmountFinalMax;
             if (hideText) return;
 
-            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = Player.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             CombatTextHelper.DisplayText($"+{Math.Ceiling(diff)}%", Player.Center, ColorHelper.ColorWithAlpha255(ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.5f)));
         }
 
         public void ConsumeInk(float amount)
         {
+            if (Player.HasAccessory<InkfinityEmblem>()) return;
             InkAmount -= amount;
         }
 
@@ -145,10 +173,10 @@ namespace AchiSplatoon2.Content.Players
             return Math.Clamp(InkAmount / InkAmountFinalMax, 0, 1);
         }
 
-        public bool HasEnoughInk(float inkCost)
+        public bool HasEnoughInk(float inkCost, bool createPopUp = true)
         {
             var finalCost = inkCost;
-            if (InkAmount < finalCost)
+            if (InkAmount < finalCost && createPopUp)
             {
                 CreateLowInkPopup();
             }
@@ -200,6 +228,22 @@ namespace AchiSplatoon2.Content.Players
         public int CrystalUseCount()
         {
             return _inkCrystalsUsed;
+        }
+
+        private void CheckAndActivateFlowerInkTank()
+        {
+            if (!Player.HasAccessory<FlowerInkTank>()) return;
+            if (Player.statMana < FlowerInkTank.ManaCost) return;
+            if (Player.HasBuff(BuffID.ManaSickness)) return;
+
+            if (_flowerInkTankProcCooldown == 0 && InkAmount < InkAmountFinalMax / 2)
+            {
+                Player.statMana -= FlowerInkTank.ManaCost;
+                _flowerInkTankProcCooldown = FlowerInkTank.ProcCooldown;
+
+                HealInk(InkAmountFinalMax * FlowerInkTank.InkCapacityPercentageToRecover);
+                SoundHelper.PlayAudio(SoundID.Item112, 0.5f, 0.2f, 10, 0.8f, Main.LocalPlayer.Center);
+            }
         }
 
         #endregion

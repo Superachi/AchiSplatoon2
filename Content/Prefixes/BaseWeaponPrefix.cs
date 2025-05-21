@@ -18,6 +18,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public virtual float UseTimeModifier => 0f;
     public virtual float KnockbackModifier => 0f;
     public virtual float VelocityModifier => 0f;
+    public virtual float LifetimeModifier => 0f;
     public virtual int CritChanceBonus => 0;
     public virtual float InkCostModifier => 0f;
 
@@ -34,6 +35,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
 
     // Localization
     public static LocalizedText VelocityTooltip { get; private set; }
+    public static LocalizedText LifetimeTooltip { get; private set; }
     public static LocalizedText AimVariationTooltip { get; private set; }
     public static LocalizedText EnemyPierceTooltip { get; private set; }
     public static LocalizedText ArmorPenetrationTooltip { get; private set; }
@@ -45,6 +47,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
     public override void SetStaticDefaults()
     {
         VelocityTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(VelocityTooltip)}");
+        LifetimeTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(LifetimeTooltip)}");
         AimVariationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(AimVariationTooltip)}");
         EnemyPierceTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(EnemyPierceTooltip)}");
         ArmorPenetrationTooltip = Mod.GetLocalization($"{LocalizationCategory}.{nameof(ArmorPenetrationTooltip)}");
@@ -59,6 +62,11 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         if (VelocityModifier != 0f)
         {
             yield return CreateTooltip(VelocityTooltip, VelocityModifier, false);
+        }
+
+        if (LifetimeModifier != 0f)
+        {
+            yield return CreateTooltip(LifetimeTooltip, LifetimeModifier, false);
         }
 
         if (AimVariation != 0)
@@ -91,7 +99,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
             yield return CreateTooltip(MeleeDamageTooltip, MeleeDamageModifier, false);
         }
 
-        if (InkCostModifier != 0)
+        if (InkCostModifier != 0 && (item.ModItem is BaseWeapon weapon && weapon.InkCost != 0))
         {
             yield return CreateTooltip(InkCostTooltip, InkCostModifier, true);
         }
@@ -172,6 +180,7 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         }
 
         projectile.Projectile.ArmorPenetration += ArmorPenetrationBonus;
+        projectile.Projectile.timeLeft = (int)(projectile.Projectile.timeLeft * (1 + LifetimeModifier));
     }
 
     #endregion

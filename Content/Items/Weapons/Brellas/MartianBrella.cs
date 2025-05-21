@@ -7,6 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class MartianBrella : BaseBrella
     {
+        public override float InkCost { get => 2f; }
         public override float ShotGravity { get => 0.4f; }
         public override int ShotGravityDelay { get => 32; }
         public override int ShotExtraUpdates { get => 6; }

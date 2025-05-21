@@ -1,6 +1,8 @@
-﻿using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Bows
@@ -10,9 +12,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override float InkCost { get => 0.7f; }
 
         public override float[] ChargeTimeThresholds { get => [20f, 40f]; }
+        public override SoundStyle ShootSample { get => SoundPaths.ReefluxShoot.ToSoundStyle(); }
+        public override SoundStyle ShootWeakSample { get => SoundPaths.ReefluxShootWeak.ToSoundStyle(); }
         public override float ShotgunArc { get => 5f; }
         public override int ProjectileCount { get => 3; }
         public override bool AllowStickyProjectiles { get => false; }
+        public override float VelocityModifier => 0.6f;
         public override Vector2? HoldoutOffset() { return new Vector2(-4, 2); }
         public override bool SlowAerialCharge { get => false; }
 
@@ -26,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
 
             Item.width = 36;
             Item.height = 62;
-            Item.damage = 18;
+            Item.damage = 16;
             Item.knockBack = 1.5f;
             Item.value = Item.buyPrice(gold: 3);
             Item.crit = 10;

@@ -1,8 +1,10 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Attributes;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Throwing
 {
+    [ItemCategory("Sub weapon", "Throwing")]
     internal class BaseBomb : BaseWeapon
     {
         public override float InkCost { get => 70f; }

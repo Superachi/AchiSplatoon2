@@ -1,9 +1,9 @@
-using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 
@@ -15,8 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
         private float fallSpeed = 0.1f;
 
         public bool chargedShot = false;
-        private bool firedWithCrayonBox = false;
-        private bool countedForBurst = false;
+        private readonly bool countedForBurst = false;
 
         private float pitch = 0f;
 
@@ -55,7 +54,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             Initialize();
             ApplyWeaponInstanceData();
             PlayShootSound();
-            firedWithCrayonBox = GetOwner().GetModPlayer<AccessoryPlayer>().hasCrayonBox;
+            Projectile.position += Main.rand.NextVector2Circular(8, 8);
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -110,24 +109,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
             return null;
         }
 
-        private void ResetCrayonBoxCombo(string message)
-        {
-            if (!IsThisClientTheProjectileOwner()) return;
-            HeavySplatlingCharge parent = GetParentModProjectile();
-
-            if (parent == null) return;
-            if (parent.barrageTarget != -1)
-            {
-                if (parent.barrageCombo > 5)
-                {
-                    CombatTextHelper.DisplayText($"{message}Combo: {parent.barrageCombo}x", GetOwner().Center);
-                }
-
-                parent.barrageTarget = -1;
-                parent.barrageCombo = 0;
-            }
-        }
-
         protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3, pitch: pitch);
@@ -135,21 +116,31 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            // Reset CrayonBox barrage combo when missing target
-            if (!countedForBurst)
-            {
-                ResetCrayonBoxCombo("Miss! ");
-            }
-
             ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (firedWithCrayonBox && target.life <= damageDone)
+            if (Owner.GetModPlayer<AccessoryPlayer>().hasCrayonBox
+                && target.life <= 0
+                && IsTargetEnemy(target)
+                && !NpcHelper.IsTargetAProjectile(target))
             {
-                ResetCrayonBoxCombo("");
+                var proj = GetParentModProjectile();
+                if (proj == null) return;
+                if (proj.ChargedAmmo <= 0) return;
+
+                proj.RestoreAmmo(0.4f);
+                proj.crayonBoxChain++;
+
+                Owner.GetModPlayer<HudPlayer>().SetOverheadText(
+                    text: proj.crayonBoxChain == 1 ? $"{proj.crayonBoxChain} splat!" : $"{proj.crayonBoxChain} splats!",
+                    displayTime: 60,
+                    color: ColorHelper.LerpBetweenColorsPerfect(Color.Red.IncreaseHueBy(proj.crayonBoxChain * 5), Color.White, 0.2f));
+
+                var pitchValue = Math.Min(2f / 12f + proj.crayonBoxChain / 24f, 12f / 12f);
+                PlayAudio(SoundID.ResearchComplete, volume: 0.5f, pitch: pitchValue, maxInstances: 1);
             }
 
             base.OnHitNPC(target, hit, damageDone);
@@ -157,31 +148,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (firedWithCrayonBox)
-            {
-                if (countedForBurst) return;
-                modifiers.DamageVariationScale *= 0f;
-
-                var proj = GetParentModProjectile();
-                if (proj != null)
-                {
-                    if (proj.barrageTarget != target.whoAmI)
-                    {
-                        ResetCrayonBoxCombo("");
-                        proj.barrageTarget = target.whoAmI;
-                    }
-                    else
-                    {
-                        proj.barrageCombo++;
-                    }
-
-                    modifiers.FlatBonusDamage += proj.barrageCombo * CrayonBox.DamageIncrement;
-                    if (proj.ChargedAmmo == 0) { ResetCrayonBoxCombo(""); }
-                }
-
-                countedForBurst = true;
-            }
-
             base.ModifyHitNPC(target, ref modifiers);
         }
 

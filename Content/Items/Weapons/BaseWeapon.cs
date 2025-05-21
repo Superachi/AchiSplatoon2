@@ -7,12 +7,16 @@ using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
+using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
+using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
@@ -54,7 +58,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
         AngleShooter,
         Sprinkler,
         InkMine,
-        Torpedo
+        Torpedo,
+        PointSensor
     }
 
     enum SubWeaponBonusType
@@ -72,7 +77,6 @@ namespace AchiSplatoon2.Content.Items.Weapons
         public virtual SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public virtual SoundStyle ShootWeakSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public virtual SoundStyle ShootAltSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
-        public virtual float MuzzleOffsetPx { get; set; } = 0f;
         public virtual Vector2 MuzzleOffset => Vector2.Zero;
 
         // Main weapon stats
@@ -157,6 +161,8 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 {
                     crit += TentacularOcular.BaseCritChance;
                 }
+
+                crit += StatCalculationHelper.CalculateCritModifiers(player, this);
             }
         }
 
@@ -187,12 +193,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
             // Weapon hint + sub bonus
             if (IsSubWeapon)
             {
-                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} equipable in ammo slot, usable via right-click") { OverrideColor = null });
+                tooltips.Add(new TooltipLine(Mod, $"SubWeaponUsageHintSub", $"{ColorHelper.TextWithSubWeaponColor("Sub weapon:")} when you right-click, the first sub weapon in your inventory is used") { OverrideColor = null });
             }
             else if (IsSpecialWeapon)
             {
                 tooltips.Add(new TooltipLine(Mod, $"SpecialWeaponUsageHint", $"{ColorHelper.TextWithSpecialWeaponColor("Special weapon:")} Defeat enemies and fill your special gauge, then middle-click when ready") { OverrideColor = null });
-                
+
                 if (RechargeCostPenalty > 0)
                 {
                     var tip = $"When used, your next special requires " + ColorHelper.TextWithSpecialWeaponColor($"{(int)RechargeCostPenalty} points ") + "to charge";
@@ -257,6 +263,9 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 case SubWeaponType.Torpedo:
                     subname = "Torpedo";
                     break;
+                case SubWeaponType.PointSensor:
+                    subname = "Point Sensor";
+                    break;
             }
             return subname;
         }
@@ -267,12 +276,27 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
             // Offset the projectile's position to match the weapon
             Vector2 weaponOffset = HoldoutOffset() ?? new Vector2(0, 0);
-            Vector2 muzzleOffset = Vector2.Add(Vector2.Normalize(velocity) * MuzzleOffsetPx, Vector2.Normalize(velocity) * weaponOffset);
+
+            Vector2 finalMuzzleOffset = Vector2.Zero;
+            if (MuzzleOffset != Vector2.Zero)
+            {
+                var shotAngle = velocity.ToRotation();
+                shotAngle = MathHelper.ToDegrees(shotAngle);
+
+                var baseMuzzleOffset = MuzzleOffset;
+                if (player.direction == -1)
+                {
+                    baseMuzzleOffset.Y *= player.direction;
+                }
+
+                finalMuzzleOffset += WoomyMathHelper.AddRotationToVector2(baseMuzzleOffset, shotAngle) + WoomyMathHelper.AddRotationToVector2(weaponOffset, shotAngle);
+            }
+
             Vector2 position = player.Center;
-            bool canHit = Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0);
+            bool canHit = Collision.CanHit(position, 0, 0, position + finalMuzzleOffset, 0, 0);
             if (canHit)
             {
-                position += muzzleOffset;
+                position += finalMuzzleOffset;
             }
 
             // Spawn the projectile
@@ -319,14 +343,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
             var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
             if (weaponPlayer.CustomWeaponCooldown > 0) return false;
 
-            if (!IsSpecialWeapon)
-            {
-                return base.CanUseItem(player);
-            }
-            else
-            {
-                return false;
-            }
+            return base.CanUseItem(player);
         }
 
         public override int ChoosePrefix(UnifiedRandom rand)
@@ -363,8 +380,48 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     break;
 
                 case BaseCharger:
+                    possiblePrefixes = PrefixHelper.ListChargerPrefixes();
+                    break;
+
+                case BaseSlosher:
+                    possiblePrefixes = PrefixHelper.ListSlosherPrefixes();
+
+
+                    if (this is Bloblobber)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<OversizedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<ResonantPrefix>());
+                    }
+                    else if (this is Explosher)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<OversizedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<ResonantPrefix>());
+
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                    }
+                    else
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+
+                        possiblePrefixes.Remove(ModContent.PrefixType<HeavyDutyPrefix>());
+                    }
+                    break;
+
                 case BaseSplatana:
+
                     possiblePrefixes = PrefixHelper.ListChargeWeaponsPrefixes();
+
+                    if (this is GolemSplatana)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<BacklinePrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<RangedPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<TastelessPrefix>());
+                    }
+
                     break;
 
                 case BaseSplatling:
@@ -392,6 +449,24 @@ namespace AchiSplatoon2.Content.Items.Weapons
                 case BaseBrella:
                     possiblePrefixes = PrefixHelper.ListBrellaPrefixes();
                     break;
+
+                case BaseRoller:
+                    possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
+                    possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                    break;
+            }
+
+            if (InkCost == 0)
+            {
+                if (possiblePrefixes.Contains(ModContent.PrefixType<SavouryPrefix>()))
+                {
+                    possiblePrefixes.Remove(ModContent.PrefixType<SavouryPrefix>());
+                }
+
+                if (possiblePrefixes.Contains(ModContent.PrefixType<CheapPrefix>()))
+                {
+                    possiblePrefixes.Remove(ModContent.PrefixType<CheapPrefix>());
+                }
             }
 
             return rand.NextFromCollection(possiblePrefixes);

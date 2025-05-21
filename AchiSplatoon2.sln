@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AchiSplatoon2", "AchiSplatoon2.csproj", "{0863D34D-333F-4DF9-BDD7-A102025D6DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplatoonTests", "..\SplatoonTests\SplatoonTests.csproj", "{393A150B-3304-4950-AC40-7E9BB61B39BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplatoonTests", "..\SplatoonTests\SplatoonTests.csproj", "{393A150B-3304-4950-AC40-7E9BB61B39BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

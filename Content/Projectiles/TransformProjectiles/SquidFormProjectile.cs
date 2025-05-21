@@ -165,7 +165,7 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            var color = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+            var color = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
             DrawProjectile(
                 ColorHelper.LerpBetweenColorsPerfect(color, Color.White, 0.9f),
                 Projectile.rotation,
@@ -195,7 +195,7 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
 
         public void TransformDust()
         {
-            Color dustColor = GetOwner().GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            Color dustColor = GetOwner().GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
             bool isSmall = GetOwnerModPlayer<SquidPlayer>().IsSquid() && PlayerHelper.IsPlayerGrounded(GetOwner());
             var position = isSmall ? GetOwner().Center + new Vector2(0, GetOwner().height / 2) : GetOwner().Center;
@@ -230,7 +230,7 @@ namespace AchiSplatoon2.Content.Projectiles.TransformProjectiles
             if (_splashCooldown > 0) return;
             _splashCooldown = _splashCooldownMax;
 
-            Color dustColor = GetOwner().GetModPlayer<ColorChipPlayer>().GetColorFromChips();
+            Color dustColor = GetOwner().GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
 
             for (int i = 0; i < 10; i++)
             {

@@ -6,6 +6,9 @@
         public override float SpecialDrainPerUse => 0f;
         public override float RechargeCostPenalty { get => 120f; }
 
+        public static float SubWeaponDamageMultiplier => 1.1f;
+        protected override string UsageHintParamA => $"{(int)((SubWeaponDamageMultiplier - 1) * 100)}";
+
         public override void SetDefaults()
         {
             base.SetDefaults();

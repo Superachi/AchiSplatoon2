@@ -1,11 +1,13 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
@@ -95,7 +97,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
         protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
-            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips());
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
             sprinklerCooldown = sprinklerCooldownMax;
             burstBombCooldown = burstBombCooldownMax;
@@ -354,7 +356,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                         triggerSpawnMethods: false);
 
                     laserShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
-                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    laserShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                     laserShot.RunSpawnMethods();
                 }
                 else
@@ -369,7 +371,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
                     WoomyMathHelper.AddRotationToVector2(sprinklerShot.Projectile.velocity, Main.rand.NextFloat(-15, 15));
                     sprinklerShot.Projectile.ArmorPenetration += droneMP.GetSprinklerArmorPenetration();
-                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                    sprinklerShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                     sprinklerShot.RunSpawnMethods();
                 }
             }
@@ -378,14 +380,14 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             {
                 burstBombCooldown = GetCooldownValue(burstBombCooldownMax);
                 var damageMod = Owner.HasBuff<BombRushBuff>() ? 0.5f : 1f;
-                
+
                 PearlDroneBurstBomb burstShot = CreateChildProjectile<PearlDroneBurstBomb>(
                     Projectile.Center,
                     Projectile.Center.DirectionTo(foundTarget.Center) * 20 + foundTarget.velocity,
                     (int)(droneMP.GetBurstBombDamage() * damageMod),
                     triggerSpawnMethods: false);
 
-                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+                burstShot.colorOverride = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
                 burstShot.RunSpawnMethods();
             }
         }
@@ -471,7 +473,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
 
         private void FindTarget(float maxTargetDistance)
         {
-            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank;
+            bool shotsCanPassThroughLiquid = GetOwnerModPlayer<AccessoryPlayer>().hasThermalInkTank || Owner.HasAccessory<LaserAddon>();
             var success = false;
 
             float closestDistance = maxTargetDistance;
@@ -751,7 +753,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                     }
                     break;
 
-                case EelSplatanaWeapon:
+                case EelSplatana:
                     strings.Add("You think Frye names each of her eels?");
                     break;
             }

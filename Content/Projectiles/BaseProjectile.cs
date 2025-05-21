@@ -1,11 +1,15 @@
+using AchiSplatoon2.Content.Buffs.Debuffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.GlobalProjectiles;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
@@ -132,7 +136,7 @@ internal class BaseProjectile : ModProjectile
             AfterInitialize();
         }
 
-        Dissolve();
+        CheckCollisionWithWater();
 
         return true;
     }
@@ -457,6 +461,14 @@ internal class BaseProjectile : ModProjectile
         {
             modifiers.FinalDamage *= 0.6f;
         }
+
+        if (target.HasBuff<MarkedBuff>())
+        {
+            if (Main.rand.NextBool(MarkedBuff.CritChanceDenominator) && this is not EmpressInkTankProjectile)
+            {
+                modifiers.SetCrit();
+            }
+        }
     }
 
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -476,12 +488,8 @@ internal class BaseProjectile : ModProjectile
 
             if (!IsTargetEnemy(target)) return;
             if (!colorChipPlayer.IsPaletteValid()) return;
-
-            var splatInkRecoveryBonus = colorChipPlayer.CalculateSplatInkRecoveryBonus();
-            if (splatInkRecoveryBonus > 0)
-            {
-                owner.GetModPlayer<InkTankPlayer>().HealInk(splatInkRecoveryBonus);
-            }
+            if (NpcHelper.IsTargetAProjectile(target)) return;
+            if (itemIdentifier == -1) return;
 
             var luckyBombStartDamage = Math.Max(target.lifeMax / 10, Projectile.damage / 5);
             var luckyBombMinDamage = Main.expertMode ? 20 : 50;
@@ -538,6 +546,22 @@ internal class BaseProjectile : ModProjectile
                 Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }
         }
+
+        var empressInkTankPlayer = owner.GetModPlayer<EmpressInkTankPlayer>();
+        if (hit.Crit
+            && target.type != NPCID.TargetDummy
+            && Owner.HasAccessory<EmpressInkTank>()
+            && empressInkTankPlayer.CanSpawnProjectile())
+        {
+            empressInkTankPlayer.ActivateCooldown();
+            var p = CreateChildProjectile<EmpressInkTankProjectile>(owner.Center, Vector2.Zero, 0, true);
+
+            if (Projectile.damage > EmpressInkTank.ProjectileDamage * 2)
+            {
+                float mult = 1f + (Projectile.damage / EmpressInkTank.ProjectileDamage) / 2f;
+                p.SetDamageMult(mult);
+            }
+        }
     }
 
     protected bool IsTargetEnemy(NPC target, bool countDummyAsEnemy = false)
@@ -562,9 +586,10 @@ internal class BaseProjectile : ModProjectile
         return false;
     }
 
-    protected NPC? FindClosestEnemy(float maxTargetDistance, bool checkLineOfSight = false)
+    protected NPC? FindClosestEnemy(float maxTargetDistance, bool checkLineOfSight = false, Vector2? pointToCheck = null)
     {
         NPC npcTarget = null;
+        pointToCheck = pointToCheck ?? Projectile.Center;
 
         float closestDistance = maxTargetDistance;
         foreach (var npc in Main.ActiveNPCs)
@@ -574,7 +599,7 @@ internal class BaseProjectile : ModProjectile
             {
                 if (checkLineOfSight)
                 {
-                    if (Collision.CanHitLine(Projectile.Center, Projectile.width, Projectile.height, npc.Center, 1, 1))
+                    if (Collision.CanHitLine((Vector2)pointToCheck, Projectile.width, Projectile.height, npc.Center, 1, 1))
                     {
                         closestDistance = distance;
                         npcTarget = npc;
@@ -643,7 +668,7 @@ internal class BaseProjectile : ModProjectile
         if (specialPlayer.SpecialActivated) return;
         if (!specialPlayer.PlayerCarriesSpecialWeapon) return;
 
-        if (target.life <= 0 && !target.boss)
+        if (target.life <= 0 && !target.boss && !NpcHelper.IsTargetAWormSegment(target))
         {
             var p = CreateChildProjectile<SpecialChargeProjectile>(target.Center, Vector2.Zero, 0, true);
 
@@ -663,6 +688,26 @@ internal class BaseProjectile : ModProjectile
 
             specialPlayer.ApplyBossSpecialDropCooldown();
         }
+    }
+
+    protected Vector2 CalcBulletSpawnOffset(Vector2 aimVelocity, Vector2 offset)
+    {
+        if (Owner.direction == -1)
+        {
+            offset.Y *= Owner.direction;
+        }
+
+        var angleVector = Vector2.Normalize(aimVelocity);
+        var radians = angleVector.ToRotation();
+        var degrees = MathHelper.ToDegrees(radians);
+        var spawnPositionOffset = WoomyMathHelper.AddRotationToVector2(offset, degrees);
+
+        if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
+        {
+            spawnPositionOffset = Vector2.Zero;
+        }
+
+        return spawnPositionOffset;
     }
 
     protected int FrameSpeed(int frames = 1)
@@ -687,25 +732,18 @@ internal class BaseProjectile : ModProjectile
 
     public Color GenerateInkColor()
     {
+        var chipColor = GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
+
         if (colorOverride != null)
         {
             return (Color)colorOverride;
         }
 
-        return GetOwnerModPlayer<ColorChipPlayer>().GetColorFromChips();
+        return chipColor;
     }
 
     private void SetInitialInkColor()
     {
-        if (colorOverride == null)
-        {
-            var colorChipPlayer = GetOwnerModPlayer<ColorChipPlayer>();
-            if (colorChipPlayer.DoesPlayerHaveEqualAmountOfChips() && colorChipPlayer.CalculateColorChipTotal() != 0)
-            {
-                colorOverride = ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.1f);
-            }
-        }
-
         var color = GenerateInkColor();
         CurrentColor = color;
         InitialColor = CurrentColor;
@@ -745,7 +783,7 @@ internal class BaseProjectile : ModProjectile
     protected void SyncProjectilePosWithWeaponBarrel(Vector2 position, Vector2 velocity, BaseWeapon weaponData)
     {
         Vector2 weaponOffset = weaponData.HoldoutOffset() ?? new Vector2(0, 0);
-        Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffsetPx;
+        Vector2 muzzleOffset = Vector2.Normalize(velocity) * weaponData.MuzzleOffset.X;
 
         if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
         {
@@ -892,6 +930,12 @@ internal class BaseProjectile : ModProjectile
                 scale: (minScale + maxScale) / 6,
                 data: new(gravity: 1));
         }
+
+        var sparkle = CreateChildProjectile<StillSparkleVisual>(Projectile.Center, Vector2.Zero, 0, true);
+        sparkle.AdjustRotation(0);
+        sparkle.AdjustColor(CurrentColor);
+        sparkle.AdjustScale(radiusModifier / 120f);
+        sparkle.HideSparkle();
     }
 
     protected void EmitBurstDust(ExplosionDustModel dustModel)
@@ -948,7 +992,8 @@ internal class BaseProjectile : ModProjectile
         float additiveAmount = 0f,
         Texture2D? spriteOverride = null,
         int? frameOverride = null,
-        Vector2? positionOverride = null)
+        Vector2? positionOverride = null,
+        Vector2? originOffset = null)
     {
         Vector2 position = (positionOverride ?? Projectile.Center) - Main.screenPosition + (positionOffset ?? Vector2.Zero);
         Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -956,6 +1001,10 @@ internal class BaseProjectile : ModProjectile
 
         Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: frameOverride ?? Projectile.frame); // The sourceRectangle says which frame to use.
         Vector2 origin = sourceRectangle.Size() / 2f;
+        if (originOffset != null)
+        {
+            origin += (Vector2)originOffset;
+        }
 
         // The light value in the world
         var lightInWorld = Color.White;
@@ -1019,11 +1068,11 @@ internal class BaseProjectile : ModProjectile
             GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 6, speed: 8, duration: 15);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromChips();
+            Color inkColor = colorOverride != null ? (Color)colorOverride : modPlayer.GetColorFromInkPlayer();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 7; i++)
             {
-                float hspeed = i * 1.5f;
+                float hspeed = i * 2f;
                 float vspeed = i / 1.5f;
                 float scale = 2 - (i / 10) * 2;
                 spawnDust(new Vector2(hspeed, 0), scale, inkColor);
@@ -1032,6 +1081,11 @@ internal class BaseProjectile : ModProjectile
                 spawnDust(new Vector2(0, -vspeed), scale, inkColor);
                 spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
             }
+
+            var sparkle = CreateChildProjectile<StillSparkleVisual>((Vector2)position, Vector2.Zero, 0, true);
+            sparkle.AdjustRotation(0);
+            sparkle.AdjustColor(ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.3f));
+            sparkle.AdjustScale(1.6f);
         }
     }
 
@@ -1084,7 +1138,7 @@ internal class BaseProjectile : ModProjectile
             if (playSample) PlayAudio(SoundPaths.TripleHit.ToSoundStyle(), pitchVariance: 0.1f);
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<ColorChipPlayer>();
-            Color inkColor = modPlayer.GetColorFromChips();
+            Color inkColor = modPlayer.GetColorFromInkPlayer();
 
             for (int i = 0; i < 10; i++)
             {
@@ -1097,7 +1151,7 @@ internal class BaseProjectile : ModProjectile
     }
     #endregion
 
-    private void Dissolve()
+    private void CheckCollisionWithWater()
     {
         var accMP = GetOwner().GetModPlayer<AccessoryPlayer>();
         var hasThermalInkTank = accMP.hasThermalInkTank;
@@ -1106,9 +1160,14 @@ internal class BaseProjectile : ModProjectile
             Tile tile = Framing.GetTileSafely(Projectile.Center);
             if (tile.LiquidType >= LiquidID.Water && tile.LiquidType < LiquidID.Shimmer && tile.LiquidAmount > 100)
             {
-                Projectile.Kill();
+                Dissolve();
             }
         }
+    }
+
+    protected virtual void Dissolve()
+    {
+        Projectile.Kill();
     }
 
     protected virtual void ProjectileBounce(Vector2 oldVelocity, Vector2? postBounceSpeedMod = null)

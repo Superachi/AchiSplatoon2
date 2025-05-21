@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using Terraria;
 using Terraria.Audio;
@@ -6,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
 {
+    [ItemCategory("Blaster", "Blasters")]
     internal class BaseBlaster : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Blaster;

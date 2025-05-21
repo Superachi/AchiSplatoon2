@@ -1,5 +1,5 @@
-﻿using Terraria.ModLoader;
-using Terraria;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Buffs
 {

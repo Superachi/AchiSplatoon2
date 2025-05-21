@@ -7,7 +7,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
     internal class SplatanaStamper : BaseSplatana
     {
-        public override float InkCost { get => 1.2f; }
+        public override float InkCost { get => 1f; }
 
         public override SoundStyle ShootSample { get => SoundPaths.SplatanaStamperStrongSlash.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.SplatanaStamperWeakSlash.ToSoundStyle(); }
@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
             Item.damage = DisplayDamage(BaseDamage);
             Item.knockBack = 5;
 
-            Item.useTime = 22;
+            Item.useTime = 26;
             Item.useAnimation = Item.useTime;
 
             Item.width = 64;

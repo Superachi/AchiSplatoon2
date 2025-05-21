@@ -14,7 +14,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override SoundStyle ShootSample { get => SoundPaths.SplatChargerShoot.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.SplatChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-20, 2); }
-        public override float MuzzleOffsetPx { get; set; } = 60f;
+        public override Vector2 MuzzleOffset => new Vector2(60f, 0);
         public override float[] ChargeTimeThresholds { get => [55f]; }
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.

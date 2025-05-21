@@ -80,7 +80,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
             shootSample = weaponData.ShootSample;
             shootAltSample = weaponData.ShootAltSample;
-            rollInkCost = weaponData.InkCost / 40;
+            rollInkCost = weaponData.InkCost / 60;
         }
 
         protected override void AfterSpawn()
@@ -126,7 +126,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     wepMP.isBrushRolling = false;
                     weaponPlayer.isBrushAttacking = true;
 
-                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.2f, pitchVariance: 0, maxInstances: 5);
+                    PlayAudio(SoundPaths.RollerSwingMedium.ToSoundStyle(), volume: 0.1f, pitch: 0.5f, pitchVariance: 0.2f, maxInstances: 5);
 
                     swingAngleCurrent = facingDirection == 1 ? 180 : 0;
                     break;
@@ -154,15 +154,19 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         public override void AI()
         {
+            UpdateCurrentColor(GetOwnerModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
+
             var invMP = owner.GetModPlayer<InventoryPlayer>();
             var wepMP = owner.GetModPlayer<WeaponPlayer>();
             var squidMP = owner.GetModPlayer<SquidPlayer>();
 
-            if (owner.dead || invMP.HasHeldItemChanged() || squidMP.IsSquid())
+            if (owner.dead || invMP.HasHeldItemChanged() || squidMP.IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
             {
                 Projectile.Kill();
                 return;
             }
+
+            wepMP.CustomWeaponCooldown = 15;
 
             switch (state)
             {
@@ -262,17 +266,17 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 Shoot();
             }
 
+            if (PlayerMeetsRollingRequirements())
+            {
+                SetState(stateRoll);
+                return;
+            }
+
             if (timeSpentInState > WeaponUseTime())
             {
                 if (!InputHelper.GetInputMouseLeftHold())
                 {
                     Projectile.Kill();
-                    return;
-                }
-
-                if (PlayerMeetsRollingRequirements())
-                {
-                    SetState(stateRoll);
                     return;
                 }
 
@@ -306,9 +310,14 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             }
         }
 
+        protected virtual void AddedRollEffect()
+        {
+            // Do something that occurs only when rolling
+        }
+
         private void StateRoll()
         {
-            if (!InputHelper.GetInputMouseLeftHold())
+            if (!InputHelper.GetInputMouseLeftHold() || owner.GetModPlayer<InventoryPlayer>().HasHeldItemChanged())
             {
                 Projectile.Kill();
                 return;
@@ -323,7 +332,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 rollCoyoteTime = RollCoyoteTimeDefault;
             }
 
-            if (!IsMouseUnderneathPlayer() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
+            if (rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
             {
                 SetSwingAngleFromMouse(direction: 1);
 
@@ -342,6 +351,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 owner.direction = SignPlayerSpeed();
                 facingDirection = owner.direction;
             }
+
+            AddedRollEffect();
 
             // Emit dust when running
             bool isFastEnough = AbsPlayerSpeed() >= 6;
@@ -373,6 +384,13 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 ConsumeInk(rollInkCost);
             }
 
+            var inkTankPlayer = owner.GetModPlayer<InkTankPlayer>();
+            if (inkTankPlayer.HasNoInk())
+            {
+                inkTankPlayer.CreateLowInkPopup();
+                Projectile.Kill();
+            }
+
             float lerpAmount = 0.05f;
             if (facingDirection == 1) RollerSwingRotate(200, lerpAmount);
             else RollerSwingRotate(-20, lerpAmount);
@@ -401,7 +419,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private bool PlayerMeetsRollingRequirements()
         {
-            return IsMouseUnderneathPlayer() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
+            return InputHelper.GetInputBrushDashHold() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
         }
 
         #endregion
@@ -424,19 +442,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             var startVelocity = owner.DirectionTo(Main.MouseWorld) * shotVelocity;
             var velocity = startVelocity;
 
-            if (WeaponInstance is not SpookyBrush)
+            if (WeaponInstance is not SpookyBrush && WeaponInstance is not DesertBrush)
             {
-                for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                if (WeaponInstance is not WoodenBrush)
                 {
-                    switch (WeaponInstance)
+                    for (int i = 0; i < Main.rand.Next(2, 4); i++)
                     {
-                        case DesertBrush:
-                            CreateChildProjectile<DesertBrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                            break;
-                        default:
-                            CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
-                            break;
+                        CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                     }
+                }
+                else
+                {
+                    CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity, Projectile.damage);
                 }
 
                 if (Main.rand.NextBool(2))
@@ -456,10 +473,18 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     velocity = WoomyMathHelper.AddRotationToVector2(startVelocity, -prefix.AimVariation, prefix.AimVariation);
                 }
 
-                for (int i = -1; i < 2; i += 2)
+                if (WeaponInstance is SpookyBrush)
                 {
-                    var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, velocity, Projectile.damage / 2, triggerSpawnMethods: false);
-                    p.sineDirection = i;
+                    for (int i = -1; i < 2; i += 2)
+                    {
+                        var p = CreateChildProjectile<SpookyBrushProjectile>(owner.Center, velocity, Projectile.damage / 2, triggerSpawnMethods: false);
+                        p.sineDirection = i;
+                        p.RunSpawnMethods();
+                    }
+                }
+                else if (WeaponInstance is DesertBrush)
+                {
+                    var p = CreateChildProjectile<DesertBrushProjectile>(owner.Center, velocity, Projectile.damage, triggerSpawnMethods: false);
                     p.RunSpawnMethods();
                 }
             }

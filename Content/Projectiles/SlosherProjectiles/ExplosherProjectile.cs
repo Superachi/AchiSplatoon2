@@ -1,8 +1,12 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -46,6 +50,19 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
         }
 
+        protected override void AdjustVariablesOnShoot()
+        {
+            if (IsThisClientTheProjectileOwner())
+            {
+                Projectile.velocity *= 0.4f;
+            }
+
+            Projectile.extraUpdates *= 3;
+            Projectile.timeLeft *= 3;
+            fallSpeed *= 0.4f;
+            delayUntilFall *= 2;
+        }
+
         public override void AI()
         {
             Timer++;
@@ -65,25 +82,42 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             Color dustColor = GenerateInkColor();
 
-            DustHelper.NewSplatterBulletDust(
+            DustHelper.NewDust(
                 position: Projectile.position,
-                velocity: Vector2.Zero,
+                dustType: ModContent.DustType<SplatterBulletDust>(),
+                velocity: Projectile.velocity / 3,
                 CurrentColor,
-                minScale: 1.5f,
-                maxScale: 2f);
+                scale: 2f,
+                data: new(scaleIncrement: -0.25f));
 
-            DustHelper.NewDropletDust(
-                position: Projectile.position + Main.rand.NextVector2Circular(5, 5),
-                velocity: Projectile.velocity / 5,
-                color: CurrentColor,
-                scale: 1f);
+            if (Main.rand.NextBool(20))
+            {
+                DustHelper.NewDust(
+                    position: Projectile.position,
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Projectile.velocity / 5,
+                    CurrentColor,
+                    scale: 1f,
+                    data: new(scaleIncrement: -0.03f, gravity: 0.2f));
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             var p = CreateChildProjectile<BlastProjectile>(Projectile.Center, Vector2.Zero, (int)(originalDamage * 0.5f), false);
-            p.SetProperties(200);
+            p.SetProperties(200, new(SoundPaths.Silence));
             p.RunSpawnMethods();
+
+            if (Projectile.Center.Distance(Owner.Center) < 200)
+            {
+                GameFeelHelper.ShakeScreenNearPlayer(Owner, true, strength: 3, speed: 4, duration: 15);
+            }
+
+            PlayAudio(SoundPaths.BlasterExplosion.ToSoundStyle(), volume: 0.2f, maxInstances: 5);
+            PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
+            PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
+            PlayAudio(SoundID.Splash, volume: 0.6f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
+
             return true;
         }
 

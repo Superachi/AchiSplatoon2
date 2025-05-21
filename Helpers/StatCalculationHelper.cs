@@ -1,8 +1,14 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers.WeaponKits;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,10 +25,6 @@ namespace AchiSplatoon2.Helpers
 
             #region Additive
 
-            // Red color chip bonus
-            damageModifier += colorChipPlayer.CalculateAttackDamageBonus();
-            if (debug) DebugHelper.PrintInfo($"Val after red chip: {damageModifier}");
-
             // Pallete bonus
             if (BaseWeapon.DoesPaletteBoostMainWeapon(weaponInstance, player))
             {
@@ -30,9 +32,21 @@ namespace AchiSplatoon2.Helpers
                 if (debug) DebugHelper.PrintInfo($"Val after palette: {damageModifier}");
             }
 
+            if (Attribute.GetCustomAttribute(weaponInstance.GetType(), typeof(OrderWeaponAttribute)) != null && player.HasAccessory<OrderEmblem>())
+            {
+                damageModifier += OrderEmblem.OrderWeaponDamageBonus;
+            }
+
             // Sub power bonus
             if (weaponInstance.IsSubWeapon)
             {
+                // Red color chip bonus
+                if (colorChipPlayer.IsPaletteValid())
+                {
+                    damageModifier += colorChipPlayer.CalculateAttackDamageBonus();
+                    if (debug) DebugHelper.PrintInfo($"Val after red chip: {damageModifier}");
+                }
+
                 // Bonus from hardmode
                 damageModifier += Main.hardMode ? WeaponPlayer.HardmodeSubWeaponDamageBonus : 0f;
 
@@ -52,11 +66,13 @@ namespace AchiSplatoon2.Helpers
                             || (heldItem.BonusSub == SubWeaponType.Sprinkler && weaponInstance is Sprinkler)
                             || (heldItem.BonusSub == SubWeaponType.InkMine && weaponInstance is InkMine)
                             || (heldItem.BonusSub == SubWeaponType.Torpedo && weaponInstance is Torpedo))
+                        // Skip point sensor here, as it deals no damage
                         {
                             damageModifier += WeaponKitList.GetWeaponKitSubBonusAmount(heldItem.GetType());
                         }
                     }
                 }
+
                 if (debug) DebugHelper.PrintInfo($"Val after sub power bonuses: {damageModifier}");
             }
 
@@ -79,7 +95,8 @@ namespace AchiSplatoon2.Helpers
                 {
                     classMod = player.GetDamage(DamageClass.Melee).ApplyTo(classMod);
                 }
-                else if (player.HeldItem.DamageType == DamageClass.Ranged)
+
+                if (player.HeldItem.DamageType == DamageClass.Ranged)
                 {
                     classMod = player.GetDamage(DamageClass.Ranged).ApplyTo(classMod);
                 }
@@ -89,9 +106,33 @@ namespace AchiSplatoon2.Helpers
                 if (debug) DebugHelper.PrintInfo($"Val after class bonuses: {damageModifier}");
             }
 
+            if (player.HasAccessory<DropletLocket>() || player.HasAccessory<SorcererLocket>() || player.HeldItem.DamageType == DamageClass.Magic)
+            {
+                damageModifier = player.GetDamage(DamageClass.Magic).ApplyTo(damageModifier);
+            }
+
+            if (weaponInstance.IsSubWeapon && player.HasBuff<BombRushBuff>())
+            {
+                damageModifier *= BombRush.SubWeaponDamageMultiplier;
+            }
+
             #endregion
 
             return damageModifier;
+        }
+
+        public static float CalculateCritModifiers(Player player, BaseWeapon weaponInstance, BaseProjectile projectile = null, bool debug = false)
+        {
+            float critModifier = 1f;
+            var colorChipPlayer = player.GetModPlayer<ColorChipPlayer>();
+
+            if (colorChipPlayer.IsPaletteValid())
+            {
+                critModifier += colorChipPlayer.CalculateCritChanceBonus();
+                if (debug) DebugHelper.PrintInfo($"Val after green chip: {critModifier}");
+            }
+
+            return critModifier;
         }
     }
 }

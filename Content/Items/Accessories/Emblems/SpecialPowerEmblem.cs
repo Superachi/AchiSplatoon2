@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
 using Terraria.ID;
@@ -6,6 +7,7 @@ using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Emblems
 {
+    [ItemCategory("Accessory", "Emblems")]
     internal class SpecialPowerEmblem : BaseAccessory
     {
         public static float addValue = 1f;

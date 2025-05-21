@@ -1,7 +1,6 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
-using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

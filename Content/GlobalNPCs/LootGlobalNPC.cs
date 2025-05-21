@@ -1,19 +1,14 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Consumables;
-using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Weapons.Blasters;
-using AchiSplatoon2.Content.Items.Weapons.Bows;
-using AchiSplatoon2.Content.Items.Weapons.Brellas;
-using AchiSplatoon2.Content.Items.Weapons.Brushes;
-using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
-using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Splatling;
-using AchiSplatoon2.Content.Items.Weapons.Unclassed;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.StaticData.LootTables;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -47,9 +42,6 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 float chanceModifier = 1f;
                 if (chipCount > 0)
                 {
-                    chanceModifier = 1f / (1f + chipCount / colorChipPlayer.GreenChipLootBonusDivider);
-                    chanceModifier = Math.Max(1f, chanceModifier);
-
                     if (Main.rand.NextBool((int)(50f * chanceModifier)))
                     {
                         if (Main.LocalPlayer.statLife < Main.LocalPlayer.statLifeMax2)
@@ -82,39 +74,35 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                     RareLootDropPlayerFeedback(npc);
                 }
 
-                // Drop licenses straight from the boss if not Expert/Master mode
-                if (!Main.expertMode && !Main.masterMode)
+                // The only exception when it comes to loot drops
+                // See also BossLootTable.cs
+                bool isEaterOfWorlds = npc.type == NPCID.EaterofWorldsHead
+                    || npc.type == NPCID.EaterofWorldsBody
+                    || npc.type == NPCID.EaterofWorldsTail;
+
+                if (!isEaterOfWorlds) return;
+
+                if (Main.expertMode) return;
+
+                var totalSegmentCount =
+                        NpcHelper.CountNPCs(NPCID.EaterofWorldsHead)
+                    + NpcHelper.CountNPCs(NPCID.EaterofWorldsBody)
+                    + NpcHelper.CountNPCs(NPCID.EaterofWorldsTail);
+
+                if (totalSegmentCount == 1)
                 {
-                    switch (npc.type)
+                    var player = Main.LocalPlayer;
+
+                    void SpawnLoot(int itemType)
                     {
-                        case NPCID.KingSlime:
-                        case NPCID.EyeofCthulhu:
-                        case NPCID.QueenBee:
-                        case NPCID.SkeletronHead:
-                        case NPCID.Deerclops:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicense>(), Stack: Main.rand.Next(1, 4));
-                            break;
-
-                        case NPCID.WallofFlesh:
-                        case NPCID.Retinazer:
-                        case NPCID.Spazmatism:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: 1);
-                            break;
-
-                        case NPCID.QueenSlimeBoss:
-                        case NPCID.TheDestroyer:
-                        case NPCID.SkeletronPrime:
-                        case NPCID.Plantera:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseSilver>(), Stack: Main.rand.Next(1, 4));
-                            break;
-
-                        case NPCID.DukeFishron:
-                        case NPCID.HallowBoss: // Empress of Light
-                        case NPCID.Golem:
-                        case NPCID.CultistBoss:
-                            Item.NewItem(npc.GetSource_Loot(), npc.Center, ModContent.ItemType<SheldonLicenseGold>(), Stack: Main.rand.Next(1, 4));
-                            break;
+                        int mainItemId = player.QuickSpawnItem(player.GetSource_DropAsItem(), itemType);
+                        var item = Main.item[mainItemId];
+                        item.Center = npc.Center;
                     }
+
+                    SpawnLoot(ModContent.ItemType<ChipPalette>());
+                    SpawnLoot(ModContent.ItemType<BombRush>());
+                    SpawnLoot(ModContent.ItemType<ColorChipEmpty>());
                 }
             }
         }
@@ -127,7 +115,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 Vector2 position = npc.Center;
                 Vector2 velocity = Main.rand.NextVector2Circular(15, 15);
                 dust = Main.dust[
-                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, colorChipPlayer.GetColorFromChips(), Main.rand.NextFloat(0.5f, 1.5f))
+                    Dust.NewDust(position, 0, 0, DustID.FireworksRGB, velocity.X, velocity.Y, 0, colorChipPlayer.GetColorFromInkPlayer(), Main.rand.NextFloat(0.5f, 1.5f))
                     ];
                 dust.noGravity = true;
                 dust.fadeIn = 1.5f;
@@ -138,137 +126,19 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            if (npc.type == NPCID.Mimic)
+            foreach (var loot in LootTables.List)
             {
-                npcLoot.Add(
-                    ItemDropRule.Common(ModContent.ItemType<SheldonLicenseSilver>(), minimumDropped: 1));
+                if (npc.type == loot.NpcId)
+                {
+                    loot.RegisterDirectDrop(npcLoot);
+                }
             }
 
-            // Super palette crafting materials
-            if (npc.type == NPCID.MartianSaucer)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<MartianBrella>(), 3));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteMiddlePart>(), 3));
-            }
-
-            if (npc.type == NPCID.PirateShip)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteLeftPart>(), 3));
-            }
-
-            if (npc.type == NPCID.Mothron)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SuperPaletteRightPart>(), 3));
-            }
-
-            // Large mimics
-            if (npc.type == NPCID.BigMimicHallow)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HallowedLootBag>()));
-            }
-
-            if (npc.type == NPCID.BigMimicCrimson)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimsonLootBag>()));
-            }
-
-            if (npc.type == NPCID.BigMimicCorruption)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CorruptLootBag>()));
-            }
-
-            #region Dungeon (post-plantera)
-
-            var dungeonDropChanceDenominator = 8;
-            switch (npc.type)
-            {
-                case NPCID.SkeletonSniper:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Snipewriter5B>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.TacticalSkeleton:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RecycleBrellaMk2>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.SkeletonCommando:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SBlast91>(), dungeonDropChanceDenominator));
-                    break;
-                case NPCID.Paladin:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PainBrushNouveau>(), dungeonDropChanceDenominator / 2));
-                    break;
-            }
-
-            if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplashOMaticNeo>(), dungeonDropChanceDenominator * 10));
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SplooshOMaticNeo>(), dungeonDropChanceDenominator * 10));
-            }
-
-            #endregion
-
-            #region Pumpkin moon
-
-            switch (npc.type)
-            {
-                case NPCID.MourningWood:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomDouserDualie>(), 15));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<BloblobberDeco>(), 15));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomWellstring>(), 15));
-                    break;
-
-                case NPCID.Pumpking:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<SpookyBrush>(), 3));
-                    break;
-            }
-
-            #endregion
-
-            #region Frost moon
-
-            switch (npc.type)
-            {
-                case NPCID.Everscream:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LightTetraDualie>(), 10));
-                    break;
-
-                case NPCID.SantaNK1:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Explosher>(), 10));
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CustomHydraSplatling>(), 10));
-                    break;
-
-                case NPCID.IceQueen:
-                    npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<IceStringer>(), 3));
-                    break;
-            }
-
-            #endregion
-
-            #region Rare drops
-
-            if (npc.type == NPCID.Squid)
-            {
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<SquidBoomerang>(),
-                    chanceDenominator: 10));
-
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<InkDroplet>(),
-                    chanceDenominator: 5,
-                    minimumDropped: 1,
-                    maximumDropped: 5));
-            }
-
-            if (npc.FullName.ToLowerInvariant().Contains("hornet") && npc.type != NPCID.VortexHornet && npc.type != NPCID.VortexHornetQueen)
-            {
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HoneyScepter>(), 100));
-            }
-
-            if (npc.type == NPCID.Eyezor)
-            {
-                npcLoot.Add(ItemDropRule.Common(
-                    ModContent.ItemType<LaserAddon>(),
-                    chanceDenominator: 3));
-            }
-
-            #endregion
+            npcLoot.Add(ItemDropRule.Common(
+                ModContent.ItemType<InkDroplet>(),
+                chanceDenominator: 150,
+                minimumDropped: 3,
+                maximumDropped: 8));
         }
     }
 }

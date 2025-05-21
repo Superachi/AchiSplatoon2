@@ -9,14 +9,14 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 {
     internal class RollerInkProjectile : BaseProjectile
     {
-        private Color bulletColor;
-        public float delayUntilFall = 45;
-        private readonly float fallSpeed = 0.4f;
+        private float _delayUntilFall;
+        private float _fallSpeed;
         private float drawScale;
         private float drawRotation;
-        protected float brightness = 0.001f;
         private bool visible;
         private float damageFalloffMod = 1f;
+        private readonly int _damageReductionDelay;
+        public string RollerSwingId;
 
         protected float Timer
         {
@@ -31,13 +31,16 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         public override void SetDefaults()
         {
-            Projectile.extraUpdates = 2;
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.extraUpdates = 3;
+            Projectile.width = 4;
+            Projectile.height = 4;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
+
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = FrameSpeedMultiply(20);
         }
 
         protected override void AfterSpawn()
@@ -45,8 +48,10 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Initialize();
 
             // Set visuals
-            Projectile.frame = Main.rand.Next(0, Main.projFrames[Projectile.type]);
-            bulletColor = GenerateInkColor();
+            _delayUntilFall = FrameSpeedMultiply(30);
+            _fallSpeed = 0.5f;
+
+            Projectile.frame = 0; //Main.rand.Next(0, Main.projFrames[Projectile.type]);
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
             drawScale += Main.rand.NextFloat(0.8f, 1.6f);
         }
@@ -59,48 +64,36 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 visible = true;
             }
 
-            if (timeSpentAlive > 10)
+            if (timeSpentAlive > FrameSpeedMultiply(10))
             {
                 if (damageFalloffMod > 0.5f)
                 {
-                    damageFalloffMod -= 0.005f;
+                    damageFalloffMod -= 0.004f;
                 }
             }
 
             // Rotation increased by velocity.X 
-            drawRotation += Math.Sign(Projectile.velocity.X) * 0.1f;
-
-            Timer++;
+            drawRotation += Math.Sign(Projectile.velocity.X) * 0.05f;
 
             // Start falling eventually
-            if (Projectile.ai[0] >= delayUntilFall * FrameSpeed())
+            if (timeSpentAlive >= _delayUntilFall * FrameSpeed())
             {
-                Projectile.velocity.Y += fallSpeed;
-            }
-
-            // Spawn dust
-            if (visible && Main.rand.NextBool(4))
-            {
-                Lighting.AddLight(Projectile.position, bulletColor.R * brightness, bulletColor.G * brightness, bulletColor.B * brightness);
-
-                DustHelper.NewDropletDust(
-                    position: Projectile.position,
-                    velocity: Vector2.Zero,
-                    color: CurrentColor,
-                    minScale: 1f,
-                    maxScale: 1.5f);
+                Projectile.velocity.Y += _fallSpeed;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            for (int i = 0; i < 5; i++)
+            if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > float.Epsilon)
             {
-                float random = Main.rand.NextFloat(-2, 2);
-                float velX = ((Projectile.velocity.X + random) * -0.5f);
-                float velY = ((Projectile.velocity.Y + random) * -0.5f);
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<SplatterBulletDust>(), velX, velY, newColor: GenerateInkColor(), Scale: Main.rand.NextFloat(0.8f, 1.6f));
+                if (Projectile.velocity.Y < 0)
+                {
+                    ProjectileBounce(oldVelocity, new Vector2(0.8f, 0.2f));
+                    return false;
+                }
             }
+
+            ProjectileDustHelper.ShooterTileCollideVisual(this);
             return true;
         }
 
@@ -108,7 +101,18 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         {
             if (visible)
             {
-                DrawProjectile(inkColor: bulletColor, rotation: drawRotation, scale: drawScale, considerWorldLight: false);
+                DrawProjectile(inkColor: CurrentColor, rotation: drawRotation, scale: drawScale * damageFalloffMod, considerWorldLight: false);
+
+                if (timeSpentAlive % FrameSpeedMultiply(2) == 0 && Main.rand.NextBool(5))
+                {
+                    DustHelper.NewDust(
+                        dustType: ModContent.DustType<SplatterBulletDust>(),
+                        position: Projectile.Center + Main.rand.NextVector2Circular(20, 20),
+                        velocity: Projectile.velocity * FrameSpeed() / 4,
+                        color: CurrentColor,
+                        scale: 2f,
+                        data: new(emitLight: true, scaleIncrement: -0.1f, gravity: 0.3f));
+                }
             }
 
             return false;
@@ -118,12 +122,47 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         {
             base.ModifyHitNPC(target, ref modifiers);
             modifiers.FinalDamage *= damageFalloffMod;
+
+            target.immune[Projectile.owner] = 15;
+
+            foreach (var projectile in Main.ActiveProjectiles)
+            {
+                if (projectile.ModProjectile is RollerInkProjectile rollerProj
+                    && projectile.identity != Projectile.identity
+                    && projectile.owner == Projectile.owner)
+                {
+                    if (rollerProj.RollerSwingId == RollerSwingId)
+                    {
+                        rollerProj.Projectile.damage = (int)(Projectile.damage * DamageModifierAfterPierce);
+                    }
+                }
+            }
+        }
+
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            var size = (int)(30 * damageFalloffMod);
+            hitbox = new Rectangle((int)Projectile.Center.X - size / 2, (int)Projectile.Center.Y - size / 2, size, size);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             base.OnHitNPC(target, hit, damageDone);
-            target.immune[Projectile.owner] = 12;
+
+            for (int i = 0; i < 10; i++)
+            {
+                DustHelper.NewDropletDust(
+                    position: Projectile.Center,
+                    velocity: Projectile.velocity / 3 + Main.rand.NextVector2Circular(3, 3),
+                    color: CurrentColor,
+                    minScale: 0.8f,
+                    maxScale: 1.4f);
+            }
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            return base.CanHitNPC(target);
         }
     }
 }

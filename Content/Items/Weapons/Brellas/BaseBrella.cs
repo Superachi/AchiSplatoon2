@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
@@ -11,6 +12,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
+    [ItemCategory("Brella", "Brellas")]
     internal class BaseBrella : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;
@@ -23,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override float AimDeviation { get => 6f; }
         public override SoundStyle ShootSample { get => SoundPaths.BrellaShot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(44f, 0);
 
         // Brella specific
         public virtual int ProjectileType { get => ModContent.ProjectileType<BrellaPelletProjectile>(); }

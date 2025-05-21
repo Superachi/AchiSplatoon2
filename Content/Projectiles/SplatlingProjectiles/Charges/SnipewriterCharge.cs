@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,7 +15,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
     internal class SnipewriterCharge : BaseChargeProjectile
     {
         protected virtual int ProjectileType { get => ModContent.ProjectileType<SnipewriterProjectile>(); }
-        protected float muzzleDistance;
+        protected Vector2 muzzleOffset;
         protected float barrageMaxAmmo;
         protected float barrageVelocity;
         protected float barrageShotTime;
@@ -34,7 +35,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatling;
 
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleOffset = weaponData.MuzzleOffset;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
@@ -84,7 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
                 {
                     Projectile.Kill();
                     return;
@@ -127,7 +128,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         Vector2 velocity = angleVector * barrageVelocity * velocityChargeMod;
 
                         // Spawn the projectile
-                        var spawnPositionOffset = Vector2.Normalize(velocity) * muzzleDistance;
+                        var spawnPositionOffset = CalcBulletSpawnOffset(angleVector, muzzleOffset);
 
                         if (!Collision.CanHit(Projectile.position, 0, 0, Projectile.position + spawnPositionOffset, 0, 0))
                         {
@@ -172,6 +173,15 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             if (!GetOwner().channel) return false;
             DrawStraightTrajectoryLine();
             return false;
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
+            }
         }
 
         protected override void NetSendShootAnimation(BinaryWriter writer)

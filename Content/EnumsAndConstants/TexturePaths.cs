@@ -22,11 +22,24 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         // Root directory
         public static string VortexDualieShot => FormatPath(nameof(VortexDualieShot));
         public static string NebulaStringerShot => FormatPath(nameof(NebulaStringerShot));
+        public static string GolemSlashSegment => FormatPath(nameof(GolemSlashSegment));
+        public static string LargeCrescentSlash => FormatPath(nameof(LargeCrescentSlash));
+        public static string MarkedDot => FormatPath(nameof(MarkedDot));
 
         // Specials
         private static readonly string _directorySpecials = "Specials";
         public static string ZookaStages => FormatPath(nameof(ZookaStages), _directorySpecials);
         public static string BombLauncherBackpack => FormatPath(nameof(BombLauncherBackpack), _directorySpecials);
+
+        // Glows
+        private static readonly string _directoryGlows = "Glows";
+        public static string Glow100x => FormatPath(nameof(Glow100x), _directoryGlows);
+
+        // Sparkles
+        private static readonly string _directorySparkles = "Sparkles";
+        public static string Medium4pSparkle => FormatPath(nameof(Medium4pSparkle), _directorySparkles);
+        public static string Medium8pSparkle => FormatPath(nameof(Medium8pSparkle), _directorySparkles);
+        public static string MediumCircle => FormatPath(nameof(MediumCircle), _directorySparkles);
 
         // UI
         private static readonly string _directoryUI = "UI";

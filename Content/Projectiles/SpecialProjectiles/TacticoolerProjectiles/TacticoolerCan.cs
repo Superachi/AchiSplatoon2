@@ -90,7 +90,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjec
                                 position: playerToFollow.Center,
                                 velocity: Main.rand.NextVector2Circular(5, 5),
                                 dustType: ModContent.DustType<SplatterBulletDust>(),
-                                color: playerToFollow.GetModPlayer<ColorChipPlayer>().GetColorFromChips(),
+                                color: playerToFollow.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer(),
                                 scale: 2,
                                 data: new(gravity: -0.1f));
                         }

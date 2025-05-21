@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         {
             base.SetDefaults();
 
-            Item.damage = 36;
+            Item.damage = 38;
             Item.value = Item.buyPrice(gold: 20);
             Item.rare = ItemRarityID.Lime;
         }

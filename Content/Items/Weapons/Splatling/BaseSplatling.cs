@@ -1,9 +1,11 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using Terraria;
 using Terraria.Audio;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
+    [ItemCategory("Splatling", "Splatling")]
     internal class BaseSplatling : BaseWeapon
     {
         public override float InkCost { get => 1.5f; }

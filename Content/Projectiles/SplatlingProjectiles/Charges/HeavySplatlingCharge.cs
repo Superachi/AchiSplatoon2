@@ -3,13 +3,16 @@ using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
@@ -33,6 +36,9 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         protected SlotId? splatlingChargeStartAudio;
         protected SlotId? splatlingChargeLoopAudio;
 
+        public int crayonBoxChain = 0;
+        private float _displayAmmoQuotient = 0f;
+
         public float ChargedAmmo
         {
             get => Projectile.ai[2];
@@ -44,7 +50,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             base.ApplyWeaponInstanceData();
             var weaponData = WeaponInstance as BaseSplatling;
 
-            muzzleDistance = weaponData.MuzzleOffsetPx;
+            muzzleDistance = weaponData.MuzzleOffset.X;
             chargeTimeThresholds = weaponData.ChargeTimeThresholds;
             barrageMaxAmmo = weaponData.BarrageMaxAmmo;
             barrageVelocity = weaponData.BarrageVelocity;
@@ -55,6 +61,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
 
             if (IsThisClientTheProjectileOwner())
             {
@@ -90,6 +97,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
         {
             hasFired = true;
             ChargedAmmo = Convert.ToInt32(barrageMaxAmmo * (ChargeTime / MaxChargeTime()));
+            _displayAmmoQuotient = AmmoQuotient();
             ChargeTime = 0;
 
             SoundHelper.StopSoundIfActive(chargeStartAudio);
@@ -141,7 +149,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
 
             if (IsThisClientTheProjectileOwner() && !barrageDone)
             {
-                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
                 {
                     Projectile.Kill();
                     return;
@@ -159,6 +167,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     return;
                 }
 
+
                 if (ChargedAmmo > 0)
                 {
                     SyncProjectilePosWithPlayer(owner, 0, 8);
@@ -172,6 +181,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         // If ChargeTime were directly set to 0, it would not work nicely with non-decimal values (eg. when attack speed is increased)
                         ChargeTime -= barrageShotTime;
                         ChargedAmmo--;
+                        Owner.GetModPlayer<StatisticsPlayer>().attacksUsed++;
                         var recoilVector = owner.DirectionTo(Main.MouseWorld) * -3;
                         PlayerItemAnimationFaceCursor(owner, recoilVector);
 
@@ -202,6 +212,11 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                         proj.chargedShot = IsChargeMaxedOut();
                         proj.RunSpawnMethods();
 
+                        var colorPlayer = owner.GetModPlayer<InkColorPlayer>();
+
+                        UpdateCurrentColor(colorPlayer.GetCurrentColor());
+                        proj.UpdateCurrentColor(CurrentColor);
+
                         // Sync shoot animation
                         // Set item use animation and angle
                         NetUpdate(ProjNetUpdateType.ShootAnimation);
@@ -216,6 +231,23 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
                     Projectile.timeLeft = 60;
                 }
             }
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
+            }
+        }
+
+        public void RestoreAmmo(float quotient)
+        {
+            ChargedAmmo += (int)(barrageMaxAmmo * quotient);
+            ChargedAmmo = Math.Min(barrageMaxAmmo, ChargedAmmo);
+
+            CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
         }
 
         protected override void NetSendShootAnimation(BinaryWriter writer)
@@ -238,6 +270,44 @@ namespace AchiSplatoon2.Content.Projectiles.SplatlingProjectiles.Charges
             // Set the animation time
             owner.itemAnimation = reader.ReadInt16();
             owner.itemTime = owner.itemAnimation;
+        }
+        public float AmmoQuotient()
+        {
+            var quotient = (float)ChargedAmmo / (float)barrageMaxAmmo;
+            return quotient;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            base.PostDraw(lightColor);
+
+            if (!IsThisClientTheProjectileOwner()) return;
+            if (!hasFired) return;
+            if (ChargedAmmo == 0) return;
+
+            spriteChargeBar = TexturePaths.ChargeUpBar.ToTexture2D();
+            if (spriteChargeBar == null) return;
+
+            // Draw gauge when firing
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Vector2 position = GetOwner().Center - Main.screenPosition + new Vector2(0, 50 + GetOwner().gfxOffY);
+            Vector2 origin = spriteChargeBar.Size() / 2;
+
+            spriteBatch.End();
+            spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(spriteChargeBar, new Vector2((int)position.X, (int)position.Y), null, Color.White, 0, origin, 1f, SpriteEffects.None);
+
+            _displayAmmoQuotient = MathHelper.Lerp(_displayAmmoQuotient, AmmoQuotient(), 0.2f);
+            var quotient = Math.Min(_displayAmmoQuotient, 1);
+
+            spriteBatch.Draw(
+                TextureAssets.MagicPixel.Value,
+                new Rectangle((int)position.X - (int)origin.X + 2,
+                (int)position.Y - 2,
+                (int)((spriteChargeBar.Size().X - 4) * quotient),
+                (int)spriteChargeBar.Size().Y - 4),
+                Color.DimGray);
         }
     }
 }

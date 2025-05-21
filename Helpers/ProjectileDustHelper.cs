@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -9,7 +10,7 @@ namespace AchiSplatoon2.Helpers
 {
     internal static class ProjectileDustHelper
     {
-        public static void ShooterTileCollideVisual(BaseProjectile baseProjectile, bool playSound = true)
+        public static void ShooterTileCollideVisual(BaseProjectile baseProjectile, bool playSound = true, float volumeMod = 1f)
         {
             Projectile projectile = baseProjectile.Projectile;
 
@@ -30,19 +31,25 @@ namespace AchiSplatoon2.Helpers
                     maxScale: 1.4f);
             }
 
-            List<SoundStyle> sounds = new()
-            {
-                SoundID.NPCHit8,
-                SoundID.NPCHit13,
-                SoundID.NPCHit17,
-                SoundID.NPCHit19,
-                SoundID.NPCHit29
-            };
-
             if (!playSound) return;
 
-            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.1f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f, position: projectile.position);
-            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.2f, pitchVariance: 0.5f, maxInstances: 50, pitch: 1f, position: projectile.position);
+            List<SoundStyle> inkSplash = new()
+            {
+                SoundPaths.InkHitSplash00.ToSoundStyle(),
+                SoundPaths.InkHitSplash01.ToSoundStyle(),
+                SoundPaths.InkHitSplash02.ToSoundStyle(),
+                SoundPaths.InkHitSplash03.ToSoundStyle(),
+            };
+
+            List<SoundStyle> sounds = new()
+            {
+                SoundID.Item111,
+                SoundID.NPCDeath19,
+            };
+
+            SoundHelper.PlayAudio(Main.rand.NextFromCollection(inkSplash), volume: 0.15f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0f, position: projectile.position);
+            SoundHelper.PlayAudio(Main.rand.NextFromCollection(sounds), volume: 0.2f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.5f, position: projectile.position);
+            SoundHelper.PlayAudio(SoundID.Splash, volume: 0.1f * volumeMod, pitchVariance: 0.2f, maxInstances: 50, pitch: 0.6f, position: projectile.position);
         }
 
         public static void ShooterSpawnVisual(BaseProjectile baseProjectile, float velocityMod = 1f)

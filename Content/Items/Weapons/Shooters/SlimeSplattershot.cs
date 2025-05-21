@@ -18,7 +18,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override int ShotExtraUpdates { get => 2; }
         public override float AimDeviation { get => 2f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(44f, 0);
 
         // The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AchiSplatoon.hjson' file.
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
                 singleShotTime: 24,
                 shotVelocity: 7f);
 
-            Item.damage = 16;
+            Item.damage = 14;
             Item.width = 42;
             Item.height = 26;
             Item.knockBack = 5;

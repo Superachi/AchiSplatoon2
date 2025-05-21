@@ -10,11 +10,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
     internal class StarfishedCharger : BaseCharger
     {
+        public override float InkCost { get => 2f; }
+
         public override SoundStyle ShootSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override SoundStyle ShootWeakSample { get => SoundPaths.Silence.ToSoundStyle(); }
         public override bool ScreenShake => false;
         public override Vector2? HoldoutOffset() { return new Vector2(-20, 2); }
-        public override float MuzzleOffsetPx { get; set; } = 60f;
+        public override Vector2 MuzzleOffset => new Vector2(60f, 0);
         public override float[] ChargeTimeThresholds { get => [36f]; }
         public override int MaxPenetrate => 3;
         public override int ProjectileType { get => ModContent.ProjectileType<StarfishedChargerProjectile>(); }

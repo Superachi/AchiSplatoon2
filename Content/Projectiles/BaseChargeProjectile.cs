@@ -13,7 +13,6 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles
 {
@@ -44,8 +43,8 @@ namespace AchiSplatoon2.Content.Projectiles
         // Boolean to check whether we've released the charge
         protected bool hasFired = false;
 
-        private Texture2D? spriteChargeBar;
-        private float chargeBarBrightness = 0f;
+        protected Texture2D? spriteChargeBar;
+        protected float chargeBarBrightness = 0f;
 
         protected SlotId? chargeStartAudio;
 
@@ -93,6 +92,7 @@ namespace AchiSplatoon2.Content.Projectiles
             maxChargeTime = chargeTimeThresholds.Last();
             Projectile.velocity = Vector2.Zero;
 
+            DestroyOtherOwnedChargeProjectiles();
             NetUpdate(ProjNetUpdateType.UpdateCharge);
         }
 
@@ -118,7 +118,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void IncrementChargeTime()
         {
-            isPlayerGrounded = PlayerHelper.IsPlayerGrounded(GetOwner());
+            isPlayerGrounded = PlayerHelper.IsPlayerGrounded(Owner) || PlayerHelper.IsPlayerGrappled(Owner);
             float groundedSpeedModifier = !isPlayerGrounded && chargeSlowerInAir ? aerialChargeSpeedMod : 1f;
 
             var inkSpeedModifier = 1f;
@@ -149,7 +149,7 @@ namespace AchiSplatoon2.Content.Projectiles
 
         protected virtual void AllowChargeCancel()
         {
-            if (InputHelper.GetInputRightClicked()) CancelCharge();
+            if (InputHelper.GetInputCancelWeaponChargePressed()) CancelCharge();
         }
 
         protected virtual void CancelCharge()
@@ -192,7 +192,7 @@ namespace AchiSplatoon2.Content.Projectiles
             }
         }
 
-        protected void ChargeLevelUpEffect()
+        protected virtual void ChargeLevelUpEffect()
         {
             chargeBarBrightness = 1f;
             PlayAudio(SoundPaths.ChargeReady.ToSoundStyle(), volume: 0.3f, pitch: (chargeLevel - 1) * 0.2f, maxInstances: 1);
@@ -214,7 +214,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 Player owner = Main.player[Projectile.owner];
 
-                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid())
+                if (owner.dead || owner.GetModPlayer<SquidPlayer>().IsSquid() || PlayerHelper.IsPlayerImmobileViaDebuff(owner))
                 {
                     Projectile.Kill();
                     return;
@@ -246,10 +246,11 @@ namespace AchiSplatoon2.Content.Projectiles
             var sinMult = 0.75f + (float)Math.Sin(timeSpentAlive / (FrameSpeed() * 8f)) / 4;
 
             int linewidth = 2;
-            var lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, ChargeTime / MaxChargeTime() * 0.5f);
+            var chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
+            var lineCol = new Color(chipColor.R, chipColor.G, chipColor.B, ChargeTime / MaxChargeTime() * 0.5f);
             if (IsChargeMaxedOut())
             {
-                lineCol = new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 2f);
+                lineCol = new Color(chipColor.R, chipColor.G, chipColor.B, 2f);
                 linewidth = 4;
             }
 
@@ -257,7 +258,7 @@ namespace AchiSplatoon2.Content.Projectiles
                 spriteBatch,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 50,
                 GetOwner().Center + Vector2.Normalize(Main.MouseWorld - GetOwner().Center) * 1500,
-                new Color(CurrentColor.R, CurrentColor.G, CurrentColor.B, 0) * sinMult,
+                new Color(chipColor.R, chipColor.G, chipColor.B, 0) * sinMult,
                 lineCol * sinMult,
                 linewidth);
 
@@ -284,7 +285,8 @@ namespace AchiSplatoon2.Content.Projectiles
             }
 
             Color w = new Color(255, 255, 255) * (chargeBarBrightness * 0.8f);
-            Color color = new(CurrentColor.R + w.R, CurrentColor.G + w.G, CurrentColor.B + w.B);
+            Color chipColor = Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer();
+            Color color = new(chipColor.R + w.R, chipColor.G + w.G, chipColor.B + w.B);
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.AlphaBlend, SamplerState.PointClamp, default, default, null, Main.GameViewMatrix.TransformationMatrix);
@@ -310,6 +312,21 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)((spriteChargeBar.Size().X - 4) * quotient),
                     (int)spriteChargeBar.Size().Y - 4),
                     new Color(0, 0, 0, 0.5f));
+            }
+        }
+
+        protected virtual void DestroyOtherOwnedChargeProjectiles()
+        {
+            if (!IsThisClientTheProjectileOwner()) return;
+
+            foreach (var projectile in Main.ActiveProjectiles)
+            {
+                if (projectile.ModProjectile is BaseChargeProjectile
+                    && projectile.identity != Projectile.identity
+                    && projectile.owner == Projectile.owner)
+                {
+                    projectile.Kill();
+                }
             }
         }
 

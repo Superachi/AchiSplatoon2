@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Helpers;
 
@@ -7,8 +9,34 @@ internal static class PlayerHelper
 {
     public static bool IsPlayerGrounded(Player player)
     {
-        bool isOnBlock = Collision.SolidCollision(player.Bottom, 8, 8) || IsPlayerOntopOfPlatform(player);
+        var width = 32;
+        bool isOnBlock = Collision.SolidCollision(player.Bottom + new Vector2(-width / 2, 0), width, 8) || IsPlayerOntopOfTile(player) || IsPlayerOntopOfPlatform(player);
         return player.position.Y == player.oldPosition.Y && isOnBlock && player.velocity.Y == 0;
+    }
+
+    public static bool IsPlayerGrappled(Player player)
+    {
+        bool isHooked = false;
+        foreach (var proj in Main.ActiveProjectiles)
+        {
+            if (proj.owner == player.whoAmI && proj.aiStyle == ProjAIStyleID.Hook)
+            {
+                isHooked = true;
+                break;
+            }
+        }
+
+        bool isStill = Math.Abs(player.velocity.X) < 1 || Math.Abs(player.velocity.Y) < 1;
+
+        return isStill && isHooked;
+    }
+
+    public static bool IsPlayerImmobileViaDebuff(Player player)
+    {
+        return player.HasBuff(BuffID.Frozen)
+            || player.HasBuff(BuffID.Stoned)
+            || player.HasBuff(BuffID.TheTongue)
+            || player.HasBuff(BuffID.Webbed);
     }
 
     public static bool IsPlayerOntopOfTile(Player player)

@@ -9,7 +9,7 @@ using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Rollers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
-using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +56,18 @@ namespace AchiSplatoon2.Helpers
             { ModContent.ItemType<ColorChipGreen>(),        ModContent.ItemType<ColorChipAqua>() },
             { ModContent.ItemType<ColorChipAqua>(),         ModContent.ItemType<ColorChipRed>() },
 
+            // Order weapons
+            { ModContent.ItemType<ShimmerOrderShot>(),      ModContent.ItemType<OrderShot>() },
+            { ModContent.ItemType<ShimmerOrderBlaster>(),   ModContent.ItemType<OrderBlaster>() },
+            { ModContent.ItemType<ShimmerOrderStringer>(),  ModContent.ItemType<OrderStringer>() },
+            { ModContent.ItemType<ShimmerOrderBrella>(),    ModContent.ItemType<OrderBrella>() },
+            { ModContent.ItemType<ShimmerOrderBrush>(),     ModContent.ItemType<OrderBrush>() },
+            { ModContent.ItemType<ShimmerOrderCharger>(),   ModContent.ItemType<OrderCharger>() },
+            { ModContent.ItemType<ShimmerOrderDualie>(),    ModContent.ItemType<OrderDualie>() },
+            { ModContent.ItemType<ShimmerOrderRoller>(),    ModContent.ItemType<OrderRoller>() },
+            { ModContent.ItemType<ShimmerOrderSlosher>(),   ModContent.ItemType<OrderSlosher>() },
+            { ModContent.ItemType<ShimmerOrderSplatana>(),  ModContent.ItemType<OrderSplatana>() },
+            { ModContent.ItemType<ShimmerOrderSplatling>(), ModContent.ItemType<OrderSplatling>() },
         };
 
         public static int? GetShimmerItemType(int itemType)

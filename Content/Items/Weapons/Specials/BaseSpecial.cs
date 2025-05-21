@@ -1,8 +1,10 @@
-﻿using Terraria;
+﻿using AchiSplatoon2.Attributes;
+using Terraria;
 using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
+    [ItemCategory("Special", "Specials")]
     internal class BaseSpecial : BaseWeapon
     {
         public override float RechargeCostPenalty { get => 100f; }

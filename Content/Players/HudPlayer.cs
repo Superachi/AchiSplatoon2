@@ -1,5 +1,7 @@
 ﻿using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
+using AchiSplatoon2.ModSystems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,6 +11,8 @@ namespace AchiSplatoon2.Content.Players
     internal class HudPlayer : ModPlayer
     {
         private HudProjectile? _hudProjectile;
+        private int _keybindCheckTimer;
+        private int _keybindCheckInterval = 600;
 
         public override void OnEnterWorld()
         {
@@ -17,6 +21,17 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
+            if (_keybindCheckTimer > 0) _keybindCheckTimer--;
+            if (_keybindCheckTimer == 0)
+            {
+                if (!ModContent.GetInstance<ClientConfig>().HideMissingKeybindWarning && KeybindSystem.PlayerHasUnboundControls())
+                {
+                    SetOverheadText("You need to set your keybinds for the WoomyMod! (Settings > Controls)", 300);
+                }
+
+                _keybindCheckTimer = _keybindCheckInterval;
+            }
+
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<HudProjectile>()] == 0)
             {
                 _hudProjectile = (HudProjectile)ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<HudProjectile>());

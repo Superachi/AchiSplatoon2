@@ -16,10 +16,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
         public override SoundStyle ShootSample { get => SoundPaths.SnipewriterShoot.ToSoundStyle(); }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-24, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 52f;
+        public override Vector2 MuzzleOffset => new Vector2(62f, -6f);
         public override float[] ChargeTimeThresholds { get => [85f]; }
         public override float BarrageVelocity { get; set; } = 3f;
-        public override int BarrageShotTime { get; set; } = 15;
+        public override int BarrageShotTime { get; set; } = 14;
         public override int BarrageMaxAmmo { get; set; } = 5;
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
                 projectileType: ModContent.ProjectileType<SnipewriterCharge>(),
                 singleShotTime: BarrageShotTime + 10,
                 shotVelocity: BarrageVelocity);
-            Item.damage = 90;
+            Item.damage = 100;
             Item.width = 88;
             Item.height = 26;
             Item.crit = 5;

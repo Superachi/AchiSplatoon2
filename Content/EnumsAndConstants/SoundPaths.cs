@@ -70,12 +70,23 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string EliterChargerShootWeak => FormatPath(nameof(EliterChargerShootWeak));
         public static string EmptyInkTank => FormatPath(nameof(EmptyInkTank));
         public static string HeroShotShoot => FormatPath(nameof(HeroShotShoot));
+        public static string HeavySplatlingShoot => FormatPath(nameof(HeavySplatlingShoot));
         public static string Hit => FormatPath(nameof(Hit));
         public static string HitNoDamage => FormatPath(nameof(HitNoDamage));
         public static string InkHitSplash00 => FormatPath(nameof(InkHitSplash00));
+        public static string InkHitSplash01 => FormatPath(nameof(InkHitSplash01));
+        public static string InkHitSplash02 => FormatPath(nameof(InkHitSplash02));
+        public static string InkHitSplash03 => FormatPath(nameof(InkHitSplash03));
         public static string ItemGet => FormatPath(nameof(ItemGet));
         public static string ItemGet2 => FormatPath(nameof(ItemGet2));
         public static string JetSquelcherShoot => FormatPath(nameof(JetSquelcherShoot));
+        public static string KrakenJump => FormatPath(nameof(KrakenJump));
+        public static string Marked => FormatPath(nameof(Marked));
+        public static string MiniSplatlingShoot => FormatPath(nameof(MiniSplatlingShoot));
+        public static string PlasticHit00 => FormatPath(nameof(PlasticHit00));
+        public static string PlasticHit01 => FormatPath(nameof(PlasticHit01));
+        public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
+        public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
         public static string SBlastShoot => FormatPath(nameof(SBlastShoot));
         public static string Silence => FormatPath(nameof(Silence));
         public static string SlosherShoot => FormatPath(nameof(SlosherShoot));
@@ -89,10 +100,15 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string SplatlingChargeStart => FormatPath(nameof(SplatlingChargeStart));
         public static string SplatlingShoot => FormatPath(nameof(SplatlingShoot));
         public static string SplattershotShoot => FormatPath(nameof(SplattershotShoot));
+        public static string SqueezerShoot => FormatPath(nameof(SqueezerShoot));
+        public static string SqueezerShootAlt => FormatPath(nameof(SqueezerShootAlt));
         public static string SquifferChargerShoot => FormatPath(nameof(SquifferChargerShoot));
         public static string SquifferChargerShootWeak => FormatPath(nameof(SquifferChargerShootWeak));
         public static string TripleHit => FormatPath(nameof(TripleHit));
         public static string TriStringerShoot => FormatPath(nameof(TriStringerShoot));
+        public static string TriStringerShootWeak => FormatPath(nameof(TriStringerShootWeak));
+        public static string WellspringShoot => FormatPath(nameof(WellspringShoot));
+        public static string WellspringShootWeak => FormatPath(nameof(WellspringShootWeak));
 
         // Brellas
         public static string BrellaBreak => FormatPath(nameof(BrellaBreak));
@@ -102,9 +118,15 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string BrellaShotRecycle => FormatPath(nameof(BrellaShotRecycle));
 
         // Dualies
+        public static string DualieDappleShoot => FormatPath(nameof(DualieDappleShoot));
+        public static string DualieDouserShoot => FormatPath(nameof(DualieDouserShoot));
         public static string DualieGloogaRoll => FormatPath(nameof(DualieGloogaRoll));
+        public static string DualieOrderShoot => FormatPath(nameof(DualieOrderShoot));
         public static string DualieSplatRoll => FormatPath(nameof(DualieSplatRoll));
+        public static string DualieSplatShoot => FormatPath(nameof(DualieSplatShoot));
+        public static string DualieSquelcherShoot => FormatPath(nameof(DualieSquelcherShoot));
         public static string DualieTetraRoll => FormatPath(nameof(DualieTetraRoll));
+        public static string DualieTetraShoot => FormatPath(nameof(DualieTetraShoot));
 
         // Rollers
         public static string RollerFling1 => FormatPath(nameof(RollerFling1));
@@ -180,6 +202,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string AngleShooterThrow => FormatPath(nameof(AngleShooterThrow), _directoryThrowables);
         public static string InkMineActivate => FormatPath(nameof(InkMineActivate), _directoryThrowables);
         public static string InkMineDetonate => FormatPath(nameof(InkMineDetonate), _directoryThrowables);
+        public static string PointSensorDetonate => FormatPath(nameof(PointSensorDetonate), _directoryThrowables);
         public static string SplatBombDetonate => FormatPath(nameof(SplatBombDetonate), _directoryThrowables);
         public static string SplatBombFuse => FormatPath(nameof(SplatBombFuse), _directoryThrowables);
         public static string SplatBombThrow => FormatPath(nameof(SplatBombThrow), _directoryThrowables);
@@ -209,5 +232,13 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string PearlShout1 => FormatPath("Shout1", _directoryPearl);
         public static string PearlShout2 => FormatPath("Shout2", _directoryPearl);
         public static string PearlShout3 => FormatPath("Shout3", _directoryPearl);
+
+        // Order weapons
+        private static readonly string _directoryOrder = "OrderWeapons";
+        public static string OrderChargerShoot => FormatPath(nameof(OrderChargerShoot), _directoryOrder);
+        public static string OrderChargerShootWeak => FormatPath(nameof(OrderChargerShootWeak), _directoryOrder);
+        public static string OrderShotShoot => FormatPath(nameof(OrderShotShoot), _directoryOrder);
+        public static string OrderStringerShoot => FormatPath(nameof(OrderStringerShoot), _directoryOrder);
+        public static string OrderStringerShootWeak => FormatPath(nameof(OrderStringerShootWeak), _directoryOrder);
     }
 }

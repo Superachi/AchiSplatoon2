@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
+    [ItemCategory("Ink tanks", "InkTanks")]
     internal class InkTank : BaseAccessory
     {
         public virtual int CapacityBonus => 20;

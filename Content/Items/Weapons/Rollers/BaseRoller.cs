@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.RollerProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
+    [ItemCategory("Roller", "Rollers")]
     internal class BaseRoller : BaseWeapon
     {
         public override float InkCost { get => 6f; }
@@ -22,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public virtual int ShotExtraUpdates { get => 4; }
         public override float AimDeviation { get => 6f; }
         public override Vector2? HoldoutOffset() { return new Vector2(4, 0); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(44f, 0);
 
         // Roller specific
         public virtual float GroundWindUpDelayModifier => 1f;

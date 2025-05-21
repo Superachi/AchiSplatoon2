@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Weapons;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using static AchiSplatoon2.Content.Players.ColorChipPlayer;
 
 namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 {
+    [ItemCategory("Palettes", "Palettes")]
     internal class ChipPalette : BaseAccessory
     {
         protected virtual int PaletteCapacity { get => 4; }
@@ -124,37 +126,49 @@ namespace AchiSplatoon2.Content.Items.Accessories.Palettes
 
                     if (red > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Red)}Power ({red}) >]" +
-                            $"\n[{textColorGray}Damage: +{(int)(red * modPlayer.RedChipBaseAttackDamageBonus * 100)}%]" +
-                            $"\n[{textColorGray}Armor penetration: {(int)(red * modPlayer.RedChipBaseArmorPierceBonus)} Defense]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Red)}Power ({red}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Sub weapon damage: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(red * modPlayer.RedChipBaseSubWeaponDamageBonus * 100)}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Armor penetration: ")
+                            + ColorHelper.TextWithBonusColor($"{(int)(red * modPlayer.RedChipBaseArmorPierceBonus)} Defense");
                     }
                     if (blue > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Blue)}Mobility ({blue}) >]" +
-                            $"\n[{textColorGray}Move speed: +{(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%]" +
-                            $"\n[{textColorGray}Special charge while moving: +{(int)(blue * modPlayer.BlueChipBaseChargeBonus * 100)}%]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Blue)}Mobility ({blue}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Movement speed: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(blue * modPlayer.BlueChipBaseMoveSpeedBonus * 100)}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Movement special charge with roller & brush: ")
+                            + ColorHelper.TextWithBonusColor($"{(blue * modPlayer.BlueChipBaseChargeBonus).ToString("0.0")} point(s)");
                     }
                     if (yellow > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Yellow)}Range ({yellow}) >]" +
-                            $"\n[{textColorGray}Explosion radius: +{(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%]" +
-                            $"\n[{textColorGray}Shot velocity & accuracy: +{(int)(yellow * modPlayer.YellowChipVelocityBonus * 100)}%]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Yellow)}Range ({yellow}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Explosion radius: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(yellow * modPlayer.YellowChipExplosionRadiusBonus * 100)}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Shot velocity & accuracy: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(yellow * modPlayer.YellowChipVelocityBonus * 100)}%");
                     }
                     if (purple > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Purple)}Support ({purple}) >]" +
-                            $"\n[{textColorGray}Splat ink recovery: +{purple * modPlayer.PurpleSplatInkRecoveryBonus}%]" +
-                            $"\n[{textColorGray}Weapon charge speed: +{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Purple)}Support ({purple}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Ink recovery on special charge gain: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(purple * modPlayer.PurpleSplatInkRecoveryBonus)}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Weapon charge speed: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(purple * modPlayer.PurpleChipBaseChargeSpeedBonus * 100)}%");
                     }
                     if (green > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Green)}Lucky ({green}) >]" +
-                            $"\n[{textColorGray}Lucky bomb drop chance: +{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Green)}Lucky ({green}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Added critical strike chance: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateCritChanceBonus())}%")
+                            + "\n" + ColorHelper.TextWithFlavorColor("Lucky bomb drop chance: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateLuckyBombChance() * 100)}%");
                     }
                     if (aqua > 0)
                     {
-                        t.Text += $"\n[{ChipTextColor(InkColor.Aqua)}Drone ({aqua}) >]" +
-                            $"\n[{textColorGray}Pearl Drone attack speed: +{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%]";
+                        t.Text += $"\n[{ChipTextColor(InkColor.Aqua)}Drone ({aqua}) >]"
+                            + "\n" + ColorHelper.TextWithFlavorColor("Pearl Drone attack speed: ")
+                            + ColorHelper.TextWithBonusColor($"+{(int)(modPlayer.CalculateDroneAttackCooldownReduction() * 100)}%");
                     }
                 }
                 else

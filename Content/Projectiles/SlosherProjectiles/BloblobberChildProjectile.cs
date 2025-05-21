@@ -1,8 +1,12 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Sloshers;
+﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 {
@@ -37,7 +41,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Projectile.height = 1;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
-            Projectile.extraUpdates = 16;
+            Projectile.extraUpdates = 12;
             Projectile.timeLeft = 300 * FrameSpeed();
         }
 
@@ -56,7 +60,8 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
             Initialize();
             ApplyWeaponInstanceData();
             drawScaleGoal += Main.rand.NextFloat(-0.2f, 0.2f);
-            bulletColor = GenerateInkColor();
+            bulletColor = CurrentColor.IncreaseHueBy(Main.rand.NextFloat(-5, 5));
+            bulletColor = ColorHelper.LerpBetweenColors(bulletColor, Color.White, 0.3f);
         }
 
         public override bool PreAI()
@@ -110,14 +115,17 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
 
-            if (Main.rand.NextBool(200) && state < stateDespawn)
+
+            if (timeSpentAlive % FrameSpeedMultiply(3) == 0 && Main.rand.NextBool(5) && state < stateDespawn)
             {
-                DustHelper.NewDropletDust(
+                var len = Projectile.velocity.Length();
+                DustHelper.NewDust(
                     position: Projectile.Center + Main.rand.NextVector2Circular(20f * drawScale, 20f * drawScale),
-                    velocity: Projectile.velocity * 2,
-                    color: CurrentColor,
-                    minScale: 1f,
-                    maxScale: 1.5f);
+                    dustType: ModContent.DustType<SplatterBulletDust>(),
+                    velocity: Projectile.velocity * len * 2,
+                    color: bulletColor,
+                    scale: Main.rand.NextFloat(1f, 1.2f) * len,
+                    data: new(gravity: 0.2f));
             }
         }
 
@@ -176,6 +184,23 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
             if (hasBounced) bounceCount++;
 
+            if (state < stateDespawn)
+            {
+                var len = Projectile.velocity.Length();
+                for (int i = 0; i < (int)(len * 5); i++)
+                {
+                    DustHelper.NewDust(
+                        position: Projectile.Center + Projectile.velocity * 5,
+                        dustType: ModContent.DustType<SplatterBulletDust>(),
+                        velocity: Main.rand.NextVector2CircularEdge(2, 2) * len,
+                        color: bulletColor,
+                        scale: 0.5f + 1f * len,
+                        data: new(scaleIncrement: -0.05f, frictionMult: 0.97f));
+                }
+
+                PlayAudio(SoundID.SplashWeak, volume: 0.3f * len, pitch: 0.8f, pitchVariance: 0.4f, maxInstances: 3, position: Projectile.Center);
+            }
+
             Projectile.velocity *= 0.8f;
             drawScale *= 0.8f;
 
@@ -186,7 +211,7 @@ namespace AchiSplatoon2.Content.Projectiles.SlosherProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawProjectile(inkColor: bulletColor, rotation: 0, scale: drawScale, alphaMod: drawAlpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
+            DrawProjectile(inkColor: bulletColor, rotation: 0, scale: drawScale * (float)(1f + Math.Sin(Main.time / 4) / 10), alphaMod: drawAlpha * 0.6f, considerWorldLight: false, additiveAmount: 1f);
             return false;
         }
 

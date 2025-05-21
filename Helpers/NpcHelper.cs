@@ -61,6 +61,26 @@ internal class NpcHelper
         return false;
     }
 
+    public static bool IsTargetAWormHead(NPC target)
+    {
+        int n = target.type;
+        if ((n == NPCID.EaterofWorldsHead)
+        || (n == NPCID.TheDestroyer)
+        || (n == NPCID.GiantWormHead)
+        || (n == NPCID.DiggerHead)
+        || (n == NPCID.DevourerHead)
+        || (n == NPCID.SeekerHead)
+        || (n == NPCID.TombCrawlerHead)
+        || (n == NPCID.DuneSplicerHead)
+        || (n == NPCID.WyvernHead)
+        || (n == NPCID.BoneSerpentHead))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// See also <seealso href="https://terraria.wiki.gg/wiki/Category:Projectile_NPCs"/>
     /// </summary>
@@ -75,10 +95,26 @@ internal class NpcHelper
             case NPCID.GiantFungiBulb:
             case NPCID.MoonLordLeechBlob:
             case NPCID.VileSpit:
+            case NPCID.VileSpitEaterOfWorlds:
             case NPCID.WaterSphere:
                 return true;
         }
 
         return false;
+    }
+
+    public static int CountNPCs(int type)
+    {
+        var count = 0;
+
+        foreach (var npc in Main.ActiveNPCs)
+        {
+            if (npc.type == type)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

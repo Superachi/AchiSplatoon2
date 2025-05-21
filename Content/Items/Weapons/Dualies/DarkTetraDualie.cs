@@ -10,12 +10,15 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
     internal class DarkTetraDualie : SplatDualie
     {
+        public override SoundStyle ShootSample { get => SoundPaths.DualieTetraShoot.ToSoundStyle(); }
+        public override SoundStyle ShootAltSample { get => ShootSample; }
+
         public override float ShotGravity { get => 0.2f; }
         public override int ShotGravityDelay { get => 20; }
         public override int ShotExtraUpdates { get => 3; }
         public override float AimDeviation { get => 6f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-4, 0); }
-        public override float MuzzleOffsetPx => 42f;
+        public override Vector2 MuzzleOffset => new Vector2(42f, 0);
 
 
         // Dualie specific

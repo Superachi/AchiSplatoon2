@@ -1,10 +1,15 @@
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
+using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 {
@@ -22,6 +27,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
         protected bool DirectHitEffect { get; private set; }
 
         private SlotId chargeStartAudio;
+        private int _projectileCount;
 
         public override void ApplyWeaponInstanceData()
         {
@@ -40,10 +46,28 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             DirectHitEffect = weaponData.DirectHitEffect;
         }
 
+        protected override void ApplyWeaponPrefixData()
+        {
+            base.ApplyWeaponPrefixData();
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+
+            _projectileCount = 1;
+
+            if (prefix is TwinPrefix)
+            {
+                _projectileCount = 2;
+            }
+            else if (prefix is ExplosivePrefix)
+            {
+                MaxPenetrate = 1;
+            }
+        }
+
         protected override void AfterSpawn()
         {
             Initialize(isDissolvable: false);
             ApplyWeaponInstanceData();
+            DestroyOtherOwnedChargeProjectiles();
 
             Projectile.velocity = Vector2.Zero;
 
@@ -53,27 +77,52 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             }
         }
 
-        protected override void ReleaseCharge(Player owner)
+        public override void AI()
         {
-            // Release the attack
-            hasFired = true;
-
-            // Offset the projectile's position to match the weapon
-            var velocity = owner.DirectionTo(Main.MouseWorld);
-            Vector2 weaponOffset = new Vector2(62, 2);
-
-            Vector2 position = GetOwner().Center;
-            Vector2 desiredPosition = position + WoomyMathHelper.AddRotationToVector2(weaponOffset, MathHelper.ToDegrees(velocity.ToRotation()));
-            bool canHit = Collision.CanHit(position, 0, 0, desiredPosition, 0, 0);
-            if (canHit)
+            base.AI();
+            if (IsThisClientTheProjectileOwner() && IsChargeMaxedOut())
             {
-                position = desiredPosition;
+                SoundHelper.StopSoundIfActive(chargeStartAudio);
+            }
+        }
+
+        private void FireProjectile(Vector2 position, Vector2 velocity)
+        {
+            float degreesPerProjectile = TwinPrefix.TwinShotArc;
+            int middleProjectile = _projectileCount / 2;
+            float degreesOffset = -(middleProjectile * degreesPerProjectile);
+
+            if (_projectileCount % 2 == 0)
+            {
+                degreesOffset += degreesPerProjectile / 2;
             }
 
-            var c = CreateChildProjectile(position: position, velocity: velocity, type: ProjectileType, Projectile.damage, false);
-            var proj = c.Projectile;
-            var modProj = (ChargerProjectile)c.Projectile.ModProjectile;
+            // Convert angle: degrees -> radians -> vector
+            float aimAngle = MathHelper.ToDegrees(
+                Owner.DirectionTo(Main.MouseWorld).ToRotation()
+            );
 
+            for (int i = 0; i < _projectileCount; i++)
+            {
+                float degrees = aimAngle + degreesOffset;
+                float radians = MathHelper.ToRadians(degrees);
+                Vector2 angleVector = radians.ToRotationVector2();
+                Vector2 newVelocity = angleVector * velocityModifier;
+
+                // Spawn projectile
+                var childProj = CreateChildProjectile(position: position, velocity: newVelocity, type: ProjectileType, Projectile.damage, false);
+                var proj = childProj.Projectile;
+                var modProj = (ChargerProjectile)childProj.Projectile.ModProjectile;
+
+                SetProjectileProperties(proj, modProj);
+
+                // Adjust the angle for the next projectile
+                degreesOffset += degreesPerProjectile;
+            }
+        }
+
+        private void SetProjectileProperties(Projectile proj, ChargerProjectile modProj)
+        {
             if (IsChargeMaxedOut())
             {
                 // Range
@@ -87,7 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 modProj.enableDirectHitEffect = DirectHitEffect;
                 if (ShakeScreenOnChargeShot)
                 {
-                    GameFeelHelper.ShakeScreenNearPlayer(owner, true);
+                    GameFeelHelper.ShakeScreenNearPlayer(Owner, true);
                 }
             }
             else
@@ -108,9 +157,39 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             modProj.wasParentChargeMaxed = IsChargeMaxedOut();
             proj.timeLeft = (int)(proj.timeLeft * RangeModifier);
             modProj.RunSpawnMethods();
+            modProj.UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
+        }
+
+        protected override void ReleaseCharge(Player owner)
+        {
+            // Release the attack
+            hasFired = true;
+
+            // Offset the projectile's position to match the weapon
+            var velocity = owner.DirectionTo(Main.MouseWorld);
+            Vector2 weaponOffset = new Vector2(62, 2);
+
+            Vector2 position = GetOwner().Center;
+            Vector2 desiredPosition = position + WoomyMathHelper.AddRotationToVector2(weaponOffset, MathHelper.ToDegrees(velocity.ToRotation()));
+            bool canHit = Collision.CanHit(position, 0, 0, desiredPosition, 0, 0);
+            if (canHit)
+            {
+                position = desiredPosition;
+            }
+
+            FireProjectile(position, velocity);
 
             SoundHelper.StopSoundIfActive(chargeStartAudio);
             Projectile.Kill();
+        }
+
+        protected override void ChargeLevelUpEffect()
+        {
+            base.ChargeLevelUpEffect();
+            if (IsChargeMaxedOut())
+            {
+                CreateChildProjectile<WeaponChargeSparkleVisual>(Owner.Center, Vector2.Zero, 0, true);
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)

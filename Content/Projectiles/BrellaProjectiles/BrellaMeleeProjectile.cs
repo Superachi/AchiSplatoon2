@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -138,30 +139,20 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
         protected virtual void BlockProjectileEffect(Projectile deflectedProjectile)
         {
-            // Ink
-            for (int i = 0; i < 15; i++)
-            {
-                Color dustColor = CurrentColor;
-
-                DustHelper.NewDropletDust(
-                    position: deflectedProjectile.Center,
-                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
-                    color: CurrentColor,
-                    minScale: 0.5f,
-                    maxScale: 1f);
-            }
-
-            // Firework
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 10; i++)
             {
                 DustHelper.NewDust(
                     position: deflectedProjectile.Center,
-                    dustType: DustID.FireworksRGB,
-                    velocity: Vector2.Normalize(deflectedProjectile.velocity) * 8 + Main.rand.NextVector2Circular(3, 3),
+                    dustType: DustID.PortalBolt,
+                    velocity: Main.rand.NextVector2CircularEdge(3, 3),
                     color: CurrentColor,
-                    scale: Main.rand.NextFloat(0.5f, 1f),
-                    data: new(gravity: 1));
+                    scale: Main.rand.NextFloat(0.5f, 2f),
+                    data: new(gravity: 0));
             }
+
+            var sparkle = CreateChildProjectile<StillSparkleVisual>(deflectedProjectile.Center, Vector2.Zero, 0, true);
+            sparkle.AdjustRotation(0);
+            sparkle.AdjustColor(ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.5f));
         }
     }
 }

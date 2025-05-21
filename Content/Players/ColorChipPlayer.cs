@@ -1,7 +1,12 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.Accessories.InkTanks;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Helpers;
 using AchiSplatoon2.Netcode;
 using AchiSplatoon2.Netcode.DataTransferObjects;
 using Microsoft.Xna.Framework;
+using System.Reflection;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Players
@@ -18,8 +23,8 @@ namespace AchiSplatoon2.Content.Players
         private Color _colorFromChips = ColorHelper.GetInkColor(InkColor.Order);
         public bool didColorChipAmountChange = false;
 
-        public float RedChipBaseAttackDamageBonus { get => 0.03f; }
-        public string RedChipBaseAttackDamageBonusDisplay { get => $"{(int)(RedChipBaseAttackDamageBonus * 100)}%"; }
+        public float RedChipBaseSubWeaponDamageBonus { get => 0.15f; }
+        public string RedChipBaseSubWeaponDamageBonusDisplay { get => $"{(int)(RedChipBaseSubWeaponDamageBonus * 100)}%"; }
         public int RedChipBaseArmorPierceBonus { get => 2; }
         public string RedChipBaseArmorPierceBonusDisplay { get => $"{(RedChipBaseArmorPierceBonus)} Defense"; }
         public float PurpleSplatInkRecoveryBonus { get => 3f; }
@@ -32,11 +37,12 @@ namespace AchiSplatoon2.Content.Players
         public string YellowChipVelocityBonusDisplay { get => $"{YellowChipVelocityBonus * 100}%"; }
         public float GreenChipLuckyBombChance { get => 0.15f; }
         public string GreenChipLuckyBombChanceDisplay { get => $"{(int)(GreenChipLuckyBombChance * 100)}%"; }
-        public float GreenChipLootBonusDivider { get => 2f; }
-        public float BlueChipBaseMoveSpeedBonus { get => 0.15f; }
+        public float GreenChipCritChanceBonus { get => 1f; }
+        public string GreenChipCritChanceBonusDisplay { get => $"{(int)(GreenChipCritChanceBonus)}%"; }
+        public float BlueChipBaseMoveSpeedBonus { get => 0.1f; }
         public string BlueChipBaseMoveSpeedBonusDisplay { get => $"{(int)(BlueChipBaseMoveSpeedBonus * 100)}%"; }
-        public float BlueChipBaseChargeBonus { get => 0.2f; }
-        public string BlueChipBaseChargeBonusDisplay { get => $"{(int)(BlueChipBaseChargeBonus * 100)}%"; }
+        public float BlueChipBaseChargeBonus { get => 1f; }
+        public string BlueChipBaseChargeBonusDisplay { get => $"{BlueChipBaseChargeBonus.ToString("0.0")} point(s)"; }
         public float AquaChipBaseAttackCooldownReduction { get => 0.05f; }
         public string AquaChipBaseAttackCooldownReductionDisplay { get => $"{(int)(AquaChipBaseAttackCooldownReduction * 100)}%"; }
 
@@ -127,7 +133,7 @@ namespace AchiSplatoon2.Content.Players
 
         public float CalculateAttackDamageBonus()
         {
-            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseAttackDamageBonus;
+            return ColorChipAmounts[(int)ChipColor.Red] * RedChipBaseSubWeaponDamageBonus;
         }
 
         public int CalculateArmorPierceBonus()
@@ -155,6 +161,11 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Yellow] * YellowChipVelocityBonus;
         }
 
+        public float CalculateCritChanceBonus()
+        {
+            return ColorChipAmounts[(int)ChipColor.Green] * GreenChipCritChanceBonus;
+        }
+
         public float CalculateLuckyBombChance()
         {
             return ColorChipAmounts[(int)ChipColor.Green] * GreenChipLuckyBombChance;
@@ -165,14 +176,34 @@ namespace AchiSplatoon2.Content.Players
             return ColorChipAmounts[(int)ChipColor.Aqua] * AquaChipBaseAttackCooldownReduction;
         }
 
+        public float CalculateMobilitySpecialChargeIncrement()
+        {
+            return ColorChipAmounts[(int)ChipColor.Blue] * BlueChipBaseChargeBonus;
+        }
+
         public void UpdateInkColor()
         {
             SetDefaultInkColorBasedOnColorChips();
         }
 
-        public Color GetColorFromChips()
+        public Color GetColorResultingFromChips()
         {
-            return IsPaletteValid() ? _colorFromChips : ColorHelper.GetInkColor(InkColor.Order);
+            if (!IsPaletteValid())
+            {
+                return ColorHelper.GetInkColor(InkColor.Order);
+            }
+
+            if ((DoesPlayerHaveEqualAmountOfChips() && CalculateColorChipTotal() != 0))
+            {
+                return ColorHelper.LerpBetweenColorsPerfect(Main.DiscoColor, Color.White, 0.2f);
+            }
+
+            return _colorFromChips;
+        }
+
+        public Color GetColorFromInkPlayer()
+        {
+            return Player.GetModPlayer<InkColorPlayer>().GetCurrentColor();
         }
 
         private void SetDefaultInkColorBasedOnColorChips()

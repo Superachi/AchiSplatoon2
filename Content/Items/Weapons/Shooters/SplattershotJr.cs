@@ -20,14 +20,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override float AimDeviation { get => 8f; }
         public override SoundStyle ShootSample { get => SoundPaths.SplattershotShoot.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, -2); }
-        public override float MuzzleOffsetPx { get; set; } = 44f;
+        public override Vector2 MuzzleOffset => new Vector2(50f, -8f);
 
         public override void SetDefaults()
         {
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
-                singleShotTime: 6,
+                singleShotTime: 7,
                 shotVelocity: 4f);
 
             Item.damage = 6;

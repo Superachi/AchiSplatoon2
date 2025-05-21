@@ -137,7 +137,7 @@ namespace AchiSplatoon2.Content.Projectiles
             {
                 lerpAmount = (float)Math.Sin(Main.time / 4) * 0.2f + 0.2f;
             }
-            Color chipColor = ColorHelper.ColorWithAlpha255(_owner.GetModPlayer<ColorChipPlayer>().GetColorFromChips());
+            Color chipColor = ColorHelper.ColorWithAlpha255(_owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
             Color finalColor = ColorHelper.LerpBetweenColorsPerfect(chipColor, Color.White, lerpAmount);
 
             var realInkQuotient = Math.Min(InkTankMp.InkQuotient(), 1);
@@ -153,7 +153,7 @@ namespace AchiSplatoon2.Content.Projectiles
                     (int)verticalSize),
                 ColorHelper.LerpBetweenColorsPerfect(finalColor, Color.White, 0.2f) * _InkTankAlpha);
 
-            if (!ModContent.GetInstance <ClientConfig>().HideInkTankPercentage)
+            if (!ModContent.GetInstance<ClientConfig>().HideInkTankPercentage)
             {
                 Utils.DrawBorderString(
                     Main.spriteBatch, $"{(GetOwnerModPlayer<InkTankPlayer>().InkAmount).ToString("0")}%", position + new Vector2(0, 40),

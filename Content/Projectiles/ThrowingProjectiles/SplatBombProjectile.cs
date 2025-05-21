@@ -26,6 +26,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         private const int stateDespawn = 4;
 
         protected SlotId? fuseSound;
+        private int _bounceSoundCooldown = 0;
 
         protected float FuseTime
         {
@@ -99,6 +100,22 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            // If the projectile hits the top or bottom side of the tile
+            if (_bounceSoundCooldown == 0)
+            {
+                var velocityLength = Projectile.velocity.Length();
+                var volume = Math.Clamp(velocityLength * 0.02f, 0.05f, 0.2f);
+
+                var minSpeed = 3;
+
+                if (Math.Abs(Projectile.velocity.Y - oldVelocity.Y) > minSpeed
+                    || Math.Abs(Projectile.velocity.X - oldVelocity.X) > minSpeed)
+                {
+                    _bounceSoundCooldown = 15;
+                    SoundHelper.PlayAudio(SoundPaths.PlasticHit00.ToSoundStyle(), volume: volume, pitch: 0.2f, pitchVariance: 0.4f, position: Projectile.Center);
+                }
+            }
+
             if (Projectile.velocity.Y == 0 && state == 0)
             {
                 AdvanceState();
@@ -160,6 +177,7 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
         {
             FuseTime--;
             fallTimer++;
+            if (_bounceSoundCooldown > 0) _bounceSoundCooldown--;
 
             switch (state)
             {

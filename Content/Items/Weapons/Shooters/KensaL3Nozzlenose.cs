@@ -15,10 +15,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<NozzlenoseShooter>(),
-                singleShotTime: 14,
+                singleShotTime: 16,
                 shotVelocity: 1f);
 
-            Item.damage = 36;
+            Item.damage = 40;
             Item.knockBack = 4;
             Item.value = Item.buyPrice(gold: 30);
             Item.rare = ItemRarityID.Lime;

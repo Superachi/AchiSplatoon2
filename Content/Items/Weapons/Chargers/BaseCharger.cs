@@ -1,10 +1,12 @@
-﻿using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.ChargerProjectiles;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 {
+    [ItemCategory("Charger", "Chargers")]
     internal class BaseCharger : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Charger;

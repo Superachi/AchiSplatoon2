@@ -156,6 +156,11 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                         target = FindClosestEnemy(detectionRadius, checkLineOfSight: true);
                         if (target != null)
                         {
+                            if (!target.boss)
+                            {
+                                target.AddBuff(BuffID.Confused, 90);
+                            }
+
                             SetState(stateLockOnGrow);
                         }
                     }

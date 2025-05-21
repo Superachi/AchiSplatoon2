@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.EnumsAndConstants;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 {
+    [ItemCategory("Splatana", "Splatana")]
     internal class BaseSplatana : BaseWeapon
     {
         public override float InkCost { get => 0.8f; }
@@ -22,15 +24,18 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         // Splatana specific
         public virtual int BaseDamage { get => 5; }
         public virtual float[] ChargeTimeThresholds { get => [18f]; }
-        public virtual float WeakSlashShotSpeed { get => 6f; }
-        public virtual float MaxChargeMeleeDamageMod { get => 3f; }
-        public virtual float MaxChargeRangeDamageMod { get => 2f; }
+        public virtual float WeakSlashShotSpeed { get => 8f; }
+        public virtual float MaxChargeMeleeDamageMod { get => 2.5f; }
+        public virtual float MaxChargeRangeDamageMod { get => 1.5f; }
         public virtual float MaxChargeLifetimeMod { get => 3f; }
-        public virtual float MaxChargeVelocityMod { get => 0.7f; }
+        public virtual float MaxChargeVelocityMod { get => 1f; }
         public override Vector2? HoldoutOffset() { return new Vector2(-8, 8); }
 
         public virtual int WeakSlashProjectile { get => ModContent.ProjectileType<SplatanaWeakSlashProjectile>(); }
         public virtual int StrongSlashProjectile { get => ModContent.ProjectileType<SplatanaStrongSlashProjectile>(); }
+        public virtual int MeleeEnergyProjectile { get => ModContent.ProjectileType<SplatanaMeleeEnergyProjectile>(); }
+        public virtual bool EnableWeakSlashProjectile { get => true; }
+        public virtual bool EnableStrongSlashProjectile { get => true; }
 
         public override void SetDefaults()
         {
@@ -54,12 +59,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
 
         public int DisplayDamage(int damage)
         {
-            return (int)(damage * MaxChargeRangeDamageMod);
+            return (int)(damage * MathHelper.Max(MaxChargeRangeDamageMod, MaxChargeMeleeDamageMod));
         }
 
         public int ActualDamage(int damage)
         {
-            return (int)(damage / MaxChargeRangeDamageMod);
+            return (int)(damage / MathHelper.Max(MaxChargeRangeDamageMod, MaxChargeMeleeDamageMod));
         }
     }
 }

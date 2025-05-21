@@ -7,6 +7,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class TriSlosher : Slosher
     {
+        public override float InkCost { get => 6f; }
+        public override int ShotCount => 8;
+        public override float AimDeviation => 5f;
         public override float ShotGravity { get => 0.15f; }
 
         public override void SetDefaults()
@@ -20,11 +23,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
 
             Item.damage = 22;
-            Item.knockBack = 4;
+            Item.crit = 5;
+            Item.knockBack = 5;
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes() => AddRecipeHellstone();
+        public override void AddRecipes() => AddRecipePostBee();
     }
 }

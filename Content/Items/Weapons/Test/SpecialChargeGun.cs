@@ -1,9 +1,11 @@
-﻿using AchiSplatoon2.Content.Projectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {
+    [DeveloperContent]
     internal class SpecialChargeGun : BaseWeapon
     {
         public override void SetDefaults()

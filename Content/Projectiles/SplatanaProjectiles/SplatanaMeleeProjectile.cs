@@ -1,8 +1,7 @@
-﻿using AchiSplatoon2.Helpers;
+﻿using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
@@ -35,8 +34,6 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             enablePierceDamagefalloff = false;
 
             Projectile.velocity = Vector2.Zero;
-
-            swingDirection = GetOwner().direction;
             Projectile.timeLeft = GetOwner().itemAnimationMax * FrameSpeed();
         }
 
@@ -45,6 +42,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             Player p = GetOwner();
             float meleeSpeedMod = p.GetAttackSpeed(DamageClass.Melee);
 
+            swingDirection = GetOwner().direction;
             float swingDirOffset = swingDirection == -1 ? 180 : 0;
             float deg = (Projectile.ai[1] + 30 + swingDirOffset) * swingDirection;
             float rad = MathHelper.ToRadians(deg);
@@ -58,36 +56,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
 
             Vector2 offsetFromPlayer = Projectile.Center.DirectionFrom(p.Center) * 30;
 
-            if (wasFullyCharged && timeSpentAlive % 4 == 0)
-            {
-                DustHelper.NewChargerBulletDust(
-                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    color: CurrentColor,
-                    minScale: 1.0f,
-                    1.6f);
-
-                if (Main.rand.NextBool(4))
-                {
-                    DustHelper.NewDust(
-                        position: Projectile.Center + offsetFromPlayer / 4 + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                        dustType: DustID.AncientLight,
-                        velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                        color: ColorHelper.ColorWithAlpha255(CurrentColor),
-                        scale: Main.rand.NextFloat(0.8f, 1.2f),
-                        data: new(gravity: 0));
-                }
-            }
-
-            if (!wasFullyCharged && timeSpentAlive % 6 == 0)
-            {
-                DustHelper.NewChargerBulletDust(
-                    position: Projectile.Center + offsetFromPlayer + Main.rand.NextVector2Circular(Projectile.width * 0.25f, Projectile.height * 0.25f),
-                    velocity: GetOwner().direction * WoomyMathHelper.AddRotationToVector2(offsetFromPlayer / 15, 90),
-                    color: CurrentColor,
-                    minScale: 0.8f,
-                    maxScale: 1.4f);
-            }
+            if (WeaponInstance is GolemSplatana) return;
         }
 
         public override bool? CanHitNPC(NPC target)

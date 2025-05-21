@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
     internal class NebulaStringer : BaseStringer
     {
         public override Vector2? HoldoutOffset() { return new Vector2(0, 2); }
-        public override float MuzzleOffsetPx { get; set; } = 30f;
+        public override Vector2 MuzzleOffset => new Vector2(30f, 0);
 
         public override float[] ChargeTimeThresholds { get => [45, 90f]; }
         public override float ShotgunArc { get => 20f; }
@@ -28,6 +28,14 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.knockBack = 3;
             Item.value = Item.buyPrice(gold: 50);
             Item.rare = ItemRarityID.Cyan;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddTile(TileID.LunarCraftingStation)
+                .AddIngredient(ItemID.FragmentNebula, 18)
+                .Register();
         }
     }
 }

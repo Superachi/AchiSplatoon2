@@ -2,10 +2,12 @@
 using AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
 using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
 using AchiSplatoon2.Content.Prefixes.BrushPrefixes;
+using AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
+using AchiSplatoon2.Content.Prefixes.SlosherPrefixes;
 using AchiSplatoon2.Content.Prefixes.SplatlingPrefixes;
 using AchiSplatoon2.Content.Prefixes.StringerPrefixes;
 using System;
@@ -28,7 +30,7 @@ internal class PrefixHelper : ModSystem
 
         if (result == null)
         {
-            DebugHelper.PrintWarning($"Called {nameof(GetWeaponPrefixById)} with prefix id {id}, but the result was null!");
+            // DebugHelper.PrintWarning($"Called {nameof(GetWeaponPrefixById)} with prefix id {id}, but the result was null!");
         }
 
         return result;
@@ -96,6 +98,17 @@ internal class PrefixHelper : ModSystem
         return prefixes;
     }
 
+    public static List<int> ListChargerPrefixes()
+    {
+        var prefixes = ListChargeWeaponsPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<GambitPrefix>());
+        prefixes.Add(ModContent.PrefixType<TwinPrefix>());
+        // prefixes.Add(ModContent.PrefixType<ExplosivePrefix>());
+
+        return prefixes;
+    }
+
     public static List<int> ListStringerPrefixes()
     {
         var prefixes = ListChargeWeaponsPrefixes();
@@ -112,6 +125,16 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<BigBangPrefix>());
         prefixes.Add(ModContent.PrefixType<ConcentratedPrefix>());
+
+        return prefixes;
+    }
+
+    public static List<int> ListSlosherPrefixes()
+    {
+        var prefixes = ListShooterPrefixes();
+
+        prefixes.Add(ModContent.PrefixType<ResonantPrefix>());
+        prefixes.Add(ModContent.PrefixType<OversizedPrefix>());
 
         return prefixes;
     }
@@ -205,6 +228,11 @@ internal class PrefixHelper : ModSystem
             { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
             { typeof(InstantPrefix), ModContent.PrefixType<InstantPrefix>() },
 
+            // Chargers
+            { typeof(GambitPrefix), ModContent.PrefixType<GambitPrefix>() },
+            { typeof(TwinPrefix), ModContent.PrefixType<TwinPrefix>() },
+            { typeof(ExplosivePrefix), ModContent.PrefixType<ExplosivePrefix>() },
+
             // Stringers
             { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },
             { typeof(WidePrefix), ModContent.PrefixType<WidePrefix>() },
@@ -212,6 +240,10 @@ internal class PrefixHelper : ModSystem
             // Blasters
             { typeof(ConcentratedPrefix), ModContent.PrefixType<ConcentratedPrefix>() },
             { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
+
+            // Sloshers
+            { typeof(ResonantPrefix), ModContent.PrefixType<ResonantPrefix>() },
+            { typeof(OversizedPrefix), ModContent.PrefixType<OversizedPrefix>() },
 
             // Splatlings
             { typeof(LoadedPrefix), ModContent.PrefixType<LoadedPrefix>() },

@@ -1,10 +1,10 @@
-﻿using AchiSplatoon2.Content.Projectiles.RollerProjectiles.SwingProjectiles;
+﻿using AchiSplatoon2.Attributes;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
+    [OrderWeapon]
     internal class OrderRoller : BaseRoller
     {
         public override float GroundWindUpDelayModifier => 1.5f;
@@ -18,12 +18,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
             base.SetDefaults();
             Item.damage = 14;
             Item.knockBack = 4;
-            Item.shoot = ModContent.ProjectileType<OrderSwingProjectile>();
 
             Item.value = Item.buyPrice(silver: 10);
             Item.rare = ItemRarityID.Blue;
         }
 
-        public override void AddRecipes() => AddRecipeOrder();
+        public override void AddRecipes() => AddRecipeOrder(ItemID.Ruby);
     }
 }

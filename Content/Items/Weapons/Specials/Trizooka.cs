@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
     internal class Trizooka : BaseSpecial
     {
         public override Vector2? HoldoutOffset() { return new Vector2(-40, -8); }
-        public override float MuzzleOffsetPx { get; set; } = 80f;
+        public override Vector2 MuzzleOffset => new Vector2(80f, 0);
         public static readonly int ProjPerShot = 3;
         public static readonly int MaxBursts = 3;
         protected override string UsageHintParamA => ProjPerShot.ToString();
