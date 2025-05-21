@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Dusts;
+﻿using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Players;
@@ -166,6 +166,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 return;
             }
 
+            wepMP.CustomWeaponCooldown = 15;
+
             switch (state)
             {
                 case stateWindup:
@@ -264,17 +266,17 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 Shoot();
             }
 
+            if (PlayerMeetsRollingRequirements())
+            {
+                SetState(stateRoll);
+                return;
+            }
+
             if (timeSpentInState > WeaponUseTime())
             {
                 if (!InputHelper.GetInputMouseLeftHold())
                 {
                     Projectile.Kill();
-                    return;
-                }
-
-                if (PlayerMeetsRollingRequirements())
-                {
-                    SetState(stateRoll);
                     return;
                 }
 
@@ -330,7 +332,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                 rollCoyoteTime = RollCoyoteTimeDefault;
             }
 
-            if (!InputHelper.GetInputMouseRightHold() || rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
+            if (rollCoyoteTime <= 0 || AbsPlayerSpeed() < float.Epsilon)
             {
                 SetSwingAngleFromMouse(direction: 1);
 
@@ -417,7 +419,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
 
         private bool PlayerMeetsRollingRequirements()
         {
-            return InputHelper.GetInputMouseRightHold() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
+            return InputHelper.GetInputBrushDashHold() && !GetOwner().mount.Active && IsPlayerGrounded() && AbsPlayerSpeed() > float.Epsilon;
         }
 
         #endregion
@@ -443,8 +445,8 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
             if (WeaponInstance is not SpookyBrush && WeaponInstance is not DesertBrush)
             {
                 if (WeaponInstance is not WoodenBrush)
-            {
-                for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                {
+                    for (int i = 0; i < Main.rand.Next(2, 4); i++)
                     {
                         CreateChildProjectile<InkbrushProjectile>(owner.Center, velocity + Main.rand.NextVector2Circular(i, i) / 2, Projectile.damage);
                     }

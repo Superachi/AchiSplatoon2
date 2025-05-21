@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.Debug;
@@ -173,10 +173,10 @@ namespace AchiSplatoon2.Content.Players
             return Math.Clamp(InkAmount / InkAmountFinalMax, 0, 1);
         }
 
-        public bool HasEnoughInk(float inkCost)
+        public bool HasEnoughInk(float inkCost, bool createPopUp = true)
         {
             var finalCost = inkCost;
-            if (InkAmount < finalCost)
+            if (InkAmount < finalCost && createPopUp)
             {
                 CreateLowInkPopup();
             }

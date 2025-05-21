@@ -32,7 +32,7 @@ namespace AchiSplatoon2.Content.Items.Consumables
                 SpawnOrderWeapons(player);
             }
 
-            return false;
+            return true;
         }
 
         public override void RightClick(Player player)

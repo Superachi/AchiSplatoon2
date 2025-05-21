@@ -992,7 +992,8 @@ internal class BaseProjectile : ModProjectile
         float additiveAmount = 0f,
         Texture2D? spriteOverride = null,
         int? frameOverride = null,
-        Vector2? positionOverride = null)
+        Vector2? positionOverride = null,
+        Vector2? originOffset = null)
     {
         Vector2 position = (positionOverride ?? Projectile.Center) - Main.screenPosition + (positionOffset ?? Vector2.Zero);
         Texture2D texture = TextureAssets.Projectile[Type].Value;
@@ -1000,6 +1001,10 @@ internal class BaseProjectile : ModProjectile
 
         Rectangle sourceRectangle = texture.Frame(Main.projFrames[Projectile.type], frameX: frameOverride ?? Projectile.frame); // The sourceRectangle says which frame to use.
         Vector2 origin = sourceRectangle.Size() / 2f;
+        if (originOffset != null)
+        {
+            origin += (Vector2)originOffset;
+        }
 
         // The light value in the world
         var lightInWorld = Color.White;
