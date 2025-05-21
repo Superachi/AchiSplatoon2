@@ -24,7 +24,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
             Item.width = 32;
             Item.height = 32;
 
-            Item.SetValuePreEvilBosses();
+            Item.SetValueStartingItem();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,15 +34,6 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
                 var inkTankPlayer = player.GetModPlayer<InkTankPlayer>();
                 inkTankPlayer.InkAmountMaxBonus += CapacityBonus;
             }
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe()
-                .AddTile(TileID.WorkBenches)
-                .AddIngredient(ItemID.Glass, 10)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
-                .Register();
         }
 
         public override bool CanReforge()

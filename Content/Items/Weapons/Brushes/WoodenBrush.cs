@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
             Item.width = 52;
             Item.height = 52;
 
-            Item.value = Item.sellPrice(silver: 5);
+            Item.value = Item.sellPrice(silver: 1);
             Item.rare = ItemRarityID.White;
 
             // Note: hide this stat from the player--

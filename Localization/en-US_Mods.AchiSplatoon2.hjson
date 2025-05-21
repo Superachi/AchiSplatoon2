@@ -1556,7 +1556,7 @@ Items: {
 
 	InkTank: {
 		UsageHint: Mods.AchiSplatoon2.Items.InkTank.UsageHint
-		Flavor: "How else will you carry all that ink?"
+		Flavor: How else will you carry all that ink?
 		DisplayName: Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}

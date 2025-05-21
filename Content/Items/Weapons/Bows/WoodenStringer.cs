@@ -27,7 +27,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
             Item.damage = 20;
             Item.knockBack = 1f;
             Item.crit = 0;
-            Item.value = Item.sellPrice(silver: 5);
+            Item.value = Item.sellPrice(silver: 1);
             Item.rare = ItemRarityID.White;
         }
 

@@ -6,13 +6,23 @@ namespace AchiSplatoon2.ExtensionMethods
     internal static class ItemValueExtensions
     {
         /// <summary>
+        /// Super early game
+        /// </summary>
+        /// <param name="baseItem"></param>
+        internal static void SetValueStartingItem(this Item item)
+        {
+            item.rare = ItemRarityID.Blue;
+            item.value = Item.sellPrice(silver: 5);
+        }
+
+        /// <summary>
         /// Pre evil-bosses
         /// </summary>
         /// <param name="baseItem"></param>
         internal static void SetValuePreEvilBosses(this Item item)
         {
             item.rare = ItemRarityID.Blue;
-            item.value = Item.sellPrice(gold: 2);
+            item.value = Item.sellPrice(gold: 1, silver: 50);
         }
 
         /// <summary>

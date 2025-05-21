@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.CustomConditions;
+using AchiSplatoon2.Content.CustomConditions;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
@@ -34,6 +34,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
             if (shop.NpcType == NPCID.Merchant)
             {
+                shop.Add<InkTank>();
                 shop.Add<InkDroplet>();
             }
 
