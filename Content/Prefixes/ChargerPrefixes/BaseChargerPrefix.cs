@@ -4,4 +4,5 @@ namespace AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
 
 internal class BaseChargerPrefix : BaseChargeWeaponPrefix
 {
+    public virtual bool LosePiercing => false;
 }
