@@ -29,7 +29,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 50,
                 shotVelocity: 7f);
 
-            Item.damage = 40;
+            Item.damage = 36;
             Item.width = 64;
             Item.height = 34;
             Item.knockBack = 4;
