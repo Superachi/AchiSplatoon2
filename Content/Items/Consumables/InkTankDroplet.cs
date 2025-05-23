@@ -36,8 +36,6 @@ namespace AchiSplatoon2.Content.Items.Consumables
             Item.UseSound = SoundID.Item3;
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-
-            Item.rare = ItemRarityID.Expert;
         }
 
         public override void OnSpawn(IEntitySource source)
