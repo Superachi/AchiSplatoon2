@@ -2399,6 +2399,7 @@ Prefixes: {
 	ExplosivePrefix.DisplayName: Splashing
 	TwinPrefix.DisplayName: Twin
 	LifetimeTooltip: "{0} projectile duration"
+	ShortFusedPrefix.DisplayName: Short-Fused
 }
 
 Configs: {

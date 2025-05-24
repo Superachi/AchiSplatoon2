@@ -125,6 +125,7 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<BigBangPrefix>());
         prefixes.Add(ModContent.PrefixType<ConcentratedPrefix>());
+        prefixes.Add(ModContent.PrefixType<ShortFusedPrefix>());
 
         return prefixes;
     }
@@ -240,6 +241,7 @@ internal class PrefixHelper : ModSystem
             // Blasters
             { typeof(ConcentratedPrefix), ModContent.PrefixType<ConcentratedPrefix>() },
             { typeof(BigBangPrefix), ModContent.PrefixType<BigBangPrefix>() },
+            { typeof(ShortFusedPrefix), ModContent.PrefixType<ShortFusedPrefix>() },
 
             // Sloshers
             { typeof(ResonantPrefix), ModContent.PrefixType<ResonantPrefix>() },

@@ -1,5 +1,6 @@
 ﻿using AchiSplatoon2.Content.Projectiles;
 using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 
 namespace AchiSplatoon2.Content.Prefixes.BlasterPrefixes;
 
@@ -13,7 +14,12 @@ internal class BaseBlasterPrefix : BaseWeaponPrefix
         {
             if (ExplosionRadiusModifier != 0)
             {
-                blasterProjectile.ModifyExplosionRadius(1 + ExplosionRadiusModifier);
+                blasterProjectile.ModifyExplosionRadius(ExplosionRadiusModifier.NormalizePrefixMod());
+            }
+
+            if (LifetimeModifier != 0)
+            {
+                blasterProjectile.ModifyExplosionDelay(LifetimeModifier.NormalizePrefixMod());
             }
         }
     }

@@ -43,6 +43,11 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             explosionRadiusAir = (int)(explosionRadiusAir * modifier);
         }
 
+        public void ModifyExplosionDelay(float modifier)
+        {
+            explosionDelay = (int)(explosionDelay * modifier);
+        }
+
         public override void ApplyWeaponInstanceData()
         {
             base.ApplyWeaponInstanceData();
