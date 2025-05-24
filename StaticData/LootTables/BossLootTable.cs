@@ -73,8 +73,7 @@ namespace AchiSplatoon2.StaticData.LootTables
                 new LootTableIndex(
                 itemId: ModContent.ItemType<OrderEmblem>(),
                 npcId: NPCID.EyeofCthulhu,
-                treasureBagId: ItemID.EyeOfCthulhuBossBag,
-                chanceDenominator: 3)
+                treasureBagId: ItemID.EyeOfCthulhuBossBag)
             );
 
             var bombRushDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
