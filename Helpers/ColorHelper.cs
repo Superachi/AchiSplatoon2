@@ -34,6 +34,7 @@ namespace AchiSplatoon2.Helpers
         public static string TextWithBonusColor(string input) => TextWithColor(input, "63a864");
         public static string TextWithErrorColor(string input) => TextWithColor(input, "f23b55");
         public static string TextWithPearlColor(string input) => TextWithColor(input, "eea39b");
+        public static string TextWithKeybindColor(string input) => TextWithColor(input, "19de98");
 
         public static Color GetInkColor(InkColor enumVal)
         {

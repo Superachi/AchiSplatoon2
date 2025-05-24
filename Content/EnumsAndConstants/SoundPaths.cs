@@ -233,6 +233,12 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string PearlShout2 => FormatPath("Shout2", _directoryPearl);
         public static string PearlShout3 => FormatPath("Shout3", _directoryPearl);
 
+
+        private static readonly string _directorySheldon = "Voice\\Sheldon";
+        public static string SheldonChat1 => FormatPath("Chat1", _directorySheldon);
+        public static string SheldonChat2 => FormatPath("Chat2", _directorySheldon);
+
+
         // Order weapons
         private static readonly string _directoryOrder = "OrderWeapons";
         public static string OrderChargerShoot => FormatPath(nameof(OrderChargerShoot), _directoryOrder);

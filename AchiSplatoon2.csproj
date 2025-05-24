@@ -10,6 +10,8 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Content\CustomNPCs\SheldonNPC.png" />
+	  <None Remove="Content\CustomNPCs\SheldonNPC_Head.png" />
 	  <None Remove="Content\Dusts\BaseDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletDust.png" />
 	  <None Remove="Content\Dusts\SplatterBulletLastingDust.png" />

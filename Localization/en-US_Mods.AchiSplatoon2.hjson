@@ -1647,7 +1647,7 @@ Items: {
 
 	CoralStringer: {
 		UsageHint: Mods.AchiSplatoon2.Items.CoralStringer.UsageHint
-		Flavor: "Try plucking the strings individually!"
+		Flavor: Try plucking the strings individually!
 		DisplayName: Coral Harp
 		Tooltip: ""
 	}
@@ -2325,7 +2325,24 @@ Buffs: {
 	}
 }
 
-NPCs.BrellaShield.DisplayName: Brella Shield
+NPCs: {
+	SheldonNPC: {
+		DisplayName: Sheldon
+
+		TownNPCMood: {
+			Content: Everything is fine! I'm happy to branch my business out to new places!
+			NoHome: This won't do at all! I need a place to set up shop!
+			FarFromHome: I am too far away from my workplace...
+			LoveSpace: I'm loving the space I have here! I can test out weapons to my heart's content!
+			DislikeCrowded: It's getting too crowded around here. It's hard to work like this!
+			HateCrowded: It's too crowded! There's no way to test my weapons safely!
+			LikeNPC_Princess: I like {NPCName}, she always listens to what I have to say about my latest inventions!
+			Princess_LovesNPC: "{NPCName} is a great friend to have! I never would've thought she loves Turf War as much as I do!"
+		}
+
+		Sheldon: Sheldon
+	}
+}
 
 Prefixes: {
 	TurboPrefix.DisplayName: Turbo
