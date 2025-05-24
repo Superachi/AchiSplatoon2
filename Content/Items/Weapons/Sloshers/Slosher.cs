@@ -11,7 +11,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 18;
+            Item.damage = 22;
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 6;
