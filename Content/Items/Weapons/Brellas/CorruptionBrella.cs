@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles.BrellaProjectiles.CorruptionBrellaProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
@@ -53,9 +54,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             CreateRecipe()
                 .AddIngredient(ItemID.Umbrella)
                 .AddIngredient(ItemID.ShadowScale, 15)
-                .AddIngredient(ItemID.Obsidian, 30)
                 .AddIngredient(ItemID.Stinger, 5)
-                .AddIngredient(ItemID.Lens, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
                 .Register();
         }
     }

@@ -1647,7 +1647,7 @@ Items: {
 
 	CoralStringer: {
 		UsageHint: Mods.AchiSplatoon2.Items.CoralStringer.UsageHint
-		Flavor: Mods.AchiSplatoon2.Items.CoralStringer.Flavor
+		Flavor: "Try plucking the strings individually!"
 		DisplayName: Coral Harp
 		Tooltip: ""
 	}

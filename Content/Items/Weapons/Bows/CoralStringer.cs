@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles.StringerProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
@@ -45,19 +46,17 @@ namespace AchiSplatoon2.Content.Items.Weapons.Bows
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.GoldBow, 1)
-                .AddIngredient(ItemID.WhiteString, 2)
-                .AddIngredient(ItemID.Coral, 20)
+                .AddIngredient(ItemID.WhiteString, 3)
+                .AddIngredient(ItemID.Coral, 10)
                 .AddIngredient(ItemID.SharkFin, 1)
-                .AddIngredient(ItemID.FallenStar, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
                 .Register();
 
             CreateRecipe()
-                .AddIngredient(ItemID.PlatinumBow, 1)
-                .AddIngredient(ItemID.WhiteString, 2)
-                .AddIngredient(ItemID.Coral, 20)
+                .AddIngredient(ItemID.WhiteString, 3)
+                .AddIngredient(ItemID.Coral, 10)
                 .AddIngredient(ItemID.SharkFin, 1)
-                .AddIngredient(ItemID.FallenStar, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
                 .Register();
         }
     }

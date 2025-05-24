@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles.SplatanaProjectiles.SkySplatanaProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
@@ -44,10 +45,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.FallenStar, 1)
-                .AddIngredient(ItemID.Topaz, 5)
+                .AddIngredient(ItemID.Topaz, 3)
                 .AddIngredient(ItemID.Feather, 5)
-                .AddIngredient(ItemID.MeteoriteBar, 5)
+                .AddIngredient(ItemID.MeteoriteBar, 8)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
                 .Register();
         }
     }

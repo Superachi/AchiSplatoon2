@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Projectiles.ShooterProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
@@ -36,6 +37,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             Item.knockBack = 5;
             Item.SetValuePreEvilBosses();
         }
-        public override void AddRecipes() { }
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Gel, 99)
+                .AddIngredient(ItemID.WaterGun, 1)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
+                .Register();
+        }
     }
 }
