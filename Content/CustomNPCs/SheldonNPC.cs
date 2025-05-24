@@ -77,7 +77,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
         {
             return new List<string>()
             {
-                "Sheldon",
+                "Sheldon (WIP)",
             };
         }
 

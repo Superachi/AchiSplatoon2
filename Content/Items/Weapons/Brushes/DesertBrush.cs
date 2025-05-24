@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.BrushProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
@@ -6,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brushes
 {
+    [DeveloperContent]
     internal class DesertBrush : BaseBrush
     {
         public override float InkCost { get => 3f; }
