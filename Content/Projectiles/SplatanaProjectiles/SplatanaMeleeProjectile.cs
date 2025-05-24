@@ -84,14 +84,7 @@ namespace AchiSplatoon2.Content.Projectiles.SplatanaProjectiles
             {
                 firstHit = true;
 
-                if (target.life > 0)
-                {
-                    WeakDirectDustBurst(target.Center);
-                }
-                else
-                {
-                    DirectHitDustBurst(target.Center);
-                }
+                PlayCorrectDirectDustBurst(target);
             }
         }
     }

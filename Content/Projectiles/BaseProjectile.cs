@@ -11,6 +11,7 @@ using AchiSplatoon2.Content.Projectiles.LuckyBomb;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -1031,6 +1032,24 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
+    protected void PlayCorrectDirectDustBurst(NPC target)
+    {
+        if (ModContent.GetInstance<ClientConfig>().AlwaysUseCriticalEffectOnDirectHit)
+        {
+            DirectHitDustBurst(target.Center);
+            return;
+        }
+
+        if (target.life > 0)
+        {
+            WeakDirectDustBurst(target.Center);
+        }
+        else
+        {
+            DirectHitDustBurst(target.Center);
+        }
+    }
+
     protected void DirectHitDustBurst(Vector2? position = null)
     {
         if (position == null)
@@ -1072,20 +1091,27 @@ internal class BaseProjectile : ModProjectile
 
             for (int i = 0; i < 7; i++)
             {
-                float hspeed = i * 2f;
-                float vspeed = i / 1.5f;
-                float scale = 2 - (i / 10) * 2;
-                spawnDust(new Vector2(hspeed, 0), scale, inkColor);
-                spawnDust(new Vector2(-hspeed, 0), scale, inkColor);
-                spawnDust(new Vector2(0, vspeed), scale, inkColor);
-                spawnDust(new Vector2(0, -vspeed), scale, inkColor);
+                if (!ModContent.GetInstance<ClientConfig>().DisableDirectHitFlash)
+                {
+                    float hspeed = i * 2f;
+                    float vspeed = i / 1.5f;
+                    float scale = 2 - (i / 10) * 2;
+                    spawnDust(new Vector2(hspeed, 0), scale, inkColor);
+                    spawnDust(new Vector2(-hspeed, 0), scale, inkColor);
+                    spawnDust(new Vector2(0, vspeed), scale, inkColor);
+                    spawnDust(new Vector2(0, -vspeed), scale, inkColor);
+                }
+                
                 spawnDust(Main.rand.NextVector2Circular(32, 32), Main.rand.NextFloat(1.5f, 3f), inkColor);
             }
 
-            var sparkle = CreateChildProjectile<StillSparkleVisual>((Vector2)position, Vector2.Zero, 0, true);
-            sparkle.AdjustRotation(0);
-            sparkle.AdjustColor(ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.3f));
-            sparkle.AdjustScale(1.6f);
+            if (!ModContent.GetInstance<ClientConfig>().DisableDirectHitFlash)
+            {
+                var sparkle = CreateChildProjectile<StillSparkleVisual>((Vector2)position, Vector2.Zero, 0, true);
+                sparkle.AdjustRotation(0);
+                sparkle.AdjustColor(ColorHelper.LerpBetweenColorsPerfect(CurrentColor, Color.White, 0.3f));
+                sparkle.AdjustScale(1.6f);
+            }
         }
     }
 

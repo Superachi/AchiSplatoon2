@@ -184,14 +184,7 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
             {
                 hasHadDirectHit = true;
 
-                if (target.life > 0)
-                {
-                    WeakDirectDustBurst(target.Center);
-                }
-                else
-                {
-                    DirectHitDustBurst(target.Center);
-                }
+                PlayCorrectDirectDustBurst(target);
             }
 
             if (state == stateFly && Projectile.penetrate <= 1)

@@ -34,8 +34,22 @@ namespace AchiSplatoon2.ModConfigs
         [DefaultValue(false)]
         public bool DisableBombRushJingle;
 
+        [DefaultValue(false)]
+        public bool AlwaysUseCriticalEffectOnDirectHit;
+
         [Header("Miscellaneous")]
+
         [DefaultValue(typeof(Color), "255, 25, 75, 255")]
         public Color CustomInkColor;
+
+        [Header("Accessibility")]
+        [DefaultValue(false)]
+        public bool DisableDirectHitFlash;
+
+        [DefaultValue(false)]
+        public bool DisableBrightSparkles;
+
+        [DefaultValue(false)]
+        public bool DisableScreenshake;
     }
 }

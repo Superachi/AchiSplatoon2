@@ -1,11 +1,13 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 {
@@ -179,6 +181,11 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
             for (int i = 0; i < 4; i++)
             {
+                if (ModContent.GetInstance<ClientConfig>().DisableBrightSparkles)
+                {
+                    continue;
+                }
+
                 Main.EntitySpriteDraw(
                     texture: _circleSprite,
                     position: Projectile.Center - Main.screenPosition,
@@ -196,6 +203,11 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
                 {
                     var sparkleColor = ColorHelper.ColorWithAlpha255(i == 2 ? Color.White : CurrentColor) * _alphaMod * 0.7f;
                     if (i == 2) sparkleColor = ColorHelper.ColorWithAlpha255(Color.White) * _alphaMod;
+
+                    if (ModContent.GetInstance<ClientConfig>().DisableBrightSparkles)
+                    {
+                        continue;
+                    }
 
                     Main.EntitySpriteDraw(
                         texture: _sparkleSprite,

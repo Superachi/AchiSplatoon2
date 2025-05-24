@@ -1,11 +1,13 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 {
@@ -34,6 +36,12 @@ namespace AchiSplatoon2.Content.Projectiles.ProjectileVisuals
 
         protected override void AfterSpawn()
         {
+            if (ModContent.GetInstance<ClientConfig>().DisableBrightSparkles)
+            {
+                Projectile.Kill();
+                return;
+            }
+
             dissolvable = false;
             UpdateCurrentColor(Owner.GetModPlayer<ColorChipPlayer>().GetColorFromInkPlayer());
 
