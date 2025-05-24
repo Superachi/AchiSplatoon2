@@ -1,4 +1,5 @@
 using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
+using AchiSplatoon2.ExtensionMethods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,13 +28,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 35,
                 shotVelocity: 11f);
 
-            Item.damage = 24;
+            Item.damage = 22;
             Item.knockBack = 3;
             Item.width = 58;
             Item.height = 38;
-            Item.rare = ItemRarityID.Green;
+            Item.SetValuePreEvilBosses();
         }
 
-        public override void AddRecipes() => base.AddRecipes();
+        public override void AddRecipes() => AddRecipePostEOC();
     }
 }

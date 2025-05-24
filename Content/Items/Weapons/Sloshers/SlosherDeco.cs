@@ -1,11 +1,12 @@
 ﻿using AchiSplatoon2.ExtensionMethods;
 using Terraria;
-using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Sloshers
 {
     internal class SlosherDeco : Slosher
     {
+        public override int ShotCount => 10;
+
         public override void SetDefaults()
         {
             base.SetDefaults();
