@@ -52,29 +52,52 @@ namespace AchiSplatoon2.Content.Buffs
                     tooltip += ColorHelper.TextWithBonusColor($" (+{summonDamageFromMinionSlots}% from added minion slots)");
                 }
             }
-            tooltip += "\n\n";
+            tooltip += "\n";
 
             // Enabled attacks section
-            tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
-
-            if (accPlayer.HasAccessory<LaserAddon>())
+            if (dronePlayer.GetDroneChipCount() > 0)
             {
-                tooltip += ColorHelper.TextWithFunctionalColor("Laser beams!") + "\n";
+                tooltip += ColorHelper.TextWithPearlColor($"Your {dronePlayer.GetDroneChipCount()} Drone Color Chip(s) enable the following abilities:") + "\n";
+
+                var abilityName = "";
+                if (accPlayer.HasAccessory<LaserAddon>())
+                {
+                    tooltip += ColorHelper.TextWithFunctionalColor("Laser beams!") + "\n";
+                }
+                else
+                {
+                    tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
+                }
+
+                abilityName = "Life restoration";
+                if (dronePlayer.IsLifeDropsEnabled)
+                {
+                    tooltip += ColorHelper.TextWithSubWeaponColor(abilityName) + "\n";
+                }
+                else
+                {
+                    tooltip += ColorHelper.TextWithFlavorColor($"{abilityName} (Requires {dronePlayer.MinimumChipsForLifeDrops} chips)") + "\n";
+                }
+
+                abilityName = "Burst Bomb";
+                if (dronePlayer.IsBurstBombEnabled)
+                {
+                    tooltip += ColorHelper.TextWithSubWeaponColor(abilityName) + "\n";
+                }
+                else
+                {
+                    tooltip += ColorHelper.TextWithFlavorColor($"{abilityName} (Requires {dronePlayer.MinimumChipsForBurstBomb} chips)") + "\n";
+                }
+
+                if (dronePlayer.IsKillerWailEnabled)
+                {
+                    tooltip += ColorHelper.TextWithSpecialWeaponColor("Killer Wail 5.1") + $" ({dronePlayer.MinimumChipsForKillerWail}+ chips)" + "\n";
+                }
             }
             else
             {
-                tooltip += ColorHelper.TextWithSubWeaponColor("Sprinkler") + "\n";
-            }
-            tooltip += ColorHelper.TextWithSubWeaponColor("Life drops") + "\n";
-
-            if (dronePlayer.IsBurstBombEnabled)
-            {
-                tooltip += ColorHelper.TextWithSubWeaponColor("Burst Bomb") + $" ({dronePlayer.MinimumChipsForBurstBomb}+ chips)" + "\n";
-            }
-
-            if (dronePlayer.IsKillerWailEnabled)
-            {
-                tooltip += ColorHelper.TextWithSpecialWeaponColor("Killer Wail 5.1") + $" ({dronePlayer.MinimumChipsForKillerWail}+ chips)" + "\n";
+                tooltip += ColorHelper.TextWithErrorColor("Warning: no Drone Color Chips active!") + "\n";
+                tooltip += "When you can, consider collecting them to unleash Pearl's might!" + "\n";
             }
 
             tooltip += "\n";

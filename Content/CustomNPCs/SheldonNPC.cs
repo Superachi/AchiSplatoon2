@@ -16,13 +16,12 @@ using Terraria.Audio;
 using AchiSplatoon2.ModSystems;
 using System.Linq;
 using AchiSplatoon2.Content.CustomConditions;
-using System;
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using AchiSplatoon2.Content.Items.Weapons.Test;
 
 namespace AchiSplatoon2.Content.CustomNPCs
 {
@@ -102,45 +101,6 @@ namespace AchiSplatoon2.Content.CustomNPCs
             return false;
         }
 
-        private string ItemEmoji<T>(bool withName = false) where T : ModItem
-        {
-            return ItemEmoji(ModContent.ItemType<T>());
-        }
-
-        private string ItemEmoji(int type, bool withName = false)
-        {
-            bool isVanilla = ContentSamples.ItemsByType.TryGetValue(type, out var item);
-
-            var itemName = "";
-            if (!isVanilla)
-            {
-                ModItem? modItem = ModContent.GetModItem(type);
-
-                if (modItem == null)
-                {
-                    throw new Exception("ItemEmoji: couldn't find the provided (modded) item type");
-                }
-
-                itemName = modItem.Name;
-            }
-            else
-            {
-                if (item == null)
-                {
-                    throw new Exception("ItemEmoji: couldn't find the provided (vanilla) item type");
-                }
-
-                itemName = item.Name;
-            }
-
-            if (withName)
-            {
-                return $"[i:{type}] {itemName}";
-            }
-
-            return $"[i:{type}]";
-        }
-
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
@@ -157,24 +117,24 @@ namespace AchiSplatoon2.Content.CustomNPCs
             // Ink tank upgrade hint
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<InkTank>()))
             {
-                hints.Add($"Did you know you can upgrade your {ItemEmoji<InkTank>()}? You can combine it with {ItemEmoji(ItemID.FallenStar)} and {ItemEmoji(ItemID.DemoniteBar)} or {ItemEmoji(ItemID.CrimtaneBar)}, increasing its capacity and allowing you to fire ink underwater!");
+                hints.Add($"Did you know you can upgrade your {TextHelper.ItemEmoji<InkTank>()}? You can combine it with {TextHelper.ItemEmoji(ItemID.FallenStar)} and {TextHelper.ItemEmoji(ItemID.DemoniteBar)} or {TextHelper.ItemEmoji(ItemID.CrimtaneBar)}, increasing its capacity and allowing you to fire ink underwater!");
             }
 
             if (!Condition.DownedEyeOfCthulhu.IsMet())
             {
                 // Order weapons
-                hints.Add($"You can craft more Order weapons after obtaining some {ItemEmoji(ItemID.SilverBar)} or {ItemEmoji(ItemID.TungstenBar)}, a gem, like {ItemEmoji(ItemID.Amethyst)}, and some {ItemEmoji<InkDroplet>()}!");
+                hints.Add($"You can craft more Order weapons after obtaining some {TextHelper.ItemEmoji(ItemID.SilverBar)} or {TextHelper.ItemEmoji(ItemID.TungstenBar)}, a gem, like {TextHelper.ItemEmoji(ItemID.Amethyst)}, and some {TextHelper.ItemEmoji<InkDroplet>()}!");
             }
             else
             {
                 // Pearl drone hint
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ColorChipAqua>()))
                 {
-                    hints.Add($"Are you looking for " + ColorHelper.TextWithPearlColor("Pearl Drone") + $"? You can use {ItemEmoji(ItemID.MeteoriteBar)} to craft {ItemEmoji<ColorChipAqua>()}! Carrying one in your inventory, while having the {ItemEmoji<ChipPalette>()} equipped in an accessory slot, will summon her!");
+                    hints.Add($"Are you looking for " + ColorHelper.TextWithPearlColor("Pearl Drone") + $"You can use a {TextHelper.ItemEmoji<PearlDroneStaff>()}, obtained after splatting the fearsome Eye of Cthulhu!");
                 }
 
                 // Unique weapons
-                hints.Add($"There are some items out there that elude even my own research! What I HAVE learned is that {ItemEmoji<InkDroplet>()} can be used for many things...");
+                hints.Add($"There are some items out there that elude even my own research! What I HAVE learned is that {TextHelper.ItemEmoji<InkDroplet>()} can be used for many things...");
             }
 
             if (!BossConditions.DownedEvilBoss.IsMet())
@@ -184,7 +144,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
 
                 if (success)
                 {
-                    hints.Add($"You can use your sub weapon by pressing {subKeybindText}! A {ItemEmoji<StarterSplatBomb>()} for example, consumes a lot of ink, but potentially damages many targets within its range!");
+                    hints.Add($"You can use your sub weapon by pressing {subKeybindText}! A {TextHelper.ItemEmoji<StarterSplatBomb>()} for example, consumes a lot of ink, but potentially damages many targets within its range!");
                 }
                 else
                 {
@@ -216,32 +176,34 @@ namespace AchiSplatoon2.Content.CustomNPCs
                 }
 
                 // Inkzooka
-                hints.Add($"Have you tried the {ItemEmoji<Inkzooka>()} yet? It's great in a pinch, as it unleashes fast whirlpools that pierce enemies and terrain, dealing massive damage!");
+                hints.Add($"Have you tried the {TextHelper.ItemEmoji<Inkzooka>()} yet? It's great in a pinch, as it unleashes fast whirlpools that pierce enemies and terrain, dealing massive damage!");
             }
             else
             {
                 if (!Condition.Hardmode.IsMet())
                 {
                     // Meteor progression hint
-                    hints.Add($"Now that you've splatted the boss from the evil biome, you could look for a landed meteor! {ItemEmoji(ItemID.MeteoriteBar)} can be used to craft powerful weapons, and even variations of {ItemEmoji<ColorChipEmpty>()}!");
+                    var bossName = Condition.CorruptWorld.IsMet() ? "Eater of Worlds" : "Brain of Cthulhu";
+
+                    hints.Add($"Now that you've splatted the {bossName}, you could look for a landed meteor! {TextHelper.ItemEmoji(ItemID.MeteoriteBar)} can be used to craft powerful weapons, and even variations of {TextHelper.ItemEmoji<ColorChipEmpty>()}!");
                 }
 
                 // Mobility chip hint
-                hints.Add($"Besides splatting enemies, there are other ways to charge your special guage! {ItemEmoji<ColorChipBlue>()} can charge up the guage while running with a roller or brush out.");
+                hints.Add($"Besides splatting enemies, there are other ways to charge your special guage! {TextHelper.ItemEmoji<ColorChipBlue>()} can charge up the guage while running with a roller or brush out.");
             }
 
             if (!Condition.DownedQueenBee.IsMet())
             {
-                hints.Add($"The Queen Bee is a formiddable foe, but splatting her grants you access to weapons like the {ItemEmoji<SplatanaWiper>()}, and she even has something that  " + ColorHelper.TextWithPearlColor("Pearl") + " will certainly like...");
+                hints.Add($"The Queen Bee is a formiddable foe, but splatting her grants you access to weapons like the {TextHelper.ItemEmoji<SplatanaWiper>()}, and she even has something that  " + ColorHelper.TextWithPearlColor("Pearl") + " will certainly like...");
 
-                hints.Add($"Have you been to the Jungle yet? There are some materials there that you could use to upgrade your {ItemEmoji<InkTank>()}!");
+                hints.Add($"Have you been to the Jungle yet? There are some materials there that you could use to upgrade your {TextHelper.ItemEmoji<InkTank>()}!");
             }
 
             // Hardmode
             if (Condition.Hardmode.IsMet())
             {
                 // Mimic hint
-                hints.Add($"It's worth hunting down mimics in the underground! Small mimics drop {ItemEmoji<MainSaverEmblem>()} and {ItemEmoji<SubSaverEmblem>()}, while large ones can drop {ItemEmoji<LastDitchEffortEmblem>()} and other accessories!");
+                hints.Add($"It's worth hunting down mimics in the underground! Small mimics drop {TextHelper.ItemEmoji<MainSaverEmblem>()} and {TextHelper.ItemEmoji<SubSaverEmblem>()}, while large ones can drop {TextHelper.ItemEmoji<LastDitchEffortEmblem>()} and other accessories!");
 
                 // Shimmer hint
                 hints.Add($"I've received word that there is a liquid that has transformative effects on items! I wonder if it could work with your weapons?");
@@ -249,7 +211,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
                 if (!Condition.DownedMechBossAny.IsMet())
                 {
                     // Ore hint
-                    hints.Add($"Don't skip out on mining valuable ore! I'm talking about things like {ItemEmoji(ItemID.CobaltOre)}. You can actually use those to make stronger versions of weapons you might be familiar with!");
+                    hints.Add($"Don't skip out on mining valuable ore! I'm talking about things like {TextHelper.ItemEmoji(ItemID.CobaltOre)}. You can actually use those to make stronger versions of weapons you might be familiar with!");
                 }
                 else
                 {
@@ -258,7 +220,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
 
                 if (Condition.DownedMechBossAll.IsMet())
                 {
-                    hints.Add($"According to my research, you should be able to upgrade some of your existing weapons using {ItemEmoji(ItemID.ChlorophyteBar)}! For example, you can upgrade the {ItemEmoji<JetSquelcher>()} into a pair of {ItemEmoji<DualieSquelcher>()}!");
+                    hints.Add($"According to my research, you should be able to upgrade some of your existing weapons using {TextHelper.ItemEmoji(ItemID.ChlorophyteBar)}! For example, you can upgrade the {TextHelper.ItemEmoji<JetSquelcher>()} into a pair of {TextHelper.ItemEmoji<DualieSquelcher>()}!");
                 }
             }
 

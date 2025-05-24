@@ -118,6 +118,12 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
         }
 
+        public override void OnKill(int timeLeft)
+        {
+            Owner.GetModPlayer<PearlDronePlayer>().DeactivateDrone();
+            base.OnKill(timeLeft);
+        }
+
         protected override void SetState(int targetState)
         {
             base.SetState(targetState);
@@ -244,10 +250,10 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 }
             }
 
-            if (idleTime >= 60 * 30)
+            if (idleTime >= 60 * 20)
             {
                 TriggerDialoguePearlIdle();
-                idleTime -= 60 * 60;
+                idleTime -= 60 * 40;
             }
         }
 
@@ -611,6 +617,20 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             PlaySpeechSample(talkSample, talkSampleCount);
         }
 
+        public void TriggerDialoguePearlRedundantSummon()
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            if (Main.rand.NextBool(3))
+            {
+                var list = PearlRedundantSummonQuotes();
+                if (list.Count == 0) return;
+
+                Speak(list);
+                PlaySpeechSample(talkSample, talkSampleCount);
+            }
+        }
+
         public void TriggerDialoguePearlHealing()
         {
             if (speechCooldownCurrent > 0) return;
@@ -828,7 +848,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "I gotchu!",
                 "Careful!",
                 "Need a heal?",
-                "This way! Heal!",
+                "This way!",
                 "Get a life!",
                 "Heal up!",
             };
@@ -891,6 +911,20 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             }
 
             return strings;
+        }
+
+        private List<string> PearlRedundantSummonQuotes()
+        {
+            return new List<string>
+            {
+                $"Yo, I'm here already!",
+                "You already summoned me, bro.",
+                "What?",
+                "'Sup?",
+                "I'm here!",
+                "I know I'm awesome, but sadly there's only one of me!",
+                "Look man, 'Rina hasn't invented cloning... yet.",
+            };
         }
 
         #endregion

@@ -1,17 +1,26 @@
 ﻿using AchiSplatoon2.Attributes;
-using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
-using Microsoft.Xna.Framework;
+using AchiSplatoon2.Content.Items.Accessories.ColorChips;
+using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Helpers;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Test
 {
-    [DeveloperContent]
     internal class PearlDroneStaff : BaseWeapon
     {
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var tip = "Summons Pearl Drone to your side!";
+            tooltips.Add(new TooltipLine(Mod, "PearlSummonA", tip) { OverrideColor = null });
+
+            tip = $"Tip: entering the world with a {TextHelper.ItemEmoji<ColorChipAqua>(true)} in your inventory summons " + ColorHelper.TextWithPearlColor("Pearl") + " automatically";
+            tooltips.Add(new TooltipLine(Mod, "PearlSummonB", tip) { OverrideColor = null });
+        }
+
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
@@ -22,31 +31,35 @@ namespace AchiSplatoon2.Content.Items.Weapons.Test
 
         public override void SetDefaults()
         {
-            Item.damage = 30;
-            Item.knockBack = 3f;
-            Item.mana = 10;
             Item.width = 42;
             Item.height = 42;
-            Item.useTime = 30;
+
+            Item.useTime = 20;
             Item.useAnimation = Item.useTime;
-            Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item44;
+
+            Item.useStyle = ItemUseStyleID.Swing;
 
             Item.noMelee = true;
             Item.DamageType = DamageClass.Summon;
-            Item.buffType = ModContent.BuffType<PearlDroneBuff>();
-            Item.shoot = ModContent.ProjectileType<PearlDroneMinion>();
+
+            Item.SetValuePreEvilBosses();
+            Item.rare = ItemRarityID.Expert;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override bool? UseItem(Player player)
         {
-            position = Main.MouseWorld;
+            player.GetModPlayer<PearlDronePlayer>().SpawnPearlDroneViaStaff();
+            return true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool CanReforge()
         {
-            player.AddBuff(Item.buffType, 2);
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            return false;
+        }
+
+        public override bool AllowPrefix(int pre)
+        {
+            return false;
         }
     }
 }

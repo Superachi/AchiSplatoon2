@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static AchiSplatoon2.Content.Players.ColorChipPlayer;
@@ -27,8 +28,10 @@ namespace AchiSplatoon2.Content.Players
         public int SprinklerBaseArmorPenetration { get; private set; } = 10;
         public int BurstBombBaseDamage { get; private set; } = 20;
         public int KillerWailBaseDamage { get; private set; } = 15;
+        public int MinimumChipsForLifeDrops => 2;
         public int MinimumChipsForBurstBomb => 4;
-        public int MinimumChipsForKillerWail => 8;
+        public int MinimumChipsForKillerWail => 99;
+        public bool IsLifeDropsEnabled => GetDroneChipCount() >= MinimumChipsForLifeDrops;
         public bool IsBurstBombEnabled => GetDroneChipCount() >= MinimumChipsForBurstBomb;
         public bool IsKillerWailEnabled => GetDroneChipCount() >= MinimumChipsForKillerWail;
         public bool IsLaserSprinklerEnabled => Player.GetModPlayer<AccessoryPlayer>().HasAccessory<LaserAddon>();
@@ -39,6 +42,7 @@ namespace AchiSplatoon2.Content.Players
         // Misc.
         private bool isDroneActive = false;
         private readonly string droneName = "Pearl Drone";
+        private bool _loadedWorld = false;
 
         // Usage stats
         public int DamageDealt => damageDealt;
@@ -49,8 +53,11 @@ namespace AchiSplatoon2.Content.Players
 
         public override void PreUpdate()
         {
-            if (!NetHelper.IsPlayerSameAsLocalPlayer(Player)) return;
-            UpdateDroneExistence();
+            if (!_loadedWorld && Player.miscCounter > 3)
+            {
+                _loadedWorld = true;
+                UpdateDroneExistence();
+            }
         }
 
         public override void OnRespawn()
@@ -173,6 +180,11 @@ namespace AchiSplatoon2.Content.Players
                     break;
             }
 
+            if (GetDroneChipCount() == 0)
+            {
+                baseDamage *= 0.5f;
+            }
+
             baseDamage *= GetSummonDamageModifier();
             return (int)baseDamage;
         }
@@ -262,9 +274,58 @@ namespace AchiSplatoon2.Content.Players
             return drone != null;
         }
 
+        public void SpawnPearlDroneViaStaff()
+        {
+            if (DroneExists(out PearlDroneMinion? drone) && drone != null)
+            {
+                if (drone.timeSpentAlive > 180)
+                {
+                    drone.TriggerDialoguePearlRedundantSummon();
+                }
+            }
+            else
+            {
+                var newDrone = SpawnPearlDrone();
+            }
+
+            SoundHelper.PlayAudio(SoundID.Item4);
+            SoundHelper.PlayAudio(SoundID.Item30);
+            SoundHelper.PlayAudio(SoundID.Item60, volume: 0.3f, pitchVariance: 0.3f);
+        }
+
+        private PearlDroneMinion SpawnPearlDrone()
+        {
+            isDroneActive = true;
+            Player.AddBuff(ModContent.BuffType<PearlDroneBuff>(), 2);
+
+            var projectile = Projectile.NewProjectileDirect(
+                spawnSource: Player.GetSource_None(),
+                position: Player.Center,
+                velocity: Vector2.Zero,
+                type: ModContent.ProjectileType<PearlDroneMinion>(),
+                damage: 0,
+                knockback: 0,
+                owner: Player.whoAmI);
+
+            var drone = projectile.ModProjectile as PearlDroneMinion ??
+                throw new NullReferenceException($"Tried to cast drone projectile to type {nameof(PearlDroneMinion)}, but the result was null");
+
+            drone.WeaponInstance = (PearlDroneStaff)Activator.CreateInstance(typeof(PearlDroneStaff))!;
+            drone.itemIdentifier = ModContent.ItemType<PearlDroneStaff>();
+            drone.RunSpawnMethods();
+
+            return drone;
+        }
+
+        public void DeactivateDrone()
+        {
+            damageDealt = 0;
+            isDroneActive = false;
+        }
+
         private void UpdateDroneExistence()
         {
-            if (Player.dead) isDroneActive = false;
+            if (Player.dead) DeactivateDrone();
 
             if (!isDroneActive)
             {
@@ -272,24 +333,7 @@ namespace AchiSplatoon2.Content.Players
                 {
                     if (GetPlayerDrone() == null)
                     {
-                        isDroneActive = true;
-                        Player.AddBuff(ModContent.BuffType<PearlDroneBuff>(), 2);
-
-                        var projectile = Projectile.NewProjectileDirect(
-                            spawnSource: Player.GetSource_None(),
-                            position: Player.Center,
-                            velocity: Vector2.Zero,
-                            type: ModContent.ProjectileType<PearlDroneMinion>(),
-                            damage: 0,
-                            knockback: 0,
-                            owner: Player.whoAmI);
-
-                        var drone = projectile.ModProjectile as PearlDroneMinion ??
-                            throw new NullReferenceException($"Tried to cast drone projectile to type {nameof(PearlDroneMinion)}, but the result was null");
-
-                        drone.WeaponInstance = (PearlDroneStaff)Activator.CreateInstance(typeof(PearlDroneStaff))!;
-                        drone.itemIdentifier = ModContent.ItemType<PearlDroneStaff>();
-                        drone.RunSpawnMethods();
+                        SpawnPearlDrone();
                     }
                 }
             }
@@ -302,9 +346,6 @@ namespace AchiSplatoon2.Content.Players
                     {
                         drone.Projectile.Kill();
                     }
-
-                    damageDealt = 0;
-                    isDroneActive = false;
                 }
             }
         }

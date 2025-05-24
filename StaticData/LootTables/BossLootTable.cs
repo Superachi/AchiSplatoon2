@@ -9,6 +9,7 @@ using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
+using AchiSplatoon2.Content.Items.Weapons.Test;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -72,6 +73,13 @@ namespace AchiSplatoon2.StaticData.LootTables
             bossLootList.Add(
                 new LootTableIndex(
                 itemId: ModContent.ItemType<OrderEmblem>(),
+                npcId: NPCID.KingSlime,
+                treasureBagId: ItemID.KingSlimeBossBag)
+            );
+
+            bossLootList.Add(
+                new LootTableIndex(
+                itemId: ModContent.ItemType<PearlDroneStaff>(),
                 npcId: NPCID.EyeofCthulhu,
                 treasureBagId: ItemID.EyeOfCthulhuBossBag)
             );

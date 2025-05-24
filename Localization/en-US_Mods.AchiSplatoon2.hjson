@@ -1443,7 +1443,8 @@ Items: {
 	}
 
 	PearlDroneStaff: {
-		DisplayName: Pearl Drone Test Staff
+		DisplayName: Staff of Pearlescent Assistance
+		Flavor: Y'all know what time it is!
 		Tooltip: ""
 	}
 
@@ -2468,22 +2469,22 @@ Configs: {
 
 		AlwaysUseCriticalEffectOnDirectHit: {
 			Label: Always use critical visual effect on direct hit (Chargers, Blasters, etc.)
-			Tooltip: "When landing a direct hit, always play the critical hit similar to how it works in Splatoon."
+			Tooltip: When landing a direct hit, always play the critical hit similar to how it works in Splatoon.
 		}
 
 		DisableDirectHitFlash: {
 			Label: Disable Direct Hit Flash
-			Tooltip: "This disables the bright flash displayed when landing a direct hit."
+			Tooltip: This disables the bright flash displayed when landing a direct hit.
 		}
 
 		DisableBrightSparkles: {
 			Label: Disable Bright Sparkles
-			Tooltip: "This disables sparkles from being shown at all. Not just for direct hits, but also for when your weapon is charged and other effects."
+			Tooltip: This disables sparkles from being shown at all. Not just for direct hits, but also for when your weapon is charged and other effects.
 		}
 
 		DisableScreenshake: {
 			Label: Disable Screenshake
-			Tooltip: "This disables screenshake produced by direct hits, certain sub weapons and more (as long as it's caused by this mod!)"
+			Tooltip: This disables screenshake produced by direct hits, certain sub weapons and more (as long as it's caused by this mod!)
 		}
 	}
 }
