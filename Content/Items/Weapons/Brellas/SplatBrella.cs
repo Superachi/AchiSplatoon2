@@ -28,6 +28,6 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.SetValuePostEvilBosses();
         }
 
-        public override void AddRecipes() => AddRecipePostBee();
+        public override void AddRecipes() => AddRecipeMeteorite();
     }
 }
