@@ -6,6 +6,5 @@ namespace AchiSplatoon2.Content.Items.Armors.AgentEight
     [AutoloadEquip(EquipType.Body)]
     internal class EightSuit : EightItem
     {
-        public override void AddRecipes() => AddRecipeWithSheldonLicenseBasic();
     }
 }

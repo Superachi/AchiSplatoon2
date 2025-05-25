@@ -1,26 +1,23 @@
 ﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.ExtensionMethods;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Armors.AgentEight
+namespace AchiSplatoon2.Content.Items.Armors.Vanity
 {
-    [Autoload(false)]
-    internal class EightItem : BaseItem
+    [Autoload(true)]
+    [AutoloadEquip(EquipType.Head)]
+    internal class BambooHat : BaseVanityItem
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            base.SetDefaults();
-
-            Item.vanity = true;
-            Item.SetValueVanity();
+            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient(ItemID.BambooBlock, 30)
+                .AddIngredient(ItemID.Silk, 5)
                 .AddIngredient(ModContent.ItemType<InkDroplet>(), 25)
                 .AddTile(TileID.Loom)
                 .Register();

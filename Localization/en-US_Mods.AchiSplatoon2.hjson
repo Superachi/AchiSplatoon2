@@ -2126,6 +2126,33 @@ Items: {
 			{$Reusable.Tooltip}
 			'''
 	}
+	BambooHat: {
+		UsageHint: Mods.AchiSplatoon2.Items.BambooHat.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.BambooHat.Flavor
+		DisplayName: Bamboo Hat
+		Tooltip: ""
+	}
+
+	EnchantedHat: {
+		UsageHint: Mods.AchiSplatoon2.Items.EnchantedHat.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.EnchantedHat.Flavor
+		DisplayName: Enchanted Hat
+		Tooltip: ""
+	}
+
+	MarinatedHeadphones: {
+		UsageHint: Mods.AchiSplatoon2.Items.MarinatedHeadphones.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.MarinatedHeadphones.Flavor
+		DisplayName: Marinated Headphones
+		Tooltip: ""
+	}
+
+	PearlescentCrown: {
+		UsageHint: Mods.AchiSplatoon2.Items.PearlescentCrown.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.PearlescentCrown.Flavor
+		DisplayName: Pearlescent Crown
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
