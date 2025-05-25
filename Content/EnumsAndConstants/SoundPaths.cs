@@ -88,6 +88,8 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         public static string ReefluxShoot => FormatPath(nameof(ReefluxShoot));
         public static string ReefluxShootWeak => FormatPath(nameof(ReefluxShootWeak));
         public static string SBlastShoot => FormatPath(nameof(SBlastShoot));
+        public static string ShellOutCapsuleBounce => FormatPath(nameof(ShellOutCapsuleBounce));
+        public static string ShellOutCapsuleOpen => FormatPath(nameof(ShellOutCapsuleOpen));
         public static string Silence => FormatPath(nameof(Silence));
         public static string SlosherShoot => FormatPath(nameof(SlosherShoot));
         public static string SlosherShootAlt => FormatPath(nameof(SlosherShootAlt));

@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
 using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Consumables;
+using AchiSplatoon2.Content.Items.Consumables.ShellOutCapsules;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
@@ -134,11 +135,18 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
             }
 
-            npcLoot.Add(ItemDropRule.Common(
+            npcLoot.Add(
+                ItemDropRule.Common(
                 ModContent.ItemType<InkDroplet>(),
-                chanceDenominator: 150,
+                chanceDenominator: 200,
                 minimumDropped: 3,
                 maximumDropped: 8));
+
+            npcLoot.Add(
+                ItemDropRule.Common(
+                ModContent.ItemType<ShellOutCapsule>(),
+                chanceDenominator: 500,
+                minimumDropped: 3));
         }
     }
 }

@@ -2126,6 +2126,14 @@ Items: {
 			{$Reusable.Tooltip}
 			'''
 	}
+
+	ShellOutCapsule: {
+		UsageHint: Throw this to gain a random prize!
+		Flavor: Remember, the house *always* wins. No refunds!
+		DisplayName: Shell-Out Capsule
+		Tooltip: ""
+	}
+
 	BambooHat: {
 		UsageHint: Mods.AchiSplatoon2.Items.BambooHat.UsageHint
 		Flavor: Mods.AchiSplatoon2.Items.BambooHat.Flavor
@@ -2294,6 +2302,7 @@ Projectiles: {
 	DesertBrushSwingProjectile.DisplayName: Desert Brush Swing Projectile
 	DesertBrushDashProjectile.DisplayName: Desert Brush Dash Projectile
 	UrchinEmblemProjectile.DisplayName: Urchin Emblem Projectile
+	ShellOutCapsuleProjectile.DisplayName: Shell Out Capsule Projectile
 }
 
 Buffs: {
