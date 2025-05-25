@@ -146,7 +146,8 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 ItemDropRule.Common(
                 ModContent.ItemType<ShellOutCapsule>(),
                 chanceDenominator: 500,
-                minimumDropped: 3));
+                minimumDropped: 3,
+                maximumDropped: 3));
         }
     }
 }
