@@ -684,6 +684,17 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
             PlaySpeechSample(talkSample, talkSampleCount);
         }
 
+        public void TriggerDialogueShellOutLuck()
+        {
+            if (speechCooldownCurrent > 0) return;
+
+            var list = PearlShellOutLuckQuotes();
+            if (list.Count == 0) return;
+
+            Speak(list);
+            PlaySpeechSample(talkSample, talkSampleCount);
+        }
+
         private void Speak(string message)
         {
             if (ModContent.GetInstance<ClientConfig>().SilentPearlDrone) return;
@@ -924,6 +935,18 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "I'm here!",
                 "I know I'm awesome, but sadly there's only one of me!",
                 "Look man, 'Rina hasn't invented cloning... yet.",
+            };
+        }
+
+        private List<string> PearlShellOutLuckQuotes()
+        {
+            return new List<string>
+            {
+                $"What's it gunna be?!",
+                "Lucky you!",
+                "Oh squid!",
+                "What's inside?!",
+                "Yo, for eel?!",
             };
         }
 

@@ -1,4 +1,4 @@
-using AchiSplatoon2.Content.Buffs;
+﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Weapons.Test;
@@ -274,6 +274,12 @@ namespace AchiSplatoon2.Content.Players
         {
             if (!DroneExists(out var drone)) return;
             drone!.TriggerDialoguePlayerActivatesSpecial(heldItemId);
+        }
+
+        public void TriggerDialogueShellOutLuck()
+        {
+            if (!DroneExists(out var drone)) return;
+            drone!.TriggerDialogueShellOutLuck();
         }
 
         #endregion
