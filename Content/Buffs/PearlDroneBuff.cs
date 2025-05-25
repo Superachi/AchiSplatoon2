@@ -38,12 +38,15 @@ namespace AchiSplatoon2.Content.Buffs
             var summonDamageBonus = (int)((dronePlayer.GetSummonDamageModifier() - 1) * 100);
             var summonDamageFromMinionSlots = (int)(dronePlayer.CountedMinionSlots() * dronePlayer.DamageBonusPerMinionSlot * 100);
 
-            if (!colorChipPlayer.IsPaletteValid()) return;
-
             // Stat bonus section
             string tooltip = ColorHelper.TextWithPearlColor("Pearl is supporting you!") + "\n";
             tooltip += "Power level:" + ColorHelper.TextWithBonusColor($" {dronePlayer.PowerLevel}") + ColorHelper.TextWithFlavorColor(" (boosts attack damage and flight speed)") + "\n";
-            tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(colorChipPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
+
+            if (dronePlayer.GetDroneChipCount() > 0)
+            {
+                tooltip += "Drone Color Chip attack speed bonus:" + ColorHelper.TextWithBonusColor($" {(int)(colorChipPlayer.CalculateDroneAttackCooldownReduction() * 100)}%") + "\n";
+            }
+
             if (summonDamageBonus > 0)
             {
                 tooltip += "Summon damage bonus from gear:" + ColorHelper.TextWithBonusColor($" {summonDamageBonus}%");
@@ -52,7 +55,7 @@ namespace AchiSplatoon2.Content.Buffs
                     tooltip += ColorHelper.TextWithBonusColor($" (+{summonDamageFromMinionSlots}% from added minion slots)");
                 }
             }
-            tooltip += "\n";
+            tooltip += "\n\n";
 
             // Enabled attacks section
             if (dronePlayer.GetDroneChipCount() > 0)
