@@ -111,7 +111,7 @@ namespace AchiSplatoon2.ExtensionMethods
         /// <param name="baseItem"></param>
         internal static void SetValueVanity(this Item item)
         {
-            item.rare = ItemRarityID.Blue;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(silver: 10);
         }
 
