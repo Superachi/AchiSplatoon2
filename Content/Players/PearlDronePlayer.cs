@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Weapons.Test;
@@ -151,6 +151,11 @@ namespace AchiSplatoon2.Content.Players
 
         public int GetDroneChipCount()
         {
+            if (!Player.GetModPlayer<ColorChipPlayer>().IsPaletteValid())
+            {
+                return 0;
+            }
+
             return colorChipPlayer.ColorChipAmounts[(int)ChipColor.Aqua];
         }
 
@@ -241,6 +246,11 @@ namespace AchiSplatoon2.Content.Players
 
         private float GetDroneAttackCooldownReduction()
         {
+            if (!Player.GetModPlayer<ColorChipPlayer>().IsPaletteValid())
+            {
+                return 0f;
+            }
+
             return colorChipPlayer.CalculateDroneAttackCooldownReduction();
         }
 
