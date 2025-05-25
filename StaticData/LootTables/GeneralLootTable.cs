@@ -59,21 +59,21 @@ namespace AchiSplatoon2.StaticData.LootTables
                 new LootTableIndex(
                     itemId: ModContent.ItemType<FireGradientVial>(),
                     npcId: NPCID.LavaSlime,
-                    chanceDenominator: 20)
+                    chanceDenominator: 50)
                 );
 
             list.Add(
                 new LootTableIndex(
                     itemId: ModContent.ItemType<RainbowGradientVial>(),
                     npcId: NPCID.RainbowSlime,
-                    chanceDenominator: 10)
+                    chanceDenominator: 20)
                 );
 
             list.Add(
                 new LootTableIndex(
                     itemId: ModContent.ItemType<WaterGradientVial>(),
                     npcId: NPCID.IceSlime,
-                    chanceDenominator: 20)
+                    chanceDenominator: 50)
                 );
 
             return list;
