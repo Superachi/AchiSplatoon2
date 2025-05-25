@@ -22,6 +22,7 @@ using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Test;
+using AchiSplatoon2.Content.Items.Consumables.ShellOutCapsules;
 
 namespace AchiSplatoon2.Content.CustomNPCs
 {
@@ -130,7 +131,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
                 // Pearl drone hint
                 if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ColorChipAqua>()))
                 {
-                    hints.Add($"Are you looking for " + ColorHelper.TextWithPearlColor("Pearl Drone") + $"You can use a {TextHelper.ItemEmoji<PearlDroneStaff>()}, obtained after splatting the fearsome Eye of Cthulhu!");
+                    hints.Add($"Are you looking for " + ColorHelper.TextWithPearlColor("Pearl Drone") + $"? You can use a {TextHelper.ItemEmoji<PearlDroneStaff>()}, obtained after splatting the fearsome Eye of Cthulhu!");
                 }
 
                 // Unique weapons
@@ -190,6 +191,12 @@ namespace AchiSplatoon2.Content.CustomNPCs
 
                 // Mobility chip hint
                 hints.Add($"Besides splatting enemies, there are other ways to charge your special guage! {TextHelper.ItemEmoji<ColorChipBlue>()} can charge up the guage while running with a roller or brush out.");
+
+                // Shell-Out Capsule hint
+                if (!Main.LocalPlayer.HasItem(ModContent.ItemType<ShellOutCapsule>()))
+                {
+                    hints.Add($"Do you happen to have too many {TextHelper.ItemEmoji<SheldonLicense>()}? You can craft them into {TextHelper.ItemEmoji<ShellOutCapsule>()}! These can drop practically anything! ...If you're lucky.");
+                }
             }
 
             if (!Condition.DownedQueenBee.IsMet())

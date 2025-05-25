@@ -946,7 +946,7 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 "Lucky you!",
                 "Oh squid!",
                 "What's inside?!",
-                "Yo, for eel?!",
+                "No way!",
             };
         }
 
