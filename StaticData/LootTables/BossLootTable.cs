@@ -119,12 +119,19 @@ namespace AchiSplatoon2.StaticData.LootTables
             );
 
             // Unique drops - HARDMODE
-            var droneDiscBDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+            bossLootList.Add(
+                new LootTableIndex(
                 itemId: ModContent.ItemType<DroneDiscB>(),
-                npcIdAndBagId: BossBagAssociations.MechBosses(),
-                chanceDenominator: 5);
+                npcId: NPCID.QueenSlimeBoss,
+                treasureBagId: ItemID.QueenSlimeBossBag)
+            );
 
-            foreach (var index in droneDiscBDrops) bossLootList.Add(index);
+            bossLootList.Add(
+                new LootTableIndex(
+                itemId: ModContent.ItemType<DroneDiscC>(),
+                npcId: NPCID.Plantera,
+                treasureBagId: ItemID.PlanteraBossBag)
+            );
 
             bossLootList.Add(
                 new LootTableIndex(
