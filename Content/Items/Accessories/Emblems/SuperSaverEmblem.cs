@@ -40,9 +40,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
                 .AddIngredient(ModContent.ItemType<MainSaverEmblem>())
                 .AddIngredient(ModContent.ItemType<SubSaverEmblem>())
                 .AddIngredient(ModContent.ItemType<LastDitchEffortEmblem>())
-                .AddIngredient(ItemID.SoulofLight, 10)
-                .AddIngredient(ItemID.SoulofNight, 10)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }
     }
