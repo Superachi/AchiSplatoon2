@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.CustomConditions;
 using AchiSplatoon2.Content.CustomNPCs;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;

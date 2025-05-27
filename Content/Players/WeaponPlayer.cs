@@ -1,5 +1,5 @@
 ﻿using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;

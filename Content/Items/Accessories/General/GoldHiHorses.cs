@@ -5,7 +5,7 @@ using Terraria.Localization;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.General
 {
     internal class GoldHiHorses : BaseAccessory
     {

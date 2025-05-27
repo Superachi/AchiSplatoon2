@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;

@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories;
+﻿using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.Minions.PearlDrone;
 using AchiSplatoon2.Helpers;

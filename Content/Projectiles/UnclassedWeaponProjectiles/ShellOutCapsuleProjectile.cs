@@ -1,7 +1,7 @@
 ﻿using AchiSplatoon2.Content.CustomConditions;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Armors.Vanity;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;

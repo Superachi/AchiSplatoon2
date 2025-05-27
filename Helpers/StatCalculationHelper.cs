@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Attributes;
 using AchiSplatoon2.Content.Buffs;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;

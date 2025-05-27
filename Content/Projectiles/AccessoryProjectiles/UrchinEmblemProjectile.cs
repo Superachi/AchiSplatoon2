@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using AchiSplatoon2.Content.Items.Accessories.General;
 
 namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {

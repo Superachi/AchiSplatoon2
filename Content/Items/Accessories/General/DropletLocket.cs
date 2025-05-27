@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.General
 {
     internal class DropletLocket : BaseAccessory
     {
@@ -33,7 +33,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                player.GetDamage(DamageClass.Magic) *= (1 + MagicDamageMod());
+                player.GetDamage(DamageClass.Magic) *= 1 + MagicDamageMod();
             }
         }
 

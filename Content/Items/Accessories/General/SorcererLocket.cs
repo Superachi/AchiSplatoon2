@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.General
 {
     internal class SorcererLocket : DropletLocket
     {
@@ -26,7 +26,7 @@ namespace AchiSplatoon2.Content.Items.Accessories
 
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
-                player.GetDamage(DamageClass.Magic) *= (1 + MagicDamageMod());
+                player.GetDamage(DamageClass.Magic) *= 1 + MagicDamageMod();
             }
         }
 

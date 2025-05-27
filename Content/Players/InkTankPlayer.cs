@@ -1,8 +1,8 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
 using AchiSplatoon2.Content.Items.Accessories.Debug;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;

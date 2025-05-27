@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Specials;

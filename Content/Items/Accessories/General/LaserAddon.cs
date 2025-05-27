@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 
-namespace AchiSplatoon2.Content.Items.Accessories
+namespace AchiSplatoon2.Content.Items.Accessories.General
 {
     internal class LaserAddon : BaseAccessory
     {

@@ -1,5 +1,5 @@
 ﻿using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.ExtensionMethods;
