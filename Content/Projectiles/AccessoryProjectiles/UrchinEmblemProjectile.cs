@@ -8,7 +8,7 @@ using AchiSplatoon2.Content.EnumsAndConstants;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
-using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
 
 namespace AchiSplatoon2.Content.Projectiles.AccessoryProjectiles
 {

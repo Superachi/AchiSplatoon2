@@ -1,6 +1,6 @@
 ﻿using AchiSplatoon2.Content.Buffs;
 using AchiSplatoon2.Content.EnumsAndConstants;
-using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
 using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;

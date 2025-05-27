@@ -1,4 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.General;
+﻿using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using System.Collections.Generic;

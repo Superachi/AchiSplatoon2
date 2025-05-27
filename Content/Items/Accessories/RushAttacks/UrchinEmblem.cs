@@ -1,11 +1,10 @@
 ﻿using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Helpers;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
 
-namespace AchiSplatoon2.Content.Items.Accessories.General
+namespace AchiSplatoon2.Content.Items.Accessories.RushAttacks
 {
     internal class UrchinEmblem : BaseAccessory
     {
