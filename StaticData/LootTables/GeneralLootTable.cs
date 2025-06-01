@@ -50,30 +50,46 @@ namespace AchiSplatoon2.StaticData.LootTables
             var urchinDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<UrchinEmblem>(),
                 npcIdAndBagId: waterEnemies,
-                chanceDenominator: 40);
+                chanceDenominator: 20);
 
             list = list.Concat(urchinDrops).ToList();
+
+            // Spin emblem
+            var spinEnemies = new Dictionary<int, int>()
+            {
+                { NPCID.GiantShelly, -1 },
+                { NPCID.GiantShelly2, -1 },
+                { NPCID.Crawdad, -1 },
+                { NPCID.Crawdad2, -1 },
+            };
+
+            var spinDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<SpinEmblem>(),
+                npcIdAndBagId: spinEnemies,
+                chanceDenominator: 20);
+
+            list = list.Concat(spinDrops).ToList();
 
             // Color vials
             list.Add(
                 new LootTableIndex(
                     itemId: ModContent.ItemType<FireGradientVial>(),
                     npcId: NPCID.LavaSlime,
-                    chanceDenominator: 50)
+                    chanceDenominator: 20)
                 );
 
             list.Add(
                 new LootTableIndex(
                     itemId: ModContent.ItemType<RainbowGradientVial>(),
                     npcId: NPCID.RainbowSlime,
-                    chanceDenominator: 20)
+                    chanceDenominator: 10)
                 );
 
             list.Add(
                 new LootTableIndex(
                     itemId: ModContent.ItemType<WaterGradientVial>(),
                     npcId: NPCID.IceSlime,
-                    chanceDenominator: 50)
+                    chanceDenominator: 20)
                 );
 
             return list;

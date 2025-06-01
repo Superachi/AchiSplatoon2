@@ -1,9 +1,12 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
+using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Prefixes.DualiePrefixes;
+using AchiSplatoon2.Content.Projectiles.AccessoryProjectiles;
 using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -80,7 +83,7 @@ namespace AchiSplatoon2.Content.Players
                 maxRolls += ((BaseDualiePrefix)prefix).ExtraDodgeRolls;
             }
 
-            if (hasSquidClipOns) maxRolls /= 2;
+            if (hasSquidClipOns) maxRolls += 1;
             if (maxRolls < 1) maxRolls = 1;
             if (rollsLeftWasMax) rollsLeft = maxRolls;
         }
@@ -193,18 +196,19 @@ namespace AchiSplatoon2.Content.Players
                     proj.rollDuration = rollDuration;
                     proj.RunSpawnMethods();
 
+                    if (Player.HasAccessory<SpinEmblem>())
+                    {
+                        ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<SpinEmblemProjectile>(), true);
+
+                        Player.immune = true;
+                        Player.immuneTime = (int)rollDuration + 6;
+                        Player.immuneNoBlink = true;
+                    }
+
                     Player.GetModPlayer<InkTankPlayer>().ConsumeInk(rollInkCost);
 
                     rollsLeft--;
                     maxRollCooldown = 30 + 15 * (maxRolls - rollsLeft);
-
-                    if (hasSquidClipOns)
-                    {
-                        maxRollCooldown = (int)(maxRollCooldown * SquidClipOns.RollCooldownMult);
-                        Player.immuneTime = (int)rollDuration + 12;
-                        Player.immune = true;
-                        Player.immuneNoBlink = false;
-                    };
                 }
             }
         }

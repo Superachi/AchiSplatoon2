@@ -2,33 +2,12 @@
 using AchiSplatoon2.Helpers;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
-using AchiSplatoon2.Content.CustomConditions;
 
 namespace AchiSplatoon2.Content.Items.Accessories.RushAttacks
 {
-    internal class UrchinEmblem : BaseAccessory
+    internal class SpinEmblem : BaseAccessory
     {
-        public static int GetAttackDamage()
-        {
-            if (!BossConditions.DownedEvilBoss.IsMet())
-            {
-                return 15;
-            }
-
-            if (!Condition.Hardmode.IsMet())
-            {
-                return 25;
-            }
-
-            if (!Condition.DownedPlantera.IsMet())
-            {
-                return 50;
-            }
-
-            return 80;
-        }
-
-        public static int AttackCooldown => 30;
+        public static int DefaultDamage => 20;
 
         public override void SetDefaults()
         {
@@ -44,7 +23,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.RushAttacks
             if (NetHelper.IsPlayerSameAsLocalPlayer(player))
             {
                 var modPlayer = player.GetModPlayer<AccessoryPlayer>();
-                modPlayer.TryEquipAccessory<UrchinEmblem>();
+                modPlayer.TryEquipAccessory<SpinEmblem>();
             }
         }
     }

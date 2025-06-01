@@ -93,7 +93,7 @@ Hint: {
 	CrayonBox: Improves Splatling accuracy and velocity. When you splat an enemy, extend firing duration for the given charge
 	SteelCoil: For each attack with a Slosher, the first target hit takes {0}% more damage, but subsequent targets instead take {1}% less
 	FieryPaintCan: If your previous Blaster shot missed, the next one will deal {0}% more damage in a larger radius
-	SquidClipOns: "{0}% LESS dodge rolls, but they grant immunity and don't slow your movement afterwards"
+	SquidClipOns: Your dualies get +1 dodge roll and don't slow your movement afterwards
 	PinkSponge: Splatana charge slash has less range, but deflects enemy projectiles
 	MarinatedNecklace: Your Brella has a slower recovery time, but you attack faster while recovering
 	ThermalInkTank: Ink-based projectiles can pass through liquids
@@ -2161,6 +2161,13 @@ Items: {
 		DisplayName: Pearlescent Crown
 		Tooltip: ""
 	}
+
+	SpinEmblem: {
+		UsageHint: Dualie dodge rolls deals damage to enemies around yourself (which scales with the base damage of the dualies)
+		Flavor: Mods.AchiSplatoon2.Items.SpinEmblem.Flavor
+		DisplayName: Emblem of the Starfish
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2303,6 +2310,8 @@ Projectiles: {
 	DesertBrushDashProjectile.DisplayName: Desert Brush Dash Projectile
 	UrchinEmblemProjectile.DisplayName: Urchin Emblem Projectile
 	ShellOutCapsuleProjectile.DisplayName: Shell Out Capsule Projectile
+	SpinEmblemProjectile.DisplayName: Spin Emblem Projectile
+	SquidAuraProjectile.DisplayName: Squid Aura Projectile
 }
 
 Buffs: {
