@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.General
 {
     internal class PunchingGlove : BaseAccessory
     {
-        public static float SplashdownDamageBonus => 0.2f;
+        public static float SplashdownDamageBonus => 0.25f;
 
         protected override string UsageHintParamA => $"{(int)(SplashdownDamageBonus * 100)}";
 

@@ -11,7 +11,7 @@
         {
             base.SetDefaults();
 
-            Item.damage = 300;
+            Item.damage = 200;
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 8;

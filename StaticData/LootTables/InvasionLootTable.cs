@@ -8,7 +8,9 @@ using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
+using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -96,6 +98,19 @@ namespace AchiSplatoon2.StaticData.LootTables
                     npcId: NPCID.MartianSaucerCore,
                     chanceDenominator: 3),
             };
+
+            var bloodMoonEnemies = new Dictionary<int, int>()
+            {
+                { NPCID.BloodZombie, -1 },
+                { NPCID.Drippler, -1 },
+            };
+
+            var hornetDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<PunchingGlove>(),
+                npcIdAndBagId: bloodMoonEnemies,
+                chanceDenominator: 50);
+
+            list = list.Concat(hornetDrops).ToList();
 
             return list;
         }
