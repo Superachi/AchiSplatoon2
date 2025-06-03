@@ -9,6 +9,7 @@ using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Consumables.Potions;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
@@ -490,8 +491,10 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                         potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DropletLocket>(), weight: 5));
                         potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<GoldHiHorses>(), weight: 5));
                         potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<UrchinEmblem>(), weight: 10));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SpinEmblem>(), weight: 5));
 
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscA>(), weight: 1));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscA>(), weight: 2));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<Splashdown>(), weight: 5));
                     }
                     else
                     {
@@ -505,7 +508,8 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
                         potentialDrops.Add(new ShellOutDropIndex(RandomHelper.GetRandomMainWeaponBoosterAccessory(), weight: 5));
 
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscB>(), weight: 5));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscB>(), weight: 2));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<TripleSplashdown>(), weight: 5));
                     }
 
                     break;

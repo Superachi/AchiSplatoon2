@@ -72,6 +72,14 @@ namespace AchiSplatoon2.StaticData.LootTables
 
             bossLootList.Add(
                 new LootTableIndex(
+                itemId: ModContent.ItemType<Splashdown>(),
+                npcId: NPCID.KingSlime,
+                treasureBagId: ItemID.KingSlimeBossBag,
+                chanceDenominator: 3)
+            );
+
+            bossLootList.Add(
+                new LootTableIndex(
                 itemId: ModContent.ItemType<OrderEmblem>(),
                 npcId: NPCID.KingSlime,
                 treasureBagId: ItemID.KingSlimeBossBag)
@@ -124,6 +132,14 @@ namespace AchiSplatoon2.StaticData.LootTables
                 itemId: ModContent.ItemType<DroneDiscB>(),
                 npcId: NPCID.QueenSlimeBoss,
                 treasureBagId: ItemID.QueenSlimeBossBag)
+            );
+
+            bossLootList.Add(
+                new LootTableIndex(
+                itemId: ModContent.ItemType<TripleSplashdown>(),
+                npcId: NPCID.QueenSlimeBoss,
+                treasureBagId: ItemID.QueenSlimeBossBag,
+                chanceDenominator: 3)
             );
 
             bossLootList.Add(

@@ -440,7 +440,7 @@ Items: {
 
 	Trizooka: {
 		DisplayName: Trizooka
-		UsageHint: Fires {0} explosive shots, {1} times
+		UsageHint: Fires {0} explosive globs of ink, {1} times
 		Flavor: Go ahead, try and react to it.
 		Tooltip: ""
 	}
@@ -2168,6 +2168,27 @@ Items: {
 		DisplayName: Emblem of the Starfish
 		Tooltip: ""
 	}
+
+	Splashdown: {
+		UsageHint: You jump into the air, then strike the ground to create a huge splash
+		Flavor: Don't get cancelled!
+		DisplayName: Splashdown
+		Tooltip: ""
+	}
+
+	TripleSplashdown: {
+		UsageHint: You jump into the air, then strike the ground with explosive fists
+		Flavor: Mods.AchiSplatoon2.Items.TripleSplashdown.Flavor
+		DisplayName: Triple Splashdown
+		Tooltip: ""
+	}
+
+	PunchingGlove: {
+		UsageHint: Your Splashdowns deals {0}% more damage, and Triple Splashdown summons an additional pair of fists
+		Flavor: Knockout!
+		DisplayName: Punching Glove
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2312,6 +2333,8 @@ Projectiles: {
 	ShellOutCapsuleProjectile.DisplayName: Shell Out Capsule Projectile
 	SpinEmblemProjectile.DisplayName: Spin Emblem Projectile
 	SquidAuraProjectile.DisplayName: Squid Aura Projectile
+	SplashdownProjectile.DisplayName: Splashdown Projectile
+	SplashdownFistProjectile.DisplayName: Splashdown Fist Projectile
 }
 
 Buffs: {

@@ -5,6 +5,7 @@ using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.InkzookaProjectiles;
+using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.SplashdownProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjectiles;
 using AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TrizookaProjectiles;
 using AchiSplatoon2.Helpers;
@@ -196,6 +197,18 @@ namespace AchiSplatoon2.Content.Players
                 if (modItem is Tacticooler tacticooler)
                 {
                     CreateProjectileWithWeaponProperties(tacticooler, ModContent.ProjectileType<TacticoolerHeldProjectile>());
+                    return true;
+                }
+
+                if (modItem is TripleSplashdown tripleSplashdown)
+                {
+                    CreateProjectileWithWeaponProperties(tripleSplashdown, ModContent.ProjectileType<SplashdownProjectile>());
+                    return true;
+                }
+
+                if (modItem is Splashdown splashdown)
+                {
+                    CreateProjectileWithWeaponProperties(splashdown, ModContent.ProjectileType<SplashdownProjectile>());
                     return true;
                 }
             }

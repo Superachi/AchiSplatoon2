@@ -8,7 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
     {
         public override bool IsDurationSpecial => true;
         public override float SpecialDrainPerTick => 0.235f;
-        public override float RechargeCostPenalty { get => 80f; }
+        public override float RechargeCostPenalty { get => 100f; }
 
         private static readonly int ArmorPierce = 10;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPierce);

@@ -914,6 +914,18 @@ namespace AchiSplatoon2.Content.Projectiles.Minions.PearlDrone
                 strings.Add("Final smash!");
             }
 
+            if (specialItemId == ModContent.ItemType<Splashdown>())
+            {
+                strings.Add($"Make a splash, {ownerName}!");
+                strings.Add($"Inkoming!");
+            }
+
+            if (specialItemId == ModContent.ItemType<TripleSplashdown>())
+            {
+                strings.Add($"Knock 'em out, {ownerName}!");
+                strings.Add($"Squid superslam!");
+            }
+
             if (specialItemId == ModContent.ItemType<UltraStamp>())
             {
                 strings.Add($"Squash them, {ownerName}!");

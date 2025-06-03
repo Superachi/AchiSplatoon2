@@ -144,10 +144,18 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         private static readonly string _directorySpecial = "Specials";
         public static string SpecialReady => FormatPath(nameof(SpecialReady), _directorySpecial);
 
+        public static string InkjetBoost => FormatPath(nameof(InkjetBoost), _directorySpecial);
+
+
         public static string KillerWailCharge => FormatPath(nameof(KillerWailCharge), _directorySpecial);
         public static string KillerWailDespawn => FormatPath(nameof(KillerWailDespawn), _directorySpecial);
         public static string KillerWailFire => FormatPath(nameof(KillerWailFire), _directorySpecial);
         public static string KillerWailSpawn => FormatPath(nameof(KillerWailSpawn), _directorySpecial);
+
+        public static string SplashdownCharge => FormatPath(nameof(SplashdownCharge), _directorySpecial);
+        public static string SplashdownChargeWarning => FormatPath(nameof(SplashdownChargeWarning), _directorySpecial);
+        public static string SplashdownLanding => FormatPath(nameof(SplashdownLanding), _directorySpecial);
+
 
         public static string TrizookaLaunch => FormatPath(nameof(TrizookaLaunch), _directorySpecial);
         public static string TrizookaLaunchAlly => FormatPath(nameof(TrizookaLaunchAlly), _directorySpecial);
