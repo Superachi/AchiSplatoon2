@@ -119,6 +119,11 @@ namespace AchiSplatoon2.Content.Players
             SpecialDustStream();
         }
 
+        public override void OnRespawn()
+        {
+            UnreadySpecial();
+        }
+
         private void ReadySpecial()
         {
             SpecialReady = true;
