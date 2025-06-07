@@ -135,6 +135,15 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 }
             }
 
+            if (NpcHelper.IsTargetABossMinion(npc)
+                || NpcHelper.IsTargetAProjectile(npc)
+                || NpcHelper.IsTargetAWormSegment(npc)
+                || npc.friendly
+                || npc.SpawnedFromStatue)
+            {
+                return;
+            }
+
             npcLoot.Add(
                 ItemDropRule.Common(
                 ModContent.ItemType<InkDroplet>(),
