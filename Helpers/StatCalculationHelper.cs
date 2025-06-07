@@ -123,7 +123,6 @@ namespace AchiSplatoon2.Helpers
 
             #endregion
 
-            DebugHelper.PrintInfo($"Final damage modifier: {damageModifier}");
             return damageModifier;
         }
 
