@@ -1,4 +1,6 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Players;
 using Terraria;
 
 namespace AchiSplatoon2.Helpers
@@ -34,7 +36,8 @@ namespace AchiSplatoon2.Helpers
                 return true;
             }
 
-            if (Main.mouseItem.stack > 0)
+            if (Main.mouseItem.stack > 0
+                && (Main.mouseItem.ModItem is not BaseWeapon && player.HeldItem.ModItem is not BaseWeapon))
             {
                 // DebugHelper.PrintDebug($"{nameof(Main.mouseItem.stack)}: {Main.mouseItem.stack}");
                 return true;

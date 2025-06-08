@@ -2498,6 +2498,7 @@ Configs: {
 			Audio: Audio
 			Miscellaneous: Miscellaneous tweaks
 			Accessibility: Accessibility
+			Gameplay: Gameplay
 		}
 
 		UseOnlyVanillaSounds: {
@@ -2553,6 +2554,11 @@ Configs: {
 		DisableScreenshake: {
 			Label: Disable Screenshake
 			Tooltip: This disables screenshake produced by direct hits, certain sub weapons and more (as long as it's caused by this mod!)
+		}
+
+		PrioritizeSubWeaponInAmmoSlot: {
+			Label: Make sub weapon hotkey prioritize the first sub weapon in ammo slot
+			Tooltip: "When enabled, the sub weapon hotkey makes you use the first sub weapon found in the ammo slots. That way, you can use both the sub weapons in your hotbar and the ammo slots."
 		}
 	}
 }

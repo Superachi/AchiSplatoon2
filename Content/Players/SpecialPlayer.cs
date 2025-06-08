@@ -86,7 +86,7 @@ namespace AchiSplatoon2.Content.Players
 
             bool leftClicked = InputHelper.GetInputMouseLeftPressed();
             bool middleClicked = InputHelper.GetInputSpecialWeaponPressed();
-            bool triedToUseSpecial = (leftClicked && Player.HeldItem.ModItem is BaseSpecial && !CursorHelper.CursorHasInteractable())
+            bool triedToUseSpecial = (leftClicked && Player.HeldItem.ModItem is BaseSpecial && InputHelper.IsPlayerAllowedToUseItem(Player))
                 || middleClicked;
 
             if (!SpecialReady)
@@ -121,6 +121,7 @@ namespace AchiSplatoon2.Content.Players
 
         public override void OnRespawn()
         {
+            Player.fullRotation = 0;
             UnreadySpecial();
         }
 

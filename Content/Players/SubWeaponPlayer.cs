@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Throwing;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.ModConfigs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,10 +15,11 @@ namespace AchiSplatoon2.Content.Players
         {
             bool leftClicked = InputHelper.GetInputMouseLeftHold();
             bool rightClicked = InputHelper.GetInputSubWeaponHold();
+            bool prioritizeAmmo = ModContent.GetInstance<ClientConfig>().PrioritizeSubWeaponInAmmoSlot;
 
             if (rightClicked)
             {
-                if (Player.HeldItem.ModItem is BaseBomb)
+                if (Player.HeldItem.ModItem is BaseBomb && !prioritizeAmmo)
                 {
                     SearchAndUseSubWeapon(Player, Player.HeldItem);
                 }
@@ -35,13 +37,27 @@ namespace AchiSplatoon2.Content.Players
         private void SearchAndUseSubWeapon(Player player, Item? heldItem = null)
         {
             if (!InputHelper.IsPlayerAllowedToUseItem(player)) return;
+            if (!Player.GetModPlayer<WeaponPlayer>().allowSubWeaponUsage) return;
 
             // http://docs.tmodloader.net/docs/stable/class_player -> Player.inventory
 
             Item? firstItemMatch;
             if (heldItem == null)
             {
-                firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 0, 58);
+                if (ModContent.GetInstance<ClientConfig>().PrioritizeSubWeaponInAmmoSlot)
+                {
+                    firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 54, 58);
+
+                    if (firstItemMatch == null)
+                    {
+                        firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 0, 58);
+                    }
+                }
+                else
+                {
+                    firstItemMatch = InventoryHelper.FirstInInventoryRange<BaseBomb>(Player, 0, 58);
+                }
+
                 if (firstItemMatch == null) return;
             }
             else

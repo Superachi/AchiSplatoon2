@@ -12,6 +12,11 @@ namespace AchiSplatoon2.ModConfigs
         // [Label("$Some.Key")] // A label is the text displayed next to the option. This should usually be a short description of what it does. By default all ModConfig fields and properties have an automatic label translation key, but modders can specify a specific translation key.
         // [Tooltip("$Some.Key")] // A tooltip is a description showed when you hover your mouse over the option. It can be used as a more in-depth explanation of the option. Like with Label, a specific key can be provided.
 
+        [Header("Gameplay")]
+
+        [DefaultValue(false)]
+        public bool PrioritizeSubWeaponInAmmoSlot;
+
         [Header("UI")]
 
         [DefaultValue(false)]
@@ -34,13 +39,13 @@ namespace AchiSplatoon2.ModConfigs
         [DefaultValue(false)]
         public bool DisableBombRushJingle;
 
-        [DefaultValue(false)]
-        public bool AlwaysUseCriticalEffectOnDirectHit;
-
         [Header("Miscellaneous")]
 
         [DefaultValue(typeof(Color), "255, 25, 75, 255")]
         public Color CustomInkColor;
+
+        [DefaultValue(false)]
+        public bool AlwaysUseCriticalEffectOnDirectHit;
 
         [Header("Accessibility")]
         [DefaultValue(false)]

@@ -115,9 +115,9 @@ namespace AchiSplatoon2.Helpers
 
             if (CursorHelper.CursorHasInteractable())
             {
-                if (weaponPlayer.CustomWeaponCooldown < 30)
+                if (weaponPlayer.CustomWeaponCooldown < 15)
                 {
-                    player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 30;
+                    player.GetModPlayer<WeaponPlayer>().CustomWeaponCooldown = 15;
                 }
                 return false;
             }
@@ -126,7 +126,6 @@ namespace AchiSplatoon2.Helpers
             if (!player.ItemTimeIsZero) return false;
 
             if (weaponPlayer.CustomWeaponCooldown > 0) return false;
-            if (!weaponPlayer.allowSubWeaponUsage) return false;
             if (weaponPlayer.isBrushRolling || weaponPlayer.isBrushAttacking) return false;
             if (player.OwnsModProjectileWithType(ModContent.ProjectileType<BrushSwingProjectile>()))
             {
