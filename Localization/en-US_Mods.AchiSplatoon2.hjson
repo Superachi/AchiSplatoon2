@@ -2440,7 +2440,7 @@ Prefixes: {
 	ArmorPenetrationTooltip: "{0} defense penetration"
 	EnemyPierceTooltip: "{0} piercing"
 	AimVariationTooltip: "{0} degrees of inaccuracy"
-	VelocityTooltip: "{0} velocity"
+	VelocityTooltip: "{0} range (velocity)"
 	ExtraProjectileTooltip: "{0} projectile(s)"
 	BaseStringerPrefix.DisplayName: Base Stringer Prefix
 	CompactPrefix.DisplayName: Compact
@@ -2484,7 +2484,7 @@ Prefixes: {
 	ResonantPrefix.DisplayName: Resonant
 	ExplosivePrefix.DisplayName: Splashing
 	TwinPrefix.DisplayName: Twin
-	LifetimeTooltip: "{0} projectile duration"
+	LifetimeTooltip: "{0} range (duration)"
 	ShortFusedPrefix.DisplayName: Short-Fused
 }
 
