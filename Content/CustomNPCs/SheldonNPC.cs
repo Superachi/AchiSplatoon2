@@ -215,6 +215,8 @@ namespace AchiSplatoon2.Content.CustomNPCs
                 // Shimmer hint
                 hints.Add($"I've received word that there is a liquid that has transformative effects on items! I wonder if it could work with your weapons?");
 
+                hints.Add($"If you have some {TextHelper.ItemEmoji<SheldonLicense>()} laying around, you can combine them with {TextHelper.ItemEmoji(ItemID.SoulofLight)} and {TextHelper.ItemEmoji(ItemID.SoulofNight)} to create {TextHelper.ItemEmoji<SheldonLicenseSilver>()}!");
+
                 if (!Condition.DownedMechBossAny.IsMet())
                 {
                     // Ore hint

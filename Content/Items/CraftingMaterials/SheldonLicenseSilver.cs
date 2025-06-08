@@ -18,12 +18,12 @@ namespace AchiSplatoon2.Content.Items.CraftingMaterials
         {
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<SheldonLicense>())
-                .AddIngredient(ItemID.SoulofLight, 10)
+                .AddIngredient(ItemID.SoulofLight, 3)
                 .Register();
 
             CreateRecipe()
                 .AddIngredient(ModContent.ItemType<SheldonLicense>())
-                .AddIngredient(ItemID.SoulofNight, 10)
+                .AddIngredient(ItemID.SoulofNight, 3)
                 .Register();
         }
     }
