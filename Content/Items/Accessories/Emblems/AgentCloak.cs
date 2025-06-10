@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
@@ -50,33 +51,33 @@ namespace AchiSplatoon2.Content.Items.Accessories.Emblems
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Silk, 10)
-                .AddIngredient(ItemID.BlackDye, 1)
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
                 .AddIngredient(ModContent.ItemType<SpecialPowerEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.Loom)
                 .Register();
 
             CreateRecipe()
-                .AddIngredient(ItemID.Silk, 10)
-                .AddIngredient(ItemID.BlackDye, 1)
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
                 .AddIngredient(ModContent.ItemType<SubPowerEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.Loom)
                 .Register();
 
             CreateRecipe()
-                .AddIngredient(ItemID.Silk, 10)
-                .AddIngredient(ItemID.BlackDye, 1)
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 10)
                 .AddIngredient(ModContent.ItemType<SpecialChargeEmblem>(), 1)
                 .AddIngredient(ItemID.SoulofSight, 1)
                 .AddIngredient(ItemID.SoulofMight, 1)
                 .AddIngredient(ItemID.SoulofFright, 1)
-                .AddTile(TileID.Anvils)
+                .AddTile(TileID.Loom)
                 .Register();
         }
     }
