@@ -1,6 +1,4 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.Emblems;
-using AchiSplatoon2.Content.Items.Consumables.ShellOutCapsules;
-using AchiSplatoon2.Content.Items.CraftingMaterials;
+﻿using AchiSplatoon2.Content.Items.CraftingMaterials;
 using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.ExtensionMethods;
 using System.Collections.Generic;

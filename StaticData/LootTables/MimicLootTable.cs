@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Items.Accessories.Emblems;
+using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Consumables.LootBags;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
 using System.Collections.Generic;
@@ -68,6 +69,26 @@ namespace AchiSplatoon2.StaticData.LootTables
             mimicLootList = mimicLootList
                 .Concat(emblemDrops).ToList()
                 .Concat(licenseDrops).ToList();
+
+            // Hallowed mimic drops
+            mimicLootList.Add(
+                new LootTableIndex(
+                itemIdOptions: [ModContent.ItemType<FreshQuiver>(), ModContent.ItemType<SquidClipOns>(), ModContent.ItemType<PinkSponge>(), ModContent.ItemType<CrayonBox>()],
+                npcId: NPCID.BigMimicHallow)
+            );
+
+            // Corrupt/Crimson mimic drops
+            mimicLootList.Add(
+                new LootTableIndex(
+                itemIdOptions: [ModContent.ItemType<TentacularOcular>(), ModContent.ItemType<AdamantiteCoil>(), ModContent.ItemType<FieryPaintCan>(), ModContent.ItemType<MarinatedNecklace>()],
+                npcId: NPCID.BigMimicCorruption)
+            );
+
+            mimicLootList.Add(
+                new LootTableIndex(
+                itemIdOptions: [ModContent.ItemType<TentacularOcular>(), ModContent.ItemType<AdamantiteCoil>(), ModContent.ItemType<FieryPaintCan>(), ModContent.ItemType<MarinatedNecklace>()],
+                npcId: NPCID.BigMimicCrimson)
+            );
 
             return mimicLootList;
         }

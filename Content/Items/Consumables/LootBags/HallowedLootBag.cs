@@ -11,17 +11,6 @@ namespace AchiSplatoon2.Content.Items.Consumables.LootBags
         protected override void OpenLootBag(Player player)
         {
             base.OpenLootBag(player);
-
-            var accessories = new List<int>
-            {
-                ModContent.ItemType<FreshQuiver>(),
-                ModContent.ItemType<SquidClipOns>(),
-                ModContent.ItemType<PinkSponge>(),
-                ModContent.ItemType<CrayonBox>(),
-            };
-
-            int chosenAccessory = Main.rand.NextFromCollection(accessories);
-            player.QuickSpawnItem(player.GetSource_DropAsItem(), chosenAccessory);
         }
     }
 }
