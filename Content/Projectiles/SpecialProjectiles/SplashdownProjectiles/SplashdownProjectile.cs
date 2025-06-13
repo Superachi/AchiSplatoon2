@@ -47,6 +47,12 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.SplashdownProject
 
             enablePierceDamagefalloff = false;
             wormDamageReduction = true;
+
+            if (Owner.HasAccessory<PunchingGlove>())
+            {
+                Projectile.damage += PunchingGlove.SplashdownDamageBonus;
+            }
+
             SummonFists();
 
             _fallDurationDamageMod = 1f;

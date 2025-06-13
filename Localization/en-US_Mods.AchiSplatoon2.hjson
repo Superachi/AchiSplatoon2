@@ -2183,7 +2183,7 @@ Items: {
 	}
 
 	PunchingGlove: {
-		UsageHint: Your Splashdowns deals {0}% more damage, and Triple Splashdown summons an additional pair of fists
+		UsageHint: Your Splashdowns deal an additional {0} damage, and Triple Splashdown summons an extra pair of fists
 		Flavor: Knockout!
 		DisplayName: Punching Glove
 		Tooltip: ""

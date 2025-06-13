@@ -1,4 +1,9 @@
-﻿namespace AchiSplatoon2.Content.Items.Weapons.Specials
+﻿using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.ExtensionMethods;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace AchiSplatoon2.Content.Items.Weapons.Specials
 {
     internal class Splashdown : BaseSpecial
     {
@@ -15,6 +20,11 @@
             Item.width = 32;
             Item.height = 32;
             Item.knockBack = 8;
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
+        {
+            base.ModifyWeaponDamage(player, ref damage);
         }
     }
 }

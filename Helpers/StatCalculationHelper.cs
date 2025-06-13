@@ -81,11 +81,6 @@ namespace AchiSplatoon2.Helpers
             {
                 damageModifier += accMP.specialPowerMultiplier - 1;
                 if (debug) DebugHelper.PrintInfo($"Val after special power bonuses: {damageModifier}");
-
-                if (weaponInstance is Splashdown && player.HasAccessory<PunchingGlove>())
-                {
-                    damageModifier += PunchingGlove.SplashdownDamageBonus;
-                }
             }
 
             #endregion
