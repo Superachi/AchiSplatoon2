@@ -413,6 +413,7 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     {
                         possiblePrefixes.Remove(ModContent.PrefixType<DeepCutPrefix>());
                         possiblePrefixes.Remove(ModContent.PrefixType<PiercingPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<ChaoticPrefix>());
 
                         possiblePrefixes.Remove(ModContent.PrefixType<HeavyDutyPrefix>());
                     }
