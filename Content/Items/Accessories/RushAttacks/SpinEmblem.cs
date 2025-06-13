@@ -2,9 +2,11 @@
 using AchiSplatoon2.Helpers;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Accessories.RushAttacks
 {
+    [ItemCategory("Accessory", "RushAttacks")]
     internal class SpinEmblem : BaseAccessory
     {
         public static int DefaultDamage => 20;

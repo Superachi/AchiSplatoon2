@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Terraria;
@@ -7,6 +8,7 @@ using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.General
 {
+    [ItemCategory("Accessory", "General")]
     internal class HypnoShades : BaseAccessory
     {
         public static float BombUseTimeMult => 0.7f;

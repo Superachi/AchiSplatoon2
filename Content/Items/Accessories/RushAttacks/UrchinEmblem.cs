@@ -3,9 +3,11 @@ using AchiSplatoon2.Helpers;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Content.CustomConditions;
+using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Accessories.RushAttacks
 {
+    [ItemCategory("Accessory", "RushAttacks")]
     internal class UrchinEmblem : BaseAccessory
     {
         public static int GetAttackDamage()

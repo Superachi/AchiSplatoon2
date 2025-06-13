@@ -4,9 +4,11 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria;
 using AchiSplatoon2.ExtensionMethods;
+using AchiSplatoon2.Attributes;
 
 namespace AchiSplatoon2.Content.Items.Accessories.General
 {
+    [ItemCategory("Accessory", "General")]
     internal class GoldHiHorses : BaseAccessory
     {
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(

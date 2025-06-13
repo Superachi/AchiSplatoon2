@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
@@ -6,6 +7,7 @@ using Terraria.Localization;
 
 namespace AchiSplatoon2.Content.Items.Accessories.General
 {
+    [ItemCategory("Accessory", "General")]
     internal class LaserAddon : BaseAccessory
     {
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(_displayValue);
