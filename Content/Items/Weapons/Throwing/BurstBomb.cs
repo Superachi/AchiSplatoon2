@@ -7,8 +7,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Throwing
     internal class BurstBomb : BaseBomb
     {
         public override float InkCost { get => 40f; }
-
         public override int ExplosionRadius { get => 200; }
+
+        public static float LowLifeDamageMult => 2f;
+        public static float LowLifeBossDamageMult => 10f;
+
         public override void SetDefaults()
         {
             base.SetDefaults();

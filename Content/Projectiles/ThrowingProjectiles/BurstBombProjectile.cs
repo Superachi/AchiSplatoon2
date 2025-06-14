@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.WorldBuilding;
 
 namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 {
@@ -61,6 +64,17 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
                 {
                     Projectile.Center = hitTarget.Center;
                     hasExploded = true;
+
+                    float targetLifePercent = hitTarget.life / (float)hitTarget.lifeMax;
+                    bool isBoss = hitTarget.boss;
+                    float mult = isBoss ? BurstBomb.LowLifeBossDamageMult : BurstBomb.LowLifeDamageMult;
+
+                    if (targetLifePercent >= 1)
+                    {
+                        Projectile.damage = (int)(Projectile.damage * mult);
+                        TripleHitDustBurst(hitTarget.Center, playSample: false);
+                    }
+
                     Detonate();
                     return;
                 }

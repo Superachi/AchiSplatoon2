@@ -412,7 +412,7 @@ Items: {
 
 	BurstBomb: {
 		DisplayName: Burst Bomb
-		UsageHint: Detonates instantly on contact, deals less damage if it hits a wall first
+		UsageHint: Detonates instantly on contact. If the target has full life, deal extra damage
 		Tooltip: ""
 		Flavor: Mods.AchiSplatoon2.Items.BurstBomb.Flavor
 	}
