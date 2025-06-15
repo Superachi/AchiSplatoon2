@@ -154,7 +154,8 @@ namespace AchiSplatoon2.Content.Players
                 {
                     postRollCooldown--;
 
-                    if (Math.Abs(Player.velocity.X) > 4 && (slowMoveAfterRoll && !hasSquidClipOns))
+                    var usingSquidClipOns = hasSquidClipOns && InputHelper.GetInputX() != 0;
+                    if (Math.Abs(Player.velocity.X) > 4 && (slowMoveAfterRoll && !usingSquidClipOns))
                     {
                         Player.velocity.X *= 0.9f;
                     }
