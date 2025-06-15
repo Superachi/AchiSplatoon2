@@ -2485,6 +2485,7 @@ Prefixes: {
 	TwinPrefix.DisplayName: Twin
 	LifetimeTooltip: "{0} range (duration)"
 	ShortFusedPrefix.DisplayName: Short-Fused
+	OverheatingPrefix.DisplayName: Overheatin'
 }
 
 Configs: {
