@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Specials
     {
         public override float SpecialDrainPerTick => 0.6f;
         public override float RechargeCostPenalty { get => 80f; }
-        public virtual int ExplosionRadius => 600;
+        public virtual int ExplosionRadius => 550;
         public virtual bool SummonFists => false;
 
         public override void SetDefaults()

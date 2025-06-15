@@ -2,8 +2,8 @@
 {
     internal class TripleSplashdown : Splashdown
     {
-        public override float RechargeCostPenalty { get => 100f; }
-        public override int ExplosionRadius => 500;
+        public override float RechargeCostPenalty { get => 120f; }
+        public override int ExplosionRadius => 450;
         public override bool SummonFists => true;
 
         public override void SetDefaults()
