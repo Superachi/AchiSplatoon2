@@ -82,6 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles.SpecialProjectiles.TacticoolerProjec
                     {
                         playerToFollow.AddBuff(ModContent.BuffType<TacticoolerBuff>(), TacticoolerBuff.BaseDuration);
 
+                        playerToFollow.GetModPlayer<HudPlayer>().SetOverheadText("Refreshing!", 90);
                         PlayAudio(SoundPaths.TacticoolerPowerup.ToSoundStyle(), position: Projectile.Center);
 
                         for (int i = 0; i < 12; i++)
