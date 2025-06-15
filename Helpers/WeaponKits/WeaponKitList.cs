@@ -106,6 +106,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(TriSlosherNouveau),    new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(Bloblobber),           new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(BloblobberDeco),       new WeaponKit(subType: SubWeaponType.AngleShooter, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(DreadWringer),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(Explosher),            new WeaponKit(subType: SubWeaponType.Sprinkler, bonusType: SubWeaponBonusType.Damage, bonusAmount: 1f) },
 
             // Brushes
