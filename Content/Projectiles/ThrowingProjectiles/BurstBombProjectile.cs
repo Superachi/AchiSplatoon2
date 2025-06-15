@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.WorldBuilding;
@@ -65,7 +66,9 @@ namespace AchiSplatoon2.Content.Projectiles.ThrowingProjectiles
 
                     float targetLifePercent = hitTarget.life / (float)hitTarget.lifeMax;
                     bool isBoss = hitTarget.boss;
-                    float mult = isBoss ? BurstBomb.LowLifeBossDamageMult : BurstBomb.LowLifeDamageMult;
+
+                    var nonBossDamageMult = Main.hardMode ? BurstBomb.LowLifeHardmodeDamageMult : BurstBomb.LowLifePreHardmodeDamageMult;
+                    float mult = isBoss ? BurstBomb.LowLifeBossDamageMult : nonBossDamageMult;
 
                     if (targetLifePercent >= 1)
                     {
