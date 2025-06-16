@@ -4,6 +4,6 @@
     {
         public override float PrefixValueModifier => 1.2f;
         public override float UseTimeModifier => -0.6f;
-        public override float InkCostModifier => 2f;
+        public override float InkCostModifier => 3f;
     }
 }
