@@ -1,9 +1,13 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.Items.Accessories.MainWeaponBoosters;
 using AchiSplatoon2.Content.Items.Weapons.Chargers;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
 using AchiSplatoon2.Helpers;
+using AchiSplatoon2.Netcode.DataModels;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -146,7 +150,21 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
         {
             base.OnHitNPC(target, hit, damageDone);
 
-            if (wasParentChargeMaxed && enableDirectHitEffect && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
+            if (!wasParentChargeMaxed) return;
+
+            var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
+            if (prefix is BaseChargerPrefix baseChargerPrefix && baseChargerPrefix.ExplosiveModifier)
+            {
+                var p = CreateChildProjectile<BlastProjectile>(target.Center, Vector2.Zero, Projectile.damage, false);
+                var expRadius = (int)(150 * explosionRadiusModifier);
+                p.SetProperties(radius: expRadius, ignoredTargets: new List<int>() { target.whoAmI });
+                p.RunSpawnMethods();
+
+                PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 1f, maxInstances: 5, pitch: 0.5f);
+                PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 1f, maxInstances: 5, pitch: 0.5f);
+            }
+
+            if (enableDirectHitEffect && tilePiercesLeft == TentacularOcular.TerrainMaxPierceCount)
             {
                 if (!firstHit)
                 {

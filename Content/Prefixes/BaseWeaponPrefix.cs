@@ -147,6 +147,18 @@ internal class BaseWeaponPrefix : BaseItemPrefix
         };
     }
 
+    protected TooltipLine CreateTooltip(LocalizedText localizedText, bool modifierEnabled, bool isModifierEnabledBad, string text)
+    {
+        var isModifierBad = (isModifierEnabledBad && modifierEnabled) || (!isModifierEnabledBad && !modifierEnabled);
+        var textPrefix = isModifierBad ? "-" : "+";
+
+        return new TooltipLine(Mod, $"Prefix{localizedText.Key}", $"{textPrefix}{text}")
+        {
+            IsModifier = true,
+            IsModifierBad = isModifierBad
+        };
+    }
+
     #endregion
 
     #region Stat application

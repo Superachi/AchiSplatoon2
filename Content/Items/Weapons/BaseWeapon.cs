@@ -13,6 +13,7 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes.InkCostPrefixes;
@@ -390,6 +391,12 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseCharger:
                     possiblePrefixes = PrefixHelper.ListChargerPrefixes();
+
+                    if (this is StarfishedCharger)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<BombasticPrefix>());
+                    }
+
                     break;
 
                 case BaseSlosher:

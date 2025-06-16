@@ -1124,7 +1124,7 @@ internal class BaseProjectile : ModProjectile
 
         PlayAudio(SoundPaths.Hit.ToSoundStyle(), volume: 0.3f, pitchVariance: 0.1f, pitch: 0f, position: position);
         PlayAudio(SoundID.Item14, volume: 0.5f, pitch: 0.4f, pitchVariance: 0.2f);
-        PlayAudio(SoundID.Item99, volume: 1f, pitch: 0.4f, pitchVariance: 0.2f);
+        PlayAudio(SoundID.Item99, volume: 0.5f, pitch: 0.4f, pitchVariance: 0.2f);
 
         TripleHitDustBurst(position, false);
     }

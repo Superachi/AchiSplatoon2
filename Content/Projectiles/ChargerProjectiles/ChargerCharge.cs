@@ -57,7 +57,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             {
                 _projectileCount = 2;
             }
-            else if (prefix is ExplosivePrefix)
+            else if (prefix is BombasticPrefix)
             {
                 MaxPenetrate = 1;
             }

@@ -104,7 +104,7 @@ internal class PrefixHelper : ModSystem
 
         prefixes.Add(ModContent.PrefixType<GambitPrefix>());
         prefixes.Add(ModContent.PrefixType<TwinPrefix>());
-        // prefixes.Add(ModContent.PrefixType<ExplosivePrefix>());
+        prefixes.Add(ModContent.PrefixType<BombasticPrefix>());
 
         return prefixes;
     }
@@ -233,7 +233,7 @@ internal class PrefixHelper : ModSystem
             // Chargers
             { typeof(GambitPrefix), ModContent.PrefixType<GambitPrefix>() },
             { typeof(TwinPrefix), ModContent.PrefixType<TwinPrefix>() },
-            { typeof(ExplosivePrefix), ModContent.PrefixType<ExplosivePrefix>() },
+            { typeof(BombasticPrefix), ModContent.PrefixType<BombasticPrefix>() },
 
             // Stringers
             { typeof(CompactPrefix), ModContent.PrefixType<CompactPrefix>() },

@@ -2486,6 +2486,9 @@ Prefixes: {
 	LifetimeTooltip: "{0} range (duration)"
 	ShortFusedPrefix.DisplayName: Short-Fused
 	OverheatingPrefix.DisplayName: Overheatin'
+	BombasticPrefix.DisplayName: Bombastic
+	LosePiercingTooltip: Mods.AchiSplatoon2.Prefixes.LosePiercingTooltip
+	ExplosiveTooltip: Mods.AchiSplatoon2.Prefixes.ExplosiveTooltip
 }
 
 Configs: {
