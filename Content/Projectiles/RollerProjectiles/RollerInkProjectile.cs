@@ -17,6 +17,8 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
         private float damageFalloffMod = 1f;
         private readonly int _damageReductionDelay;
         public string RollerSwingId;
+        private bool _disableAimDeviation = false;
+        public bool firstHit = true;
 
         protected float Timer
         {
@@ -34,7 +36,6 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Projectile.extraUpdates = 3;
             Projectile.width = 4;
             Projectile.height = 4;
-            Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = true;
@@ -43,17 +44,27 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             Projectile.idStaticNPCHitCooldown = FrameSpeedMultiply(20);
         }
 
+        public void SetDelayUntilFall(int delay)
+        {
+            _delayUntilFall = delay;
+        }
+
+        public void DisableAimDeviation()
+        {
+            _disableAimDeviation = true;
+        }
+
         protected override void AfterSpawn()
         {
-            Initialize();
+            Initialize(_disableAimDeviation);
 
             // Set visuals
-            _delayUntilFall = FrameSpeedMultiply(30);
-            _fallSpeed = 0.5f;
+            _delayUntilFall = 10;
+            _fallSpeed = 0.07f;
 
             Projectile.frame = 0; //Main.rand.Next(0, Main.projFrames[Projectile.type]);
             drawRotation += MathHelper.ToRadians(Main.rand.Next(0, 359));
-            drawScale += Main.rand.NextFloat(0.8f, 1.6f);
+            drawScale += Main.rand.NextFloat(1.2f, 1.6f);
         }
 
         public override void AI()
@@ -63,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             {
                 visible = true;
             }
-
+            
             if (timeSpentAlive > FrameSpeedMultiply(10))
             {
                 if (damageFalloffMod > 0.5f)
@@ -120,9 +131,15 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            base.ModifyHitNPC(target, ref modifiers);
-            modifiers.FinalDamage *= damageFalloffMod;
+            if (timeSpentAlive < 30 && firstHit)
+            {
+                TripleHitDustBurst(playSample: false);
+                modifiers.FinalDamage *= 1.5f;
 
+                firstHit = false;
+            }
+
+            modifiers.FinalDamage *= damageFalloffMod;
             target.immune[Projectile.owner] = 15;
 
             foreach (var projectile in Main.ActiveProjectiles)
@@ -134,9 +151,12 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                     if (rollerProj.RollerSwingId == RollerSwingId)
                     {
                         rollerProj.Projectile.damage = (int)(Projectile.damage * DamageModifierAfterPierce);
+                        rollerProj.firstHit = false;
                     }
                 }
             }
+
+            base.ModifyHitNPC(target, ref modifiers);
         }
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

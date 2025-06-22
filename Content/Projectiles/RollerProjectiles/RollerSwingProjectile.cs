@@ -232,14 +232,13 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
             else RollerSwingRotate(-25, lerpAmount);
 
             int minTime = 2;
-            if (stateTimer >= minTime && stateTimer < 6)
+            if (stateTimer >= minTime && stateTimer < (!startedJumpSwing ? 6 : 7))
             {
                 Player p = GetOwner();
 
                 var vecFromPlayer = Main.MouseWorld.DirectionFrom(p.Center);
                 float i = stateTimer - minTime;
-                float velocityMult = 3.2f + (i * 0.4f);
-                Vector2 velocity = vecFromPlayer * velocityMult;
+                Vector2 velocity = vecFromPlayer;
 
                 // Make it so thrown projectiles always match the roller's direction,
                 // disregarding whether the player moves the mouse to the other side
@@ -249,15 +248,25 @@ namespace AchiSplatoon2.Content.Projectiles.RollerProjectiles
                 if (startedJumpSwing)
                 {
                     damage = (int)(damage * jumpAttackDamageMod);
-                    velocity *= jumpAttackVelocityMod;
+                    velocity *= 3f - (0.1f * i);
+                    velocity *= jumpAttackVelocityMod * 1.5f;
+                    velocity += Main.rand.NextVector2Circular(0.2f, 0.2f);
+
+                    var proj = CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage, triggerSpawnMethods: false);
+                    proj.DisableAimDeviation();
+                    proj.RunSpawnMethods();
+                    proj.RollerSwingId = _swingId;
+                    proj.SetDelayUntilFall(15 - 3 * (int)i);
                 }
                 else
                 {
+                    velocity *= 3.5f + (i * 0.3f);
                     velocity *= groundAttackVelocityMod;
-                }
+                    velocity += Main.rand.NextVector2Circular(0.8f, 0.8f);
 
-                var proj = CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage);
-                proj.RollerSwingId = _swingId;
+                    var proj = CreateChildProjectile<RollerInkProjectile>(p.Center, velocity, damage);
+                    proj.RollerSwingId = _swingId;
+                }
             }
 
             if (stateTimer > swingTime)

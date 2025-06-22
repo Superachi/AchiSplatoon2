@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override float InkCost { get => 12f; }
 
         public override float GroundWindUpDelayModifier => 2.0f;
-        public override float GroundAttackVelocityModifier => 1.2f;
+        public override float GroundAttackVelocityModifier => 1.3f;
         public override float JumpWindUpDelayModifier => 2.7f;
         public override float JumpAttackDamageModifier => 1.3f;
         public override float JumpAttackVelocityModifier => 1.6f;
