@@ -155,7 +155,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
             if (prefix is BaseChargerPrefix baseChargerPrefix && baseChargerPrefix.ExplosiveModifier)
             {
-                var p = CreateChildProjectile<BlastProjectile>(target.Center, Vector2.Zero, Projectile.damage, false);
+                var p = CreateChildProjectile<BlastProjectile>(target.Center, Vector2.Zero, Projectile.damage / 2, false);
                 var expRadius = (int)(150 * explosionRadiusModifier);
                 p.SetProperties(radius: expRadius, ignoredTargets: new List<int>() { target.whoAmI });
                 p.RunSpawnMethods();
