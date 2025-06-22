@@ -85,7 +85,7 @@ namespace AchiSplatoon2.Content.Players
                 case BaseBrush:
                     BaseBrush brush = (BaseBrush)Player.HeldItem.ModItem;
 
-                    if (isBrushRolling)
+                    if (isBrushRolling && PlayerHelper.IsPlayerGrounded(Player))
                     {
                         moveSpeedModifier = brush.RollMoveSpeedBonus;
                         moveAccelModifier = 2f * brush.RollMoveSpeedBonus;
@@ -102,8 +102,10 @@ namespace AchiSplatoon2.Content.Players
                     break;
                 case BaseRoller:
                     var roller = (BaseRoller)Player.HeldItem.ModItem;
-                    if (isUsingRoller)
+
+                    if (isUsingRoller && PlayerHelper.IsPlayerGrounded(Player))
                     {
+                        moveSpeedModifier *= 1 + Math.Max(1, roller.RollingAccelModifier) / 4;
                         moveAccelModifier = Math.Max(1, roller.RollingAccelModifier);
                         moveFrictionModifier = Math.Max(1, roller.RollingAccelModifier);
                     }
