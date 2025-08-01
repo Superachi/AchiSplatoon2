@@ -236,13 +236,13 @@ namespace AchiSplatoon2.Content.Items
             CreateRecipe()
                 .AddTile(TileID.Anvils)
                 .AddIngredient(ItemID.SilverBar, 8)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .Register();
 
             CreateRecipe()
                 .AddTile(TileID.Anvils)
                 .AddIngredient(ItemID.TungstenBar, 8)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .Register();
         }
 
@@ -250,15 +250,15 @@ namespace AchiSplatoon2.Content.Items
         {
             CreateRecipe()
                 .AddTile(TileID.Anvils)
-                .AddIngredient(ItemID.SilverBar, 8)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
+                .AddIngredient(ItemID.SilverBar, 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .AddIngredient(addedIngredient, amount)
                 .Register();
 
             CreateRecipe()
                 .AddTile(TileID.Anvils)
-                .AddIngredient(ItemID.TungstenBar, 8)
-                .AddIngredient(ModContent.ItemType<InkDroplet>(), 5)
+                .AddIngredient(ItemID.TungstenBar, 5)
+                .AddIngredient(ModContent.ItemType<InkDroplet>(), 3)
                 .AddIngredient(addedIngredient, amount)
                 .Register();
         }

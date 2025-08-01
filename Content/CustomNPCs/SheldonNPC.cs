@@ -17,7 +17,6 @@ using AchiSplatoon2.ModSystems;
 using System.Linq;
 using AchiSplatoon2.Content.CustomConditions;
 using AchiSplatoon2.Content.Items.Accessories.ColorChips;
-using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Accessories.Emblems;
 using AchiSplatoon2.Content.Items.Weapons.Dualies;
@@ -29,7 +28,7 @@ namespace AchiSplatoon2.Content.CustomNPCs
     [AutoloadHead]
     internal class SheldonNPC : ModNPC
     {
-	    public override LocalizedText DisplayName => this.GetLocalization("Sheldon");
+	    public override LocalizedText DisplayName => this.GetLocalization("Ammo Knight");
         private string ShopName => "SheldonShop";
 
         public override void SetDefaults()
