@@ -1,7 +1,9 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.DualieProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Dualies
 {
@@ -13,6 +15,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Dualies
         public override void SetDefaults()
         {
             base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<DualieShotProjectile>(),
+                singleShotTime: 7,
+                shotVelocity: 4f);
+
             Item.SetValuePostEvilBosses();
         }
 

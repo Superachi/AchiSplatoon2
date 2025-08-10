@@ -1,7 +1,8 @@
 ﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Projectiles.BrellaProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
-using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
@@ -13,6 +14,11 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public override void SetDefaults()
         {
             base.SetDefaults();
+            RangedWeaponDefaults(
+                projectileType: ModContent.ProjectileType<BrellaShotgunProjectile>(),
+                singleShotTime: 36,
+                shotVelocity: 8f);
+
             Item.SetValuePostEvilBosses();
         }
 

@@ -9,10 +9,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brushes
     internal class ShimmerOrderBrush : OrderBrush
     {
         public override float InkCost { get => 0f; }
+        public override float BaseWeaponUseTime => 21f;
 
         public override void SetDefaults()
         {
             base.SetDefaults();
+            SetItemUseTime();
+
             Item.SetValuePostEvilBosses();
         }
 

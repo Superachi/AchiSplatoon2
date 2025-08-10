@@ -13,6 +13,9 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.useTime = 7;
+            Item.useAnimation = Item.useTime;
+
             Item.SetValuePostEvilBosses();
         }
 
