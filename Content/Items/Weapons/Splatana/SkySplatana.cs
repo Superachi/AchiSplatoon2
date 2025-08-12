@@ -18,8 +18,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatana
         public override SoundStyle ChargeSample { get => SoundID.DD2_DarkMageAttack; }
 
         // Splatana specific
-        public override int BaseDamage { get => 18; }
-        public override float[] ChargeTimeThresholds { get => [24f]; }
+        public override int BaseDamage { get => 16; }
+        public override float[] ChargeTimeThresholds { get => [30f]; }
         public override float MaxChargeMeleeDamageMod { get => 3f; }
 
         public override int MeleeEnergyProjectile { get => ModContent.ProjectileType<SkySplatanaMeleeEnergyProjectile>(); }
