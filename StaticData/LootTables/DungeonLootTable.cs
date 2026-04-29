@@ -1,4 +1,5 @@
 ﻿
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Brellas;
 using AchiSplatoon2.Content.Items.Weapons.Brushes;
@@ -65,9 +66,23 @@ namespace AchiSplatoon2.StaticData.LootTables
                 npcIdAndBagId: hellArmoredEnemies,
                 chanceDenominator: 80);
 
+            var preHMEnemies = new Dictionary<int, int>()
+            {
+                { NPCID.AngryBones, -1 },
+                { NPCID.AngryBonesBig, -1 },
+                { NPCID.AngryBonesBigHelmet, -1 },
+                { NPCID.AngryBonesBigMuscle, -1 },
+            };
+
+            var bombAmuletDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<BombAmulet>(),
+                npcIdAndBagId: preHMEnemies,
+                chanceDenominator: 80);
+
             return list
                 .Concat(rustyArmoredDrops)
                 .Concat(hellArmoredDrops)
+                .Concat(bombAmuletDrops)
                 .ToList();
         }
     }

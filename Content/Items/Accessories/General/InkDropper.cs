@@ -1,9 +1,11 @@
-﻿using AchiSplatoon2.Content.Players;
+﻿using AchiSplatoon2.Attributes;
+using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Items.Accessories.General
 {
+    [ItemCategory("Accessory", "General")]
     internal class InkDropper : BaseAccessory
     {
         public static int DropletChanceDenominatorOverride => 30;

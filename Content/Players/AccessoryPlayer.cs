@@ -1,4 +1,10 @@
 ﻿using AchiSplatoon2.Content.Buffs;
+using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.Content.Items.Weapons;
+using AchiSplatoon2.Content.Items.Weapons.Throwing;
+using AchiSplatoon2.Content.Projectiles.ThrowingProjectiles;
+using AchiSplatoon2.DocGeneration;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -149,6 +155,58 @@ namespace AchiSplatoon2.Content.Players
                 Player.AddBuff(buffType, 2);
                 Main.buffNoTimeDisplay[buffType] = true;
                 Main.buffNoSave[buffType] = true;
+            }
+        }
+
+        public override void OnHitByNPC(NPC npc, Player.HurtInfo hurtInfo)
+        {
+            base.OnHitByNPC(npc, hurtInfo);
+            TriggerBombAmulet(hurtInfo.Damage);
+        }
+
+        public override void OnHitByProjectile(Projectile proj, Player.HurtInfo hurtInfo)
+        {
+            base.OnHitByProjectile(proj, hurtInfo);
+            TriggerBombAmulet(hurtInfo.Damage);
+        }
+
+        private void TriggerBombAmulet(int damageTaken)
+        {
+            if (!Player.HasAccessory<BombAmulet>()) return;
+
+            int maxHP = Player.statLifeMax2;
+            int lifeSlices = 8;
+            float lifePortion = maxHP / (float)lifeSlices;
+            int bombs = 1;
+
+            for (int i = 0; i < lifeSlices; i++)
+            {
+                if (damageTaken > lifePortion * (i + 1))
+                {
+                    bombs++;
+                }
+            }
+
+            if (bombs > 5) bombs = 5;
+            var damage = Math.Max(20, damageTaken / 2);
+
+            for (int b = 0; b < bombs; b ++)
+            {
+                var velocity = Main.rand.NextVector2CircularEdge(8, 8);
+                if (velocity.Y < 0) velocity.Y *= -1;
+
+                var p = ProjectileHelper.CreateProjectileWithWeaponProperties(
+                    player: Player,
+                    type: ModContent.ProjectileType<SplatBombProjectile>(),
+                    damage: damage,
+                    knockback: 8,
+                    velocity: velocity,
+                    weaponType: new SplatBomb(),
+                    triggerSpawnMethods: false);
+
+                p.Projectile.position = Player.Center;
+                p.RunSpawnMethods();
+                Main.NewText($"Bomb Amulet triggered! Spawned bomb with velocity {velocity} and damage {p.Projectile.damage}");
             }
         }
     }
