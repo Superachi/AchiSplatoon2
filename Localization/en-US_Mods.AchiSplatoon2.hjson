@@ -2185,7 +2185,7 @@ Items: {
 
 	PunchingGlove: {
 		UsageHint: Your Splashdowns deal an additional {0} damage, and Triple Splashdown summons an extra pair of fists
-		Flavor: Knockout!
+		Flavor: KO!
 		DisplayName: Punching Glove
 		Tooltip: ""
 	}
@@ -2199,14 +2199,14 @@ Items: {
 
 	FestivePopper: {
 		UsageHint: Whenever an enemy drops a restoring ink droplet, deal damage to nearby enemies around it
-		Flavor: Mods.AchiSplatoon2.Items.FestivePopper.Flavor
+		Flavor: Tadaa!
 		DisplayName: Festive Popper
 		Tooltip: ""
 	}
 
 	InkDropper: {
 		UsageHint: Increase the frequency of restoring ink droplets dropping from enemies
-		Flavor: Mods.AchiSplatoon2.Items.InkDropper.Flavor
+		Flavor: Don't squeeze too hard.
 		DisplayName: Ink Dropper
 		Tooltip: ""
 	}

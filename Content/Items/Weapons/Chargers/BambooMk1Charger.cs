@@ -55,7 +55,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
 
             CreateRecipe()
                 .AddTile(TileID.Anvils)
-                .AddIngredient(ItemID.Lens, 6)
+                .AddIngredient(ItemID.Lens, 3)
+                .AddIngredient(ItemID.BlackInk, 3)
                 .AddIngredient(ItemID.JungleSpores, 10)
                 .AddIngredient(ItemID.BambooBlock, 30)
                 .Register();

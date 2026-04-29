@@ -17,7 +17,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.General
 
             Item.width = 32;
             Item.height = 18;
-            Item.SetValuePreEvilBosses();
+            Item.SetValuePostEvilBosses();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

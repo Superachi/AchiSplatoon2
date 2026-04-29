@@ -16,6 +16,21 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.NextFloat(-2, 2));
         }
 
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            base.OnHitNPC(target, hit, damageDone);
+
+            for (var i = 0; i < 5; i++)
+            {
+                var dust = Dust.NewDustPerfect(
+                    Position: target.Center,
+                    Type: DustID.Smoke,
+                    Velocity: Main.rand.NextVector2Circular(10, 10),
+                    newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
+                    Scale: Main.rand.NextFloat(2f, 3f));
+                dust.noGravity = true;
+            }
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -24,13 +39,13 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                 var dust = Dust.NewDustPerfect(
                     Position: Projectile.Center,
                     Type: DustID.Smoke,
-                    Velocity: Main.rand.NextVector2Circular(10, 10),
+                    Velocity: Main.rand.NextVector2Circular(5, 5),
                     newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
                     Scale: Main.rand.NextFloat(1f, 2f));
                 dust.noGravity = true;
             }
 
-            ProjectileBounce(oldVelocity, new Vector2(0.4f, 0.4f));
+            ProjectileBounce(oldVelocity, new Vector2(0.3f, 0.3f));
 
             return false;
         }
@@ -55,7 +70,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
                     Type: DustID.FireworksRGB,
                     Velocity: Projectile.velocity * 4 + Main.rand.NextVector2Circular(2f, 2f),
                     newColor: ColorHelper.ColorWithAlphaZero(CurrentColor),
-                    Scale: Main.rand.NextFloat(0.4f, 0.8f));
+                    Scale: Main.rand.NextFloat(0.5f, 1f));
                 dust.noGravity = true;
             }
         }
