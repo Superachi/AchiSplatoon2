@@ -9,7 +9,12 @@ using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;
 using AchiSplatoon2.Content.Items.Consumables.DroneUpgradeDiscs;
 using AchiSplatoon2.Content.Items.Consumables.Potions;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
+using AchiSplatoon2.Content.Items.Weapons.Bows;
+using AchiSplatoon2.Content.Items.Weapons.Brellas;
+using AchiSplatoon2.Content.Items.Weapons.Chargers;
+using AchiSplatoon2.Content.Items.Weapons.Shooters;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
+using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.Content.Projectiles.ProjectileVisuals;
@@ -522,10 +527,23 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
 
                     if (Condition.Hardmode.IsMet())
                     {
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscC>(), weight: 10));
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteLeftPart>(), weight: 5));
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteMiddlePart>(), weight: 5));
-                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteRightPart>(), weight: 5));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<DroneDiscC>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteLeftPart>(), weight: 10));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteMiddlePart>(), weight: 10));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SuperPaletteRightPart>(), weight: 10));
+
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<CoralStringerB>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SkySplatanaB>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<CorruptionBrellaB>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SlimeSplattershotB>(), weight: 20));
+                    }
+                    else
+                    {
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<CoralStringer>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SkySplatana>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<CorruptionBrella>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<SlimeSplattershot>(), weight: 20));
+                        potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<FungalCharger>(), weight: 20));
                     }
 
                     break;

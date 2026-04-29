@@ -28,6 +28,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         private SlotId chargeStartAudio;
         private int _projectileCount;
+        private float _shotgunArc = 0;
 
         public override void ApplyWeaponInstanceData()
         {
@@ -48,14 +49,20 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         protected override void ApplyWeaponPrefixData()
         {
+            _projectileCount = 1;
+            if (WeaponInstance is FungalCharger)
+            {
+                _projectileCount = FungalCharger.ProjectileCount;
+                _shotgunArc = FungalCharger.ShotgunArc;
+            }
+
             base.ApplyWeaponPrefixData();
             var prefix = PrefixHelper.GetWeaponPrefixById(weaponSourcePrefix);
 
-            _projectileCount = 1;
-
             if (prefix is TwinPrefix)
             {
-                _projectileCount = 2;
+                _projectileCount += 2;
+                _shotgunArc += TwinPrefix.TwinShotArc;
             }
             else if (prefix is BombasticPrefix)
             {
@@ -88,7 +95,7 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 
         private void FireProjectile(Vector2 position, Vector2 velocity)
         {
-            float degreesPerProjectile = TwinPrefix.TwinShotArc;
+            float degreesPerProjectile = _shotgunArc;
             int middleProjectile = _projectileCount / 2;
             float degreesOffset = -(middleProjectile * degreesPerProjectile);
 

@@ -28,6 +28,7 @@ Hint: {
 		Squiffer: Has no charge time penalty in the air
 		StarFisher: Fully charged shots cause a blast after a short delay
 		Snipewriter: Hold left-click to charge up multiple high velocity shots
+		Fungal: Hold left-click to charge up a burst of shots
 	}
 
 	SplattershotJr: +{0}% ink capacity while equipped
@@ -2188,6 +2189,13 @@ Items: {
 		DisplayName: Punching Glove
 		Tooltip: ""
 	}
+
+	FungalCharger: {
+		UsageHint: "{$Hint.Chargers.Fungal}"
+		Flavor: Achoo!
+		DisplayName: Spore Spewer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -2334,6 +2342,7 @@ Projectiles: {
 	SquidAuraProjectile.DisplayName: Squid Aura Projectile
 	SplashdownProjectile.DisplayName: Splashdown Projectile
 	SplashdownFistProjectile.DisplayName: Splashdown Fist Projectile
+	FungalChargerProjectile.DisplayName: Fungal Charger Projectile
 }
 
 Buffs: {
