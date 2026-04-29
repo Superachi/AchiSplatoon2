@@ -2,6 +2,7 @@ using AchiSplatoon2.Content.Buffs.Debuffs;
 using AchiSplatoon2.Content.Dusts;
 using AchiSplatoon2.Content.EnumsAndConstants;
 using AchiSplatoon2.Content.GlobalProjectiles;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Weapons;
@@ -537,12 +538,34 @@ internal class BaseProjectile : ModProjectile
         var inkTankPlayer = GetOwnerModPlayer<InkTankPlayer>();
         bool isCooldownDepleted = inkTankPlayer.DropletCooldown == 0;
         bool isBoss = target.boss;
-        bool otherChecks = isBoss || (target.life <= 0 && Main.rand.NextBool(20)) || Main.rand.NextBool(100);
+        bool hasInkDropper = Owner.HasAccessory<InkDropper>();
+        bool otherChecks = isBoss || (target.life <= 0 && Main.rand.NextBool(20)) || Main.rand.NextBool(hasInkDropper ? InkDropper.DropletChanceDenominatorOverride : 60);
 
-        if (!inkTankPlayer.HasMaxInk() && IsTargetEnemy(target, true) && isCooldownDepleted && otherChecks)
+        if (IsTargetEnemy(target, true) && isCooldownDepleted && otherChecks)
         {
             if (IsThisClientTheProjectileOwner())
             {
+                if (Owner.HeldItem.ModItem is BaseWeapon && Owner.HasAccessory<FestivePopper>())
+                {
+                    var a = new PlayAudioModel(SoundPaths.BlasterExplosion, _volume: 0.3f, _pitchVariance: 0.1f, _maxInstances: 3, _pitch: 0, _position: target.Center);
+
+                    var damage
+                        = Condition.DownedPlantera.IsMet() ? FestivePopper.PostPlanteraDamage
+                        : Condition.Hardmode.IsMet() ? FestivePopper.PostHMDamage
+                        : FestivePopper.PreHMDamage;
+
+                    var p = CreateChildProjectile<BlastProjectile>(
+                        target.Center,
+                        Vector2.Zero,
+                        damage: damage,
+                        triggerSpawnMethods: false);
+
+                    var expRadius = (int)(FestivePopper.BaseBlastRadius * explosionRadiusModifier);
+                    p.Projectile.position = Projectile.position;
+                    p?.SetProperties(radius: expRadius, audioModel: a);
+                    p?.RunSpawnMethods();
+                }
+
                 inkTankPlayer.ResetDropletCooldown();
                 Item.NewItem(owner.GetSource_DropAsItem(), position: target.Center, Type: ModContent.ItemType<InkTankDroplet>(), Stack: 1, noGrabDelay: true);
             }

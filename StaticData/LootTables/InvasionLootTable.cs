@@ -99,18 +99,39 @@ namespace AchiSplatoon2.StaticData.LootTables
                     chanceDenominator: 3),
             };
 
+            // Bloodmoon
             var bloodMoonEnemies = new Dictionary<int, int>()
             {
                 { NPCID.BloodZombie, -1 },
                 { NPCID.Drippler, -1 },
             };
 
-            var hornetDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+            var gloveDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<PunchingGlove>(),
                 npcIdAndBagId: bloodMoonEnemies,
                 chanceDenominator: 50);
+            list = list.Concat(gloveDrops).ToList();
 
-            list = list.Concat(hornetDrops).ToList();
+            var dropperDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<InkDropper>(),
+                npcIdAndBagId: bloodMoonEnemies,
+                chanceDenominator: 50);
+            list = list.Concat(dropperDrops).ToList();
+
+            // Goblins
+            var goblinEnemies = new Dictionary<int, int>()
+            {
+                { NPCID.GoblinArcher, -1 },
+                { NPCID.GoblinPeon, -1 },
+                { NPCID.GoblinThief, -1 },
+                { NPCID.GoblinSorcerer, -1 },
+            };
+
+            var festivePopperDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<FestivePopper>(),
+                npcIdAndBagId: goblinEnemies,
+                chanceDenominator: 80);
+            list = list.Concat(festivePopperDrops).ToList();
 
             return list;
         }

@@ -202,6 +202,10 @@ namespace AchiSplatoon2.Content.Players
         public void ResetDropletCooldown()
         {
             DropletCooldown = DropletCooldownMax;
+            if (Main.LocalPlayer.HasAccessory<InkDropper>())
+            {
+                DropletCooldown /= 2;
+            }
         }
 
         public bool ConsumeInkCrystal()

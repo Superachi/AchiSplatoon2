@@ -2196,6 +2196,20 @@ Items: {
 		DisplayName: Spore Spewer
 		Tooltip: ""
 	}
+
+	FestivePopper: {
+		UsageHint: Whenever an enemy drops a restoring ink droplet, deal damage to nearby enemies around it
+		Flavor: Mods.AchiSplatoon2.Items.FestivePopper.Flavor
+		DisplayName: Festive Popper
+		Tooltip: ""
+	}
+
+	InkDropper: {
+		UsageHint: Increase the frequency of restoring ink droplets dropping from enemies
+		Flavor: Mods.AchiSplatoon2.Items.InkDropper.Flavor
+		DisplayName: Ink Dropper
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
