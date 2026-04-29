@@ -473,11 +473,51 @@ internal class BaseProjectile : ModProjectile
         }
     }
 
+    private void ApplySanitizedSampleDebuff(NPC target, NPC.HitInfo hit)
+    {
+        void SanitizedSampleDust(int dustID)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var d = Dust.NewDustDirect(
+                    target.Center,
+                    Projectile.width,
+                    Projectile.height,
+                    dustID,
+                    newColor: Color.White,
+                    Scale: Main.rand.NextFloat(2f, 3f));
+                d.velocity = Main.rand.NextVector2Circular(10, 10);
+                d.noGravity = true;
+            }
+        }
+
+        if (Owner.HasAccessory<SanitizedSample>() && hit.Crit)
+        {
+            if (target.HasBuff(BuffID.Poisoned) || target.HasBuff(BuffID.Venom))
+            {
+                target.AddBuff(BuffID.Venom, 60);
+                target.RequestBuffRemoval(BuffID.Poisoned);
+                SanitizedSampleDust(DustID.Venom);
+                PlayAudio(SoundID.Item45, volume: 1f, maxInstances: 1, pitch: 0.3f, pitchVariance: 0.2f, position: target.Center);
+            }
+            else
+            {
+                target.AddBuff(BuffID.Poisoned, 60);
+                SanitizedSampleDust(DustID.Poisoned);
+            }
+
+            PlayAudio(SoundID.Drown, volume: 0.6f, maxInstances: 1, pitch: 0.5f, pitchVariance: 0.2f, position: target.Center);
+            PlayAudio(SoundID.Item86, volume: 0.6f, maxInstances: 1, pitch: 0.2f, pitchVariance: 0.2f, position: target.Center);
+            PlayAudio(SoundID.Item95, volume: 0.6f, maxInstances: 1, pitch: 0.2f, pitchVariance: 0.2f, position: target.Center);
+        }
+    }
+
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         var owner = GetOwner();
 
         DamageToSpecialCharge(damageDone, target);
+        ApplySanitizedSampleDebuff(target, hit);
 
         if (enablePierceDamagefalloff && !NpcHelper.IsTargetAWormSegment(target))
         {

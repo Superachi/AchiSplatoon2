@@ -2206,7 +2206,7 @@ Items: {
 
 	InkDropper: {
 		UsageHint: Increase the frequency of restoring ink droplets dropping from enemies
-		Flavor: Don't squeeze too hard.
+		Flavor: Don't squeeze too hard!
 		DisplayName: Ink Dropper
 		Tooltip: ""
 	}
@@ -2214,8 +2214,15 @@ Items: {
 	BombAmulet: {
 		Tooltip: ""
 		DisplayName: Unstable Pendant
-		Flavor: You don't want the smoke, pal.
+		Flavor: You don't want the smoke, pal!
 		UsageHint: Drops a Splat Bomb when you get hit. Effect scales with the amount of damage taken per hit
+	}
+
+	SanitizedSample: {
+		UsageHint: On critical strike, inflict poison on the target. If already poisoned, inflict venom instead
+		Flavor: You dropped the 8-ball. Test failed.
+		DisplayName: Sanitized Sample
+		Tooltip: ""
 	}
 }
 

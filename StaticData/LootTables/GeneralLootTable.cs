@@ -71,6 +71,12 @@ namespace AchiSplatoon2.StaticData.LootTables
 
             list = list.Concat(spinDrops).ToList();
 
+            var sanitizedSampleDrop = new LootTableIndex(
+                itemId: ModContent.ItemType<SanitizedSample>(),
+                npcId: NPCID.WallCreeper,
+                chanceDenominator: 30);
+            list.Add(sanitizedSampleDrop);
+
             // Color vials
             list.Add(
                 new LootTableIndex(

@@ -206,7 +206,6 @@ namespace AchiSplatoon2.Content.Players
 
                 p.Projectile.position = Player.Center;
                 p.RunSpawnMethods();
-                Main.NewText($"Bomb Amulet triggered! Spawned bomb with velocity {velocity} and damage {p.Projectile.damage}");
             }
         }
     }

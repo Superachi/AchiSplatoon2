@@ -66,7 +66,7 @@ namespace AchiSplatoon2.StaticData.LootTables
                 npcIdAndBagId: hellArmoredEnemies,
                 chanceDenominator: 80);
 
-            var preHMEnemies = new Dictionary<int, int>()
+            var preHMBones = new Dictionary<int, int>()
             {
                 { NPCID.AngryBones, -1 },
                 { NPCID.AngryBonesBig, -1 },
@@ -76,7 +76,7 @@ namespace AchiSplatoon2.StaticData.LootTables
 
             var bombAmuletDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<BombAmulet>(),
-                npcIdAndBagId: preHMEnemies,
+                npcIdAndBagId: preHMBones,
                 chanceDenominator: 80);
 
             return list

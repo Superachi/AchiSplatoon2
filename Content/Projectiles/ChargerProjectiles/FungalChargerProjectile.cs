@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
 {
@@ -14,6 +15,8 @@ namespace AchiSplatoon2.Content.Projectiles.ChargerProjectiles
             base.AfterSpawn();
             Projectile.velocity *= Main.rand.NextFloat(0.8f, 1f);
             Projectile.velocity = WoomyMathHelper.AddRotationToVector2(Projectile.velocity, Main.rand.NextFloat(-2, 2));
+
+            if (!wasParentChargeMaxed) Projectile.CritChance /= 10;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
