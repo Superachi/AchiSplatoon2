@@ -1,4 +1,5 @@
-﻿using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
+﻿using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.Content.Items.Accessories.RushAttacks;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.Gradients;
 using AchiSplatoon2.Content.Items.Weapons.Unclassed;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace AchiSplatoon2.StaticData.LootTables
                 new LootTableIndex(
                     itemId: ModContent.ItemType<SquidBoomerang>(),
                     npcId: NPCID.Squid,
-                    chanceDenominator: 5)
+                    chanceDenominator: 15)
             };
 
             // Honey scepter
@@ -28,14 +29,14 @@ namespace AchiSplatoon2.StaticData.LootTables
                 { NPCID.HornetHoney, -1 },
                 { NPCID.HornetLeafy, -1 },
                 { NPCID.HornetSpikey, -1 },
+                { NPCID.MossHornet, -1 },
             };
 
-            var hornetDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+            var honeyScepterDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<HoneyScepter>(),
                 npcIdAndBagId: hornetEnemies,
                 chanceDenominator: 200);
-
-            list = list.Concat(hornetDrops).ToList();
+            list = list.Concat(honeyScepterDrops).ToList();
 
             // Urchin emblem
             var waterEnemies = new Dictionary<int, int>()

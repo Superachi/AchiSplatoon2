@@ -17,12 +17,12 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SquidBoomerangProjectile>(),
-                singleShotTime: 12,
+                singleShotTime: 10,
                 shotVelocity: 8f);
 
             Item.DamageType = DamageClass.Melee;
 
-            Item.damage = 15;
+            Item.damage = 24;
             Item.knockBack = 2;
             Item.autoReuse = false;
             Item.noMelee = true;
@@ -30,7 +30,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Unclassed
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noUseGraphic = true;
 
-            Item.SetValuePreEvilBosses();
+            Item.SetValuePostEvilBosses();
         }
 
         public override bool CanUseItem(Player player)
