@@ -396,6 +396,11 @@ namespace AchiSplatoon2.Content.Items.Weapons
                     {
                         possiblePrefixes.Remove(ModContent.PrefixType<BombasticPrefix>());
                     }
+                    else if (this is FungalCharger)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<BombasticPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<GambitPrefix>());
+                    }
 
                     break;
 

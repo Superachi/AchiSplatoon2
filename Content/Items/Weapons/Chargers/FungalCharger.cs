@@ -15,7 +15,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
     // https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
     internal class FungalCharger : BaseCharger
     {
-        public override float InkCost { get => 2f; }
+        public override float InkCost { get => 2.5f; }
         public static int ProjectileCount => 5;
         public static float ShotgunArc => 5f;
         public override int MaxPenetrate => 1;
@@ -25,7 +25,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
         public override SoundStyle ShootWeakSample { get => SoundPaths.OrderChargerShootWeak.ToSoundStyle(); }
         public override Vector2? HoldoutOffset() { return new Vector2(-18, -2); }
         public override Vector2 MuzzleOffset => new Vector2(60f, 0);
-        public override float[] ChargeTimeThresholds { get => [40f]; }
+        public override float[] ChargeTimeThresholds { get => [45f]; }
         public override float RangeModifier => 0.2f;
         public override float MinPartialRange { get => 0.5f; }
         public override float MaxPartialRange { get => 0.8f; }
