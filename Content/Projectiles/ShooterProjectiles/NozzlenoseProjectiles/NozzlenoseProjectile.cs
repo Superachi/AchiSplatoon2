@@ -1,4 +1,7 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
 using System;
@@ -41,7 +44,17 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         {
             Initialize();
             ApplyWeaponInstanceData();
-            PlayShootSound();
+
+            if (Owner.HasAccessory<BlackBubble>())
+            {
+                Projectile.velocity *= BlackBubble.VelocityMultiplier;
+                fallSpeed *= BlackBubble.FallSpeedMultiplier;
+                BlackBubble.PlayBubbleSound(this.Projectile);
+            }
+            else
+            {
+                PlayShootSound();
+            }
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -67,6 +80,8 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
             {
                 Projectile.velocity.Y += FrameSpeedDivide(fallSpeed);
             }
+
+            if (Owner.HasAccessory<BlackBubble>()) return;
 
             Color dustColor = CurrentColor;
             DustHelper.NewSplatterBulletDust(
@@ -161,6 +176,17 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
         protected override void PlayShootSound()
         {
             PlayAudio(shootSample, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 3);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (!Owner.HasAccessory<BlackBubble>()) return false;
+
+            DrawProjectile(inkColor: CurrentColor,
+                rotation: 0, scale: .8f * (float)(1f + Math.Sin(Main.time / 4) / 10), alphaMod: 0.6f,
+                considerWorldLight: false, additiveAmount: 1f,
+                spriteOverride: TexturePaths.BloblobberBubble.ToTexture2D());
+            return false;
         }
     }
 }

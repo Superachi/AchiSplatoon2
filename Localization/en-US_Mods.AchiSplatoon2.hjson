@@ -2224,6 +2224,13 @@ Items: {
 		DisplayName: Sanitized Sample
 		Tooltip: ""
 	}
+
+	BlackBubble: {
+		UsageHint: When using a Shooter or Dualie, this replaces ink projectiles with floating bubbles
+		Flavor: Pop pop pop!
+		DisplayName: Black Bubble
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

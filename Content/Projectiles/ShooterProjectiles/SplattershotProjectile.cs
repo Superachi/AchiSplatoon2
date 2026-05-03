@@ -1,7 +1,12 @@
+using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.ID;
 
 namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
 {
@@ -35,10 +40,20 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
         {
             Initialize();
             ApplyWeaponInstanceData();
-            PlayShootSound();
 
             var velocity = Projectile.velocity * GetOwner().direction;
             GetOwner().itemLocation += Vector2.Normalize(velocity) * 3;
+
+            if (Owner.HasAccessory<BlackBubble>())
+            {
+                Projectile.velocity *= BlackBubble.VelocityMultiplier;
+                fallSpeed *= BlackBubble.FallSpeedMultiplier;
+                BlackBubble.PlayBubbleSound(this.Projectile);
+            }
+            else
+            {
+                PlayShootSound();
+            }
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -71,6 +86,16 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
             if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += fallSpeed;
+            }
+
+            if (Owner.HasAccessory<BlackBubble>())
+            {
+                if (Projectile.timeLeft <= 1)
+                {
+                    ProjectileDustHelper.ShooterTileCollideVisual(this, true);
+                }
+
+                return;
             }
 
             Color dustColor = CurrentColor;
@@ -111,6 +136,17 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles
                 Projectile.position += Projectile.velocity;
                 ProjectileDustHelper.ShooterTileCollideVisual(this);
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (!Owner.HasAccessory<BlackBubble>()) return false;
+
+            DrawProjectile(inkColor: CurrentColor,
+                rotation: 0, scale: .8f * (float)(1f + Math.Sin(Main.time / 4) / 10), alphaMod: 0.6f,
+                considerWorldLight: false, additiveAmount: 1f,
+                spriteOverride: TexturePaths.BloblobberBubble.ToTexture2D());
+            return false;
         }
     }
 }

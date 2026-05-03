@@ -1,7 +1,11 @@
-﻿using AchiSplatoon2.Content.Items.Weapons.Dualies;
+﻿using AchiSplatoon2.Content.EnumsAndConstants;
+using AchiSplatoon2.Content.Items.Accessories.General;
+using AchiSplatoon2.Content.Items.Weapons.Dualies;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.ExtensionMethods;
 using AchiSplatoon2.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 
 namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
@@ -17,7 +21,7 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 900;
             Projectile.tileCollide = true;
         }
 
@@ -37,7 +41,18 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
         {
             Initialize(aimDeviationOverride: aimDevOverride);
             ApplyWeaponInstanceData();
-            PlayShootSound();
+
+            if (Owner.HasAccessory<BlackBubble>()
+                && !BlackBubble.ExcludeThisProjectile(this))
+            {
+                Projectile.velocity *= BlackBubble.VelocityMultiplier;
+                fallSpeed *= BlackBubble.FallSpeedMultiplier;
+                BlackBubble.PlayBubbleSound(this.Projectile);
+            }
+            else
+            {
+                PlayShootSound();
+            }
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -63,6 +78,17 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
             if (timeSpentAlive >= FrameSpeed(delayUntilFall))
             {
                 Projectile.velocity.Y += fallSpeed;
+            }
+
+            if (Owner.HasAccessory<BlackBubble>()
+                && !BlackBubble.ExcludeThisProjectile(this))
+            {
+                if (Projectile.timeLeft <= 1)
+                {
+                    ProjectileDustHelper.ShooterTileCollideVisual(this, true);
+                }
+
+                return;
             }
 
             Color dustColor = CurrentColor;
@@ -115,6 +141,21 @@ namespace AchiSplatoon2.Content.Projectiles.DualieProjectiles
                 Projectile.position += Projectile.velocity;
                 ProjectileDustHelper.ShooterTileCollideVisual(this);
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (Owner.HasAccessory<BlackBubble>()
+                && !BlackBubble.ExcludeThisProjectile(this))
+            {
+                DrawProjectile(inkColor: CurrentColor,
+                    rotation: 0, scale: .8f * (float)(1f + Math.Sin(Main.time / 4) / 10), alphaMod: 0.6f,
+                    considerWorldLight: false, additiveAmount: 1f,
+                    spriteOverride: TexturePaths.BloblobberBubble.ToTexture2D());
+                return false;
+            }
+
+            return false;
         }
     }
 }

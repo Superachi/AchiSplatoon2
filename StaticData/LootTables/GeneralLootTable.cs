@@ -39,10 +39,8 @@ namespace AchiSplatoon2.StaticData.LootTables
             list = list.Concat(honeyScepterDrops).ToList();
 
             // Urchin emblem
-            var waterEnemies = new Dictionary<int, int>()
+            var fishEnemies = new Dictionary<int, int>()
             {
-                { NPCID.BlueJellyfish, -1 },
-                { NPCID.PinkJellyfish, -1 },
                 { NPCID.Piranha, -1 },
                 { NPCID.CorruptGoldfish, -1 },
                 { NPCID.CrimsonGoldfish, -1 },
@@ -50,10 +48,23 @@ namespace AchiSplatoon2.StaticData.LootTables
 
             var urchinDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
                 itemId: ModContent.ItemType<UrchinEmblem>(),
-                npcIdAndBagId: waterEnemies,
+                npcIdAndBagId: fishEnemies,
                 chanceDenominator: 20);
-
             list = list.Concat(urchinDrops).ToList();
+
+            // Black Bubble
+            var jellySquidEnemies = new Dictionary<int, int>()
+            {
+                { NPCID.BlueJellyfish, -1 },
+                { NPCID.PinkJellyfish, -1 },
+                { NPCID.Squid, -1 },
+            };
+
+            var blackBubbleDrops = LootTableIndex.CreateLootTableIndicesSingleItem(
+                itemId: ModContent.ItemType<BlackBubble>(),
+                npcIdAndBagId: jellySquidEnemies,
+                chanceDenominator: 20);
+            list = list.Concat(blackBubbleDrops).ToList();
 
             // Spin emblem
             var spinEnemies = new Dictionary<int, int>()

@@ -20,6 +20,7 @@ namespace AchiSplatoon2.Content.EnumsAndConstants
         }
 
         // Root directory
+        public static string BloblobberBubble => FormatPath(nameof(BloblobberBubble));
         public static string VortexDualieShot => FormatPath(nameof(VortexDualieShot));
         public static string NebulaStringerShot => FormatPath(nameof(NebulaStringerShot));
         public static string GolemSlashSegment => FormatPath(nameof(GolemSlashSegment));
