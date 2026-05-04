@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Accessories.InkTanks
 {
     internal class FlowerInkTank : InkTank
     {
-        public override int CapacityBonus => 130;
+        public override int CapacityBonus => 120;
         public static int ManaCost => 100;
         public static float InkCapacityPercentageToRecover => 0.1f;
         public static int ProcCooldown => 30;

@@ -2231,6 +2231,20 @@ Items: {
 		DisplayName: Black Bubble
 		Tooltip: ""
 	}
+
+	IchorInkTank: {
+		Tooltip: ""
+		DisplayName: Ichor Ink Tank
+		Flavor: Mods.AchiSplatoon2.Items.IchorInkTank.Flavor
+		UsageHint: When hitting an enemy, 10% chance to inflict Ichor
+	}
+
+	CursedInkTank: {
+		UsageHint: When hitting an enemy, 10% chance to inflict Cursed Inferno
+		Flavor: Mods.AchiSplatoon2.Items.CursedInkTank.Flavor
+		DisplayName: Infernal Ink Tank
+		Tooltip: "{$InkCapacityBonus.Display@0}"
+	}
 }
 
 Projectiles: {

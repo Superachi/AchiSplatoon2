@@ -517,7 +517,6 @@ internal class BaseProjectile : ModProjectile
         var owner = GetOwner();
 
         DamageToSpecialCharge(damageDone, target);
-        ApplySanitizedSampleDebuff(target, hit);
 
         if (enablePierceDamagefalloff && !NpcHelper.IsTargetAWormSegment(target))
         {
@@ -624,6 +623,52 @@ internal class BaseProjectile : ModProjectile
             {
                 float mult = 1f + (Projectile.damage / EmpressInkTank.ProjectileDamage) / 2f;
                 p.SetDamageMult(mult);
+            }
+        }
+
+        ApplySanitizedSampleDebuff(target, hit);
+
+        // TODO: prevent multiple ink tanks from stacking their effect
+        if (owner.HasAccessory<CursedInkTank>()
+            && Main.rand.NextBool(CursedInkTank.DebuffChanceDenominator)
+            && !target.HasBuff(BuffID.CursedInferno))
+        {
+            target.AddBuff(BuffID.CursedInferno, CursedInkTank.DebuffDuration);
+            PlayAudio(SoundID.Item66, volume: 0.3f, maxInstances: 1, pitch: 0.2f, pitchVariance: 0.2f, position: target.Center);
+            PlayAudio(SoundID.Item73, volume: 0.6f, maxInstances: 1, pitch: 0.0f, pitchVariance: 0.2f, position: target.Center);
+
+            for (int i = 0; i < 10; i++)
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: target.Center,
+                    Type: DustID.CursedTorch,
+                    Velocity: Main.rand.NextVector2CircularEdge(8, 8),
+                    newColor: Color.White,
+                    Scale: Main.rand.NextFloat(4f, 5f));
+                d.noGravity = true;
+                d.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
+            }
+        }
+
+        if (owner.HasAccessory<IchorInkTank>()
+            && Main.rand.NextBool(IchorInkTank.DebuffChanceDenominator)
+            && !target.HasBuff(BuffID.Ichor))
+        {
+            target.AddBuff(BuffID.Ichor, IchorInkTank.DebuffDuration);
+
+            PlayAudio(SoundID.Item66, volume: 0.6f, maxInstances: 1, pitch: 0.2f, pitchVariance: 0.2f, position: target.Center);
+            PlayAudio(SoundID.Item21, volume: 0.4f, maxInstances: 1, pitch: 0.0f, pitchVariance: 0.2f, position: target.Center);
+
+            for (int i = 0; i < 10; i++)
+            {
+                var d = Dust.NewDustPerfect(
+                    Position: target.Center,
+                    Type: DustID.Ichor,
+                    Velocity: Main.rand.NextVector2CircularEdge(8, 8),
+                    newColor: Color.White,
+                    Scale: Main.rand.NextFloat(2f, 3f));
+                d.noGravity = true;
+                d.velocity *= Main.rand.NextFloat(0.8f, 1.2f);
             }
         }
     }
