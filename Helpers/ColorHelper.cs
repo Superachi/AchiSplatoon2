@@ -199,8 +199,21 @@ namespace AchiSplatoon2.Helpers
 
         public static Color HexToColor(string hex)
         {
-            System.Drawing.Color color = System.Drawing.ColorTranslator.FromHtml(hex);
-            return new Color(color.R, color.G, color.B);
+            if (hex.StartsWith("#"))
+            {
+                hex = hex.Substring(1);
+            }
+
+            if (hex.Length != 6)
+            {
+                throw new ArgumentException("Hex string must be 6 characters long.");
+            }
+
+            byte r = Convert.ToByte(hex.Substring(0, 2), 16);
+            byte g = Convert.ToByte(hex.Substring(2, 2), 16);
+            byte b = Convert.ToByte(hex.Substring(4, 2), 16);
+
+            return new Color(r, g, b);
         }
 
         public static void RgbToHsv(float r, float g, float b, out float h, out float s, out float v)

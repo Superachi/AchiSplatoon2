@@ -2,6 +2,7 @@
 using AchiSplatoon2.Content.CustomNPCs;
 using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials;
+using AchiSplatoon2.Content.Items.Consumables.ColorVials.Conditional;
 using AchiSplatoon2.Content.Items.Consumables.ColorVials.SingleColors;
 using AchiSplatoon2.Content.Items.Weapons.Blasters;
 using AchiSplatoon2.Content.Items.Weapons.Bows;
@@ -40,10 +41,9 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
                 shop.Add<ConfigVial>();
                 shop.Add<OrderVial>();
-                shop.Add<OrangeVial>();
-                shop.Add<BlueVial>();
-                shop.Add<PinkVial>();
-                shop.Add<GreenVial>();
+                shop.Add<LifeVial>();
+                shop.Add<InkVial>();
+                shop.Add<BiomeVial>();
             }
 
             if (shop.NpcType == ModContent.NPCType<SheldonNPC>())

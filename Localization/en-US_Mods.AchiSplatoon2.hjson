@@ -2245,6 +2245,27 @@ Items: {
 		DisplayName: Infernal Ink Tank
 		Tooltip: "{$InkCapacityBonus.Display@0}"
 	}
+
+	BiomeVial: {
+		UsageHint: Changes your ink color based on the biome you're in
+		Flavor: Mods.AchiSplatoon2.Items.BiomeVial.Flavor
+		DisplayName: Biome Ink Vial
+		Tooltip: ""
+	}
+
+	InkVial: {
+		UsageHint: Changes your ink color based on how much ink you have
+		Flavor: A.K.A. an ink ink vial!
+		DisplayName: Capacity Ink Vial
+		Tooltip: ""
+	}
+
+	LifeVial: {
+		UsageHint: Changes your ink color based on how much life you have
+		Flavor: I'm feeling blue today.
+		DisplayName: Life Ink Vial
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

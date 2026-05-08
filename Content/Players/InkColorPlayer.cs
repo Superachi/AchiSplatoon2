@@ -28,7 +28,7 @@ namespace AchiSplatoon2.Content.Players
             Static,
             AttackBased,
             TimeBased,
-            HealthBased,
+            StatBased,
         }
 
         public enum InkColorType
@@ -38,7 +38,10 @@ namespace AchiSplatoon2.Content.Players
             ColorChips,
             Rainbow,
             Config,
-            Void
+            Void,
+            Biome,
+            LifePercentage,
+            InkPercentage
         }
 
         public override void PreUpdate()
@@ -86,6 +89,79 @@ namespace AchiSplatoon2.Content.Players
                 case InkColorType.Dual:
                     // See logic below
                     break;
+
+                case InkColorType.LifePercentage:
+                    float lifePercentage = Player.statLife / (float)Player.statLifeMax2;
+                    return ColorHelper.LerpBetweenColorsPerfect(ColorHelper.HexToColor("9233ff"), ColorHelper.HexToColor("ff334e"), lifePercentage);
+
+                case InkColorType.InkPercentage:
+                    var inkPlayer = Player.GetModPlayer<InkTankPlayer>();
+                    float inkPercentage = inkPlayer.InkAmount / (float)inkPlayer.InkAmountFinalMax;
+                    return ColorHelper.LerpBetweenColorsPerfect(ColorHelper.HexToColor("3344ff"), ColorHelper.HexToColor("33ffdd"), inkPercentage);
+                
+                case InkColorType.Biome:
+                    var player = Main.LocalPlayer;
+
+                    var biomeColorResult = ColorHelper.HexToColor("4CD964");
+                    if (player.ZoneNormalUnderground)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("ee6f2f");
+                    }
+                    else if (player.ZoneNormalCaverns)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("3553e9");
+                    }
+
+                    if (player.ZoneDesert)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("f3ba3c");
+                    }
+                    else if (player.ZoneBeach)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("51daef");
+                    }
+                    else if (player.ZoneJungle)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("bad74f");
+                    }
+                    else if (player.ZoneDungeon)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("2156ff");
+                    }
+                    else if (player.ZoneCorrupt)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("6f70ff");
+                        if (Condition.Hardmode.IsMet())
+                        {
+                            biomeColorResult = ColorHelper.HexToColor("8cff00");
+                        }
+                    }
+                    else if (player.ZoneCrimson)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("ff2636");
+                        if (Condition.Hardmode.IsMet())
+                        {
+                            biomeColorResult = ColorHelper.HexToColor("ffd966");
+                        }
+                    }
+                    else if (player.ZoneGlowshroom)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("3377ff");
+                    }
+                    else if (player.ZoneHallow)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("58d3ff");
+                    }
+                    else if (player.ZoneUnderworldHeight)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("ff8200");
+                    }
+                    else if (player.ZoneSnow)
+                    {
+                        biomeColorResult = ColorHelper.HexToColor("a0e9ff");
+                    }
+
+                    return biomeColorResult;
             }
 
             int wrapValue = 30;
@@ -139,6 +215,27 @@ namespace AchiSplatoon2.Content.Players
             inkColorType = InkColorType.Rainbow;
             incrementType = IncrementType.TimeBased;
             SetOverheadText("Now using rainbow colors!");
+        }
+
+        public void ApplyBiomeColors()
+        {
+            inkColorType = InkColorType.Biome;
+            incrementType = IncrementType.Static;
+            SetOverheadText("Now using biome colors!");
+        }
+
+        public void ApplyLifeStatColors()
+        {
+            inkColorType = InkColorType.LifePercentage;
+            incrementType = IncrementType.StatBased;
+            SetOverheadText("Now using colors based on life total!");
+        }
+
+        public void ApplyInkStatColors()
+        {
+            inkColorType = InkColorType.InkPercentage;
+            incrementType = IncrementType.StatBased;
+            SetOverheadText("Now using colors based on ink total!");
         }
 
         #endregion
