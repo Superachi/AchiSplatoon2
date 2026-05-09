@@ -13,10 +13,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
         {
             base.SetDefaults();
 
-            Item.useTime = 7;
+            Item.useTime = 8;
             Item.useAnimation = Item.useTime;
 
-            Item.damage = 10;
+            Item.damage = 11;
             Item.width = 42;
             Item.height = 26;
             Item.knockBack = 1;

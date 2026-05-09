@@ -26,10 +26,11 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(Splattershot),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SplattershotJr),       new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(SplattershotPro),      new WeaponKit(subType: SubWeaponType.PointSensor, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
+            { typeof(SplattershotNova),      new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
 
             { typeof(CustomSplattershotJr), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(ForgeSplattershotPro), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
-
+            { typeof(AnnakiSplattershotNova), new WeaponKit(subType: SubWeaponType.InkMine, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(TentatekSplattershot), new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(OctoShot),             new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(ClassicSplattershotS1),new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },

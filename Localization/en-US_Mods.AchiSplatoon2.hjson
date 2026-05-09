@@ -2266,6 +2266,20 @@ Items: {
 		DisplayName: Life Ink Vial
 		Tooltip: ""
 	}
+
+	AnnakiSplattershotNova: {
+		UsageHint: Mods.AchiSplatoon2.Items.AnnakiSplattershotNova.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.AnnakiSplattershotNova.Flavor
+		DisplayName: Annaki Splattershot Nova
+		Tooltip: Ignores 5 points of enemy Defense
+	}
+
+	SplattershotNova: {
+		UsageHint: Mods.AchiSplatoon2.Items.SplattershotNova.UsageHint
+		Flavor: Galactic range and an out-of-this-world look!
+		DisplayName: Splattershot Nova
+		Tooltip: Ignores 5 points of enemy Defense
+	}
 }
 
 Projectiles: {

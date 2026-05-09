@@ -25,10 +25,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Shooters
             base.SetDefaults();
             RangedWeaponDefaults(
                 projectileType: ModContent.ProjectileType<SplattershotProjectile>(),
-                singleShotTime: 8,
+                singleShotTime: 9,
                 shotVelocity: 6f);
 
-            Item.damage = 16;
+            Item.damage = 15;
             Item.width = 64;
             Item.height = 36;
             Item.knockBack = 3;

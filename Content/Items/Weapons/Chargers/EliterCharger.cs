@@ -22,7 +22,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Chargers
             base.SetDefaults();
             Item.width = 92;
             Item.height = 32;
-            Item.damage = 85;
+            Item.damage = 80;
             Item.knockBack = 6;
             Item.SetValueLatePreHardmode();
         }
