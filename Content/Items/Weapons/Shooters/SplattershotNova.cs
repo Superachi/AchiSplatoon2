@@ -28,7 +28,7 @@ internal class SplattershotNova : BaseSplattershot
             shotVelocity: 6f);
 
         Item.ArmorPenetration = 5;
-        Item.damage = 6;
+        Item.damage = 8;
         Item.width = 64;
         Item.height = 36;
         Item.knockBack = 1.5f;
