@@ -190,21 +190,21 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
             switch (_currentTier)
             {
                 case _blueTier:
-                    // 25%
-                    if (Main.rand.NextBool(4))
+                    // 50%
+                    if (Main.rand.NextBool(2))
                     {
                         _currentTier++;
                     }
                     break;
                 case _purpleTier:
-                    // 5%
+                    // 10%
                     if (Main.rand.NextBool(5))
                     {
                         _currentTier++;
                     }
                     break;
                 case _redTier:
-                    // 0.5%
+                    // 1%
                     if (Main.rand.NextBool(10))
                     {
                         _currentTier++;
@@ -470,8 +470,8 @@ namespace AchiSplatoon2.Content.Projectiles.UnclassedWeaponProjectiles
                     potentialDrops.Add(new ShellOutDropIndex(randomChip, weight: 10));
 
                     // Potions
-                    potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<InkRegenerationPotion>(), weight: 15));
-                    potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<InkCapacityPotion>(), weight: 15));
+                    potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<InkRegenerationPotion>(), minStack: 1, maxStack: 3, weight: 30));
+                    potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<InkCapacityPotion>(), minStack: 1, maxStack: 3, weight: 30));
 
                     // Vanity
                     potentialDrops.Add(new ShellOutDropIndex(ModContent.ItemType<BambooHat>(), weight: 5));
