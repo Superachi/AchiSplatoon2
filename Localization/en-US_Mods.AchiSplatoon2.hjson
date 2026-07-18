@@ -2218,6 +2218,13 @@ Items: {
 		UsageHint: Drops a Splat Bomb when you get hit. Effect scales with the amount of damage taken per hit
 	}
 
+	DarkMagnet: {
+		Tooltip: ""
+		DisplayName: Dark Magnet
+		Flavor: Mods.AchiSplatoon2.Items.DarkMagnet.Flavor
+		UsageHint: Dramatically increases the collection range of restoring ink droplets
+	}
+
 	SanitizedSample: {
 		UsageHint: On critical strike, inflict poison on the target. If already poisoned, inflict venom instead
 		Flavor: You dropped the 8-ball. Test failed.
@@ -2279,6 +2286,13 @@ Items: {
 		Flavor: Galactic range and an out-of-this-world look!
 		DisplayName: Splattershot Nova
 		Tooltip: Ignores 5 points of enemy Defense
+	}
+
+	ScrapBlaster: {
+		UsageHint: Mods.AchiSplatoon2.Items.ScrapBlaster.UsageHint
+		Flavor: Mods.AchiSplatoon2.Items.ScrapBlaster.Flavor
+		DisplayName: Scrap Blaster
+		Tooltip: ""
 	}
 }
 

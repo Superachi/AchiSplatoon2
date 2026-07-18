@@ -32,6 +32,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
         {
             if (shop.NpcType == NPCID.Mechanic)
             {
+                shop.Add<DarkMagnet>();
                 shop.Add<ChargedBattery>(Condition.Hardmode);
             }
 
