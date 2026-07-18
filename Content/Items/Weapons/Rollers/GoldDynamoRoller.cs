@@ -9,7 +9,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 140;
+            Item.damage = 210;
             Item.knockBack = 8;
 
             Item.SetValuePostMech();

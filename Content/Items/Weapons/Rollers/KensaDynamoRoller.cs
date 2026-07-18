@@ -6,13 +6,10 @@ namespace AchiSplatoon2.Content.Items.Weapons.Rollers
 {
     internal class KensaDynamoRoller : DynamoRoller
     {
-        public override float GroundWindUpDelayModifier => 1.8f;
-        public override float JumpWindUpDelayModifier => 2.5f;
-
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 200;
+            Item.damage = 300;
             Item.knockBack = 8;
 
             Item.SetValuePostPlantera();
