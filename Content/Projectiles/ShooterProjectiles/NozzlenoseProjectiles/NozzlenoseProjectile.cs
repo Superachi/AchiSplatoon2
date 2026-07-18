@@ -170,6 +170,16 @@ namespace AchiSplatoon2.Content.Projectiles.ShooterProjectiles.NozzlenoseProject
                         TripleHitDustBurst(target.Center);
                     }
                 }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    DustHelper.NewDropletDust(
+                        position: Projectile.Center,
+                        velocity: Projectile.velocity / 3 + Main.rand.NextVector2Circular(3, 3),
+                        color: CurrentColor,
+                        minScale: 0.8f,
+                        maxScale: 1.4f);
+                }
             }
         }
 
