@@ -1,4 +1,5 @@
 ﻿using AchiSplatoon2.Content.Dusts;
+using AchiSplatoon2.Content.Items.Accessories.General;
 using AchiSplatoon2.Content.Items.Accessories.InkTanks;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
@@ -134,15 +135,20 @@ namespace AchiSplatoon2.Content.Items.Consumables
         public override void GrabRange(Player player, ref int grabRange)
         {
             grabRange = 200;
+
+            if (player.HasAccessory<DarkMagnet>())
+            {
+                grabRange = 800;
+            }
         }
 
         public override bool GrabStyle(Player player)
         {
-            Item.velocity += Item.Center.DirectionTo(player.Center);
+            Item.velocity += Item.Center.DirectionTo(player.Center) * 1.3f;
 
             if (Item.velocity.Length() > 5f)
             {
-                Item.velocity *= 0.9f;
+                Item.velocity *= 0.95f;
             }
 
             return true;
