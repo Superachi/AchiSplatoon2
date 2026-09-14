@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             enablePierceDamagefalloff = false;
 
             var owner = GetOwner();
-            Projectile.timeLeft = owner.itemTimeMax;
+            Projectile.timeLeft = owner.itemTime;
             shieldAngle = Projectile.velocity * shieldAngleOffsetMult;
             Projectile.velocity = Vector2.Zero;
 
@@ -122,7 +122,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             modifiers.HitDirectionOverride = GetOwner().direction;
 
             var brellaMP = GetOwner().GetModPlayer<BrellaPlayer>();
-            brellaMP.DamageShield((int)(target.damage * 0.25f));
+            brellaMP.DamageShield((int)(target.damage * 0.2f));
         }
 
         public override void PostDraw(Color lightColor)

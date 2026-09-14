@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         {
             base.SetDefaults();
 
-            Item.damage = 52;
+            Item.damage = 78;
             Item.SetValuePostPlantera();
         }
 

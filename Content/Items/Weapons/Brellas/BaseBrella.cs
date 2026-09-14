@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class BaseBrella : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;
-        public override float InkCost { get => 5f; }
+        public override float InkCost { get => 8f; }
         public override float InkRecoveryDelay { get => 20f; }
 
         public virtual float ShotGravity { get => 0.4f; }
@@ -50,6 +50,8 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             Item.width = 50;
             Item.height = 58;
             Item.knockBack = 2;
+            
+            Item.ArmorPenetration = 5;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -68,8 +70,24 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
             {
                 player.itemTime = (int)(player.itemTime * MarinatedNecklace.RecoverAttackSpeedModifier);
             }
-            proj.RunSpawnMethods();
 
+            // Cooldown mechanics
+            var weaponPlayer = player.GetModPlayer<WeaponPlayer>();
+
+            if (this is UndercoverBrella || this is MartianBrella)
+            {
+                weaponPlayer.CustomWeaponCooldown = player.itemTime;
+            }
+            else
+            {
+                var originalItemTime = player.itemTime;
+
+                player.itemTime = (int)(originalItemTime * 0.8f);
+                player.itemAnimation = (int)(originalItemTime * 0.8f);
+                weaponPlayer.CustomWeaponCooldown = (int)(originalItemTime * 1.3f + 12);
+            }
+
+            proj.RunSpawnMethods();
             return false;
         }
     }

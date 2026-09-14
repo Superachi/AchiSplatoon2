@@ -8,6 +8,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 {
     internal class UndercoverBrella : BaseBrella
     {
+        public override float InkCost { get => 5f; }
         public override float AimDeviation { get => 4f; }
 
         // Brella specific

@@ -157,7 +157,7 @@ namespace AchiSplatoon2.Content.Players
 
                     DisplayBrellaLife();
                     ProjectileHelper.CreateProjectile(Player, ModContent.ProjectileType<WeaponChargeSparkleVisual>());
-                    SoundHelper.PlayAudio(SoundID.Item4, 0.3f, pitchVariance: 0.1f, pitch: 0.5f);
+                    SoundHelper.PlayAudio(SoundPaths.BrellaRecover.ToSoundStyle(), volume: 0.5f, maxInstances: 5);
                 }
             }
         }
