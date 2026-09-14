@@ -134,11 +134,11 @@ namespace AchiSplatoon2.Content.Items.Consumables
 
         public override void GrabRange(Player player, ref int grabRange)
         {
-            grabRange = 200;
+            grabRange = 300;
 
             if (player.HasAccessory<DarkMagnet>())
             {
-                grabRange = 800;
+                grabRange = 1600;
             }
         }
 
