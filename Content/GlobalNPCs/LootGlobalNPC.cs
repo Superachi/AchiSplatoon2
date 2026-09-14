@@ -4,7 +4,7 @@ using AchiSplatoon2.Content.Items.Accessories.Palettes;
 using AchiSplatoon2.Content.Items.Consumables;
 using AchiSplatoon2.Content.Items.Consumables.ShellOutCapsules;
 using AchiSplatoon2.Content.Items.CraftingMaterials;
-using AchiSplatoon2.Content.Items.Weapons.Shooters;
+using AchiSplatoon2.Content.Items.Weapons;
 using AchiSplatoon2.Content.Items.Weapons.Specials;
 using AchiSplatoon2.Content.Players;
 using AchiSplatoon2.ExtensionMethods;
@@ -72,6 +72,29 @@ namespace AchiSplatoon2.Content.GlobalNPCs
                 {
                     int licenseId = !Main.hardMode ? ModContent.ItemType<SheldonLicense>() : ModContent.ItemType<SheldonLicenseSilver>();
                     Item.NewItem(npc.GetSource_Loot(), npc.Center, licenseId);
+                    RareLootDropPlayerFeedback(npc);
+                }
+
+                // Before a player has defeated any of the earlygame bosses, they have a chance to get a random order weapon drop
+                if (!Condition.DownedEarlygameBoss.IsMet() && Main.rand.NextBool((int)(80f * chanceModifier)))
+                {
+                    var orderItemId = Main.rand.NextFromCollection(
+                        [
+                            ModContent.ItemType<Items.Weapons.Blasters.OrderBlaster>(),
+                            ModContent.ItemType<Items.Weapons.Brellas.OrderBrella>(),
+                            ModContent.ItemType<Items.Weapons.Brushes.OrderBrush>(),
+                            ModContent.ItemType<Items.Weapons.Chargers.OrderCharger>(),
+                            ModContent.ItemType<Items.Weapons.Dualies.OrderDualie>(),
+                            ModContent.ItemType<Items.Weapons.Rollers.OrderRoller>(),
+                            ModContent.ItemType<Items.Weapons.Shooters.OrderShot>(),
+                            ModContent.ItemType<Items.Weapons.Sloshers.OrderSlosher>(),
+                            ModContent.ItemType<Items.Weapons.Splatana.OrderSplatana>(),
+                            ModContent.ItemType<Items.Weapons.Splatling.OrderSplatling>(),
+                            ModContent.ItemType<Items.Weapons.Bows.OrderStringer>()
+                        ]
+                    );
+
+                    Item.NewItem(npc.GetSource_Loot(), npc.Center, orderItemId);
                     RareLootDropPlayerFeedback(npc);
                 }
 
