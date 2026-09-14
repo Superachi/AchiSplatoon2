@@ -38,7 +38,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
             shootSample = weaponData.ShootSample;
             fallSpeed = weaponData.ShotGravity;
             delayUntilFall = weaponData.ShotGravityDelay;
-            Projectile.extraUpdates = weaponData.ShotExtraUpdates;
+            Projectile.extraUpdates = weaponData.ShotExtraUpdates+1;
         }
 
         protected override void AdjustVariablesOnShoot()
@@ -74,7 +74,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     dustType: ModContent.DustType<SplatterBulletDust>(),
                     velocity: Projectile.velocity / 3,
                     color: CurrentColor,
-                    scale: 1.2f,
+                    scale: 1.4f,
                     data: new(scaleIncrement: -0.3f)
                     );
 
@@ -85,7 +85,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                         dustType: ModContent.DustType<SplatterBulletDust>(),
                         color: CurrentColor,
                         velocity: Projectile.velocity / 5,
-                        scale: Main.rand.NextFloat(0.8f, 1.2f),
+                        scale: Main.rand.NextFloat(1f, 1.4f),
                         data: new(scaleIncrement: -0.05f, gravity: 0.1f)
                         );
                 }
