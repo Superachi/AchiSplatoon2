@@ -94,6 +94,7 @@ internal class PrefixHelper : ModSystem
         prefixes.Add(ModContent.PrefixType<QuickPrefix>());
         prefixes.Add(ModContent.PrefixType<BacklinePrefix>());
         prefixes.Add(ModContent.PrefixType<InstantPrefix>());
+        prefixes.Add(ModContent.PrefixType<FlashPrefix>());
 
         return prefixes;
     }
@@ -171,6 +172,7 @@ internal class PrefixHelper : ModSystem
         prefixes.Add(ModContent.PrefixType<CrispyPrefix>());
         prefixes.Add(ModContent.PrefixType<ShelledPrefix>());
         prefixes.Add(ModContent.PrefixType<SturdyPrefix>());
+        prefixes.Add(ModContent.PrefixType<FunneledPrefix>());
 
         return prefixes;
     }
@@ -229,6 +231,7 @@ internal class PrefixHelper : ModSystem
             { typeof(QuickPrefix), ModContent.PrefixType<QuickPrefix>() },
             { typeof(BacklinePrefix), ModContent.PrefixType<BacklinePrefix>() },
             { typeof(InstantPrefix), ModContent.PrefixType<InstantPrefix>() },
+            { typeof(FlashPrefix), ModContent.PrefixType<FlashPrefix>() },
 
             // Chargers
             { typeof(GambitPrefix), ModContent.PrefixType<GambitPrefix>() },
@@ -264,6 +267,7 @@ internal class PrefixHelper : ModSystem
             { typeof(CrispyPrefix), ModContent.PrefixType<CrispyPrefix>() },
             { typeof(ShelledPrefix), ModContent.PrefixType<ShelledPrefix>() },
             { typeof(SturdyPrefix), ModContent.PrefixType<SturdyPrefix>() },
+            { typeof(FunneledPrefix), ModContent.PrefixType<FunneledPrefix>() },
 
         };
 
