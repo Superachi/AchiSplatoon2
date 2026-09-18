@@ -136,6 +136,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrushProjectiles
                     Projectile.friendly = true;
                     wepMP.isBrushRolling = false;
                     weaponPlayer.isBrushAttacking = true;
+                    PlayAudio(SoundID.Item1, volume: 0.6f, pitch: 0.3f, pitchVariance: 0.2f, maxInstances: 5);
                     break;
 
                 case stateRoll:
