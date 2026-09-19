@@ -12,7 +12,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
         public override float InkCost { get => 3.5f; }
 
         // Explosion radius and delay
-        public override int ExplosionRadiusAir { get => 280; }
+        public override int ExplosionRadiusAir { get => 240; }
         public override float ExplosionDelayInit { get => 10f; }
 
         public override Vector2? HoldoutOffset() { return new Vector2(-10, 0); }
