@@ -69,6 +69,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
             if (!hasFired && IsThisClientTheProjectileOwner())
             {
+                // ChatHelper.SendChatToThisClient($"Shotgun projectile fired with {pelletCount} pellets and {shotgunArc}° arc.");
                 hasFired = true;
                 SyncProjectilePosWithPlayer(owner);
 
@@ -81,7 +82,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
                 for (int i = 0; i < pelletCount; i++)
                 {
-                    float degreesRand = shotgunArc * Main.rand.NextFloat(-0.2f, 0.2f);
+                    float degreesRand = shotgunArc * Main.rand.NextFloat(-0.05f, 0.05f);
                     float shotSpeedRand = Main.rand.NextFloat(1 - shotVelocityRandomRange, 1 + shotVelocityRandomRange);
 
                     float degrees = aimDeg + degreesOffset + degreesRand;
@@ -97,11 +98,12 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     }
 
                     // Pellet projectile
-                    CreateChildProjectile(
+                    var p = CreateChildProjectile(
                         position: Projectile.position + finalOffset,
                         velocity: velocity,
                         type: pelletProjectileType,
                         Projectile.damage);
+                    // ChatHelper.SendChatToThisClient($"Fired pellet with velocity {p.Projectile.velocity}", color: ColorHelper.GetInkColor(InkColor.Green));
 
                     degreesOffset += degreesPerProjectile;
                 }
@@ -111,7 +113,7 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
                     position: Projectile.position,
                     velocity: owner.DirectionTo(Main.MouseWorld),
                     type: meleeProjectileType,
-                    Projectile.damage * 2);
+                    Projectile.damage);
 
                 Projectile.timeLeft = 60;
             }

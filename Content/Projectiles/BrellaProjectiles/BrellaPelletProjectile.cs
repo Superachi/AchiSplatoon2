@@ -56,7 +56,10 @@ namespace AchiSplatoon2.Content.Projectiles.BrellaProjectiles
 
         protected override void AfterSpawn()
         {
+            float velocityAngle = Projectile.velocity.ToRotation();
             Initialize();
+            float modifiedSpeed = Projectile.velocity.Length();
+            Projectile.velocity = velocityAngle.ToRotationVector2() * modifiedSpeed;
             ApplyWeaponInstanceData();
         }
 

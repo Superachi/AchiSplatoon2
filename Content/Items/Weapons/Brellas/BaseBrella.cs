@@ -16,7 +16,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
     internal class BaseBrella : BaseWeapon
     {
         public override MainWeaponStyle WeaponStyle => MainWeaponStyle.Brella;
-        public override float InkCost { get => 8f; }
+        public override float InkCost { get => 12f; }
         public override float InkRecoveryDelay { get => 20f; }
 
         public virtual float ShotGravity { get => 0.4f; }
@@ -31,7 +31,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
         public virtual int ProjectileType { get => ModContent.ProjectileType<BrellaPelletProjectile>(); }
         public virtual int MeleeProjectileType { get => ModContent.ProjectileType<BrellaMeleeProjectile>(); }
         public virtual int ProjectileCount { get => 10; }
-        public virtual float ShotgunArc { get => 3f; }
+        public virtual float ShotgunArc { get => 20f; }
         public virtual float ShotVelocityRandomRange => 0.2f;
         public virtual int ShieldLife => 200;
         public virtual int ShieldCooldown => 300;

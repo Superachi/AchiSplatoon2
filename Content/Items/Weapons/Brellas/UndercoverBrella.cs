@@ -13,7 +13,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Brellas
 
         // Brella specific
         public override int ProjectileCount { get => 4; }
-        public override float ShotgunArc { get => 2f; }
+        public override float ShotgunArc { get => 16f; }
         public override int ShieldLife => 200;
         public override int ShieldCooldown => 360;
 
