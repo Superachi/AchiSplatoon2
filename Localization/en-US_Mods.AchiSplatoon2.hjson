@@ -2536,6 +2536,7 @@ Prefixes: {
 	PrincessPrefix.DisplayName: Princess'
 	BaseDualiePrefix.DisplayName: Base Dualie Prefix
 	QuickPrefix.DisplayName: Quick
+	FlashPrefix.DisplayName: Flash
 	BaseChargeWeaponPrefix.DisplayName: Base Charge Weapon Prefix
 	BacklinePrefix.DisplayName: Backline
 	BaseChargerPrefix.DisplayName: Base Charger Prefix
@@ -2597,6 +2598,7 @@ Prefixes: {
 	BombasticPrefix.DisplayName: Bombastic
 	LosePiercingTooltip: Mods.AchiSplatoon2.Prefixes.LosePiercingTooltip
 	ExplosiveTooltip: Mods.AchiSplatoon2.Prefixes.ExplosiveTooltip
+	FunneledPrefix.DisplayName: Funneled
 }
 
 Configs: {

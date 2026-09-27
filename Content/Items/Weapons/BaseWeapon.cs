@@ -13,6 +13,7 @@ using AchiSplatoon2.Content.Items.Weapons.Sloshers;
 using AchiSplatoon2.Content.Items.Weapons.Splatana;
 using AchiSplatoon2.Content.Items.Weapons.Splatling;
 using AchiSplatoon2.Content.Players;
+using AchiSplatoon2.Content.Prefixes.BrellaPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargerPrefixes;
 using AchiSplatoon2.Content.Prefixes.ChargeWeaponPrefixes;
 using AchiSplatoon2.Content.Prefixes.GeneralPrefixes;
@@ -470,6 +471,13 @@ namespace AchiSplatoon2.Content.Items.Weapons
 
                 case BaseBrella:
                     possiblePrefixes = PrefixHelper.ListBrellaPrefixes();
+
+                    if (this is MartianBrella || this is CorruptionBrella)
+                    {
+                        possiblePrefixes.Remove(ModContent.PrefixType<FunneledPrefix>());
+                        possiblePrefixes.Remove(ModContent.PrefixType<BurstingPrefix>());
+                    }
+
                     break;
 
                 case BaseRoller:

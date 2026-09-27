@@ -6,7 +6,7 @@ namespace AchiSplatoon2.Content.Items.Weapons.Splatling
 {
     internal class KensaMiniSplatling : MiniSplatling
     {
-        public override float BarrageVelocity { get; set; } = 9f;
+        public override float BarrageVelocity { get; set; } = 8.5f;
         public override int BarrageShotTime { get; set; } = 3;
         public override int BarrageMaxAmmo { get; set; } = 24;
 

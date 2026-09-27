@@ -101,8 +101,8 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
         protected override void PlayShootSound()
         {
-            PlayAudio(shootSample, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.3f);
-            PlayAudio(SoundID.Item38, volume: 0.2f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.5f);
+            PlayAudio(shootSample, volume: 0.4f, pitchVariance: 0.2f, maxInstances: 5, pitch: 0f);
+            PlayAudio(SoundID.Item38, volume: 0.1f, pitchVariance: 0.2f, maxInstances: 5, pitch: -0.3f);
             PlayAudio(SoundID.Item45, volume: 0.3f, pitchVariance: 0.2f, maxInstances: 5, pitch: 1f);
         }
 
@@ -129,11 +129,18 @@ namespace AchiSplatoon2.Content.Projectiles.BlasterProjectiles
 
                     if (explosionAirSample != null)
                     {
-                        PlayAudio((SoundStyle)explosionAirSample, volume: 0.2f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
+                        if (WeaponInstance is ClashBlaster)
+                        {
+                            PlayAudio((SoundStyle)explosionAirSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: .5f);
+                        }
+                        else
+                        {
+                            PlayAudio((SoundStyle)explosionAirSample, volume: 0.3f, pitchVariance: 0.1f, maxInstances: 5, pitch: 0f);
+                        }
                     }
-                    PlayAudio(SoundID.Item167, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
-                    PlayAudio(SoundID.Item38, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
-                    PlayAudio(SoundID.Splash, volume: 0.4f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
+
+                    PlayAudio(SoundID.Item167, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5, pitch: 0.5f);
+                    PlayAudio(SoundID.Item38, volume: 0.3f, pitchVariance: 0.3f, maxInstances: 5, pitch: 1f);
 
                     break;
                 case stateExplodeTile:
