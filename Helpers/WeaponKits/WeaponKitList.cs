@@ -86,6 +86,7 @@ namespace AchiSplatoon2.Helpers.WeaponKits
             { typeof(RapidBlaster),         new WeaponKit(subType: SubWeaponType.SplatBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(LunaBlaster),          new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(RangeBlaster),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
+            { typeof(CustomBlaster),        new WeaponKit(subType: SubWeaponType.PointSensor, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(RapidBlasterDeco),     new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
             { typeof(ClashBlaster),         new WeaponKit(subType: SubWeaponType.BurstBomb, bonusType: SubWeaponBonusType.Discount, bonusAmount: _defaultSubSaverBonus) },
             { typeof(ClashBlasterNeo),      new WeaponKit(subType: SubWeaponType.Torpedo, bonusType: SubWeaponBonusType.Damage, bonusAmount: _defaultSubDamageBonus) },
