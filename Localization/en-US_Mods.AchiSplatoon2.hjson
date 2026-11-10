@@ -147,6 +147,13 @@ Items: {
 		Flavor: Mods.AchiSplatoon2.Items.Blaster.Flavor
 	}
 
+	CustomBlaster: {
+		DisplayName: Custom Blaster
+		Flavor: Tuned for extra punch!
+		Tooltip: ""
+		UsageHint: "{$Hint.Blaster}"
+	}
+
 	RangeBlaster: {
 		DisplayName: Range Blaster
 		Flavor: Featuring a brand new design!

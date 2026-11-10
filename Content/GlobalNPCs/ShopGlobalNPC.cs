@@ -109,6 +109,7 @@ namespace AchiSplatoon2.Content.GlobalNPCs
 
                     ModContent.ItemType<DarkTetraDualie>(),
                     ModContent.ItemType<LunaBlaster>(),
+                    ModContent.ItemType<CustomBlaster>(),
                     ModContent.ItemType<TriStringerInkline>(),
                 };
 
