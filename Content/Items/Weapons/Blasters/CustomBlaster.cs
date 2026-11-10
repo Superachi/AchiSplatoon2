@@ -1,6 +1,7 @@
 using AchiSplatoon2.Content.Projectiles.BlasterProjectiles;
 using AchiSplatoon2.ExtensionMethods;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AchiSplatoon2.Content.Items.Weapons.Blasters
@@ -15,16 +16,13 @@ namespace AchiSplatoon2.Content.Items.Weapons.Blasters
                 singleShotTime: 50,
                 shotVelocity: 7f);
 
-            // Between Luna Blaster (120 @ 40 frames) and Range Blaster (160 @ 58 frames),
-            // interpolated by firing speed (50 frames).
-            Item.damage = 142;
+            // Matches Range Blaster's damage, but is obtained later and has less range.
+            Item.damage = 160;
             Item.knockBack = 5;
 
-            Item.SetValueMidHardmodeOre();
+            Item.SetValuePostMech();
         }
 
-        public override void AddRecipes()
-        {
-        }
+        public override void AddRecipes() => AddRecipePostMechBoss(true, ItemID.SoulofFright);
     }
 }
